@@ -1,0 +1,38 @@
+{
+  "user_request": "让图片1中的女生穿图片2的衣服，参考视频1的动作跳舞，歌声参考音频1，最后展示图片3中的商品。",
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 15,
+    "aspect_ratio": "9:16",
+    "generate_audio": true,
+    "style": "premium commercial, photorealistic"
+  },
+  "perception_provider": {
+    "provider": "gitee-qwen3-vl",
+    "model": "Qwen3-VL-30B-A3B-Instruct",
+    "options": {
+      "base_url": "https://ai.gitee.com/v1",
+      "api_key_env": "GITEE_AI_API_KEY",
+      "video_frame_count": 6
+    }
+  },
+  "assets": [
+    {"asset_id": "image_1", "media_type": "image", "uri": "/data/image_1.png", "label": "Picture 1"},
+    {"asset_id": "image_2", "media_type": "image", "uri": "/data/image_2.png", "label": "Picture 2"},
+    {"asset_id": "image_3", "media_type": "image", "uri": "/data/image_3.png", "label": "Picture 3"},
+    {"asset_id": "video_1", "media_type": "video", "uri": "/data/video_1.mp4", "label": "Video 1"},
+    {"asset_id": "audio_1", "media_type": "audio", "uri": "/data/audio_1.wav", "label": "Audio 1"}
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v1",
+    "provider": {"name": "gitee-qwen3-vl", "model": "Qwen3-VL-30B-A3B-Instruct", "options": {"base_url": "https://ai.gitee.com/v1"}},
+    "assets": [
+      {"asset_id": "image_1", "observations": [{"text": "A woman is the primary visible subject"}], "entities": [], "events": [], "audio": {}, "technical": {}, "transcript": "", "confidence": 0.9, "uncertainties": []},
+      {"asset_id": "image_2", "observations": [{"text": "A complete garment is clearly visible"}], "entities": [], "events": [], "audio": {}, "technical": {}, "transcript": "", "confidence": 0.9, "uncertainties": []},
+      {"asset_id": "image_3", "observations": [{"text": "A product and its exterior geometry are visible"}], "entities": [], "events": [], "audio": {}, "technical": {}, "transcript": "", "confidence": 0.9, "uncertainties": ["Logo text has not been OCR verified"]},
+      {"asset_id": "video_1", "observations": [], "entities": [], "events": [{"start_seconds": 0, "end_seconds": 7, "text": "A continuous dance phrase"}], "audio": {}, "technical": {}, "transcript": "", "confidence": 0.8, "uncertainties": []},
+      {"asset_id": "audio_1", "observations": [], "entities": [], "events": [], "audio": {}, "technical": {"media_type": "audio", "analysis_status": "unsupported_by_visual_provider"}, "transcript": "", "confidence": null, "uncertainties": ["Audio content was not analyzed by the visual perception provider"]}
+    ],
+    "missing_asset_ids": []
+  }
+}

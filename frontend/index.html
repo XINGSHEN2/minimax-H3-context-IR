@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="将图片、视频和创作需求编译为 MiniMax-H3 Context-IR 与可执行 Prompt。" />
+    <title>H3 Context Studio</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark">H3</div>
+          <div>
+            <div class="brand-title">Context Studio</div>
+            <div class="brand-subtitle">多模态素材编排工作台</div>
+          </div>
+        </div>
+        <div class="service-cluster" id="serviceCluster">
+          <span class="service-pill loading"><i></i>正在检查服务</span>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <section class="composer-panel panel">
+          <div class="panel-heading">
+            <div>
+              <span class="eyebrow">01 · 创作意图</span>
+              <h1>你想生成什么视频？</h1>
+            </div>
+            <button type="button" class="ghost-button" id="exampleButton">填入示例</button>
+          </div>
+
+          <label class="field-label" for="userRequest">用自然语言描述即可</label>
+          <div class="prompt-box">
+            <textarea id="userRequest" maxlength="4000" placeholder="例如：制作一个15秒竖屏美甲广告。图片1控制产品外观，图片2控制正确佩戴方式，视频1只参考动作、转场和节奏……"></textarea>
+            <div class="prompt-footer">
+              <span>系统会自动拆解素材角色、保持项和时间线</span>
+              <span id="requestCount">0 / 4000</span>
+            </div>
+          </div>
+
+          <div class="settings-grid">
+            <label class="select-field">
+              <span>时长</span>
+              <select id="duration">
+                <option value="5">5 秒</option>
+                <option value="8">8 秒</option>
+                <option value="10">10 秒</option>
+                <option value="12">12 秒</option>
+                <option value="15" selected>15 秒</option>
+              </select>
+            </label>
+            <label class="select-field">
+              <span>画面比例</span>
+              <select id="aspectRatio">
+                <option value="9:16" selected>9:16 竖屏</option>
+                <option value="16:9">16:9 横屏</option>
+                <option value="1:1">1:1 方形</option>
+                <option value="4:5">4:5 商品流</option>
+              </select>
+            </label>
+            <label class="select-field">
+              <span>目标风格</span>
+              <select id="style">
+                <option value="premium commercial, photorealistic">高级商业广告</option>
+                <option value="cinematic, refined, photorealistic">电影感写实</option>
+                <option value="minimalist product advertising">极简产品广告</option>
+                <option value="fashion editorial, glossy">时尚杂志大片</option>
+                <option value="3D CG product animation">3D 产品动画</option>
+              </select>
+            </label>
+            <label class="toggle-field">
+              <span>
+                <b>生成音频</b>
+                <small>BGM、环境音与音效</small>
+              </span>
+              <input type="checkbox" id="generateAudio" checked />
+              <i></i>
+            </label>
+          </div>
+
+          <details class="advanced-card">
+            <summary>
+              <span><b>高级设置</b><small>任务类型通常无需手动调整</small></span>
+              <span class="summary-icon">＋</span>
+            </summary>
+            <div class="advanced-body">
+              <label class="select-field full-width">
+                <span>H3 任务类型</span>
+                <select id="taskType">
+                  <option value="ref2va" selected>自动参考生成 · Ref2VA</option>
+                  <option value="t2va">纯文本生成 · T2VA</option>
+                  <option value="i2va">首帧生成 · I2VA</option>
+                  <option value="fl2va">首尾帧生成 · FL2VA</option>
+                  <option value="l2va">尾帧生成 · L2VA</option>
+                </select>
+              </label>
+            </div>
+          </details>
+        </section>
+
+        <section class="assets-panel panel">
+          <div class="panel-heading compact">
+            <div>
+              <span class="eyebrow">02 · 参考素材</span>
+              <h2>上传并告诉系统怎么用</h2>
+            </div>
+            <span class="asset-counter" id="assetCounter">0 个素材</span>
+          </div>
+
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="上传图片、视频或音频">
+            <input id="fileInput" type="file" accept="image/*,video/*,audio/*" multiple hidden />
+            <div class="upload-glyph"><span>＋</span></div>
+            <strong>拖拽素材到这里</strong>
+            <p>或点击选择图片、视频、音频</p>
+            <small>单个文件最大 1 GB · 支持多选</small>
+          </div>
+
+          <div class="empty-assets" id="emptyAssets">
+            <div class="empty-orbit"><span></span><i></i><b></b></div>
+            <p>添加素材后，系统会自动编号</p>
+            <small>图片 1 · 视频 1 · 音频 1</small>
+          </div>
+          <div class="asset-list" id="assetList"></div>
+        </section>
+
+        <aside class="output-panel panel">
+          <div class="panel-heading compact output-heading">
+            <div>
+              <span class="eyebrow">03 · 生成结果</span>
+              <h2>Context-IR</h2>
+            </div>
+            <span class="audit-badge waiting" id="auditBadge">等待生成</span>
+          </div>
+
+          <div class="relationship-preview" id="relationshipPreview">
+            <div class="flow-node source">素材</div>
+            <div class="flow-line"><i></i></div>
+            <div class="flow-node engine">IR</div>
+            <div class="flow-line"><i></i></div>
+            <div class="flow-node target">H3</div>
+          </div>
+
+          <div class="result-empty" id="resultEmpty">
+            <div class="result-ring"><span>IR</span></div>
+            <h3>一切准备就绪</h3>
+            <p>完成创作需求和素材角色后，生成结构化 Context-IR 与 H3 Prompt。</p>
+          </div>
+
+          <div class="job-progress hidden" id="jobProgress">
+            <div class="progress-head"><span id="progressTitle">正在创建任务</span><b id="progressPercent">10%</b></div>
+            <div class="progress-track"><i id="progressBar"></i></div>
+            <ol id="progressSteps">
+              <li class="active">正在解析用户意图</li>
+              <li>正在分析素材绑定</li>
+              <li>正在编排时间线</li>
+              <li>正在检查引用隔离</li>
+              <li>正在生成 H3 Prompt</li>
+            </ol>
+          </div>
+
+          <div class="result-view hidden" id="resultView">
+            <div class="result-tabs" role="tablist">
+              <button class="active" data-result="context_ir.json">Context-IR</button>
+              <button data-result="h3_prompt.txt">H3 Prompt</button>
+              <button data-result="h3_prompt_audit.json">审计</button>
+            </div>
+            <div class="result-toolbar">
+              <span id="resultFilename">context_ir.json</span>
+              <div>
+                <button type="button" id="copyResult">复制</button>
+                <button type="button" id="downloadResult">下载</button>
+              </div>
+            </div>
+            <pre id="resultContent"></pre>
+          </div>
+
+          <div class="submit-wrap">
+            <button class="primary-button" id="generateButton" type="button">
+              <span>生成 Context-IR</span>
+              <i>→</i>
+            </button>
+            <p id="submitHint">素材会自动保存在新的 case 文件夹</p>
+          </div>
+        </aside>
+      </main>
+
+      <footer>
+        <span>MiniMax-H3 Context Studio</span>
+        <span>Qwen3-VL 感知 · Codex Agent · GLM 推理 · H3 官方 Skills</span>
+      </footer>
+    </div>
+
+    <template id="assetTemplate">
+      <article class="asset-card">
+        <div class="asset-preview"><span></span></div>
+        <div class="asset-info">
+          <div class="asset-title-row"><b class="asset-index"></b><button type="button" class="remove-asset" aria-label="移除素材">×</button></div>
+          <div class="asset-filename"></div>
+          <label>
+            <span>这个素材控制</span>
+            <select class="asset-role"></select>
+          </label>
+          <input class="asset-note" type="text" maxlength="180" placeholder="补充说明（可选）" />
+        </div>
+      </article>
+    </template>
+    <div class="toast" id="toast" role="status"></div>
+    <script src="/app.js" defer></script>
+  </body>
+</html>

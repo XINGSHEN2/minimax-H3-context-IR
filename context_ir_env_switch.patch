@@ -1,0 +1,16 @@
+--- deploy/context_ir.env
++++ deploy/context_ir.env
+@@ -3,5 +3,10 @@
+-YIWU_VLM_BASE_URL=https://ai.gitee.com/v1
+-YIWU_VLM_MODEL=Qwen3-VL-30B-A3B-Instruct
++YIWU_VLM_BASE_URL=http://127.0.0.1:9012
++YIWU_VLM_MODEL=Qwen3-VL-32B-Instruct
+ YIWU_VLM_API_KEY_ENV=GITEE_AI_API_KEY
+-CONTEXT_IR_VLM_PROVIDER=gitee-qwen3-vl
++CONTEXT_IR_VLM_PROVIDER=local-qwen3-vl-32b
+ CONTEXT_IR_VIDEO_FRAME_COUNT=6
++CONTEXT_IR_VIDEO_FPS=2
++CONTEXT_IR_VIDEO_MAX_FRAMES=256
++CONTEXT_IR_VLM_POLL_INTERVAL=1
++CONTEXT_IR_VLM_TIMEOUT_SECONDS=1800
++CONTEXT_IR_VLM_OUTPUT_DIR=/home/mx/shenxing/minimax-H3-context-IR/outputs/qwen3-vl-32b

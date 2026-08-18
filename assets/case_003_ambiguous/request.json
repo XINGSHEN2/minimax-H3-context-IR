@@ -1,0 +1,24 @@
+{
+  "user_request": "根据商品图提供的甲片，仿照参考视频的运镜以及结构，生成一段该甲片商品的宣传视频。",
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 15,
+    "aspect_ratio": "9:16",
+    "generate_audio": true,
+    "style": "premium nail product commercial, photorealistic"
+  },
+  "assets": [
+    {
+      "asset_id": "image_1",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/case_003_ambiguous/images/merchandise.png",
+      "label": "Picture 1 - nail product appearance"
+    },
+    {
+      "asset_id": "video_1",
+      "media_type": "video",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/case_003_ambiguous/videos/reference_video.mp4",
+      "label": "Video 1 - camera movement, structure, transitions and pacing only"
+    }
+  ]
+}

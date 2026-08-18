@@ -1,0 +1,39 @@
+{
+  "user_request": "从素甲家居场景转场到变装后的场景（场景、服装、BGM契合美甲主题），手部美甲为展示重点优先展示（美甲时长占比60%），开头必须展示没有美甲的手，便装之后才有美甲。美甲要正确穿戴不要穿反；产品款式决定场景风格和环境；服装、变装后场景适配产品；BGM、音效、卡点音效契合产品并尽量贴近参考视频的转场节奏；转场自然，人物动作干净利落不拖拉；变装前是居家的正常状态，需要面对镜头展示没有美甲的手；变装后是符合美甲设计风格、明显更精致的场景。",
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 15,
+    "aspect_ratio": "9:16",
+    "generate_audio": true,
+    "style": "premium commercial, photorealistic"
+  },
+  "perception_provider": {
+    "provider": "gitee-qwen3-vl",
+    "model": "Qwen3-VL-30B-A3B-Instruct",
+    "options": {
+      "base_url": "https://ai.gitee.com/v1",
+      "api_key_env": "GITEE_AI_API_KEY",
+      "video_frame_count": 6
+    }
+  },
+  "assets": [
+    {
+      "asset_id": "image_1",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/case_001/images/merchandise.png",
+      "label": "Picture 1 - product appearance"
+    },
+    {
+      "asset_id": "image_2",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/case_001/images/worn_hand_preview.png",
+      "label": "Picture 2 - correct wearing and hand presentation"
+    },
+    {
+      "asset_id": "video_1",
+      "media_type": "video",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/case_001/videos/reference_video.mp4",
+      "label": "Video 1 - motion, transition and pacing only"
+    }
+  ]
+}

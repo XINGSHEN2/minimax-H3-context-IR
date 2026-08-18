@@ -1,0 +1,372 @@
+"""Replaceable multimodal perception provider contract.
+
+Perception runs before the Codex/GLM reasoning Agent. Providers normalize their
+output to media_analysis.v1; Context-IR does not import any vendor SDK.
+"""
+
+from __future__ import annotations
+
+import base64
+import json
+import mimetypes
+import os
+import re
+import shutil
+import subprocess
+import tempfile
+import urllib.error
+import urllib.request
+from abc import ABC, abstractmethod
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Any, Callable, Mapping, Sequence
+
+
+@dataclass(frozen=True)
+class PerceptionProviderConfig:
+    provider: str = "gitee-qwen3-vl"
+    model: str = "Qwen3-VL-30B-A3B-Instruct"
+    options: dict[str, Any] = field(default_factory=dict)
+
+
+class PerceptionProvider(ABC):
+    def __init__(self, config: PerceptionProviderConfig) -> None:
+        self.config = config
+
+    @abstractmethod
+    def analyze(self, assets: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+        """Return a normalized media_analysis.v1 envelope."""
+
+
+class CallablePerceptionProvider(PerceptionProvider):
+    def __init__(
+        self,
+        config: PerceptionProviderConfig,
+        transport: Callable[[PerceptionProviderConfig, Sequence[Mapping[str, Any]]], Mapping[str, Any]],
+    ) -> None:
+        super().__init__(config)
+        self.transport = transport
+
+    def analyze(self, assets: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+        return normalize_media_analysis(self.transport(self.config, assets), assets, self.config)
+
+
+class Qwen3OmniProvider(CallablePerceptionProvider):
+    """Initial adapter name. The actual SDK/HTTP transport is injected."""
+
+
+IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".bmp"}
+JSON_FENCE_PATTERN = re.compile(r"^```(?:json)?\s*|\s*```$", re.IGNORECASE)
+VISUAL_SYSTEM_PROMPT = (
+    "You are a visual evidence extractor for a video-generation pipeline. "
+    "Report only directly visible facts. Never infer identity, brand claims, "
+    "price, authorization, hidden materials, audio, dialogue, or intent. "
+    "Return exactly one JSON object and no Markdown."
+)
+
+
+def _json_object(text: str) -> dict[str, Any]:
+    stripped = JSON_FENCE_PATTERN.sub("", text.strip())
+    try:
+        value = json.loads(stripped)
+    except json.JSONDecodeError:
+        start = stripped.find("{")
+        if start < 0:
+            raise ValueError("VLM response did not contain a JSON object")
+        value, _ = json.JSONDecoder().raw_decode(stripped[start:])
+    if not isinstance(value, dict):
+        raise ValueError("VLM response root must be an object")
+    return value
+
+
+def _image_url(source: str) -> str:
+    if source.startswith(("http://", "https://", "data:")):
+        return source
+    path = Path(source).expanduser().resolve()
+    if not path.is_file():
+        raise FileNotFoundError(f"visual asset not found: {path}")
+    if path.suffix.lower() not in IMAGE_EXTENSIONS:
+        raise ValueError(f"unsupported image extension: {path.suffix}")
+    mime_type, _ = mimetypes.guess_type(str(path))
+    encoded = base64.b64encode(path.read_bytes()).decode("ascii")
+    return f"data:{mime_type or 'image/jpeg'};base64,{encoded}"
+
+
+def _video_duration(path: Path) -> float:
+    ffprobe = shutil.which("ffprobe")
+    if not ffprobe:
+        raise RuntimeError("ffprobe is required to analyze local videos")
+    result = subprocess.run(
+        [ffprobe, "-v", "error", "-show_entries", "format=duration", "-of", "default=nw=1:nk=1", str(path)],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return float(result.stdout.strip())
+
+
+def _extract_video_frames(path: Path, target_dir: Path, count: int) -> list[tuple[float, Path]]:
+    ffmpeg = shutil.which("ffmpeg")
+    if not ffmpeg:
+        raise RuntimeError("ffmpeg is required to analyze local videos")
+    duration = _video_duration(path)
+    count = max(2, min(count, 12))
+    last_decodable = max(0.0, duration - min(0.05, duration / 100))
+    timestamps = [last_decodable * index / (count - 1) for index in range(count)]
+    result = []
+    target_dir.mkdir(parents=True, exist_ok=True)
+    for index, timestamp in enumerate(timestamps, start=1):
+        frame = target_dir / f"frame_{index:03d}.jpg"
+        subprocess.run(
+            [ffmpeg, "-v", "error", "-ss", f"{timestamp:.3f}", "-i", str(path), "-frames:v", "1", "-q:v", "2", "-y", str(frame)],
+            check=True,
+        )
+        result.append((timestamp, frame))
+    return result
+
+
+def _analysis_prompt(asset: Mapping[str, Any], timestamps: Sequence[float]) -> str:
+    media_type = str(asset.get("media_type", "image"))
+    temporal = ""
+    if timestamps:
+        temporal = (
+            " The images are chronological observations of one source video at seconds: "
+            + ", ".join(f"{value:.3f}" for value in timestamps)
+            + ". Describe the source video's visible progression and use those seconds for events; "
+              "do not mention how the images were obtained."
+        )
+    return f"""
+Analyze asset {asset.get('asset_id')} ({media_type}).{temporal}
+Return this exact JSON shape:
+{{
+  "asset_id": {json.dumps(str(asset.get('asset_id', '')))},
+  "observations": [{{"text": "directly visible fact"}}],
+  "entities": [{{"type": "person|clothing|product|scene|text|other", "description": "visible attributes only"}}],
+  "events": [{{"start_seconds": 0.0, "end_seconds": 0.0, "text": "visible change or action"}}],
+  "audio": {{}},
+  "technical": {{"media_type": {json.dumps(media_type)}, "framing": "", "camera": "", "visible_text": []}},
+  "transcript": "",
+  "confidence": 0.0,
+  "uncertainties": []
+}}
+Do not invent OCR characters that are not clearly legible. Audio and transcript must remain empty.
+""".strip()
+
+
+class GiteeQwen3VLProvider(PerceptionProvider):
+    """Gitee OpenAI-compatible Qwen3-VL adapter producing media_analysis.v1."""
+
+    def __init__(
+        self,
+        config: PerceptionProviderConfig,
+        completion_transport: Callable[[list[dict[str, Any]], PerceptionProviderConfig], str] | None = None,
+        work_dir: Path | None = None,
+    ) -> None:
+        super().__init__(config)
+        self.completion_transport = completion_transport or self._call_gitee
+        self.work_dir = work_dir
+
+    def _call_gitee(self, messages: list[dict[str, Any]], config: PerceptionProviderConfig) -> str:
+        api_key_env = str(config.options.get("api_key_env", "GITEE_AI_API_KEY"))
+        api_key = os.environ.get(api_key_env)
+        if not api_key:
+            raise RuntimeError(f"Missing API key environment variable: {api_key_env}")
+        try:
+            from openai import OpenAI
+        except ImportError:
+            return self._call_gitee_urllib(messages, config, api_key)
+        client = OpenAI(
+            base_url=str(config.options.get("base_url", "https://ai.gitee.com/v1")),
+            api_key=api_key,
+            default_headers={"X-Failover-Enabled": "true"},
+        )
+        kwargs = {
+            "model": config.model,
+            "messages": messages,
+            "stream": bool(config.options.get("stream", False)),
+            "max_tokens": int(config.options.get("max_tokens", 2048)),
+            "temperature": float(config.options.get("temperature", 0.1)),
+            "top_p": float(config.options.get("top_p", 1.0)),
+            "frequency_penalty": 0,
+            "extra_body": {"top_k": int(config.options.get("top_k", 1)), "enable_thinking": False},
+        }
+        response = client.chat.completions.create(**kwargs)
+        if kwargs["stream"]:
+            chunks = []
+            for chunk in response:
+                if chunk.choices and chunk.choices[0].delta.content:
+                    chunks.append(chunk.choices[0].delta.content)
+            final = "".join(chunks)
+        else:
+            final = response.choices[0].message.content or ""
+        if not final.strip():
+            raise RuntimeError("Gitee VLM returned no final content")
+        return final
+
+    def _call_gitee_urllib(
+        self,
+        messages: list[dict[str, Any]],
+        config: PerceptionProviderConfig,
+        api_key: str,
+    ) -> str:
+        """Dependency-free fallback matching yiwu_codex's Gitee transport."""
+        if bool(config.options.get("stream", False)):
+            raise RuntimeError("Streaming Gitee VLM calls require the openai package")
+        payload = {
+            "model": config.model,
+            "messages": messages,
+            "stream": False,
+            "max_tokens": int(config.options.get("max_tokens", 2048)),
+            "temperature": float(config.options.get("temperature", 0.1)),
+            "top_p": float(config.options.get("top_p", 1.0)),
+            "frequency_penalty": 0,
+            "top_k": int(config.options.get("top_k", 1)),
+            "enable_thinking": False,
+        }
+        endpoint = str(config.options.get("base_url", "https://ai.gitee.com/v1")).rstrip("/") + "/chat/completions"
+        request = urllib.request.Request(
+            endpoint,
+            data=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json",
+                "X-Failover-Enabled": "true",
+            },
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(
+                request,
+                timeout=float(config.options.get("timeout_seconds", 300)),
+            ) as response:
+                result = json.loads(response.read().decode("utf-8"))
+        except urllib.error.HTTPError as exc:
+            body = exc.read().decode("utf-8", errors="replace")[:1500]
+            raise RuntimeError(f"Gitee VLM HTTP {exc.code}: {body}") from exc
+        except urllib.error.URLError as exc:
+            raise RuntimeError(f"Gitee VLM connection failed: {exc.reason}") from exc
+        final = result.get("choices", [{}])[0].get("message", {}).get("content") or ""
+        if not str(final).strip():
+            raise RuntimeError("Gitee VLM returned no final content")
+        return str(final)
+
+    def _visual_inputs(self, asset: Mapping[str, Any], temp_root: Path) -> tuple[list[str], list[float]]:
+        media_type = str(asset.get("media_type", ""))
+        uri = str(asset.get("uri", ""))
+        if media_type == "image":
+            return [_image_url(uri)], []
+        if media_type == "video":
+            supplied = asset.get("perception_frames") or asset.get("frame_uris")
+            if isinstance(supplied, list) and supplied:
+                urls, timestamps = [], []
+                for index, item in enumerate(supplied):
+                    if isinstance(item, Mapping):
+                        urls.append(_image_url(str(item.get("uri", ""))))
+                        timestamps.append(float(item.get("timestamp_seconds", index)))
+                    else:
+                        urls.append(_image_url(str(item)))
+                        timestamps.append(float(index))
+                return urls, timestamps
+            if uri.startswith(("http://", "https://")):
+                raise ValueError("remote video requires perception_frames with image URLs")
+            path = Path(uri).expanduser().resolve()
+            frames = _extract_video_frames(
+                path,
+                temp_root / str(asset.get("asset_id", "video")),
+                int(self.config.options.get("video_frame_count", 6)),
+            )
+            return [_image_url(str(frame)) for _, frame in frames], [timestamp for timestamp, _ in frames]
+        return [], []
+
+    def analyze(self, assets: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+        analyses = []
+        context = tempfile.TemporaryDirectory(prefix="context-ir-vlm-") if self.work_dir is None else None
+        temp_root = self.work_dir or Path(context.name)
+        try:
+            for asset in assets:
+                if asset.get("media_type") == "audio":
+                    analyses.append({
+                        "asset_id": str(asset.get("asset_id", "")),
+                        "observations": [], "entities": [], "events": [], "audio": {},
+                        "technical": {"media_type": "audio", "analysis_status": "unsupported_by_visual_provider"},
+                        "transcript": "", "confidence": None,
+                        "uncertainties": ["Audio content was not analyzed by the visual perception provider"],
+                    })
+                    continue
+                image_urls, timestamps = self._visual_inputs(asset, temp_root)
+                content = [{"type": "image_url", "image_url": {"url": url}} for url in image_urls]
+                content.append({"type": "text", "text": _analysis_prompt(asset, timestamps)})
+                messages = [
+                    {"role": "system", "content": VISUAL_SYSTEM_PROMPT},
+                    {"role": "user", "content": content},
+                ]
+                analysis = _json_object(self.completion_transport(messages, self.config))
+                analysis["asset_id"] = str(asset.get("asset_id", ""))
+                analyses.append(analysis)
+        finally:
+            if context is not None:
+                context.cleanup()
+        return normalize_media_analysis({"assets": analyses}, assets, self.config)
+
+
+class PerceptionProviderRegistry:
+    def __init__(self) -> None:
+        self._factories: dict[str, Callable[..., PerceptionProvider]] = {}
+
+    def register(self, name: str, factory: Callable[..., PerceptionProvider]) -> None:
+        key = name.strip().lower()
+        if not key or key in self._factories:
+            raise ValueError(f"invalid or duplicate provider: {name}")
+        self._factories[key] = factory
+
+    def create(self, config: PerceptionProviderConfig, **kwargs: Any) -> PerceptionProvider:
+        try:
+            factory = self._factories[config.provider.strip().lower()]
+        except KeyError as exc:
+            raise KeyError(f"unknown perception provider: {config.provider}") from exc
+        return factory(config=config, **kwargs)
+
+    def names(self) -> list[str]:
+        return sorted(self._factories)
+
+
+def normalize_media_analysis(
+    raw: Mapping[str, Any],
+    assets: Sequence[Mapping[str, Any]],
+    config: PerceptionProviderConfig,
+) -> dict[str, Any]:
+    known = {str(asset.get("asset_id", "")) for asset in assets}
+    analyses = raw.get("assets", raw.get("analyses", []))
+    if not isinstance(analyses, list):
+        raise ValueError("perception response must contain an assets list")
+    normalized = []
+    seen = set()
+    for index, item in enumerate(analyses):
+        if not isinstance(item, Mapping):
+            raise ValueError(f"perception assets[{index}] must be an object")
+        asset_id = str(item.get("asset_id", ""))
+        if asset_id not in known or asset_id in seen:
+            raise ValueError(f"unknown or duplicate perception asset_id: {asset_id}")
+        seen.add(asset_id)
+        normalized.append({
+            "asset_id": asset_id,
+            "observations": list(item.get("observations", [])),
+            "entities": list(item.get("entities", [])),
+            "events": list(item.get("events", [])),
+            "audio": dict(item.get("audio", {})),
+            "technical": dict(item.get("technical", {})),
+            "transcript": str(item.get("transcript", "")),
+            "confidence": item.get("confidence"),
+            "uncertainties": list(item.get("uncertainties", [])),
+        })
+    return {
+        "schema_version": "media_analysis.v1",
+        "provider": {"name": config.provider, "model": config.model, "options": config.options},
+        "assets": normalized,
+        "missing_asset_ids": sorted(known - seen),
+    }
+
+
+PERCEPTION_PROVIDERS = PerceptionProviderRegistry()
+PERCEPTION_PROVIDERS.register("qwen3-omni", Qwen3OmniProvider)
+PERCEPTION_PROVIDERS.register("gitee-qwen3-vl", GiteeQwen3VLProvider)

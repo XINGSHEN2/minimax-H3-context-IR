@@ -1,0 +1,39 @@
+{
+  "user_request": "保持产品一致性，由美甲产品款式决定视频主题，音效、BGM和场景适配主题。根据美甲款式判断适合的真实大众节日或使用场景：对应语种地区已有的大众节日优先，没有合理节日时降级到适配场景，不要硬凑节日。背景必须加入与主体相关的元素以丰富画面。参考视频仅用于动作、转场和节奏；商品图控制产品外观；上手预览图控制正确佩戴方式和手部展示效果。",
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 15,
+    "aspect_ratio": "9:16",
+    "generate_audio": true,
+    "style": "theme-led premium nail product commercial, photorealistic"
+  },
+  "perception_provider": {
+    "provider": "gitee-qwen3-vl",
+    "model": "Qwen3-VL-30B-A3B-Instruct",
+    "options": {
+      "base_url": "https://ai.gitee.com/v1",
+      "api_key_env": "GITEE_AI_API_KEY",
+      "video_frame_count": 6
+    }
+  },
+  "assets": [
+    {
+      "asset_id": "image_1",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/case_002/images/merchandise.jpg",
+      "label": "Picture 1 - product appearance"
+    },
+    {
+      "asset_id": "image_2",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/case_002/images/worn_hand_preview.png",
+      "label": "Picture 2 - correct wearing and hand presentation"
+    },
+    {
+      "asset_id": "video_1",
+      "media_type": "video",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/case_002/videos/reference_video.mp4",
+      "label": "Video 1 - motion, transition and pacing only"
+    }
+  ]
+}
