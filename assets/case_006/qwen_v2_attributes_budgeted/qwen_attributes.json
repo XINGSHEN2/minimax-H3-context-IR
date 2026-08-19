@@ -1,0 +1,886 @@
+{
+  "items": [
+    {
+      "object_id": "object_1",
+      "category": "open vocabulary",
+      "summary": "A black and white nail art design with abstract white swirls, small pearls, and a large pearl near the tip on a dark background.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "elongated teardrop",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "black",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "material": [
+          {
+            "name": "surface_material",
+            "value": "glossy",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "surface": [
+          {
+            "name": "texture",
+            "value": "smooth with reflective highlights",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "components": [
+          {
+            "name": "pearl",
+            "value": "multiple small and one large",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "pearl_placement",
+            "value": "near tip and mid-section",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [
+          {
+            "name": "tip_direction",
+            "value": "pointing downward",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "identity_markers": [
+          {
+            "name": "design_pattern",
+            "value": "abstract white swirls",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "other": [
+          {
+            "name": "background",
+            "value": "dark textured",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ]
+      }
+    },
+    {
+      "object_id": "object_2",
+      "category": "open vocabulary",
+      "summary": "A black nail with a large brown eye design, white swirls, a gold-rimmed pearl at the tip, and small pearls near the cuticle.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "elongated teardrop",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "black",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white and brown",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "material": [
+          {
+            "name": "surface_material",
+            "value": "glossy",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "surface": [],
+        "components": [
+          {
+            "name": "eye",
+            "value": "large brown with black pupil",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "pearl",
+            "value": "one large gold-rimmed at tip",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "eye_placement",
+            "value": "centered near top",
+            "confidence": 0.8,
+            "source": "visible"
+          },
+          {
+            "name": "pearl_placement",
+            "value": "tip and near cuticle",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [],
+        "identity_markers": [
+          {
+            "name": "design_pattern",
+            "value": "eye with white swirls",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "other": [
+          {
+            "name": "background",
+            "value": "dark textured",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ]
+      }
+    },
+    {
+      "object_id": "object_3",
+      "category": "open vocabulary",
+      "summary": "A black nail with white abstract patterns, a large pearl near the tip, and a small pearl near the cuticle, on a dark background.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "elongated teardrop",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "black",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "material": [
+          {
+            "name": "surface_material",
+            "value": "glossy",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "surface": [
+          {
+            "name": "texture",
+            "value": "smooth with reflective highlights",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "components": [
+          {
+            "name": "pearl",
+            "value": "one large and one small",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "pearl_placement",
+            "value": "tip and near cuticle",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [
+          {
+            "name": "tip_direction",
+            "value": "pointing downward",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "identity_markers": [
+          {
+            "name": "design_pattern",
+            "value": "abstract white swirls",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "other": [
+          {
+            "name": "background",
+            "value": "dark textured",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ]
+      }
+    },
+    {
+      "object_id": "object_4",
+      "category": "open vocabulary",
+      "summary": "A black nail with a large brown eye, white swirls, a large pearl at the tip, and small pearls near the cuticle, on a dark background.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "elongated teardrop",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "black",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white and brown",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "material": [
+          {
+            "name": "surface_material",
+            "value": "glossy",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "surface": [],
+        "components": [
+          {
+            "name": "eye",
+            "value": "large brown with black pupil",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "pearl",
+            "value": "one large at tip and small near cuticle",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "eye_placement",
+            "value": "centered near top",
+            "confidence": 0.8,
+            "source": "visible"
+          },
+          {
+            "name": "pearl_placement",
+            "value": "tip and near cuticle",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [],
+        "identity_markers": [
+          {
+            "name": "design_pattern",
+            "value": "eye with white swirls",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "other": [
+          {
+            "name": "background",
+            "value": "dark textured",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ]
+      }
+    },
+    {
+      "object_id": "object_5",
+      "category": "open vocabulary",
+      "summary": "Two black nails with white abstract patterns, one with a large eye and a pearl at the tip, the other with a smaller eye and no pearl, on a dark background.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "elongated teardrop",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "black",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white and brown",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "material": [
+          {
+            "name": "surface_material",
+            "value": "glossy",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "surface": [],
+        "components": [
+          {
+            "name": "eye",
+            "value": "one large, one small",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "pearl",
+            "value": "one large on left nail",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "eye_placement",
+            "value": "centered near top on both",
+            "confidence": 0.8,
+            "source": "visible"
+          },
+          {
+            "name": "pearl_placement",
+            "value": "tip of left nail only",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [],
+        "identity_markers": [
+          {
+            "name": "design_pattern",
+            "value": "asymmetric eye and swirls",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "other": [
+          {
+            "name": "background",
+            "value": "dark textured",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ]
+      }
+    },
+    {
+      "object_id": "object_6",
+      "category": "open vocabulary",
+      "summary": "Stylized nail art with brown base, black and white swirls, three pearls, and a white 'O' near the cuticle.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "almond",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "brown",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "black",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "material": [
+          {
+            "name": "surface_finish",
+            "value": "glossy",
+            "confidence": "0.8",
+            "source": "visible"
+          }
+        ],
+        "surface": [],
+        "components": [
+          {
+            "name": "pearls",
+            "value": "three",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "pearl_placement",
+            "value": "vertical_line",
+            "confidence": "0.8",
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [
+          {
+            "name": "tip_direction",
+            "value": "pointed_down",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "identity_markers": [
+          {
+            "name": "symbol",
+            "value": "white_O",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "other": [
+          {
+            "name": "design_style",
+            "value": "abstract_swirls",
+            "confidence": "0.8",
+            "source": "visible"
+          }
+        ]
+      }
+    },
+    {
+      "object_id": "object_7",
+      "category": "open vocabulary",
+      "summary": "Nail with black base, large golden eye, white swirls, and multiple pearls arranged around the eye.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "almond",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "black",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "gold",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "material": [],
+        "surface": [],
+        "components": [
+          {
+            "name": "eye",
+            "value": "one",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "pearls",
+            "value": "multiple",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "eye_position",
+            "value": "center",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "pearl_arrangement",
+            "value": "around_eye",
+            "confidence": "0.8",
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [],
+        "identity_markers": [
+          {
+            "name": "eye_design",
+            "value": "golden_pupil",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "other": [
+          {
+            "name": "design_style",
+            "value": "gothic_eye",
+            "confidence": "0.8",
+            "source": "visible"
+          }
+        ]
+      }
+    },
+    {
+      "object_id": "object_8",
+      "category": "open vocabulary",
+      "summary": "Nail with brown base, black and white swirls, a gold flower with pearl center, and scattered pearls.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "almond",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "brown",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "black",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "material": [],
+        "surface": [],
+        "components": [
+          {
+            "name": "flower",
+            "value": "one",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "pearls",
+            "value": "multiple",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "flower_position",
+            "value": "near_cuticle",
+            "confidence": "0.8",
+            "source": "visible"
+          },
+          {
+            "name": "pearl_placement",
+            "value": "scattered",
+            "confidence": "0.8",
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [],
+        "identity_markers": [
+          {
+            "name": "flower_detail",
+            "value": "gold_with_pearl_center",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "other": [
+          {
+            "name": "design_style",
+            "value": "floral_swirls",
+            "confidence": "0.8",
+            "source": "visible"
+          }
+        ]
+      }
+    },
+    {
+      "object_id": "object_9",
+      "category": "open vocabulary",
+      "summary": "Nail with black base, large golden eye, white swirls, and multiple pearls surrounding the eye.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "almond",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "black",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "gold",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "material": [],
+        "surface": [],
+        "components": [
+          {
+            "name": "eye",
+            "value": "one",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "pearls",
+            "value": "multiple",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "eye_position",
+            "value": "center",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "pearl_arrangement",
+            "value": "around_eye",
+            "confidence": "0.8",
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [],
+        "identity_markers": [
+          {
+            "name": "eye_design",
+            "value": "golden_pupil_with_white_ring",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "other": [
+          {
+            "name": "design_style",
+            "value": "gothic_eye",
+            "confidence": "0.8",
+            "source": "visible"
+          }
+        ]
+      }
+    },
+    {
+      "object_id": "object_10",
+      "category": "open vocabulary",
+      "summary": "Nail with brown base, black and white swirls, two eyes, and a white vertical line near the cuticle.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "almond",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "brown",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "black",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "material": [],
+        "surface": [],
+        "components": [
+          {
+            "name": "eyes",
+            "value": "two",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "line",
+            "value": "one",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "eye_position",
+            "value": "lower_half",
+            "confidence": "0.8",
+            "source": "visible"
+          },
+          {
+            "name": "line_position",
+            "value": "near_cuticle",
+            "confidence": "0.8",
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [],
+        "identity_markers": [
+          {
+            "name": "eye_arrangement",
+            "value": "stacked",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "other": [
+          {
+            "name": "design_style",
+            "value": "dual_eyes_with_line",
+            "confidence": "0.8",
+            "source": "visible"
+          }
+        ]
+      }
+    }
+  ],
+  "task_ids": [
+    "20260819_051256_837484_1d4b2d63-6e89-43cf-bf83-02ca912ee5e2",
+    "20260819_051459_084324_d431e7f5-84fd-45ab-928a-95fea5f0ab42"
+  ],
+  "validation": {
+    "expected_ids": [
+      "object_1",
+      "object_2",
+      "object_3",
+      "object_4",
+      "object_5",
+      "object_6",
+      "object_7",
+      "object_8",
+      "object_9",
+      "object_10"
+    ],
+    "actual_ids": [
+      "object_1",
+      "object_2",
+      "object_3",
+      "object_4",
+      "object_5",
+      "object_6",
+      "object_7",
+      "object_8",
+      "object_9",
+      "object_10"
+    ],
+    "complete": true
+  }
+}

@@ -62,8 +62,9 @@ else
 fi
 
 common_args=(
-  -e OPENAI_API_KEY="${OPENAI_API_KEY:-}" \
-  -e GITEE_AI_API_KEY="${GITEE_AI_API_KEY:-}" \
+  -e OPENAI_API_KEY \
+  -e DEEPSEEK_API_KEY \
+  -e GITEE_AI_API_KEY \
   -e YIWU_VLM_API_KEY_ENV="${YIWU_VLM_API_KEY_ENV:-GITEE_AI_API_KEY}" \
   -e YIWU_VLM_BASE_URL="${YIWU_VLM_BASE_URL:-http://127.0.0.1:9012}" \
   -e YIWU_VLM_MODEL="${YIWU_VLM_MODEL:-Qwen3-VL-32B-Instruct}" \
@@ -78,6 +79,10 @@ common_args=(
   -e GLM_PROVIDER_ID="${GLM_PROVIDER_ID:-glm}" \
   -e GLM_RESPONSES_BASE_URL="${GLM_RESPONSES_BASE_URL:-http://127.0.0.1:38041/v1}" \
   -e GLM_HTTP_HOST="${GLM_HTTP_HOST:-litellm-poc.pgw.metax-tech.com}" \
+  -e CONTEXT_IR_LLM_PROVIDER="${CONTEXT_IR_LLM_PROVIDER:-glm}" \
+  -e DEEPSEEK_MODEL="${DEEPSEEK_MODEL:-deepseek-v4-flash}" \
+  -e DEEPSEEK_PROVIDER_ID="${DEEPSEEK_PROVIDER_ID:-deepseek}" \
+  -e DEEPSEEK_RESPONSES_BASE_URL="${DEEPSEEK_RESPONSES_BASE_URL:-https://api.deepseek.com}" \
   -e CONTEXT_IR_WEB_HOST="$web_host" \
   -e CONTEXT_IR_WEB_PORT="$web_port" \
   -w "$project_dir" \

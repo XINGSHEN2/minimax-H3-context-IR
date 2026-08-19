@@ -1,0 +1,24 @@
+{
+  "user_request": "根据商品图提供的甲片，完全复刻视频的内容，只把视频中展示的甲片改成参考图中的甲片商品，人物和动作都不要改，可以改背景和风格，生成一段该甲片商品的宣传视频。",
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 15,
+    "aspect_ratio": "9:16",
+    "generate_audio": false,
+    "style": "premium nail product commercial, photorealistic"
+  },
+  "assets": [
+    {
+      "asset_id": "image_1",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/case_005/images/merchandise.png",
+      "label": "Picture 1 - replacement nail product appearance"
+    },
+    {
+      "asset_id": "video_1",
+      "media_type": "video",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/case_005/videos/reference_video.mp4",
+      "label": "Video 1 - edit base; preserve performer, actions, content, shot structure and camera movement; replace only the displayed nails; background and style may change"
+    }
+  ]
+}

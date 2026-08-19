@@ -127,7 +127,11 @@ native video utility to decode chronological frames; audio tracks are not
 analyzed. The previous `gitee-qwen3-vl` contact-sheet adapter remains available
 as an explicit provider fallback.
 
-The Codex Agent uses GLM-5.2 through the remote LiteLLM Responses API:
+The Codex Agent supports switchable reasoning providers through the Responses API.
+Set `CONTEXT_IR_LLM_PROVIDER=glm` (default) or
+`CONTEXT_IR_LLM_PROVIDER=deepseek` in `deploy/context_ir.env`.
+
+GLM configuration:
 
 - `GLM_MODEL` default: `GLM-5.2`
 - `GLM_PROVIDER_ID` default: `glm`
@@ -135,6 +139,18 @@ The Codex Agent uses GLM-5.2 through the remote LiteLLM Responses API:
 - `GLM_HTTP_HOST` default: `litellm-poc.pgw.metax-tech.com`
 - `OPENAI_API_KEY`: required LiteLLM bearer key
 - wire API: `responses`
+
+DeepSeek configuration:
+
+- `DEEPSEEK_MODEL` default: `deepseek-v4-flash`
+- `DEEPSEEK_PROVIDER_ID` default: `deepseek`
+- `DEEPSEEK_RESPONSES_BASE_URL` default: `https://api.deepseek.com`
+- `DEEPSEEK_API_KEY`: required official DeepSeek API key
+- wire API: `responses`
+
+DeepSeek's official Responses endpoint is directly compatible with Codex and
+does not use the GLM LiteLLM tunnel. Switching providers does not affect the
+Qwen perception stage or the deterministic Context-IR validation pipeline.
 
 Keep the real LiteLLM key only in the ignored `deploy/context_ir.env` file.
 Because `aigc` cannot resolve the LiteLLM intranet hostname, Windows supplies
@@ -166,5 +182,5 @@ CONTEXT_IR_IMAGE=minimax-h3-context-ir:latest bash deploy/run.sh request.json
 The mounted project remains independent and does not depend on
 `/home/mx/shenxing/yiwu_codex`.
 
-The LiteLLM Responses gateway is an external prerequisite. The runner does not
-start or manage it.
+The LiteLLM Responses gateway is an external prerequisite only when GLM is
+selected. The runner does not start or manage it.

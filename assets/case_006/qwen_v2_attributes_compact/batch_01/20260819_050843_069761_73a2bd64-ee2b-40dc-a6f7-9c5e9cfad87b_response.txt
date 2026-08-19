@@ -1,0 +1,377 @@
+{
+  "items": [
+    {
+      "object_id": "object_1",
+      "category": "open vocabulary",
+      "summary": "A pointed, dark-colored object with white swirling patterns and small pearl-like beads, viewed from the side.",
+      "features": [
+        [
+          "geometry",
+          "shape",
+          "pointed elongated form",
+          0.9,
+          "visible"
+        ],
+        [
+          "color",
+          "base_color",
+          "dark brown/black",
+          0.9,
+          "visible"
+        ],
+        [
+          "color",
+          "accent_color",
+          "white",
+          0.9,
+          "visible"
+        ],
+        [
+          "material",
+          "surface_material",
+          "glossy",
+          0.8,
+          "visible"
+        ],
+        [
+          "surface",
+          "texture",
+          "smooth with reflective highlights",
+          0.8,
+          "visible"
+        ],
+        [
+          "components",
+          "beads",
+          "small white spherical beads",
+          0.9,
+          "visible"
+        ],
+        [
+          "component_layout",
+          "bead_placement",
+          "scattered along the length",
+          0.8,
+          "visible"
+        ],
+        [
+          "component_layout",
+          "pattern",
+          "white swirling lines",
+          0.9,
+          "visible"
+        ],
+        [
+          "orientation_cues",
+          "view_angle",
+          "side profile",
+          0.9,
+          "visible"
+        ],
+        [
+          "identity_markers",
+          "distinctive_pattern",
+          "asymmetrical white swirls with beads",
+          0.9,
+          "visible"
+        ]
+      ],
+      "uncertainties": [],
+      "confidence": 0.9
+    },
+    {
+      "object_id": "object_2",
+      "category": "open vocabulary",
+      "summary": "A pointed object with a large brown eye-like feature, white patterns, and a gold-rimmed pearl at the tip.",
+      "features": [
+        [
+          "geometry",
+          "shape",
+          "pointed elongated form",
+          0.9,
+          "visible"
+        ],
+        [
+          "color",
+          "base_color",
+          "dark brown/black",
+          0.9,
+          "visible"
+        ],
+        [
+          "color",
+          "accent_color",
+          "white, brown, gold",
+          0.9,
+          "visible"
+        ],
+        [
+          "material",
+          "surface_material",
+          "glossy",
+          0.8,
+          "visible"
+        ],
+        [
+          "surface",
+          "texture",
+          "smooth with reflective highlights",
+          0.8,
+          "visible"
+        ],
+        [
+          "components",
+          "eye_feature",
+          "large brown eye with black pupil",
+          0.9,
+          "visible"
+        ],
+        [
+          "components",
+          "bead",
+          "gold-rimmed white pearl at tip",
+          0.9,
+          "visible"
+        ],
+        [
+          "component_layout",
+          "eye_position",
+          "near top center",
+          0.9,
+          "visible"
+        ],
+        [
+          "component_layout",
+          "bead_position",
+          "at bottom tip",
+          0.9,
+          "visible"
+        ],
+        [
+          "identity_markers",
+          "distinctive_feature",
+          "eye with pupil and gold-rimmed pearl",
+          0.9,
+          "visible"
+        ]
+      ],
+      "uncertainties": [],
+      "confidence": 0.9
+    },
+    {
+      "object_id": "object_3",
+      "category": "open vocabulary",
+      "summary": "A pointed object with a smooth dark surface, white patterns, and small beads, viewed from the side.",
+      "features": [
+        [
+          "geometry",
+          "shape",
+          "pointed elongated form",
+          0.9,
+          "visible"
+        ],
+        [
+          "color",
+          "base_color",
+          "dark brown/black",
+          0.9,
+          "visible"
+        ],
+        [
+          "color",
+          "accent_color",
+          "white",
+          0.9,
+          "visible"
+        ],
+        [
+          "material",
+          "surface_material",
+          "glossy",
+          0.8,
+          "visible"
+        ],
+        [
+          "surface",
+          "texture",
+          "smooth with reflective highlights",
+          0.8,
+          "visible"
+        ],
+        [
+          "components",
+          "beads",
+          "small white spherical beads",
+          0.9,
+          "visible"
+        ],
+        [
+          "component_layout",
+          "bead_placement",
+          "scattered along the length",
+          0.8,
+          "visible"
+        ],
+        [
+          "component_layout",
+          "pattern",
+          "white swirling lines",
+          0.9,
+          "visible"
+        ],
+        [
+          "orientation_cues",
+          "view_angle",
+          "side profile",
+          0.9,
+          "visible"
+        ],
+        [
+          "identity_markers",
+          "distinctive_pattern",
+          "asymmetrical white swirls with beads",
+          0.9,
+          "visible"
+        ]
+      ],
+      "uncertainties": [],
+      "confidence": 0.9
+    },
+    {
+      "object_id": "object_4",
+      "category": "open vocabulary",
+      "summary": "A pointed object with a large brown eye-like feature, white patterns, and a white pearl at the tip.",
+      "features": [
+        [
+          "geometry",
+          "shape",
+          "pointed elongated form",
+          0.9,
+          "visible"
+        ],
+        [
+          "color",
+          "base_color",
+          "dark brown/black",
+          0.9,
+          "visible"
+        ],
+        [
+          "color",
+          "accent_color",
+          "white, brown",
+          0.9,
+          "visible"
+        ],
+        [
+          "material",
+          "surface_material",
+          "glossy",
+          0.8,
+          "visible"
+        ],
+        [
+          "surface",
+          "texture",
+          "smooth with reflective highlights",
+          0.8,
+          "visible"
+        ],
+        [
+          "components",
+          "eye_feature",
+          "large brown eye with black pupil",
+          0.9,
+          "visible"
+        ],
+        [
+          "components",
+          "bead",
+          "white pearl at tip",
+          0.9,
+          "visible"
+        ],
+        [
+          "component_layout",
+          "eye_position",
+          "near top center",
+          0.9,
+          "visible"
+        ],
+        [
+          "component_layout",
+          "bead_position",
+          "at bottom tip",
+          0.9,
+          "visible"
+        ],
+        [
+          "identity_markers",
+          "distinctive_feature",
+          "eye with pupil and white pearl",
+          0.9,
+          "visible"
+        ]
+      ],
+      "uncertainties": [],
+      "confidence": 0.9
+    },
+    {
+      "object_id": "object_5",
+      "category": "open vocabulary",
+      "summary": "Two pointed objects side by side, both with dark bases, white patterns, and eye-like features.",
+      "features": [
+        [
+          "geometry",
+          "shape",
+          "two pointed elongated forms",
+          0.9,
+          "visible"
+        ],
+        [
+          "color",
+          "base_color",
+          "dark brown/black",
+          0.9,
+          "visible"
+        ],
+        [
+          "color",
+          "accent_color",
+          "white, brown",
+          0.9,
+          "visible"
+        ],
+        [
+          "material",
+          "surface_material",
+          "glossy",
+          0.8,
+          "visible"
+        ],
+        [
+          "surface",
+          "texture",
+          "smooth with reflective highlights",
+          0.8,
+          "visible"
+        ],
+        [
+          "components",
+          "eye_feature",
+          "large brown eye with black pupil on each",
+          0.9,
+          "visible"
+        ],
+        [
+          "component_layout",
+          "eye_position",
+          "near top center on each",
+          0.9,
+          "visible"
+        ],
+        [
+          "component_layout",
+          "pattern",
+          "white swirling lines on both",
+          0.9

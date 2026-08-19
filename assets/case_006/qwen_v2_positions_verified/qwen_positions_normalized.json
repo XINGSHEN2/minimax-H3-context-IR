@@ -1,0 +1,176 @@
+{
+  "task_id": "20260819_045220_969199_a3b7c293-b8ad-4ab3-beff-2c691adc65f5",
+  "coordinate_system": "qwen_0_1000",
+  "objects": [
+    {
+      "object_id": "object_1",
+      "category": "nail art",
+      "confidence": "0.98",
+      "bbox_2d": [
+        156.0,
+        170.0,
+        275.0,
+        500.0
+      ],
+      "bbox_normalized": [
+        0.156,
+        0.17,
+        0.275,
+        0.5
+      ]
+    },
+    {
+      "object_id": "object_2",
+      "category": "nail art",
+      "confidence": "0.98",
+      "bbox_2d": [
+        288.0,
+        170.0,
+        406.0,
+        500.0
+      ],
+      "bbox_normalized": [
+        0.288,
+        0.17,
+        0.406,
+        0.5
+      ]
+    },
+    {
+      "object_id": "object_3",
+      "category": "nail art",
+      "confidence": "0.98",
+      "bbox_2d": [
+        422.0,
+        170.0,
+        540.0,
+        500.0
+      ],
+      "bbox_normalized": [
+        0.422,
+        0.17,
+        0.54,
+        0.5
+      ]
+    },
+    {
+      "object_id": "object_4",
+      "category": "nail art",
+      "confidence": "0.98",
+      "bbox_2d": [
+        556.0,
+        170.0,
+        675.0,
+        500.0
+      ],
+      "bbox_normalized": [
+        0.556,
+        0.17,
+        0.675,
+        0.5
+      ]
+    },
+    {
+      "object_id": "object_5",
+      "category": "nail art",
+      "confidence": "0.98",
+      "bbox_2d": [
+        691.0,
+        170.0,
+        809.0,
+        500.0
+      ],
+      "bbox_normalized": [
+        0.691,
+        0.17,
+        0.809,
+        0.5
+      ]
+    },
+    {
+      "object_id": "object_6",
+      "category": "nail art",
+      "confidence": "0.98",
+      "bbox_2d": [
+        156.0,
+        550.0,
+        275.0,
+        880.0
+      ],
+      "bbox_normalized": [
+        0.156,
+        0.55,
+        0.275,
+        0.88
+      ]
+    },
+    {
+      "object_id": "object_7",
+      "category": "nail art",
+      "confidence": "0.98",
+      "bbox_2d": [
+        288.0,
+        550.0,
+        406.0,
+        880.0
+      ],
+      "bbox_normalized": [
+        0.288,
+        0.55,
+        0.406,
+        0.88
+      ]
+    },
+    {
+      "object_id": "object_8",
+      "category": "nail art",
+      "confidence": "0.98",
+      "bbox_2d": [
+        422.0,
+        550.0,
+        540.0,
+        880.0
+      ],
+      "bbox_normalized": [
+        0.422,
+        0.55,
+        0.54,
+        0.88
+      ]
+    },
+    {
+      "object_id": "object_9",
+      "category": "nail art",
+      "confidence": "0.98",
+      "bbox_2d": [
+        556.0,
+        550.0,
+        675.0,
+        880.0
+      ],
+      "bbox_normalized": [
+        0.556,
+        0.55,
+        0.675,
+        0.88
+      ]
+    },
+    {
+      "object_id": "object_10",
+      "category": "nail art",
+      "confidence": "0.98",
+      "bbox_2d": [
+        691.0,
+        550.0,
+        809.0,
+        880.0
+      ],
+      "bbox_normalized": [
+        0.691,
+        0.55,
+        0.809,
+        0.88
+      ]
+    }
+  ]
+}

@@ -1,0 +1,889 @@
+{
+  "items": [
+    {
+      "object_id": "object_1",
+      "category": "open vocabulary",
+      "summary": "A black and white patterned nail with a glossy finish, featuring white swirls, small white dots, and a large white bead near the tip.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "elongated oval",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "black",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "material": [
+          {
+            "name": "surface_finish",
+            "value": "glossy",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "surface": [],
+        "components": [
+          {
+            "name": "decorative_elements",
+            "value": "white swirls and dots",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "bead",
+            "value": "large white bead near tip",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "bead_position",
+            "value": "near tip",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [
+          {
+            "name": "view_angle",
+            "value": "top-down",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "identity_markers": [
+          {
+            "name": "pattern",
+            "value": "asymmetrical white swirls",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "other": [
+          {
+            "name": "edge_condition",
+            "value": "smooth",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ]
+      }
+    },
+    {
+      "object_id": "object_2",
+      "category": "open vocabulary",
+      "summary": "A black nail with white patterns, a large brown eye-like design with a black pupil, and a gold-rimmed pearl at the tip.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "elongated oval",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "black",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "material": [],
+        "surface": [],
+        "components": [
+          {
+            "name": "eye_design",
+            "value": "brown iris with black pupil",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "bead",
+            "value": "gold-rimmed pearl at tip",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "eye_position",
+            "value": "centered",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "bead_position",
+            "value": "tip",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [
+          {
+            "name": "view_angle",
+            "value": "top-down",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "identity_markers": [
+          {
+            "name": "pattern",
+            "value": "eye with white swirls",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "other": [
+          {
+            "name": "surface_finish",
+            "value": "glossy",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ]
+      }
+    },
+    {
+      "object_id": "object_3",
+      "category": "open vocabulary",
+      "summary": "A black nail with white patterns, a large white bead near the tip, and a smooth, glossy finish.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "elongated oval",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "black",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "material": [],
+        "surface": [
+          {
+            "name": "finish",
+            "value": "glossy",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "components": [
+          {
+            "name": "bead",
+            "value": "large white bead near tip",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "bead_position",
+            "value": "near tip",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [
+          {
+            "name": "view_angle",
+            "value": "top-down",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "identity_markers": [
+          {
+            "name": "pattern",
+            "value": "white swirls and dots",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "other": [
+          {
+            "name": "edge_condition",
+            "value": "smooth",
+            "confidence": 0.8,
+            "source": "visible"
+          },
+          {
+            "name": "background",
+            "value": "gray textured",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ]
+      }
+    },
+    {
+      "object_id": "object_4",
+      "category": "open vocabulary",
+      "summary": "A black nail with white patterns, a large brown eye-like design with a black pupil, and a white bead near the tip.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "elongated oval",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "black",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "material": [],
+        "surface": [],
+        "components": [
+          {
+            "name": "eye_design",
+            "value": "brown iris with black pupil",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "bead",
+            "value": "white bead near tip",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "eye_position",
+            "value": "centered",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "bead_position",
+            "value": "near tip",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [
+          {
+            "name": "view_angle",
+            "value": "top-down",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "identity_markers": [
+          {
+            "name": "pattern",
+            "value": "eye with white swirls",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "other": [
+          {
+            "name": "surface_finish",
+            "value": "glossy",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ]
+      }
+    },
+    {
+      "object_id": "object_5",
+      "category": "open vocabulary",
+      "summary": "Two black nails with white patterns, one featuring a brown eye-like design and the other with a white swirl pattern, both with glossy finish.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "elongated oval",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "black",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "material": [],
+        "surface": [],
+        "components": [
+          {
+            "name": "eye_design",
+            "value": "brown iris with black pupil on left nail",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "pattern",
+            "value": "white swirls on right nail",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "eye_position",
+            "value": "centered on left",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [
+          {
+            "name": "view_angle",
+            "value": "top-down",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "identity_markers": [
+          {
+            "name": "pattern",
+            "value": "asymmetrical eye and swirls",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "other": [
+          {
+            "name": "surface_finish",
+            "value": "glossy",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "nail_count",
+            "value": "two",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ]
+      }
+    },
+    {
+      "object_id": "object_6",
+      "category": "open vocabulary",
+      "summary": "Stylized nail art with brown base, black and white swirls, silver beads, and a white '0' near the cuticle.",
+      "uncertainties": [],
+      "confidence": 0.85,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "elongated almond",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "brown",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "black and white",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "material": [
+          {
+            "name": "surface_finish",
+            "value": "glossy",
+            "confidence": "0.8",
+            "source": "visible"
+          }
+        ],
+        "surface": [
+          {
+            "name": "texture",
+            "value": "smooth",
+            "confidence": "0.8",
+            "source": "visible"
+          }
+        ],
+        "components": [
+          {
+            "name": "beads",
+            "value": "silver",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "bead_placement",
+            "value": "along sides and tip",
+            "confidence": "0.8",
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [
+          {
+            "name": "tip_direction",
+            "value": "pointing down",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "identity_markers": [
+          {
+            "name": "symbol",
+            "value": "white '0'",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "other": [
+          {
+            "name": "design_theme",
+            "value": "abstract with numerals",
+            "confidence": "0.7",
+            "source": "inferred"
+          }
+        ]
+      }
+    },
+    {
+      "object_id": "object_7",
+      "category": "open vocabulary",
+      "summary": "Nail with black base, large golden eye design, white highlights, and silver beads around the eye.",
+      "uncertainties": [],
+      "confidence": 0.88,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "elongated almond",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "black",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "gold and white",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "material": [
+          {
+            "name": "surface_finish",
+            "value": "glossy",
+            "confidence": "0.8",
+            "source": "visible"
+          }
+        ],
+        "surface": [],
+        "components": [
+          {
+            "name": "eye_design",
+            "value": "golden iris with black pupil",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "beads",
+            "value": "silver",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "eye_position",
+            "value": "centered",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "bead_placement",
+            "value": "around eye and tip",
+            "confidence": "0.8",
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [
+          {
+            "name": "tip_direction",
+            "value": "pointing down",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "identity_markers": [
+          {
+            "name": "motif",
+            "value": "eye with white highlights",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "other": []
+      }
+    },
+    {
+      "object_id": "object_8",
+      "category": "open vocabulary",
+      "summary": "Nail with brown base, black and white swirls, gold-rimmed pearl at top, and silver beads along sides.",
+      "uncertainties": [],
+      "confidence": 0.87,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "elongated almond",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "brown",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "black and white",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "material": [
+          {
+            "name": "surface_finish",
+            "value": "glossy",
+            "confidence": "0.8",
+            "source": "visible"
+          }
+        ],
+        "surface": [],
+        "components": [
+          {
+            "name": "pearl",
+            "value": "gold-rimmed",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "beads",
+            "value": "silver",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "pearl_position",
+            "value": "near cuticle",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "bead_placement",
+            "value": "along sides",
+            "confidence": "0.8",
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [
+          {
+            "name": "tip_direction",
+            "value": "pointing down",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "identity_markers": [
+          {
+            "name": "design",
+            "value": "swirls with pearl accent",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "other": []
+      }
+    },
+    {
+      "object_id": "object_9",
+      "category": "open vocabulary",
+      "summary": "Nail with black base, large golden eye, white highlights, and multiple silver beads surrounding the eye.",
+      "uncertainties": [],
+      "confidence": 0.89,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "elongated almond",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "black",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "gold and white",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "material": [
+          {
+            "name": "surface_finish",
+            "value": "glossy",
+            "confidence": "0.8",
+            "source": "visible"
+          }
+        ],
+        "surface": [],
+        "components": [
+          {
+            "name": "eye_design",
+            "value": "golden iris with black pupil",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "beads",
+            "value": "silver",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "eye_position",
+            "value": "centered",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "bead_placement",
+            "value": "surrounding eye",
+            "confidence": "0.8",
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [
+          {
+            "name": "tip_direction",
+            "value": "pointing down",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "identity_markers": [
+          {
+            "name": "motif",
+            "value": "eye with multiple beads",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "other": []
+      }
+    },
+    {
+      "object_id": "object_10",
+      "category": "open vocabulary",
+      "summary": "Nail with brown base, black and white swirls, white vertical line near cuticle, and two eyes at the bottom.",
+      "uncertainties": [],
+      "confidence": 0.86,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "elongated almond",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "brown",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "black and white",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "material": [
+          {
+            "name": "surface_finish",
+            "value": "glossy",
+            "confidence": "0.8",
+            "source": "visible"
+          }
+        ],
+        "surface": [],
+        "components": [
+          {
+            "name": "line",
+            "value": "white vertical",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "eyes",
+            "value": "two with black pupils",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "line_position",
+            "value": "near cuticle",
+            "confidence": "0.9",
+            "source": "visible"
+          },
+          {
+            "name": "eye_position",
+            "value": "bottom half",
+            "confidence": "0.8",
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [
+          {
+            "name": "tip_direction",
+            "value": "pointing down",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "identity_markers": [
+          {
+            "name": "motif",
+            "value": "two eyes with vertical line",
+            "confidence": "0.9",
+            "source": "visible"
+          }
+        ],
+        "other": []
+      }
+    }
+  ],
+  "task_ids": [
+    "20260819_051804_888905_8cf63114-cef0-4489-b983-de739a9092d9",
+    "20260819_052001_129297_25a54dca-3a38-4901-b1f0-42e7f019be94"
+  ],
+  "validation": {
+    "expected_ids": [
+      "object_1",
+      "object_2",
+      "object_3",
+      "object_4",
+      "object_5",
+      "object_6",
+      "object_7",
+      "object_8",
+      "object_9",
+      "object_10"
+    ],
+    "actual_ids": [
+      "object_1",
+      "object_2",
+      "object_3",
+      "object_4",
+      "object_5",
+      "object_6",
+      "object_7",
+      "object_8",
+      "object_9",
+      "object_10"
+    ],
+    "complete": true
+  }
+}

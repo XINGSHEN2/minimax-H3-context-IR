@@ -1,0 +1,9 @@
+{
+  "assets": [
+    {
+      "asset_id": "video_1",
+      "media_type": "video",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/case_006/videos/reference_video.mp4"
+    }
+  ]
+}

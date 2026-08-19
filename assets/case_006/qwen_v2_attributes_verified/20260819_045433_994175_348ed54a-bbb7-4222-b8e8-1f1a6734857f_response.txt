@@ -1,0 +1,208 @@
+{
+  "items": [
+    {
+      "object_id": "object_1",
+      "category": "open vocabulary",
+      "summary": "A stiletto-shaped nail with a dark base, white abstract swirls, and scattered clear and white beads. The design is asymmetrical with a prominent vertical white line and clustered beads near the tip.",
+      "attributes": {
+        "geometry": [
+          {"name": "shape", "value": "stiletto", "confidence": 0.95, "source": "visible"}
+        ],
+        "color": [
+          {"name": "base_color", "value": "dark brown/black", "confidence": 0.9, "source": "visible"},
+          {"name": "accent_color", "value": "white", "confidence": 0.95, "source": "visible"}
+        ],
+        "material": [
+          {"name": "base_material", "value": "gel or acrylic", "confidence": 0.8, "source": "inferred"},
+          {"name": "decorative_elements", "value": "beads, paint", "confidence": 0.9, "source": "visible"}
+        ],
+        "surface": [
+          {"name": "finish", "value": "glossy", "confidence": 0.9, "source": "visible"}
+        ],
+        "components": [
+          {"name": "beads", "value": "clear and white, various sizes", "confidence": 0.95, "source": "visible"},
+          {"name": "paint", "value": "white abstract lines", "confidence": 0.95, "source": "visible"}
+        ],
+        "component_layout": [
+          {"name": "bead_distribution", "value": "clustered near tip and along sides", "confidence": 0.9, "source": "visible"},
+          {"name": "paint_pattern", "value": "asymmetrical vertical swirls", "confidence": 0.9, "source": "visible"}
+        ],
+        "orientation_cues": [
+          {"name": "tip_direction", "value": "pointing upward", "confidence": 0.95, "source": "visible"}
+        ],
+        "identity_markers": [
+          {"name": "distinctive_pattern", "value": "vertical white line with bead clusters", "confidence": 0.95, "source": "visible"}
+        ],
+        "other": []
+      },
+      "uncertainties": [],
+      "confidence": 0.95
+    },
+    {
+      "object_id": "object_2",
+      "category": "open vocabulary",
+      "summary": "A stiletto-shaped nail with a dark base, a large realistic eye at the center, white and gold swirls, and a large pearl at the tip. The eye has a brown iris and black pupil.",
+      "attributes": {
+        "geometry": [
+          {"name": "shape", "value": "stiletto", "confidence": 0.95, "source": "visible"}
+        ],
+        "color": [
+          {"name": "base_color", "value": "dark brown/black", "confidence": 0.9, "source": "visible"},
+          {"name": "accent_color", "value": "white, gold, brown", "confidence": 0.95, "source": "visible"}
+        ],
+        "material": [
+          {"name": "base_material", "value": "gel or acrylic", "confidence": 0.8, "source": "inferred"},
+          {"name": "decorative_elements", "value": "eye decal, beads, paint", "confidence": 0.9, "source": "visible"}
+        ],
+        "surface": [
+          {"name": "finish", "value": "glossy", "confidence": 0.9, "source": "visible"}
+        ],
+        "components": [
+          {"name": "eye_decal", "value": "realistic brown eye", "confidence": 0.95, "source": "visible"},
+          {"name": "beads", "value": "large pearl at tip, smaller clear beads", "confidence": 0.95, "source": "visible"},
+          {"name": "paint", "value": "white and gold swirls", "confidence": 0.95, "source": "visible"}
+        ],
+        "component_layout": [
+          {"name": "eye_position", "value": "centered", "confidence": 0.95, "source": "visible"},
+          {"name": "pearl_position", "value": "at tip", "confidence": 0.95, "source": "visible"}
+        ],
+        "orientation_cues": [
+          {"name": "tip_direction", "value": "pointing upward", "confidence": 0.95, "source": "visible"}
+        ],
+        "identity_markers": [
+          {"name": "central_eye", "value": "realistic brown eye with black pupil", "confidence": 0.95, "source": "visible"},
+          {"name": "tip_pearl", "value": "large pearl at tip", "confidence": 0.95, "source": "visible"}
+        ],
+        "other": []
+      },
+      "uncertainties": [],
+      "confidence": 0.95
+    },
+    {
+      "object_id": "object_3",
+      "category": "open vocabulary",
+      "summary": "A stiletto-shaped nail with a dark base, white abstract swirls, and scattered clear and white beads. The design is more concentrated near the tip with a small white dot near the cuticle.",
+      "attributes": {
+        "geometry": [
+          {"name": "shape", "value": "stiletto", "confidence": 0.95, "source": "visible"}
+        ],
+        "color": [
+          {"name": "base_color", "value": "dark brown/black", "confidence": 0.9, "source": "visible"},
+          {"name": "accent_color", "value": "white", "confidence": 0.95, "source": "visible"}
+        ],
+        "material": [
+          {"name": "base_material", "value": "gel or acrylic", "confidence": 0.8, "source": "inferred"},
+          {"name": "decorative_elements", "value": "beads, paint", "confidence": 0.9, "source": "visible"}
+        ],
+        "surface": [
+          {"name": "finish", "value": "glossy", "confidence": 0.9, "source": "visible"}
+        ],
+        "components": [
+          {"name": "beads", "value": "clear and white, various sizes", "confidence": 0.95, "source": "visible"},
+          {"name": "paint", "value": "white abstract lines", "confidence": 0.95, "source": "visible"}
+        ],
+        "component_layout": [
+          {"name": "bead_distribution", "value": "clustered near tip", "confidence": 0.9, "source": "visible"},
+          {"name": "paint_pattern", "value": "asymmetrical swirls", "confidence": 0.9, "source": "visible"},
+          {"name": "dot", "value": "small white dot near cuticle", "confidence": 0.9, "source": "visible"}
+        ],
+        "orientation_cues": [
+          {"name": "tip_direction", "value": "pointing upward", "confidence": 0.95, "source": "visible"}
+        ],
+        "identity_markers": [
+          {"name": "small_white_dot", "value": "near cuticle", "confidence": 0.9, "source": "visible"}
+        ],
+        "other": []
+      },
+      "uncertainties": [],
+      "confidence": 0.95
+    },
+    {
+      "object_id": "object_4",
+      "category": "open vocabulary",
+      "summary": "A stiletto-shaped nail with a dark base, a large realistic eye at the center, white and gold swirls, and a large pearl at the tip. The eye has a brown iris and black pupil, similar to object_2 but with a slightly different swirl pattern.",
+      "attributes": {
+        "geometry": [
+          {"name": "shape", "value": "stiletto", "confidence": 0.95, "source": "visible"}
+        ],
+        "color": [
+          {"name": "base_color", "value": "dark brown/black", "confidence": 0.9, "source": "visible"},
+          {"name": "accent_color", "value": "white, gold, brown", "confidence": 0.95, "source": "visible"}
+        ],
+        "material": [
+          {"name": "base_material", "value": "gel or acrylic", "confidence": 0.8, "source": "inferred"},
+          {"name": "decorative_elements", "value": "eye decal, beads, paint", "confidence": 0.9, "source": "visible"}
+        ],
+        "surface": [
+          {"name": "finish", "value": "glossy", "confidence": 0.9, "source": "visible"}
+        ],
+        "components": [
+          {"name": "eye_decal", "value": "realistic brown eye", "confidence": 0.95, "source": "visible"},
+          {"name": "beads", "value": "large pearl at tip, smaller clear beads", "confidence": 0.95, "source": "visible"},
+          {"name "paint", "value": "white and gold swirls", "confidence": 0.95, "source": "visible"}
+        ],
+        "component_layout": [
+          {"name "eye_position", "value": "centered", "confidence": 0.95, "source": "visible"},
+          {"name "pearl_position", "value": "at tip", "confidence": 0.95, "source": "visible"}
+        ],
+        "orientation_cues": [
+          {"name "tip_direction", "value": "pointing upward", "confidence": 0.95, "source": "visible"}
+        ],
+        "identity_markers": [
+          {"name "central_eye", "value": "realistic brown eye with black pupil", "confidence": 0.95, "source": "visible"},
+          {"name "tip_pearl", "value": "large pearl at tip", "confidence": 0.95, "source": "visible"}
+        ],
+        "other": []
+      },
+      "uncertainties": [],
+      "confidence": 0.95
+    },
+    {
+      "object_id": "object_5",
+      "category": "open vocabulary",
+      "summary": "A stiletto-shaped nail with a dark base, white abstract swirls, and scattered clear and white beads. The design is asymmetrical with a prominent vertical white line and clustered beads near the tip.",
+      "attributes": {
+        "geometry": [
+          {"name": "shape", "value": "stiletto", "confidence": 0.95, "source": "visible"}
+        ],
+        "color": [
+          {"name "base_color", "value": "dark brown/black", "confidence": 0.9, "source": "visible"},
+          {"name "accent_color", "value": "white", "confidence": 0.95, "source": "visible"}
+        ],
+        "material": [
+          {"name "base_material", "value": "gel or acrylic", "confidence": 0.8, "source": "inferred"},
+          {"name "decorative_elements", "value": "beads, paint", "confidence": 0.9, "source": "visible"}
+        ],
+        "surface": [
+          {"name "finish", "value": "glossy", "confidence": 0.9, "source": "visible"}
+        ],
+        "components": [
+          {"name "beads", "value": "clear and white, various sizes", "confidence": 0.95, "source": "visible"},
+          {"name "paint",value": "white abstract lines", "confidence": 0.95, "source": "visible"}
+        ],
+        "component_layout": [
+          {"name "bead_distribution", "value": "clustered near tip and along sides", "confidence": 0.9, "source": "visible"},
+          {"name "paint_pattern", "value": "asymmetrical vertical swirls", "confidence": 0.9, "source": "visible"}
+        ],
+        "orientation_cues": [
+          {"name "tip_direction", "value": "pointing upward", "confidence": 0.95, "source": "visible"}
+        ],
+        "identity_markers": [
+          {"name "distinctive_pattern", "value": "vertical white line with bead clusters", "confidence": 0.95, "source": "visible"}
+        ],
+        "other": []
+      },
+      "uncertainties": [],
+      "confidence": 0.95
+    },
+    {
+      "object_id": "object_6",
+      "category": "open vocabulary",
+      "summary": "A stiletto-shaped nail with a dark base, white abstract swirls, and scattered clear and white beads. The design is asymmetrical with a prominent vertical white line and clustered beads near the tip.",
+      "attributes": {
+        "geometry": [
+          {"name "shape", "value": "stiletto", "confidence": 0.95, "source": "visible"}
+        ],
+        "color": [
+          {"name "base_color", "value": "dark brown/black", "confidence": 0.9, "source": "visible"},
+          {"name "accent_color", "

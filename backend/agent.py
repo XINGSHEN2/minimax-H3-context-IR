@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Codex SDK + GLM Context-IR agent runner."""
+"""Codex SDK Context-IR agent runner with switchable reasoning providers."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ import socket
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 from urllib.parse import urlparse
 
 from backend.context_ir import (
@@ -39,11 +39,36 @@ OFFICIAL_SKILLS = {
 }
 
 
-def build_config(provider_id: str, base_url: str) -> dict[str, Any]:
+def reasoning_provider_config() -> dict[str, str]:
+    selected = os.environ.get("CONTEXT_IR_LLM_PROVIDER", "glm").strip().lower()
+    if selected == "glm":
+        return {
+            "selection": "glm",
+            "name": "GLM",
+            "provider_id": os.environ.get("GLM_PROVIDER_ID", "glm"),
+            "model": os.environ.get("GLM_MODEL", "GLM-5.2"),
+            "base_url": os.environ.get("GLM_RESPONSES_BASE_URL", "http://127.0.0.1:38041/v1"),
+            "api_key_env": "OPENAI_API_KEY",
+            "http_host_env": "GLM_HTTP_HOST",
+        }
+    if selected == "deepseek":
+        return {
+            "selection": "deepseek",
+            "name": "DeepSeek",
+            "provider_id": os.environ.get("DEEPSEEK_PROVIDER_ID", "deepseek"),
+            "model": os.environ.get("DEEPSEEK_MODEL", "deepseek-v4-flash"),
+            "base_url": os.environ.get("DEEPSEEK_RESPONSES_BASE_URL", "https://api.deepseek.com"),
+            "api_key_env": "DEEPSEEK_API_KEY",
+            "http_host_env": "",
+        }
+    raise ValueError("CONTEXT_IR_LLM_PROVIDER must be 'glm' or 'deepseek'")
+
+
+def build_config(reasoning: dict[str, str]) -> dict[str, Any]:
     provider: dict[str, Any] = {
-        "name": "GLM",
-        "base_url": base_url,
-        "env_key": "OPENAI_API_KEY",
+        "name": reasoning["name"],
+        "base_url": reasoning["base_url"],
+        "env_key": reasoning["api_key_env"],
         "wire_api": "responses",
         "requires_openai_auth": False,
         "supports_websockets": False,
@@ -51,53 +76,46 @@ def build_config(provider_id: str, base_url: str) -> dict[str, Any]:
         "stream_max_retries": 1,
         "stream_idle_timeout_ms": 180_000,
     }
-    if os.environ.get("GLM_HTTP_HOST"):
-        provider["env_http_headers"] = {"Host": "GLM_HTTP_HOST"}
+    http_host_env = reasoning.get("http_host_env", "")
+    if http_host_env and os.environ.get(http_host_env):
+        provider["env_http_headers"] = {"Host": http_host_env}
     return {
         "model_reasoning_effort": "low",
         "model_context_window": 120_000,
         "model_auto_compact_token_limit": 90_000,
         "tool_output_token_limit": 12_000,
         "include_apps_instructions": False,
-        "features": {
-            "apps": False,
-            "plugins": False,
-            "remote_plugin": False,
-            "plugin_sharing": False,
-        },
-        "model_providers": {provider_id: provider},
+        "features": {"apps": False},
+        "model_providers": {reasoning["provider_id"]: provider},
     }
 
 
-def preflight_glm(base_url: str, timeout: float = 3.0) -> dict[str, Any]:
+def preflight_reasoning_provider(reasoning: dict[str, str], timeout: float = 3.0) -> dict[str, Any]:
+    base_url = reasoning["base_url"]
     parsed = urlparse(base_url)
     if parsed.scheme not in {"http", "https"} or not parsed.hostname:
-        raise ValueError(f"invalid GLM_RESPONSES_BASE_URL: {base_url}")
+        raise ValueError(f"invalid {reasoning['name']} Responses base URL: {base_url}")
     port = parsed.port or (443 if parsed.scheme == "https" else 80)
     try:
         with socket.create_connection((parsed.hostname, port), timeout=timeout):
             pass
     except OSError as exc:
         raise RuntimeError(
-            f"GLM Responses gateway is unreachable at {parsed.hostname}:{port}: {exc}"
+            f"{reasoning['name']} Responses API is unreachable at {parsed.hostname}:{port}: {exc}"
         ) from exc
-    return {"passed": True, "base_url": base_url, "host": parsed.hostname, "port": port}
+    return {"passed": True, "selection": reasoning["selection"], "provider_id": reasoning["provider_id"], "model": reasoning["model"], "base_url": base_url, "host": parsed.hostname, "port": port}
 
 
 def perception_config(source: dict[str, Any]) -> PerceptionProviderConfig:
     supplied = source.get("perception_provider") or {}
     options = dict(supplied.get("options") or {})
-    options.setdefault("base_url", os.environ.get("YIWU_VLM_BASE_URL", "http://127.0.0.1:9012"))
+    options.setdefault("base_url", os.environ.get("YIWU_VLM_BASE_URL", "https://ai.gitee.com/v1"))
     options.setdefault("api_key_env", os.environ.get("YIWU_VLM_API_KEY_ENV", "GITEE_AI_API_KEY"))
-    options.setdefault("video_frame_count", int(os.environ.get("CONTEXT_IR_VIDEO_FRAME_COUNT", "6")))
-    options.setdefault("video_fps", float(os.environ.get("CONTEXT_IR_VIDEO_FPS", "2")))
-    options.setdefault("video_max_frames", int(os.environ.get("CONTEXT_IR_VIDEO_MAX_FRAMES", "256")))
-    options.setdefault("poll_interval_seconds", float(os.environ.get("CONTEXT_IR_VLM_POLL_INTERVAL", "1")))
-    options.setdefault("timeout_seconds", float(os.environ.get("CONTEXT_IR_VLM_TIMEOUT_SECONDS", "1800")))
-    options.setdefault("output_dir", os.environ.get("CONTEXT_IR_VLM_OUTPUT_DIR", str(ROOT / "outputs" / "qwen3-vl-32b")))
+    options.setdefault("video_frame_count", int(os.environ.get("CONTEXT_IR_VIDEO_FRAME_COUNT", "0")))
+    options.setdefault("max_tokens", int(os.environ.get("CONTEXT_IR_VLM_MAX_TOKENS", "3000")))
     return PerceptionProviderConfig(
-        provider=str(supplied.get("provider") or os.environ.get("CONTEXT_IR_VLM_PROVIDER", "local-qwen3-vl-32b")),
-        model=str(supplied.get("model") or os.environ.get("YIWU_VLM_MODEL", "Qwen3-VL-32B-Instruct")),
+        provider=str(supplied.get("provider") or os.environ.get("CONTEXT_IR_VLM_PROVIDER", "gitee-qwen3-vl")),
+        model=str(supplied.get("model") or os.environ.get("YIWU_VLM_MODEL", "Qwen3-VL-30B-A3B-Instruct")),
         options=options,
     )
 
@@ -114,14 +132,16 @@ def ensure_perception(source: dict[str, Any]) -> dict[str, Any]:
 
 def schema_template(source: dict[str, Any]) -> dict[str, Any]:
     task = source.get("task", {})
+    reasoning = reasoning_provider_config()
     return {
         "schema_version": "0.1.0",
         "runtime": {
-            "perception_provider": source.get("perception", {}).get("provider", {"name": "local-qwen3-vl-32b", "model": "Qwen3-VL-32B-Instruct", "options": {}}),
-            "reasoning_provider": {"provider": "glm", "model": os.environ.get("GLM_MODEL", "GLM-5.2")},
+            "perception_provider": source.get("perception", {}).get("provider", {"name": "gitee-qwen3-vl", "model": "Qwen3-VL-30B-A3B-Instruct", "options": {}}),
+            "reasoning_provider": {"provider": reasoning["selection"], "model": reasoning["model"]},
             "generation_provider": {"provider": "minimax", "model": "MiniMax-H3"},
         },
-        "intent": {"user_request": source.get("user_request", ""), "resolved_request": "", "assumptions": [], "uncertainties": []},
+        "intent": {"user_request": source.get("user_request", ""), "resolved_request": "", "explicit_requirements": [], "inferred_outcome": "", "completion_defaults": [], "unsupported_inferences": [], "assumptions": [], "uncertainties": []},
+        "protocol": {"rewrite_language": "English", "preserve_source_language_for": ["dialogue", "lyrics", "visible scene text"], "summary_task_types": ["reference generation"]},
         "task": {
             "type": task.get("type", "ref2va"),
             "duration_seconds": task.get("duration_seconds", 15),
@@ -132,9 +152,23 @@ def schema_template(source: dict[str, Any]) -> dict[str, Any]:
         "assets": source.get("assets", []),
         "perception": source.get("perception"),
         "asset_bindings": [{"binding_id": "b_example", "asset_id": "asset_id", "target": "semantic target", "role": "identity|outfit|product|motion|voice|music|rhythm|camera|scene|style|first_frame|last_frame", "priority": "hard|soft", "inherit": ["controlled attribute"], "exclude": ["uncontrolled attribute"]}],
+        "subjects": [{"subject_id": "subject_1", "name": "stable identifiable entity", "kind": "person|product|animal|object|environment|other", "primary": True, "description": "stable visible identity and appearance", "source_asset_ids": ["asset_id"], "binding_ids": ["b_example"], "appearance_shot_ids": ["01"], "retention_mode": "fully_preserved|partially_preserved|attribute_transfer|weak_reference", "retention_description": "what remains or transfers"}],
+        "reference_relationships": [{"asset_id": "asset_id", "relationship": "source_video_edit|reference_generation|keyframe_completion|video_continuation|audio_reuse|audio_reference", "subject_refs": ["subject_1"], "definition": "a noun phrase describing the exact role of this Picture, Video, or Audio reference; do not begin with 'is'", "retention_mode": "fully_preserved|partially_preserved|attribute_transfer|weak_reference|fully_copy|partially_copy|reference", "retention_description": "how this reference is used in the target video"}],
+        "decision_plan": {
+            "intent_hierarchy": {
+                "explicit_goal": "what the user directly requests",
+                "intended_outcome": "the finished-video outcome implied by the whole request",
+                "execution_means": ["references or production methods that support the outcome"],
+                "non_authorized_inferences": ["identity-bearing, textual, audio, scene, or product facts that must not be invented"],
+            },
+            "asset_authority": [{"asset_id": "asset_id", "authority": "edit_base|authoritative_content|scoped_reference", "controlled_dimensions": ["attributes this asset decides"], "secondary_dimensions": ["attributes that may guide execution but cannot override harder sources"]}],
+            "attribute_decisions": [{"asset_id": "asset_id", "attribute": "one atomic property", "decision": "cite|transfer|discard", "target_subject_id": "subject_1 or empty", "priority": "hard|soft", "evidence_basis": "visible|inferred|user_instruction|asset_role", "rationale": "why this attribute is retained, transferred, or rejected"}],
+            "attention_budget": [{"subject_id": "subject_1", "weight": 1.0, "role": "primary|supporting|background", "requirements": ["concrete screen-time, framing, visibility, or continuity requirement"]}],
+        },
+        "creative_focus": {"primary_target": "the subject or outcome that must dominate the finished video", "primary_subject_id": "subject_1", "primary_asset_id": "asset_id or empty for T2VA", "primary_binding_ids": ["b_example"], "objective": "the final visible outcome that matters most", "supporting_asset_ids": [], "required_shot_ids": ["01"], "presentation_requirements": ["an executable visibility, framing, material, or continuity requirement"]},
         "isolation_rules": [{"binding_id": "b_example", "allow": ["controlled attribute"], "block": ["uncontrolled attribute"]}],
         "constraints": {"preserve": [], "allow_change": [], "prohibit": []},
-        "timeline": [{"shot_id": "01", "start_seconds": 0, "end_seconds": task.get("duration_seconds", 15), "event": "one executable visible event", "action": "", "camera": "", "lighting": "", "transition": "", "asset_refs": [], "binding_refs": []}],
+        "timeline": [{"shot_id": "01", "start_seconds": 0, "end_seconds": task.get("duration_seconds", 15), "purpose": "what new visual or commercial information this beat delivers", "focus_level": "hero|primary|supporting|background", "event": "one executable visible event", "action": "", "camera": "", "lighting": "", "transition": "", "subject_refs": ["subject_1"], "asset_refs": [], "binding_refs": [], "reference_transfer": ["the selected source dimensions used in this beat"]}],
         "audio_plan": {"voice": "", "music": "", "sound_effects": "", "ambient_sound": "", "sync_rules": []},
         "generation_description": {"cinematography": "", "lighting": "", "materials": "", "performance": "", "continuity": ""},
     }
@@ -148,17 +182,51 @@ Skill semantics. {f'Use {style_skill} only as a creative planning reference; do 
 
 The selected Skill content is already supplied to this turn through SkillInput.
 Do not inspect the filesystem, run shell commands, access Git, browse the web, or
-call any tool. Compile the JSON directly from the supplied Skill and Input.
+call any tool. Reason from the supplied Skill, request, manifest, and perception.
 
-Rules:
-- The active GLM is text-only. Never claim to see or hear the raw asset URI.
-- Treat only media_analysis.v1 observations as perception evidence.
+Semantic decision policy:
+- The active reasoning model is text-only. Never claim to see or hear the raw asset URI.
+- Treat only media_analysis.v2 evidence as perception evidence. Use field-level
+  source and confidence: visible high-confidence evidence may support hard
+  bindings; inferred evidence may only support a recorded assumption; unresolved
+  evidence must never be silently promoted to fact.
+- Entity attributes, relations, events, and state transitions are evidence, not
+  user intent. Decide preservation, replacement, scope, and priority here.
 - Perception describes facts; this turn decides asset roles and conflicts.
+- Work in this mandatory internal order and record the result in decision_plan before writing the rest of the IR: (1) resolve the intent hierarchy, (2) classify every asset's authority, (3) make atomic cite/transfer/discard decisions, (4) allocate attention to stable subjects, (5) write a purpose-led beat sheet in timeline, and only then (6) complete bindings, constraints, generation prose, and audio.
+- Understand the request holistically in its own language. Infer intent from meaning, asset relationships, labels, and perception evidence; never rely on a fixed phrase list or keyword-only matching.
+- Understanding language and rewrite language are separate. Write all generated Context-IR semantic descriptions in English. Preserve the source language only for verbatim dialogue, lyrics, and text visibly present in the requested scene, as required by the official H3 Skill.
+- For every asset, autonomously decide whether it is an edit base, an authoritative content source, or a scoped creative reference. Base the decision on how the user wants the asset used, not merely on media type.
+- Determine each asset's authority and transferable dimensions. Inherit only attributes required by the resolved intent; explicitly exclude unrelated attributes that could contaminate identity, product, outfit, scene, text, logo, dialogue, voice, motion, camera, rhythm, or style.
+- For an edit base, preserve all evidenced existing attributes except those the user requests or necessarily implies should change. For an authoritative content source, bind its controlled attributes as hard constraints. For a scoped reference, transfer only the requested or clearly necessary abstract dimensions.
+- Resolve conflicts by following the user's intended outcome first, then hard identity/product/content sources, then evidenced reference facts, then soft creative references. Never let a soft reference overwrite a hard source.
+- Separate outcome from execution means. A request to copy a reference video's motion, shot structure, camera, or pacing does not make the source performer or setting the creative focus. For product promotion, the authoritative product remains primary unless the user explicitly chooses another outcome.
+- Fill intent.explicit_requirements with direct requirements, intent.inferred_outcome with one conservative holistic outcome, intent.completion_defaults with necessary production choices, and intent.unsupported_inferences with tempting but unauthorized additions. Do not disguise unsupported invention as an assumption.
+- Classify every asset exactly once in decision_plan.asset_authority. An edit_base supplies the existing video state to modify; authoritative_content decides named visible or audible content; scoped_reference supplies only selected abstract dimensions.
+- Create atomic decision_plan.attribute_decisions for every dimension that could materially affect the result. Use cite when the same asset property remains authoritative, transfer when an abstract property is applied to another subject, and discard when a source property must not enter the target. Every conditioned asset needs at least one decision, and every hard binding inheritance needs a matching cite or transfer decision.
+- Evidence basis is not confidence theatre: visible means directly supported by media_analysis, inferred means explicitly marked as inference there, user_instruction means directly requested, and asset_role means a conservative consequence of the assigned role. Never cite unresolved evidence.
+- Independently determine creative prominence. Preservation authority does not determine narrative prominence: an asset may strongly constrain execution while remaining secondary to the subject being created, replaced, demonstrated, or promoted.
+- Build subjects as a stable entity registry. A subject is an identifiable person, product, animal, object, or environment that can recur in shots. Identity, outfit, motion, camera, rhythm, lighting, style, and other attributes are not separate subjects. Assign sequential IDs subject_1, subject_2, and so on in first-appearance order.
+- Build one reference_relationships entry for every conditioned asset. Distinguish a directly edited source video from a video used only for reference generation. Link references to stable subjects without turning camera, motion, wardrobe, or scene attributes into subjects.
+- Set protocol.summary_task_types using only official values: keyframe completion, reference generation, video editing, video continuation, audio reuse, audio reference. If a source video is directly modified, include video editing; if a reference only supplies camera, cuts, rhythm, or style, use reference generation instead.
+- protocol.summary_task_types must cover every relationship in reference_relationships: source_video_edit maps to video editing, reference_generation to reference generation, keyframe_completion to keyframe completion, video_continuation to video continuation, audio_reuse to audio reuse, and audio_reference to audio reference. Do not omit a type merely because another relationship is more important.
+- Fill creative_focus with exactly one primary outcome subject, its authoritative asset, and the binding(s) that control it. State why it is the final visual objective, which assets merely support its execution, the shots where it must be meaningfully presented, and concrete visibility, framing, material, or continuity requirements.
+- Allocate decision_plan.attention_budget across all recurring subjects. Weights must be positive and sum to 1.0; exactly one entry is primary and must match creative_focus.primary_subject_id. Supporting references may receive execution detail without taking visual prominence from the primary subject.
+- Allocate detail according to creative_focus, not according to the number of bindings per asset. Describe a fully preserved reference relationship completely once, then avoid repeating unchanged reference details unless a shot needs them for execution. Spend the remaining detail on how the primary subject is presented.
+- In every creative_focus.required_shot_id, make the primary subject visually meaningful rather than merely present. The shot event or action must explain how it is shown, and the shot must reference the primary binding.
+- Every timeline shot must list stable subject_refs. Every subject appearance_shot_id must agree with the corresponding timeline subject_refs.
+- Complete omitted production details autonomously when a conservative choice is necessary to produce an executable result. Keep the choice consistent with the supplied assets and target format, and do not invent factual claims or identity-bearing content.
+- Record every necessary inference or default in intent.assumptions. Record only material ambiguities in intent.uncertainties; still choose the safest coherent interpretation and produce the best executable result instead of stopping.
+- Put evidenced attributes that must remain unchanged in constraints.preserve. Put only requested changes and necessary production completion in constraints.allow_change. Put forbidden contamination and unsupported additions in constraints.prohibit.
+- Every preserved attribute originating from an asset must be backed by a corresponding hard asset binding. Do not preserve characters from a creative reference unless that character is explicitly requested.
 - Every binding must state inherit and exclude properties and have one isolation rule.
+- asset_bindings[].role must be exactly one of: identity, outfit, product, motion, voice, music, rhythm, camera, scene, style, first_frame, last_frame. Never emit aliases or new role values such as content, text, prop, character, or wardrobe. Bind visible text overlays, props, and other visible scene content under scene; use outfit for wardrobe and identity for character identity.
 - Motion/video references do not inherit performer identity, outfit, or scene unless explicitly requested.
 - Style references do not inherit identity, product geometry, or logo.
 - User instruction has highest priority, then hard identity/product bindings, then confirmed reference facts, then soft style/motion.
 - Timeline starts at 0, has no gaps/overlaps, and ends exactly at the requested duration.
+- Treat timeline as the executable Beat Sheet, not decorative prose. Every shot must have a distinct purpose, focus_level, and reference_transfer list. A cut is justified only when it introduces new information about the primary outcome, space, state, action, viewpoint, or product detail. Do not create one target shot per sampled source frame.
+- At least one required focus shot must use focus_level=hero or primary. For a promoted product, the last meaningful product beat should normally be hero or primary unless the user explicitly requests another ending.
 - Do not add unsupported brand claims, dialogue, logo text, identity facts, or asset content.
 - The final response must be exactly one JSON object. No Markdown fence, commentary, or explanation.
 
@@ -208,7 +276,7 @@ def extract_json(text: str) -> dict[str, Any]:
         decoder = json.JSONDecoder()
         start = stripped.find("{")
         if start < 0:
-            raise ValueError("GLM response did not contain a JSON object")
+            raise ValueError("reasoning-model response did not contain a JSON object")
         value, _ = decoder.raw_decode(stripped[start:])
     if not isinstance(value, dict):
         raise ValueError("GLM response root must be an object")
@@ -223,31 +291,24 @@ def audit_or_raise(ir: dict[str, Any], prompt: str) -> None:
         raise ContextIRError(json.dumps(report.to_dict(), ensure_ascii=False, indent=2))
 
 
-def run_agent(
-    source: dict[str, Any],
-    output_dir: Path,
-    style_skill: str | None,
-    progress_callback: Callable[[str], None] | None = None,
-) -> int:
+def run_agent(source: dict[str, Any], output_dir: Path, style_skill: str | None) -> int:
     from openai_codex import ApprovalMode, Codex, CodexConfig, Sandbox, SkillInput, TextInput
 
-    model = os.environ.get("GLM_MODEL", "GLM-5.2")
-    provider_id = os.environ.get("GLM_PROVIDER_ID", "glm")
-    base_url = os.environ.get("GLM_RESPONSES_BASE_URL", "http://127.0.0.1:38041/v1")
-    if not os.environ.get("OPENAI_API_KEY"):
-        raise RuntimeError("Missing LiteLLM API key environment variable: OPENAI_API_KEY")
-    preflight_glm(base_url)
+    reasoning = reasoning_provider_config()
+    model = reasoning["model"]
+    provider_id = reasoning["provider_id"]
+    base_url = reasoning["base_url"]
+    api_key_env = reasoning["api_key_env"]
+    if not os.environ.get(api_key_env):
+        raise RuntimeError(f"Missing {reasoning['name']} API key environment variable: {api_key_env}")
+    preflight_reasoning_provider(reasoning)
     output_dir.mkdir(parents=True, exist_ok=False)
     (output_dir / "input.json").write_text(json.dumps(source, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    if progress_callback:
-        progress_callback("intent")
     source = ensure_perception(source)
     (output_dir / "media_analysis.json").write_text(
         json.dumps(source.get("perception"), ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
-    if progress_callback:
-        progress_callback("bindings")
 
     skill_names = ["h3-prompt-writing"] + ([style_skill] if style_skill else [])
     skill_inputs = []
@@ -257,26 +318,15 @@ def run_agent(
             raise FileNotFoundError(f"missing official Skill: {path}")
         skill_inputs.append(SkillInput(name=name, path=str(path)))
 
-    codex_home = ROOT / "outputs" / "codex-home"
-    codex_home.mkdir(parents=True, exist_ok=True)
+    agent_env = {api_key_env: os.environ[api_key_env]}
+    http_host_env = reasoning.get("http_host_env", "")
+    if http_host_env and os.environ.get(http_host_env):
+        agent_env[http_host_env] = os.environ[http_host_env]
     config = CodexConfig(
         cwd=str(ROOT),
         client_name="minimax_h3_context_ir",
         client_title="MiniMax-H3 Context-IR",
-        config_overrides=(
-            "features.plugins=false",
-            "features.remote_plugin=false",
-            "features.plugin_sharing=false",
-            "features.apps=false",
-        ),
-        env={
-            "OPENAI_API_KEY": os.environ["OPENAI_API_KEY"],
-            "GLM_HTTP_HOST": os.environ.get("GLM_HTTP_HOST", ""),
-            "CODEX_HOME": str(codex_home),
-            # The deployment image has no CA bundle. Scope the workaround to
-            # the Codex child process so its startup plugin probe cannot hang.
-            "GIT_SSL_NO_VERIFY": "true",
-        },
+        env=agent_env,
     )
     log_path = output_dir / "agent.log"
     with log_path.open("w", encoding="utf-8") as log_file, Codex(config=config) as codex:
@@ -288,20 +338,14 @@ def run_agent(
             model_provider=provider_id,
             approval_mode=ApprovalMode.deny_all,
             sandbox=Sandbox.workspace_write,
-            config=build_config(provider_id, base_url),
+            config=build_config(reasoning),
         )
-        if progress_callback:
-            progress_callback("timeline")
         turn = thread.turn(skill_inputs + [TextInput(build_prompt(source, style_skill))], approval_mode=ApprovalMode.deny_all, sandbox=Sandbox.workspace_write)
         raw = collect_turn(turn, log_file)
     (output_dir / "glm_raw_response.txt").write_text(raw, encoding="utf-8")
-    if progress_callback:
-        progress_callback("isolation")
     ir = compile_context_ir(extract_json(raw))
     context_path = output_dir / "context_ir.json"
     context_path.write_text(json.dumps(ir, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    if progress_callback:
-        progress_callback("prompt")
     prompt = render_h3_prompt(ir)
     audit_or_raise(ir, prompt)
     prompt_path = output_dir / "h3_prompt.txt"
@@ -318,7 +362,7 @@ def run_agent(
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Codex + GLM MiniMax-H3 Context-IR agent")
+    parser = argparse.ArgumentParser(description="Codex MiniMax-H3 Context-IR agent")
     parser.add_argument("input", nargs="?", type=Path)
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--style-skill", choices=sorted(OFFICIAL_SKILLS - {"h3-prompt-writing"}))
@@ -327,17 +371,15 @@ def main() -> int:
     args = parser.parse_args()
     try:
         if args.preflight_only:
-            base_url = os.environ.get("GLM_RESPONSES_BASE_URL", "http://127.0.0.1:38041/v1")
-            result = preflight_glm(base_url)
+            reasoning = reasoning_provider_config()
+            result = preflight_reasoning_provider(reasoning)
             result.update({
-                "model": os.environ.get("GLM_MODEL", "GLM-5.2"),
-                "provider_id": os.environ.get("GLM_PROVIDER_ID", "glm"),
-                "api_key_env": "OPENAI_API_KEY",
-                "api_key_present": bool(os.environ.get("OPENAI_API_KEY")),
-                "http_host": os.environ.get("GLM_HTTP_HOST", ""),
+                "api_key_env": reasoning["api_key_env"],
+                "api_key_present": bool(os.environ.get(reasoning["api_key_env"])),
+                "http_host": os.environ.get(reasoning.get("http_host_env", ""), "") if reasoning.get("http_host_env") else "",
                 "official_skills": len(OFFICIAL_SKILLS),
-                "vlm_provider": os.environ.get("CONTEXT_IR_VLM_PROVIDER", "local-qwen3-vl-32b"),
-                "vlm_model": os.environ.get("YIWU_VLM_MODEL", "Qwen3-VL-32B-Instruct"),
+                "vlm_provider": os.environ.get("CONTEXT_IR_VLM_PROVIDER", "gitee-qwen3-vl"),
+                "vlm_model": os.environ.get("YIWU_VLM_MODEL", "Qwen3-VL-30B-A3B-Instruct"),
                 "vlm_api_key_env": os.environ.get("YIWU_VLM_API_KEY_ENV", "GITEE_AI_API_KEY"),
                 "vlm_api_key_present": bool(os.environ.get(os.environ.get("YIWU_VLM_API_KEY_ENV", "GITEE_AI_API_KEY"))),
             })

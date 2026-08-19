@@ -22,7 +22,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import unquote, urlparse
 
-from backend.agent import preflight_glm, run_agent
+from backend.agent import preflight_reasoning_provider, reasoning_provider_config, run_agent
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -289,20 +289,28 @@ def _service_status() -> dict[str, Any]:
             "label": "Qwen3-VL 已配置" if os.environ.get(key_env) else "Qwen3-VL 密钥未配置",
             "model": vlm_model,
         }
-    glm_url = os.environ.get("GLM_RESPONSES_BASE_URL", "http://127.0.0.1:38041/v1")
-    glm_key_present = bool(os.environ.get("OPENAI_API_KEY"))
+    reasoning = reasoning_provider_config()
+    llm_key_present = bool(os.environ.get(reasoning["api_key_env"]))
     try:
-        preflight_glm(glm_url, timeout=0.4)
-        glm = {
-            "ready": glm_key_present,
-            "label": "GLM-5.2 已配置" if glm_key_present else "GLM-5.2 密钥未配置",
+        preflight_reasoning_provider(reasoning, timeout=0.4)
+        llm = {
+            "ready": llm_key_present,
+            "label": f"{reasoning['model']} 已配置" if llm_key_present else f"{reasoning['model']} 密钥未配置",
+            "provider": reasoning["selection"],
+            "model": reasoning["model"],
         }
     except Exception:
-        glm = {"ready": False, "label": "GLM 推理服务未连接"}
+        llm = {
+            "ready": False,
+            "label": f"{reasoning['name']} 推理服务未连接",
+            "provider": reasoning["selection"],
+            "model": reasoning["model"],
+        }
     return {
-        "ready": vlm["ready"] and glm["ready"],
+        "ready": vlm["ready"] and llm["ready"],
         "vlm": vlm,
-        "glm": glm,
+        "llm": llm,
+        "glm": llm,
     }
 
 

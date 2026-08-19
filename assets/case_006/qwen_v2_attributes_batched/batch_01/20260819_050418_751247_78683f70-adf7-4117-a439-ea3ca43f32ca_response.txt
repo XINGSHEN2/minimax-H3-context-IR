@@ -1,0 +1,115 @@
+{
+  "items": [
+    {
+      "object_id": "object_1",
+      "category": "open vocabulary",
+      "summary": "A close-up of a pointed, dark-colored object with a glossy surface, featuring white swirling patterns and small pearl-like beads. The top has a rounded, translucent cap with a central bead.",
+      "attributes": {
+        "geometry": [
+          {"name": "shape", "value": "elongated, pointed tip", "confidence": 0.9, "source": "visible"},
+          {"name": "form", "value": "three-dimensional, sculpted", "confidence": 0.9, "source": "visible"}
+        ],
+        "color": [
+          {"name": "primary", "value": "dark brown or black", "confidence": 0.9, "source": "visible"},
+          {"name": "accent", "value": "white, off-white", "confidence": 0.9, "source": "visible"},
+          {"name": "highlight", "value": "pearl white", "confidence": 0.8, "source": "visible"}
+        ],
+        "material": [
+          {"name": "base", "value": "glossy resin or polymer", "confidence": 0.8, "source": "inferred"},
+          {"name": "beads", "value": "pearl or imitation pearl", "confidence": 0.8, "source": "visible"}
+        ],
+        "surface": [
+          {"name": "finish", "value": "high-gloss, reflective", "confidence": 0.9, "source": "visible"},
+          {"name": "texture", "value": "smooth with painted or embedded patterns", "confidence": 0.8, "source": "visible"}
+        ],
+        "components": [
+          {"name": "top cap", "value": "rounded, translucent dome with central bead", "confidence": 0.9, "source": "visible"},
+          {"name": "body", "value": "dark base with white swirls and embedded beads", "confidence": 0.9, "source": "visible"},
+          {"name": "beads", "value": "multiple small, round, pearl-like elements", "confidence": 0.9, "source": "visible"}
+        ],
+        "component_layout": [
+          {"name": "arrangement", "value": "beads scattered along body, top cap centered", "confidence": 0.9, "source": "visible"}
+        ],
+        "orientation_cues": [
+          {"name": "tip direction", "value": "pointing downward", "confidence": 0.9, "source": "visible"}
+        ],
+        "identity_markers": [
+          {"name": "pattern", "value": "white swirling lines resembling abstract or organic forms", "confidence": 0.9, "source": "visible"},
+          {"name": "bead placement", "value": "two small beads near tip, one near top", "confidence": 0.9, "source": "visible"}
+        ],
+        "other": []
+      },
+      "uncertainties": [
+        "Exact material composition of base is not verifiable from image alone."
+      ],
+      "confidence": 0.9
+    },
+    {
+      "object_id": "object_2",
+      "category": "open vocabulary",
+      "summary": "A dark, pointed object with a glossy surface, featuring a large, detailed eye-like structure near the top and a gold-rimmed pearl at the tip. White patterns and small beads are present.",
+      "attributes": {
+        "geometry": [
+          {"name": "shape", "value": "elongated, pointed tip", "confidence": 0.9, "source": "visible"},
+          {"name": "form", "value": "three-dimensional, sculpted", "confidence": 0.9, "source": "visible"}
+        ],
+        "color": [
+          {"name": "primary", "value": "dark brown or black", "confidence": 0.9, "source": "visible"},
+          {"name": "accent", "value": "white, gold, brown", "confidence": 0.9, "source": "visible"},
+          {"name": "highlight", "value": "pearl white", "confidence": 0.8, "source": "visible"}
+        ],
+        "material": [
+          {"name": "base", "value": "glossy resin or polymer", "confidence": 0.8, "source": "inferred"},
+          {"name": "beads", "value": "pearl or imitation pearl", "confidence": 0.8, "source": "visible"},
+          {"name": "rim", "value": "metallic gold", "confidence": 0.8, "source": "visible"}
+        ],
+        "surface": [
+          {"name": "finish", "value": "high-gloss, reflective", "confidence": 0.9, "source": "visible"},
+          {"name": "texture", "value": "smooth with painted or embedded patterns", "confidence": 0.8, "source": "visible"}
+        ],
+        "components": [
+          {"name": "eye structure", "value": "large, detailed, brown iris with black pupil", "confidence": 0.9, "source": "visible"},
+          {"name": "tip ornament", "value": "gold-rimmed pearl", "confidence": 0.9, "source": "visible"},
+          {"name": "body", "value": "dark base with white swirls and small beads", "confidence": 0.9, "source": "visible"}
+        ],
+        "component_layout": [
+          {"name": "arrangement", "value": "eye near top, gold-rimmed pearl at tip, beads scattered", "confidence": 0.9, "source": "visible"}
+        ],
+        "orientation_cues": [
+          {"name": "tip direction", "value": "pointing downward", "confidence": 0.9, "source": "visible"}
+        ],
+        "identity_markers": [
+          {"name": "eye motif", "value": "prominent, realistic-looking eye with iris and pupil", "confidence": 0.9, "source": "visible"},
+          {"name": "gold rim", "value": "distinctive gold-colored ring around tip pearl", "confidence": 0.9, "source": "visible"}
+        ],
+        "other": []
+      },
+      "uncertainties": [
+        "Whether the eye is painted or a separate embedded component is unclear."
+      ],
+      "confidence": 0.9
+    },
+    {
+      "object_id": "object_3",
+      "category": "open vocabulary",
+      "summary": "A dark, pointed object with a glossy surface, featuring white swirling patterns and small pearl-like beads. The top has a rounded, translucent cap with a central bead.",
+      "attributes": {
+        "geometry": [
+          {"name": "shape", "value": "elongated, pointed tip", "confidence": 0.9, "source": "visible"},
+          {"name": "form", "value": "three-dimensional, sculpted", "confidence": 0.9, "source": "visible"}
+        ],
+        "color": [
+          {"name": "primary", "value": "dark brown or black", "confidence": 0.9, "source": "visible"},
+          {"name": "accent", "value": "white, off-white", "confidence": 0.9, "source": "visible"},
+          {"name": "highlight", "value": "pearl white", "confidence": 0.8, "source": "visible"}
+        ],
+        "material": [
+          {"name": "base", "value": "glossy resin or polymer", "confidence": 0.8, "source": "inferred"},
+          {"name": "beads", "value": "pearl or imitation pearl", "confidence": 0.8, "source": "visible"}
+        ],
+        "surface": [
+          {"name": "finish", "value": "high-gloss, reflective", "confidence": 0.9, "source": "visible"},
+          {"name": "texture", "value": "smooth with painted or embedded patterns", "confidence": 0.8, "source": "visible"}
+        ],
+        "components": [
+          {"

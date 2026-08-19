@@ -1,0 +1,884 @@
+{
+  "items": [
+    {
+      "object_id": "object_1",
+      "category": "open vocabulary",
+      "summary": "A nail with black and white abstract swirls, small white pearls, and a glossy finish. The design is intricate with flowing patterns and scattered embellishments.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "oval",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "black",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "material": [
+          {
+            "name": "finish",
+            "value": "glossy",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "surface": [
+          {
+            "name": "texture",
+            "value": "smooth",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "components": [
+          {
+            "name": "pearls",
+            "value": "small white",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "pearl_placement",
+            "value": "scattered",
+            "confidence": 0.8,
+            "source": "visible"
+          },
+          {
+            "name": "swirl_pattern",
+            "value": "flowing",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [
+          {
+            "name": "view_angle",
+            "value": "side",
+            "confidence": 0.7,
+            "source": "inferred"
+          }
+        ],
+        "identity_markers": [
+          {
+            "name": "design_motif",
+            "value": "abstract swirls with pearls",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "other": []
+      }
+    },
+    {
+      "object_id": "object_2",
+      "category": "open vocabulary",
+      "summary": "A nail with black and white abstract patterns, a large brown eye-like design, and a gold-rimmed pearl at the tip. The eye has a black pupil and brown iris.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "oval",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "black",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "material": [
+          {
+            "name": "finish",
+            "value": "glossy",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "surface": [
+          {
+            "name": "texture",
+            "value": "smooth",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "components": [
+          {
+            "name": "eye_design",
+            "value": "brown iris with black pupil",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "pearl",
+            "value": "gold-rimmed white",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "eye_position",
+            "value": "centered",
+            "confidence": 0.8,
+            "source": "visible"
+          },
+          {
+            "name": "pearl_position",
+            "value": "tip",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [],
+        "identity_markers": [
+          {
+            "name": "design_motif",
+            "value": "eye with pearl at tip",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "other": []
+      }
+    },
+    {
+      "object_id": "object_3",
+      "category": "open vocabulary",
+      "summary": "A nail with a beige base, black and white abstract swirls, and a small white pearl near the cuticle. The design is minimal compared to others.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "oval",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "beige",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "black and white",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "material": [
+          {
+            "name": "finish",
+            "value": "glossy",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "surface": [
+          {
+            "name": "texture",
+            "value": "smooth",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "components": [
+          {
+            "name": "pearl",
+            "value": "small white",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "pearl_position",
+            "value": "near cuticle",
+            "confidence": 0.8,
+            "source": "visible"
+          },
+          {
+            "name": "swirl_pattern",
+            "value": "minimal",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [
+          {
+            "name": "view_angle",
+            "value": "side",
+            "confidence": 0.7,
+            "source": "inferred"
+          }
+        ],
+        "identity_markers": [
+          {
+            "name": "design_motif",
+            "value": "beige base with minimal swirls and pearl",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "other": []
+      }
+    },
+    {
+      "object_id": "object_4",
+      "category": "open vocabulary",
+      "summary": "A nail with black and white abstract patterns, a large brown eye-like design, and a small white pearl near the tip. The eye has a black pupil and brown iris.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "oval",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "black",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "material": [
+          {
+            "name": "finish",
+            "value": "glossy",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "surface": [
+          {
+            "name": "texture",
+            "value": "smooth",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "components": [
+          {
+            "name": "eye_design",
+            "value": "brown iris with black pupil",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "pearl",
+            "value": "small white",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "eye_position",
+            "value": "centered",
+            "confidence": 0.8,
+            "source": "visible"
+          },
+          {
+            "name": "pearl_position",
+            "value": "near tip",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [],
+        "identity_markers": [
+          {
+            "name": "design_motif",
+            "value": "eye with pearl near tip",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "other": []
+      }
+    },
+    {
+      "object_id": "object_5",
+      "category": "open vocabulary",
+      "summary": "A nail with black and white abstract swirls, a large brown eye-like design, and a small white pearl near the tip. The eye has a black pupil and brown iris.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "oval",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "black",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "material": [
+          {
+            "name": "finish",
+            "value": "glossy",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "surface": [
+          {
+            "name": "texture",
+            "value": "smooth",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "components": [
+          {
+            "name": "eye_design",
+            "value": "brown iris with black pupil",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "pearl",
+            "value": "small white",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "eye_position",
+            "value": "centered",
+            "confidence": 0.8,
+            "source": "visible"
+          },
+          {
+            "name": "pearl_position",
+            "value": "near tip",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [],
+        "identity_markers": [
+          {
+            "name": "design_motif",
+            "value": "eye with pearl near tip",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "other": []
+      }
+    },
+    {
+      "object_id": "object_6",
+      "category": "open vocabulary",
+      "summary": "Stiletto nail with brown base, black and white swirls, silver beads, and a white '0' near the cuticle.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "stiletto",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "brown",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "black",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "material": [
+          {
+            "name": "surface_material",
+            "value": "glossy",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "surface": [],
+        "components": [
+          {
+            "name": "beads",
+            "value": "silver",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "bead_placement",
+            "value": "scattered",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [
+          {
+            "name": "tip_direction",
+            "value": "pointed",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "identity_markers": [
+          {
+            "name": "symbol",
+            "value": "0",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "other": [
+          {
+            "name": "design_theme",
+            "value": "abstract",
+            "confidence": 0.7,
+            "source": "inferred"
+          }
+        ]
+      }
+    },
+    {
+      "object_id": "object_7",
+      "category": "open vocabulary",
+      "summary": "Stiletto nail with black base, large golden eye design, white swirls, and silver beads around the eye.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "stiletto",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "black",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "gold",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "material": [],
+        "surface": [],
+        "components": [
+          {
+            "name": "eye_design",
+            "value": "golden",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "beads",
+            "value": "silver",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "eye_position",
+            "value": "center",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "bead_placement",
+            "value": "around_eye",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [
+          {
+            "name": "tip_direction",
+            "value": "pointed",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "identity_markers": [
+          {
+            "name": "motif",
+            "value": "eye",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "other": []
+      }
+    },
+    {
+      "object_id": "object_8",
+      "category": "open vocabulary",
+      "summary": "Stiletto nail with brown base, black and white swirls, gold-rimmed bead, and white swirls near the tip.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "stiletto",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "brown",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "black",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "material": [],
+        "surface": [],
+        "components": [
+          {
+            "name": "bead",
+            "value": "gold-rimmed",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "bead_placement",
+            "value": "near_cuticle",
+            "confidence": 0.8,
+            "source": "visible"
+          },
+          {
+            "name": "swirl_placement",
+            "value": "tip_area",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [
+          {
+            "name": "tip_direction",
+            "value": "pointed",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "identity_markers": [
+          {
+            "name": "pattern",
+            "value": "swirls",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "other": [
+          {
+            "name": "design_theme",
+            "value": "organic",
+            "confidence": 0.7,
+            "source": "inferred"
+          }
+        ]
+      }
+    },
+    {
+      "object_id": "object_9",
+      "category": "open vocabulary",
+      "summary": "Stiletto nail with black base, large golden eye, white swirls, multiple silver beads, and gold accents.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "stiletto",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "black",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "gold",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "material": [],
+        "surface": [],
+        "components": [
+          {
+            "name": "eye_design",
+            "value": "golden",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "beads",
+            "value": "silver",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accents",
+            "value": "gold",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "eye_position",
+            "value": "center",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "bead_placement",
+            "value": "clustered",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [],
+        "identity_markers": [
+          {
+            "name": "motif",
+            "value": "eye",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "other": []
+      }
+    },
+    {
+      "object_id": "object_10",
+      "category": "open vocabulary",
+      "summary": "Stiletto nail with brown base, black and white swirls, white vertical stripe, and a small eye near the tip.",
+      "uncertainties": [],
+      "confidence": 0.9,
+      "attributes": {
+        "geometry": [
+          {
+            "name": "shape",
+            "value": "stiletto",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "color": [
+          {
+            "name": "base_color",
+            "value": "brown",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "black",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "accent_color",
+            "value": "white",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "material": [],
+        "surface": [],
+        "components": [
+          {
+            "name": "stripe",
+            "value": "vertical_white",
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "name": "eye_design",
+            "value": "small",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "component_layout": [
+          {
+            "name": "stripe_position",
+            "value": "center",
+            "confidence": 0.8,
+            "source": "visible"
+          },
+          {
+            "name": "eye_position",
+            "value": "near_tip",
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "orientation_cues": [
+          {
+            "name": "tip_direction",
+            "value": "pointed",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "identity_markers": [
+          {
+            "name": "pattern",
+            "value": "swirls",
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "other": []
+      }
+    }
+  ],
+  "task_ids": [
+    "20260819_052328_584031_cfd5d354-ae69-42db-b0ca-9fb72d7f4d1f",
+    "20260819_052524_817605_2ecbbed7-9583-4bda-bac6-0541faac9bf0"
+  ],
+  "validation": {
+    "expected_ids": [
+      "object_1",
+      "object_2",
+      "object_3",
+      "object_4",
+      "object_5",
+      "object_6",
+      "object_7",
+      "object_8",
+      "object_9",
+      "object_10"
+    ],
+    "actual_ids": [
+      "object_1",
+      "object_2",
+      "object_3",
+      "object_4",
+      "object_5",
+      "object_6",
+      "object_7",
+      "object_8",
+      "object_9",
+      "object_10"
+    ],
+    "complete": true
+  }
+}
