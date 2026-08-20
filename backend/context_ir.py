@@ -644,6 +644,57 @@ def normalize_reference_isolation(payload: dict[str, Any]) -> dict[str, Any]:
     return payload
 
 
+def normalize_subject_source_bindings(payload: dict[str, Any]) -> dict[str, Any]:
+    """Keep subject sources only when a compatible appearance binding supports them."""
+    compatible_roles = {
+        "person": {"identity", "outfit"},
+        "product": {"product"},
+        "environment": {"scene"},
+        "animal": {"identity", "outfit"},
+        "object": {"product", "scene"},
+        "other": APPEARANCE_BINDING_ROLES,
+    }
+    bindings = {
+        str(item.get("binding_id", "")): item
+        for item in payload.get("asset_bindings", [])
+        if isinstance(item, Mapping) and str(item.get("binding_id", "")).strip()
+    }
+    by_asset: dict[str, list[Mapping[str, Any]]] = {}
+    for binding in bindings.values():
+        if binding.get("role") in APPEARANCE_BINDING_ROLES:
+            by_asset.setdefault(str(binding.get("asset_id", "")), []).append(binding)
+    for subject in payload.get("subjects", []):
+        if not isinstance(subject, dict):
+            continue
+        subject_kind = str(subject.get("kind", "other"))
+        allowed_roles = compatible_roles.get(subject_kind, APPEARANCE_BINDING_ROLES)
+        binding_ids = [value for value in _strings(subject.get("binding_ids")) if value in bindings]
+        retained_sources: list[str] = []
+        for asset_id in _strings(subject.get("source_asset_ids")):
+            attached = [
+                bindings[binding_id]
+                for binding_id in binding_ids
+                if bindings[binding_id].get("asset_id") == asset_id
+                and bindings[binding_id].get("role") in allowed_roles
+            ]
+            if attached:
+                retained_sources.append(asset_id)
+                continue
+            candidates = [
+                binding
+                for binding in by_asset.get(asset_id, [])
+                if binding.get("role") in allowed_roles
+            ]
+            if len(candidates) == 1:
+                candidate_id = str(candidates[0].get("binding_id"))
+                if candidate_id not in binding_ids:
+                    binding_ids.append(candidate_id)
+                retained_sources.append(asset_id)
+        subject["binding_ids"] = binding_ids
+        subject["source_asset_ids"] = retained_sources
+    return payload
+
+
 def normalize_timeline_state_fields(payload: dict[str, Any]) -> dict[str, Any]:
     """Upgrade legacy IR shots without inventing new semantic events."""
     for shot in payload.get("timeline", []):
@@ -811,6 +862,7 @@ def compile_context_ir(model_output: Mapping[str, Any], source_request: Mapping[
     normalize_source_video_audio_relationship(payload)
     normalize_reference_retention_modes(payload)
     normalize_reference_isolation(payload)
+    normalize_subject_source_bindings(payload)
     normalize_timeline_state_fields(payload)
     report = validate_context_ir(payload)
     if not report.passed:
