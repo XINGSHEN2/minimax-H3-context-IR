@@ -788,14 +788,24 @@ def compile_context_ir(model_output: Mapping[str, Any], source_request: Mapping[
             for item in source.get("directives", [])
             if isinstance(item, Mapping) and str(item.get("directive_id", "")).strip()
         }
+        directive_assets = {
+            str(item.get("directive_id", "")).strip(): str(item.get("asset_id", "")).strip()
+            for item in source.get("directives", [])
+            if isinstance(item, Mapping) and str(item.get("directive_id", "")).strip()
+        }
         bindings = payload.get("asset_bindings", [])
         if isinstance(bindings, list):
             for binding in bindings:
                 if isinstance(binding, dict):
+                    binding_asset = str(binding.get("asset_id", "")).strip()
                     binding["source_directive_ids"] = [
                         directive_id
                         for directive_id in _strings(binding.get("source_directive_ids"))
                         if directive_id in source_directive_ids
+                        and (
+                            not directive_assets.get(directive_id)
+                            or directive_assets[directive_id] == binding_asset
+                        )
                     ]
         compile_directive_bindings(payload, source)
     normalize_source_video_audio_relationship(payload)

@@ -143,6 +143,29 @@ class SourceContractTests(unittest.TestCase):
         self.assertFalse(report.passed)
         self.assertIn("BINDING_DIRECTIVE_ASSET_MISMATCH", {item.code for item in report.issues})
 
+    def test_compile_repairs_model_directive_asset_mismatch(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        ir = self._minimal_ir(source)
+        wrong = copy.deepcopy(ir["asset_bindings"][0])
+        wrong["binding_id"] = "b_wrong_cross_asset_reference"
+        wrong["asset_id"] = "video_1"
+        ir["asset_bindings"].append(wrong)
+        ir["isolation_rules"].append({
+            "binding_id": wrong["binding_id"],
+            "allow": copy.deepcopy(wrong["inherit"]),
+            "block": copy.deepcopy(wrong["exclude"]),
+        })
+        compiled = compile_context_ir(ir, source)
+        report = validate_context_ir(compiled)
+        self.assertTrue(report.passed, report.to_dict())
+        directive_assets = {
+            item["directive_id"]: item.get("asset_id", "")
+            for item in source["directives"]
+        }
+        for binding in compiled["asset_bindings"]:
+            for directive_id in binding["source_directive_ids"]:
+                self.assertIn(directive_assets[directive_id], ("", binding["asset_id"]))
+
     def test_each_shot_requires_primary_change_and_observable_end_state(self):
         source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
         ir = self._minimal_ir(source)
