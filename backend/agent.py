@@ -8,6 +8,7 @@ import json
 import os
 import re
 import socket
+import time
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -355,6 +356,16 @@ def run_agent(
     perception_from: Path | None = None,
     progress_callback: Callable[[str], None] | None = None,
 ) -> int:
+    run_started = time.perf_counter()
+    stage_timings: dict[str, Any] = {
+        "schema_version": "context_ir_stage_timings.v1",
+        "perception_reused": perception_from is not None,
+        "stages_seconds": {},
+    }
+
+    def finish_stage(name: str, started: float) -> None:
+        stage_timings["stages_seconds"][name] = round(time.perf_counter() - started, 3)
+
     source = normalize_source_request(source)
     source_report = validate_source_request(source)
     if not source_report.passed:
@@ -371,10 +382,12 @@ def run_agent(
     (output_dir / "input.json").write_text(json.dumps(source, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     if progress_callback:
         progress_callback("intent")
+    stage_started = time.perf_counter()
     resolution = resolve_intent(
         source,
         lambda prompt: invoke_reasoning_json(prompt, reasoning, output_dir / "intent_resolver.log"),
     )
+    finish_stage("intent_resolver", stage_started)
     source = resolution["source"]
     perception_plan = resolution["perception_plan"]
     (output_dir / "intent_resolution.json").write_text(
@@ -388,6 +401,7 @@ def run_agent(
     (output_dir / "resolved_input.json").write_text(json.dumps(source, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     if progress_callback:
         progress_callback("bindings")
+    stage_started = time.perf_counter()
     if perception_from is not None:
         perception = json.loads(perception_from.resolve().read_text(encoding="utf-8"))
         if not isinstance(perception, dict):
@@ -396,6 +410,7 @@ def run_agent(
         source["perception"] = perception
     else:
         source = ensure_perception(source, perception_plan)
+    finish_stage("perception", stage_started)
     (output_dir / "media_analysis.json").write_text(
         json.dumps(source.get("perception"), ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
@@ -404,7 +419,10 @@ def run_agent(
         progress_callback("timeline")
 
     skill_names = ["h3-prompt-writing"] + ([style_skill] if style_skill else [])
+    stage_started = time.perf_counter()
     model_output = invoke_reasoning_json(build_prompt(source, style_skill), reasoning, output_dir / "agent.log", skill_names)
+    finish_stage("semantic_agent", stage_started)
+    stage_started = time.perf_counter()
     ir = compile_context_ir(model_output, source)
     if progress_callback:
         progress_callback("isolation")
@@ -423,6 +441,12 @@ def run_agent(
     )
     request = build_h3_request(ir, str(prompt_path), str(output_dir / "h3_outputs"))
     (output_dir / "h3_request.json").write_text(json.dumps(request, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    finish_stage("compile_render_audit", stage_started)
+    stage_timings["total_seconds"] = round(time.perf_counter() - run_started, 3)
+    (output_dir / "stage_timings.json").write_text(
+        json.dumps(stage_timings, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
     print(json.dumps({"passed": True, "output_dir": str(output_dir), "context_ir": str(context_path), "h3_prompt": str(prompt_path), "h3_prompt_audit": str(audit_path), "h3_request": str(output_dir / 'h3_request.json')}, ensure_ascii=False, indent=2))
     return 0
 
