@@ -175,6 +175,17 @@ class SourceContractTests(unittest.TestCase):
         self.assertIn("SHOT_PRIMARY_CHANGE_MISSING", codes)
         self.assertIn("SHOT_END_STATE_MISSING", codes)
 
+    def test_compile_attaches_primary_binding_to_required_focus_shot(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        ir = self._minimal_ir(source)
+        primary_binding = ir["creative_focus"]["primary_binding_ids"][0]
+        ir["timeline"][0]["binding_refs"] = [
+            value for value in ir["timeline"][0]["binding_refs"]
+            if value != primary_binding
+        ]
+        compiled = compile_context_ir(ir, source)
+        self.assertIn(primary_binding, compiled["timeline"][0]["binding_refs"])
+
     def test_renderer_cites_appearance_picture_inside_subject(self):
         source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
         ir = compile_context_ir(self._minimal_ir(source), source)

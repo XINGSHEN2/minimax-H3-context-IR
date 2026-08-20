@@ -695,6 +695,32 @@ def normalize_subject_source_bindings(payload: dict[str, Any]) -> dict[str, Any]
     return payload
 
 
+def normalize_focus_shot_bindings(payload: dict[str, Any]) -> dict[str, Any]:
+    """Attach declared primary bindings to every declared creative-focus shot."""
+    focus = payload.get("creative_focus")
+    if not isinstance(focus, Mapping):
+        return payload
+    valid_binding_ids = {
+        str(item.get("binding_id", ""))
+        for item in payload.get("asset_bindings", [])
+        if isinstance(item, Mapping) and str(item.get("binding_id", "")).strip()
+    }
+    primary_binding_ids = [
+        value for value in _strings(focus.get("primary_binding_ids"))
+        if value in valid_binding_ids
+    ]
+    required_shot_ids = set(_strings(focus.get("required_shot_ids")))
+    for shot in payload.get("timeline", []):
+        if not isinstance(shot, dict) or str(shot.get("shot_id", "")) not in required_shot_ids:
+            continue
+        refs = [value for value in _strings(shot.get("binding_refs")) if value in valid_binding_ids]
+        for binding_id in primary_binding_ids:
+            if binding_id not in refs:
+                refs.append(binding_id)
+        shot["binding_refs"] = refs
+    return payload
+
+
 def normalize_timeline_state_fields(payload: dict[str, Any]) -> dict[str, Any]:
     """Upgrade legacy IR shots without inventing new semantic events."""
     for shot in payload.get("timeline", []):
@@ -863,6 +889,7 @@ def compile_context_ir(model_output: Mapping[str, Any], source_request: Mapping[
     normalize_reference_retention_modes(payload)
     normalize_reference_isolation(payload)
     normalize_subject_source_bindings(payload)
+    normalize_focus_shot_bindings(payload)
     normalize_timeline_state_fields(payload)
     report = validate_context_ir(payload)
     if not report.passed:
