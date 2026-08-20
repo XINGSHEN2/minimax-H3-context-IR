@@ -7,6 +7,8 @@ try:
     from remote_source.backend.context_ir import (
         compile_context_ir,
         normalize_source_request,
+        render_h3_prompt,
+        audit_h3_prompt,
         validate_context_ir,
         validate_source_request,
     )
@@ -14,6 +16,8 @@ except ModuleNotFoundError:
     from backend.context_ir import (
         compile_context_ir,
         normalize_source_request,
+        render_h3_prompt,
+        audit_h3_prompt,
         validate_context_ir,
         validate_source_request,
     )
@@ -127,10 +131,35 @@ class SourceContractTests(unittest.TestCase):
         self.assertFalse(report.passed)
         self.assertIn("DIRECTIVE_BINDING_COVERAGE", {item.code for item in report.issues})
 
+    def test_hard_directive_cannot_bind_to_another_asset(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        ir = self._minimal_ir(source)
+        ir["asset_bindings"][0]["asset_id"] = "video_1"
+        report = validate_context_ir(ir)
+        self.assertFalse(report.passed)
+        self.assertIn("BINDING_DIRECTIVE_ASSET_MISMATCH", {item.code for item in report.issues})
+
+    def test_each_shot_requires_primary_change_and_observable_end_state(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        ir = self._minimal_ir(source)
+        ir["timeline"][0].pop("primary_change")
+        ir["timeline"][0].pop("observable_end_state")
+        codes = {item.code for item in validate_context_ir(ir).issues}
+        self.assertIn("SHOT_PRIMARY_CHANGE_MISSING", codes)
+        self.assertIn("SHOT_END_STATE_MISSING", codes)
+
+    def test_renderer_cites_appearance_picture_inside_subject(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        ir = compile_context_ir(self._minimal_ir(source), source)
+        prompt = render_h3_prompt(ir)
+        self.assertIn("<Picture 1>", prompt.split("summary:", 1)[0])
+        self.assertNotRegex(prompt.split("summary:", 1)[0], r"(?m)^<Picture 1> is ")
+        self.assertTrue(audit_h3_prompt(ir, prompt).passed)
+
     @staticmethod
     def _minimal_ir(source):
         directives = copy.deepcopy(source["directives"])
-        all_ids = [item["directive_id"] for item in directives]
+        image_ids = [item["directive_id"] for item in directives if item.get("asset_id") == "image_1"]
         return {
             "schema_version": "0.1.0",
             "runtime": {},
@@ -152,14 +181,54 @@ class SourceContractTests(unittest.TestCase):
             "perception": None,
             "asset_bindings": [
                 {
-                    "binding_id": "b_all",
+                    "binding_id": "b_product",
                     "asset_id": "image_1",
-                    "target": "performer manicure and execution constraints",
+                    "target": "product manicure",
                     "role": "product",
                     "priority": "hard",
-                    "source_directive_ids": all_ids,
-                    "inherit": ["resolved product and execution directives"],
+                    "source_directive_ids": image_ids,
+                    "inherit": ["shape", "color", "pattern", "decoration", "material", "gloss"],
                     "exclude": ["product photo background"],
+                },
+                {
+                    "binding_id": "b_identity",
+                    "asset_id": "video_1",
+                    "target": "performer identity",
+                    "role": "identity",
+                    "priority": "hard",
+                    "source_directive_ids": ["d_identity_preserve"],
+                    "inherit": ["face", "hair", "body", "hand shape"],
+                    "exclude": ["product appearance"],
+                },
+                {
+                    "binding_id": "b_motion",
+                    "asset_id": "video_1",
+                    "target": "performer motion and timing",
+                    "role": "motion",
+                    "priority": "hard",
+                    "source_directive_ids": ["d_motion_preserve"],
+                    "inherit": ["body actions", "hand actions", "timing"],
+                    "exclude": ["identity", "outfit", "scene", "product appearance", "product geometry", "visible text", "logo"],
+                },
+                {
+                    "binding_id": "b_scene",
+                    "asset_id": "video_1",
+                    "target": "background flexibility",
+                    "role": "scene",
+                    "priority": "soft",
+                    "source_directive_ids": ["d_background_flexible"],
+                    "inherit": ["environment", "set dressing"],
+                    "exclude": ["identity", "product appearance"],
+                },
+                {
+                    "binding_id": "b_style",
+                    "asset_id": "video_1",
+                    "target": "style flexibility",
+                    "role": "style",
+                    "priority": "soft",
+                    "source_directive_ids": ["d_style_flexible"],
+                    "inherit": ["lighting", "color grade", "commercial polish"],
+                    "exclude": ["identity", "product geometry", "logo"],
                 }
             ],
             "subjects": [
@@ -169,8 +238,8 @@ class SourceContractTests(unittest.TestCase):
                     "kind": "product",
                     "primary": True,
                     "description": "the product manicure worn by the performer",
-                    "source_asset_ids": ["image_1"],
-                    "binding_ids": ["b_all"],
+                    "source_asset_ids": ["image_1", "video_1"],
+                    "binding_ids": ["b_product", "b_identity", "b_motion"],
                     "appearance_shot_ids": ["01"],
                     "retention_mode": "attribute_transfer",
                     "retention_description": "product appearance transfers to the performer",
@@ -198,7 +267,7 @@ class SourceContractTests(unittest.TestCase):
                 "primary_target": "product manicure",
                 "primary_subject_id": "subject_1",
                 "primary_asset_id": "image_1",
-                "primary_binding_ids": ["b_all"],
+                "primary_binding_ids": ["b_product"],
                 "objective": "show the product manicure on the performer",
                 "supporting_asset_ids": ["video_1"],
                 "required_shot_ids": ["01"],
@@ -206,9 +275,29 @@ class SourceContractTests(unittest.TestCase):
             },
             "isolation_rules": [
                 {
-                    "binding_id": "b_all",
+                    "binding_id": "b_product",
                     "allow": ["product appearance"],
                     "block": ["product photo background"],
+                },
+                {
+                    "binding_id": "b_identity",
+                    "allow": ["face", "hair", "body", "hand shape"],
+                    "block": ["product appearance"],
+                },
+                {
+                    "binding_id": "b_motion",
+                    "allow": ["performer motion and timing"],
+                    "block": ["identity", "outfit", "scene", "product appearance", "product geometry", "visible text", "logo"],
+                },
+                {
+                    "binding_id": "b_scene",
+                    "allow": ["environment", "set dressing"],
+                    "block": ["identity", "product appearance"],
+                },
+                {
+                    "binding_id": "b_style",
+                    "allow": ["lighting", "color grade", "commercial polish"],
+                    "block": ["identity", "product geometry", "logo"],
                 }
             ],
             "constraints": {
@@ -221,14 +310,17 @@ class SourceContractTests(unittest.TestCase):
                     "shot_id": "01",
                     "start_seconds": 0,
                     "end_seconds": 15,
+                    "primary_change": "the performer presents the manicure",
                     "event": "performer displays the product manicure",
                     "action": "display hands",
                     "camera": "medium close-up",
                     "lighting": "commercial lighting",
                     "transition": "end",
+                    "observable_end_state": "the manicure is held still and fully visible",
+                    "state_changes": [],
                     "subject_refs": ["subject_1"],
                     "asset_refs": ["image_1", "video_1"],
-                    "binding_refs": ["b_all"],
+                    "binding_refs": ["b_product", "b_identity", "b_motion", "b_scene", "b_style"],
                 }
             ],
             "audio_plan": {

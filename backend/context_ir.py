@@ -19,6 +19,8 @@ SUPPORTED_BINDING_ROLES = {
     "identity", "outfit", "product", "motion", "voice", "music", "rhythm",
     "camera", "scene", "style", "first_frame", "last_frame",
 }
+APPEARANCE_BINDING_ROLES = {"identity", "outfit", "product", "scene"}
+STRUCTURAL_BINDING_ROLES = {"motion", "camera", "rhythm", "style"}
 SUPPORTED_PRIORITIES = {"hard", "soft"}
 SOURCE_SCHEMA_VERSION = "context_request.v1"
 LEGACY_SOURCE_SCHEMA_VERSIONS = {"resolved_request.v1"}
@@ -151,6 +153,7 @@ def validate_source_request(source: Mapping[str, Any]) -> ValidationReport:
         report.add("DIRECTIVES_INVALID", "directives must be an array", "$.directives")
         directives = []
     directive_ids: set[str] = set()
+    directives_by_id: dict[str, Mapping[str, Any]] = {}
     hard_controls: dict[tuple[str, str], tuple[str, str]] = {}
     for index, directive in enumerate(directives):
         path = f"$.directives[{index}]"
@@ -215,6 +218,11 @@ def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
             report.add("INTENT_DIRECTIVES_INVALID", "intent.directives must be an array", "$.intent.directives")
         directive_ids = {
             str(item.get("directive_id", "")).strip()
+            for item in intent.get("directives", [])
+            if isinstance(item, Mapping) and str(item.get("directive_id", "")).strip()
+        }
+        directives_by_id = {
+            str(item.get("directive_id", "")).strip(): item
             for item in intent.get("directives", [])
             if isinstance(item, Mapping) and str(item.get("directive_id", "")).strip()
         }
@@ -315,6 +323,24 @@ def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
                 report.add("BINDING_DIRECTIVE_UNKNOWN", f"binding references unknown directive {directive_id}", path)
             else:
                 covered_directive_ids.add(directive_id)
+                directive = directives_by_id[directive_id]
+                directive_asset = str(directive.get("asset_id", "")).strip()
+                if directive_asset and directive_asset != str(binding.get("asset_id", "")):
+                    report.add("BINDING_DIRECTIVE_ASSET_MISMATCH", f"binding asset does not implement directive {directive_id}'s asset", path)
+                if directive.get("priority") == "hard" and binding.get("priority") != "hard":
+                    report.add("HARD_DIRECTIVE_WEAKENED", f"hard directive {directive_id} must compile to a hard binding", path)
+                if directive.get("operation") == "exclude":
+                    missing = {item.lower() for item in _strings(directive.get("scope"))} - {
+                        item.lower() for item in _strings(binding.get("exclude"))
+                    }
+                    if missing:
+                        report.add("EXCLUDE_DIRECTIVE_NOT_ENFORCED", f"binding does not exclude directive scope: {sorted(missing)}", path)
+                else:
+                    missing = {item.lower() for item in _strings(directive.get("scope"))} - {
+                        item.lower() for item in _strings(binding.get("inherit"))
+                    }
+                    if missing:
+                        report.add("DIRECTIVE_SCOPE_NOT_INHERITED", f"binding does not inherit directive scope: {sorted(missing)}", path)
         inherit, exclude = set(_strings(binding.get("inherit"))), set(_strings(binding.get("exclude")))
         if not inherit:
             report.add("BINDING_INHERIT_EMPTY", "inherit must explicitly name controlled attributes", path)
@@ -374,6 +400,15 @@ def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
         for binding_id in _strings(subject.get("binding_ids")):
             if binding_id not in binding_ids:
                 report.add("SUBJECT_BINDING_UNKNOWN", f"unknown subject binding {binding_id}", path)
+        subject_binding_assets = {
+            str(binding.get("asset_id"))
+            for binding in bindings
+            if isinstance(binding, Mapping)
+            and str(binding.get("binding_id")) in _strings(subject.get("binding_ids"))
+        }
+        unbound_sources = set(_strings(subject.get("source_asset_ids"))) - subject_binding_assets
+        if unbound_sources:
+            report.add("SUBJECT_SOURCE_WITHOUT_BINDING", f"subject sources lack scoped bindings: {sorted(unbound_sources)}", path)
         if subject.get("retention_mode") not in VISUAL_RETENTION_MODES:
             report.add("SUBJECT_RETENTION_INVALID", "subject retention_mode must use an official visible-content marker", path)
         if not str(subject.get("retention_description", "")).strip():
@@ -503,6 +538,24 @@ def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
             expected = end
             if not str(shot.get("event", "")).strip():
                 report.add("SHOT_EVENT_MISSING", "event is required", path)
+            if not str(shot.get("primary_change", "")).strip():
+                report.add("SHOT_PRIMARY_CHANGE_MISSING", "each shot needs exactly one primary visible change", path)
+            if not str(shot.get("observable_end_state", "")).strip():
+                report.add("SHOT_END_STATE_MISSING", "each shot needs an observable end state", path)
+            state_changes = shot.get("state_changes", [])
+            if not isinstance(state_changes, list):
+                report.add("SHOT_STATE_CHANGES_INVALID", "state_changes must be an array", path)
+                state_changes = []
+            for change_index, change in enumerate(state_changes):
+                change_path = f"{path}.state_changes[{change_index}]"
+                if not isinstance(change, Mapping):
+                    report.add("SHOT_STATE_CHANGE_INVALID", "state change must be an object", change_path)
+                    continue
+                if change.get("subject_id") not in subject_ids:
+                    report.add("SHOT_STATE_SUBJECT_UNKNOWN", "state change references an unknown subject", change_path)
+                for field_name in ("property", "from", "to"):
+                    if not str(change.get(field_name, "")).strip():
+                        report.add("SHOT_STATE_FIELD_MISSING", f"state change {field_name} is required", change_path)
             for asset_id in _strings(shot.get("asset_refs")):
                 if asset_id not in asset_ids:
                     report.add("SHOT_ASSET_UNKNOWN", f"unknown asset {asset_id}", path)
@@ -554,7 +607,9 @@ def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
 def normalize_reference_isolation(payload: dict[str, Any]) -> dict[str, Any]:
     """Apply non-negotiable safety blocks after semantic model decisions."""
     required_blocks = {
-        "motion": ("identity", "outfit", "scene"),
+        "motion": ("identity", "outfit", "product appearance", "product geometry", "scene", "visible text", "logo"),
+        "camera": ("identity", "outfit", "product appearance", "product geometry", "scene", "visible text", "logo"),
+        "rhythm": ("identity", "outfit", "product appearance", "product geometry", "scene", "visible text", "logo"),
         "style": ("identity", "product geometry", "logo"),
     }
     rules = {
@@ -580,6 +635,18 @@ def normalize_reference_isolation(payload: dict[str, Any]) -> dict[str, Any]:
                 for attribute in required:
                     if attribute not in blocked:
                         blocked.append(attribute)
+    return payload
+
+
+def normalize_timeline_state_fields(payload: dict[str, Any]) -> dict[str, Any]:
+    """Upgrade legacy IR shots without inventing new semantic events."""
+    for shot in payload.get("timeline", []):
+        if not isinstance(shot, dict):
+            continue
+        event = str(shot.get("event", "")).strip()
+        shot.setdefault("primary_change", event)
+        shot.setdefault("observable_end_state", f"The described shot event is visibly complete: {event}" if event else "")
+        shot.setdefault("state_changes", [])
     return payload
 
 
@@ -709,6 +776,7 @@ def compile_context_ir(model_output: Mapping[str, Any], source_request: Mapping[
     normalize_source_video_audio_relationship(payload)
     normalize_reference_retention_modes(payload)
     normalize_reference_isolation(payload)
+    normalize_timeline_state_fields(payload)
     report = validate_context_ir(payload)
     if not report.passed:
         raise ContextIRError(json.dumps(report.to_dict(), ensure_ascii=False, indent=2))
@@ -768,9 +836,10 @@ def _shot_text(shot: Mapping[str, Any], shot_number: int, subject_inventory: Map
     pieces = [subject_opening + str(shot["event"])]
     pieces.extend(
         f"{key}: {shot[key]}"
-        for key in ("action", "camera", "lighting", "transition")
+        for key in ("camera", "lighting", "transition")
         if shot.get(key)
     )
+    pieces.append("observable end state: " + str(shot.get("observable_end_state", "")))
     prefix = f"[Shot {shot_number}]"
     if shot_number != 1:
         prefix += f" At {_format_timestamp(float(shot['start_seconds']))},"
@@ -781,12 +850,16 @@ def _sound_sections(payload: Mapping[str, Any]) -> tuple[str, str]:
     audio = payload["audio_plan"]
     if not payload["task"]["generate_audio"]:
         return "N/A", "N/A"
-    soundscape = "; ".join(
-        f"{key}: {audio[key]}"
-        for key in ("voice", "sound_effects", "ambient_sound", "sync_rules")
-    )
+    soundscape_parts = []
+    for key in ("voice", "sound_effects", "ambient_sound", "sync_rules"):
+        value = audio[key]
+        value_text = str(value).strip()
+        if not value_text or value_text.lower() in {"none", "no", "false", "not requested", "[]"}:
+            continue
+        soundscape_parts.append(f"{key}: {value}")
+    soundscape = "; ".join(soundscape_parts) or "N/A"
     music = str(audio["music"]).strip()
-    if not music or music.lower() in {"none", "no", "false", "not requested"}:
+    if not music or music.lower() in {"none", "no", "false", "not requested"} or music.lower().startswith(("none;", "no ")):
         music = "N/A"
     return soundscape, music
 
@@ -862,14 +935,56 @@ def _render_ref_prompt(payload: Mapping[str, Any], inventory: Mapping[str, str])
     focus = payload["creative_focus"]
     subjects = []
     retention = []
+    binding_by_id = {
+        str(binding.get("binding_id")): binding
+        for binding in payload.get("asset_bindings", [])
+        if isinstance(binding, Mapping)
+    }
+    media_by_asset = {
+        str(asset.get("asset_id")): str(asset.get("media_type"))
+        for asset in payload.get("assets", [])
+        if isinstance(asset, Mapping)
+    }
     for subject in payload["subjects"]:
         label = subject_inventory[subject["subject_id"]]
-        sources = [inventory[item] for item in _strings(subject.get("source_asset_ids")) if item in inventory]
-        source_text = " in " + ", ".join(sources) if sources else ""
-        subjects.append(f"{label} is {str(subject['name']).strip().rstrip('.')}{source_text}, {str(subject['description']).strip().rstrip('.')}.")
+        source_controls: dict[str, dict[str, Any]] = {}
+        for binding_id in _strings(subject.get("binding_ids")):
+            binding = binding_by_id.get(binding_id)
+            if not binding:
+                continue
+            asset_id = str(binding.get("asset_id", ""))
+            if asset_id not in inventory:
+                continue
+            control = source_controls.setdefault(asset_id, {"roles": [], "inherit": [], "exclude": [], "hard": False})
+            control["roles"].append(str(binding.get("role", "")))
+            control["inherit"].extend(_strings(binding.get("inherit")))
+            control["exclude"].extend(_strings(binding.get("exclude")))
+            control["hard"] = control["hard"] or binding.get("priority") == "hard"
+        clauses = []
+        for asset_id in _strings(subject.get("source_asset_ids")):
+            if asset_id not in inventory:
+                continue
+            label_ref = inventory[asset_id]
+            control = source_controls.get(asset_id, {"roles": [], "inherit": [], "exclude": [], "hard": False})
+            roles = set(control["roles"])
+            dimensions = list(dict.fromkeys(control["inherit"]))
+            dimension_text = ", ".join(dimensions) or "the explicitly scoped reference attributes"
+            if roles and roles.issubset(STRUCTURAL_BINDING_ROLES):
+                clauses.append(f"its {dimension_text} is guided by {label_ref}; {label_ref} is not an appearance source")
+            elif roles.intersection(APPEARANCE_BINDING_ROLES):
+                authority = "exclusively " if control["hard"] else ""
+                clauses.append(f"its {dimension_text} comes {authority}from {label_ref}")
+            else:
+                clauses.append(f"its {dimension_text} comes from {label_ref}")
+        source_text = ("; " + "; ".join(clauses)) if clauses else ""
+        subjects.append(f"{label} is {str(subject['name']).strip().rstrip('.')}, {str(subject['description']).strip().rstrip('.')}{source_text}.")
         shots = ", ".join(f"[Shot {int(item)}]" for item in _strings(subject.get("appearance_shot_ids")))
         appearance = f" (appears in {shots})" if shots else ""
         retention.append(f"{label}{appearance}: {subject['retention_mode']} - {str(subject['retention_description']).strip().rstrip('.')}.")
+    binding_roles_by_asset: dict[str, set[str]] = {}
+    for binding in payload.get("asset_bindings", []):
+        if isinstance(binding, Mapping):
+            binding_roles_by_asset.setdefault(str(binding.get("asset_id")), set()).add(str(binding.get("role")))
     for relationship in payload["reference_relationships"]:
         label = inventory[relationship["asset_id"]]
         linked = [subject_inventory[item] for item in _strings(relationship.get("subject_refs")) if item in subject_inventory]
@@ -877,7 +992,12 @@ def _render_ref_prompt(payload: Mapping[str, Any], inventory: Mapping[str, str])
         definition = str(relationship['definition']).strip().rstrip('.')
         if definition.lower().startswith("is "):
             definition = definition[3:]
-        subjects.append(f"{label} is {definition}.{link_text}")
+        asset_id = str(relationship["asset_id"])
+        roles = binding_roles_by_asset.get(asset_id, set())
+        is_frame_anchor = bool(roles.intersection({"first_frame", "last_frame"})) or relationship.get("relationship") == "keyframe_completion"
+        needs_standalone_definition = media_by_asset.get(asset_id) in {"video", "audio"} or is_frame_anchor or not linked
+        if needs_standalone_definition:
+            subjects.append(f"{label} is {definition}.{link_text}")
         retention.append(f"{label}: {relationship['retention_mode']} - {str(relationship['retention_description']).strip().rstrip('.')}.")
     task_types = _strings(payload["protocol"].get("summary_task_types"))
     prefix = "[" + " + ".join(task_types) + "]"
@@ -900,12 +1020,12 @@ def _render_ref_prompt(payload: Mapping[str, Any], inventory: Mapping[str, str])
     )
     details = []
     generation = payload["generation_description"]
-    constraint_text = _constraint_text(payload)
-    if constraint_text:
-        details.append(constraint_text)
+    prohibit = _strings(payload.get("constraints", {}).get("prohibit"))
+    if prohibit:
+        details.append("Must not introduce: " + ", ".join(prohibit))
     focus_requirements = "; ".join(_strings(focus.get("presentation_requirements")))
-    details.append(f"Primary visual focus: {focus_objective}. Presentation requirements: {focus_requirements.rstrip('.')}.")
-    details.append("; ".join(f"{key}: {generation[key]}" for key in ("cinematography", "lighting", "materials", "performance", "continuity")))
+    details.append(f"Presentation requirements: {focus_requirements.rstrip('.')}.")
+    details.append("; ".join(f"{key}: {generation[key]}" for key in ("cinematography", "lighting") if generation.get(key)))
     details.extend(_shot_text(shot, index, subject_inventory) for index, shot in enumerate(payload["timeline"], start=1))
     soundscape, music = _sound_sections(payload)
     return "\n\n".join([
@@ -1023,6 +1143,47 @@ def audit_h3_prompt(payload: Mapping[str, Any], prompt: str) -> ValidationReport
                 report.add("SUBJECT_RETENTION_MISSING", f"{label} is absent from retention_analysis", "$.h3_prompt.retention_analysis")
             if label not in details_text:
                 report.add("SUBJECT_DETAIL_USAGE_MISSING", f"{label} is absent from detailed_description", "$.h3_prompt.detailed_description")
+        inventory_by_asset = build_reference_inventory(payload)
+        media_by_asset = {
+            str(asset.get("asset_id")): str(asset.get("media_type"))
+            for asset in payload.get("assets", [])
+            if isinstance(asset, Mapping)
+        }
+        roles_by_asset: dict[str, set[str]] = {}
+        subject_roles_by_asset: dict[str, set[str]] = {}
+        subject_binding_ids = {
+            binding_id
+            for subject in payload.get("subjects", [])
+            if isinstance(subject, Mapping)
+            for binding_id in _strings(subject.get("binding_ids"))
+        }
+        for binding in payload.get("asset_bindings", []):
+            if not isinstance(binding, Mapping):
+                continue
+            asset_id = str(binding.get("asset_id", ""))
+            role = str(binding.get("role", ""))
+            roles_by_asset.setdefault(asset_id, set()).add(role)
+            if str(binding.get("binding_id")) in subject_binding_ids:
+                subject_roles_by_asset.setdefault(asset_id, set()).add(role)
+        structural_subject_assets = {
+            asset_id
+            for asset_id, roles in subject_roles_by_asset.items()
+            if roles and roles.issubset(STRUCTURAL_BINDING_ROLES)
+        }
+        for relationship in payload.get("reference_relationships", []):
+            if not isinstance(relationship, Mapping):
+                continue
+            asset_id = str(relationship.get("asset_id", ""))
+            label = inventory_by_asset.get(asset_id, "")
+            roles = roles_by_asset.get(asset_id, set())
+            frame_anchor = bool(roles.intersection({"first_frame", "last_frame"})) or relationship.get("relationship") == "keyframe_completion"
+            linked = bool(_strings(relationship.get("subject_refs")))
+            if media_by_asset.get(asset_id) == "image" and linked and not frame_anchor:
+                if re.search(rf"(?m)^{re.escape(label)}\s+is\s+", definitions):
+                    report.add("PICTURE_STANDALONE_NOT_ANCHOR", f"{label} should be cited inside its Subject definition, not defined as a standalone frame", "$.h3_prompt.subject_definitions")
+            if asset_id in structural_subject_assets and label:
+                if f"{label} is not an appearance source" not in definitions:
+                    report.add("STRUCTURAL_REFERENCE_APPEARANCE_AMBIGUOUS", f"{label} must be explicitly excluded as an appearance source", "$.h3_prompt.subject_definitions")
         task_types = _strings(payload.get("protocol", {}).get("summary_task_types"))
         expected_prefix = "[" + " + ".join(task_types) + "]"
         if not summary_text.lstrip().startswith(expected_prefix):
@@ -1057,6 +1218,8 @@ def audit_h3_prompt(payload: Mapping[str, Any], prompt: str) -> ValidationReport
         pictures = {label for label in expected if label.startswith("<Picture ")}
         if pictures - actual:
             report.add("KEYFRAME_TAG_MISSING", f"missing keyframe tags: {sorted(pictures - actual)}", "$.h3_prompt")
+    if len(prompt) > 12000:
+        report.add("PROMPT_OVERLONG", "compiled H3 prompt exceeds 12,000 characters; consider moving analysis-only repetition back into Context-IR", "$.h3_prompt", "warning")
     return report
 
 

@@ -166,7 +166,22 @@ def schema_template(source: dict[str, Any]) -> dict[str, Any]:
         "creative_focus": {"primary_target": "the subject or outcome that must dominate the finished video", "primary_subject_id": "subject_1", "primary_asset_id": "asset_id or empty for T2VA", "primary_binding_ids": ["b_example"], "objective": "the final visible outcome that matters most", "supporting_asset_ids": [], "required_shot_ids": ["01"], "presentation_requirements": ["an executable visibility, framing, material, or continuity requirement"]},
         "isolation_rules": [{"binding_id": "b_example", "allow": ["controlled attribute"], "block": ["uncontrolled attribute"]}],
         "constraints": {"preserve": [], "allow_change": [], "prohibit": []},
-        "timeline": [{"shot_id": "01", "start_seconds": 0, "end_seconds": task.get("duration_seconds", 15), "event": "one executable visible event", "action": "", "camera": "", "lighting": "", "transition": "", "subject_refs": ["subject_1"], "asset_refs": [], "binding_refs": []}],
+        "timeline": [{
+            "shot_id": "01",
+            "start_seconds": 0,
+            "end_seconds": task.get("duration_seconds", 15),
+            "primary_change": "the single main visible change in this beat",
+            "event": "one executable visible event",
+            "action": "",
+            "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing, or name exactly one intended camera move",
+            "lighting": "",
+            "transition": "",
+            "observable_end_state": "a concrete state a viewer can point to at the end of the beat",
+            "state_changes": [{"subject_id": "subject_1", "property": "one continuity-critical property", "from": "state before this beat", "to": "state after this beat"}],
+            "subject_refs": ["subject_1"],
+            "asset_refs": [],
+            "binding_refs": [],
+        }],
         "audio_plan": {"voice": "", "music": "", "sound_effects": "", "ambient_sound": "", "sync_rules": []},
         "generation_description": {"cinematography": "", "lighting": "", "materials": "", "performance": "", "continuity": ""},
     }
@@ -193,6 +208,7 @@ Semantic decision policy:
 - Perception describes facts; this turn decides asset roles and conflicts.
 - This is a compiler, not an upstream conversational or creative-planning agent. Explicit user language and supplied directives are authoritative; perception only supplies facts needed to implement them.
 - Treat every supplied directive as immutable. Expand it into bindings, constraints, subjects, relationships, timeline details, and continuity rules, but never override, weaken, or reinterpret it.
+- A binding that cites a directive must use the directive's asset, retain hard priority when the directive is hard, and copy every directive scope item verbatim into inherit (or into exclude for an exclude directive). Use separate bindings when one asset controls different dimensions such as identity and motion.
 - Copy every supplied directive into intent.directives unchanged. Never synthesize, split, rename, or assign IDs to new directives. If the supplied directives array is empty, emit intent.directives as [] and emit source_directive_ids as [] on every asset binding. Every supplied directive must be cited by at least one asset binding through source_directive_ids. A binding may cite several supplied directives, and a supplied directive may expand into several bindings.
 - For requirements not explicitly specified, infer only the minimum conservative intent necessary to compile an executable result. Prefer the smallest change to the edit base, record the assumption, and never rely on a fixed phrase list or keyword-only matching.
 - Never use media evidence to invent user intent. A visible person, outfit, scene, caption, or soundtrack is not inherited unless a directive, the user request, or an allowed conservative edit-base default requires it.
@@ -204,6 +220,8 @@ Semantic decision policy:
 - Resolve conflicts by following the user's intended outcome first, then hard identity/product/content sources, then evidenced reference facts, then soft creative references. Never let a soft reference overwrite a hard source.
 - Independently determine creative prominence. Preservation authority does not determine narrative prominence: an asset may strongly constrain execution while remaining secondary to the subject being created, replaced, demonstrated, or promoted.
 - Build subjects as a stable entity registry. A subject is an identifiable person, product, animal, object, or environment that can recur in shots. Identity, outfit, motion, camera, rhythm, lighting, style, and other attributes are not separate subjects. Assign sequential IDs subject_1, subject_2, and so on in first-appearance order.
+- Treat each subjects[] entry as the one canonical profile for that entity. Reuse its exact appearance facts across all shots; do not redescribe the same face, hair, garment, product geometry, color, logo, or material differently in separate timeline entries.
+- Attach every subject source through an explicit binding. Appearance bindings (identity, outfit, product, scene) state which visible attributes the asset controls. Structural bindings (motion, camera, rhythm, style) may guide execution but are not appearance sources. Never place a video into a subject's appearance authority merely because the video depicts a performer or product.
 - Build one reference_relationships entry for every conditioned asset. Distinguish a directly edited source video from a video used only for reference generation. Link references to stable subjects without turning camera, motion, wardrobe, or scene attributes into subjects.
 - Emit exactly one reference_relationships entry per conditioned asset. When a source video is directly edited and its original audio is also retained, use source_video_edit as the single relationship; describe audio retention in its retention_description and in audio_plan/voice or music bindings. Do not add a duplicate audio_reuse relationship for the same video asset.
 - Choose reference retention modes by media type. For image and video assets use only fully_preserved, partially_preserved, attribute_transfer, or weak_reference. For audio assets use only fully_copy, partially_copy, reference, or weak_reference. Never use fully_copy or partially_copy for an image or video.
@@ -213,6 +231,11 @@ Semantic decision policy:
 - Allocate detail according to creative_focus, not according to the number of bindings per asset. Describe a fully preserved reference relationship completely once, then avoid repeating unchanged reference details unless a shot needs them for execution. Spend the remaining detail on how the primary subject is presented.
 - In every creative_focus.required_shot_id, make the primary subject visually meaningful rather than merely present. The shot event or action must explain how it is shown, and the shot must reference the primary binding.
 - Every timeline shot must list stable subject_refs. Every subject appearance_shot_id must agree with the corresponding timeline subject_refs.
+- Treat timeline as an executable beat sheet. Give every shot exactly one primary visible change and one observable end state. A cut must introduce new information about subject, space, state, viewpoint, time, or the primary product; otherwise prefer camera motion.
+- Record continuity-critical state changes explicitly, including attachment, detachment, wearing, removal, hand-off, activation, deactivation, appearance, disappearance, or completion. When a later shot uses the same property, its starting state must follow the previous ending state. Never hide a required detach/reconnect, stop/restart, or bare-to-worn transition inside a cut.
+- Budget enough time for physical state changes. If the requested duration cannot support every beat, preserve the user's locked beats and merge or remove only IR-added secondary beats.
+- Always specify camera behavior. For a static shot, say that the frame never moves and explicitly reject pan, push-in, zoom, and reframing. For a moving shot, name one primary camera move and state its amplitude and speed when meaningful.
+- Translate abstract mood or intent into observable behavior: gaze direction, named-hand action, posture, material response, and a visible end state.
 - Obey completion_policy strictly. technical permits format, timing, attachment, geometry, and continuity completion. conservative_semantic permits only meaning-preserving expansion of an explicit directive. creative permits new creative content; it is false by default.
 - `may_change` is permission, not an instruction to change. When no replacement is specified, preserve the evidenced edit-base value by default.
 - Complete omitted production details only within completion_policy. Keep them consistent with supplied assets and target format, and do not invent factual claims or identity-bearing content.
