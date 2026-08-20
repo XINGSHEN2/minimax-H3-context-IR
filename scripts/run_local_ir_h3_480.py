@@ -55,6 +55,37 @@ def read_json_response(body: bytes) -> dict[str, Any]:
     return value
 
 
+def download_completed_video(base_url: str, task_id: str, destination: Path) -> Path:
+    """Download a completed video when the service cannot see a later host mount."""
+    request = urllib.request.Request(
+        base_url + f"/v1/videos/{task_id}/content",
+        method="GET",
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=600) as response:
+            body = response.read()
+    except urllib.error.HTTPError as exc:
+        detail = exc.read().decode("utf-8", errors="replace")
+        raise RuntimeError(f"HTTP {exc.code} GET /v1/videos/{task_id}/content: {detail}") from exc
+    if not body:
+        raise RuntimeError(f"H3 returned an empty decoded file for task {task_id}")
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_bytes(body)
+    return destination
+
+
+def ensure_decoded_files(base_url: str, task_id: str, final: dict[str, Any], output_dir: Path) -> list[str]:
+    paths = [Path(item) for item in final.get("file_paths", []) if str(item).strip()]
+    if paths and all(path.is_file() and path.stat().st_size > 0 for path in paths):
+        return [str(path) for path in paths]
+    destination = output_dir / f"{task_id}.mp4"
+    download_completed_video(base_url, task_id, destination)
+    final["file_path"] = str(destination)
+    final["file_paths"] = [str(destination)]
+    final["num_outputs"] = 1
+    return [str(destination)]
+
+
 def wait_for_variant(root: Path, case_id: str, variant: str, timeout_seconds: int) -> Path:
     variant_dir = root / case_id / "B_context_ir" / variant
     started = time.monotonic()
@@ -114,8 +145,11 @@ def run_one(base_url: str, root: Path, case_id: str, variant: str, prompt: Path)
     if result_path.is_file():
         previous = read_json(result_path)
         if previous.get("status") == "completed":
-            paths = previous.get("final", {}).get("file_paths", [])
-            if paths and all(Path(item).is_file() and Path(item).stat().st_size > 0 for item in paths):
+            task_id = str(previous.get("task_id", "")).strip()
+            final = previous.get("final", {})
+            if task_id and isinstance(final, dict):
+                ensure_decoded_files(base_url, task_id, final, output_dir)
+                write_json(result_path, previous)
                 print(f"SKIP completed {case_id}/{variant}", flush=True)
                 return previous
 
@@ -161,9 +195,8 @@ def run_one(base_url: str, root: Path, case_id: str, variant: str, prompt: Path)
     write_json(result_path, result)
     if result["status"] != "completed":
         raise RuntimeError(f"H3 failed for {case_id}/{variant}: {final}")
-    paths = final.get("file_paths", [])
-    if not paths or not all(Path(item).is_file() and Path(item).stat().st_size > 0 for item in paths):
-        raise RuntimeError(f"H3 completed without verified decoded files: {case_id}/{variant}")
+    ensure_decoded_files(base_url, task_id, final, output_dir)
+    write_json(result_path, result)
     return result
 
 
