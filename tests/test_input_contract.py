@@ -194,6 +194,16 @@ class SourceContractTests(unittest.TestCase):
         self.assertNotRegex(prompt.split("summary:", 1)[0], r"(?m)^<Picture 1> is ")
         self.assertTrue(audit_h3_prompt(ir, prompt).passed)
 
+    def test_renderer_guards_structural_subject_video_from_appearance(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        model_ir = self._minimal_ir(source)
+        model_ir["subjects"][0]["binding_ids"] = ["b_product", "b_motion"]
+        ir = compile_context_ir(model_ir, source)
+        prompt = render_h3_prompt(ir)
+        definitions = prompt.split("summary:", 1)[0]
+        self.assertIn("<Video 1> is not an appearance source", definitions)
+        self.assertTrue(audit_h3_prompt(ir, prompt).passed)
+
     @staticmethod
     def _minimal_ir(source):
         directives = copy.deepcopy(source["directives"])

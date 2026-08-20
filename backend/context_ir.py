@@ -1099,6 +1099,22 @@ def _render_ref_prompt(payload: Mapping[str, Any], inventory: Mapping[str, str])
     for binding in payload.get("asset_bindings", []):
         if isinstance(binding, Mapping):
             binding_roles_by_asset.setdefault(str(binding.get("asset_id")), set()).add(str(binding.get("role")))
+    subject_binding_ids = {
+        binding_id
+        for subject in payload.get("subjects", [])
+        if isinstance(subject, Mapping)
+        for binding_id in _strings(subject.get("binding_ids"))
+    }
+    subject_roles_by_asset: dict[str, set[str]] = {}
+    for binding_id in subject_binding_ids:
+        binding = binding_by_id.get(binding_id)
+        if binding:
+            subject_roles_by_asset.setdefault(str(binding.get("asset_id")), set()).add(str(binding.get("role")))
+    structural_subject_assets = {
+        asset_id
+        for asset_id, roles in subject_roles_by_asset.items()
+        if roles and roles.issubset(STRUCTURAL_BINDING_ROLES)
+    }
     for relationship in payload["reference_relationships"]:
         label = inventory[relationship["asset_id"]]
         linked = [subject_inventory[item] for item in _strings(relationship.get("subject_refs")) if item in subject_inventory]
@@ -1111,7 +1127,11 @@ def _render_ref_prompt(payload: Mapping[str, Any], inventory: Mapping[str, str])
         is_frame_anchor = bool(roles.intersection({"first_frame", "last_frame"})) or relationship.get("relationship") == "keyframe_completion"
         needs_standalone_definition = media_by_asset.get(asset_id) in {"video", "audio"} or is_frame_anchor or not linked
         if needs_standalone_definition:
-            appearance_guard = f" {label} is not an appearance source." if roles and roles.issubset(STRUCTURAL_BINDING_ROLES) else ""
+            appearance_guard = (
+                f" {label} is not an appearance source."
+                if asset_id in structural_subject_assets or (roles and roles.issubset(STRUCTURAL_BINDING_ROLES))
+                else ""
+            )
             subjects.append(f"{label} is {definition}.{link_text}{appearance_guard}")
         retention.append(f"{label}: {relationship['retention_mode']} - {str(relationship['retention_description']).strip().rstrip('.')}.")
     task_types = _strings(payload["protocol"].get("summary_task_types"))
