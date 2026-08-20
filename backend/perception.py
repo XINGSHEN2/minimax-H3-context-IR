@@ -60,6 +60,16 @@ class Qwen3OmniProvider(CallablePerceptionProvider):
 
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".bmp"}
 JSON_FENCE_PATTERN = re.compile(r"^```(?:json)?\s*|\s*```$", re.IGNORECASE)
+
+
+def _canonical_entity_reference(value: Any, known_ids: set[str]) -> str:
+    """Recover harmless Qwen ID punctuation drift such as entity3/entity_3."""
+    candidate = str(value).strip()
+    if candidate in known_ids:
+        return candidate
+    compact = re.sub(r"[^a-z0-9]+", "", candidate.casefold())
+    matches = [item for item in known_ids if re.sub(r"[^a-z0-9]+", "", item.casefold()) == compact]
+    return matches[0] if len(matches) == 1 else candidate
 VISUAL_SYSTEM_PROMPT = (
     "You are a provider-neutral visual evidence extractor for a video-generation pipeline. "
     "Extract reusable evidence, not a generation prompt. Separate directly visible facts "
@@ -990,7 +1000,9 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             if not isinstance(value, list) or len(value) < 7:
                 continue
             relation_id, relation_type, subject_id, object_id, anchor, confidence, source_type = value[:7]
-            if str(subject_id) not in known_entity_ids or str(object_id) not in known_entity_ids:
+            subject_id = _canonical_entity_reference(subject_id, known_entity_ids)
+            object_id = _canonical_entity_reference(object_id, known_entity_ids)
+            if subject_id not in known_entity_ids or object_id not in known_entity_ids:
                 raise RuntimeError(
                     f"Local Qwen3-VL relation references unknown entities: {subject_id}, {object_id}"
                 )
@@ -999,7 +1011,7 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             ))
             relations.append({
                 "relation_id": str(relation_id or f"relation_{index}"), "type": str(relation_type),
-                "subject_id": str(subject_id), "object_id": str(object_id), "anchor": str(anchor),
+                "subject_id": subject_id, "object_id": object_id, "anchor": str(anchor),
                 "spatial_constraints": {}, "evidence_ids": related_evidence,
                 "confidence": float(confidence), "source": str(source_type),
             })

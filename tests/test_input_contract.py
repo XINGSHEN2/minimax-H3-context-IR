@@ -23,15 +23,19 @@ except ModuleNotFoundError:
     )
 
 try:
-    from remote_source.backend.perception import _json_object
+    from remote_source.backend.perception import _json_object, _canonical_entity_reference
 except ModuleNotFoundError:
-    from backend.perception import _json_object
+    from backend.perception import _json_object, _canonical_entity_reference
 
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 class SourceContractTests(unittest.TestCase):
+    def test_entity_reference_punctuation_drift_is_recovered(self):
+        self.assertEqual(_canonical_entity_reference("entity3", {"entity_2", "entity_3"}), "entity_3")
+        self.assertEqual(_canonical_entity_reference("unknown3", {"entity_3"}), "unknown3")
+
     def test_flattened_localization_boxes_are_recovered(self):
         malformed = '{"boxes":[["car tire",0,88,900,747],"car",0,0,1000,747,"air pump",640,397,875,688]}'
         parsed = _json_object(malformed)
