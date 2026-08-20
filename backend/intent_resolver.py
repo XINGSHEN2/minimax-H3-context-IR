@@ -13,6 +13,75 @@ from typing import Any, Callable, Mapping
 from backend.context_ir import normalize_source_request, validate_source_request
 
 
+_DIMENSION_MARKERS = (
+    ("first_frame", ("first frame", "opening frame", "start frame")),
+    ("last_frame", ("last frame", "closing frame", "ending frame")),
+    ("identity", ("identity", "face", "facial", "hair", "body shape", "expression", "人物身份", "人脸", "发型", "表情")),
+    ("outfit", ("outfit", "clothing", "garment", "wardrobe", "服装", "穿着")),
+    ("camera", ("camera", "composition", "framing", "shot scale", "viewpoint", "运镜", "构图", "景别")),
+    ("rhythm", ("rhythm", "pacing", "shot order", "cut timing", "edit timing", "temporal structure", "剪辑", "节奏", "镜头顺序", "时间结构")),
+    ("motion", ("motion", "action", "movement", "performance", "gesture", "walking path", "动作", "手势", "路径")),
+    ("voice", ("voice", "dialogue", "narration", "speech", "sync audio", "同期声", "对白", "人声")),
+    ("music", ("music", "song", "melody", "音乐", "歌曲")),
+    ("scene", ("scene", "background", "environment", "store", "shelf", "basket", "sign", "visible text", "subtitle", "场景", "背景", "店铺", "货架", "购物篮", "招牌", "字幕")),
+    ("style", ("style", "lighting", "color grade", "aesthetic", "风格", "灯光", "调色")),
+    ("product", ("product", "appearance", "geometry", "material", "color", "pattern", "decoration", "nail", "商品", "外观", "材质", "颜色", "图案", "甲片")),
+)
+
+
+def _scope_dimension(value: str) -> str:
+    text = value.casefold()
+    for dimension, markers in _DIMENSION_MARKERS:
+        if any(marker in text for marker in markers):
+            return dimension
+    return "other"
+
+
+def _atomize_added_directives(directives: list[Any], supplied_count: int) -> list[Any]:
+    """Split model-added mixed-control directives while preserving supplied directives."""
+    result = copy.deepcopy(directives[:supplied_count])
+    used_ids = {
+        str(item.get("directive_id", "")).strip()
+        for item in result
+        if isinstance(item, Mapping)
+    }
+    next_id = 1
+
+    def new_id() -> str:
+        nonlocal next_id
+        while f"d_{next_id}" in used_ids:
+            next_id += 1
+        value = f"d_{next_id}"
+        used_ids.add(value)
+        next_id += 1
+        return value
+
+    for item in directives[supplied_count:]:
+        if not isinstance(item, Mapping):
+            result.append(item)
+            continue
+        scopes = [str(value).strip() for value in item.get("scope", []) if str(value).strip()]
+        groups: dict[str, list[str]] = {}
+        for scope in scopes:
+            groups.setdefault(_scope_dimension(scope), []).append(scope)
+        if len(groups) <= 1:
+            directive = copy.deepcopy(dict(item))
+            identifier = str(directive.get("directive_id", "")).strip()
+            if not identifier or identifier in used_ids:
+                directive["directive_id"] = new_id()
+            else:
+                used_ids.add(identifier)
+            result.append(directive)
+            continue
+        for dimension, grouped_scopes in groups.items():
+            directive = copy.deepcopy(dict(item))
+            directive["directive_id"] = new_id()
+            directive["target"] = f"{str(item.get('target', '')).strip()} [{dimension}]".strip()
+            directive["scope"] = grouped_scopes
+            result.append(directive)
+    return result
+
+
 def build_intent_prompt(source: Mapping[str, Any]) -> str:
     manifest = [{k: item.get(k) for k in ("asset_id", "media_type", "label", "user_role", "original_filename")}
                 for item in source.get("assets", []) if isinstance(item, Mapping)]
@@ -25,6 +94,10 @@ visible evidence to inspect.
 Rules:
 - Preserve every supplied directive byte-for-byte; never rewrite or delete it.
 - Add directives only for explicit user requirements. Do not turn guesses into locks.
+- Every newly added directive must control exactly one semantic dimension. Split
+  identity, outfit, product, motion, camera, rhythm, scene, voice, music, style,
+  first-frame, and last-frame requirements into separate directives. Never put
+  attributes from several of these dimensions into one scope array.
 - Use only asset_id values present in the manifest.
 - Separate user-claimed semantics (for example a claimed product category) from
   visual evidence. Put such claims in user_claimed_category, never as a VLM fact.
@@ -67,6 +140,7 @@ def validate_intent_resolution(payload: Mapping[str, Any], source: Mapping[str, 
         raise ValueError("intent resolver directives must be an array")
     if directives[:len(supplied)] != supplied:
         raise ValueError("intent resolver changed or reordered supplied directives")
+    directives = _atomize_added_directives(directives, len(supplied))
     plan = payload.get("perception_plan")
     if not isinstance(plan, Mapping) or not isinstance(plan.get("assets"), list):
         raise ValueError("intent resolver perception_plan.assets must be an array")

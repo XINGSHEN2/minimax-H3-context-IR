@@ -174,11 +174,6 @@ def schema_template(source: dict[str, Any]) -> dict[str, Any]:
     reasoning = reasoning_provider_config()
     return {
         "schema_version": "0.1.0",
-        "runtime": {
-            "perception_provider": source.get("perception", {}).get("provider", {"name": "gitee-qwen3-vl", "model": "Qwen3-VL-30B-A3B-Instruct", "options": {}}),
-            "reasoning_provider": {"provider": reasoning["selection"], "model": reasoning["model"]},
-            "generation_provider": {"provider": "minimax", "model": "MiniMax-H3"},
-        },
         "intent": {
             "user_request": source.get("user_request", ""),
             "resolved_request": source.get("resolved_request", ""),
@@ -188,15 +183,6 @@ def schema_template(source: dict[str, Any]) -> dict[str, Any]:
             "uncertainties": [],
         },
         "protocol": {"rewrite_language": "English", "preserve_source_language_for": ["dialogue", "lyrics", "visible scene text"], "summary_task_types": ["reference generation"]},
-        "task": {
-            "type": task.get("type", "ref2va"),
-            "duration_seconds": task.get("duration_seconds", 15),
-            "aspect_ratio": task.get("aspect_ratio", "9:16"),
-            "generate_audio": task.get("generate_audio", True),
-            "style": task.get("style", ""),
-        },
-        "assets": source.get("assets", []),
-        "perception": source.get("perception"),
         "asset_bindings": [{"binding_id": "b_example", "asset_id": "asset_id", "target": "semantic target", "role": "identity|outfit|product|motion|voice|music|rhythm|camera|scene|style|first_frame|last_frame", "priority": "hard|soft", "source_directive_ids": ["directive_id"], "inherit": ["controlled attribute"], "exclude": ["uncontrolled attribute"]}],
         "subjects": [{"subject_id": "subject_1", "name": "stable identifiable entity", "kind": "person|product|animal|object|environment|other", "primary": True, "description": "stable visible identity and appearance", "source_asset_ids": ["asset_id"], "binding_ids": ["b_example"], "appearance_shot_ids": ["01"], "retention_mode": "fully_preserved|partially_preserved|attribute_transfer|weak_reference", "retention_description": "what remains or transfers"}],
         "reference_relationships": [{"asset_id": "asset_id", "relationship": "source_video_edit|reference_generation|keyframe_completion|video_continuation|audio_reuse|audio_reference", "subject_refs": ["subject_1"], "definition": "a noun phrase describing the exact role of this Picture, Video, or Audio reference; do not begin with 'is'", "retention_mode": "fully_preserved", "retention_description": "how this reference is used in the target video"}],
@@ -287,6 +273,10 @@ Semantic decision policy:
 - Timeline starts at 0, has no gaps/overlaps, and ends exactly at the requested duration.
 - Do not add unsupported brand claims, dialogue, logo text, identity facts, or asset content.
 - The final response must be exactly one JSON object. No Markdown fence, commentary, or explanation.
+- Do not emit runtime, task, assets, or perception. These authoritative fields are
+  injected deterministically from the Input after your semantic JSON is parsed.
+  Refer to their asset IDs and evidence, but never copy the large perception tree
+  into the response.
 
 Required shape (replace illustrative entries rather than copying them):
 {json.dumps(schema_template(source), ensure_ascii=False, indent=2)}

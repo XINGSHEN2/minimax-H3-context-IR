@@ -39,6 +39,43 @@ class IntentResolverTests(unittest.TestCase):
         self.assertEqual(len(result["source"]["directives"]), 2)
         self.assertEqual(result["perception_plan"]["assets"][0]["user_claimed_category"], "portable pump")
 
+    def test_model_added_mixed_dimension_directive_is_atomized(self):
+        response = self.response()
+        response["directives"] = [{
+            "directive_id": "d_mixed",
+            "asset_id": "video_1",
+            "target": "base video",
+            "operation": "preserve",
+            "scope": ["female identity", "staff clothing", "walking path", "store shelves"],
+            "priority": "hard",
+            "provenance": "explicit_user",
+        }]
+        result = resolve_intent(self.source, lambda _: response)
+        directives = result["source"]["directives"]
+        self.assertEqual(len(directives), 4)
+        self.assertEqual(
+            {tuple(item["scope"]) for item in directives},
+            {("female identity",), ("staff clothing",), ("walking path",), ("store shelves",)},
+        )
+        self.assertEqual(len({item["directive_id"] for item in directives}), 4)
+
+    def test_supplied_mixed_dimension_directive_remains_immutable(self):
+        source = copy.deepcopy(self.source)
+        supplied = {
+            "directive_id": "d_supplied",
+            "asset_id": "video_1",
+            "target": "base video",
+            "operation": "preserve",
+            "scope": ["female identity", "staff clothing"],
+            "priority": "hard",
+            "provenance": "explicit_user",
+        }
+        source["directives"] = [supplied]
+        response = self.response()
+        response["directives"] = [copy.deepcopy(supplied)]
+        result = resolve_intent(source, lambda _: response)
+        self.assertEqual(result["source"]["directives"], [supplied])
+
     def test_existing_directives_cannot_be_changed(self):
         source = copy.deepcopy(self.source)
         source["directives"] = [self.response()["directives"][0]]

@@ -752,6 +752,24 @@ def compile_context_ir(model_output: Mapping[str, Any], source_request: Mapping[
     })
     if source_request is not None:
         source = normalize_source_request(source_request)
+        # These fields are authoritative input facts, not semantic decisions.
+        # Inject them instead of asking the reasoning model to reproduce a large
+        # perception tree and file paths byte-for-byte.
+        payload["task"] = copy.deepcopy(source.get("task", {}))
+        payload["assets"] = copy.deepcopy(source.get("assets", []))
+        payload["perception"] = copy.deepcopy(source.get("perception"))
+        perception_provider = (
+            source.get("perception", {}).get("provider", {})
+            if isinstance(source.get("perception"), Mapping)
+            else {}
+        )
+        runtime = payload.setdefault("runtime", {})
+        if not isinstance(runtime, dict):
+            runtime = {}
+            payload["runtime"] = runtime
+        runtime["perception_provider"] = copy.deepcopy(perception_provider)
+        runtime.setdefault("reasoning_provider", {"provider": "configured", "model": "configured"})
+        runtime.setdefault("generation_provider", {"provider": "minimax", "model": "MiniMax-H3"})
         intent = payload.setdefault("intent", {})
         if not isinstance(intent, dict):
             raise ContextIRError("intent must be an object")
