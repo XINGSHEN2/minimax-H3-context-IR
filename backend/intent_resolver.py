@@ -145,21 +145,35 @@ def validate_intent_resolution(payload: Mapping[str, Any], source: Mapping[str, 
     if not isinstance(plan, Mapping) or not isinstance(plan.get("assets"), list):
         raise ValueError("intent resolver perception_plan.assets must be an array")
     planned: set[str] = set()
+    plan_by_id: dict[str, dict[str, Any]] = {}
     normalized_plan = []
     for index, item in enumerate(plan["assets"]):
         if not isinstance(item, Mapping):
             raise ValueError(f"perception_plan.assets[{index}] must be an object")
         asset_id = str(item.get("asset_id", "")).strip()
-        if asset_id not in asset_ids or asset_id in planned:
-            raise ValueError(f"invalid or duplicate perception-plan asset_id: {asset_id}")
+        if asset_id not in asset_ids:
+            raise ValueError(f"invalid perception-plan asset_id: {asset_id}")
+        if asset_id in planned:
+            existing = plan_by_id[asset_id]
+            for key in ("analyze", "do_not_infer"):
+                known = {value.casefold() for value in existing[key]}
+                for value in [str(v).strip() for v in item.get(key, []) if str(v).strip()]:
+                    if value.casefold() not in known:
+                        existing[key].append(value)
+                        known.add(value.casefold())
+            if not existing["user_claimed_category"]:
+                existing["user_claimed_category"] = str(item.get("user_claimed_category", "")).strip()
+            continue
         planned.add(asset_id)
-        normalized_plan.append({
+        normalized = {
             "asset_id": asset_id,
             "role": str(item.get("role", "reference")).strip() or "reference",
             "user_claimed_category": str(item.get("user_claimed_category", "")).strip(),
             "analyze": [str(v).strip() for v in item.get("analyze", []) if str(v).strip()],
             "do_not_infer": [str(v).strip() for v in item.get("do_not_infer", []) if str(v).strip()],
-        })
+        }
+        normalized_plan.append(normalized)
+        plan_by_id[asset_id] = normalized
     # Every asset must receive a plan, even when the model omitted an irrelevant one.
     for asset_id in sorted(asset_ids - planned):
         normalized_plan.append({"asset_id": asset_id, "role": "reference", "user_claimed_category": "", "analyze": ["generation-relevant visible evidence"], "do_not_infer": ["unsupported identity, brand, function, or user intent"]})

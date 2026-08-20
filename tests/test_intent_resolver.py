@@ -90,6 +90,24 @@ class IntentResolverTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "asset_id"):
             validate_intent_resolution(bad, self.source)
 
+    def test_duplicate_plan_asset_questions_are_merged(self):
+        response = self.response()
+        response["perception_plan"]["assets"].append({
+            "asset_id": "video_1",
+            "role": "motion_reference",
+            "user_claimed_category": "",
+            "analyze": ["hand motion", "cuts"],
+            "do_not_infer": ["performer identity", "scene identity"],
+        })
+        result = validate_intent_resolution(response, self.source)
+        video_plans = [
+            item for item in result["perception_plan"]["assets"]
+            if item["asset_id"] == "video_1"
+        ]
+        self.assertEqual(len(video_plans), 1)
+        self.assertEqual(video_plans[0]["analyze"], ["cuts", "camera movement", "hand motion"])
+        self.assertEqual(video_plans[0]["do_not_infer"], ["performer identity", "scene identity"])
+
     def test_claim_is_separate_and_guard_enters_qwen_prompt(self):
         prompt = build_intent_prompt(self.source)
         self.assertIn("user_claimed_category", prompt)
