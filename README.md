@@ -6,21 +6,20 @@
 
 完整设计与字段说明见 [当前 Context-IR 工作流](docs/CURRENT_CONTEXT_IR_WORKFLOW.md)。
 
-## Project layout
+## 项目结构
 
 ```text
-backend/     Python Agent, perception providers, Context-IR compiler, Web API
-frontend/    Independent browser interface
-assets/      Uploaded/request media grouped by case
-skills/      Official MiniMax-H3 Skills
-deploy/      Container launchers and local environment templates
-outputs/     Generated Context-IR, H3 Prompt, audit, and request files
+backend/     Python Agent、感知适配器、Context-IR 编译器与 Web API
+frontend/    独立浏览器界面
+assets/      按案例组织的上传与请求素材
+skills/      MiniMax-H3 官方 Skills
+deploy/      容器启动脚本与本地环境配置模板
+outputs/     生成的 Context-IR、H3 Prompt、审计与请求文件
 ```
 
-The root `agent.py`, `context_ir.py`, and `perception.py` files remain as
-backward-compatible entry points; active implementations live in `backend/`.
+根目录下的 `agent.py`、`context_ir.py` 和 `perception.py` 作为向后兼容入口保留；当前实际实现位于 `backend/`。
 
-## Architecture
+## 整体架构
 
 ```mermaid
 flowchart TD
@@ -50,21 +49,18 @@ flowchart TD
 
 视觉分析标准输出为 `media_analysis.v2`。传入已有 perception 缓存时可以跳过 VLM，便于重复调试 IR；测试 VLM 准确性时应禁用缓存重新分析。音频目前会保留在素材清单中，但 Qwen 视觉层不分析音轨，后续可接入独立音频感知模型。
 
-## Run
+## 运行方法
 
-Put each request's media under `assets/case_NNN/` using the `images`, `videos`,
-and `audio` subfolders. Start from `assets/case_001/request.json`; media paths
-must use the absolute `/home/mx/shenxing/minimax-H3-context-IR/assets/...`
-form so they resolve identically on the host and in the container.
+将每个请求的素材放在 `assets/case_NNN/` 下，并分别使用 `images`、`videos` 和 `audio` 子目录。可以从 `assets/case_001/request.json` 开始；素材路径应使用 `/home/mx/shenxing/minimax-H3-context-IR/assets/...` 形式的绝对路径，确保宿主机与容器内解析结果一致。
 
-Prepare an input JSON from `examples/request.example.json`, then run:
+参考 `examples/request.example.json` 准备输入 JSON，然后运行：
 
 ```bash
 cd /home/mx/shenxing/minimax-H3-context-IR
 bash deploy/run.sh examples/request.example.json
 ```
 
-For the included case template:
+运行仓库自带的案例模板：
 
 ```bash
 bash deploy/run.sh assets/case_001/request.json
@@ -87,13 +83,13 @@ bash deploy/run.sh assets/case_001/request.json
       "asset_id": "image_1",
       "media_type": "image",
       "uri": "/absolute/path/product.png",
-      "label": "Picture 1 - product appearance"
+      "label": "图片1 - 商品外观"
     },
     {
       "asset_id": "video_1",
       "media_type": "video",
       "uri": "/absolute/path/reference.mp4",
-      "label": "Video 1 - camera movement and structure only"
+      "label": "视频1 - 仅参考运镜和展示结构"
     }
   ]
 }
@@ -101,27 +97,19 @@ bash deploy/run.sh assets/case_001/request.json
 
 如果用户提供了更详细的分镜、素材继承范围或状态切换要求，系统会把这些内容视为高优先级指令；只对未指定但生成所必需的部分进行保守补全。
 
-## Web studio
+## Web 操作界面
 
-Start the independent frontend and upload API from the same project folder:
+在项目目录中启动独立前端与素材上传 API：
 
 ```bash
 bash deploy/web.sh
 ```
 
-Then open `http://<aigc-host>:38080`. The interface accepts natural-language
-requirements and drag-and-drop media, assigns image/video/audio numbers,
-captures each asset's intended role, creates a new `assets/case_NNN`, and runs
-the same Codex Agent pipeline. Generated files remain under `outputs/` and are
-available in Context-IR, H3 Prompt, and audit tabs.
+然后打开 `http://<aigc-host>:38080`。界面支持自然语言需求和拖放素材，会自动为图片、视频和音频编号，记录每份素材的预期用途，创建新的 `assets/case_NNN`，并运行同一套 Codex Agent 流程。生成文件保存在 `outputs/` 下，可在 Context-IR、H3 Prompt 和审计标签页中查看。
 
-The interface is an independent implementation inspired by the interaction
-patterns of the MIT-licensed `ComfyUI-MiniMaxH3-Prompt-Writer`; it does not
-depend on ComfyUI or copy its runtime integration.
+该界面参考了 MIT 许可项目 `ComfyUI-MiniMaxH3-Prompt-Writer` 的交互方式，但属于独立实现，不依赖 ComfyUI，也没有复制其运行时集成。
 
-Results are written to a timestamped folder under `outputs/` unless `--output-dir` is provided.
-The normalized visual evidence is saved as `media_analysis.json`; model
-reasoning text and Base64 image payloads are never written to outputs.
+默认情况下，结果会写入 `outputs/` 下按时间戳命名的目录；也可以通过 `--output-dir` 指定输出位置。规范化后的视觉证据保存在 `media_analysis.json` 中；模型推理文本和 Base64 图片载荷不会写入输出目录。
 主要产物包括：
 
 ```text
@@ -133,79 +121,63 @@ h3_prompt_audit.json     Prompt 审计结果、错误与警告
 h3_request.json          MiniMax-H3 服务请求
 ```
 
-Each successful run includes `h3_prompt_audit.json`. Base tasks
-(`T2VA/I2VA/FL2VA/L2VA`) use the official three-section structure, while
-`Ref2VA` uses the official six-section structure. H3 reference labels are
-derived deterministically from final condition order.
+每次成功运行都会生成 `h3_prompt_audit.json`。基础任务（`T2VA/I2VA/FL2VA/L2VA`）使用官方三段式结构，`Ref2VA` 使用官方六段式结构。H3 引用标签根据最终条件顺序确定性生成。
 
-Check the Codex runtime and GLM gateway without running an Agent turn:
+仅检查 Codex 运行环境和 GLM 网关，不执行 Agent 推理：
 
 ```bash
 bash deploy/run.sh --preflight-only
 ```
 
-Use an official style Skill when relevant:
+需要指定官方风格 Skill 时：
 
 ```bash
 bash deploy/run.sh request.json --style-skill minimalist-product-ad-generator
 ```
 
-Validate without calling GLM:
+不调用 GLM，仅校验已有 Context-IR：
 
 ```bash
 bash deploy/run.sh --validate-only outputs/<run>/context_ir.json
 ```
 
-## Runtime configuration
+## 运行配置
 
-Visual perception defaults to the locally deployed Qwen3-VL-32B FIFO service:
+视觉感知默认使用本地部署的 Qwen3-VL-32B FIFO 服务：
 
-- `CONTEXT_IR_VLM_PROVIDER`: default `local-qwen3-vl-32b`
-- `YIWU_VLM_BASE_URL`: default `http://127.0.0.1:9012`
-- `YIWU_VLM_MODEL`: default `Qwen3-VL-32B-Instruct`
-- `CONTEXT_IR_VIDEO_FPS`: default `2`
-- `CONTEXT_IR_VIDEO_MAX_FRAMES`: default `256`
-- `CONTEXT_IR_VLM_TIMEOUT_SECONDS`: default `1800`
+- `CONTEXT_IR_VLM_PROVIDER`：默认值 `local-qwen3-vl-32b`
+- `YIWU_VLM_BASE_URL`：默认值 `http://127.0.0.1:9012`
+- `YIWU_VLM_MODEL`：默认值 `Qwen3-VL-32B-Instruct`
+- `CONTEXT_IR_VIDEO_FPS`：默认值 `2`
+- `CONTEXT_IR_VIDEO_MAX_FRAMES`：默认值 `256`
+- `CONTEXT_IR_VLM_TIMEOUT_SECONDS`：默认值 `1800`
 
-As with the `yiwu_codex` launcher, runtime values may be kept in a local env
-file. Copy `deploy/context_ir.env.example` to `deploy/context_ir.env`, add the
-key there, and keep that file uncommitted. An already exported environment
-variable takes precedence over the file.
+与 `yiwu_codex` 启动方式一致，运行参数可以保存在本地环境文件中。将 `deploy/context_ir.env.example` 复制为 `deploy/context_ir.env`，在其中填写密钥，并确保该文件不进入版本控制。系统中已经导出的环境变量优先于文件内配置。
 
-Local image and video absolute paths are submitted directly to the service.
-The service copies each input into its FIFO task directory and uses Qwen's
-native video utility to decode chronological frames; audio tracks are not
-analyzed. The previous `gitee-qwen3-vl` contact-sheet adapter remains available
-as an explicit provider fallback.
+本地图片和视频的绝对路径会直接提交给服务。服务将输入复制到 FIFO 任务目录，并使用 Qwen 原生视频工具按时间顺序解码帧；当前不分析音轨。原有 `gitee-qwen3-vl` 联系表适配器仍可作为显式指定的备用感知提供方。
 
-The Codex Agent supports switchable reasoning providers through the Responses API.
-Set `CONTEXT_IR_LLM_PROVIDER=deepseek` or
-`CONTEXT_IR_LLM_PROVIDER=glm` in `deploy/context_ir.env`.
+Codex Agent 通过 Responses API 支持切换推理模型。在 `deploy/context_ir.env` 中设置 `CONTEXT_IR_LLM_PROVIDER=deepseek` 或 `CONTEXT_IR_LLM_PROVIDER=glm`。
 
-GLM configuration:
+GLM 配置：
 
-- `GLM_MODEL` default: `GLM-5.2`
-- `GLM_PROVIDER_ID` default: `glm`
-- `GLM_RESPONSES_BASE_URL` default: `http://127.0.0.1:38041/v1`
-- `GLM_HTTP_HOST` default: `litellm-poc.pgw.metax-tech.com`
-- `OPENAI_API_KEY`: required LiteLLM bearer key
-- wire API: `responses`
+- `GLM_MODEL`：默认值 `GLM-5.2`
+- `GLM_PROVIDER_ID`：默认值 `glm`
+- `GLM_RESPONSES_BASE_URL`：默认值 `http://127.0.0.1:38041/v1`
+- `GLM_HTTP_HOST`：默认值 `litellm-poc.pgw.metax-tech.com`
+- `OPENAI_API_KEY`：必填，LiteLLM Bearer Key
+- 传输 API：`responses`
 
-DeepSeek configuration:
+DeepSeek 配置：
 
-- `DEEPSEEK_MODEL` default: `deepseek-v4-flash`
-- `DEEPSEEK_PROVIDER_ID` default: `deepseek`
-- `DEEPSEEK_RESPONSES_BASE_URL` default: `https://api.deepseek.com`
-- `DEEPSEEK_API_KEY`: required official DeepSeek API key
-- wire API: `responses`
+- `DEEPSEEK_MODEL`：默认值 `deepseek-v4-flash`
+- `DEEPSEEK_PROVIDER_ID`：默认值 `deepseek`
+- `DEEPSEEK_RESPONSES_BASE_URL`：默认值 `https://api.deepseek.com`
+- `DEEPSEEK_API_KEY`：必填，DeepSeek 官方 API Key
+- 传输 API：`responses`
 
-DeepSeek's official Responses endpoint is directly compatible with Codex and
-does not use the GLM LiteLLM tunnel. Switching providers does not affect the
-Qwen perception stage or the deterministic Context-IR validation pipeline.
+DeepSeek 官方 Responses 端点可以直接与 Codex 配合使用，不经过 GLM 的 LiteLLM 隧道。切换推理模型不会影响 Qwen 感知阶段和确定性的 Context-IR 校验流程。
 
-Keep the real LiteLLM key only in the ignored `deploy/context_ir.env` file.
-Because `aigc` cannot resolve the LiteLLM intranet hostname, Windows supplies
-network access through an SSH reverse tunnel:
+真实 LiteLLM 密钥只应保存在已忽略的 `deploy/context_ir.env` 文件中。由于 `aigc` 无法解析 LiteLLM 内网域名，需要由 Windows 通过 SSH 反向隧道提供网络访问：
 
 ```powershell
 Start-Process ssh -ArgumentList @(
@@ -218,20 +190,14 @@ Start-Process ssh -ArgumentList @(
 ) -WindowStyle Hidden
 ```
 
-`GLM_HTTP_HOST` preserves the original virtual-host routing while Codex calls
-the tunnel through `127.0.0.1:38041`.
+Codex 通过 `127.0.0.1:38041` 调用隧道时，`GLM_HTTP_HOST` 用于保留原始虚拟主机路由。
 
-The Docker **container** is named `minimax_h3_context_ir`. By default the
-launcher reuses the existing **image** `yiwu_codex:latest` only as the Codex
-SDK runtime; these are deliberately different concepts. Override the image
-with `CONTEXT_IR_IMAGE`, for example:
+Docker **容器**名称为 `minimax_h3_context_ir`。默认情况下，启动脚本只复用现有 **镜像** `yiwu_codex:latest` 作为 Codex SDK 运行环境；容器与镜像是两个不同概念。可以通过 `CONTEXT_IR_IMAGE` 覆盖镜像，例如：
 
 ```bash
 CONTEXT_IR_IMAGE=minimax-h3-context-ir:latest bash deploy/run.sh request.json
 ```
 
-The mounted project remains independent and does not depend on
-`/home/mx/shenxing/yiwu_codex`.
+挂载后的项目保持独立，不依赖 `/home/mx/shenxing/yiwu_codex`。
 
-The LiteLLM Responses gateway is an external prerequisite only when GLM is
-selected. The runner does not start or manage it.
+只有选择 GLM 时才需要外部 LiteLLM Responses 网关；本项目的启动脚本不会启动或管理该网关。
