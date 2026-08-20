@@ -102,7 +102,10 @@ def main() -> int:
     for case_id in args.cases:
         case_dir = args.base / case_id
         spec = read_json(case_dir / "case_spec.json")
-        input_dir = case_dir / "_run_inputs" / args.revision
+        runtime = ROOT / "outputs" / f"ab_suite_{args.revision}" / case_id
+        if runtime.exists():
+            raise FileExistsError(f"Runtime already exists: {runtime}")
+        input_dir = runtime / "_inputs"
         detailed_input = input_dir / "detailed.json"
         vague_input = input_dir / "vague.json"
         write_json(detailed_input, build_source(case_dir, spec, "detailed"))
@@ -114,10 +117,12 @@ def main() -> int:
         status["cases"][case_id] = {"status": "running", "phase": "detailed"}
         write_json(status_path, status)
         try:
-            run_one(detailed_input, candidate / "detailed")
+            run_one(detailed_input, runtime / "detailed")
             status["cases"][case_id]["phase"] = "vague"
             write_json(status_path, status)
-            run_one(vague_input, candidate / "vague", candidate / "detailed" / "media_analysis.json")
+            run_one(vague_input, runtime / "vague", runtime / "detailed" / "media_analysis.json")
+            shutil.copytree(runtime / "detailed", candidate / "detailed")
+            shutil.copytree(runtime / "vague", candidate / "vague")
             publish_candidate(case_dir, candidate, args.revision)
             status["cases"][case_id] = {"status": "completed", "output": str(case_dir / "B_context_ir")}
         except Exception as exc:
