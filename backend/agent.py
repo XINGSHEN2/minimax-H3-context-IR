@@ -18,7 +18,9 @@ from backend.context_ir import (
     audit_h3_prompt,
     build_h3_request,
     compile_context_ir,
+    normalize_source_request,
     render_h3_prompt,
+    validate_source_request,
     validate_context_ir,
 )
 from backend.perception import PERCEPTION_PROVIDERS, PerceptionProviderConfig
@@ -140,7 +142,14 @@ def schema_template(source: dict[str, Any]) -> dict[str, Any]:
             "reasoning_provider": {"provider": reasoning["selection"], "model": reasoning["model"]},
             "generation_provider": {"provider": "minimax", "model": "MiniMax-H3"},
         },
-        "intent": {"user_request": source.get("user_request", ""), "resolved_request": "", "explicit_requirements": [], "inferred_outcome": "", "completion_defaults": [], "unsupported_inferences": [], "assumptions": [], "uncertainties": []},
+        "intent": {
+            "user_request": source.get("user_request", ""),
+            "resolved_request": source.get("resolved_request", ""),
+            "directives": source.get("directives", []),
+            "completion_policy": source.get("completion_policy", {}),
+            "assumptions": [],
+            "uncertainties": [],
+        },
         "protocol": {"rewrite_language": "English", "preserve_source_language_for": ["dialogue", "lyrics", "visible scene text"], "summary_task_types": ["reference generation"]},
         "task": {
             "type": task.get("type", "ref2va"),
@@ -151,24 +160,13 @@ def schema_template(source: dict[str, Any]) -> dict[str, Any]:
         },
         "assets": source.get("assets", []),
         "perception": source.get("perception"),
-        "asset_bindings": [{"binding_id": "b_example", "asset_id": "asset_id", "target": "semantic target", "role": "identity|outfit|product|motion|voice|music|rhythm|camera|scene|style|first_frame|last_frame", "priority": "hard|soft", "inherit": ["controlled attribute"], "exclude": ["uncontrolled attribute"]}],
+        "asset_bindings": [{"binding_id": "b_example", "asset_id": "asset_id", "target": "semantic target", "role": "identity|outfit|product|motion|voice|music|rhythm|camera|scene|style|first_frame|last_frame", "priority": "hard|soft", "source_directive_ids": ["directive_id"], "inherit": ["controlled attribute"], "exclude": ["uncontrolled attribute"]}],
         "subjects": [{"subject_id": "subject_1", "name": "stable identifiable entity", "kind": "person|product|animal|object|environment|other", "primary": True, "description": "stable visible identity and appearance", "source_asset_ids": ["asset_id"], "binding_ids": ["b_example"], "appearance_shot_ids": ["01"], "retention_mode": "fully_preserved|partially_preserved|attribute_transfer|weak_reference", "retention_description": "what remains or transfers"}],
-        "reference_relationships": [{"asset_id": "asset_id", "relationship": "source_video_edit|reference_generation|keyframe_completion|video_continuation|audio_reuse|audio_reference", "subject_refs": ["subject_1"], "definition": "a noun phrase describing the exact role of this Picture, Video, or Audio reference; do not begin with 'is'", "retention_mode": "fully_preserved|partially_preserved|attribute_transfer|weak_reference|fully_copy|partially_copy|reference", "retention_description": "how this reference is used in the target video"}],
-        "decision_plan": {
-            "intent_hierarchy": {
-                "explicit_goal": "what the user directly requests",
-                "intended_outcome": "the finished-video outcome implied by the whole request",
-                "execution_means": ["references or production methods that support the outcome"],
-                "non_authorized_inferences": ["identity-bearing, textual, audio, scene, or product facts that must not be invented"],
-            },
-            "asset_authority": [{"asset_id": "asset_id", "authority": "edit_base|authoritative_content|scoped_reference", "controlled_dimensions": ["attributes this asset decides"], "secondary_dimensions": ["attributes that may guide execution but cannot override harder sources"]}],
-            "attribute_decisions": [{"asset_id": "asset_id", "attribute": "one atomic property", "decision": "cite|transfer|discard", "target_subject_id": "subject_1 or empty", "priority": "hard|soft", "evidence_basis": "visible|inferred|user_instruction|asset_role", "rationale": "why this attribute is retained, transferred, or rejected"}],
-            "attention_budget": [{"subject_id": "subject_1", "weight": 1.0, "role": "primary|supporting|background", "requirements": ["concrete screen-time, framing, visibility, or continuity requirement"]}],
-        },
+        "reference_relationships": [{"asset_id": "asset_id", "relationship": "source_video_edit|reference_generation|keyframe_completion|video_continuation|audio_reuse|audio_reference", "subject_refs": ["subject_1"], "definition": "a noun phrase describing the exact role of this Picture, Video, or Audio reference; do not begin with 'is'", "retention_mode": "fully_preserved", "retention_description": "how this reference is used in the target video"}],
         "creative_focus": {"primary_target": "the subject or outcome that must dominate the finished video", "primary_subject_id": "subject_1", "primary_asset_id": "asset_id or empty for T2VA", "primary_binding_ids": ["b_example"], "objective": "the final visible outcome that matters most", "supporting_asset_ids": [], "required_shot_ids": ["01"], "presentation_requirements": ["an executable visibility, framing, material, or continuity requirement"]},
         "isolation_rules": [{"binding_id": "b_example", "allow": ["controlled attribute"], "block": ["uncontrolled attribute"]}],
         "constraints": {"preserve": [], "allow_change": [], "prohibit": []},
-        "timeline": [{"shot_id": "01", "start_seconds": 0, "end_seconds": task.get("duration_seconds", 15), "purpose": "what new visual or commercial information this beat delivers", "focus_level": "hero|primary|supporting|background", "event": "one executable visible event", "action": "", "camera": "", "lighting": "", "transition": "", "subject_refs": ["subject_1"], "asset_refs": [], "binding_refs": [], "reference_transfer": ["the selected source dimensions used in this beat"]}],
+        "timeline": [{"shot_id": "01", "start_seconds": 0, "end_seconds": task.get("duration_seconds", 15), "event": "one executable visible event", "action": "", "camera": "", "lighting": "", "transition": "", "subject_refs": ["subject_1"], "asset_refs": [], "binding_refs": []}],
         "audio_plan": {"voice": "", "music": "", "sound_effects": "", "ambient_sound": "", "sync_rules": []},
         "generation_description": {"cinematography": "", "lighting": "", "materials": "", "performance": "", "continuity": ""},
     }
@@ -193,30 +191,32 @@ Semantic decision policy:
 - Entity attributes, relations, events, and state transitions are evidence, not
   user intent. Decide preservation, replacement, scope, and priority here.
 - Perception describes facts; this turn decides asset roles and conflicts.
-- Work in this mandatory internal order and record the result in decision_plan before writing the rest of the IR: (1) resolve the intent hierarchy, (2) classify every asset's authority, (3) make atomic cite/transfer/discard decisions, (4) allocate attention to stable subjects, (5) write a purpose-led beat sheet in timeline, and only then (6) complete bindings, constraints, generation prose, and audio.
-- Understand the request holistically in its own language. Infer intent from meaning, asset relationships, labels, and perception evidence; never rely on a fixed phrase list or keyword-only matching.
+- This is a compiler, not an upstream conversational or creative-planning agent. Explicit user language and supplied directives are authoritative; perception only supplies facts needed to implement them.
+- Treat every supplied directive as immutable. Expand it into bindings, constraints, subjects, relationships, timeline details, and continuity rules, but never override, weaken, or reinterpret it.
+- Copy every supplied directive into intent.directives unchanged. Never synthesize, split, rename, or assign IDs to new directives. If the supplied directives array is empty, emit intent.directives as [] and emit source_directive_ids as [] on every asset binding. Every supplied directive must be cited by at least one asset binding through source_directive_ids. A binding may cite several supplied directives, and a supplied directive may expand into several bindings.
+- For requirements not explicitly specified, infer only the minimum conservative intent necessary to compile an executable result. Prefer the smallest change to the edit base, record the assumption, and never rely on a fixed phrase list or keyword-only matching.
+- Never use media evidence to invent user intent. A visible person, outfit, scene, caption, or soundtrack is not inherited unless a directive, the user request, or an allowed conservative edit-base default requires it.
 - Understanding language and rewrite language are separate. Write all generated Context-IR semantic descriptions in English. Preserve the source language only for verbatim dialogue, lyrics, and text visibly present in the requested scene, as required by the official H3 Skill.
+- Keep intent.user_request and an upstream-supplied intent.resolved_request only as source-provenance fields. The deterministic H3 renderer does not copy them into the prompt; express the executable English task completely through creative_focus, constraints, timeline, generation_description, and audio_plan.
 - For every asset, autonomously decide whether it is an edit base, an authoritative content source, or a scoped creative reference. Base the decision on how the user wants the asset used, not merely on media type.
 - Determine each asset's authority and transferable dimensions. Inherit only attributes required by the resolved intent; explicitly exclude unrelated attributes that could contaminate identity, product, outfit, scene, text, logo, dialogue, voice, motion, camera, rhythm, or style.
 - For an edit base, preserve all evidenced existing attributes except those the user requests or necessarily implies should change. For an authoritative content source, bind its controlled attributes as hard constraints. For a scoped reference, transfer only the requested or clearly necessary abstract dimensions.
 - Resolve conflicts by following the user's intended outcome first, then hard identity/product/content sources, then evidenced reference facts, then soft creative references. Never let a soft reference overwrite a hard source.
-- Separate outcome from execution means. A request to copy a reference video's motion, shot structure, camera, or pacing does not make the source performer or setting the creative focus. For product promotion, the authoritative product remains primary unless the user explicitly chooses another outcome.
-- Fill intent.explicit_requirements with direct requirements, intent.inferred_outcome with one conservative holistic outcome, intent.completion_defaults with necessary production choices, and intent.unsupported_inferences with tempting but unauthorized additions. Do not disguise unsupported invention as an assumption.
-- Classify every asset exactly once in decision_plan.asset_authority. An edit_base supplies the existing video state to modify; authoritative_content decides named visible or audible content; scoped_reference supplies only selected abstract dimensions.
-- Create atomic decision_plan.attribute_decisions for every dimension that could materially affect the result. Use cite when the same asset property remains authoritative, transfer when an abstract property is applied to another subject, and discard when a source property must not enter the target. Every conditioned asset needs at least one decision, and every hard binding inheritance needs a matching cite or transfer decision.
-- Evidence basis is not confidence theatre: visible means directly supported by media_analysis, inferred means explicitly marked as inference there, user_instruction means directly requested, and asset_role means a conservative consequence of the assigned role. Never cite unresolved evidence.
 - Independently determine creative prominence. Preservation authority does not determine narrative prominence: an asset may strongly constrain execution while remaining secondary to the subject being created, replaced, demonstrated, or promoted.
 - Build subjects as a stable entity registry. A subject is an identifiable person, product, animal, object, or environment that can recur in shots. Identity, outfit, motion, camera, rhythm, lighting, style, and other attributes are not separate subjects. Assign sequential IDs subject_1, subject_2, and so on in first-appearance order.
 - Build one reference_relationships entry for every conditioned asset. Distinguish a directly edited source video from a video used only for reference generation. Link references to stable subjects without turning camera, motion, wardrobe, or scene attributes into subjects.
+- Emit exactly one reference_relationships entry per conditioned asset. When a source video is directly edited and its original audio is also retained, use source_video_edit as the single relationship; describe audio retention in its retention_description and in audio_plan/voice or music bindings. Do not add a duplicate audio_reuse relationship for the same video asset.
+- Choose reference retention modes by media type. For image and video assets use only fully_preserved, partially_preserved, attribute_transfer, or weak_reference. For audio assets use only fully_copy, partially_copy, reference, or weak_reference. Never use fully_copy or partially_copy for an image or video.
 - Set protocol.summary_task_types using only official values: keyframe completion, reference generation, video editing, video continuation, audio reuse, audio reference. If a source video is directly modified, include video editing; if a reference only supplies camera, cuts, rhythm, or style, use reference generation instead.
 - protocol.summary_task_types must cover every relationship in reference_relationships: source_video_edit maps to video editing, reference_generation to reference generation, keyframe_completion to keyframe completion, video_continuation to video continuation, audio_reuse to audio reuse, and audio_reference to audio reference. Do not omit a type merely because another relationship is more important.
 - Fill creative_focus with exactly one primary outcome subject, its authoritative asset, and the binding(s) that control it. State why it is the final visual objective, which assets merely support its execution, the shots where it must be meaningfully presented, and concrete visibility, framing, material, or continuity requirements.
-- Allocate decision_plan.attention_budget across all recurring subjects. Weights must be positive and sum to 1.0; exactly one entry is primary and must match creative_focus.primary_subject_id. Supporting references may receive execution detail without taking visual prominence from the primary subject.
 - Allocate detail according to creative_focus, not according to the number of bindings per asset. Describe a fully preserved reference relationship completely once, then avoid repeating unchanged reference details unless a shot needs them for execution. Spend the remaining detail on how the primary subject is presented.
 - In every creative_focus.required_shot_id, make the primary subject visually meaningful rather than merely present. The shot event or action must explain how it is shown, and the shot must reference the primary binding.
 - Every timeline shot must list stable subject_refs. Every subject appearance_shot_id must agree with the corresponding timeline subject_refs.
-- Complete omitted production details autonomously when a conservative choice is necessary to produce an executable result. Keep the choice consistent with the supplied assets and target format, and do not invent factual claims or identity-bearing content.
-- Record every necessary inference or default in intent.assumptions. Record only material ambiguities in intent.uncertainties; still choose the safest coherent interpretation and produce the best executable result instead of stopping.
+- Obey completion_policy strictly. technical permits format, timing, attachment, geometry, and continuity completion. conservative_semantic permits only meaning-preserving expansion of an explicit directive. creative permits new creative content; it is false by default.
+- `may_change` is permission, not an instruction to change. When no replacement is specified, preserve the evidenced edit-base value by default.
+- Complete omitted production details only within completion_policy. Keep them consistent with supplied assets and target format, and do not invent factual claims or identity-bearing content.
+- Record every IR-added inference or default in intent.assumptions and identify it as IR completion. A conflict with an explicit requirement or hard directive is an input error; do not silently choose another interpretation. Ask for clarification only when requirements conflict or no safe conservative interpretation exists.
 - Put evidenced attributes that must remain unchanged in constraints.preserve. Put only requested changes and necessary production completion in constraints.allow_change. Put forbidden contamination and unsupported additions in constraints.prohibit.
 - Every preserved attribute originating from an asset must be backed by a corresponding hard asset binding. Do not preserve characters from a creative reference unless that character is explicitly requested.
 - Every binding must state inherit and exclude properties and have one isolation rule.
@@ -225,8 +225,6 @@ Semantic decision policy:
 - Style references do not inherit identity, product geometry, or logo.
 - User instruction has highest priority, then hard identity/product bindings, then confirmed reference facts, then soft style/motion.
 - Timeline starts at 0, has no gaps/overlaps, and ends exactly at the requested duration.
-- Treat timeline as the executable Beat Sheet, not decorative prose. Every shot must have a distinct purpose, focus_level, and reference_transfer list. A cut is justified only when it introduces new information about the primary outcome, space, state, action, viewpoint, or product detail. Do not create one target shot per sampled source frame.
-- At least one required focus shot must use focus_level=hero or primary. For a promoted product, the last meaningful product beat should normally be hero or primary unless the user explicitly requests another ending.
 - Do not add unsupported brand claims, dialogue, logo text, identity facts, or asset content.
 - The final response must be exactly one JSON object. No Markdown fence, commentary, or explanation.
 
@@ -291,9 +289,18 @@ def audit_or_raise(ir: dict[str, Any], prompt: str) -> None:
         raise ContextIRError(json.dumps(report.to_dict(), ensure_ascii=False, indent=2))
 
 
-def run_agent(source: dict[str, Any], output_dir: Path, style_skill: str | None) -> int:
+def run_agent(
+    source: dict[str, Any],
+    output_dir: Path,
+    style_skill: str | None,
+    perception_from: Path | None = None,
+) -> int:
     from openai_codex import ApprovalMode, Codex, CodexConfig, Sandbox, SkillInput, TextInput
 
+    source = normalize_source_request(source)
+    source_report = validate_source_request(source)
+    if not source_report.passed:
+        raise ValueError(json.dumps(source_report.to_dict(), ensure_ascii=False, indent=2))
     reasoning = reasoning_provider_config()
     model = reasoning["model"]
     provider_id = reasoning["provider_id"]
@@ -304,7 +311,14 @@ def run_agent(source: dict[str, Any], output_dir: Path, style_skill: str | None)
     preflight_reasoning_provider(reasoning)
     output_dir.mkdir(parents=True, exist_ok=False)
     (output_dir / "input.json").write_text(json.dumps(source, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    source = ensure_perception(source)
+    if perception_from is not None:
+        perception = json.loads(perception_from.resolve().read_text(encoding="utf-8"))
+        if not isinstance(perception, dict):
+            raise ValueError("--perception-from must contain one media analysis JSON object")
+        source = dict(source)
+        source["perception"] = perception
+    else:
+        source = ensure_perception(source)
     (output_dir / "media_analysis.json").write_text(
         json.dumps(source.get("perception"), ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
@@ -343,7 +357,7 @@ def run_agent(source: dict[str, Any], output_dir: Path, style_skill: str | None)
         turn = thread.turn(skill_inputs + [TextInput(build_prompt(source, style_skill))], approval_mode=ApprovalMode.deny_all, sandbox=Sandbox.workspace_write)
         raw = collect_turn(turn, log_file)
     (output_dir / "glm_raw_response.txt").write_text(raw, encoding="utf-8")
-    ir = compile_context_ir(extract_json(raw))
+    ir = compile_context_ir(extract_json(raw), source)
     context_path = output_dir / "context_ir.json"
     context_path.write_text(json.dumps(ir, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     prompt = render_h3_prompt(ir)
@@ -366,6 +380,11 @@ def main() -> int:
     parser.add_argument("input", nargs="?", type=Path)
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--style-skill", choices=sorted(OFFICIAL_SKILLS - {"h3-prompt-writing"}))
+    parser.add_argument(
+        "--perception-from",
+        type=Path,
+        help="reuse an existing media_analysis.json instead of invoking the perception provider",
+    )
     parser.add_argument("--validate-only", type=Path)
     parser.add_argument("--preflight-only", action="store_true")
     args = parser.parse_args()
@@ -396,7 +415,7 @@ def main() -> int:
         if not isinstance(source, dict):
             raise ValueError("input root must be an object")
         output_dir = (args.output_dir or ROOT / "outputs" / datetime.now().strftime("%Y%m%d_%H%M%S")).resolve()
-        return run_agent(source, output_dir, args.style_skill)
+        return run_agent(source, output_dir, args.style_skill, args.perception_from)
     except Exception as exc:
         print(json.dumps({"passed": False, "error": str(exc)}, ensure_ascii=False, indent=2), file=sys.stderr)
         return 1

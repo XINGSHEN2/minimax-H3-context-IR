@@ -1,0 +1,78 @@
+{
+  "schema_version": "context_request.v1",
+  "user_request": "根据商品图提供的甲片，以及参考视频，让视频中的人物穿戴商品图里面的甲片，人物和动作都不要改，可以改背景和风格，生成一段该甲片商品的宣传视频。",
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 15,
+    "aspect_ratio": "9:16",
+    "generate_audio": false,
+    "style": "premium photorealistic product commercial"
+  },
+  "assets": [
+    {
+      "asset_id": "image_1",
+      "media_type": "image",
+      "uri": "/assets/merchandise.png",
+      "label": "authoritative product appearance"
+    },
+    {
+      "asset_id": "video_1",
+      "media_type": "video",
+      "uri": "/assets/reference_video.mp4",
+      "label": "performer and performance edit base"
+    }
+  ],
+  "resolved_request": "Replace the reference performer's manicure with the product nail set while preserving performer identity and actions; background and style may change.",
+  "directives": [
+      {
+        "directive_id": "d_product_replace",
+        "asset_id": "image_1",
+        "target": "video_1.performer.fingernails",
+        "operation": "replace",
+        "scope": ["shape", "color", "pattern", "decoration", "material", "gloss"],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_identity_preserve",
+        "asset_id": "video_1",
+        "target": "video_1.performer.identity",
+        "operation": "preserve",
+        "scope": ["face", "hair", "body", "hand shape"],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_motion_preserve",
+        "asset_id": "video_1",
+        "target": "video_1.performer.performance",
+        "operation": "preserve",
+        "scope": ["body actions", "hand actions", "timing"],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_background_flexible",
+        "asset_id": "video_1",
+        "target": "video_1.background",
+        "operation": "may_change",
+        "scope": ["environment", "set dressing"],
+        "priority": "soft",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_style_flexible",
+        "asset_id": "video_1",
+        "target": "video_1.visual_style",
+        "operation": "may_change",
+        "scope": ["lighting", "color grade", "commercial polish"],
+        "priority": "soft",
+        "provenance": "explicit_user"
+      }
+  ],
+  "completion_policy": {
+    "technical": true,
+    "conservative_semantic": true,
+    "creative": false
+  }
+}

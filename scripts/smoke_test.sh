@@ -68,8 +68,8 @@ ir = compile_context_ir({
     'perception':source['perception'],
     'asset_bindings':bindings,
     'subjects':[
-        {'subject_id':'subject_1','name':'the advertised product','kind':'product','primary':True,'description':'a stable product with accurate geometry','source_asset_ids':['image_3'],'binding_ids':['b_product'],'appearance_shot_ids':['03','04'],'retention_mode':'fully_preserved','retention_description':'the product geometry remains accurate'},
-        {'subject_id':'subject_2','name':'the performer','kind':'person','primary':False,'description':'a stable performer identity wearing the referenced outfit','source_asset_ids':['image_1','image_2'],'binding_ids':['b_identity','b_outfit','b_motion'],'appearance_shot_ids':['01','02'],'retention_mode':'fully_preserved','retention_description':'face identity and outfit remain stable'},
+        {'subject_id':'subject_1','name':'the advertised product','kind':'product','primary':True,'description':'a stable product with accurate geometry','source_asset_ids':['image_3'],'binding_ids':['b_product'],'appearance_shot_ids':['01','02','03','04'],'retention_mode':'fully_preserved','retention_description':'the product geometry remains accurate'},
+        {'subject_id':'subject_2','name':'the performer','kind':'person','primary':False,'description':'a stable performer identity wearing the referenced outfit','source_asset_ids':['image_1','image_2'],'binding_ids':['b_identity','b_outfit','b_motion'],'appearance_shot_ids':['01','02','03','04'],'retention_mode':'fully_preserved','retention_description':'face identity and outfit remain stable'},
     ],
     'reference_relationships':[
         {'asset_id':'image_1','relationship':'reference_generation','subject_refs':['subject_2'],'definition':'is the identity reference for <Subject 2>','retention_mode':'fully_preserved','retention_description':'face identity is retained'},
@@ -105,6 +105,14 @@ ir = compile_context_ir({
             {'subject_id':'subject_2','weight':0.3,'role':'supporting','requirements':['Support the product reveal without displacing it']},
         ],
     },
+    'state_relations':[
+        {
+            'relation_id':'state_1','subject_id':'subject_2','predicate':'holds','object_subject_id':'subject_1',
+            'start_seconds':0,'end_seconds':15,'persistence':'across_cuts','required_shot_ids':['01','02','03','04'],
+            'description':'The performer continuously keeps the advertised product physically present through every cut',
+            'forbidden_breaks':['a missing product','a substituted product'],
+        },
+    ],
     'creative_focus':{
         'primary_target':'Product 1', 'primary_subject_id':'subject_1', 'primary_asset_id':'image_3', 'primary_binding_ids':['b_product'],
         'objective':'Showcase Product 1 as the main commercial subject',
@@ -115,10 +123,10 @@ ir = compile_context_ir({
     'isolation_rules':rules,
     'constraints':{'preserve':['face identity','product geometry'],'allow_change':['lighting'],'prohibit':['identity drift']},
     'timeline':[
-        {'shot_id':'01','start_seconds':0,'end_seconds':3,'purpose':'Establish the supporting performer','focus_level':'supporting','event':'Establish subject','subject_refs':['subject_2'],'asset_refs':['image_1','image_2'],'binding_refs':['b_identity','b_outfit'],'reference_transfer':['face identity','garment design']},
-        {'shot_id':'02','start_seconds':3,'end_seconds':8,'purpose':'Use performance energy to lead into the offer','focus_level':'supporting','event':'Perform dance phrase','subject_refs':['subject_2'],'asset_refs':['video_1','audio_1'],'binding_refs':['b_motion','b_voice'],'reference_transfer':['body motion','vocal character']},
-        {'shot_id':'03','start_seconds':8,'end_seconds':12,'purpose':'Reveal the advertised product clearly','focus_level':'primary','event':'Present product','subject_refs':['subject_1'],'asset_refs':['image_3'],'binding_refs':['b_product'],'reference_transfer':['product geometry']},
-        {'shot_id':'04','start_seconds':12,'end_seconds':15,'purpose':'Create the final product memory point','focus_level':'hero','event':'Product hero close-up','subject_refs':['subject_1'],'asset_refs':['image_3'],'binding_refs':['b_product'],'reference_transfer':['product geometry']},
+        {'shot_id':'01','start_seconds':0,'end_seconds':3,'purpose':'Establish the supporting performer','focus_level':'supporting','event':'Establish subject','subject_refs':['subject_1','subject_2'],'asset_refs':['image_1','image_2'],'binding_refs':['b_identity','b_outfit'],'reference_transfer':['face identity','garment design'],'required_state_refs':['state_1']},
+        {'shot_id':'02','start_seconds':3,'end_seconds':8,'purpose':'Use performance energy to lead into the offer','focus_level':'supporting','event':'Perform dance phrase','subject_refs':['subject_1','subject_2'],'asset_refs':['video_1','audio_1'],'binding_refs':['b_motion','b_voice'],'reference_transfer':['body motion','vocal character'],'required_state_refs':['state_1']},
+        {'shot_id':'03','start_seconds':8,'end_seconds':12,'purpose':'Reveal the advertised product clearly','focus_level':'primary','event':'Present product','subject_refs':['subject_1','subject_2'],'asset_refs':['image_3'],'binding_refs':['b_product'],'reference_transfer':['product geometry'],'required_state_refs':['state_1']},
+        {'shot_id':'04','start_seconds':12,'end_seconds':15,'purpose':'Create the final product memory point','focus_level':'hero','event':'Product hero close-up','subject_refs':['subject_1','subject_2'],'asset_refs':['image_3'],'binding_refs':['b_product'],'reference_transfer':['product geometry'],'required_state_refs':['state_1']},
     ],
     'audio_plan':{'voice':'follow audio reference','music':'beat-led music','sound_effects':'subtle','ambient_sound':'studio room tone','sync_rules':['dance accents align to beats']},
     'generation_description':{'cinematography':'clean commercial','lighting':'soft key light','materials':'accurate surfaces','performance':'controlled','continuity':'stable identity and product'},
@@ -146,6 +154,9 @@ for mode, frame_roles, expected_section in [
     candidate = json.loads(json.dumps(ir))
     # Legacy callers may omit decision_plan; keep all pre-existing modes readable.
     candidate.pop('decision_plan', None)
+    candidate.pop('state_relations', None)
+    for shot in candidate['timeline']:
+        shot.pop('required_state_refs', None)
     candidate['task']['type'] = mode
     candidate['asset_bindings'] = []
     candidate['isolation_rules'] = []
@@ -211,6 +222,14 @@ PY
 python3 - <<'PY'
 import json
 from perception import GiteeQwen3VLProvider, PERCEPTION_PROVIDERS, PerceptionProviderConfig
+from backend.perception import _json_object
+
+malformed_localization = '{"boxes":[["nail art",70,100,270,390,0.95],"nail art",290,100,440,390,0.95]}'
+repaired = _json_object(malformed_localization)
+assert repaired == {'boxes': [
+    ['nail art', 70.0, 100.0, 270.0, 390.0, 0.95],
+    ['nail art', 290.0, 100.0, 440.0, 390.0, 0.95],
+]}
 
 captured = []
 def mock_transport(messages, config):

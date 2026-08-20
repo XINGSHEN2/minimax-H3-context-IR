@@ -1,18 +1,48 @@
+# Python caches and local environments
 __pycache__/
 *.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Secrets and machine-specific runtime configuration
 .env
-*.before-
-*.before-*
+.env.*
+!.env.example
+deploy/context_ir.env
+
+# Runtime logs, process files, generated outputs and request payloads
 *.log
 *.pid
-.local-qwen-candidate/
-.progress-candidate/
 outputs/*
 !outputs/.gitkeep
-deploy/context_ir.env
+requests/
+/.case_*.json
+/case_*.json
+
+# Local media corpora and generated A/B-test fixtures
+assets/ab_tests_*/
+assets/context_ir_ab_tests_*/
 assets/case_*/images/*
 assets/case_*/videos/*
 assets/case_*/audio/*
 !assets/case_*/images/.gitkeep
 !assets/case_*/videos/.gitkeep
 !assets/case_*/audio/.gitkeep
+
+# Local snapshots and temporary edit artifacts
+backups/
+*.before
+*.before-*
+.local-qwen-candidate/
+.progress-candidate/
+
+# OS and editor metadata
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

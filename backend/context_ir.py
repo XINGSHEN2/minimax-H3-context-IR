@@ -20,11 +20,10 @@ SUPPORTED_BINDING_ROLES = {
     "camera", "scene", "style", "first_frame", "last_frame",
 }
 SUPPORTED_PRIORITIES = {"hard", "soft"}
-SUPPORTED_ASSET_AUTHORITIES = {"edit_base", "authoritative_content", "scoped_reference"}
-SUPPORTED_ATTRIBUTE_DECISIONS = {"cite", "transfer", "discard"}
-SUPPORTED_EVIDENCE_BASES = {"visible", "inferred", "user_instruction", "asset_role"}
-SUPPORTED_FOCUS_LEVELS = {"hero", "primary", "supporting", "background"}
-SUPPORTED_ATTENTION_ROLES = {"primary", "supporting", "background"}
+SOURCE_SCHEMA_VERSION = "context_request.v1"
+LEGACY_SOURCE_SCHEMA_VERSIONS = {"resolved_request.v1"}
+DIRECTIVE_OPERATIONS = {"preserve", "replace", "transfer", "may_change", "exclude"}
+DIRECTIVE_PROVENANCE = {"explicit_user", "confirmed_by_upstream", "product_default", "ir_completion"}
 SUPPORTED_SUBJECT_KINDS = {"person", "product", "animal", "object", "environment", "other"}
 VISUAL_RETENTION_MODES = {"fully_preserved", "partially_preserved", "attribute_transfer", "weak_reference"}
 AUDIO_RETENTION_MODES = {"fully_copy", "partially_copy", "reference", "weak_reference"}
@@ -99,6 +98,106 @@ def _number(value: Any) -> bool:
     return isinstance(value, (int, float)) and not isinstance(value, bool)
 
 
+def normalize_source_request(source: Mapping[str, Any]) -> dict[str, Any]:
+    """Normalize natural-language and legacy resolved requests into one contract."""
+    payload = copy.deepcopy(dict(source))
+    if payload.get("schema_version") in LEGACY_SOURCE_SCHEMA_VERSIONS:
+        payload["schema_version"] = SOURCE_SCHEMA_VERSION
+    payload.setdefault("schema_version", SOURCE_SCHEMA_VERSION)
+    legacy_resolution = payload.pop("intent_resolution", None)
+    if not isinstance(payload.get("directives"), list):
+        payload["directives"] = []
+    if isinstance(legacy_resolution, Mapping):
+        if not payload["directives"]:
+            payload["directives"] = copy.deepcopy(legacy_resolution.get("directives", []))
+        if not str(payload.get("resolved_request", "")).strip():
+            payload["resolved_request"] = str(legacy_resolution.get("summary", ""))
+        legacy_questions = _strings(legacy_resolution.get("open_questions"))
+        if legacy_questions:
+            payload["open_questions"] = legacy_questions
+    payload.setdefault("resolved_request", "")
+    payload.setdefault("open_questions", [])
+    policy = payload.get("completion_policy")
+    if not isinstance(policy, dict):
+        policy = {}
+        payload["completion_policy"] = policy
+    policy.setdefault("technical", True)
+    policy.setdefault("conservative_semantic", True)
+    policy.setdefault("creative", False)
+    return payload
+
+
+def validate_source_request(source: Mapping[str, Any]) -> ValidationReport:
+    """Validate the upstream-to-IR contract before perception or LLM compilation."""
+    report = ValidationReport()
+    if not isinstance(source, Mapping):
+        report.add("SOURCE_ROOT_INVALID", "source request must be an object")
+        return report
+    if source.get("schema_version") != SOURCE_SCHEMA_VERSION:
+        report.add("SOURCE_SCHEMA_UNSUPPORTED", f"schema_version must be {SOURCE_SCHEMA_VERSION}", "$.schema_version")
+    if not str(source.get("user_request", "")).strip():
+        report.add("SOURCE_USER_REQUEST_MISSING", "user_request is required", "$.user_request")
+    assets = source.get("assets")
+    if not isinstance(assets, list):
+        report.add("SOURCE_ASSETS_INVALID", "assets must be an array", "$.assets")
+        assets = []
+    asset_ids = {
+        str(item.get("asset_id", "")).strip()
+        for item in assets
+        if isinstance(item, Mapping) and str(item.get("asset_id", "")).strip()
+    }
+    directives = source.get("directives")
+    if not isinstance(directives, list):
+        report.add("DIRECTIVES_INVALID", "directives must be an array", "$.directives")
+        directives = []
+    directive_ids: set[str] = set()
+    hard_controls: dict[tuple[str, str], tuple[str, str]] = {}
+    for index, directive in enumerate(directives):
+        path = f"$.directives[{index}]"
+        if not isinstance(directive, Mapping):
+            report.add("DIRECTIVE_INVALID", "directive must be an object", path)
+            continue
+        directive_id = str(directive.get("directive_id", "")).strip()
+        if not directive_id or directive_id in directive_ids:
+            report.add("DIRECTIVE_ID_INVALID", "directive_id must be present and unique", path)
+        directive_ids.add(directive_id)
+        asset_id = str(directive.get("asset_id", "")).strip()
+        if asset_id and asset_id not in asset_ids:
+            report.add("DIRECTIVE_ASSET_UNKNOWN", f"unknown directive asset {asset_id}", path)
+        if directive.get("operation") not in DIRECTIVE_OPERATIONS:
+            report.add("DIRECTIVE_OPERATION_INVALID", f"operation must use {sorted(DIRECTIVE_OPERATIONS)}", path)
+        if directive.get("priority") not in SUPPORTED_PRIORITIES:
+            report.add("DIRECTIVE_PRIORITY_INVALID", "priority must be hard or soft", path)
+        if directive.get("provenance") not in DIRECTIVE_PROVENANCE:
+            report.add("DIRECTIVE_PROVENANCE_INVALID", f"provenance must use {sorted(DIRECTIVE_PROVENANCE)}", path)
+        if not str(directive.get("target", "")).strip():
+            report.add("DIRECTIVE_TARGET_MISSING", "directive target is required", path)
+        if not _strings(directive.get("scope")):
+            report.add("DIRECTIVE_SCOPE_EMPTY", "directive scope must name controlled attributes", path)
+        if directive.get("priority") == "hard":
+            target = str(directive.get("target", "")).strip()
+            operation = str(directive.get("operation", ""))
+            for attribute in _strings(directive.get("scope")):
+                key = (target, attribute.lower())
+                previous = hard_controls.get(key)
+                if previous and previous[0] != operation:
+                    report.add(
+                        "DIRECTIVE_CONFLICT",
+                        f"hard directives {previous[1]} and {directive_id} apply conflicting operations to {target}.{attribute}",
+                        path,
+                    )
+                else:
+                    hard_controls[key] = (operation, directive_id)
+    policy = source.get("completion_policy")
+    if not isinstance(policy, Mapping):
+        report.add("COMPLETION_POLICY_MISSING", "completion_policy is required", "$.completion_policy")
+    else:
+        for key in ("technical", "conservative_semantic", "creative"):
+            if not isinstance(policy.get(key), bool):
+                report.add("COMPLETION_POLICY_INVALID", f"completion_policy.{key} must be boolean", f"$.completion_policy.{key}")
+    return report
+
+
 def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
     report = ValidationReport()
     if not isinstance(payload, Mapping):
@@ -108,8 +207,21 @@ def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
         report.add("SCHEMA_VERSION_UNSUPPORTED", f"schema_version must be {IR_SCHEMA_VERSION}", "$.schema_version")
 
     intent = payload.get("intent")
+    directive_ids: set[str] = set()
     if not isinstance(intent, Mapping) or not str(intent.get("user_request", "")).strip():
         report.add("INTENT_MISSING", "intent.user_request is required", "$.intent.user_request")
+    if isinstance(intent, Mapping):
+        if not isinstance(intent.get("directives", []), list):
+            report.add("INTENT_DIRECTIVES_INVALID", "intent.directives must be an array", "$.intent.directives")
+        directive_ids = {
+            str(item.get("directive_id", "")).strip()
+            for item in intent.get("directives", [])
+            if isinstance(item, Mapping) and str(item.get("directive_id", "")).strip()
+        }
+        if directive_ids:
+            policy = intent.get("completion_policy")
+            if not isinstance(policy, Mapping):
+                report.add("INTENT_COMPLETION_POLICY_MISSING", "Context-IR with directives must retain completion policy", "$.intent.completion_policy")
 
     protocol = payload.get("protocol")
     if not isinstance(protocol, Mapping):
@@ -181,6 +293,7 @@ def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
         report.add("BINDINGS_INVALID", "asset_bindings must be an array", "$.asset_bindings")
         bindings = []
     binding_ids: set[str] = set()
+    covered_directive_ids: set[str] = set()
     for index, binding in enumerate(bindings):
         path = f"$.asset_bindings[{index}]"
         if not isinstance(binding, Mapping):
@@ -196,6 +309,12 @@ def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
             report.add("BINDING_ROLE_INVALID", "unsupported binding role", path)
         if binding.get("priority") not in SUPPORTED_PRIORITIES:
             report.add("BINDING_PRIORITY_INVALID", "priority must be hard or soft", path)
+        source_directive_ids = _strings(binding.get("source_directive_ids"))
+        for directive_id in source_directive_ids:
+            if directive_id not in directive_ids:
+                report.add("BINDING_DIRECTIVE_UNKNOWN", f"binding references unknown directive {directive_id}", path)
+            else:
+                covered_directive_ids.add(directive_id)
         inherit, exclude = set(_strings(binding.get("inherit"))), set(_strings(binding.get("exclude")))
         if not inherit:
             report.add("BINDING_INHERIT_EMPTY", "inherit must explicitly name controlled attributes", path)
@@ -221,6 +340,10 @@ def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
                     "style references must exclude identity, product geometry, and logo",
                     path,
                 )
+    if directive_ids:
+        missing_directives = directive_ids - covered_directive_ids
+        if missing_directives:
+            report.add("DIRECTIVE_BINDING_COVERAGE", f"directives lack binding coverage: {sorted(missing_directives)}", "$.asset_bindings")
 
     subjects = payload.get("subjects")
     if not isinstance(subjects, list):
@@ -290,124 +413,6 @@ def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
         required_task_types = {RELATIONSHIP_TASK_TYPE[item["relationship"]] for item in relationships if isinstance(item, Mapping) and item.get("relationship") in RELATIONSHIP_TASK_TYPE}
         if declared_task_types != required_task_types:
             report.add("SUMMARY_TASK_RELATIONSHIP_MISMATCH", f"summary_task_types must exactly cover reference relationships: {sorted(required_task_types)}", "$.protocol.summary_task_types")
-
-    decision_plan = payload.get("decision_plan")
-    if decision_plan is not None:
-        if not isinstance(decision_plan, Mapping):
-            report.add("DECISION_PLAN_INVALID", "decision_plan must be an object", "$.decision_plan")
-        else:
-            hierarchy = decision_plan.get("intent_hierarchy")
-            if not isinstance(hierarchy, Mapping):
-                report.add("INTENT_HIERARCHY_MISSING", "decision_plan.intent_hierarchy is required", "$.decision_plan.intent_hierarchy")
-            else:
-                for key in ("explicit_goal", "intended_outcome"):
-                    if not str(hierarchy.get(key, "")).strip():
-                        report.add("INTENT_HIERARCHY_FIELD_MISSING", f"intent_hierarchy.{key} is required", f"$.decision_plan.intent_hierarchy.{key}")
-                for key in ("execution_means", "non_authorized_inferences"):
-                    if not isinstance(hierarchy.get(key), list):
-                        report.add("INTENT_HIERARCHY_LIST_INVALID", f"intent_hierarchy.{key} must be an array", f"$.decision_plan.intent_hierarchy.{key}")
-
-            authorities = decision_plan.get("asset_authority")
-            authority_assets: set[str] = set()
-            if not isinstance(authorities, list):
-                report.add("ASSET_AUTHORITY_INVALID", "decision_plan.asset_authority must be an array", "$.decision_plan.asset_authority")
-                authorities = []
-            for index, authority in enumerate(authorities):
-                path = f"$.decision_plan.asset_authority[{index}]"
-                if not isinstance(authority, Mapping):
-                    report.add("ASSET_AUTHORITY_ENTRY_INVALID", "asset authority must be an object", path)
-                    continue
-                asset_id = str(authority.get("asset_id", ""))
-                if asset_id not in asset_ids or asset_id in authority_assets:
-                    report.add("ASSET_AUTHORITY_COVERAGE_INVALID", "each asset needs exactly one authority classification", path)
-                authority_assets.add(asset_id)
-                if authority.get("authority") not in SUPPORTED_ASSET_AUTHORITIES:
-                    report.add("ASSET_AUTHORITY_TYPE_INVALID", f"authority must use {sorted(SUPPORTED_ASSET_AUTHORITIES)}", path)
-                if not _strings(authority.get("controlled_dimensions")):
-                    report.add("ASSET_AUTHORITY_DIMENSIONS_EMPTY", "controlled_dimensions must name at least one dimension", path)
-                if not isinstance(authority.get("secondary_dimensions"), list):
-                    report.add("ASSET_AUTHORITY_SECONDARY_INVALID", "secondary_dimensions must be an array", path)
-            if authority_assets != asset_ids:
-                report.add("ASSET_AUTHORITY_COVERAGE", f"asset authority must cover exactly these assets: {sorted(asset_ids)}", "$.decision_plan.asset_authority")
-
-            decisions = decision_plan.get("attribute_decisions")
-            if not isinstance(decisions, list):
-                report.add("ATTRIBUTE_DECISIONS_INVALID", "decision_plan.attribute_decisions must be an array", "$.decision_plan.attribute_decisions")
-                decisions = []
-            decision_assets: set[str] = set()
-            accepted_attributes: dict[str, set[str]] = {}
-            for index, decision in enumerate(decisions):
-                path = f"$.decision_plan.attribute_decisions[{index}]"
-                if not isinstance(decision, Mapping):
-                    report.add("ATTRIBUTE_DECISION_INVALID", "attribute decision must be an object", path)
-                    continue
-                asset_id = str(decision.get("asset_id", ""))
-                if asset_id not in asset_ids:
-                    report.add("ATTRIBUTE_DECISION_ASSET_UNKNOWN", "attribute decision references an unknown asset", path)
-                decision_assets.add(asset_id)
-                attribute = str(decision.get("attribute", "")).strip()
-                if not attribute:
-                    report.add("ATTRIBUTE_DECISION_ATTRIBUTE_MISSING", "attribute must name one atomic property", path)
-                action = decision.get("decision")
-                if action not in SUPPORTED_ATTRIBUTE_DECISIONS:
-                    report.add("ATTRIBUTE_DECISION_TYPE_INVALID", f"decision must use {sorted(SUPPORTED_ATTRIBUTE_DECISIONS)}", path)
-                if decision.get("priority") not in SUPPORTED_PRIORITIES:
-                    report.add("ATTRIBUTE_DECISION_PRIORITY_INVALID", "priority must be hard or soft", path)
-                if decision.get("evidence_basis") not in SUPPORTED_EVIDENCE_BASES:
-                    report.add("ATTRIBUTE_DECISION_EVIDENCE_INVALID", f"evidence_basis must use {sorted(SUPPORTED_EVIDENCE_BASES)}", path)
-                target_subject = str(decision.get("target_subject_id", "")).strip()
-                if target_subject and target_subject not in subject_ids:
-                    report.add("ATTRIBUTE_DECISION_SUBJECT_UNKNOWN", f"unknown target subject {target_subject}", path)
-                if action == "transfer" and not target_subject:
-                    report.add("ATTRIBUTE_TRANSFER_TARGET_MISSING", "transfer decisions require target_subject_id", path)
-                if action in {"cite", "transfer"} and attribute:
-                    accepted_attributes.setdefault(asset_id, set()).add(attribute.lower())
-                if not str(decision.get("rationale", "")).strip():
-                    report.add("ATTRIBUTE_DECISION_RATIONALE_MISSING", "rationale is required", path)
-            if asset_ids and decision_assets != asset_ids:
-                report.add("ATTRIBUTE_DECISION_COVERAGE", "every asset needs at least one cite, transfer, or discard decision", "$.decision_plan.attribute_decisions")
-            for index, binding in enumerate(bindings):
-                if not isinstance(binding, Mapping) or binding.get("priority") != "hard":
-                    continue
-                accepted = accepted_attributes.get(str(binding.get("asset_id")), set())
-                for attribute in _strings(binding.get("inherit")):
-                    if attribute.lower() not in accepted:
-                        report.add("HARD_BINDING_DECISION_MISSING", f"hard inherited attribute '{attribute}' needs a matching cite or transfer decision", f"$.asset_bindings[{index}].inherit")
-
-            attention = decision_plan.get("attention_budget")
-            if not isinstance(attention, list) or not attention:
-                report.add("ATTENTION_BUDGET_MISSING", "decision_plan.attention_budget must be non-empty", "$.decision_plan.attention_budget")
-            else:
-                attention_subjects: set[str] = set()
-                total_weight = 0.0
-                primary_attention: list[str] = []
-                for index, item in enumerate(attention):
-                    path = f"$.decision_plan.attention_budget[{index}]"
-                    if not isinstance(item, Mapping):
-                        report.add("ATTENTION_ENTRY_INVALID", "attention entry must be an object", path)
-                        continue
-                    subject_id = str(item.get("subject_id", ""))
-                    if subject_id not in subject_ids or subject_id in attention_subjects:
-                        report.add("ATTENTION_SUBJECT_INVALID", "each subject may appear once and must be defined", path)
-                    attention_subjects.add(subject_id)
-                    weight = item.get("weight")
-                    if not _number(weight) or float(weight) <= 0:
-                        report.add("ATTENTION_WEIGHT_INVALID", "attention weight must be positive", path)
-                    else:
-                        total_weight += float(weight)
-                    if item.get("role") not in SUPPORTED_ATTENTION_ROLES:
-                        report.add("ATTENTION_ROLE_INVALID", f"attention role must use {sorted(SUPPORTED_ATTENTION_ROLES)}", path)
-                    if item.get("role") == "primary":
-                        primary_attention.append(subject_id)
-                    if not _strings(item.get("requirements")):
-                        report.add("ATTENTION_REQUIREMENTS_EMPTY", "attention requirements must be non-empty", path)
-                if attention_subjects != subject_ids:
-                    report.add("ATTENTION_SUBJECT_COVERAGE", "attention budget must cover every subject exactly once", "$.decision_plan.attention_budget")
-                if abs(total_weight - 1.0) > EPSILON:
-                    report.add("ATTENTION_WEIGHT_TOTAL", f"attention weights must sum to 1.0, got {total_weight:g}", "$.decision_plan.attention_budget")
-                primary_focus_id = str(payload.get("creative_focus", {}).get("primary_subject_id", ""))
-                if primary_attention != [primary_focus_id]:
-                    report.add("ATTENTION_PRIMARY_MISMATCH", "exactly one primary attention entry must match creative_focus.primary_subject_id", "$.decision_plan.attention_budget")
 
     creative_focus = payload.get("creative_focus")
     if not isinstance(creative_focus, Mapping):
@@ -498,13 +503,6 @@ def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
             expected = end
             if not str(shot.get("event", "")).strip():
                 report.add("SHOT_EVENT_MISSING", "event is required", path)
-            if decision_plan is not None:
-                if not str(shot.get("purpose", "")).strip():
-                    report.add("SHOT_PURPOSE_MISSING", "decision-planned shots require a distinct purpose", path)
-                if shot.get("focus_level") not in SUPPORTED_FOCUS_LEVELS:
-                    report.add("SHOT_FOCUS_LEVEL_INVALID", f"focus_level must use {sorted(SUPPORTED_FOCUS_LEVELS)}", path)
-                if not isinstance(shot.get("reference_transfer"), list):
-                    report.add("SHOT_REFERENCE_TRANSFER_INVALID", "reference_transfer must be an array", path)
             for asset_id in _strings(shot.get("asset_refs")):
                 if asset_id not in asset_ids:
                     report.add("SHOT_ASSET_UNKNOWN", f"unknown asset {asset_id}", path)
@@ -527,14 +525,6 @@ def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
                     report.add("FOCUS_BINDING_MISSING_FROM_SHOT", "required focus shot must reference a primary binding", f"$.timeline[{index}].binding_refs")
                 if subjects and str(shot.get("shot_id", "")) in required_shot_ids and str(creative_focus.get("primary_subject_id", "")) not in _strings(shot.get("subject_refs")):
                     report.add("FOCUS_SUBJECT_MISSING_FROM_SHOT", "required focus shot must reference the primary subject", f"$.timeline[{index}].subject_refs")
-            if decision_plan is not None and required_shot_ids:
-                focus_levels = {
-                    str(shot.get("focus_level", ""))
-                    for shot in timeline
-                    if str(shot.get("shot_id", "")) in required_shot_ids
-                }
-                if not focus_levels.intersection({"hero", "primary"}):
-                    report.add("FOCUS_SHOT_PROMINENCE_MISSING", "at least one required focus shot must be hero or primary", "$.timeline")
         for subject in subjects:
             if not isinstance(subject, Mapping):
                 continue
@@ -593,7 +583,92 @@ def normalize_reference_isolation(payload: dict[str, Any]) -> dict[str, Any]:
     return payload
 
 
-def compile_context_ir(model_output: Mapping[str, Any]) -> dict[str, Any]:
+def normalize_reference_retention_modes(payload: dict[str, Any]) -> dict[str, Any]:
+    """Normalize equivalent retention labels using the referenced media type."""
+    media_types = {
+        str(asset.get("asset_id")): str(asset.get("media_type"))
+        for asset in payload.get("assets", [])
+        if isinstance(asset, Mapping) and asset.get("asset_id")
+    }
+    visual_aliases = {
+        "fully_copy": "fully_preserved",
+        "partially_copy": "partially_preserved",
+    }
+    audio_aliases = {
+        "fully_preserved": "fully_copy",
+        "partially_preserved": "partially_copy",
+    }
+    for relationship in payload.get("reference_relationships", []):
+        if not isinstance(relationship, dict):
+            continue
+        media_type = media_types.get(str(relationship.get("asset_id")))
+        mode = str(relationship.get("retention_mode", ""))
+        if media_type in {"image", "video"} and mode in visual_aliases:
+            relationship["retention_mode"] = visual_aliases[mode]
+        elif media_type == "audio" and mode in audio_aliases:
+            relationship["retention_mode"] = audio_aliases[mode]
+    return payload
+
+
+def normalize_source_video_audio_relationship(payload: dict[str, Any]) -> dict[str, Any]:
+    """Fold redundant audio reuse into the single required source-video relation."""
+    relationships = payload.get("reference_relationships")
+    if not isinstance(relationships, list):
+        return payload
+    by_asset: dict[str, int] = {}
+    normalized: list[Any] = []
+    changed = False
+    for relationship in relationships:
+        if not isinstance(relationship, dict):
+            normalized.append(relationship)
+            continue
+        asset_id = str(relationship.get("asset_id", ""))
+        existing_index = by_asset.get(asset_id)
+        if existing_index is None:
+            by_asset[asset_id] = len(normalized)
+            normalized.append(relationship)
+            continue
+        existing = normalized[existing_index]
+        if not isinstance(existing, dict):
+            normalized.append(relationship)
+            continue
+        pair = {existing.get("relationship"), relationship.get("relationship")}
+        if "source_video_edit" in pair and pair.intersection({"audio_reuse", "audio_reference"}):
+            primary = existing if existing.get("relationship") == "source_video_edit" else relationship
+            audio = relationship if primary is existing else existing
+            primary["subject_refs"] = list(dict.fromkeys(
+                _strings(primary.get("subject_refs")) + _strings(audio.get("subject_refs"))
+            ))
+            primary_description = str(primary.get("retention_description", "")).strip()
+            audio_description = str(audio.get("retention_description", "")).strip()
+            if audio_description and audio_description not in primary_description:
+                primary["retention_description"] = (
+                    primary_description.rstrip(".") + ". Audio retention: " + audio_description
+                ).strip()
+            normalized[existing_index] = primary
+            changed = True
+            continue
+        normalized.append(relationship)
+    if not changed:
+        return payload
+    payload["reference_relationships"] = normalized
+    protocol = payload.get("protocol")
+    if isinstance(protocol, dict):
+        required = [
+            RELATIONSHIP_TASK_TYPE[item["relationship"]]
+            for item in normalized
+            if isinstance(item, Mapping) and item.get("relationship") in RELATIONSHIP_TASK_TYPE
+        ]
+        required = list(dict.fromkeys(required))
+        existing_types = _strings(protocol.get("summary_task_types"))
+        protocol["summary_task_types"] = (
+            [item for item in existing_types if item in required]
+            + [item for item in required if item not in existing_types]
+        )
+    return payload
+
+
+def compile_context_ir(model_output: Mapping[str, Any], source_request: Mapping[str, Any] | None = None) -> dict[str, Any]:
     payload = copy.deepcopy(dict(model_output))
     payload.setdefault("schema_version", IR_SCHEMA_VERSION)
     payload.setdefault("protocol", {"rewrite_language": "English", "preserve_source_language_for": ["dialogue", "lyrics", "visible scene text"]})
@@ -602,6 +677,37 @@ def compile_context_ir(model_output: Mapping[str, Any]) -> dict[str, Any]:
         "reasoning_provider": {"provider": "glm", "model": "GLM-5.2"},
         "generation_provider": {"provider": "minimax", "model": "MiniMax-H3"},
     })
+    if source_request is not None:
+        source = normalize_source_request(source_request)
+        intent = payload.setdefault("intent", {})
+        if not isinstance(intent, dict):
+            raise ContextIRError("intent must be an object")
+        intent["user_request"] = source.get("user_request", "")
+        intent.pop("resolution_status", None)
+        intent["resolved_request"] = source.get("resolved_request", "") or intent.get("resolved_request", "")
+        intent["directives"] = copy.deepcopy(source.get("directives", []))
+        intent["completion_policy"] = copy.deepcopy(source["completion_policy"])
+        # Source directives are authoritative. A reasoning model may still invent
+        # directive IDs while expanding a natural-language-only request. Remove
+        # those cross-field references deterministically before validation. When
+        # real source directives exist, the existing coverage audit below still
+        # rejects any authoritative directive the model failed to implement.
+        source_directive_ids = {
+            str(item.get("directive_id", "")).strip()
+            for item in source.get("directives", [])
+            if isinstance(item, Mapping) and str(item.get("directive_id", "")).strip()
+        }
+        bindings = payload.get("asset_bindings", [])
+        if isinstance(bindings, list):
+            for binding in bindings:
+                if isinstance(binding, dict):
+                    binding["source_directive_ids"] = [
+                        directive_id
+                        for directive_id in _strings(binding.get("source_directive_ids"))
+                        if directive_id in source_directive_ids
+                    ]
+    normalize_source_video_audio_relationship(payload)
+    normalize_reference_retention_modes(payload)
     normalize_reference_isolation(payload)
     report = validate_context_ir(payload)
     if not report.passed:
@@ -659,22 +765,12 @@ def _shot_text(shot: Mapping[str, Any], shot_number: int, subject_inventory: Map
     subject_opening = ""
     if labels:
         subject_opening = ", ".join(labels) + (" are visible. " if len(labels) > 1 else " is visible. ")
-    purpose = str(shot.get("purpose", "")).strip()
-    focus_level = str(shot.get("focus_level", "")).strip()
-    opening = subject_opening + str(shot["event"])
-    pieces = [opening]
-    if purpose:
-        pieces.append(f"purpose: {purpose}")
-    if focus_level:
-        pieces.append(f"visual emphasis: {focus_level}")
+    pieces = [subject_opening + str(shot["event"])]
     pieces.extend(
         f"{key}: {shot[key]}"
         for key in ("action", "camera", "lighting", "transition")
         if shot.get(key)
     )
-    transfers = _strings(shot.get("reference_transfer"))
-    if transfers:
-        pieces.append("reference transfer: " + ", ".join(transfers))
     prefix = f"[Shot {shot_number}]"
     if shot_number != 1:
         prefix += f" At {_format_timestamp(float(shot['start_seconds']))},"
@@ -709,25 +805,6 @@ def _constraint_text(payload: Mapping[str, Any]) -> str:
     if prohibit:
         parts.append("Must not introduce: " + ", ".join(prohibit))
     return "; ".join(parts)
-
-
-def _attention_text(payload: Mapping[str, Any], subject_inventory: Mapping[str, str] | None = None) -> str:
-    """Compile the internal attention allocation into concise executable emphasis."""
-    plan = payload.get("decision_plan")
-    if not isinstance(plan, Mapping):
-        return ""
-    subject_inventory = subject_inventory or {}
-    entries = []
-    for item in plan.get("attention_budget", []):
-        if not isinstance(item, Mapping):
-            continue
-        subject_id = str(item.get("subject_id", ""))
-        label = subject_inventory.get(subject_id, subject_id)
-        requirements = "; ".join(_strings(item.get("requirements")))
-        entries.append(
-            f"{label} ({item.get('role')}, attention {float(item.get('weight', 0)):.2f}): {requirements}"
-        )
-    return "Attention allocation: " + " | ".join(entries) if entries else ""
 
 
 def _render_base_prompt(payload: Mapping[str, Any], inventory: Mapping[str, str]) -> str:
@@ -766,8 +843,7 @@ def _render_base_prompt(payload: Mapping[str, Any], inventory: Mapping[str, str]
         f"Primary visual focus: {focus['objective']}. Presentation requirements: "
         + "; ".join(_strings(focus.get("presentation_requirements")))
     )
-    attention_text = _attention_text(payload)
-    description = ". ".join(part for part in (focus_text, attention_text, constraint_text, opening, " ".join(shots)) if part)
+    description = ". ".join(part for part in (focus_text, constraint_text, opening, " ".join(shots)) if part)
     soundscape, music = _sound_sections(payload)
     core = "\n\n".join((
         "integrated_multimodal_description: " + description,
@@ -803,7 +879,6 @@ def _render_ref_prompt(payload: Mapping[str, Any], inventory: Mapping[str, str])
             definition = definition[3:]
         subjects.append(f"{label} is {definition}.{link_text}")
         retention.append(f"{label}: {relationship['retention_mode']} - {str(relationship['retention_description']).strip().rstrip('.')}.")
-    intent = payload["intent"]
     task_types = _strings(payload["protocol"].get("summary_task_types"))
     prefix = "[" + " + ".join(task_types) + "]"
     source_video_label = ""
@@ -815,10 +890,12 @@ def _render_ref_prompt(payload: Mapping[str, Any], inventory: Mapping[str, str])
     primary_subject_label = subject_inventory.get(str(focus.get("primary_subject_id", "")), "")
     focus_objective = str(focus['objective']).strip().rstrip('.')
     focus_summary = f"{primary_subject_label} is the primary creative focus: {focus_objective}" if primary_subject_label else f"Primary creative objective: {focus_objective}"
+    style = str(task.get("style", "")).strip().rstrip(".")
+    style_summary = f" Target style: {style}." if style else ""
     summary = (
         f"{prefix} {edit_opening}"
-        f"{focus_summary}. "
-        f"{str(intent.get('resolved_request') or intent['user_request']).strip().rstrip('.')}. Target style: {task.get('style', '')}. "
+        f"{focus_summary}."
+        f"{style_summary} "
         f"Audio generation: {task['generate_audio']}."
     )
     details = []
@@ -828,9 +905,6 @@ def _render_ref_prompt(payload: Mapping[str, Any], inventory: Mapping[str, str])
         details.append(constraint_text)
     focus_requirements = "; ".join(_strings(focus.get("presentation_requirements")))
     details.append(f"Primary visual focus: {focus_objective}. Presentation requirements: {focus_requirements.rstrip('.')}.")
-    attention_text = _attention_text(payload, subject_inventory)
-    if attention_text:
-        details.append(attention_text + ".")
     details.append("; ".join(f"{key}: {generation[key]}" for key in ("cinematography", "lighting", "materials", "performance", "continuity")))
     details.extend(_shot_text(shot, index, subject_inventory) for index, shot in enumerate(payload["timeline"], start=1))
     soundscape, music = _sound_sections(payload)
@@ -879,6 +953,7 @@ def audit_h3_prompt(payload: Mapping[str, Any], prompt: str) -> ValidationReport
         report.add("INTERNAL_MEDIA_LEAK", "internal sampled-frame terminology leaked into final prompt", "$.h3_prompt")
     language_probe = prompt
     perception = payload.get("perception")
+    visible_text_literals: list[str] = []
     if isinstance(perception, Mapping):
         for asset in perception.get("assets", []):
             if not isinstance(asset, Mapping):
@@ -886,10 +961,17 @@ def audit_h3_prompt(payload: Mapping[str, Any], prompt: str) -> ValidationReport
             technical = asset.get("technical")
             if isinstance(technical, Mapping):
                 for literal in _strings(technical.get("visible_text")):
+                    visible_text_literals.append(literal)
                     language_probe = language_probe.replace(literal, "")
             transcript = str(asset.get("transcript", "")).strip()
             if transcript:
                 language_probe = language_probe.replace(transcript, "")
+    # A generated shot may cite a concise verbatim fragment of longer OCR
+    # evidence. Allow only CJK runs that are literal substrings of a recorded
+    # visible-text string; unsupported source-language prose remains an error.
+    for fragment in set(re.findall(r"[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]+", language_probe)):
+        if any(fragment in literal for literal in visible_text_literals):
+            language_probe = language_probe.replace(fragment, "")
     if str(payload.get("protocol", {}).get("rewrite_language", "")).lower() == "english" and CJK_PATTERN.search(language_probe):
         report.add(
             "PROMPT_REWRITE_LANGUAGE_VIOLATION",

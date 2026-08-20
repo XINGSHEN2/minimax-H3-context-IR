@@ -94,14 +94,94 @@ def _json_object(text: str) -> dict[str, Any]:
     stripped = JSON_FENCE_PATTERN.sub("", text.strip())
     try:
         value = json.loads(stripped)
-    except json.JSONDecodeError:
-        start = stripped.find("{")
-        if start < 0:
-            raise ValueError("VLM response did not contain a JSON object")
-        value, _ = json.JSONDecoder().raw_decode(stripped[start:])
+    except json.JSONDecodeError as original_error:
+        # Qwen occasionally emits an open-vocabulary quantity label as a bare
+        # JSON token, e.g. "quantity":[multiple,0.9]. Quoting only that value
+        # is lossless and schema-directed; no semantic fields are reconstructed.
+        quantity_repaired, quantity_repairs = re.subn(
+            r'("quantity"\s*:\s*\[\s*)(multiple|several|many)(\s*,)',
+            lambda match: match.group(1) + json.dumps(match.group(2)) + match.group(3),
+            stripped,
+            flags=re.IGNORECASE,
+        )
+        if quantity_repairs:
+            try:
+                value = json.loads(quantity_repaired)
+                value["_parse_recovery"] = "bare_quantity_labels"
+            except json.JSONDecodeError:
+                value = None
+        else:
+            value = None
+        if value is not None:
+            pass
+        else:
+            start = stripped.find("{")
+            if start < 0:
+                raise ValueError("VLM response did not contain a JSON object")
+            try:
+                value, _ = json.JSONDecoder().raw_decode(stripped[start:])
+            except json.JSONDecodeError:
+                # Localization responses occasionally flatten later box entries, for
+                # example: {"boxes":[["tire",0,0,500,500],"pump",...]}.
+                # Recover only the documented box tuple shape; never repair semantic
+                # analysis objects because a guessed repair could create false facts.
+                if re.search(r'"boxes"\s*:', stripped):
+                    matches = re.findall(
+                        r'"([^"\\]+)"\s*,\s*(-?\d+(?:\.\d+)?)\s*,\s*'
+                        r'(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*,\s*'
+                        r'(-?\d+(?:\.\d+)?)(?:\s*,\s*(0(?:\.\d+)?|1(?:\.0+)?))?',
+                        stripped,
+                    )
+                    boxes = []
+                    for label, x1, y1, x2, y2, confidence in matches:
+                        box = [label, float(x1), float(y1), float(x2), float(y2)]
+                        if confidence:
+                            box.append(float(confidence))
+                        boxes.append(box)
+                    if boxes:
+                        value = {"boxes": boxes, "_parse_recovery": "flattened_box_tuples"}
+                    else:
+                        raise original_error
+                else:
+                    raise original_error
+    if isinstance(value, dict) and isinstance(value.get("boxes"), list):
+        raw_boxes = value["boxes"]
+        if raw_boxes and any(not isinstance(item, list) for item in raw_boxes):
+            normalized_boxes = []
+            index = 0
+            while index < len(raw_boxes):
+                item = raw_boxes[index]
+                if isinstance(item, list):
+                    normalized_boxes.append(item)
+                    index += 1
+                    continue
+                if (
+                    isinstance(item, str)
+                    and index + 4 < len(raw_boxes)
+                    and all(isinstance(raw_boxes[index + offset], (int, float)) for offset in range(1, 5))
+                ):
+                    box = [item, *raw_boxes[index + 1:index + 5]]
+                    index += 5
+                    if index < len(raw_boxes) and isinstance(raw_boxes[index], float) and 0 <= raw_boxes[index] <= 1:
+                        box.append(raw_boxes[index])
+                        index += 1
+                    normalized_boxes.append(box)
+                    continue
+                index += 1
+            if normalized_boxes:
+                value["boxes"] = normalized_boxes
+                value["_parse_recovery"] = "flattened_box_tuples"
     if not isinstance(value, dict):
         raise ValueError("VLM response root must be an object")
     return value
+
+
+def _next_json_retry_token_budget(current: int, options: Mapping[str, Any]) -> int:
+    """Increase only retry budgets so truncated JSON can reach its closing braces."""
+    multiplier = max(1.0, float(options.get("json_retry_token_multiplier", 1.5)))
+    ceiling = max(current, int(options.get("json_retry_max_tokens", 4096)))
+    expanded = max(current + 256, math.ceil(current * multiplier))
+    return min(ceiling, expanded)
 
 
 def _image_url(source: str) -> str:
@@ -507,6 +587,7 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
         prompt: str,
         output_dir: Path,
         max_new_tokens: int,
+        _json_parse_attempt: int = 0,
         **parameters: Any,
     ) -> dict[str, Any]:
         output_dir.mkdir(parents=True, exist_ok=True)
@@ -535,7 +616,33 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
                 response_path = Path(str(files[0].get("path", ""))).expanduser().resolve()
                 if not response_path.is_file():
                     raise RuntimeError(f"Local Qwen3-VL output is missing: {response_path}")
-                result = _json_object(response_path.read_text(encoding="utf-8"))
+                response_text = response_path.read_text(encoding="utf-8")
+                try:
+                    result = _json_object(response_text)
+                except (ValueError, json.JSONDecodeError) as exc:
+                    retry_limit = max(0, int(self.config.options.get("json_parse_retries", 2)))
+                    if _json_parse_attempt >= retry_limit:
+                        raise RuntimeError(
+                            f"Local Qwen3-VL returned invalid JSON after {retry_limit + 1} attempts: {exc}"
+                        ) from exc
+                    retry_prompt = (
+                        prompt
+                        + "\nYour previous response was invalid or truncated JSON. Retry from scratch. "
+                        + "Return only complete compact JSON in the exact requested schema. "
+                        + "Use fewer words and fewer optional details so the closing braces fit."
+                    )
+                    retry_max_new_tokens = _next_json_retry_token_budget(
+                        max_new_tokens,
+                        self.config.options,
+                    )
+                    return self._run_task(
+                        media_path,
+                        retry_prompt,
+                        output_dir.parent / f"{output_dir.name}_json_retry_{_json_parse_attempt + 1}",
+                        retry_max_new_tokens,
+                        _json_parse_attempt=_json_parse_attempt + 1,
+                        **parameters,
+                    )
                 result["_task_id"] = task_id
                 result["_input_media"] = dict(status.get("input_media", {}))
                 return result
@@ -819,6 +926,27 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
                         candidates.append(entity_id)
                 if len(candidates) == 1:
                     aliases[timeline_id] = candidates[0]
+        unresolved_timeline_ids = sorted({
+            timeline_id
+            for event in events
+            for timeline_id in event["entity_ids"]
+            if timeline_id not in known_entity_ids and timeline_id not in aliases
+        })
+        for timeline_id in unresolved_timeline_ids:
+            semantic_category = timeline_id.rsplit("_", 1)[0] or "unknown"
+            evidence_ids = list(dict.fromkeys(event_entity_ids.get(timeline_id, [])))
+            placeholder = self._expand_features({
+                "category": semantic_category,
+                "subcategory": semantic_category,
+                "summary": "Visible timeline entity; detailed attributes were unresolved in the entity pass.",
+                "confidence": 0.5,
+                "features": [],
+                "uncertainties": ["Detailed entity attributes were not returned by the compact entity pass"],
+            })
+            placeholder["quantity"] = {"value": 1, "confidence": 0.5}
+            entities.append({"entity_id": timeline_id, **placeholder})
+            known_entity_ids.add(timeline_id)
+            entity_by_id[timeline_id] = entities[-1]
         event_entity_ids = {}
         for event in events:
             event["entity_ids"] = list(dict.fromkeys(
@@ -862,11 +990,17 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
         })
         if duration is not None:
             technical["duration_seconds"] = duration
+        output_uncertainties = list(raw.get("uncertainties", []))
+        if unresolved_timeline_ids:
+            output_uncertainties.append(
+                "Compact entity pass omitted details for timeline entities: "
+                + ", ".join(unresolved_timeline_ids)
+            )
         return {
             "asset_id": str(asset.get("asset_id", "")), "summary": str(raw.get("summary", "")),
             "evidence": evidence, "regions": [], "entities": entities,
             "relations": relations, "events": events, "technical": technical,
-            "transcript": "", "uncertainties": list(raw.get("uncertainties", [])),
+            "transcript": "", "uncertainties": output_uncertainties,
         }
 
     def _analyze_visual(self, asset: Mapping[str, Any]) -> dict[str, Any]:
