@@ -11,7 +11,7 @@ import socket
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 from urllib.parse import urlparse
 
 from backend.context_ir import (
@@ -24,6 +24,7 @@ from backend.context_ir import (
     validate_context_ir,
 )
 from backend.perception import PERCEPTION_PROVIDERS, PerceptionProviderConfig
+from backend.intent_resolver import resolve_intent
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -122,14 +123,49 @@ def perception_config(source: dict[str, Any]) -> PerceptionProviderConfig:
     )
 
 
-def ensure_perception(source: dict[str, Any]) -> dict[str, Any]:
+def ensure_perception(source: dict[str, Any], perception_plan: dict[str, Any] | None = None) -> dict[str, Any]:
     if source.get("perception") is not None:
         return source
     config = perception_config(source)
     provider = PERCEPTION_PROVIDERS.create(config)
     enriched = dict(source)
-    enriched["perception"] = provider.analyze(source.get("assets", []))
+    enriched["perception"] = provider.analyze(source.get("assets", []), perception_plan)
     return enriched
+
+
+def invoke_reasoning_json(
+    prompt: str,
+    reasoning: dict[str, str],
+    log_path: Path,
+    skill_names: list[str] | None = None,
+) -> dict[str, Any]:
+    """Run one strict JSON turn through the currently selected Codex provider."""
+    from openai_codex import ApprovalMode, Codex, CodexConfig, Sandbox, SkillInput, TextInput
+
+    api_key_env = reasoning["api_key_env"]
+    agent_env = {api_key_env: os.environ[api_key_env]}
+    http_host_env = reasoning.get("http_host_env", "")
+    if http_host_env and os.environ.get(http_host_env):
+        agent_env[http_host_env] = os.environ[http_host_env]
+    inputs: list[Any] = []
+    for name in skill_names or []:
+        path = SKILLS_DIR / name
+        if not (path / "SKILL.md").is_file():
+            raise FileNotFoundError(f"missing official Skill: {path}")
+        inputs.append(SkillInput(name=name, path=str(path)))
+    inputs.append(TextInput(prompt))
+    config = CodexConfig(cwd=str(ROOT), client_name="minimax_h3_context_ir", client_title="MiniMax-H3 Context-IR", env=agent_env)
+    with log_path.open("w", encoding="utf-8") as log_file, Codex(config=config) as codex:
+        log_file.write(json.dumps({"model": reasoning["model"], "provider_id": reasoning["provider_id"], "base_url": reasoning["base_url"], "skills": skill_names or []}, ensure_ascii=False) + "\n")
+        thread = codex.thread_start(
+            cwd=str(ROOT), developer_instructions=(ROOT / "AGENTS.md").read_text(encoding="utf-8"),
+            model=reasoning["model"], model_provider=reasoning["provider_id"],
+            approval_mode=ApprovalMode.deny_all, sandbox=Sandbox.workspace_write,
+            config=build_config(reasoning),
+        )
+        raw = collect_turn(thread.turn(inputs, approval_mode=ApprovalMode.deny_all, sandbox=Sandbox.workspace_write), log_file)
+    log_path.with_suffix(".raw.txt").write_text(raw, encoding="utf-8")
+    return extract_json(raw)
 
 
 def schema_template(source: dict[str, Any]) -> dict[str, Any]:
@@ -317,9 +353,8 @@ def run_agent(
     output_dir: Path,
     style_skill: str | None,
     perception_from: Path | None = None,
+    progress_callback: Callable[[str], None] | None = None,
 ) -> int:
-    from openai_codex import ApprovalMode, Codex, CodexConfig, Sandbox, SkillInput, TextInput
-
     source = normalize_source_request(source)
     source_report = validate_source_request(source)
     if not source_report.passed:
@@ -334,6 +369,25 @@ def run_agent(
     preflight_reasoning_provider(reasoning)
     output_dir.mkdir(parents=True, exist_ok=False)
     (output_dir / "input.json").write_text(json.dumps(source, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if progress_callback:
+        progress_callback("intent")
+    resolution = resolve_intent(
+        source,
+        lambda prompt: invoke_reasoning_json(prompt, reasoning, output_dir / "intent_resolver.log"),
+    )
+    source = resolution["source"]
+    perception_plan = resolution["perception_plan"]
+    (output_dir / "intent_resolution.json").write_text(
+        json.dumps({
+            "resolved_request": source["resolved_request"],
+            "directives": source["directives"],
+            "completion_policy": source["completion_policy"],
+            "open_questions": source.get("open_questions", []),
+        }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (output_dir / "perception_plan.json").write_text(json.dumps(perception_plan, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (output_dir / "resolved_input.json").write_text(json.dumps(source, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if progress_callback:
+        progress_callback("bindings")
     if perception_from is not None:
         perception = json.loads(perception_from.resolve().read_text(encoding="utf-8"))
         if not isinstance(perception, dict):
@@ -341,49 +395,24 @@ def run_agent(
         source = dict(source)
         source["perception"] = perception
     else:
-        source = ensure_perception(source)
+        source = ensure_perception(source, perception_plan)
     (output_dir / "media_analysis.json").write_text(
         json.dumps(source.get("perception"), ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
+    if progress_callback:
+        progress_callback("timeline")
 
     skill_names = ["h3-prompt-writing"] + ([style_skill] if style_skill else [])
-    skill_inputs = []
-    for name in skill_names:
-        path = SKILLS_DIR / name
-        if not (path / "SKILL.md").is_file():
-            raise FileNotFoundError(f"missing official Skill: {path}")
-        skill_inputs.append(SkillInput(name=name, path=str(path)))
-
-    agent_env = {api_key_env: os.environ[api_key_env]}
-    http_host_env = reasoning.get("http_host_env", "")
-    if http_host_env and os.environ.get(http_host_env):
-        agent_env[http_host_env] = os.environ[http_host_env]
-    config = CodexConfig(
-        cwd=str(ROOT),
-        client_name="minimax_h3_context_ir",
-        client_title="MiniMax-H3 Context-IR",
-        env=agent_env,
-    )
-    log_path = output_dir / "agent.log"
-    with log_path.open("w", encoding="utf-8") as log_file, Codex(config=config) as codex:
-        log_file.write(json.dumps({"model": model, "provider_id": provider_id, "base_url": base_url, "skills": skill_names}, ensure_ascii=False) + "\n")
-        thread = codex.thread_start(
-            cwd=str(ROOT),
-            developer_instructions=(ROOT / "AGENTS.md").read_text(encoding="utf-8"),
-            model=model,
-            model_provider=provider_id,
-            approval_mode=ApprovalMode.deny_all,
-            sandbox=Sandbox.workspace_write,
-            config=build_config(reasoning),
-        )
-        turn = thread.turn(skill_inputs + [TextInput(build_prompt(source, style_skill))], approval_mode=ApprovalMode.deny_all, sandbox=Sandbox.workspace_write)
-        raw = collect_turn(turn, log_file)
-    (output_dir / "glm_raw_response.txt").write_text(raw, encoding="utf-8")
-    ir = compile_context_ir(extract_json(raw), source)
+    model_output = invoke_reasoning_json(build_prompt(source, style_skill), reasoning, output_dir / "agent.log", skill_names)
+    ir = compile_context_ir(model_output, source)
+    if progress_callback:
+        progress_callback("isolation")
     context_path = output_dir / "context_ir.json"
     context_path.write_text(json.dumps(ir, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     prompt = render_h3_prompt(ir)
+    if progress_callback:
+        progress_callback("prompt")
     audit_or_raise(ir, prompt)
     prompt_path = output_dir / "h3_prompt.txt"
     prompt_path.write_text(prompt, encoding="utf-8")

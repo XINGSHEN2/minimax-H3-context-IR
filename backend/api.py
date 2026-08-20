@@ -36,8 +36,9 @@ ALLOWED_EXTENSIONS = {
     "audio": {".wav", ".mp3", ".m4a", ".aac", ".flac", ".ogg"},
 }
 RESULT_FILES = {
+    "input.json", "resolved_input.json", "intent_resolution.json", "perception_plan.json",
     "media_analysis.json", "context_ir.json", "h3_prompt.txt",
-    "h3_prompt_audit.json", "h3_request.json", "agent.log",
+    "h3_prompt_audit.json", "h3_request.json", "intent_resolver.log", "agent.log",
 }
 CASE_PATTERN = re.compile(r"^case_(\d{3,})$")
 SAFE_NAME_PATTERN = re.compile(r"[^A-Za-z0-9._-]+")

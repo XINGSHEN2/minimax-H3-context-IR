@@ -37,7 +37,7 @@ class PerceptionProvider(ABC):
         self.config = config
 
     @abstractmethod
-    def analyze(self, assets: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    def analyze(self, assets: Sequence[Mapping[str, Any]], perception_plan: Mapping[str, Any] | None = None) -> dict[str, Any]:
         """Return a normalized media_analysis.v2 envelope."""
 
 
@@ -50,7 +50,7 @@ class CallablePerceptionProvider(PerceptionProvider):
         super().__init__(config)
         self.transport = transport
 
-    def analyze(self, assets: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    def analyze(self, assets: Sequence[Mapping[str, Any]], perception_plan: Mapping[str, Any] | None = None) -> dict[str, Any]:
         return normalize_media_analysis(self.transport(self.config, assets), assets, self.config)
 
 
@@ -319,6 +319,7 @@ def _analysis_prompt(
     asset: Mapping[str, Any],
     timestamps: Sequence[float],
     video_duration_seconds: float | None = None,
+    plan: Mapping[str, Any] | None = None,
 ) -> str:
     media_type = str(asset.get("media_type", "image"))
     temporal = ""
@@ -349,8 +350,20 @@ def _analysis_prompt(
             + duration_rule
         )
         event_example = '{"event_id":"event_1","time_range":[3.0,6.5],"entity_ids":[],"action":"visible change or action in that original-video time range","state_before":{},"state_after":{},"transition_type":"none","evidence_ids":[],"confidence":0.0}'
+    plan = plan or {}
+    targeted = f"""
+User-intent-derived analysis scope (this is not visual evidence):
+- asset role: {plan.get('role', 'reference')}
+- user-claimed category: {plan.get('user_claimed_category', '') or 'none'}
+- inspect especially: {json.dumps(plan.get('analyze', []), ensure_ascii=False)}
+- do not infer: {json.dumps(plan.get('do_not_infer', []), ensure_ascii=False)}
+Treat the claimed category only as a search hypothesis. Report visible attributes,
+supporting evidence, conflicts, alternatives, and confidence independently. Never
+confirm a category from screen digits or text alone.
+""".strip()
     return f"""
 Analyze asset {asset.get('asset_id')} ({media_type}).{temporal}
+{targeted}
 This is a general evidence task. Analyze any important visible person, product,
 garment, accessory, prop, animal, vehicle, environment, or text without assuming
 a particular domain. Use stable entity IDs across the asset.
@@ -519,8 +532,9 @@ class GiteeQwen3VLProvider(PerceptionProvider):
             return [_image_url(str(contact_sheet))], [timestamp for timestamp, _ in frames]
         return [], []
 
-    def analyze(self, assets: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    def analyze(self, assets: Sequence[Mapping[str, Any]], perception_plan: Mapping[str, Any] | None = None) -> dict[str, Any]:
         analyses = []
+        plans = {str(item.get("asset_id", "")): item for item in (perception_plan or {}).get("assets", []) if isinstance(item, Mapping)}
         context = tempfile.TemporaryDirectory(prefix="context-ir-vlm-") if self.work_dir is None else None
         temp_root = self.work_dir or Path(context.name)
         try:
@@ -537,7 +551,7 @@ class GiteeQwen3VLProvider(PerceptionProvider):
                     continue
                 image_urls, timestamps = self._visual_inputs(asset, temp_root)
                 content = [{"type": "image_url", "image_url": {"url": url}} for url in image_urls]
-                content.append({"type": "text", "text": _analysis_prompt(asset, timestamps)})
+                content.append({"type": "text", "text": _analysis_prompt(asset, timestamps, plan=plans.get(str(asset.get("asset_id", ""))))})
                 messages = [
                     {"role": "system", "content": VISUAL_SYSTEM_PROMPT},
                     {"role": "user", "content": content},
@@ -731,13 +745,16 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             "uncertainties": list(item.get("uncertainties", [])),
         }
 
-    def _analyze_image_staged(self, asset: Mapping[str, Any], source: Path) -> dict[str, Any]:
+    def _analyze_image_staged(self, asset: Mapping[str, Any], source: Path, plan: Mapping[str, Any] | None = None) -> dict[str, Any]:
         output_root = Path(str(self.config.options.get(
             "output_dir", "/home/mx/shenxing/minimax-H3-context-IR/outputs/qwen3-vl-32b",
         ))).expanduser().resolve()
         run_dir = output_root / "staged" / f"{asset.get('asset_id', 'image')}-{time.time_ns()}"
         localization_image = self._localization_input(source, run_dir / "localization_input.jpg")
-        localized = self._run_task(localization_image, LOCALIZATION_PROMPT, run_dir / "localization", 320)
+        plan_text = json.dumps(plan or {}, ensure_ascii=False)
+        guard = ("\nIntent-derived inspection plan (not visual evidence): " + plan_text
+                 + "\nUse claimed categories only as hypotheses. Obey do_not_infer and report visible conflicts.")
+        localized = self._run_task(localization_image, LOCALIZATION_PROMPT + guard, run_dir / "localization", 320)
         boxes = localized.get("boxes", [])
         objects = []
         for index, box in enumerate(boxes, start=1):
@@ -764,7 +781,7 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             batch_dir = run_dir / f"attributes_{offset // batch_size + 1:02d}"
             sheet = batch_dir / "crops.jpg"
             expected_ids = self._attribute_sheet(source, batch, sheet)
-            response = self._run_task(sheet, ATTRIBUTE_CROP_PROMPT, batch_dir, 1800)
+            response = self._run_task(sheet, ATTRIBUTE_CROP_PROMPT + guard, batch_dir, 1800)
             items = response.get("items", [])
             actual_ids = [str(item.get("object_id", "")) for item in items if isinstance(item, Mapping)]
             if actual_ids != expected_ids:
@@ -804,7 +821,7 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             "transcript": "", "uncertainties": [],
         }
 
-    def _analyze_video_compact(self, asset: Mapping[str, Any], source: Path) -> dict[str, Any]:
+    def _analyze_video_compact(self, asset: Mapping[str, Any], source: Path, plan: Mapping[str, Any] | None = None) -> dict[str, Any]:
         output_root = Path(str(self.config.options.get(
             "output_dir", "/home/mx/shenxing/minimax-H3-context-IR/outputs/qwen3-vl-32b",
         ))).expanduser().resolve()
@@ -815,9 +832,12 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
                 f" The source duration is {duration:.3f} seconds. All event times must be within "
                 f"0.0-{duration:.3f}, and the last event must reach the visible ending."
             )
+        guard = ("\nIntent-derived inspection plan (not visual evidence): "
+                 + json.dumps(plan or {}, ensure_ascii=False)
+                 + "\nUse claimed categories only as hypotheses. Obey do_not_infer and report visible conflicts.")
         timeline_raw = self._run_task(
             source,
-            COMPACT_VIDEO_TIMELINE_PROMPT + duration_rule,
+            COMPACT_VIDEO_TIMELINE_PROMPT + duration_rule + guard,
             output_root / "compact_video_timeline",
             int(self.config.options.get("video_timeline_max_tokens", 1200)),
             fps=float(self.config.options.get("video_fps", 2.0)),
@@ -833,7 +853,7 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             if isinstance(event, list) and len(event) >= 4 and isinstance(event[3], list)
             for entity_id in event[3]
         })
-        entity_prompt = COMPACT_VIDEO_ENTITY_PROMPT
+        entity_prompt = COMPACT_VIDEO_ENTITY_PROMPT + guard
         if timeline_entity_ids:
             entity_prompt += (
                 " The timeline references these entity IDs: " + ", ".join(timeline_entity_ids)
@@ -1003,15 +1023,15 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             "transcript": "", "uncertainties": output_uncertainties,
         }
 
-    def _analyze_visual(self, asset: Mapping[str, Any]) -> dict[str, Any]:
+    def _analyze_visual(self, asset: Mapping[str, Any], plan: Mapping[str, Any] | None = None) -> dict[str, Any]:
         media_type = str(asset.get("media_type", ""))
         source = Path(str(asset.get("uri", ""))).expanduser().resolve()
         if not source.is_file():
             raise FileNotFoundError(f"local Qwen3-VL media path does not exist: {source}")
         if media_type == "image" and bool(self.config.options.get("staged_image_analysis", True)):
-            return self._analyze_image_staged(asset, source)
+            return self._analyze_image_staged(asset, source, plan)
         if media_type == "video" and bool(self.config.options.get("compact_video_analysis", True)):
-            return self._analyze_video_compact(asset, source)
+            return self._analyze_video_compact(asset, source, plan)
         temporal_instruction = ""
         if media_type == "video":
             fps = float(self.config.options.get("video_fps", 2.0))
@@ -1025,7 +1045,7 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             VISUAL_SYSTEM_PROMPT
             + temporal_instruction
             + "\n\n"
-            + _analysis_prompt(asset, [], video_duration_seconds=duration)
+            + _analysis_prompt(asset, [], video_duration_seconds=duration, plan=plan)
         )
         output_dir = Path(
             str(
@@ -1072,8 +1092,9 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             time.sleep(poll_interval)
         raise TimeoutError(f"Local Qwen3-VL task timed out: {task_id}")
 
-    def analyze(self, assets: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    def analyze(self, assets: Sequence[Mapping[str, Any]], perception_plan: Mapping[str, Any] | None = None) -> dict[str, Any]:
         analyses = []
+        plans = {str(item.get("asset_id", "")): item for item in (perception_plan or {}).get("assets", []) if isinstance(item, Mapping)}
         for asset in assets:
             if asset.get("media_type") == "audio":
                 analyses.append({
@@ -1085,7 +1106,7 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
                     "uncertainties": ["Audio content was not analyzed by the visual perception provider"],
                 })
                 continue
-            analysis = self._analyze_visual(asset)
+            analysis = self._analyze_visual(asset, plans.get(str(asset.get("asset_id", ""))))
             analysis["asset_id"] = str(asset.get("asset_id", ""))
             analyses.append(analysis)
         return normalize_media_analysis({"assets": analyses}, assets, self.config)
