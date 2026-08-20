@@ -9,6 +9,8 @@ import re
 from dataclasses import asdict, dataclass, field
 from typing import Any, Mapping
 
+from backend.directive_binding import compile_directive_bindings
+
 
 IR_SCHEMA_VERSION = "0.1.0"
 MEDIA_ANALYSIS_SCHEMA_VERSION = "media_analysis.v2"
@@ -367,7 +369,11 @@ def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
                     path,
                 )
     if directive_ids:
-        missing_directives = directive_ids - covered_directive_ids
+        binding_directive_ids = {
+            directive_id for directive_id, directive in directives_by_id.items()
+            if str(directive.get("asset_id", "")).strip()
+        }
+        missing_directives = binding_directive_ids - covered_directive_ids
         if missing_directives:
             report.add("DIRECTIVE_BINDING_COVERAGE", f"directives lack binding coverage: {sorted(missing_directives)}", "$.asset_bindings")
 
@@ -773,6 +779,7 @@ def compile_context_ir(model_output: Mapping[str, Any], source_request: Mapping[
                         for directive_id in _strings(binding.get("source_directive_ids"))
                         if directive_id in source_directive_ids
                     ]
+        compile_directive_bindings(payload, source)
     normalize_source_video_audio_relationship(payload)
     normalize_reference_retention_modes(payload)
     normalize_reference_isolation(payload)
@@ -997,7 +1004,8 @@ def _render_ref_prompt(payload: Mapping[str, Any], inventory: Mapping[str, str])
         is_frame_anchor = bool(roles.intersection({"first_frame", "last_frame"})) or relationship.get("relationship") == "keyframe_completion"
         needs_standalone_definition = media_by_asset.get(asset_id) in {"video", "audio"} or is_frame_anchor or not linked
         if needs_standalone_definition:
-            subjects.append(f"{label} is {definition}.{link_text}")
+            appearance_guard = f" {label} is not an appearance source." if roles and roles.issubset(STRUCTURAL_BINDING_ROLES) else ""
+            subjects.append(f"{label} is {definition}.{link_text}{appearance_guard}")
         retention.append(f"{label}: {relationship['retention_mode']} - {str(relationship['retention_description']).strip().rstrip('.')}.")
     task_types = _strings(payload["protocol"].get("summary_task_types"))
     prefix = "[" + " + ".join(task_types) + "]"
