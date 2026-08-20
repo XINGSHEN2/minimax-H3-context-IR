@@ -6,6 +6,8 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
+import os
+import subprocess
 import time
 import urllib.error
 import urllib.request
@@ -106,22 +108,50 @@ def wait_for_variant(root: Path, case_id: str, variant: str, timeout_seconds: in
     raise TimeoutError(f"Timed out waiting for {case_id}/{variant}")
 
 
-def build_request(prompt: Path, spec: dict[str, Any], output_dir: Path) -> dict[str, Any]:
+def service_process_root() -> Path:
+    configured = os.environ.get("H3_SERVICE_PROCESS_ROOT", "").strip()
+    if configured:
+        return Path(configured)
+    result = subprocess.run(
+        ["pgrep", "-o", "-f", "sglang serve.*--port 30011"],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    pid = result.stdout.strip().splitlines()[0]
+    return Path("/proc") / pid / "root"
+
+
+def stage_for_service(source: Path, service_path: Path, process_root: Path) -> str:
+    """Copy an input into the already-running service's older mount namespace."""
+    destination = process_root / service_path.relative_to("/")
+    subprocess.run(["sudo", "-n", "mkdir", "-p", str(destination.parent)], check=True)
+    subprocess.run(["sudo", "-n", "cp", "--", str(source.resolve()), str(destination)], check=True)
+    subprocess.run(["sudo", "-n", "chmod", "0644", str(destination)], check=True)
+    return str(service_path)
+
+
+def build_request(prompt: Path, spec: dict[str, Any], case_id: str, variant: str) -> dict[str, Any]:
     case_dir = prompt.parents[2]
+    process_root = service_process_root()
+    service_root = Path("/tmp/context-ir-h3-staging") / case_id / variant
+    prompt_uri = stage_for_service(prompt, service_root / "h3_prompt.txt", process_root)
     conditions = []
     for asset in spec.get("assets", []):
         media_type = str(asset["media_type"])
         if media_type not in {"image", "video"}:
             continue
+        source = (case_dir / str(asset["file"])).resolve()
+        staged_name = f"{str(asset.get('asset_id', 'asset'))}_{source.name}"
         conditions.append({
             "type": media_type,
-            "uri": str((case_dir / str(asset["file"])).resolve()),
+            "uri": stage_for_service(source, service_root / "assets" / staged_name, process_root),
             "role": "reference",
         })
     task = spec.get("task", {})
     return {
         "task": "ref2va",
-        "prompt_file": str(prompt.resolve()),
+        "prompt_file": prompt_uri,
         "conditions": conditions,
         "target": {
             "short_edge": 480,
@@ -132,7 +162,7 @@ def build_request(prompt: Path, spec: dict[str, Any], output_dir: Path) -> dict[
         "n": 1,
         "num_inference_steps": 20,
         "output_mode": "decoded_files",
-        "output_path": str(output_dir.resolve()),
+        "output_path": str(service_root / "output"),
     }
 
 
@@ -154,7 +184,7 @@ def run_one(base_url: str, root: Path, case_id: str, variant: str, prompt: Path)
                 return previous
 
     spec = read_json(root / case_id / "case_spec.json")
-    payload = build_request(prompt, spec, output_dir)
+    payload = build_request(prompt, spec, case_id, variant)
     write_json(run_dir / "request.json", payload)
     started_at = now()
     started = time.perf_counter()
