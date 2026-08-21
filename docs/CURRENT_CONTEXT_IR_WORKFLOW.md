@@ -51,7 +51,7 @@ flowchart TD
     "type": "ref2va",
     "duration_seconds": 15,
     "aspect_ratio": "9:16",
-    "generate_audio": false,
+    "generate_audio": true,
     "style": ""
   },
   "assets": [

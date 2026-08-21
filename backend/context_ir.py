@@ -618,6 +618,12 @@ def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
                     "audio-enabled output must define voice, sound effects, ambient sound, or synchronization rules",
                     "$.audio_plan",
                 )
+            if not sync_rules:
+                report.add(
+                    "AUDIO_SYNC_RULES_EMPTY",
+                    "audio-enabled output must define at least one audio-visual synchronization or continuous-bed rule",
+                    "$.audio_plan.sync_rules",
+                )
 
     generation = payload.get("generation_description")
     if not isinstance(generation, Mapping):

@@ -112,7 +112,7 @@ Context-IR 不区分 resolved、partial 或 direct 模式，统一按照以下�
     "type": "ref2va",
     "duration_seconds": 15,
     "aspect_ratio": "9:16",
-    "generate_audio": false
+    "generate_audio": true
   },
   "assets": [],
   "resolved_request": "可选的上游执行摘要",

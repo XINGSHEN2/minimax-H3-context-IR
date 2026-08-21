@@ -63,12 +63,21 @@ class SourceContractTests(unittest.TestCase):
         )
         ir = self._minimal_ir(source)
         ir["task"]["generate_audio"] = True
+        ir["audio_plan"] = {
+            "voice": "",
+            "music": "",
+            "sound_effects": "",
+            "ambient_sound": "",
+            "sync_rules": [],
+        }
         report = validate_context_ir(ir)
         self.assertFalse(report.passed)
         self.assertIn("AUDIO_SOUNDSCAPE_EMPTY", {item.code for item in report.issues})
 
         ir["audio_plan"]["ambient_sound"] = "quiet room tone"
         ir["audio_plan"]["sound_effects"] = "soft synchronized product handling Foley"
+        report = validate_context_ir(ir)
+        self.assertIn("AUDIO_SYNC_RULES_EMPTY", {item.code for item in report.issues})
         ir["audio_plan"]["sync_rules"] = ["Foley follows the visible hand movement"]
         self.assertTrue(validate_context_ir(ir).passed)
 
@@ -389,10 +398,10 @@ class SourceContractTests(unittest.TestCase):
             ],
             "audio_plan": {
                 "voice": "",
-                "music": "",
-                "sound_effects": "",
-                "ambient_sound": "",
-                "sync_rules": [],
+                "music": "restrained non-vocal commercial music" if source["task"].get("generate_audio") else "",
+                "sound_effects": "soft synchronized product handling Foley" if source["task"].get("generate_audio") else "",
+                "ambient_sound": "quiet room tone" if source["task"].get("generate_audio") else "",
+                "sync_rules": ["Foley follows the visible hand movement"] if source["task"].get("generate_audio") else [],
             },
             "generation_description": {
                 "cinematography": "reference structure",

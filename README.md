@@ -75,7 +75,7 @@ bash deploy/run.sh assets/case_001/request.json
     "type": "ref2va",
     "duration_seconds": 15,
     "aspect_ratio": "9:16",
-    "generate_audio": false,
+    "generate_audio": true,
     "style": "premium commercial, photorealistic"
   },
   "assets": [
