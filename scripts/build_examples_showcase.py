@@ -23,8 +23,15 @@ def main():
         if source_assets.is_dir():
             shutil.copytree(source_assets,data/case_dir.name/"assets",dirs_exist_ok=True)
         for variant in ("vague","detailed"):
-            prompt_candidates=[case_dir/f"user_prompt_{variant}.txt",case_dir/"prompts"/f"{variant}.txt",case_dir/"A_raw"/variant/"user_prompt.txt"]
-            user_prompt=next((x for x in prompt_candidates if x.is_file()),None);v={"prompt":user_prompt.read_text(encoding="utf-8").strip() if user_prompt else "","groups":{}}
+            configured_prompt=spec.get("input_variants",{}).get(variant)
+            prompt_candidates=[
+                case_dir/str(configured_prompt) if configured_prompt else case_dir/"__missing__",
+                case_dir/f"user_prompt_{variant}.txt",
+                case_dir/"inputs"/f"{variant}.txt",
+                case_dir/"prompts"/f"{variant}.txt",
+                case_dir/"A_raw"/variant/"user_prompt.txt",
+            ]
+            user_prompt=next((x for x in prompt_candidates if x.is_file()),None);v={"groups":{}}
             for key,(folder,label) in GROUPS.items():
                 root=case_dir/folder/variant;out=data/case_dir.name/variant/key
                 video=copy(first(root,"h3_480_15s_20steps/output/*.mp4"),out/"result.mp4")

@@ -7,7 +7,6 @@
       "description": "",
       "variants": {
         "vague": {
-          "prompt": "",
           "groups": {
             "raw": {
               "label": "Raw",
@@ -36,7 +35,6 @@
           }
         },
         "detailed": {
-          "prompt": "",
           "groups": {
             "raw": {
               "label": "Raw",
@@ -72,7 +70,6 @@
       "description": "",
       "variants": {
         "vague": {
-          "prompt": "",
           "groups": {
             "raw": {
               "label": "Raw",
@@ -101,7 +98,6 @@
           }
         },
         "detailed": {
-          "prompt": "",
           "groups": {
             "raw": {
               "label": "Raw",
@@ -137,7 +133,6 @@
       "description": "",
       "variants": {
         "vague": {
-          "prompt": "",
           "groups": {
             "raw": {
               "label": "Raw",
@@ -166,7 +161,6 @@
           }
         },
         "detailed": {
-          "prompt": "",
           "groups": {
             "raw": {
               "label": "Raw",
@@ -202,7 +196,6 @@
       "description": "",
       "variants": {
         "vague": {
-          "prompt": "",
           "groups": {
             "raw": {
               "label": "Raw",
@@ -231,7 +224,6 @@
           }
         },
         "detailed": {
-          "prompt": "",
           "groups": {
             "raw": {
               "label": "Raw",
@@ -267,7 +259,6 @@
       "description": "",
       "variants": {
         "vague": {
-          "prompt": "",
           "groups": {
             "raw": {
               "label": "Raw",
@@ -296,7 +287,6 @@
           }
         },
         "detailed": {
-          "prompt": "",
           "groups": {
             "raw": {
               "label": "Raw",
@@ -332,7 +322,6 @@
       "description": "",
       "variants": {
         "vague": {
-          "prompt": "",
           "groups": {
             "raw": {
               "label": "Raw",
@@ -361,7 +350,6 @@
           }
         },
         "detailed": {
-          "prompt": "",
           "groups": {
             "raw": {
               "label": "Raw",
@@ -397,7 +385,6 @@
       "description": "",
       "variants": {
         "vague": {
-          "prompt": "",
           "groups": {
             "raw": {
               "label": "Raw",
@@ -426,7 +413,6 @@
           }
         },
         "detailed": {
-          "prompt": "",
           "groups": {
             "raw": {
               "label": "Raw",
