@@ -284,6 +284,23 @@ retention_analysis
 detailed_description
 overall_soundscape
 non_diegetic_music
+
+## 统一生产策略层
+
+Context-IR 在时间线编排前先生成 `production_policies` 权限矩阵。相机、剪辑、动作、表演、构图、光照、声音、风格、特效和文字统一使用 `strict / disabled / reference / enhance / auto` 五种模式，并记录决策来源、优先级、是否允许新增事件、是否保持参考以及所绑定的镜头。
+
+确定性规范化遵循以下规则：
+
+- 用户明确要求或禁止的策略为硬约束；
+- 直接编辑源视频时，相机、剪辑、动作、光照和原音频默认按硬参考保持；
+- 参考素材只能控制用户授权的维度；
+- `auto` 使用最小新增原则，光照不默认增加动态事件；
+- 特效和新增文字默认关闭；
+- 启用音频时允许保守的技术性声景补全，但禁止无来源人声；
+- `identity / product / continuity` 位于 `entity_constraints`，始终保持 `strict + hard`；
+- 所有动态策略事件必须绑定到有效的时间线镜头。
+
+类别先验只能形成软策略，不能覆盖商品真实性、人物身份、连续性、用户硬要求或编辑底片保持约束。
 ```
 
 Prompt Auditor 再检查 H3 引用标签、Subject 定义、引用保留模式、结构参考隔离、时间戳、语言和音频一致性。只有审计通过才生成 `h3_request.json`。

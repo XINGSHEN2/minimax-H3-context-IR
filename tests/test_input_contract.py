@@ -216,6 +216,8 @@ class SourceContractTests(unittest.TestCase):
         ir = compile_context_ir(self._minimal_ir(source), source)
         prompt = render_h3_prompt(ir)
         self.assertIn("<Picture 1>", prompt.split("summary:", 1)[0])
+        self.assertIn("Production permissions:", prompt)
+        self.assertIn("text: mode=disabled", prompt)
         self.assertNotRegex(prompt.split("summary:", 1)[0], r"(?m)^<Picture 1> is ")
         self.assertTrue(audit_h3_prompt(ir, prompt).passed)
 
@@ -228,6 +230,44 @@ class SourceContractTests(unittest.TestCase):
         definitions = prompt.split("summary:", 1)[0]
         self.assertIn("<Video 1> is not an appearance source", definitions)
         self.assertTrue(audit_h3_prompt(ir, prompt).passed)
+
+    def test_policy_normalization_enforces_entity_truth_and_safe_defaults(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        model_ir = self._minimal_ir(source)
+        model_ir.pop("production_policies")
+        model_ir.pop("entity_constraints")
+        ir = compile_context_ir(model_ir, source)
+        self.assertEqual(ir["production_policies"]["lighting"]["mode"], "auto")
+        self.assertFalse(ir["production_policies"]["lighting"]["allow_new_events"])
+        self.assertEqual(ir["production_policies"]["effects"]["mode"], "disabled")
+        self.assertEqual(ir["production_policies"]["text"]["mode"], "disabled")
+        for module in ("identity", "product", "continuity"):
+            self.assertEqual(ir["entity_constraints"][module]["mode"], "strict")
+            self.assertEqual(ir["entity_constraints"][module]["priority"], "hard")
+
+    def test_source_edit_preserves_execution_modules_unless_user_overrides(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        model_ir = self._minimal_ir(source)
+        model_ir["reference_relationships"][1]["relationship"] = "source_video_edit"
+        model_ir["protocol"]["summary_task_types"] = ["reference generation", "video editing"]
+        model_ir["production_policies"]["lighting"].update({
+            "mode": "enhance", "source": "explicit_user", "priority": "hard",
+            "allow_new_events": True,
+        })
+        ir = compile_context_ir(model_ir, source)
+        for module in ("camera", "editing", "motion", "audio"):
+            self.assertEqual(ir["production_policies"][module]["mode"], "reference")
+            self.assertEqual(ir["production_policies"][module]["priority"], "hard")
+        self.assertEqual(ir["production_policies"]["lighting"]["mode"], "enhance")
+
+    def test_disabled_policy_events_are_removed_deterministically(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        model_ir = self._minimal_ir(source)
+        model_ir["production_policies"]["effects"]["events"] = [{
+            "event_id": "bad", "description": "unsupported sparkle", "source": "category_prior", "shot_refs": ["01"]
+        }]
+        ir = compile_context_ir(model_ir, source)
+        self.assertEqual(ir["production_policies"]["effects"]["events"], [])
 
     @staticmethod
     def _minimal_ir(source):
@@ -402,6 +442,25 @@ class SourceContractTests(unittest.TestCase):
                 "sound_effects": "soft synchronized product handling Foley" if source["task"].get("generate_audio") else "",
                 "ambient_sound": "quiet room tone" if source["task"].get("generate_audio") else "",
                 "sync_rules": ["Foley follows the visible hand movement"] if source["task"].get("generate_audio") else [],
+            },
+            "production_policies": {
+                module: {
+                    "mode": "enhance" if module == "audio" and source["task"].get("generate_audio") else ("disabled" if module in {"effects", "text"} else "auto"),
+                    "source": "default_completion",
+                    "priority": "soft",
+                    "allow_new_events": bool(module == "audio" and source["task"].get("generate_audio")),
+                    "preserve_reference": False,
+                    "constraints": {}, "events": [], "prohibit": [], "assumptions": [],
+                }
+                for module in ("camera", "editing", "motion", "performance", "composition", "lighting", "audio", "style", "effects", "text")
+            },
+            "entity_constraints": {
+                module: {
+                    "mode": "strict", "source": "derived_requirement", "priority": "hard",
+                    "allow_new_events": False, "preserve_reference": True,
+                    "constraints": {}, "events": [], "prohibit": [], "assumptions": [],
+                }
+                for module in ("identity", "product", "continuity")
             },
             "generation_description": {
                 "cinematography": "reference structure",

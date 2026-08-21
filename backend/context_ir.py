@@ -24,6 +24,17 @@ SUPPORTED_BINDING_ROLES = {
 APPEARANCE_BINDING_ROLES = {"identity", "outfit", "product", "scene"}
 STRUCTURAL_BINDING_ROLES = {"motion", "camera", "rhythm", "style"}
 SUPPORTED_PRIORITIES = {"hard", "soft"}
+POLICY_MODES = {"strict", "disabled", "reference", "enhance", "auto"}
+POLICY_SOURCES = {
+    "explicit_user", "explicit_prohibition", "reference_evidence",
+    "edit_base_preservation", "user_soft_goal", "category_prior",
+    "default_completion", "inferred", "derived_requirement",
+}
+PRODUCTION_POLICY_MODULES = (
+    "camera", "editing", "motion", "performance", "composition",
+    "lighting", "audio", "style", "effects", "text",
+)
+ENTITY_CONSTRAINT_MODULES = ("identity", "product", "continuity")
 SOURCE_SCHEMA_VERSION = "context_request.v1"
 LEGACY_SOURCE_SCHEMA_VERSIONS = {"resolved_request.v1"}
 DIRECTIVE_OPERATIONS = {"preserve", "replace", "transfer", "may_change", "exclude"}
@@ -632,7 +643,61 @@ def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
         for key in ("cinematography", "lighting", "materials", "performance", "continuity"):
             if key not in generation:
                 report.add("GENERATION_FIELD_MISSING", f"generation_description.{key} is required", "$.generation_description")
+    _validate_policy_collection(payload, report)
     return report
+
+
+def _validate_policy_collection(payload: Mapping[str, Any], report: ValidationReport) -> None:
+    """Audit module permissions after deterministic policy normalization."""
+    shot_ids = {
+        str(item.get("shot_id", "")) for item in payload.get("timeline", [])
+        if isinstance(item, Mapping)
+    }
+    collections = (
+        ("production_policies", PRODUCTION_POLICY_MODULES),
+        ("entity_constraints", ENTITY_CONSTRAINT_MODULES),
+    )
+    for collection_name, modules in collections:
+        collection = payload.get(collection_name)
+        if not isinstance(collection, Mapping):
+            report.add("POLICY_COLLECTION_MISSING", f"{collection_name} must be an object", f"$.{collection_name}")
+            continue
+        for module in modules:
+            policy = collection.get(module)
+            path = f"$.{collection_name}.{module}"
+            if not isinstance(policy, Mapping):
+                report.add("POLICY_MODULE_MISSING", f"{module} policy is required", path)
+                continue
+            if policy.get("mode") not in POLICY_MODES:
+                report.add("POLICY_MODE_INVALID", f"mode must use {sorted(POLICY_MODES)}", path + ".mode")
+            if policy.get("source") not in POLICY_SOURCES:
+                report.add("POLICY_SOURCE_INVALID", f"source must use {sorted(POLICY_SOURCES)}", path + ".source")
+            if policy.get("priority") not in SUPPORTED_PRIORITIES:
+                report.add("POLICY_PRIORITY_INVALID", "priority must be hard or soft", path + ".priority")
+            if not isinstance(policy.get("allow_new_events"), bool) or not isinstance(policy.get("preserve_reference"), bool):
+                report.add("POLICY_PERMISSION_INVALID", "allow_new_events and preserve_reference must be boolean", path)
+            events = policy.get("events")
+            if not isinstance(events, list):
+                report.add("POLICY_EVENTS_INVALID", "events must be an array", path + ".events")
+                events = []
+            if policy.get("mode") == "disabled" and (policy.get("allow_new_events") or events):
+                report.add("POLICY_DISABLED_HAS_EVENTS", "disabled policy cannot allow or contain events", path)
+            for index, event in enumerate(events):
+                event_path = f"{path}.events[{index}]"
+                if not isinstance(event, Mapping) or not str(event.get("description", "")).strip():
+                    report.add("POLICY_EVENT_INVALID", "event must contain a description", event_path)
+                    continue
+                unknown = set(_strings(event.get("shot_refs"))) - shot_ids
+                if unknown:
+                    report.add("POLICY_EVENT_SHOT_UNKNOWN", f"unknown shot refs: {sorted(unknown)}", event_path + ".shot_refs")
+                if policy.get("mode") == "reference" and event.get("source") not in {"explicit_user", "reference_evidence", "edit_base_preservation"}:
+                    report.add("POLICY_REFERENCE_EVENT_UNGROUNDED", "reference-mode events require user or reference evidence", event_path + ".source")
+    entities = payload.get("entity_constraints")
+    if isinstance(entities, Mapping):
+        for module in ENTITY_CONSTRAINT_MODULES:
+            policy = entities.get(module)
+            if isinstance(policy, Mapping) and (policy.get("mode") != "strict" or policy.get("priority") != "hard"):
+                report.add("ENTITY_POLICY_NOT_STRICT", f"{module} must remain strict and hard", f"$.entity_constraints.{module}")
 
 
 def normalize_reference_isolation(payload: dict[str, Any]) -> dict[str, Any]:
@@ -843,6 +908,97 @@ def normalize_source_video_audio_relationship(payload: dict[str, Any]) -> dict[s
     return payload
 
 
+def _policy_default(module: str, source_edit: bool, generate_audio: bool) -> dict[str, Any]:
+    if module in ENTITY_CONSTRAINT_MODULES:
+        return {
+            "mode": "strict", "source": "derived_requirement", "priority": "hard",
+            "allow_new_events": False, "preserve_reference": True,
+            "constraints": {}, "events": [], "prohibit": [], "assumptions": [],
+        }
+    if source_edit and module in {"camera", "editing", "motion", "lighting", "audio"}:
+        return {
+            "mode": "reference", "source": "edit_base_preservation", "priority": "hard",
+            "allow_new_events": False, "preserve_reference": True,
+            "constraints": {}, "events": [], "prohibit": [], "assumptions": [],
+        }
+    defaults = {
+        "camera": ("auto", False), "editing": ("auto", False),
+        "motion": ("auto", True), "performance": ("auto", True),
+        "composition": ("auto", True), "lighting": ("auto", False),
+        "audio": (("enhance" if generate_audio else "disabled"), generate_audio),
+        "style": ("auto", True), "effects": ("disabled", False),
+        "text": ("disabled", False),
+    }
+    mode, allow = defaults[module]
+    prohibit = []
+    if module == "lighting":
+        prohibit = ["random flicker", "exposure pumping", "unsupported dynamic light effects"]
+    elif module == "audio":
+        prohibit = ["unsupported narration", "unsupported dialogue", "unsupported lyrics"]
+    elif module == "effects":
+        prohibit = ["unsupported particles", "unsupported smoke", "unsupported lens flare"]
+    elif module == "text":
+        prohibit = ["new subtitles", "invented slogans", "invented logos", "price text"]
+    return {
+        "mode": mode, "source": "default_completion", "priority": "soft",
+        "allow_new_events": bool(allow), "preserve_reference": False,
+        "constraints": {}, "events": [], "prohibit": prohibit, "assumptions": [],
+    }
+
+
+def normalize_production_policies(payload: dict[str, Any]) -> dict[str, Any]:
+    """Fill policy permissions without overriding explicit model decisions."""
+    source_edit = any(
+        isinstance(item, Mapping) and item.get("relationship") == "source_video_edit"
+        for item in payload.get("reference_relationships", [])
+    )
+    task = payload.get("task", {})
+    generate_audio = isinstance(task, Mapping) and task.get("generate_audio") is True
+    production = payload.get("production_policies")
+    if not isinstance(production, dict):
+        production = {}
+        payload["production_policies"] = production
+    entities = payload.get("entity_constraints")
+    if not isinstance(entities, dict):
+        entities = {}
+        payload["entity_constraints"] = entities
+    for collection, modules in ((production, PRODUCTION_POLICY_MODULES), (entities, ENTITY_CONSTRAINT_MODULES)):
+        for module in modules:
+            default = _policy_default(module, source_edit, generate_audio)
+            candidate = collection.get(module)
+            if not isinstance(candidate, dict):
+                collection[module] = default
+                continue
+            for key, value in default.items():
+                candidate.setdefault(key, copy.deepcopy(value))
+            if (
+                source_edit
+                and module in {"camera", "editing", "motion", "lighting", "audio"}
+                and candidate.get("source") not in {"explicit_user", "explicit_prohibition"}
+            ):
+                candidate.update({
+                    "mode": "reference", "source": "edit_base_preservation",
+                    "priority": "hard", "allow_new_events": False,
+                    "preserve_reference": True,
+                })
+            if candidate.get("mode") == "disabled":
+                candidate["allow_new_events"] = False
+                candidate["events"] = []
+            if module == "audio" and not generate_audio:
+                candidate.update({
+                    "mode": "disabled", "source": "explicit_prohibition",
+                    "priority": "hard", "allow_new_events": False,
+                    "events": [],
+                })
+            if module in ENTITY_CONSTRAINT_MODULES:
+                candidate["mode"] = "strict"
+                candidate["priority"] = "hard"
+                candidate["allow_new_events"] = False
+            if candidate.get("source") in {"explicit_user", "explicit_prohibition"}:
+                candidate["priority"] = "hard"
+    return payload
+
+
 def compile_context_ir(model_output: Mapping[str, Any], source_request: Mapping[str, Any] | None = None) -> dict[str, Any]:
     payload = copy.deepcopy(dict(model_output))
     payload.setdefault("schema_version", IR_SCHEMA_VERSION)
@@ -916,6 +1072,7 @@ def compile_context_ir(model_output: Mapping[str, Any], source_request: Mapping[
     normalize_subject_source_bindings(payload)
     normalize_focus_shot_bindings(payload)
     normalize_timeline_state_fields(payload)
+    normalize_production_policies(payload)
     report = validate_context_ir(payload)
     if not report.passed:
         raise ContextIRError(json.dumps(report.to_dict(), ensure_ascii=False, indent=2))
@@ -1019,6 +1176,45 @@ def _constraint_text(payload: Mapping[str, Any]) -> str:
     return "; ".join(parts)
 
 
+def _policy_text(payload: Mapping[str, Any]) -> str:
+    """Compile policy permissions into concise executable H3 instructions."""
+    lines = []
+    for collection_name, modules in (
+        ("production_policies", PRODUCTION_POLICY_MODULES),
+        ("entity_constraints", ENTITY_CONSTRAINT_MODULES),
+    ):
+        collection = payload.get(collection_name, {})
+        if not isinstance(collection, Mapping):
+            continue
+        for module in modules:
+            policy = collection.get(module)
+            if not isinstance(policy, Mapping):
+                continue
+            pieces = [
+                f"mode={policy.get('mode')}", f"priority={policy.get('priority')}",
+                f"source={policy.get('source')}",
+                f"new events={'allowed' if policy.get('allow_new_events') else 'not allowed'}",
+                f"reference={'preserve' if policy.get('preserve_reference') else 'scope only'}",
+            ]
+            constraints = policy.get("constraints")
+            if isinstance(constraints, Mapping) and constraints:
+                pieces.append("constraints=" + json.dumps(constraints, ensure_ascii=False, sort_keys=True))
+            prohibit = _strings(policy.get("prohibit"))
+            if prohibit:
+                pieces.append("prohibit=" + ", ".join(prohibit))
+            events = policy.get("events")
+            if isinstance(events, list) and events:
+                event_text = []
+                for event in events:
+                    if isinstance(event, Mapping):
+                        refs = ",".join(_strings(event.get("shot_refs")))
+                        event_text.append(f"{event.get('description')} (shots {refs})")
+                if event_text:
+                    pieces.append("events=" + " | ".join(event_text))
+            lines.append(f"{module}: " + "; ".join(pieces))
+    return "Production permissions:\n" + "\n".join(lines)
+
+
 def _render_base_prompt(payload: Mapping[str, Any], inventory: Mapping[str, str]) -> str:
     task = payload["task"]
     mode = str(task["type"]).lower()
@@ -1055,7 +1251,7 @@ def _render_base_prompt(payload: Mapping[str, Any], inventory: Mapping[str, str]
         f"Primary visual focus: {focus['objective']}. Presentation requirements: "
         + "; ".join(_strings(focus.get("presentation_requirements")))
     )
-    description = ". ".join(part for part in (focus_text, constraint_text, opening, " ".join(shots)) if part)
+    description = ". ".join(part for part in (focus_text, constraint_text, _policy_text(payload), opening, " ".join(shots)) if part)
     soundscape, music = _sound_sections(payload)
     core = "\n\n".join((
         "integrated_multimodal_description: " + description,
@@ -1185,6 +1381,7 @@ def _render_ref_prompt(payload: Mapping[str, Any], inventory: Mapping[str, str])
         details.append("Must not introduce: " + ", ".join(prohibit))
     focus_requirements = "; ".join(_strings(focus.get("presentation_requirements")))
     details.append(f"Presentation requirements: {focus_requirements.rstrip('.')}.")
+    details.append(_policy_text(payload))
     details.append("; ".join(f"{key}: {generation[key]}" for key in ("cinematography", "lighting") if generation.get(key)))
     details.extend(_shot_text(shot, index, subject_inventory) for index, shot in enumerate(payload["timeline"], start=1))
     soundscape, music = _sound_sections(payload)

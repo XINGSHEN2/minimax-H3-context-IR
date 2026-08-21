@@ -206,6 +206,14 @@ def schema_template(source: dict[str, Any]) -> dict[str, Any]:
             "binding_refs": [],
         }],
         "audio_plan": {"voice": "", "music": "", "sound_effects": "", "ambient_sound": "", "sync_rules": []},
+        "production_policies": {
+            module: {"mode": "strict|disabled|reference|enhance|auto", "source": "explicit_user|explicit_prohibition|reference_evidence|edit_base_preservation|user_soft_goal|category_prior|default_completion|inferred", "priority": "hard|soft", "allow_new_events": False, "preserve_reference": False, "constraints": {}, "events": [{"event_id": "event_1", "type": "module-specific event type", "description": "observable production event", "source": "explicit_user|reference_evidence|category_prior|default_completion", "priority": "hard|soft", "shot_refs": ["01"]}], "prohibit": [], "assumptions": []}
+            for module in ("camera", "editing", "motion", "performance", "composition", "lighting", "audio", "style", "effects", "text")
+        },
+        "entity_constraints": {
+            module: {"mode": "strict", "source": "explicit_user|reference_evidence|derived_requirement", "priority": "hard", "allow_new_events": False, "preserve_reference": True, "constraints": {}, "events": [], "prohibit": [], "assumptions": []}
+            for module in ("identity", "product", "continuity")
+        },
         "generation_description": {"cinematography": "", "lighting": "", "materials": "", "performance": "", "continuity": ""},
     }
 
@@ -266,6 +274,11 @@ Semantic decision policy:
 - Put evidenced attributes that must remain unchanged in constraints.preserve. Put only requested changes and necessary production completion in constraints.allow_change. Put forbidden contamination and unsupported additions in constraints.prohibit.
 - Every preserved attribute originating from an asset must be backed by a corresponding hard asset binding. Do not preserve characters from a creative reference unless that character is explicitly requested.
 - Every binding must state inherit and exclude properties and have one isolation rule.
+- Before writing timeline details, resolve production_policies as the permission matrix for camera, editing, motion, performance, composition, lighting, audio, style, effects, and text. Choose strict for an explicit specification, disabled for an explicit prohibition, reference only for authorized observable reference behavior, enhance only when the user authorizes visual or commercial enhancement, and auto otherwise. Do not choose a mode merely from the Case name or product category.
+- For every production policy, record source, priority, allow_new_events, preserve_reference, constraints, events, prohibit, and assumptions. Explicit user requirements and prohibitions are hard. Reference evidence may control only the dimensions assigned to that reference. Category priors and default completion are always soft and cannot override a hard requirement, edit-base preservation, product truth, identity, or continuity.
+- Apply minimum-new-content behavior in auto mode. Camera and editing add no new events unless execution requires them. Lighting preserves stable natural exposure and adds no dynamic light event without evidence or authorized enhancement. Effects and new text are disabled by default. Audio may use restrained technical completion when enabled, but never unsupported voice. Every dynamic policy event must cite the affected timeline shot_ids.
+- Treat source video editing as preservation by default: camera, editing, motion, lighting, and original audio use reference mode with hard priority unless the user explicitly requests changes. A video used only for structure or motion does not grant permission to inherit its scene, identity, outfit, lighting, text, effects, or audio.
+- Emit entity_constraints for identity, product, and continuity as strict hard policies. Product geometry, material, color, count, label/logo, identity, and cross-shot state may change only when the user explicitly requests the corresponding change. Sensory or stylistic enhancement must never reduce entity correctness.
 - asset_bindings[].role must be exactly one of: identity, outfit, product, motion, voice, music, rhythm, camera, scene, style, first_frame, last_frame. Never emit aliases or new role values such as content, text, prop, character, or wardrobe. Bind visible text overlays, props, and other visible scene content under scene; use outfit for wardrobe and identity for character identity.
 - Motion/video references do not inherit performer identity, outfit, or scene unless explicitly requested.
 - Style references do not inherit identity, product geometry, or logo.
