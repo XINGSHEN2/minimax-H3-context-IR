@@ -128,6 +128,12 @@ def normalize_source_request(source: Mapping[str, Any]) -> dict[str, Any]:
     policy.setdefault("technical", True)
     policy.setdefault("conservative_semantic", True)
     policy.setdefault("creative", False)
+    task = payload.get("task")
+    if isinstance(task, dict):
+        # H3 is an audio-capable video model. Silence is opt-in: callers that
+        # explicitly set false keep that decision, while omitted audio intent
+        # receives the same complete sound-design default as the official IR.
+        task.setdefault("generate_audio", True)
     return payload
 
 
@@ -599,6 +605,19 @@ def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
         for key in ("voice", "music", "sound_effects", "ambient_sound", "sync_rules"):
             if key not in audio:
                 report.add("AUDIO_FIELD_MISSING", f"audio_plan.{key} is required", "$.audio_plan")
+        if isinstance(task, Mapping) and task.get("generate_audio") is True:
+            soundscape_values = [
+                str(audio.get(key, "")).strip()
+                for key in ("voice", "sound_effects", "ambient_sound")
+            ]
+            sync_rules = _strings(audio.get("sync_rules"))
+            empty_values = {"", "none", "no", "false", "not requested", "n/a"}
+            if not sync_rules and all(value.lower() in empty_values for value in soundscape_values):
+                report.add(
+                    "AUDIO_SOUNDSCAPE_EMPTY",
+                    "audio-enabled output must define voice, sound effects, ambient sound, or synchronization rules",
+                    "$.audio_plan",
+                )
 
     generation = payload.get("generation_description")
     if not isinstance(generation, Mapping):

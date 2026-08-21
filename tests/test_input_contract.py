@@ -54,7 +54,23 @@ class SourceContractTests(unittest.TestCase):
         self.assertEqual(source["directives"], [])
         self.assertTrue(source["completion_policy"]["technical"])
         self.assertFalse(source["completion_policy"]["creative"])
+        self.assertTrue(source["task"]["generate_audio"])
         self.assertTrue(validate_source_request(source).passed)
+
+    def test_audio_enabled_ir_requires_an_overall_soundscape(self):
+        source = json.loads(
+            (ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8")
+        )
+        ir = self._minimal_ir(source)
+        ir["task"]["generate_audio"] = True
+        report = validate_context_ir(ir)
+        self.assertFalse(report.passed)
+        self.assertIn("AUDIO_SOUNDSCAPE_EMPTY", {item.code for item in report.issues})
+
+        ir["audio_plan"]["ambient_sound"] = "quiet room tone"
+        ir["audio_plan"]["sound_effects"] = "soft synchronized product handling Foley"
+        ir["audio_plan"]["sync_rules"] = ["Foley follows the visible hand movement"]
+        self.assertTrue(validate_context_ir(ir).passed)
 
     def test_resolved_example_is_valid(self):
         source = json.loads(
