@@ -20,9 +20,9 @@
               "label": "本地 IR",
               "status": "missing",
               "video": null,
-              "prompt": null,
-              "request": null,
-              "context_ir": null
+              "prompt": "data/case_001_pump_multiref/vague/local_ir/h3_prompt.txt",
+              "request": "data/case_001_pump_multiref/vague/local_ir/request.json",
+              "context_ir": "data/case_001_pump_multiref/vague/local_ir/context_ir.json"
             },
             "official_ir": {
               "label": "官方 IR",
@@ -46,11 +46,11 @@
             },
             "local_ir": {
               "label": "本地 IR",
-              "status": "missing",
-              "video": null,
-              "prompt": null,
-              "request": null,
-              "context_ir": null
+              "status": "ready",
+              "video": "data/case_001_pump_multiref/detailed/local_ir/result.mp4",
+              "prompt": "data/case_001_pump_multiref/detailed/local_ir/h3_prompt.txt",
+              "request": "data/case_001_pump_multiref/detailed/local_ir/request.json",
+              "context_ir": "data/case_001_pump_multiref/detailed/local_ir/context_ir.json"
             },
             "official_ir": {
               "label": "官方 IR",
