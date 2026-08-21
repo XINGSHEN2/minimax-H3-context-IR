@@ -117,6 +117,13 @@ def perception_config(source: dict[str, Any]) -> PerceptionProviderConfig:
     options.setdefault("api_key_env", os.environ.get("YIWU_VLM_API_KEY_ENV", "GITEE_AI_API_KEY"))
     options.setdefault("video_frame_count", int(os.environ.get("CONTEXT_IR_VIDEO_FRAME_COUNT", "0")))
     options.setdefault("max_tokens", int(os.environ.get("CONTEXT_IR_VLM_MAX_TOKENS", "3000")))
+    options.setdefault("cache_enabled", os.environ.get("CONTEXT_IR_VLM_CACHE_ENABLED", "1") not in {"0", "false", "False"})
+    options.setdefault("cache_dir", os.environ.get("CONTEXT_IR_VLM_CACHE_DIR", ""))
+    if not options["cache_dir"]:
+        options.pop("cache_dir")
+    options.setdefault("max_parallel_assets", int(os.environ.get("CONTEXT_IR_VLM_MAX_PARALLEL_ASSETS", "2")))
+    options.setdefault("max_parallel_attribute_batches", int(os.environ.get("CONTEXT_IR_VLM_MAX_PARALLEL_ATTRIBUTE_BATCHES", "2")))
+    options.setdefault("image_attribute_batch_size", int(os.environ.get("CONTEXT_IR_VLM_IMAGE_ATTRIBUTE_BATCH_SIZE", "3")))
     return PerceptionProviderConfig(
         provider=str(supplied.get("provider") or os.environ.get("CONTEXT_IR_VLM_PROVIDER", "gitee-qwen3-vl")),
         model=str(supplied.get("model") or os.environ.get("YIWU_VLM_MODEL", "Qwen3-VL-30B-A3B-Instruct")),

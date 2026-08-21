@@ -9,6 +9,7 @@ that the IR can make policy decisions without depending on a product category.
 from __future__ import annotations
 
 import base64
+import hashlib
 import json
 import math
 import mimetypes
@@ -20,6 +21,7 @@ import time
 import urllib.error
 import urllib.request
 from abc import ABC, abstractmethod
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable, Mapping, Sequence
@@ -60,6 +62,7 @@ class Qwen3OmniProvider(CallablePerceptionProvider):
 
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".bmp"}
 JSON_FENCE_PATTERN = re.compile(r"^```(?:json)?\s*|\s*```$", re.IGNORECASE)
+PERCEPTION_CACHE_SCHEMA_VERSION = "local-qwen3-vl-cache.v2"
 
 
 def _canonical_entity_reference(value: Any, known_ids: set[str]) -> str:
@@ -87,8 +90,8 @@ Give one tight box per distinct object. Do not group separable objects. The cate
 
 ATTRIBUTE_CROP_PROMPT = """The image is a labeled crop sheet made from one source image.
 Each labeled cell contains exactly one primary object. Analyze cells independently and never merge content across cells.
-Return only compact valid JSON: {"items":[{"object_id":"object_1","category":"actual open-vocabulary category","summary":"visible facts","features":[["geometry|color|material|surface|components|component_layout|orientation_cues|identity_markers|other","name","value",0.0,"visible|inferred|unresolved"]],"uncertainties":[],"confidence":0.0}]}
-The category must name the actual object type, never the literal phrase 'open vocabulary'. Each feature has exactly five values: group, name, value, confidence, source. Return 6-10 reproduction-critical features per object and keep summaries under 25 words. Describe item-level differences. Identity markers are distinctive visible motifs, component arrangements, damage, text, or patterns, not a person's identity. Do not infer brand, price, user intent, audio, ownership, or use. Do not omit a label. Emit compact JSON without Markdown."""
+Return only compact valid JSON: {"items":[{"object_id":"object_1","category":"actual open-vocabulary category","summary":"visible facts","features":[["color","name","value",0.9,"visible"]],"uncertainties":[],"confidence":0.9}]}
+The first feature value must be exactly one of: geometry, color, material, surface, components, component_layout, orientation_cues, identity_markers, other. Never join group names with |. The fifth value must be exactly visible, inferred, or unresolved. The category must name the actual object type, never the literal phrase 'open vocabulary'. Each feature has exactly five values: group, name, value, confidence, source. Return 4-8 non-redundant reproduction-critical features per object and keep summaries under 18 words. Describe item-level differences. Identity markers are distinctive visible motifs, component arrangements, damage, text, or patterns, not a person's identity. Do not infer brand, price, user intent, audio, ownership, or use. Do not omit a label. Close the JSON before adding optional detail. Emit compact JSON without Markdown."""
 
 COMPACT_VIDEO_TIMELINE_PROMPT = """Analyze this complete source video as provider-neutral visual evidence. Do not infer audio or user intent. Return only compact valid JSON:
 {"summary":"visible overview","events":[{"event_id":"event_1","start_seconds":0.0,"end_seconds":1.0,"entity_ids":["entity_1"],"action":"visible shot, action, outfit and scene","transition_type":"cut","confidence":0.9}],"technical":{"duration_seconds":0.0,"framing":"","camera":"","visible_text":[]},"uncertainties":[]}
@@ -672,6 +675,70 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             raise RuntimeError("Local Qwen3-VL returned a non-object response")
         return value
 
+    @staticmethod
+    def _file_sha256(path: Path) -> str:
+        digest = hashlib.sha256()
+        with path.open("rb") as handle:
+            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                digest.update(chunk)
+        return digest.hexdigest()
+
+    def _cache_key(self, asset: Mapping[str, Any], plan: Mapping[str, Any] | None) -> str:
+        source = Path(str(asset.get("uri", ""))).expanduser().resolve()
+        profile = _analysis_profile(asset, plan)
+        relevant_options = {
+            key: self.config.options.get(key)
+            for key in (
+                "staged_image_analysis", "compact_video_analysis",
+                "image_attribute_batch_size", "relational_image_max_tokens",
+                "video_timeline_max_tokens", "video_entity_max_tokens",
+                "video_fps", "video_max_frames", "max_tokens",
+            )
+        }
+        material = {
+            "schema": PERCEPTION_CACHE_SCHEMA_VERSION,
+            "provider": self.config.provider,
+            "model": self.config.model,
+            "media_type": str(asset.get("media_type", "")),
+            "profile": profile,
+            "content_sha256": self._file_sha256(source),
+            "plan": plan or {},
+            "options": relevant_options,
+        }
+        encoded = json.dumps(material, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+        return hashlib.sha256(encoded).hexdigest()
+
+    def _cache_path(self, cache_key: str) -> Path:
+        output_root = Path(str(self.config.options.get(
+            "output_dir", "/home/mx/shenxing/minimax-H3-context-IR/outputs/qwen3-vl-32b",
+        ))).expanduser().resolve()
+        cache_root = Path(str(self.config.options.get("cache_dir", output_root / "cache"))).expanduser().resolve()
+        return cache_root / cache_key[:2] / f"{cache_key}.json"
+
+    def _analyze_visual_cached(
+        self,
+        asset: Mapping[str, Any],
+        plan: Mapping[str, Any] | None,
+    ) -> tuple[dict[str, Any], bool, str]:
+        cache_enabled = bool(self.config.options.get("cache_enabled", True))
+        cache_key = self._cache_key(asset, plan)
+        cache_path = self._cache_path(cache_key)
+        if cache_enabled and cache_path.is_file():
+            try:
+                cached = json.loads(cache_path.read_text(encoding="utf-8"))
+                if isinstance(cached, dict):
+                    return cached, True, cache_key
+            except (OSError, ValueError, json.JSONDecodeError):
+                pass
+
+        analysis = self._analyze_visual(asset, plan)
+        if cache_enabled:
+            cache_path.parent.mkdir(parents=True, exist_ok=True)
+            temporary = cache_path.with_suffix(f".{os.getpid()}.{time.time_ns()}.tmp")
+            temporary.write_text(json.dumps(analysis, ensure_ascii=False, indent=2), encoding="utf-8")
+            os.replace(temporary, cache_path)
+        return analysis, False, cache_key
+
     def _run_task(
         self,
         media_path: Path,
@@ -852,8 +919,10 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
 
         details: dict[str, dict[str, Any]] = {}
         task_ids = [str(localized.get("_task_id", ""))]
-        batch_size = max(1, min(5, int(self.config.options.get("image_attribute_batch_size", 5))))
-        for offset in range(0, len(objects), batch_size):
+        batch_size = max(1, min(5, int(self.config.options.get("image_attribute_batch_size", 3))))
+        batches = [(offset, objects[offset:offset + batch_size]) for offset in range(0, len(objects), batch_size)]
+
+        def analyze_batch(offset: int, batch: Sequence[Mapping[str, Any]]) -> tuple[int, list[str], list[Mapping[str, Any]], str]:
             batch = objects[offset:offset + batch_size]
             batch_dir = run_dir / f"attributes_{offset // batch_size + 1:02d}"
             sheet = batch_dir / "crops.jpg"
@@ -863,7 +932,17 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             actual_ids = [str(item.get("object_id", "")) for item in items if isinstance(item, Mapping)]
             if actual_ids != expected_ids:
                 raise RuntimeError(f"Local Qwen3-VL attribute IDs mismatch: {actual_ids} != {expected_ids}")
-            task_ids.append(str(response.get("_task_id", "")))
+            return offset, expected_ids, items, str(response.get("_task_id", ""))
+
+        batch_workers = max(1, int(self.config.options.get("max_parallel_attribute_batches", 2)))
+        batch_workers = min(batch_workers, len(batches)) if batches else 1
+        if batch_workers == 1:
+            batch_results = [analyze_batch(offset, batch) for offset, batch in batches]
+        else:
+            with ThreadPoolExecutor(max_workers=batch_workers, thread_name_prefix="qwen-attributes") as executor:
+                batch_results = list(executor.map(lambda item: analyze_batch(*item), batches))
+        for _, _, items, task_id in sorted(batch_results, key=lambda item: item[0]):
+            task_ids.append(task_id)
             details.update({str(item["object_id"]): dict(item) for item in items})
 
         evidence, regions, entities = [], [], []
@@ -1257,29 +1336,52 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
         raise TimeoutError(f"Local Qwen3-VL task timed out: {task_id}")
 
     def analyze(self, assets: Sequence[Mapping[str, Any]], perception_plan: Mapping[str, Any] | None = None) -> dict[str, Any]:
-        analyses = []
         plans = {str(item.get("asset_id", "")): item for item in (perception_plan or {}).get("assets", []) if isinstance(item, Mapping)}
-        for asset in assets:
+        analyses: list[dict[str, Any] | None] = [None] * len(assets)
+
+        def analyze_one(index: int, asset: Mapping[str, Any]) -> tuple[int, dict[str, Any]]:
+            plan = plans.get(str(asset.get("asset_id", "")))
+            started = time.perf_counter()
+            analysis, cache_hit, cache_key = self._analyze_visual_cached(asset, plan)
+            analysis = dict(analysis)
+            analysis["asset_id"] = str(asset.get("asset_id", ""))
+            technical = analysis.setdefault("technical", {})
+            if isinstance(technical, dict):
+                technical["analysis_profile"] = _analysis_profile(asset, plan)
+                technical["elapsed_seconds"] = round(time.perf_counter() - started, 3)
+                technical["cache_hit"] = cache_hit
+                technical["cache_key"] = cache_key
+            return index, analysis
+
+        visual_items: list[tuple[int, Mapping[str, Any]]] = []
+        for index, asset in enumerate(assets):
             if asset.get("media_type") == "audio":
-                analyses.append({
+                analyses[index] = {
                     "asset_id": str(asset.get("asset_id", "")),
                     "summary": "", "evidence": [], "regions": [], "entities": [],
                     "relations": [], "events": [],
                     "technical": {"media_type": "audio", "analysis_status": "unsupported_by_visual_provider"},
                     "transcript": "",
                     "uncertainties": ["Audio content was not analyzed by the visual perception provider"],
-                })
+                }
                 continue
-            plan = plans.get(str(asset.get("asset_id", "")))
-            started = time.perf_counter()
-            analysis = self._analyze_visual(asset, plan)
-            analysis["asset_id"] = str(asset.get("asset_id", ""))
-            technical = analysis.setdefault("technical", {})
-            if isinstance(technical, dict):
-                technical["analysis_profile"] = _analysis_profile(asset, plan)
-                technical["elapsed_seconds"] = round(time.perf_counter() - started, 3)
-            analyses.append(analysis)
-        return normalize_media_analysis({"assets": analyses}, assets, self.config)
+            visual_items.append((index, asset))
+
+        max_workers = max(1, int(self.config.options.get("max_parallel_assets", 2)))
+        max_workers = min(max_workers, len(visual_items)) if visual_items else 1
+        if max_workers == 1:
+            for index, asset in visual_items:
+                result_index, analysis = analyze_one(index, asset)
+                analyses[result_index] = analysis
+        else:
+            with ThreadPoolExecutor(max_workers=max_workers, thread_name_prefix="qwen-perception") as executor:
+                futures = [executor.submit(analyze_one, index, asset) for index, asset in visual_items]
+                for future in as_completed(futures):
+                    result_index, analysis = future.result()
+                    analyses[result_index] = analysis
+
+        completed = [item for item in analyses if item is not None]
+        return normalize_media_analysis({"assets": completed}, assets, self.config)
 
 
 class PerceptionProviderRegistry:

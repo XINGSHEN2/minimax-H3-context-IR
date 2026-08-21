@@ -142,6 +142,8 @@ GET  /health
 
 Intent Resolver 生成的 `analyze` 和 `do_not_infer` 会注入定位与属性两个 Pass。用户声明的类别仅作为搜索假设，不能代替视觉证据。
 
+图片感知默认启用两项无损加速：最多同时分析两个素材，以匹配当前两个 Qwen Worker；并按照素材内容 SHA256、模型、分析模式、检查计划、关键推理参数和缓存 schema 生成缓存键。完全兼容的视觉证据可直接复用，素材内容或检查要求变化时会自动失效。复杂图片的属性 crop 默认每批最多三个对象，并允许两个批次并行，降低长 JSON 截断后重试的概率。
+
 ### 5.2 视频流程
 
 视频使用原始文件路径，由服务按约 2 fps 解码，默认最多 256 帧。分析分为：
@@ -349,6 +351,11 @@ YIWU_VLM_MODEL=Qwen3-VL-32B-Instruct
 CONTEXT_IR_VIDEO_FPS=2
 CONTEXT_IR_VIDEO_MAX_FRAMES=256
 CONTEXT_IR_VLM_TIMEOUT_SECONDS=1800
+CONTEXT_IR_VLM_CACHE_ENABLED=1
+CONTEXT_IR_VLM_CACHE_DIR=/home/mx/shenxing/minimax-H3-context-IR/outputs/qwen3-vl-32b/cache
+CONTEXT_IR_VLM_MAX_PARALLEL_ASSETS=2
+CONTEXT_IR_VLM_MAX_PARALLEL_ATTRIBUTE_BATCHES=2
+CONTEXT_IR_VLM_IMAGE_ATTRIBUTE_BATCH_SIZE=3
 ```
 
 ## 13. 当前优势
