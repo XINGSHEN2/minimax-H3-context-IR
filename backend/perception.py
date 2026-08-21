@@ -99,6 +99,71 @@ COMPACT_VIDEO_ENTITY_PROMPT = """Analyze this complete source video as provider-
 The first feature value is exactly one of: geometry, color, material, surface, components, component_layout, orientation_cues, identity_markers, other. Never join group names with |. Return at most 8 high-value reusable entities, prioritizing people, the showcased product, outfit/garment variations, accessory groups, key props, environments, and visible text. Group related outfit changes or environments as variations/features when that avoids low-value entity proliferation. Do not enumerate incidental background objects.
 Every relation endpoint must exactly match a declared entity_id. Return 4-8 concise reproduction-critical features per entity. Estimate confidence from 0.5-1.0 for visible/inferred facts; use 0 only when unresolved. Emit compact JSON without indentation or Markdown."""
 
+RELATIONAL_IMAGE_PROMPT = """Analyze only the visible relationship, pose, grip, connection, orientation, and relative-scale evidence requested by the inspection plan. Do not perform exhaustive object cataloging or describe incidental background objects. Return only compact valid JSON:
+{"summary":"visible relationship overview","entities":[{"entity_id":"entity_1","category":"generic visible type","summary":"brief visible facts","quantity":[1,0.9],"features":[["geometry|color|material|surface|components|component_layout|orientation_cues|identity_markers|other","name","value",0.9,"visible"]],"uncertainties":[]}],"relations":[["relation_1","connected_to|held_by|positioned_relative_to|scale_relative_to|other","entity_1","entity_2","visible anchor",0.9,"visible"]],"uncertainties":[]}
+Declare at most 6 task-relevant entities and at most 8 relations. Every relation endpoint must match a declared entity_id. Keep features limited to facts necessary to understand the requested relationship. Do not infer function, performance, identity, brand, audio, ownership, or hidden connections. Emit compact JSON without Markdown."""
+
+
+def _analysis_profile(asset: Mapping[str, Any], plan: Mapping[str, Any] | None) -> str:
+    """Select the cheapest evidence pipeline that still satisfies the plan."""
+    media_type = str(asset.get("media_type", ""))
+    role = str((plan or {}).get("role", asset.get("user_role", ""))).lower()
+    requested = " ".join(str(item) for item in (plan or {}).get("analyze", []) if str(item).strip()).lower()
+    blocked = " ".join(str(item) for item in (plan or {}).get("do_not_infer", []) if str(item).strip()).lower()
+    if media_type == "image":
+        if any(token in role for token in ("identity", "product_appearance", "authoritative_product")):
+            return "staged_detail"
+        if any(token in role for token in ("connection", "motion", "pose", "usage", "scale", "style")):
+            return "relational_one_shot"
+        if any(token in requested for token in ("connect", "grip", "pose", "relative size", "orientation")):
+            return "relational_one_shot"
+        return "staged_detail"
+    if media_type == "video":
+        structural_role = any(token in role for token in ("motion", "camera", "rhythm", "structure"))
+        structural_request = any(token in requested for token in ("action", "camera", "shot", "pacing", "transition"))
+        appearance_requested = any(token in requested for token in ("identity", "outfit", "product appearance", "material", "logo", "scene detail"))
+        appearance_blocked = any(token in blocked for token in ("identity", "product appearance", "outfit", "scene"))
+        if structural_role and structural_request and not appearance_requested and appearance_blocked:
+            return "timeline_only"
+        return "timeline_and_entities"
+    return "unsupported"
+
+
+def _close_truncated_json(text: str) -> dict[str, Any] | None:
+    """Recover only a syntactically complete JSON prefix truncated at its tail."""
+    stack: list[str] = []
+    in_string = False
+    escaped = False
+    for char in text:
+        if in_string:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                in_string = False
+            continue
+        if char == '"':
+            in_string = True
+        elif char in "{[":
+            stack.append(char)
+        elif char in "}]":
+            if not stack or (char == "}" and stack[-1] != "{") or (char == "]" and stack[-1] != "["):
+                return None
+            stack.pop()
+    candidate = text.rstrip()
+    if in_string or not candidate.endswith(("]", "}")):
+        return None
+    candidate += "".join("}" if char == "{" else "]" for char in reversed(stack))
+    try:
+        value = json.loads(candidate)
+    except json.JSONDecodeError:
+        return None
+    if isinstance(value, dict):
+        value["_parse_recovery"] = "closed_truncated_tail"
+        return value
+    return None
+
 
 def _json_object(text: str) -> dict[str, Any]:
     stripped = JSON_FENCE_PATTERN.sub("", text.strip())
@@ -122,6 +187,8 @@ def _json_object(text: str) -> dict[str, Any]:
                 value = None
         else:
             value = None
+        if value is None and original_error.pos >= max(0, len(stripped) - 32):
+            value = _close_truncated_json(stripped)
         if value is not None:
             pass
         else:
@@ -831,6 +898,67 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             "transcript": "", "uncertainties": [],
         }
 
+    def _analyze_image_relational(self, asset: Mapping[str, Any], source: Path, plan: Mapping[str, Any] | None = None) -> dict[str, Any]:
+        output_root = Path(str(self.config.options.get(
+            "output_dir", "/home/mx/shenxing/minimax-H3-context-IR/outputs/qwen3-vl-32b",
+        ))).expanduser().resolve()
+        guard = (
+            "\nIntent-derived inspection plan (not visual evidence): "
+            + json.dumps(plan or {}, ensure_ascii=False)
+            + "\nUse claimed categories only as hypotheses. Obey do_not_infer and report visible conflicts."
+        )
+        raw = self._run_task(
+            source, RELATIONAL_IMAGE_PROMPT + guard,
+            output_root / "relational_image",
+            int(self.config.options.get("relational_image_max_tokens", 1000)),
+        )
+        evidence_id = "evidence_1"
+        entities = []
+        for index, item in enumerate(raw.get("entities", []), start=1):
+            if not isinstance(item, Mapping):
+                continue
+            entity_id = str(item.get("entity_id") or f"entity_{index}")
+            expanded = self._expand_features(item)
+            quantity = item.get("quantity")
+            if isinstance(quantity, list) and len(quantity) >= 2:
+                expanded["quantity"] = {"value": quantity[0], "confidence": float(quantity[1])}
+            for values in expanded["attributes"].values():
+                for feature in values:
+                    feature["evidence_ids"] = [evidence_id]
+            entities.append({"entity_id": entity_id, **expanded})
+        known_ids = {str(item["entity_id"]) for item in entities}
+        relations = []
+        for index, value in enumerate(raw.get("relations", []), start=1):
+            if not isinstance(value, list) or len(value) < 7:
+                continue
+            relation_id, relation_type, subject_id, object_id, anchor, confidence, source_type = value[:7]
+            subject_id = _canonical_entity_reference(subject_id, known_ids)
+            object_id = _canonical_entity_reference(object_id, known_ids)
+            if subject_id not in known_ids or object_id not in known_ids:
+                continue
+            relations.append({
+                "relation_id": str(relation_id or f"relation_{index}"), "type": str(relation_type),
+                "subject_id": subject_id, "object_id": object_id, "anchor": str(anchor),
+                "spatial_constraints": {}, "evidence_ids": [evidence_id],
+                "confidence": float(confidence), "source": str(source_type),
+            })
+        if not entities:
+            raise RuntimeError("Local Qwen3-VL relational image analysis returned no entities")
+        return {
+            "asset_id": str(asset.get("asset_id", "")), "summary": str(raw.get("summary", "")),
+            "evidence": [{
+                "evidence_id": evidence_id, "kind": "frame", "time_seconds": None,
+                "bbox_normalized": [0.0, 0.0, 1.0, 1.0],
+                "description": str(raw.get("summary", "Visible relationship evidence")),
+            }],
+            "regions": [], "entities": entities, "relations": relations, "events": [],
+            "technical": {
+                "media_type": "image", "analysis_pipeline": "relational_one_shot",
+                "task_ids": [str(raw.get("_task_id", ""))],
+            },
+            "transcript": "", "uncertainties": list(raw.get("uncertainties", [])),
+        }
+
     def _analyze_video_compact(self, asset: Mapping[str, Any], source: Path, plan: Mapping[str, Any] | None = None) -> dict[str, Any]:
         output_root = Path(str(self.config.options.get(
             "output_dir", "/home/mx/shenxing/minimax-H3-context-IR/outputs/qwen3-vl-32b",
@@ -860,23 +988,42 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
         timeline_entity_ids = sorted({
             str(entity_id)
             for event in timeline_raw.get("events", [])
-            if isinstance(event, list) and len(event) >= 4 and isinstance(event[3], list)
-            for entity_id in event[3]
-        })
-        entity_prompt = COMPACT_VIDEO_ENTITY_PROMPT + guard
-        if timeline_entity_ids:
-            entity_prompt += (
-                " The timeline references these entity IDs: " + ", ".join(timeline_entity_ids)
-                + ". You must declare each of them using exactly the same ID."
+            if isinstance(event, (list, Mapping))
+            for entity_id in (
+                event.get("entity_ids", []) if isinstance(event, Mapping)
+                else (event[3] if len(event) >= 4 and isinstance(event[3], list) else [])
             )
-        entity_raw = self._run_task(
-            source,
-            entity_prompt,
-            output_root / "compact_video_entities",
-            int(self.config.options.get("video_entity_max_tokens", 2200)),
-            fps=float(self.config.options.get("video_fps", 2.0)),
-            max_frames=int(self.config.options.get("video_max_frames", 256)),
-        )
+        })
+        profile = _analysis_profile(asset, plan)
+        if profile == "timeline_only":
+            if not timeline_entity_ids:
+                timeline_entity_ids = ["scene_1"]
+            entity_raw = {
+                "entities": [{
+                    "entity_id": entity_id,
+                    "category": entity_id.rsplit("_", 1)[0] or "visible_entity",
+                    "subcategory": entity_id.rsplit("_", 1)[0] or "visible_entity",
+                    "summary": "Timeline entity retained only for action and shot references.",
+                    "quantity": [1, 0.5], "features": [],
+                    "uncertainties": ["Detailed appearance analysis intentionally skipped for structural reference"],
+                } for entity_id in timeline_entity_ids],
+                "relations": [],
+            }
+        else:
+            entity_prompt = COMPACT_VIDEO_ENTITY_PROMPT + guard
+            if timeline_entity_ids:
+                entity_prompt += (
+                    " The timeline references these entity IDs: " + ", ".join(timeline_entity_ids)
+                    + ". You must declare each of them using exactly the same ID."
+                )
+            entity_raw = self._run_task(
+                source,
+                entity_prompt,
+                output_root / "compact_video_entities",
+                int(self.config.options.get("video_entity_max_tokens", 2200)),
+                fps=float(self.config.options.get("video_fps", 2.0)),
+                max_frames=int(self.config.options.get("video_max_frames", 256)),
+            )
         raw = {
             "summary": timeline_raw.get("summary", ""),
             "events": timeline_raw.get("events", []),
@@ -1017,12 +1164,15 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             })
         technical = dict(raw.get("technical", {}))
         technical.update({
-            "media_type": "video", "analysis_pipeline": "compact_video_then_deterministic_expansion",
-            "task_ids": [str(timeline_raw.get("_task_id", "")), str(entity_raw.get("_task_id", ""))],
+            "media_type": "video",
+            "analysis_pipeline": "compact_video_timeline_only" if profile == "timeline_only" else "compact_video_then_deterministic_expansion",
+            "task_ids": [item for item in [str(timeline_raw.get("_task_id", "")), str(entity_raw.get("_task_id", ""))] if item],
         })
         if duration is not None:
             technical["duration_seconds"] = duration
         output_uncertainties = list(raw.get("uncertainties", []))
+        if profile == "timeline_only":
+            output_uncertainties.append("Detailed entity appearance pass intentionally skipped for structural reference")
         if unresolved_timeline_ids:
             output_uncertainties.append(
                 "Compact entity pass omitted details for timeline entities: "
@@ -1041,6 +1191,8 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
         if not source.is_file():
             raise FileNotFoundError(f"local Qwen3-VL media path does not exist: {source}")
         if media_type == "image" and bool(self.config.options.get("staged_image_analysis", True)):
+            if _analysis_profile(asset, plan) == "relational_one_shot":
+                return self._analyze_image_relational(asset, source, plan)
             return self._analyze_image_staged(asset, source, plan)
         if media_type == "video" and bool(self.config.options.get("compact_video_analysis", True)):
             return self._analyze_video_compact(asset, source, plan)
@@ -1118,8 +1270,14 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
                     "uncertainties": ["Audio content was not analyzed by the visual perception provider"],
                 })
                 continue
-            analysis = self._analyze_visual(asset, plans.get(str(asset.get("asset_id", ""))))
+            plan = plans.get(str(asset.get("asset_id", "")))
+            started = time.perf_counter()
+            analysis = self._analyze_visual(asset, plan)
             analysis["asset_id"] = str(asset.get("asset_id", ""))
+            technical = analysis.setdefault("technical", {})
+            if isinstance(technical, dict):
+                technical["analysis_profile"] = _analysis_profile(asset, plan)
+                technical["elapsed_seconds"] = round(time.perf_counter() - started, 3)
             analyses.append(analysis)
         return normalize_media_analysis({"assets": analyses}, assets, self.config)
 

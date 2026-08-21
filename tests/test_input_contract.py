@@ -23,15 +23,37 @@ except ModuleNotFoundError:
     )
 
 try:
-    from remote_source.backend.perception import _json_object, _canonical_entity_reference
+    from remote_source.backend.perception import _json_object, _canonical_entity_reference, _analysis_profile
 except ModuleNotFoundError:
-    from backend.perception import _json_object, _canonical_entity_reference
+    from backend.perception import _json_object, _canonical_entity_reference, _analysis_profile
 
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 class SourceContractTests(unittest.TestCase):
+    def test_perception_profiles_follow_asset_roles(self):
+        image = {"media_type": "image", "user_role": "reference"}
+        video = {"media_type": "video", "user_role": "reference"}
+        self.assertEqual(_analysis_profile(image, {"role": "authoritative_product_appearance"}), "staged_detail")
+        self.assertEqual(_analysis_profile(image, {"role": "connection_reference"}), "relational_one_shot")
+        self.assertEqual(_analysis_profile(image, {"role": "motion_reference"}), "relational_one_shot")
+        self.assertEqual(_analysis_profile(video, {
+            "role": "motion_reference",
+            "analyze": ["action sequence", "camera framing", "shot pacing", "scene transitions"],
+            "do_not_infer": ["presenter identity", "product appearance", "outfit", "scene"],
+        }), "timeline_only")
+        self.assertEqual(_analysis_profile(video, {
+            "role": "edit_base",
+            "analyze": ["identity", "outfit", "product appearance", "scene detail"],
+            "do_not_infer": [],
+        }), "timeline_and_entities")
+
+    def test_truncated_json_tail_is_closed_without_semantic_reconstruction(self):
+        parsed = _json_object('{"summary":"visible relation","entities":[]')
+        self.assertEqual(parsed["summary"], "visible relation")
+        self.assertEqual(parsed["_parse_recovery"], "closed_truncated_tail")
+
     def test_entity_reference_punctuation_drift_is_recovered(self):
         self.assertEqual(_canonical_entity_reference("entity3", {"entity_2", "entity_3"}), "entity_3")
         self.assertEqual(_canonical_entity_reference("unknown3", {"entity_3"}), "unknown3")
