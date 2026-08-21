@@ -4,7 +4,7 @@
   "status": "ready",
   "input_mode": "image_only",
   "purpose": "Test autonomous luxury shot planning while preserving exact bottle geometry and label text.",
-  "task": {"type": "ref2va", "duration_seconds": 15, "aspect_ratio": "9:16", "generate_audio": false},
+  "task": {"type": "ref2va", "duration_seconds": 15, "aspect_ratio": "9:16", "generate_audio": true},
   "input_variants": {"vague": "inputs/vague.txt", "detailed": "inputs/detailed.txt"},
   "assets": [
     {"asset_id": "image_product", "media_type": "image", "file": "assets/perfume_lumen07.png", "role": "authoritative_bottle_geometry_material_cap_and_exact_label"}

@@ -4,7 +4,7 @@
   "status": "ready_with_limited_video_role",
   "input_mode": "image_video",
   "purpose": "Test isolation of strong red Christmas, jewelry and text contamination from a simple macro hand-display reference.",
-  "task": {"type": "ref2va", "duration_seconds": 15, "aspect_ratio": "9:16", "generate_audio": false},
+  "task": {"type": "ref2va", "duration_seconds": 15, "aspect_ratio": "9:16", "generate_audio": true},
   "input_variants": {"vague": "inputs/vague.txt", "detailed": "inputs/detailed.txt"},
   "assets": [
     {"asset_id": "image_product", "media_type": "image", "file": "assets/floral_nail_product.jpg", "role": "authoritative_floral_nail_appearance"},

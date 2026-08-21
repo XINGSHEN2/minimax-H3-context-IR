@@ -18,8 +18,8 @@
             },
             "local_ir": {
               "label": "本地 IR",
-              "status": "missing",
-              "video": null,
+              "status": "ready",
+              "video": "data/case_001_pump_multiref/vague/local_ir/result.mp4",
               "prompt": "data/case_001_pump_multiref/vague/local_ir/h3_prompt.txt",
               "request": "data/case_001_pump_multiref/vague/local_ir/request.json",
               "context_ir": "data/case_001_pump_multiref/vague/local_ir/context_ir.json"
@@ -81,10 +81,10 @@
             },
             "local_ir": {
               "label": "本地 IR",
-              "status": "missing",
-              "video": null,
+              "status": "ready",
+              "video": "data/case_002_nail_state_transition/vague/local_ir/result.mp4",
               "prompt": "data/case_002_nail_state_transition/vague/local_ir/h3_prompt.txt",
-              "request": null,
+              "request": "data/case_002_nail_state_transition/vague/local_ir/request.json",
               "context_ir": "data/case_002_nail_state_transition/vague/local_ir/context_ir.json"
             },
             "official_ir": {
@@ -109,10 +109,10 @@
             },
             "local_ir": {
               "label": "本地 IR",
-              "status": "missing",
-              "video": null,
+              "status": "ready",
+              "video": "data/case_002_nail_state_transition/detailed/local_ir/result.mp4",
               "prompt": "data/case_002_nail_state_transition/detailed/local_ir/h3_prompt.txt",
-              "request": null,
+              "request": "data/case_002_nail_state_transition/detailed/local_ir/request.json",
               "context_ir": "data/case_002_nail_state_transition/detailed/local_ir/context_ir.json"
             },
             "official_ir": {
