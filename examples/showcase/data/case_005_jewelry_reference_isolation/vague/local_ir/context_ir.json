@@ -1,0 +1,740 @@
+{
+  "schema_version": "0.1.0",
+  "intent": {
+    "user_request": "用这张商品图做一条15秒高级感项链礼盒宣传视频，重点展示礼盒、项链和吊坠。",
+    "resolved_request": "Create a 15-second premium promotional video for a necklace gift box using the product image as the authoritative visual source, keeping the gift box, necklace, and pendant as the primary featured subjects.",
+    "directives": [
+      {
+        "directive_id": "d_1",
+        "asset_id": "image_product",
+        "target": "gift box, necklace, and pendant as depicted in the product image",
+        "operation": "preserve",
+        "scope": [
+          "product identity"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_2",
+        "asset_id": "image_product",
+        "target": "premium high-end aesthetic of the video",
+        "operation": "preserve",
+        "scope": [
+          "style"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_3",
+        "asset_id": "",
+        "target": "15-second total video duration",
+        "operation": "preserve",
+        "scope": [
+          "total duration"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_4",
+        "asset_id": "image_product",
+        "target": "gift box, necklace, and pendant as the primary featured subjects",
+        "operation": "preserve",
+        "scope": [
+          "scene focus"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      }
+    ],
+    "completion_policy": {
+      "technical": true,
+      "conservative_semantic": true,
+      "creative": false
+    },
+    "assumptions": [
+      "IR completion: The single product image is treated as the authoritative content source for ref2va generation and as the opening frame, the minimal conservative reading of using the product image to make the video.",
+      "IR completion: The two perceived regions describe one scene: the gold-toned necklace with its teardrop pendant rests inside the open octagonal gift box on the cream interior lining; no removal or transfer between presentations is planned because no physical action was requested.",
+      "IR completion: A four-beat structure (opening push-in, pendant close-up, box exterior reveal, final static hold) is added inside the locked 15-second duration; only camera and focus beats are added, with no new creative content.",
+      "IR completion: No audio is planned because task.generate_audio is false and the source is a still image with no audio to reuse.",
+      "IR completion: The asset-less duration directive d_3 is cited by a rhythm binding with an empty asset_id so that every supplied directive is referenced by at least one asset binding; that binding controls overall timing only.",
+      "IR completion: Perceived product facts (deep green velvet box exterior, cream interior lining, gold-toned chain, transparent teardrop pendant) are used as high-confidence visible evidence for the preserved appearance."
+    ],
+    "uncertainties": [
+      "Perception supplied entity summaries at high quantity confidence but empty attribute arrays; only summary-level visual facts are asserted, and no detail beyond them is claimed."
+    ]
+  },
+  "protocol": {
+    "rewrite_language": "English",
+    "preserve_source_language_for": [
+      "dialogue",
+      "lyrics",
+      "visible scene text"
+    ],
+    "summary_task_types": [
+      "reference generation"
+    ]
+  },
+  "asset_bindings": [
+    {
+      "binding_id": "b_box_necklace_pendant_identity",
+      "asset_id": "image_product",
+      "target": "gift box, necklace, and pendant as depicted in the product image",
+      "role": "product",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_1"
+      ],
+      "inherit": [
+        "product identity",
+        "octagonal jewelry gift box geometry with deep green velvet exterior and cream interior lining",
+        "gold-toned chain necklace",
+        "single teardrop-shaped transparent pendant",
+        "necklace and pendant resting inside the open box as depicted"
+      ],
+      "exclude": [
+        "background scene and backdrop layout",
+        "camera angle and framing",
+        "lighting setup",
+        "any text, logos, captions, or labels not depicted",
+        "box lid or additional packaging states not depicted",
+        "other jewelry pieces or props not depicted"
+      ]
+    },
+    {
+      "binding_id": "b_premium_style",
+      "asset_id": "image_product",
+      "target": "premium high-end aesthetic of the video",
+      "role": "style",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_2"
+      ],
+      "inherit": [
+        "style",
+        "premium high-end aesthetic",
+        "elegant minimal luxury presentation",
+        "deep green, cream, and gold color harmony",
+        "soft refined premium lighting mood"
+      ],
+      "exclude": [
+        "product geometry and dimensions",
+        "gift box structure and interior layout",
+        "necklace and pendant identity",
+        "logo and text",
+        "specific camera moves",
+        "background scenery beyond the neutral cream backdrop",
+        "identity",
+        "product geometry",
+        "logo"
+      ]
+    },
+    {
+      "binding_id": "b_scene_focus",
+      "asset_id": "image_product",
+      "target": "gift box, necklace, and pendant as the primary featured subjects",
+      "role": "scene",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_4"
+      ],
+      "inherit": [
+        "scene focus",
+        "gift box, necklace, and pendant as the primary featured subjects",
+        "foreground prominence and focus priority of the gift box, necklace, and pendant",
+        "neutral cream backdrop as the presentation environment"
+      ],
+      "exclude": [
+        "background scenery, architecture, or settings not depicted",
+        "props or accessories not depicted",
+        "scene text or captions",
+        "additional subjects or products"
+      ]
+    },
+    {
+      "binding_id": "b_first_frame",
+      "asset_id": "image_product",
+      "target": "opening frame reproducing the product image composition of the gift box, necklace, and pendant",
+      "role": "first_frame",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_1"
+      ],
+      "inherit": [
+        "product identity",
+        "opening composition centered on the open octagonal gift box with the gold-toned necklace and teardrop pendant inside, as depicted in the product image"
+      ],
+      "exclude": [
+        "any deviation of the product's appearance at the first frame",
+        "background elements not depicted in the product image",
+        "text or logos"
+      ]
+    }
+  ],
+  "subjects": [
+    {
+      "subject_id": "subject_1",
+      "name": "octagonal jewelry gift box",
+      "kind": "product",
+      "primary": true,
+      "description": "Open octagonal jewelry gift box with deep green velvet exterior and cream interior lining, holding the gold-toned necklace; exactly as depicted in the product image, with the lid open revealing the cream interior throughout the video.",
+      "source_asset_ids": [
+        "image_product"
+      ],
+      "binding_ids": [
+        "b_box_necklace_pendant_identity",
+        "b_scene_focus"
+      ],
+      "appearance_shot_ids": [
+        "01",
+        "02",
+        "03",
+        "04"
+      ],
+      "retention_mode": "fully_preserved",
+      "retention_description": "The box keeps its octagonal shape, deep green velvet exterior, cream interior lining, and open-lid state from the product image in every shot."
+    },
+    {
+      "subject_id": "subject_2",
+      "name": "gold-toned necklace",
+      "kind": "product",
+      "primary": false,
+      "description": "Gold-toned chain necklace resting inside the open octagonal gift box on the cream interior lining, exactly as depicted in the product image.",
+      "source_asset_ids": [
+        "image_product"
+      ],
+      "binding_ids": [
+        "b_box_necklace_pendant_identity"
+      ],
+      "appearance_shot_ids": [
+        "01",
+        "02",
+        "03",
+        "04"
+      ],
+      "retention_mode": "fully_preserved",
+      "retention_description": "The necklace keeps its gold-toned chain and its resting position inside the open box on the cream lining in every shot."
+    },
+    {
+      "subject_id": "subject_3",
+      "name": "teardrop pendant",
+      "kind": "product",
+      "primary": false,
+      "description": "Single teardrop-shaped transparent pendant attached to the gold-toned chain of the necklace, as depicted in the product image; it remains attached throughout the video.",
+      "source_asset_ids": [
+        "image_product"
+      ],
+      "binding_ids": [
+        "b_box_necklace_pendant_identity"
+      ],
+      "appearance_shot_ids": [
+        "01",
+        "02",
+        "03",
+        "04"
+      ],
+      "retention_mode": "fully_preserved",
+      "retention_description": "The pendant keeps its teardrop shape, transparency, and attachment to the chain in every shot."
+    }
+  ],
+  "reference_relationships": [
+    {
+      "asset_id": "image_product",
+      "relationship": "reference_generation",
+      "subject_refs": [
+        "subject_1",
+        "subject_2",
+        "subject_3"
+      ],
+      "definition": "the authoritative product image of the open octagonal gift box, gold-toned necklace, and teardrop pendant that the entire video is generated from",
+      "retention_mode": "fully_preserved",
+      "retention_description": "The video is generated from this still image, not edited from it; the gift box, necklace, and pendant keep the image's exact appearance, colors, materials, and open-box presentation throughout, and the first frame reproduces the image composition."
+    }
+  ],
+  "creative_focus": {
+    "primary_target": "the open octagonal necklace gift box with the gold-toned necklace and teardrop pendant inside, presented as one premium high-end gift set",
+    "primary_subject_id": "subject_1",
+    "primary_asset_id": "image_product",
+    "primary_binding_ids": [
+      "b_box_necklace_pendant_identity",
+      "b_scene_focus",
+      "b_first_frame"
+    ],
+    "objective": "The finished 15-second vertical video must promote the necklace gift box by presenting the octagonal gift box as the dominant visual anchor, with the gold-toned necklace and teardrop pendant featured in dedicated close-up attention, all matching the product image's appearance and premium high-end aesthetic.",
+    "supporting_asset_ids": [],
+    "required_shot_ids": [
+      "01",
+      "02",
+      "03",
+      "04"
+    ],
+    "presentation_requirements": [
+      "The gift box, necklace, and pendant must match the product image's appearance in every shot: deep green velvet box exterior, cream interior lining, gold-toned chain, and transparent teardrop pendant.",
+      "The first frame must reproduce the product image composition with the open box and necklace centered.",
+      "Shot 02 must bring the teardrop pendant to crisp focus at center frame with the gold chain leading to it, keeping the box's interior and velvet rim visible so the primary subject stays meaningful.",
+      "Shot 04 must hold the complete open gift box with the necklace and pendant visible for the final beat, with no new elements introduced.",
+      "The gift box must remain fully or partially in frame in every shot within the 9:16 vertical frame."
+    ]
+  },
+  "isolation_rules": [
+    {
+      "binding_id": "b_box_necklace_pendant_identity",
+      "allow": [
+        "product identity",
+        "gift box geometry, colors, and materials",
+        "necklace and pendant appearance",
+        "octagonal jewelry gift box geometry with deep green velvet exterior and cream interior lining",
+        "gold-toned chain necklace",
+        "single teardrop-shaped transparent pendant",
+        "necklace and pendant resting inside the open box as depicted"
+      ],
+      "block": [
+        "background scene",
+        "camera framing",
+        "lighting setup",
+        "text and logos",
+        "background scene and backdrop layout",
+        "camera angle and framing",
+        "any text, logos, captions, or labels not depicted",
+        "box lid or additional packaging states not depicted",
+        "other jewelry pieces or props not depicted"
+      ]
+    },
+    {
+      "binding_id": "b_premium_style",
+      "allow": [
+        "style",
+        "premium high-end aesthetic",
+        "deep green, cream, and gold color harmony",
+        "elegant minimal luxury presentation",
+        "soft refined premium lighting mood"
+      ],
+      "block": [
+        "product geometry",
+        "logo and text",
+        "identity facts",
+        "dialogue",
+        "product geometry and dimensions",
+        "gift box structure and interior layout",
+        "necklace and pendant identity",
+        "specific camera moves",
+        "background scenery beyond the neutral cream backdrop",
+        "identity",
+        "logo"
+      ]
+    },
+    {
+      "binding_id": "b_scene_focus",
+      "allow": [
+        "scene focus",
+        "foreground prominence of the gift box, necklace, and pendant",
+        "neutral cream backdrop",
+        "gift box, necklace, and pendant as the primary featured subjects",
+        "foreground prominence and focus priority of the gift box, necklace, and pendant",
+        "neutral cream backdrop as the presentation environment"
+      ],
+      "block": [
+        "background scenery",
+        "props and accessories",
+        "scene text",
+        "background scenery, architecture, or settings not depicted",
+        "props or accessories not depicted",
+        "scene text or captions",
+        "additional subjects or products"
+      ]
+    },
+    {
+      "binding_id": "b_first_frame",
+      "allow": [
+        "opening composition",
+        "product appearance at frame 0",
+        "product identity",
+        "opening composition centered on the open octagonal gift box with the gold-toned necklace and teardrop pendant inside, as depicted in the product image"
+      ],
+      "block": [
+        "deviating product appearance",
+        "background changes",
+        "text and logos",
+        "any deviation of the product's appearance at the first frame",
+        "background elements not depicted in the product image",
+        "text or logos"
+      ]
+    }
+  ],
+  "constraints": {
+    "preserve": [
+      "octagonal jewelry gift box geometry with deep green velvet exterior and cream interior lining",
+      "gold-toned chain necklace",
+      "single teardrop-shaped transparent pendant",
+      "necklace and pendant resting inside the open box exactly as depicted",
+      "premium high-end aesthetic with deep green, cream, and gold harmony",
+      "gift box, necklace, and pendant as the primary featured subjects",
+      "neutral cream backdrop as the presentation environment",
+      "total video duration of 15 seconds",
+      "9:16 vertical aspect ratio",
+      "total duration"
+    ],
+    "allow_change": [
+      "camera framing and moves within the 9:16 frame",
+      "shot sequence and pacing within the locked 15 seconds",
+      "lighting refinement that preserves the premium mood and the depicted product colors",
+      "focus and depth-of-field transitions between the box, necklace, and pendant"
+    ],
+    "prohibit": [
+      "any change to the gift box, necklace, or pendant identity, colors, or materials",
+      "removal of the necklace from the open box or closing of the box lid",
+      "added text, logos, captions, or watermarks",
+      "additional jewelry pieces, props, or scenery not depicted in the product image",
+      "brand claims, dialogue, or unsupported product facts",
+      "generated music, voice, or sound effects (task generate_audio is false)"
+    ]
+  },
+  "timeline": [
+    {
+      "shot_id": "01",
+      "start_seconds": 0,
+      "end_seconds": 4,
+      "primary_change": "The gift box, necklace, and pendant are introduced exactly as depicted in the product image, and the camera slowly pushes in from the full opening composition.",
+      "event": "Open on the product image composition: the open octagonal gift box with deep green velvet exterior and cream interior lining holds the gold-toned necklace with its teardrop pendant; the camera slowly pushes in toward the box.",
+      "action": "",
+      "camera": "Slow push-in from the full product composition to a medium framing of the open box; amplitude approximately 15% of frame scale at a slow, even speed.",
+      "lighting": "Soft premium key light preserving the deep green, cream, and gold tones.",
+      "transition": "Fade in from black at 0 seconds; cut to shot 02.",
+      "observable_end_state": "The open box fills the center of the vertical frame with the necklace and teardrop pendant clearly visible inside on the cream lining.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "lid state",
+          "from": "open at the video start, cream interior revealed",
+          "to": "open, cream interior revealed as the camera settles on the box"
+        },
+        {
+          "subject_id": "subject_2",
+          "property": "placement",
+          "from": "resting inside the open box on the cream interior lining at frame 0",
+          "to": "resting inside the open box on the cream interior lining"
+        },
+        {
+          "subject_id": "subject_3",
+          "property": "attachment",
+          "from": "attached to the gold-toned chain",
+          "to": "attached to the gold-toned chain"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_2",
+        "subject_3"
+      ],
+      "asset_refs": [
+        "image_product"
+      ],
+      "binding_refs": [
+        "b_first_frame",
+        "b_box_necklace_pendant_identity",
+        "b_scene_focus"
+      ]
+    },
+    {
+      "shot_id": "02",
+      "start_seconds": 4,
+      "end_seconds": 8.5,
+      "primary_change": "The focus narrows from the whole box to the teardrop pendant, with the gold chain leading into it.",
+      "event": "Cut to a medium close-up of the teardrop transparent pendant resting on the cream interior lining, the gold-toned chain leading to it; the camera tilts slowly down the chain until the pendant comes into crisp focus, with the box's velvet rim softly framing the edges.",
+      "action": "",
+      "camera": "Slow downward tilt along the chain toward the pendant; amplitude approximately 12 degrees at a slow, even speed, with no pan, zoom, or reframing.",
+      "lighting": "Soft light grazing the transparent pendant so it reads as glass-like without harsh specular blowout.",
+      "transition": "Cut from shot 01; cut to shot 03.",
+      "observable_end_state": "The teardrop pendant sits in crisp focus at center frame on the cream lining, the gold chain visibly leading to it, and the box's velvet rim softly framing the edges.",
+      "state_changes": [
+        {
+          "subject_id": "subject_2",
+          "property": "placement",
+          "from": "resting inside the open box on the cream interior lining",
+          "to": "resting inside the open box on the cream interior lining, now framed in close-up"
+        },
+        {
+          "subject_id": "subject_3",
+          "property": "attachment",
+          "from": "attached to the gold-toned chain",
+          "to": "attached to the gold-toned chain, brought to center focus"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_2",
+        "subject_3"
+      ],
+      "asset_refs": [],
+      "binding_refs": [
+        "b_box_necklace_pendant_identity",
+        "b_scene_focus",
+        "b_first_frame"
+      ]
+    },
+    {
+      "shot_id": "03",
+      "start_seconds": 8.5,
+      "end_seconds": 12.5,
+      "primary_change": "The viewpoint widens from the pendant close-up to reveal the full octagonal box exterior and its deep green velvet surface.",
+      "event": "The camera pulls back with a gentle rightward arc from the pendant close-up, revealing the entire octagonal gift box with the deep green velvet exterior and open lid against the neutral cream backdrop, the necklace and pendant still visible inside.",
+      "action": "",
+      "camera": "Slow pull-back with a gentle rightward arc from the pendant close-up to a full view of the open octagonal box; amplitude approximately 25% of frame scale at a slow, even speed.",
+      "lighting": "Soft premium lighting across the velvet exterior, keeping the deep green rich and the gold chain bright.",
+      "transition": "Cut from shot 02; cut to shot 04.",
+      "observable_end_state": "The entire octagonal gift box is visible within the vertical frame against the neutral cream backdrop, lid open, with the necklace and pendant inside.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "lid state",
+          "from": "open, cream interior revealed",
+          "to": "open with the full box exterior visible against the cream backdrop"
+        },
+        {
+          "subject_id": "subject_2",
+          "property": "placement",
+          "from": "resting inside the open box on the cream interior lining",
+          "to": "resting inside the open box on the cream interior lining, fully visible in the wider view"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_2",
+        "subject_3"
+      ],
+      "asset_refs": [],
+      "binding_refs": [
+        "b_box_necklace_pendant_identity",
+        "b_scene_focus",
+        "b_first_frame"
+      ]
+    },
+    {
+      "shot_id": "04",
+      "start_seconds": 12.5,
+      "end_seconds": 15,
+      "primary_change": "Camera motion stops and the final composition holds on the complete premium gift box presentation.",
+      "event": "Static final hold on the octagonal gift box with the necklace and pendant visible inside, completing the premium presentation; the frame remains locked until the 15-second mark.",
+      "action": "",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing.",
+      "lighting": "Same soft premium lighting as the previous shots; no flicker or exposure shift during the hold.",
+      "transition": "Cut from shot 03; the video ends at 15.0 seconds on this frame.",
+      "observable_end_state": "The final frame holds the complete open octagonal gift box with the gold-toned necklace and teardrop pendant visible inside, held until the 15-second mark.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "presentation state",
+          "from": "fully revealed mid-frame after the pull-back",
+          "to": "locked final presentation held until the 15-second mark"
+        },
+        {
+          "subject_id": "subject_3",
+          "property": "attachment",
+          "from": "attached to the gold-toned chain",
+          "to": "attached to the gold-toned chain in the final frame"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_2",
+        "subject_3"
+      ],
+      "asset_refs": [],
+      "binding_refs": [
+        "b_box_necklace_pendant_identity",
+        "b_scene_focus",
+        "b_first_frame"
+      ]
+    }
+  ],
+  "audio_plan": {
+    "voice": "",
+    "music": "",
+    "sound_effects": "",
+    "ambient_sound": "",
+    "sync_rules": []
+  },
+  "generation_description": {
+    "cinematography": "Vertical 9:16 framing; the video opens on the full product composition, pushes in slowly, moves to a medium close-up of the teardrop pendant, pulls back to reveal the octagonal box exterior, and ends on a static hold of the complete set.",
+    "lighting": "Soft premium lighting that preserves the deep green velvet, cream lining, and gold tones, with gentle light catching the transparent pendant and no harsh reflections or exposure shifts.",
+    "materials": "Deep green velvet box exterior, cream interior lining, gold-toned metal chain, and a transparent glass-like teardrop pendant, all rendered crisply and consistently with the product image.",
+    "performance": "No performers; the video presents the static product set with camera-driven emphasis, focus shifts, and a locked final composition.",
+    "continuity": "The necklace stays resting inside the open box on the cream lining in every shot, the pendant remains attached to the chain, and the box lid stays open; no elements enter or leave the frame, and the video ends exactly at 15 seconds."
+  },
+  "runtime": {
+    "perception_provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3-VL-32B-Instruct",
+      "options": {
+        "base_url": "http://127.0.0.1:9012",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000
+      }
+    },
+    "reasoning_provider": {
+      "provider": "glm",
+      "model": "GLM-5.2"
+    },
+    "generation_provider": {
+      "provider": "minimax",
+      "model": "MiniMax-H3"
+    }
+  },
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 15,
+    "aspect_ratio": "9:16",
+    "generate_audio": false,
+    "style": ""
+  },
+  "assets": [
+    {
+      "asset_id": "image_product",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/ab_tests_20260820/case_005_jewelry_reference_isolation/assets/jewelry_box.png",
+      "label": "authoritative_box_necklace_and_pendant_appearance"
+    }
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v2",
+    "provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3-VL-32B-Instruct",
+      "options": {
+        "base_url": "http://127.0.0.1:9012",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000
+      }
+    },
+    "assets": [
+      {
+        "asset_id": "image_product",
+        "summary": "2 distinct foreground objects localized and analyzed individually.",
+        "evidence": [
+          {
+            "evidence_id": "evidence_1",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.166,
+              0.112,
+              0.8,
+              0.85
+            ],
+            "description": "Localized octagonal jewelry box object_1"
+          },
+          {
+            "evidence_id": "evidence_2",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.35,
+              0.47,
+              0.688,
+              0.712
+            ],
+            "description": "Localized gold-toned necklace with teardrop pendant object_2"
+          }
+        ],
+        "regions": [
+          {
+            "region_id": "region_1",
+            "evidence_id": "evidence_1",
+            "bbox_normalized": [
+              0.166,
+              0.112,
+              0.8,
+              0.85
+            ],
+            "entity_ids": [
+              "object_1"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          },
+          {
+            "region_id": "region_2",
+            "evidence_id": "evidence_2",
+            "bbox_normalized": [
+              0.35,
+              0.47,
+              0.688,
+              0.712
+            ],
+            "entity_ids": [
+              "object_2"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          }
+        ],
+        "entities": [
+          {
+            "entity_id": "object_1",
+            "category": "necklace in an octagonal jewelry box",
+            "subcategory": "necklace in an octagonal jewelry box",
+            "summary": "A gold-toned necklace with a teardrop-shaped transparent pendant rests inside an open octagonal box with deep green velvet exterior and cream interior lining.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "object_2",
+            "category": "gold-toned necklace with teardrop pendant",
+            "subcategory": "gold-toned necklace with teardrop pendant",
+            "summary": "A gold-toned chain necklace with a single teardrop-shaped transparent pendant displayed on a cream-colored fabric background.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "localize_then_isolated_attribute_batches",
+          "localization_coordinate_system": "normalized_0_1",
+          "task_ids": [
+            "20260820_141843_180618_70e46a72-1875-44a1-a472-925f13126fe6",
+            "20260820_141850_271156_ed20499b-b6ba-4cb1-bee9-f125e6bbfa63"
+          ]
+        },
+        "transcript": "",
+        "uncertainties": []
+      }
+    ],
+    "missing_asset_ids": []
+  }
+}

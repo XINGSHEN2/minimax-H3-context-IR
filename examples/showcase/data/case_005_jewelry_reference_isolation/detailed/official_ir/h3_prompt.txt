@@ -1,0 +1,27 @@
+subject_definitions:
+<Subject 1> is the jewelry product in <Picture 1>, consisting of an octagonal box covered in deep emerald green velvet with narrow gold metallic edges, featuring a cream-colored lining that displays a fine gold chain necklace holding a single, clear, teardrop-shaped pendant in a gold setting.
+
+summary:
+[reference generation] The target video is a high-end jewelry commercial showcasing <Subject 1>. The video begins with <Subject 1> resting closed on a simple dark gray surface. A natural, jewelry-free hand enters to slowly open the lid, revealing the cream lining and the necklace inside. The camera then captures a macro view of the clear teardrop pendant and gold chain before switching to a higher angle of the completely open, unblocked box. The video concludes with a stable, frontal hero close-up of <Subject 1>, emphasizing its luxurious materials without any promotional text.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4], [Shot 5]): fully_preserved - the target video features the exact octagonal emerald green velvet box, narrow gold edges, cream lining, and the gold necklace with its clear teardrop pendant from the reference, maintaining its structural design and color palette exactly whether closed or open.
+
+detailed_description:
+The target video is in a high-end, restrained, realistic jewelry photography style, featuring soft rim lighting that specifically highlights metallic edges, transparent crystals, and rich velvet textures.
+
+[Shot 1] The video opens with a medium close-up establishing shot of <Subject 1>. The jewelry box rests entirely closed in the exact center of a simple, matte dark gray surface. The deep emerald green velvet exterior and the precise, narrow gold metallic edges outlining the octagonal geometry are clearly defined against the muted background. The camera executes a very slow, smooth Push In, drawing attention to the plush texture of the velvet and the subtle gleam of the gold rims under the controlled lighting. The atmosphere remains completely quiet, setting a luxurious and anticipatory tone without revealing the interior contents.
+
+[Shot 2] At 00:03.000, the shot cuts to a slightly closer, refined angle of the still-closed box. A single, clean, and natural human hand with no visible rings or jewelry enters gracefully from the side of the frame. The hand gently grasps the upper rim and slowly lifts the lid of <Subject 1>. As the octagonal lid hinges upward, the pristine cream-colored lining is smoothly revealed. Nestled perfectly within the custom interior is the fine gold chain necklace, leading down to the beautifully cut, clear teardrop pendant. The hand serves purely as a functional, secondary element, pulling away smoothly and carefully avoiding any shadow or physical obstruction over the pendant and the internal display.
+
+[Shot 3] At 00:06.000, the shot cuts to a highly detailed macro close-up focusing purely on the interior of <Subject 1>. The framing intimately captures the single clear teardrop pendant, the delicate interwoven links of the gold chain, and the soft, flawless texture of the cream lining. A very shallow depth of field blurs the distant edges of the emerald velvet, isolating the sparkling pendant in sharp focus. The camera performs a slight, steady Truck Right. As the perspective shifts, the soft rim light plays beautifully across the geometric facets of the transparent crystal and the polished gold bezel setting, creating a vivid, high-contrast sparkle while the pendant remains perfectly stationary within its recess.
+
+[Shot 4] At 00:10.000, the shot cuts to a slightly higher, sweeping angle that completely showcases the fully open <Subject 1>. The hand has completely exited the frame, leaving the product entirely isolated. The deep emerald green octagonal box, the brilliant gold rims, the expansive cream lining, and the elegantly draped gold necklace are centered, perfectly balanced, and unblocked. The camera maintains a very slow Pull Out over the dark gray surface, emphasizing the overall structural elegance of the box and the pristine clarity of the teardrop crystal resting at the center.
+
+[Shot 5] At 00:13.000, the shot cuts to a frontal, perfectly stable hero close-up of <Subject 1> serving as the final ending screen. The camera is a strict Static Shot. The open jewelry box and its glowing clear teardrop pendant dominate the central framing, filling the major area of the vertical canvas. The meticulously crafted soft lighting beautifully models the dense velvet texture, the crisp cream interior, and the metallic shine of the gold chain. The product is presented in a final, quiet, and profoundly elegant display, fading naturally without the intrusion of any promotional text, prices, or new brand logos.
+
+overall_soundscape:
+A quiet, pristine, and elegant acoustic atmosphere featuring subtle, high-fidelity Foley sounds of the velvet box smoothly hinging open, with no voiceover or distracting noise.
+
+non_diegetic_music:
+Subtle, restrained ambient background music with a slow tempo, featuring soft, sustained synthesizer pads and a delicate piano melody that enhances the luxurious, high-end feel without overpowering the visuals.

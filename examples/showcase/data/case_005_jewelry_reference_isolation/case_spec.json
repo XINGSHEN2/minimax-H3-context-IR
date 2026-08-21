@@ -1,0 +1,13 @@
+{
+  "schema_version": "context_ir_ab_case.v2",
+  "case_id": "case_005_jewelry_reference_isolation",
+  "status": "ready",
+  "input_mode": "image_only",
+  "purpose": "Test conservative autonomous shot planning from one distinctive jewelry product image.",
+  "task": {"type": "ref2va", "duration_seconds": 15, "aspect_ratio": "9:16", "generate_audio": false},
+  "input_variants": {"vague": "inputs/vague.txt", "detailed": "inputs/detailed.txt"},
+  "assets": [
+    {"asset_id": "image_product", "media_type": "image", "file": "assets/jewelry_box.png", "role": "authoritative_box_necklace_and_pendant_appearance"}
+  ],
+  "completion_policy": "infer only product-appropriate camera, lighting, surface and optional neutral hands"
+}

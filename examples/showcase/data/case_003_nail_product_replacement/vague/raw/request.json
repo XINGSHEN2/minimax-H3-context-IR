@@ -1,0 +1,31 @@
+{
+  "task": "ref2va",
+  "prompt_file": "/tmp/context-ir-h3-staging/case_003_nail_product_replacement/vague/h3_prompt.txt",
+  "conditions": [
+    {
+      "type": "video",
+      "uri": "/tmp/context-ir-h3-staging/case_003_nail_product_replacement/vague/assets/video_edit_base_shop_source_video.mp4",
+      "role": "reference"
+    },
+    {
+      "type": "image",
+      "uri": "/tmp/context-ir-h3-staging/case_003_nail_product_replacement/vague/assets/image_replacement_product_colorful_nail_product.jpg",
+      "role": "reference"
+    },
+    {
+      "type": "image",
+      "uri": "/tmp/context-ir-h3-staging/case_003_nail_product_replacement/vague/assets/image_worn_anchor_colorful_worn_anchor.png",
+      "role": "reference"
+    }
+  ],
+  "target": {
+    "short_edge": 480,
+    "aspect_ratio": "9:16",
+    "duration_seconds": 15.0
+  },
+  "seed": 42,
+  "n": 1,
+  "num_inference_steps": 20,
+  "output_mode": "decoded_files",
+  "output_path": "/tmp/context-ir-h3-staging/case_003_nail_product_replacement/vague/output"
+}

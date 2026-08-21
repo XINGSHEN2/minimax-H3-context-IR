@@ -1,0 +1,41 @@
+{
+  "task": "ref2va",
+  "prompt_file": "/tmp/context-ir-h3-staging/case_001_pump_multiref/detailed/h3_prompt.txt",
+  "conditions": [
+    {
+      "type": "image",
+      "uri": "/tmp/context-ir-h3-staging/case_001_pump_multiref/detailed/assets/image_identity_avatar.png",
+      "role": "reference"
+    },
+    {
+      "type": "image",
+      "uri": "/tmp/context-ir-h3-staging/case_001_pump_multiref/detailed/assets/image_product_pump.png",
+      "role": "reference"
+    },
+    {
+      "type": "image",
+      "uri": "/tmp/context-ir-h3-staging/case_001_pump_multiref/detailed/assets/image_usage_tire_usage.png",
+      "role": "reference"
+    },
+    {
+      "type": "image",
+      "uri": "/tmp/context-ir-h3-staging/case_001_pump_multiref/detailed/assets/image_anchor_presenter_holding_pump.png",
+      "role": "reference"
+    },
+    {
+      "type": "video",
+      "uri": "/tmp/context-ir-h3-staging/case_001_pump_multiref/detailed/assets/video_method_method_reference.mp4",
+      "role": "reference"
+    }
+  ],
+  "target": {
+    "short_edge": 480,
+    "aspect_ratio": "9:16",
+    "duration_seconds": 15.0
+  },
+  "seed": 42,
+  "n": 1,
+  "num_inference_steps": 20,
+  "output_mode": "decoded_files",
+  "output_path": "/tmp/context-ir-h3-staging/case_001_pump_multiref/detailed/output"
+}

@@ -1,0 +1,18 @@
+subject_definitions:
+<Subject 1> is the young woman in <Picture 1> and <Picture 4>, defined by her shoulder-length blonde hair styled in high double ponytails, a youthful face with light freckles, wearing a plain yellow t-shirt and light blue denim overalls over the shirt. <Subject 2> is the portable black electric air pump in <Picture 2>, <Picture 3>, and <Picture 4>, characterized by its vertical rectangular shape, a top-mounted circular display showing digital pressure readings, and a central circular control button panel.
+
+summary:
+[reference generation] <Subject 1> demonstrates the portability and ease of use of <Subject 2>, an electric air pump, following the energetic rhythm of <Video 1>.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1], [Shot 2]): fully_preserved - the subject's identity, casual outfit consisting of a yellow t-shirt and denim overalls, and distinctive double ponytail hairstyle are maintained throughout the video.
+<Subject 2> (appears in [Shot 1], [Shot 2]): fully_preserved - the air pump's black rectangular design, top display screen, and control interface are consistent with the reference.
+
+detailed_description:
+The target video is in a vibrant, natural style with bright outdoor lighting that highlights the textures of denim and the sleek matte surface of the air pump. [Shot 1] The shot opens with <Subject 1> standing on a quiet road, holding <Subject 2> near her chest. She smiles at the camera as she speaks, <d>[English] Flat tire on the highway? That panic is real.</d> <Subject 1> then briskly connects the air pump's hose to a car tire resting on the pavement. [Shot 2] At 00:03.500, the shot cuts to <Subject 1> kneeling beside the tire, her expression focused as she activates the pump. <Subject 1> speaks clearly, <d>[English] This little guy handles tires, balls, and even your air mattress.</d> As she finishes, she glances up with a confident grin and stands, showing the compact device. She continues, <d>[English] Camping? This handles air mattresses, too.</d> <Subject 1> then steps forward, holding the device out toward the camera with both hands, <d>[English] This little pump helps me twice on the road. Grab one.</d> The shot concludes as she gives a playful wink while holding the air pump steady, the sunlight catching the device's display screen.
+
+overall_soundscape:
+The soundscape features the clear, bright vocal performance of the subject, layered over light outdoor ambience and the subtle, rhythmic whirring of the air pump during its active cycles.
+
+non_diegetic_music:
+A light, upbeat pop acoustic guitar track with a steady tempo provides a cinematic, energetic background that underscores the subject's quick demonstration and energetic presentation.

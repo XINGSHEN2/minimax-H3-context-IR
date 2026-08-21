@@ -1,0 +1,27 @@
+subject_definitions:
+<Subject 1> is the luxurious perfume bottle in <Picture 1>, featuring a thick-walled rectangular clear glass body filled with golden-amber liquid, an off-white rectangular label on the front bearing the black serif text "LUMEN 07", and a distinctive matte black cap with a sharp, asymmetrical upward-sloping diagonal cut.
+<Picture 1> is the first frame of [Shot 1], showing <Subject 1> centered on a subtly lit surface against a dark brownish-gray gradient background.
+
+summary:
+[keyframe completion + reference generation] The commercial begins with <Picture 1> anchoring the opening shot, establishing <Subject 1> resting on a smoothly lit surface. The target video then transitions through a series of high-end, cinematic product shots, utilizing macro close-ups, sweeping light beams, and smooth camera movements to highlight the bottle's luxurious textures. Throughout the varying artistic environments and dramatic lighting changes, the shape of the bottle, the dark sloping cap, and the precise "LUMEN 07" label of <Subject 1> remain entirely unchanged, fulfilling the request for a premium 15-second advertisement.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4]): fully_preserved - The bottle's rectangular clear glass body, golden-amber liquid, specific asymmetrical matte black cap, and the off-white label reading "LUMEN 07" are perfectly maintained without alteration.
+<Picture 1> ([Shot 1] first frame): fully_preserved - The video opens with the exact centered composition, dark gradient background, and warm base lighting of the original image.
+
+detailed_description:
+The target video is in a realistic, high-end cinematic commercial style, featuring rich warm lighting, deep charcoal contrast, and crisp macro product photography.
+
+[Shot 1] The shot begins from <Picture 1>, establishing <Subject 1> perfectly centered against a smooth, dark brownish-gray gradient background. <Subject 1> is a luxurious perfume bottle featuring a thick-walled, rectangular clear glass body filled with a glowing golden-amber liquid. On the front, an off-white rectangular paper label bears the crisp black serif text "LUMEN 07". The bottle is topped with a distinctive matte black cap that features a sharp, asymmetrical upward-sloping diagonal cut. The camera executes a slow Push In, emphasizing the warm spotlight that pools on the surface beneath the bottle. As the lens moves closer, the golden illumination refracts brilliantly through the heavy glass base, highlighting the smooth contours and the flawless preservation of the label's typography.
+
+[Shot 2] At 00:04.000, the shot cuts to an extreme macro close-up of <Subject 1>, focusing tightly on the transition between the matte black cap and the clear glass shoulder. The camera slowly Pans Down, tracing the precise geometric lines of the bottle. The dark, velvety texture of the asymmetrical cap contrasts sharply with the glossy, reflective surface of the glass below. Inside the bottle, the golden-amber liquid catches a slowly moving side light, creating mesmerizing, slow-motion caustic reflections that dance across the inner glass walls. The camera continues its downward movement until the pristine off-white label reading "LUMEN 07" dominates the frame, remaining perfectly flat, unchanged, and highly legible against the golden backdrop of the fluid.
+
+[Shot 3] At 00:08.500, the shot cuts to an elegant, dynamic presentation of <Subject 1>. The perfume bottle now sits on a highly reflective, polished black glass podium. The camera performs a smooth Arc Shot, sweeping around the right side of the bottle at a medium-close distance. As the camera orbits, a gentle, stylized ripple of liquid gold sweeps across the dark background, casting shimmering kinetic light onto the bottle's back edge. Despite the dynamic environment, the physical structure of <Subject 1> remains completely stable—its rectangular glass profile, the specific slope of its black cap, and the central "LUMEN 07" label are immaculately preserved. The shifting environmental light interacts beautifully with the internal amber liquid, creating a sense of deep, luxurious warmth.
+
+[Shot 4] At 00:12.000, the shot cuts to a majestic final hero composition. The camera is locked in a Static Shot, framing <Subject 1> dead center against an almost pure black void. A single, dramatic blade of warm golden light sweeps horizontally across the front of the bottle from left to right. The sweeping beam briefly illuminates the sharp diagonal edge of the black cap, then travels down to highlight the thick glass walls. Finally, the light perfectly catches the "LUMEN 07" label, making the serif letters pop one last time before the illumination gradually fades out, leaving the elegant silhouette of the bottle glowing faintly in the darkness as the commercial concludes.
+
+overall_soundscape:
+The soundscape features subtle, high-end sound design with soft, sweeping atmospheric whooshes and delicate, crystalline glass-tinkling resonances that synchronize perfectly with the moving light beams.
+
+non_diegetic_music:
+A sophisticated, slow-tempo ambient electronic track featuring deep, warm bass swells and minimalist, echoing synthesizer notes plays continuously, conveying a premium sense of luxury.

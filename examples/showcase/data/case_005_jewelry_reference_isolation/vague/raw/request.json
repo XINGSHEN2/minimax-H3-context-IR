@@ -1,0 +1,21 @@
+{
+  "task": "ref2va",
+  "prompt_file": "/tmp/context-ir-h3-staging/case_005_jewelry_reference_isolation/vague/h3_prompt.txt",
+  "conditions": [
+    {
+      "type": "image",
+      "uri": "/tmp/context-ir-h3-staging/case_005_jewelry_reference_isolation/vague/assets/image_product_jewelry_box.png",
+      "role": "reference"
+    }
+  ],
+  "target": {
+    "short_edge": 480,
+    "aspect_ratio": "9:16",
+    "duration_seconds": 15.0
+  },
+  "seed": 42,
+  "n": 1,
+  "num_inference_steps": 20,
+  "output_mode": "decoded_files",
+  "output_path": "/tmp/context-ir-h3-staging/case_005_jewelry_reference_isolation/vague/output"
+}

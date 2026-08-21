@@ -1,0 +1,14 @@
+{
+  "schema_version": "context_ir_ab_case.v2",
+  "case_id": "case_002_nail_state_transition",
+  "status": "ready_with_limited_video_role",
+  "input_mode": "image_video",
+  "purpose": "Test explicit bare-to-worn state transition and persistence across cuts.",
+  "task": {"type": "ref2va", "duration_seconds": 15, "aspect_ratio": "9:16", "generate_audio": false},
+  "input_variants": {"vague": "inputs/vague.txt", "detailed": "inputs/detailed.txt"},
+  "assets": [
+    {"asset_id": "image_product", "media_type": "image", "file": "assets/nail_product.jpg", "role": "authoritative_nail_set_appearance"},
+    {"asset_id": "image_worn_anchor", "media_type": "image", "file": "assets/worn_hand_anchor.png", "role": "correct_worn_state_and_finger_mapping"},
+    {"asset_id": "video_contrast", "media_type": "video", "file": "assets/before_after_method.mp4", "role": "before_after_structure_hand_display_and_lifestyle_pacing_only", "limitations": "not_an_application_tutorial_and_not_a_continuous_identity_reference"}
+  ]
+}

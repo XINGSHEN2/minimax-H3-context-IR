@@ -1,0 +1,16 @@
+{
+  "schema_version": "context_ir_ab_case.v2",
+  "case_id": "case_001_pump_multiref",
+  "status": "ready",
+  "input_mode": "image_video",
+  "purpose": "Test identity, product, use-relation and method-reference binding in a coherent multi-reference task.",
+  "task": {"type": "ref2va", "duration_seconds": 15, "aspect_ratio": "9:16", "generate_audio": true},
+  "input_variants": {"vague": "inputs/vague.txt", "detailed": "inputs/detailed.txt"},
+  "assets": [
+    {"asset_id": "image_identity", "media_type": "image", "file": "assets/avatar.png", "role": "presenter_identity_and_outfit"},
+    {"asset_id": "image_product", "media_type": "image", "file": "assets/pump.png", "role": "authoritative_product_appearance"},
+    {"asset_id": "image_usage", "media_type": "image", "file": "assets/tire_usage.png", "role": "pump_to_tire_relation"},
+    {"asset_id": "image_anchor", "media_type": "image", "file": "assets/presenter_holding_pump.png", "role": "presenter_product_scale_and_holding_anchor"},
+    {"asset_id": "video_method", "media_type": "video", "file": "assets/method_reference.mp4", "role": "usage_sequence_camera_and_pacing_only"}
+  ]
+}

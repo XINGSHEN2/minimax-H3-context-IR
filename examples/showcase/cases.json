@@ -1,0 +1,460 @@
+{
+  "generated_from": "/home/mx/shenxing/context-ir-ab-tests-20260820",
+  "cases": [
+    {
+      "id": "case_001_pump_multiref",
+      "title": "case 001 pump multiref",
+      "description": "",
+      "variants": {
+        "vague": {
+          "prompt": "",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/case_001_pump_multiref/vague/raw/result.mp4",
+              "prompt": "data/case_001_pump_multiref/vague/raw/h3_prompt.txt",
+              "request": "data/case_001_pump_multiref/vague/raw/request.json",
+              "context_ir": null
+            },
+            "local_ir": {
+              "label": "本地 IR",
+              "status": "missing",
+              "video": null,
+              "prompt": null,
+              "request": null,
+              "context_ir": null
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/case_001_pump_multiref/vague/official_ir/result.mp4",
+              "prompt": "data/case_001_pump_multiref/vague/official_ir/h3_prompt.txt",
+              "request": "data/case_001_pump_multiref/vague/official_ir/request.json",
+              "context_ir": null
+            }
+          }
+        },
+        "detailed": {
+          "prompt": "",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/case_001_pump_multiref/detailed/raw/result.mp4",
+              "prompt": "data/case_001_pump_multiref/detailed/raw/h3_prompt.txt",
+              "request": "data/case_001_pump_multiref/detailed/raw/request.json",
+              "context_ir": null
+            },
+            "local_ir": {
+              "label": "本地 IR",
+              "status": "missing",
+              "video": null,
+              "prompt": null,
+              "request": null,
+              "context_ir": null
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/case_001_pump_multiref/detailed/official_ir/result.mp4",
+              "prompt": "data/case_001_pump_multiref/detailed/official_ir/h3_prompt.txt",
+              "request": "data/case_001_pump_multiref/detailed/official_ir/request.json",
+              "context_ir": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "case_002_nail_state_transition",
+      "title": "case 002 nail state transition",
+      "description": "",
+      "variants": {
+        "vague": {
+          "prompt": "",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/case_002_nail_state_transition/vague/raw/result.mp4",
+              "prompt": "data/case_002_nail_state_transition/vague/raw/h3_prompt.txt",
+              "request": "data/case_002_nail_state_transition/vague/raw/request.json",
+              "context_ir": null
+            },
+            "local_ir": {
+              "label": "本地 IR",
+              "status": "missing",
+              "video": null,
+              "prompt": "data/case_002_nail_state_transition/vague/local_ir/h3_prompt.txt",
+              "request": null,
+              "context_ir": "data/case_002_nail_state_transition/vague/local_ir/context_ir.json"
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/case_002_nail_state_transition/vague/official_ir/result.mp4",
+              "prompt": "data/case_002_nail_state_transition/vague/official_ir/h3_prompt.txt",
+              "request": "data/case_002_nail_state_transition/vague/official_ir/request.json",
+              "context_ir": null
+            }
+          }
+        },
+        "detailed": {
+          "prompt": "",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/case_002_nail_state_transition/detailed/raw/result.mp4",
+              "prompt": "data/case_002_nail_state_transition/detailed/raw/h3_prompt.txt",
+              "request": "data/case_002_nail_state_transition/detailed/raw/request.json",
+              "context_ir": null
+            },
+            "local_ir": {
+              "label": "本地 IR",
+              "status": "missing",
+              "video": null,
+              "prompt": "data/case_002_nail_state_transition/detailed/local_ir/h3_prompt.txt",
+              "request": null,
+              "context_ir": "data/case_002_nail_state_transition/detailed/local_ir/context_ir.json"
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/case_002_nail_state_transition/detailed/official_ir/result.mp4",
+              "prompt": "data/case_002_nail_state_transition/detailed/official_ir/h3_prompt.txt",
+              "request": "data/case_002_nail_state_transition/detailed/official_ir/request.json",
+              "context_ir": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "case_003_nail_product_replacement",
+      "title": "case 003 nail product replacement",
+      "description": "",
+      "variants": {
+        "vague": {
+          "prompt": "",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/case_003_nail_product_replacement/vague/raw/result.mp4",
+              "prompt": "data/case_003_nail_product_replacement/vague/raw/h3_prompt.txt",
+              "request": "data/case_003_nail_product_replacement/vague/raw/request.json",
+              "context_ir": null
+            },
+            "local_ir": {
+              "label": "本地 IR",
+              "status": "ready",
+              "video": "data/case_003_nail_product_replacement/vague/local_ir/result.mp4",
+              "prompt": "data/case_003_nail_product_replacement/vague/local_ir/h3_prompt.txt",
+              "request": "data/case_003_nail_product_replacement/vague/local_ir/request.json",
+              "context_ir": "data/case_003_nail_product_replacement/vague/local_ir/context_ir.json"
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/case_003_nail_product_replacement/vague/official_ir/result.mp4",
+              "prompt": "data/case_003_nail_product_replacement/vague/official_ir/h3_prompt.txt",
+              "request": "data/case_003_nail_product_replacement/vague/official_ir/request.json",
+              "context_ir": null
+            }
+          }
+        },
+        "detailed": {
+          "prompt": "",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/case_003_nail_product_replacement/detailed/raw/result.mp4",
+              "prompt": "data/case_003_nail_product_replacement/detailed/raw/h3_prompt.txt",
+              "request": "data/case_003_nail_product_replacement/detailed/raw/request.json",
+              "context_ir": null
+            },
+            "local_ir": {
+              "label": "本地 IR",
+              "status": "ready",
+              "video": "data/case_003_nail_product_replacement/detailed/local_ir/result.mp4",
+              "prompt": "data/case_003_nail_product_replacement/detailed/local_ir/h3_prompt.txt",
+              "request": "data/case_003_nail_product_replacement/detailed/local_ir/request.json",
+              "context_ir": "data/case_003_nail_product_replacement/detailed/local_ir/context_ir.json"
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/case_003_nail_product_replacement/detailed/official_ir/result.mp4",
+              "prompt": "data/case_003_nail_product_replacement/detailed/official_ir/h3_prompt.txt",
+              "request": "data/case_003_nail_product_replacement/detailed/official_ir/request.json",
+              "context_ir": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "case_004_nail_reference_isolation",
+      "title": "case 004 nail reference isolation",
+      "description": "",
+      "variants": {
+        "vague": {
+          "prompt": "",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/case_004_nail_reference_isolation/vague/raw/result.mp4",
+              "prompt": "data/case_004_nail_reference_isolation/vague/raw/h3_prompt.txt",
+              "request": "data/case_004_nail_reference_isolation/vague/raw/request.json",
+              "context_ir": null
+            },
+            "local_ir": {
+              "label": "本地 IR",
+              "status": "ready",
+              "video": "data/case_004_nail_reference_isolation/vague/local_ir/result.mp4",
+              "prompt": "data/case_004_nail_reference_isolation/vague/local_ir/h3_prompt.txt",
+              "request": "data/case_004_nail_reference_isolation/vague/local_ir/request.json",
+              "context_ir": "data/case_004_nail_reference_isolation/vague/local_ir/context_ir.json"
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/case_004_nail_reference_isolation/vague/official_ir/result.mp4",
+              "prompt": "data/case_004_nail_reference_isolation/vague/official_ir/h3_prompt.txt",
+              "request": "data/case_004_nail_reference_isolation/vague/official_ir/request.json",
+              "context_ir": null
+            }
+          }
+        },
+        "detailed": {
+          "prompt": "",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/case_004_nail_reference_isolation/detailed/raw/result.mp4",
+              "prompt": "data/case_004_nail_reference_isolation/detailed/raw/h3_prompt.txt",
+              "request": "data/case_004_nail_reference_isolation/detailed/raw/request.json",
+              "context_ir": null
+            },
+            "local_ir": {
+              "label": "本地 IR",
+              "status": "ready",
+              "video": "data/case_004_nail_reference_isolation/detailed/local_ir/result.mp4",
+              "prompt": "data/case_004_nail_reference_isolation/detailed/local_ir/h3_prompt.txt",
+              "request": "data/case_004_nail_reference_isolation/detailed/local_ir/request.json",
+              "context_ir": "data/case_004_nail_reference_isolation/detailed/local_ir/context_ir.json"
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/case_004_nail_reference_isolation/detailed/official_ir/result.mp4",
+              "prompt": "data/case_004_nail_reference_isolation/detailed/official_ir/h3_prompt.txt",
+              "request": "data/case_004_nail_reference_isolation/detailed/official_ir/request.json",
+              "context_ir": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "case_005_jewelry_reference_isolation",
+      "title": "case 005 jewelry reference isolation",
+      "description": "",
+      "variants": {
+        "vague": {
+          "prompt": "",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/case_005_jewelry_reference_isolation/vague/raw/result.mp4",
+              "prompt": "data/case_005_jewelry_reference_isolation/vague/raw/h3_prompt.txt",
+              "request": "data/case_005_jewelry_reference_isolation/vague/raw/request.json",
+              "context_ir": null
+            },
+            "local_ir": {
+              "label": "本地 IR",
+              "status": "ready",
+              "video": "data/case_005_jewelry_reference_isolation/vague/local_ir/result.mp4",
+              "prompt": "data/case_005_jewelry_reference_isolation/vague/local_ir/h3_prompt.txt",
+              "request": "data/case_005_jewelry_reference_isolation/vague/local_ir/request.json",
+              "context_ir": "data/case_005_jewelry_reference_isolation/vague/local_ir/context_ir.json"
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/case_005_jewelry_reference_isolation/vague/official_ir/result.mp4",
+              "prompt": "data/case_005_jewelry_reference_isolation/vague/official_ir/h3_prompt.txt",
+              "request": "data/case_005_jewelry_reference_isolation/vague/official_ir/request.json",
+              "context_ir": null
+            }
+          }
+        },
+        "detailed": {
+          "prompt": "",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/case_005_jewelry_reference_isolation/detailed/raw/result.mp4",
+              "prompt": "data/case_005_jewelry_reference_isolation/detailed/raw/h3_prompt.txt",
+              "request": "data/case_005_jewelry_reference_isolation/detailed/raw/request.json",
+              "context_ir": null
+            },
+            "local_ir": {
+              "label": "本地 IR",
+              "status": "ready",
+              "video": "data/case_005_jewelry_reference_isolation/detailed/local_ir/result.mp4",
+              "prompt": "data/case_005_jewelry_reference_isolation/detailed/local_ir/h3_prompt.txt",
+              "request": "data/case_005_jewelry_reference_isolation/detailed/local_ir/request.json",
+              "context_ir": "data/case_005_jewelry_reference_isolation/detailed/local_ir/context_ir.json"
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/case_005_jewelry_reference_isolation/detailed/official_ir/result.mp4",
+              "prompt": "data/case_005_jewelry_reference_isolation/detailed/official_ir/h3_prompt.txt",
+              "request": "data/case_005_jewelry_reference_isolation/detailed/official_ir/request.json",
+              "context_ir": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "case_006_cleaning_image_only",
+      "title": "case 006 cleaning image only",
+      "description": "",
+      "variants": {
+        "vague": {
+          "prompt": "",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/case_006_cleaning_image_only/vague/raw/result.mp4",
+              "prompt": "data/case_006_cleaning_image_only/vague/raw/h3_prompt.txt",
+              "request": "data/case_006_cleaning_image_only/vague/raw/request.json",
+              "context_ir": null
+            },
+            "local_ir": {
+              "label": "本地 IR",
+              "status": "ready",
+              "video": "data/case_006_cleaning_image_only/vague/local_ir/result.mp4",
+              "prompt": "data/case_006_cleaning_image_only/vague/local_ir/h3_prompt.txt",
+              "request": "data/case_006_cleaning_image_only/vague/local_ir/request.json",
+              "context_ir": "data/case_006_cleaning_image_only/vague/local_ir/context_ir.json"
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/case_006_cleaning_image_only/vague/official_ir/result.mp4",
+              "prompt": "data/case_006_cleaning_image_only/vague/official_ir/h3_prompt.txt",
+              "request": "data/case_006_cleaning_image_only/vague/official_ir/request.json",
+              "context_ir": null
+            }
+          }
+        },
+        "detailed": {
+          "prompt": "",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/case_006_cleaning_image_only/detailed/raw/result.mp4",
+              "prompt": "data/case_006_cleaning_image_only/detailed/raw/h3_prompt.txt",
+              "request": "data/case_006_cleaning_image_only/detailed/raw/request.json",
+              "context_ir": null
+            },
+            "local_ir": {
+              "label": "本地 IR",
+              "status": "ready",
+              "video": "data/case_006_cleaning_image_only/detailed/local_ir/result.mp4",
+              "prompt": "data/case_006_cleaning_image_only/detailed/local_ir/h3_prompt.txt",
+              "request": "data/case_006_cleaning_image_only/detailed/local_ir/request.json",
+              "context_ir": "data/case_006_cleaning_image_only/detailed/local_ir/context_ir.json"
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/case_006_cleaning_image_only/detailed/official_ir/result.mp4",
+              "prompt": "data/case_006_cleaning_image_only/detailed/official_ir/h3_prompt.txt",
+              "request": "data/case_006_cleaning_image_only/detailed/official_ir/request.json",
+              "context_ir": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "case_007_perfume_image_only",
+      "title": "case 007 perfume image only",
+      "description": "",
+      "variants": {
+        "vague": {
+          "prompt": "",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/case_007_perfume_image_only/vague/raw/result.mp4",
+              "prompt": "data/case_007_perfume_image_only/vague/raw/h3_prompt.txt",
+              "request": "data/case_007_perfume_image_only/vague/raw/request.json",
+              "context_ir": null
+            },
+            "local_ir": {
+              "label": "本地 IR",
+              "status": "ready",
+              "video": "data/case_007_perfume_image_only/vague/local_ir/result.mp4",
+              "prompt": "data/case_007_perfume_image_only/vague/local_ir/h3_prompt.txt",
+              "request": "data/case_007_perfume_image_only/vague/local_ir/request.json",
+              "context_ir": "data/case_007_perfume_image_only/vague/local_ir/context_ir.json"
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/case_007_perfume_image_only/vague/official_ir/result.mp4",
+              "prompt": "data/case_007_perfume_image_only/vague/official_ir/h3_prompt.txt",
+              "request": "data/case_007_perfume_image_only/vague/official_ir/request.json",
+              "context_ir": null
+            }
+          }
+        },
+        "detailed": {
+          "prompt": "",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/case_007_perfume_image_only/detailed/raw/result.mp4",
+              "prompt": "data/case_007_perfume_image_only/detailed/raw/h3_prompt.txt",
+              "request": "data/case_007_perfume_image_only/detailed/raw/request.json",
+              "context_ir": null
+            },
+            "local_ir": {
+              "label": "本地 IR",
+              "status": "ready",
+              "video": "data/case_007_perfume_image_only/detailed/local_ir/result.mp4",
+              "prompt": "data/case_007_perfume_image_only/detailed/local_ir/h3_prompt.txt",
+              "request": "data/case_007_perfume_image_only/detailed/local_ir/request.json",
+              "context_ir": "data/case_007_perfume_image_only/detailed/local_ir/context_ir.json"
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/case_007_perfume_image_only/detailed/official_ir/result.mp4",
+              "prompt": "data/case_007_perfume_image_only/detailed/official_ir/h3_prompt.txt",
+              "request": "data/case_007_perfume_image_only/detailed/official_ir/request.json",
+              "context_ir": null
+            }
+          }
+        }
+      }
+    }
+  ]
+}

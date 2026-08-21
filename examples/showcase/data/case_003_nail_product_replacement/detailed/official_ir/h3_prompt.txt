@@ -1,0 +1,31 @@
+subject_definitions:
+<Video 1> is the source video for video editing, providing the female shop assistant, the pink nail shop environment, camera motion, and edit structure.
+<Subject 1> is the set of colorful press-on nails in <Picture 1>, with its worn state anchored by <Picture 2>. It features vibrant designs including a purple nail with a blue cat silhouette and pink button, an orange dome nail with "Welcome home!" text and pearls, a purple galaxy swirl nail, an orange striped nail with a yellow star and black cross buttons, a blue nail with a black key, a blue nail with a gold dragonfly, a mint nail with a black spider, a dark blue nail with a moon and stars, a colorful striped nail with a green 3D ring, and a blue nail with a yellow star and pink button.
+<Audio 1> is directly used as the target video's complete soundtrack, containing the woman's spoken presentation.
+
+summary:
+[video editing + audio reuse] The target video is an edited version of <Video 1>. A female shop assistant introduces products in a pink nail shop, with her original nails and the displayed products replaced by <Subject 1>. The video follows the original pacing and camera angles, showing close-ups of <Subject 1> and the woman at the shelves, while exactly reusing <Audio 1>.
+
+retention_analysis:
+<Video 1> (source video editing): partially_preserved - The female shop assistant's identity, clothing, the pink shop environment with its shelves and yellow basket, camera motion, and cut rhythm are fully retained. The original press-on nails she wears and holds are replaced by <Subject 1>.
+<Subject 1> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4], [Shot 5]): fully_preserved - The colorful designs, motifs like the key, spider, buttons, and galaxy swirl, and the worn configuration from <Picture 2> are applied to the nails in the video. As requested, the original packaging text and background from the reference pictures are omitted.
+<Audio 1>: fully_copy - <Audio 1> is reused 1:1 as the target video's complete final audio track.
+
+detailed_description:
+The target video is in realistic live-action style, preserving the photographic medium and lighting of <Video 1>.
+
+[Shot 1] The shot begins with a medium view of a female shop assistant (S1) standing in a brightly lit shop with pink shelves full of packaged press-on nails. She wears a light pink long-sleeved top with a ruffled collar and a white skirt. As she speaks to the camera, she gestures with her hands. Her fingernails are wearing the <Subject 1> designs, showing the orange dome nail, purple galaxy swirl, and other colorful motifs correctly worn as anchored by <Picture 2>. The woman (S1) smiles and says, <d>[Chinese] 我们家的穿戴甲每天都会有新款</d>. She takes a step forward, finishing her energetic intro.
+
+[Shot 2] At 00:02.900, the shot cuts to a point-of-view close-up of the woman's hand holding a clear plastic display card. The original reference packaging text is absent, but the card holds the complete <Subject 1> set. The vibrant designs are clearly visible, including the purple nail with a blue cat, the blue nail with a black key, the mint nail with a black spider, and the colorful striped nail with a green 3D ring. Her thumb, wearing a <Subject 1> nail, grips the bottom of the card. The woman (S1) continues off-screen, <d>[Chinese] 这是我们今天打版的多巴胺系列</d>. The camera tilts slightly to show the details of the nails.
+
+[Shot 3] At 00:05.900, maintaining the fast edit rhythm of the source, the shot jump-cuts to another close-up angle of her hand holding the same <Subject 1> display card, ensuring the colorful styles remain consistent without switching to other products. The woman (S1) says off-screen, <d>[Chinese] 每一副都绚丽多彩</d>. Her fingers shift slightly, catching the shop's light on the glossy finishes of the nails.
+
+[Shot 4] At 00:09.100, the shot cuts back to a medium-wide view. The woman (S1) is now standing sideways by the pink shelf, holding a yellow shopping basket in one hand and a stack of <Subject 1> nail cards in the other. Another person is briefly visible sitting in the background. She turns her head toward the camera and speaks, <d>[Chinese] 每天都有上百个款式更新，都是当下热卖的款式</d>. She gestures with the stack of <Subject 1> cards as she talks, her own <Subject 1> worn nails visible during the movement.
+
+[Shot 5] At 00:13.700, the shot cuts back to a medium frontal view of the woman (S1) in the aisle. She looks directly at the camera, raises her hand playfully to emphasize her point, and concludes, <d>[Chinese] 30副起批</d>. Her hand drops back down as the video ends.
+
+overall_soundscape:
+The target video features the continuous natural room acoustics of a retail shop, dominated by the woman's energetic spoken presentation.
+
+non_diegetic_music:
+N/A

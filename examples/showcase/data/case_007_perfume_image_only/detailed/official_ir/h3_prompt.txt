@@ -1,0 +1,27 @@
+subject_definitions:
+<Subject 1> is the perfume bottle in <Picture 1>, featuring a low, wide rectangular transparent thick glass body with rounded corners, filled with light amber liquid, an asymmetrical matte black cap that leans distinctly to the right, and a centered cream-colored rectangular label bearing the exact black text "LUMEN 07".
+
+summary:
+[reference generation] The target video is a cinematic commercial exclusively showcasing <Subject 1>. The sequence highlights the product's premium design across five distinct shots, utilizing rim lighting, macro details of the thick glass and asymmetrical cap, and a close-up of the "LUMEN 07" label, before ending on a majestic hero shot of the bottle on a dark reflective surface with warm side-lighting.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4], [Shot 5]): fully_preserved - the target video strictly maintains the low wide rectangular rounded transparent glass bottle, the light amber liquid, the asymmetrical matte black cap leaning to the right, and the centered cream-colored label displaying the exact text "LUMEN 07".
+
+detailed_description:
+The target video is in a realistic, cinematic commercial style with sophisticated high-contrast lighting, deep shadows, and subtle mist to emphasize product premiumness.
+
+[Shot 1] The shot opens on a low-angle medium-close view of <Subject 1> set against a dark gray gradient background. A sharp, luminous rim light sculpts the low, wide rectangular transparent glass body and the distinctive asymmetrical matte black cap leaning firmly to the right. The centered cream-colored rectangular label on the front face is clearly visible without being overexposed, displaying the exact text "LUMEN 07". The camera executes a slow, deliberate push-in, establishing the bottle's imposing silhouette amidst a faint, elegant mist that slowly drifts around its thick glass base.
+
+[Shot 2] At 00:03.000, the shot cuts to a macro view from the front-side of <Subject 1>. The camera slowly trucks right, panning horizontally along the thick, highly polished transparent glass surface. The smooth movement highlights the sleek rounded corners and the warm internal glow of the light amber liquid encased within. The geometric integrity of the low, wide rectangular bottle remains strictly undistorted, with crisp specular highlights gliding seamlessly across the heavy glass margins as the viewing angle gradually shifts.
+
+[Shot 3] At 00:06.000, the shot cuts to an extreme macro close-up focused precisely on the connection point between the thick glass bottleneck and the matte black cap of <Subject 1>. The asymmetrical cap's sharp, rightward-leaning angle dominates the upper portion of the frame, providing a striking textural contrast against the smooth, reflective glass below. The camera holds a steady, very slow push-in, emphasizing the premium matte finish of the dark cap and the subtle interplay of shadows along its slanted edge, without any spraying action or cap removal.
+
+[Shot 4] At 00:09.000, the shot cuts to a frontal macro close-up centered entirely on the cream-colored rectangular label of <Subject 1>. The crisp, black typography reading exactly "LUMEN 07" is in perfect focus, free of any additional letters, numbers, or decorative marks. A soft, diffused light glides across the subtle matte paper texture of the label, highlighting the brand name clearly. The surrounding amber liquid and glass edges fall off into a beautiful, buttery depth of field as the camera pushes in by a fraction of an inch.
+
+[Shot 5] At 00:12.000, the shot cuts back to a full product hero composition. <Subject 1> sits perfectly centered on a dark, highly reflective surface that creates a pristine mirror image of its wide rectangular base. A warm, elegant side-light strikes the bottle from the edge, passing through the light amber liquid and creating a rich, luminous internal glow. The right-leaning black cap, thick glass corners, and the "LUMEN 07" label remain immaculate and perfectly aligned. The camera makes one final slight push-in before stabilizing completely, ending the commercial on a confident, majestic hold.
+
+overall_soundscape:
+A subtle, high-end commercial soundscape featuring a faint, airy room tone, with absolutely no voiceover, subtitles, or distracting sound effects.
+
+non_diegetic_music:
+A premium, slow-paced ambient electronic score with deep, resonant bass pads and delicate, echoing rhythmic pulses that enhance the cinematic atmosphere.

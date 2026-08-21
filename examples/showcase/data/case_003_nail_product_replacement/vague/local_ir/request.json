@@ -1,0 +1,31 @@
+{
+  "task": "ref2va",
+  "prompt_file": "/home/mx/shenxing/context-ir-ab-tests-20260820/case_003_nail_product_replacement/B_context_ir/vague/h3_prompt.txt",
+  "conditions": [
+    {
+      "type": "video",
+      "uri": "/home/mx/shenxing/context-ir-ab-tests-20260820/case_003_nail_product_replacement/assets/shop_source_video.mp4",
+      "role": "reference"
+    },
+    {
+      "type": "image",
+      "uri": "/home/mx/shenxing/context-ir-ab-tests-20260820/case_003_nail_product_replacement/assets/colorful_nail_product.jpg",
+      "role": "reference"
+    },
+    {
+      "type": "image",
+      "uri": "/home/mx/shenxing/context-ir-ab-tests-20260820/case_003_nail_product_replacement/assets/colorful_worn_anchor.png",
+      "role": "reference"
+    }
+  ],
+  "target": {
+    "short_edge": 480,
+    "aspect_ratio": "9:16",
+    "duration_seconds": 15.0
+  },
+  "seed": 42,
+  "n": 1,
+  "num_inference_steps": 20,
+  "output_mode": "decoded_files",
+  "output_path": "/home/mx/shenxing/context-ir-ab-tests-20260820/case_003_nail_product_replacement/B_context_ir/vague/h3_480_15s_20steps/output"
+}

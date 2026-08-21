@@ -1,0 +1,1104 @@
+{
+  "schema_version": "0.1.0",
+  "intent": {
+    "user_request": "生成一条15秒、9:16竖屏的电动清洁刷效果广告，重点表现“清洁前—清洁过程—清洁后”的因果关系。不要旁白、字幕、品牌、价格或夸张功效文字，保留自然的刷头运转声和轻微环境声。\n\n素材使用方式：\n1. 图片1控制唯一清洁刷的商品外观：哑光象牙白圆柱形机身、珊瑚橙椭圆按钮、短斜颈、浅蓝色圆形刷头和底部深灰色细环。所有镜头只能出现一把刷子，结构、颜色和部件数量不能改变。\n2. 本案例没有参考视频，允许系统根据清洁刷的可见结构保守补全合理的手持方式、刷洗动作和运镜。\n3. 允许保守补全一个浅色瓷砖清洁场景和少量可见污渍，但不得增加无法验证的功能、配件或清洁剂。\n\n分镜设计与状态约束：\n- 0–3秒：清洁前。近景展示带有一条明显灰色污渍的浅色瓷砖接缝，同时清洁刷完整放在旁边；刷头尚未接触污渍，表面不能提前变干净。\n- 3–5秒：手拿起清洁刷，拇指按下珊瑚橙按钮。镜头必须清楚看到按钮和浅蓝色圆形刷头，商品外观保持图片1。\n- 5–10秒：清洁过程。旋转刷头持续接触污渍并沿接缝移动；被刷头实际经过的区域逐渐变干净，尚未经过的区域仍保留污渍，不能通过无因果跳切瞬间消失。\n- 10–12秒：清洁后。手移开刷子，展示同一位置已经洁净的瓷砖接缝，并保留少量水迹以表现真实过程。\n- 12–15秒：商品英雄镜头。清洁刷竖直放置在干净瓷砖前，缓慢推近，象牙白机身、珊瑚橙按钮、浅蓝刷头和深灰底环均清晰可见。\n\n运镜与画面：以产品和清洁接触点为视觉重点；近景、微距为主，镜头稳定清晰。自主补全的动作与节奏不能覆盖图片1对商品外观的控制。",
+    "resolved_request": "Generate a 15-second, 9:16 vertical effect advertisement for a single electric cleaning brush that demonstrates a causal before-process-after cleaning sequence, with exactly one brush instance in every shot: open on a light tile grout showing one gray stain with the intact brush placed beside it (0-3s); a hand picks up the brush and visibly presses the coral orange button with the button and light blue brush head clearly in view (3-5s); the rotating brush head stays in continuous contact with the stain while moving along the grout, cleaning gradually only the areas it actually passes while untouched grout keeps its stain (5-10s); the hand withdraws to reveal the same grout now clean with slight water traces (10-12s); finish with a slow push-in hero shot of the brush standing vertically before clean tiles with all appearance elements clearly visible (12-15s). Lock image_product as the sole authority for brush appearance; use close-up and macro framing with stable camera and the brush/stain contact point as the visual focus; no narration, subtitles, brand, price, or exaggerated efficacy text; retain natural brush-head rotation and light ambient sound; conservatively complete holding, scrubbing, scene, and camera details without adding unverifiable functions, accessories, or cleaning agents.",
+    "directives": [
+      {
+        "directive_id": "d_1",
+        "asset_id": "image_product",
+        "target": "unique cleaning brush product appearance [other]",
+        "operation": "preserve",
+        "scope": [
+          "ivory white matte cylindrical body",
+          "coral orange oval button",
+          "short slanted neck",
+          "light blue circular brush head",
+          "thin dark gray ring at the base"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_2",
+        "asset_id": "image_product",
+        "target": "unique cleaning brush product appearance [product]",
+        "operation": "preserve",
+        "scope": [
+          "structure, colors, and component count unchanged in every shot"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_3",
+        "asset_id": "image_product",
+        "target": "unique cleaning brush product appearance [rhythm]",
+        "operation": "preserve",
+        "scope": [
+          "appearance control takes precedence over conservatively completed actions and rhythm"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_4",
+        "asset_id": "image_product",
+        "target": "single cleaning brush subject identity",
+        "operation": "preserve",
+        "scope": [
+          "exactly one brush instance visible in every shot"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_5",
+        "asset_id": "",
+        "target": "causal before-process-after state progression [identity]",
+        "operation": "preserve",
+        "scope": [
+          "no surface appears clean before the brush head touches the stain"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_6",
+        "asset_id": "",
+        "target": "causal before-process-after state progression [other]",
+        "operation": "preserve",
+        "scope": [
+          "stain is removed gradually only where the brush head actually passes",
+          "unpassed grout keeps its stain",
+          "no non-causal jump cuts that make the stain vanish instantly",
+          "the same grout location is shown clean at 10-12s"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_7",
+        "asset_id": "",
+        "target": "light tile cleaning scene and visible stain staging [scene]",
+        "operation": "preserve",
+        "scope": [
+          "light-colored tile environment"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_8",
+        "asset_id": "",
+        "target": "light tile cleaning scene and visible stain staging [other]",
+        "operation": "preserve",
+        "scope": [
+          "visible tile grout line",
+          "one obvious gray stain on the grout",
+          "brush placed fully beside the stain in the 0-3s opening",
+          "small residual water traces after cleaning"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_9",
+        "asset_id": "",
+        "target": "required hand and brush motion sequence",
+        "operation": "preserve",
+        "scope": [
+          "hand picks up the brush at 3-5s",
+          "thumb visibly presses the coral orange button at 3-5s",
+          "button and light blue circular brush head clearly visible at 3-5s",
+          "rotating brush head stays in continuous contact with the stain while moving along the grout at 5-10s",
+          "hand withdraws the brush at 10-12s"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_10",
+        "asset_id": "",
+        "target": "conservative completion of holding and scrubbing motion from visible brush structure [other]",
+        "operation": "may_change",
+        "scope": [
+          "hand-holding grip method"
+        ],
+        "priority": "soft",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_11",
+        "asset_id": "",
+        "target": "conservative completion of holding and scrubbing motion from visible brush structure [motion]",
+        "operation": "may_change",
+        "scope": [
+          "scrubbing action details"
+        ],
+        "priority": "soft",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_12",
+        "asset_id": "",
+        "target": "conservative completion of camera movement from visible brush structure",
+        "operation": "may_change",
+        "scope": [
+          "supporting camera movement details"
+        ],
+        "priority": "soft",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_13",
+        "asset_id": "",
+        "target": "conservative completion of action pacing within locked segments",
+        "operation": "may_change",
+        "scope": [
+          "pacing of completed hand and brush actions within the locked time segments"
+        ],
+        "priority": "soft",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_14",
+        "asset_id": "",
+        "target": "camera framing and hero shot composition [camera]",
+        "operation": "preserve",
+        "scope": [
+          "close-up and macro framing dominance",
+          "stable and clear camera"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_15",
+        "asset_id": "",
+        "target": "camera framing and hero shot composition [product]",
+        "operation": "preserve",
+        "scope": [
+          "product and cleaning contact point as the visual focus"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_16",
+        "asset_id": "",
+        "target": "camera framing and hero shot composition [other]",
+        "operation": "preserve",
+        "scope": [
+          "9:16 vertical aspect ratio",
+          "slow push-in during the 12-15s hero shot",
+          "brush standing vertically in front of clean tiles during the 12-15s hero shot",
+          "ivory white body, coral orange button, light blue brush head, and dark gray base ring clearly visible in the hero shot"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_17",
+        "asset_id": "",
+        "target": "15-second timeline segment structure",
+        "operation": "preserve",
+        "scope": [
+          "15-second total duration",
+          "0-3s before-cleaning segment",
+          "3-5s pickup and button-press segment",
+          "5-10s cleaning segment",
+          "10-12s after-cleaning reveal segment",
+          "12-15s hero segment"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_18",
+        "asset_id": "",
+        "target": "advertisement format and presentation",
+        "operation": "preserve",
+        "scope": [
+          "effect advertisement presentation",
+          "causal before-process-after demonstration as the core message"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_19",
+        "asset_id": "",
+        "target": "voice track",
+        "operation": "exclude",
+        "scope": [
+          "narration voice-over"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_20",
+        "asset_id": "",
+        "target": "on-screen text and brand presentation [scene]",
+        "operation": "exclude",
+        "scope": [
+          "subtitles"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_21",
+        "asset_id": "",
+        "target": "on-screen text and brand presentation [other]",
+        "operation": "exclude",
+        "scope": [
+          "brand marks",
+          "price information",
+          "exaggerated efficacy text"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_22",
+        "asset_id": "",
+        "target": "sound design",
+        "operation": "preserve",
+        "scope": [
+          "natural brush head rotation sound",
+          "light ambient sound"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_23",
+        "asset_id": "",
+        "target": "conservative completion of the tile cleaning scene [scene]",
+        "operation": "may_change",
+        "scope": [
+          "light-colored tile cleaning scene"
+        ],
+        "priority": "soft",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_24",
+        "asset_id": "",
+        "target": "conservative completion of the tile cleaning scene [other]",
+        "operation": "may_change",
+        "scope": [
+          "small amount of visible stains"
+        ],
+        "priority": "soft",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_25",
+        "asset_id": "",
+        "target": "unverifiable scene and product additions [other]",
+        "operation": "exclude",
+        "scope": [
+          "unverifiable brush functions",
+          "additional accessories",
+          "cleaning agents"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_26",
+        "asset_id": "",
+        "target": "unverifiable scene and product additions [scene]",
+        "operation": "exclude",
+        "scope": [
+          "props beyond the brush and the tile scene"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      }
+    ],
+    "completion_policy": {
+      "technical": true,
+      "conservative_semantic": true,
+      "creative": false
+    },
+    "assumptions": [
+      "IR completion: the tile scene is completed as light-colored ceramic tiles with one straight grout line and one obvious gray stain; tile hue, size, and grout width beyond 'light-colored' are not asserted.",
+      "IR completion: a single generic adult hand performs the pickup, button press, scrubbing, and withdrawal; hand appearance and grip method carry no identity or outfit.",
+      "IR completion: the scrubbing action is completed as a steady back-and-forth pass of the rotating head along the grout line in continuous contact.",
+      "IR completion: the motor starts at the visible button press during 3-5s and stops at the thumb release during the 10-12s withdrawal; the head is stationary in the 12-15s hero shot.",
+      "IR completion: lighting is soft, neutral, and even to keep product colors true to image_product; no dramatic or brand-style lighting is added.",
+      "IR completion: no music track is added; audio consists only of the natural brush rotation sound, a subtle contact texture during scrubbing, and light ambient sound.",
+      "IR completion: camera work is locked static for the four non-hero segments, with the single slow push-in only during 12-15s.",
+      "IR completion: the 12-15s hero shows the brush standing vertically on its base (dark gray ring) before the same clean tiled area, with faint residual moisture retained for continuity.",
+      "IR completion: small residual water traces appear on the cleaned grout as a natural by-product of the scrubbing during 5-10s and remain visible at 10-12s.",
+      "IR completion: the soft allow-change for a small amount of visible stains is limited to faint secondary soiling so the one obvious gray stain remains the anchor."
+    ],
+    "uncertainties": [
+      "Hand appearance and grip specifics are not evidenced; they are conservatively completed and non-binding.",
+      "Exact tile color, tile size, and grout width are not evidenced beyond 'light-colored'; conservatively completed.",
+      "Whether the brush stays powered in the 12-15s hero shot is unspecified; assumed stopped after the 10-12s button release.",
+      "Whether the hero shot uses the exact same tile area as the cleaning segments is unspecified; assumed the same clean area with faint residual moisture.",
+      "The amount and appearance of the residual water traces are unspecified beyond 'small'; kept minimal and natural.",
+      "No perception evidence exists for the hand or the tile scene; their properties rely on the directives and conservative completion rather than observed facts."
+    ]
+  },
+  "protocol": {
+    "rewrite_language": "English",
+    "preserve_source_language_for": [
+      "dialogue",
+      "lyrics",
+      "visible scene text"
+    ],
+    "summary_task_types": [
+      "reference generation"
+    ]
+  },
+  "asset_bindings": [
+    {
+      "binding_id": "b_brush_appearance",
+      "asset_id": "image_product",
+      "target": "unique cleaning brush product appearance controlled by image_product",
+      "role": "product",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_1",
+        "d_2",
+        "d_3"
+      ],
+      "inherit": [
+        "ivory white matte cylindrical body",
+        "coral orange oval button",
+        "short slanted neck",
+        "light blue circular brush head",
+        "thin dark gray ring at the base",
+        "structure, colors, and component count unchanged in every shot",
+        "appearance control takes precedence over conservatively completed actions and rhythm"
+      ],
+      "exclude": [
+        "any second brush instance",
+        "changes to geometry, colors, or component count",
+        "unverifiable brush functions",
+        "additional accessories",
+        "cleaning agents",
+        "brand marks or text on the product",
+        "printed logos or labels"
+      ]
+    },
+    {
+      "binding_id": "b_brush_identity",
+      "asset_id": "image_product",
+      "target": "single cleaning brush subject identity",
+      "role": "identity",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_4"
+      ],
+      "inherit": [
+        "exactly one brush instance visible in every shot"
+      ],
+      "exclude": [
+        "additional brush instances",
+        "brush variants with different geometry or colors",
+        "separate product copies"
+      ]
+    }
+  ],
+  "subjects": [
+    {
+      "subject_id": "subject_1",
+      "name": "electric cleaning brush",
+      "kind": "product",
+      "primary": true,
+      "description": "The single handheld electric cleaning brush: ivory white matte cylindrical body, coral orange oval button on the mid-body, short slanted neck, light blue circular brush head, and a thin dark gray ring at the base; exactly one instance appears in every shot with structure, colors, and component count unchanged from image_product.",
+      "source_asset_ids": [
+        "image_product"
+      ],
+      "binding_ids": [
+        "b_brush_appearance",
+        "b_brush_identity"
+      ],
+      "appearance_shot_ids": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05"
+      ],
+      "retention_mode": "fully_preserved",
+      "retention_description": "The complete appearance and single-instance identity from image_product are preserved unchanged in every shot; only its grip, rotation, and placement states change across the beats."
+    },
+    {
+      "subject_id": "subject_2",
+      "name": "cleaning hand",
+      "kind": "other",
+      "primary": false,
+      "description": "A single generic adult hand that picks up the brush at 3-5s, presses the coral orange button, holds the brush during the 5-10s scrubbing, and withdraws at 10-12s; its appearance is conservatively completed and carries no personal identity or outfit.",
+      "source_asset_ids": [],
+      "binding_ids": [],
+      "appearance_shot_ids": [
+        "02",
+        "03",
+        "04"
+      ],
+      "retention_mode": "weak_reference",
+      "retention_description": "Only the hand's functional presence and required actions are retained; no identity-bearing or outfit attributes are transferred."
+    },
+    {
+      "subject_id": "subject_3",
+      "name": "light tile cleaning scene",
+      "kind": "environment",
+      "primary": false,
+      "description": "A light-colored ceramic tile surface with one visible grout line; it opens with one obvious gray stain on the grout and ends clean with small residual water traces; the same location persists across all five beats.",
+      "source_asset_ids": [],
+      "binding_ids": [],
+      "appearance_shot_ids": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05"
+      ],
+      "retention_mode": "weak_reference",
+      "retention_description": "No real-world location is referenced; only the generic light-tile character and the causal stain-to-clean state progression with small water traces are retained across shots."
+    }
+  ],
+  "reference_relationships": [
+    {
+      "asset_id": "image_product",
+      "relationship": "reference_generation",
+      "subject_refs": [
+        "subject_1"
+      ],
+      "definition": "authoritative appearance and identity source for the single electric cleaning brush product in the generated advertisement",
+      "retention_mode": "fully_preserved",
+      "retention_description": "The brush's full appearance from image_product — ivory white matte cylindrical body, coral orange oval button, short slanted neck, light blue circular brush head, thin dark gray base ring, and single-instance identity — is carried over unchanged into every shot; motion, scene, camera, and audio are generated fresh and do not transfer from this reference."
+    }
+  ],
+  "creative_focus": {
+    "primary_target": "the single electric cleaning brush product as the hero of the causal before-process-after cleaning demonstration",
+    "primary_subject_id": "subject_1",
+    "primary_asset_id": "image_product",
+    "primary_binding_ids": [
+      "b_brush_appearance",
+      "b_brush_identity"
+    ],
+    "objective": "A 15-second 9:16 vertical effect advertisement in which exactly one electric cleaning brush, with appearance locked to image_product, causally cleans a gray stain from a light tile grout and finishes with a slow push-in hero shot of the brush standing before clean tiles; the brush is the final visual objective and its geometry, colors, and component count must be unchanged in every frame.",
+    "supporting_asset_ids": [],
+    "required_shot_ids": [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05"
+    ],
+    "presentation_requirements": [
+      "Every shot shows exactly one brush with the ivory white matte cylindrical body, coral orange oval button, short slanted neck, light blue circular brush head, and thin dark gray base ring unchanged from image_product.",
+      "0-3s: the intact brush rests fully beside the gray-stained grout line in a close-up, head clearly not touching the stain and the surface not clean.",
+      "3-5s: the hand visibly picks up the brush and presses the coral orange button with the thumb; the button and light blue circular brush head stay clearly visible.",
+      "5-10s: the rotating head keeps continuous contact with the stain while moving along the grout; only areas the head actually passes become clean gradually.",
+      "10-12s: the hand withdraws, revealing the same grout location clean with small residual water traces.",
+      "12-15s: the brush stands vertically before clean tiles and a slow, even push-in ends with all five appearance elements clearly visible.",
+      "Close-up and macro framing dominate with a stable, clear camera; the product and the brush-to-stain contact point are the visual center at all times."
+    ]
+  },
+  "isolation_rules": [
+    {
+      "binding_id": "b_brush_appearance",
+      "allow": [
+        "ivory white matte cylindrical body",
+        "coral orange oval button",
+        "short slanted neck",
+        "light blue circular brush head",
+        "thin dark gray base ring",
+        "unchanged structure, colors, and component count",
+        "thin dark gray ring at the base",
+        "structure, colors, and component count unchanged in every shot",
+        "appearance control takes precedence over conservatively completed actions and rhythm"
+      ],
+      "block": [
+        "extra brush instances",
+        "appearance changes",
+        "accessories",
+        "cleaning agents",
+        "unverifiable functions",
+        "brand marks or product text",
+        "any second brush instance",
+        "changes to geometry, colors, or component count",
+        "unverifiable brush functions",
+        "additional accessories",
+        "brand marks or text on the product",
+        "printed logos or labels"
+      ]
+    },
+    {
+      "binding_id": "b_brush_identity",
+      "allow": [
+        "exactly one brush instance in every shot",
+        "exactly one brush instance visible in every shot"
+      ],
+      "block": [
+        "second or variant brush instances",
+        "additional brush instances",
+        "brush variants with different geometry or colors",
+        "separate product copies"
+      ]
+    }
+  ],
+  "constraints": {
+    "preserve": [
+      "ivory white matte cylindrical brush body",
+      "coral orange oval button",
+      "short slanted neck",
+      "light blue circular brush head",
+      "thin dark gray ring at the base",
+      "brush structure, colors, and component count unchanged in every shot",
+      "exactly one brush instance visible in every shot",
+      "appearance control takes precedence over conservatively completed actions and rhythm",
+      "no surface appears clean before the brush head touches the stain",
+      "stain removed gradually only where the brush head actually passes; unpassed grout keeps its stain",
+      "no non-causal jump cuts that make the stain vanish instantly",
+      "the same grout location shown clean at 10-12s",
+      "light-colored tile environment with a visible tile grout line",
+      "one obvious gray stain on the grout in the 0-3s opening",
+      "brush placed fully beside the stain in the 0-3s opening",
+      "small residual water traces after cleaning",
+      "hand picks up the brush at 3-5s; thumb visibly presses the coral orange button; button and light blue circular brush head clearly visible at 3-5s",
+      "rotating brush head in continuous contact with the stain while moving along the grout at 5-10s",
+      "hand withdraws the brush at 10-12s",
+      "close-up and macro framing dominance; stable and clear camera",
+      "product and cleaning contact point as the visual focus",
+      "9:16 vertical aspect ratio",
+      "slow push-in during the 12-15s hero shot; brush standing vertically in front of clean tiles with all appearance elements clearly visible",
+      "15-second total duration with the five locked segments (0-3, 3-5, 5-10, 10-12, 12-15s)",
+      "effect advertisement presentation with the causal before-process-after demonstration as the core message",
+      "natural brush head rotation sound and light ambient sound",
+      "no narration, subtitles, brand marks, price information, or exaggerated efficacy text",
+      "no unverifiable brush functions, accessories, or cleaning agents; no props beyond the brush and the tile scene",
+      "stain is removed gradually only where the brush head actually passes",
+      "unpassed grout keeps its stain",
+      "the same grout location is shown clean at 10-12s",
+      "light-colored tile environment",
+      "visible tile grout line",
+      "one obvious gray stain on the grout",
+      "hand picks up the brush at 3-5s",
+      "thumb visibly presses the coral orange button at 3-5s",
+      "button and light blue circular brush head clearly visible at 3-5s",
+      "rotating brush head stays in continuous contact with the stain while moving along the grout at 5-10s",
+      "close-up and macro framing dominance",
+      "stable and clear camera",
+      "slow push-in during the 12-15s hero shot",
+      "brush standing vertically in front of clean tiles during the 12-15s hero shot",
+      "ivory white body, coral orange button, light blue brush head, and dark gray base ring clearly visible in the hero shot",
+      "15-second total duration",
+      "0-3s before-cleaning segment",
+      "3-5s pickup and button-press segment",
+      "5-10s cleaning segment",
+      "10-12s after-cleaning reveal segment",
+      "12-15s hero segment",
+      "effect advertisement presentation",
+      "causal before-process-after demonstration as the core message",
+      "natural brush head rotation sound",
+      "light ambient sound"
+    ],
+    "allow_change": [
+      "hand-holding grip method (conservative completion)",
+      "scrubbing action details (steady back-and-forth path along the grout in continuous contact)",
+      "supporting camera movement details within the locked stable framing (static segments; single slow hero push-in)",
+      "pacing of completed hand and brush actions within the locked time segments",
+      "light-colored tile cleaning scene details (tile hue, size, and grout width within 'light-colored')",
+      "small amount of visible stains limited to faint secondary soiling; exactly one obvious gray stain anchors the grout",
+      "generic adult hand appearance with no identity-bearing attributes",
+      "soft, neutral, even lighting that keeps product colors true to image_product",
+      "motor timing: rotation starts at the visible button press (3-5s) and stops at the thumb release during the 10-12s withdrawal",
+      "subtle natural contact sound of the rotating head on grout during 5-10s",
+      "no music track; audio limited to natural rotation sound, subtle contact texture, and light ambient sound",
+      "hand-holding grip method",
+      "scrubbing action details",
+      "supporting camera movement details",
+      "light-colored tile cleaning scene",
+      "small amount of visible stains"
+    ],
+    "prohibit": [
+      "narration voice-over and any dialogue",
+      "subtitles, brand marks, price information, exaggerated efficacy text, logos, or any on-screen text",
+      "unverifiable brush functions, additional accessories, or cleaning agents",
+      "props beyond the brush and the tile scene",
+      "more than one brush instance in any shot",
+      "changes to brush structure, colors, or component count",
+      "any surface appearing clean before the brush head touches it",
+      "non-causal jump cuts that make the stain vanish instantly",
+      "altering the locked segment boundaries, durations, or the 15-second total",
+      "music that overrides the natural soundscape or synthesized exaggerated effects",
+      "unsupported brand claims, identity facts, or asset content not supplied",
+      "narration voice-over",
+      "subtitles",
+      "brand marks",
+      "price information",
+      "exaggerated efficacy text",
+      "unverifiable brush functions",
+      "additional accessories",
+      "cleaning agents"
+    ]
+  },
+  "timeline": [
+    {
+      "shot_id": "01",
+      "start_seconds": 0,
+      "end_seconds": 3,
+      "primary_change": "Establishes the light tile grout with one obvious gray stain and the fully intact brush resting completely beside it, with the brush head not touching the stain.",
+      "event": "A close-up of a light-colored tile surface shows a single grout line bearing one obvious gray stain; the intact electric cleaning brush rests fully beside the stain, brush head angled away and not in contact with the grout; nothing moves or changes state.",
+      "action": "The brush remains at rest beside the stain; no scrubbing or cleaning occurs.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing.",
+      "lighting": "Soft, neutral, even lighting that keeps the ivory white body and light blue head color-true and the gray stain clearly readable.",
+      "transition": "Cut",
+      "observable_end_state": "The gray stain is fully present on the grout line, the intact brush sits fully beside it, the brush head has not touched the stain, and no part of the surface is clean.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "placement relative to the stain",
+          "from": "initial placement at video start",
+          "to": "at rest fully beside the gray-stained grout, head not in contact"
+        },
+        {
+          "subject_id": "subject_3",
+          "property": "grout stain state",
+          "from": "initial: one gray stain present",
+          "to": "one gray stain present, not yet touched by the brush head"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_3"
+      ],
+      "asset_refs": [
+        "image_product"
+      ],
+      "binding_refs": [
+        "b_brush_appearance",
+        "b_brush_identity"
+      ]
+    },
+    {
+      "shot_id": "02",
+      "start_seconds": 3,
+      "end_seconds": 5,
+      "primary_change": "A hand enters, picks up the brush, and visibly presses the coral orange button, starting the motor and the brush-head rotation.",
+      "event": "A hand enters the frame, grips the brush, lifts it off the tile, and presses the coral orange oval button with its thumb; the press is clearly visible and the button and light blue circular brush head stay clearly in frame.",
+      "action": "The thumb visibly presses the coral orange button; the brush head begins rotating.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing; close framing keeps the button and brush head clearly visible.",
+      "lighting": "Same soft neutral lighting; the coral orange button and light blue head remain color-true.",
+      "transition": "Cut",
+      "observable_end_state": "The brush is held in the hand, the coral orange button has been pressed, and the light blue brush head is rotating, with both clearly visible.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "grip state",
+          "from": "at rest beside the stain, not held",
+          "to": "held in the hand"
+        },
+        {
+          "subject_id": "subject_1",
+          "property": "motor and head rotation",
+          "from": "off, head stationary",
+          "to": "on, head rotating"
+        },
+        {
+          "subject_id": "subject_2",
+          "property": "presence in frame",
+          "from": "absent",
+          "to": "present, holding the brush"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_2",
+        "subject_3"
+      ],
+      "asset_refs": [
+        "image_product"
+      ],
+      "binding_refs": [
+        "b_brush_appearance",
+        "b_brush_identity"
+      ]
+    },
+    {
+      "shot_id": "03",
+      "start_seconds": 5,
+      "end_seconds": 10,
+      "primary_change": "The rotating brush head stays in continuous contact with the gray stain while moving along the grout line, gradually cleaning only the areas it actually passes.",
+      "event": "The hand guides the brush so the rotating light blue head presses continuously against the gray-stained grout line and moves steadily along it in a back-and-forth scrubbing path; the stain fades progressively only where the head has actually passed, while the not-yet-passed grout keeps its stain; the take is continuous with no non-causal jump cut removing the stain.",
+      "action": "The rotating head scrubs along the grout line with steady, continuous contact until the full stain area has been passed.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing; macro framing keeps the head-to-grout contact point centered.",
+      "lighting": "Same soft neutral lighting; the stain visibly lightens along the scrubbed path and a slight water sheen appears on cleaned grout.",
+      "transition": "Cut",
+      "observable_end_state": "The full gray stain area that the head passed is now clean grout with slight moisture, no surface the head never touched appears clean, and the brush is still held with the head rotating.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "head contact with grout",
+          "from": "held above the grout, head rotating but not yet touching",
+          "to": "head rotating and in continuous contact with the stain along the grout line"
+        },
+        {
+          "subject_id": "subject_3",
+          "property": "grout stain state",
+          "from": "one obvious gray stain fully present",
+          "to": "stain removed gradually along the traveled path; at beat end the full stain area has been passed and is clean with slight water traces"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_2",
+        "subject_3"
+      ],
+      "asset_refs": [
+        "image_product"
+      ],
+      "binding_refs": [
+        "b_brush_appearance",
+        "b_brush_identity"
+      ]
+    },
+    {
+      "shot_id": "04",
+      "start_seconds": 10,
+      "end_seconds": 12,
+      "primary_change": "The hand lifts and withdraws the brush out of frame, revealing the same grout location now clean with small residual water traces.",
+      "event": "The hand lifts the brush off the grout, releases the button so the head stops rotating, and moves the brush out of frame, revealing the previously stained grout location now clean with small residual water traces.",
+      "action": "The hand withdraws the brush from the frame; scrubbing has ended.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing; framing keeps the cleaned grout line centered as the hand exits.",
+      "lighting": "Same soft neutral lighting; the cleaned grout shows a faint water sheen from the residual traces.",
+      "transition": "Cut",
+      "observable_end_state": "The same grout location is clean with small residual water traces, the brush and hand have left the frame, and no stain remains visible.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "grip state",
+          "from": "held in the hand",
+          "to": "released; brush withdrawn out of frame"
+        },
+        {
+          "subject_id": "subject_1",
+          "property": "motor and head rotation",
+          "from": "on, head rotating",
+          "to": "off, head stationary (button released)"
+        },
+        {
+          "subject_id": "subject_2",
+          "property": "presence in frame",
+          "from": "present, holding the brush",
+          "to": "absent, withdrawn out of frame"
+        },
+        {
+          "subject_id": "subject_3",
+          "property": "grout cleanliness",
+          "from": "stain removed along the traveled path",
+          "to": "same grout location fully clean with small residual water traces"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_2",
+        "subject_3"
+      ],
+      "asset_refs": [
+        "image_product"
+      ],
+      "binding_refs": [
+        "b_brush_appearance",
+        "b_brush_identity"
+      ]
+    },
+    {
+      "shot_id": "05",
+      "start_seconds": 12,
+      "end_seconds": 15,
+      "primary_change": "A slow push-in hero shot presents the brush standing vertically before clean tiles with all appearance elements clearly visible.",
+      "event": "The brush stands vertically on its base before the clean tile surface of the same area; the camera performs one slow, even push-in over the three seconds, ending in a tight framing that keeps the ivory white body, coral orange button, light blue circular brush head, and dark gray base ring clearly visible.",
+      "action": "The brush remains standing and stationary with the head not rotating; no hand or other object is in frame.",
+      "camera": "Slow Push-In; one continuous, even forward push toward the brush across the full 3 seconds, advancing roughly one-third of the initial subject distance at a slow, steady speed.",
+      "lighting": "Soft neutral lighting; the matte ivory white body and coral orange button stay color-true with no harsh reflections, and the tile surface shows only faint residual moisture.",
+      "transition": "End",
+      "observable_end_state": "The brush stands vertically in front of clean tiles in a tight final framing with all five appearance elements clearly visible; the video ends exactly at 15s with no hand, stain, or extra objects.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "placement",
+          "from": "withdrawn out of frame after cleaning",
+          "to": "standing vertically on its base before clean tiles"
+        },
+        {
+          "subject_id": "subject_3",
+          "property": "surface state",
+          "from": "grout clean with small residual water traces",
+          "to": "clean tiles with only faint residual moisture and no visible stain"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_3"
+      ],
+      "asset_refs": [
+        "image_product"
+      ],
+      "binding_refs": [
+        "b_brush_appearance",
+        "b_brush_identity"
+      ]
+    }
+  ],
+  "audio_plan": {
+    "voice": "No voice track: narration voice-over is excluded and no dialogue is generated.",
+    "music": "No music track is added; the sound design remains natural per the request.",
+    "sound_effects": "Natural motorized brush-head rotation sound, starting at the visible button press during 3-5s, continuing through the 5-10s scrubbing, and stopping as the thumb releases during the 10-12s withdrawal; a subtle natural contact texture of the rotating head on tile grout during 5-10s.",
+    "ambient_sound": "Light ambient room sound throughout the full 15 seconds, low in level and never masking the brush rotation.",
+    "sync_rules": [
+      "Rotation-sound onset locks to the visible button press within 3-5s.",
+      "Rotation sound continues uninterrupted while the head stays in contact with the grout during 5-10s.",
+      "Rotation sound stops when the thumb visibly releases the button during 10-12s.",
+      "Only the light ambient bed is audible during 0-3s and during the 12-15s hero shot."
+    ]
+  },
+  "generation_description": {
+    "cinematography": "9:16 vertical output; close-up and macro framing dominate; locked, stable, clear framing for the 0-3s, 3-5s, 5-10s, and 10-12s segments; a single slow, even push-in during 12-15s; the product and the brush-to-stain contact point remain the visual center.",
+    "lighting": "Soft, neutral, even lighting that renders the matte ivory white body, coral orange button, light blue head, and dark gray base ring color-true to image_product, keeps the gray stain clearly readable, and adds only a faint sheen on cleaned grout.",
+    "materials": "Matte ivory white cylindrical body; coral orange oval button; short slanted neck; light blue circular brush head; thin dark gray base ring; light-colored ceramic tile with one visible grout line; one gray stain; small residual water traces on the cleaned grout.",
+    "performance": "One generic adult hand picks up the brush, presses the button, holds it in a natural grip, guides the rotating head along the grout in a steady back-and-forth scrubbing path, then withdraws; no other persons, props, or actions appear.",
+    "continuity": "Exactly one brush instance in every shot with unchanged structure, colors, and component count; the same grout location moves from stained (0-3s) to cleaned with small water traces (10-12s and hero); no surface is clean before brush contact; no non-causal jump cut removes the stain; rotation starts at the button press and stops at the release; the hand enters at 3-5s and exits by 12s; the timeline runs 0-15s with no gaps or overlaps."
+  },
+  "runtime": {
+    "perception_provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3-VL-32B-Instruct",
+      "options": {
+        "base_url": "http://127.0.0.1:9012",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000
+      }
+    },
+    "reasoning_provider": {
+      "provider": "glm",
+      "model": "GLM-5.2"
+    },
+    "generation_provider": {
+      "provider": "minimax",
+      "model": "MiniMax-H3"
+    }
+  },
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 15,
+    "aspect_ratio": "9:16",
+    "generate_audio": true,
+    "style": ""
+  },
+  "assets": [
+    {
+      "asset_id": "image_product",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/ab_tests_20260820/case_006_cleaning_state_transition/assets/cleaning_brush.png",
+      "label": "authoritative_cleaning_brush_geometry_and_colors"
+    }
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v2",
+    "provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3-VL-32B-Instruct",
+      "options": {
+        "base_url": "http://127.0.0.1:9012",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000
+      }
+    },
+    "assets": [
+      {
+        "asset_id": "image_product",
+        "summary": "1 distinct foreground objects localized and analyzed individually.",
+        "evidence": [
+          {
+            "evidence_id": "evidence_1",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.25,
+              0.069,
+              0.65,
+              0.95
+            ],
+            "description": "Localized electric cleaning brush object_1"
+          }
+        ],
+        "regions": [
+          {
+            "region_id": "region_1",
+            "evidence_id": "evidence_1",
+            "bbox_normalized": [
+              0.25,
+              0.069,
+              0.65,
+              0.95
+            ],
+            "entity_ids": [
+              "object_1"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          }
+        ],
+        "entities": [
+          {
+            "entity_id": "object_1",
+            "category": "electric cleaning brush",
+            "subcategory": "electric cleaning brush",
+            "summary": "A white handheld electric cleaning brush with a light blue circular brush head, coral orange oval button, and dark gray base ring.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "body_shape",
+                  "value": "cylindrical",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "body_color",
+                  "value": "ivory white",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "button_color",
+                  "value": "coral orange",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "base_ring_color",
+                  "value": "dark gray",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [
+                {
+                  "name": "body_finish",
+                  "value": "matte",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [
+                {
+                  "name": "brush_head",
+                  "value": "circular",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "button",
+                  "value": "oval",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "base_ring",
+                  "value": "thin ring",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [
+                {
+                  "name": "button_placement",
+                  "value": "mid-body",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "orientation_cues": [
+                {
+                  "name": "brush_head_orientation",
+                  "value": "slanted neck",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "localize_then_isolated_attribute_batches",
+          "localization_coordinate_system": "normalized_0_1",
+          "task_ids": [
+            "20260820_143046_293894_28d91601-4dac-4adb-9af7-69bb9485b0e9",
+            "20260820_143050_366710_6c9a0ff7-992b-4c11-994e-b4597092ccf6"
+          ]
+        },
+        "transcript": "",
+        "uncertainties": []
+      }
+    ],
+    "missing_asset_ids": []
+  }
+}

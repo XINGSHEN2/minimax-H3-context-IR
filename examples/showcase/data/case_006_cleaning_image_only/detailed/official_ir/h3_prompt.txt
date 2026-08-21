@@ -1,0 +1,25 @@
+subject_definitions:
+<Subject 1> is the electric cleaning brush in <Picture 1>, featuring a matte ivory white cylindrical main body, a coral orange oval button on the handle, a short angled neck, a light blue circular bristle brush head, and a thin dark grey ring at the bottom base.
+
+summary:
+[reference generation] The target video demonstrates the cleaning effect of an electric cleaning brush (<Subject 1>) on a stained tile floor without voiceovers or on-screen text. The sequence progresses chronologically from a close-up of a dirty tile seam with <Subject 1> resting nearby, to a hand picking up and activating <Subject 1>. The rotating brush head gradually and realistically scrubs away the stain along the seam. The video then reveals the clean, slightly wet tile before concluding with a slow push-in hero shot of the vertically standing <Subject 1>.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4], [Shot 5]): fully_preserved - the target video uses the same referenced object, faithfully retaining its matte ivory white cylindrical body, coral orange oval button, short angled neck, light blue circular brush head, and dark grey bottom ring throughout the interaction.
+
+detailed_description:
+The target video is in a realistic, high-definition commercial product demonstration style. A static close-up shot focuses on a light-colored tile floor, highlighting a distinct, dark grey stain embedded in the tile seam. Lying completely still next to the stain is <Subject 1>, an electric cleaning brush with a matte ivory white cylindrical body, a coral orange oval button, a short angled neck, a light blue circular brush head, and a thin dark grey ring at its bottom base. The brush head is not touching the stain, and the surface remains distinctly dirty. Only light, natural room ambience is audible.
+
+[Shot 2] At 00:03.000, the shot cuts to a tighter macro angle as a human hand enters the frame and picks up <Subject 1>. The thumb presses the coral orange oval button on the ivory white handle. The composition clearly displays the light blue circular brush head and the activated button. As the button is pressed, a sharp click is heard, followed immediately by the smooth, mechanical hum of the brush motor starting up.
+
+[Shot 3] At 00:05.000, the shot cuts to a close-up following the action at floor level. The hand guides the spinning light blue circular brush head of <Subject 1> down onto the dirty tile seam. The rotating bristles continuously contact the grey stain, moving steadily along the seam line. The physical scrubbing action causes the area immediately trailing behind the brush head to become progressively clean and bright, while the area ahead of the brush remains visibly stained, demonstrating a realistic physical cleaning process without sudden cuts. The audio consists of the continuous, energetic hum of the brush motor combined with rhythmic, wet scrubbing sounds against the tile.
+
+[Shot 4] At 00:10.000, the shot cuts to a slightly wider view of the same floor area. The hand physically lifts and moves <Subject 1> away from the tiles and out of the frame. The camera holds on the newly cleaned tile seam, which is now entirely free of the grey stain but retains a few small water marks and a slightly wet sheen, emphasizing the aftermath of the cleaning process. The motor hum fades away as the brush is removed, leaving only the quiet room ambience and the faint sound of settling water.
+
+[Shot 5] At 00:12.000, the shot cuts to a stable hero composition. <Subject 1> stands perfectly vertical on its flat dark grey bottom ring, positioned in front of a clean, bright tile background. The camera executes a smooth, slow push-in toward the product, clearly resolving every defining detail: the matte ivory white cylindrical body, the coral orange oval button, the short angled neck, and the light blue circular brush head facing slightly downward. The scene is completely quiet, concluding the demonstration with clean, silent room ambience.
+
+overall_soundscape:
+The soundscape is natural and realistic, devoid of voiceovers or non-diegetic music, featuring quiet room ambience punctuated by a mechanical button click, the steady hum of a small electric motor, and the physical, wet scrubbing sounds of bristles against tile.
+
+non_diegetic_music:
+N/A

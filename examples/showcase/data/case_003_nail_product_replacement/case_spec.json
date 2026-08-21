@@ -1,0 +1,14 @@
+{
+  "schema_version": "context_ir_ab_case.v2",
+  "case_id": "case_003_nail_product_replacement",
+  "status": "ready",
+  "input_mode": "image_video",
+  "purpose": "Test product-only replacement while preserving a semantically matching source shop video.",
+  "task": {"type": "ref2va", "duration_seconds": 15, "aspect_ratio": "9:16", "generate_audio": true},
+  "input_variants": {"vague": "inputs/vague.txt", "detailed": "inputs/detailed.txt"},
+  "assets": [
+    {"asset_id": "video_edit_base", "media_type": "video", "file": "assets/shop_source_video.mp4", "role": "base_video_presenter_shop_actions_camera_and_audio"},
+    {"asset_id": "image_replacement_product", "media_type": "image", "file": "assets/colorful_nail_product.jpg", "role": "authoritative_replacement_product_appearance_only"},
+    {"asset_id": "image_worn_anchor", "media_type": "image", "file": "assets/colorful_worn_anchor.png", "role": "replacement_worn_state_and_finger_mapping_only"}
+  ]
+}

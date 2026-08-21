@@ -1,0 +1,33 @@
+subject_definitions:
+<Subject 1> is the set of fake nails in <Picture 1> and <Picture 2>. The set features intricate glossy designs: a black nail with white flower petals and a central gold bead; a mustard yellow nail with a raised translucent amber arch and small gold beads; a white nail with a black chevron base, a pink tip, and a central gold bead; a deep burgundy nail with white flower petals, black dots, and a central gold bead; and a white nail with a large raised translucent pink 3D flower and a central gold bead.
+<Subject 2> is the woman in <Video 1>, who has black hair and wears various outfits including a black shirt, a white off-shoulder top, and a beige trench coat with a straw hat.
+<Video 1> is the camera, cut, and pacing reference for the target video's temporal structure and presentation style.
+<Audio 1> is the beat-sync reference; its rhythm guides visual edits and motion timing.
+
+summary:
+[reference generation + audio reference] The target video showcases a set of intricate fake nails (<Subject 1>) in a before-and-after contrast format. Following the pacing and hand presentation style of <Video 1>, the video begins with a woman (<Subject 2>) showing her bare hands indoors. The video then transitions through several fast-paced outdoor shots where the woman models the fake nails in different outfits and poses, including a white top and a trench coat with a straw hat. <Audio 1> is used as a beat-sync reference, with the cuts and dynamic hand movements timed to its energetic rhythm.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 2], [Shot 3], [Shot 4], [Shot 5]): fully_preserved - the specific glossy black, mustard yellow, white, and deep burgundy nail designs with their gold beads, amber arches, and raised pink 3D flowers are faithfully applied to the woman's hands.
+<Subject 2> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4], [Shot 5]): fully_preserved - the woman's appearance, black hair, and changing outfits (black shirt, white top, trench coat, and straw hat) are retained across the shots.
+<Video 1> (cut / pacing structure): fully_preserved - the sequence of indoor to outdoor shots, outfit changes, dynamic hand movements, and fast-paced editing rhythm are preserved.
+<Audio 1>: reference - the rhythm and energetic pacing of the hip-hop track guide the cuts and the dynamic hand presentation in the video.
+
+detailed_description:
+The target video is in realistic photographic style.
+
+[Shot 1] The target video begins indoors. A woman (<Subject 2>) with black hair, wearing a black shirt, stands in a room. She holds her bare hands up to the camera, fingers spread, showing silver rings on her fingers. The hands are completely bare, without any fake nails applied. Following the rhythmic beat of <Audio 1>, she quickly pushes her hands toward the lens and pulls them back in a dynamic, energetic presentation. The camera slightly shakes to match the dynamic movement, emphasizing the rapid tempo.
+
+[Shot 2] At 00:03.000, the shot cuts to the woman (<Subject 2>) outdoors in a sunny green grassy field under a bright blue sky, now wearing a white off-shoulder top. Her hands now wear the set of fake nails (<Subject 1>), showing the glossy black nail with white petals, the mustard yellow nail with the amber arch, the burgundy nail with black dots, and the white nail with the raised pink 3D flower. She moves her hands elegantly in front of the camera, waving her fingers and rotating her wrists to display the intricate nail designs from different angles.
+
+[Shot 3] At 00:06.500, the shot cuts to a slightly closer angle of the woman (<Subject 2>) in the field, with the wind blowing her black hair. She poses with her hands resting gently against her neck and cheek, the fake nails (<Subject 1>) prominently framing her face. She moves her hands to the rhythm of the music, maintaining a confident expression while the sunlight reflects off the glossy surfaces of the nails and the central gold beads.
+
+[Shot 4] At 00:09.000, the shot cuts to a close-up of one of her hands, holding a small yellow flower. The sunlight highlights the glossy finish, the translucent amber arch, and the raised pink 3D flower of the fake nails (<Subject 1>). The green grass and blue sky are beautifully blurred in the shallow depth of field background. The hand rotates slightly, pushing toward the camera in sync with a strong beat from <Audio 1>, to show the exquisite details of the nail art.
+
+[Shot 5] At 00:10.500, the shot cuts to the woman (<Subject 2>) wearing a beige trench coat and a straw hat, standing near a metal tower structure in the grassy field. She frames her face with both hands, the fake nails (<Subject 1>) clearly visible against her cheeks. She squats down and continues to pose playfully, shifting her hands in time with the upbeat rhythm of <Audio 1>. The camera angles slightly downward as she looks up, flashing the intricate nail designs one last time before the video ends.
+
+overall_soundscape:
+The video features an upbeat, energetic hip-hop soundtrack with a strong rhythm, guiding the fast-paced editing and dynamic hand movements.
+
+non_diegetic_music:
+An energetic hip-hop track with a heavy bassline and driving beat plays throughout, matching the confident and stylish presentation of the nail art.

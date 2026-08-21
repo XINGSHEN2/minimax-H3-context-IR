@@ -1,0 +1,1379 @@
+{
+  "schema_version": "0.1.0",
+  "intent": {
+    "user_request": "用商品图中的花朵甲片做一条15秒展示视频，参考视频的手部展示和微距感觉，但不要红色圣诞元素。",
+    "resolved_request": "Create a 15-second showcase video of the floral nail tips from the product image, using the reference video's simple hand-rotation display and macro framing/depth-of-field feel, while excluding red Christmas-themed elements.",
+    "directives": [
+      {
+        "directive_id": "d_1",
+        "asset_id": "image_product",
+        "target": "floral nail tips as the primary showcased subject",
+        "operation": "preserve",
+        "scope": [
+          "floral nail tip appearance"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_2",
+        "asset_id": "",
+        "target": "15-second showcase video duration",
+        "operation": "preserve",
+        "scope": [
+          "15-second total duration"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_3",
+        "asset_id": "video_macro_display",
+        "target": "hand display motion style",
+        "operation": "transfer",
+        "scope": [
+          "simple hand rotation motion"
+        ],
+        "priority": "soft",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_4",
+        "asset_id": "video_macro_display",
+        "target": "macro camera feel",
+        "operation": "transfer",
+        "scope": [
+          "macro framing and shallow depth-of-field feel"
+        ],
+        "priority": "soft",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_5",
+        "asset_id": "",
+        "target": "red Christmas-themed elements",
+        "operation": "exclude",
+        "scope": [
+          "red Christmas-themed elements"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      }
+    ],
+    "completion_policy": {
+      "technical": true,
+      "conservative_semantic": true,
+      "creative": false
+    },
+    "assumptions": [
+      "IR completion: The showcase is executed as a hand wearing the floral nail tips with a slow rotation because the user referenced the video's hand display; a generic neutral hand is introduced and no hand identity, jewelry, skin tone, or hand size is inherited from any asset.",
+      "IR completion: The exclusion scope 'red Christmas-themed elements' covers red content that reads as Christmas-themed (the reference video's red-to-clear gradient polish, Christmas tree and Santa graphics, red baubles, snow-dusted pine branches, and tutorial text/branding); the product's own wine-red floral accents are preserved as part of the authoritative product appearance because they are not Christmas-themed.",
+      "IR completion: The output uses a clean neutral background that is softly blurred by the shallow depth of field; no background, props, or scene content from the product image, worn anchor, or reference video is carried into the output.",
+      "IR completion: The output is 9:16 vertical and exactly 15 seconds long, arranged as three 5-second macro beats; no audio is generated, so the audio plan is empty.",
+      "IR completion: The reference video contributes only simple hand rotation and macro/depth-of-field feel; its multi-cut timeline structure, hand-flip timing, out-of-focus ending, and text overlays are not transferred, matching the asset label 'not_a_complex_motion_or_full_timeline_reference'.",
+      "IR completion: The gold ring described on the amber nail in the worn anchor is treated as part of the nail design consistent with the product's 3D accents; actual finger jewelry is not carried into the output."
+    ],
+    "uncertainties": [
+      "Perception did not resolve the exact arrangement of the ten-tip product set or the full correspondence between the product image's ten tips and the worn anchor's five worn fingers; the product image is treated as authoritative for appearance and the worn anchor as authoritative for the worn finger mapping.",
+      "The reference video's hand is realistic; the output hand is specified as realistic but generic, and the user did not explicitly rule out a stylized hand.",
+      "The gold ring on the amber nail in the worn anchor could read as finger jewelry rather than a nail design; it is conservatively treated as a nail design accent consistent with the product image."
+    ]
+  },
+  "protocol": {
+    "rewrite_language": "English",
+    "preserve_source_language_for": [
+      "dialogue",
+      "lyrics",
+      "visible scene text"
+    ],
+    "summary_task_types": [
+      "reference generation"
+    ]
+  },
+  "asset_bindings": [
+    {
+      "binding_id": "b_1",
+      "asset_id": "image_product",
+      "target": "floral press-on nail tips as the primary showcased subject",
+      "role": "product",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_1"
+      ],
+      "inherit": [
+        "floral nail tip appearance",
+        "floral designs, geometric patterns, and 3D accents",
+        "colorway in black, white, amber, pink, and wine-red",
+        "ten-piece press-on nail set construction"
+      ],
+      "exclude": [
+        "background and non-product scene content surrounding the nail tips in the product image",
+        "packaging, brand marks, or text",
+        "Christmas-themed decoration or props",
+        "anything not part of the nail tip appearance"
+      ]
+    },
+    {
+      "binding_id": "b_2",
+      "asset_id": "image_worn_anchor",
+      "target": "correct worn state and finger mapping of the floral nail tips",
+      "role": "product",
+      "priority": "hard",
+      "source_directive_ids": [],
+      "inherit": [
+        "per-finger placement of the floral nail tips on five fingers",
+        "correct worn-state presentation and finger mapping shown in the worn anchor"
+      ],
+      "exclude": [
+        "hand identity details (skin tone, age, gender, hand size)",
+        "finger jewelry",
+        "background of the worn anchor image",
+        "lighting conditions of the worn anchor image",
+        "any non-product scene content"
+      ]
+    },
+    {
+      "binding_id": "b_3",
+      "asset_id": "video_macro_display",
+      "target": "hand display motion style",
+      "role": "motion",
+      "priority": "soft",
+      "source_directive_ids": [
+        "d_3"
+      ],
+      "inherit": [
+        "simple hand rotation motion"
+      ],
+      "exclude": [
+        "performer identity and hand appearance",
+        "red-to-clear gradient nail polish and glitter",
+        "gold rings",
+        "Christmas decorations, tree, Santa graphics, red baubles, pine props",
+        "text overlays and website branding",
+        "multi-cut timeline structure",
+        "fast or complex motion",
+        "out-of-focus ending",
+        "identity",
+        "outfit",
+        "product appearance",
+        "product geometry",
+        "scene",
+        "visible text",
+        "logo"
+      ]
+    },
+    {
+      "binding_id": "b_4",
+      "asset_id": "video_macro_display",
+      "target": "macro camera feel",
+      "role": "camera",
+      "priority": "soft",
+      "source_directive_ids": [
+        "d_4"
+      ],
+      "inherit": [
+        "macro framing and shallow depth-of-field feel"
+      ],
+      "exclude": [
+        "camera moves or reframing beyond the macro close-up feel",
+        "wide or medium framing",
+        "background content of the reference frames",
+        "text overlay graphics and Christmas decorations in frame",
+        "identity",
+        "outfit",
+        "product appearance",
+        "product geometry",
+        "scene",
+        "visible text",
+        "logo"
+      ]
+    },
+    {
+      "binding_id": "b_5",
+      "asset_id": "video_macro_display",
+      "target": "red Christmas-themed elements exclusion",
+      "role": "scene",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_5"
+      ],
+      "inherit": [
+        "scene reference scope"
+      ],
+      "exclude": [
+        "red Christmas-themed elements",
+        "red-to-clear gradient nail polish from the reference",
+        "Christmas tree and Santa logo overlays",
+        "red baubles and snow-dusted pine branches",
+        "tutorial text overlays and website branding"
+      ]
+    },
+    {
+      "binding_id": "b_6",
+      "asset_id": "image_product",
+      "target": "15-second showcase video duration",
+      "role": "rhythm",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_2"
+      ],
+      "inherit": [
+        "15-second total duration"
+      ],
+      "exclude": [
+        "the reference video's own duration and timeline structure",
+        "audio content",
+        "changes to the floral nail tip appearance",
+        "identity",
+        "outfit",
+        "product appearance",
+        "product geometry",
+        "scene",
+        "visible text",
+        "logo"
+      ]
+    }
+  ],
+  "subjects": [
+    {
+      "subject_id": "subject_1",
+      "name": "floral press-on nail tips",
+      "kind": "product",
+      "primary": true,
+      "description": "A set of floral press-on nail tips: ten artificial nails with floral designs, geometric patterns, and 3D accents in black, white, amber, pink, and wine-red; the canonical worn presentation follows the anchor's five-finger mapping: black nail with white dot, amber nail with gold ring accent, white nail with pink tip and gold bead, maroon nail with white flower and gold bead, and pink nail with gold-centered flower.",
+      "source_asset_ids": [
+        "image_product",
+        "image_worn_anchor"
+      ],
+      "binding_ids": [
+        "b_1",
+        "b_2"
+      ],
+      "appearance_shot_ids": [
+        "01",
+        "02",
+        "03"
+      ],
+      "retention_mode": "fully_preserved",
+      "retention_description": "The complete floral nail tip appearance and its correct worn finger mapping are preserved unchanged as the primary subject in every shot."
+    },
+    {
+      "subject_id": "subject_2",
+      "name": "wearing hand",
+      "kind": "object",
+      "primary": false,
+      "description": "A generic, neutral human hand with unspecified identity, skin tone, and size that wears the five floral press-on nail tips; bare, with no jewelry and no additional nail polish, serving only as the wearing surface for the product showcase.",
+      "source_asset_ids": [],
+      "binding_ids": [],
+      "appearance_shot_ids": [
+        "01",
+        "02",
+        "03"
+      ],
+      "retention_mode": "weak_reference",
+      "retention_description": "No appearance is inherited from any asset; the hand exists only as the generic wearing surface for the floral tips, with per-finger placement following the worn anchor."
+    }
+  ],
+  "reference_relationships": [
+    {
+      "asset_id": "image_product",
+      "relationship": "reference_generation",
+      "subject_refs": [
+        "subject_1"
+      ],
+      "definition": "the authoritative appearance source for the floral press-on nail tips that become the primary subject of the generated video",
+      "retention_mode": "fully_preserved",
+      "retention_description": "The full floral nail tip appearance (floral, geometric, and 3D-accent designs in black, white, amber, pink, and wine-red) is preserved as the primary subject in every shot; non-product background content is not carried."
+    },
+    {
+      "asset_id": "image_worn_anchor",
+      "relationship": "reference_generation",
+      "subject_refs": [
+        "subject_1"
+      ],
+      "definition": "the authoritative worn-state and finger-mapping reference for the floral press-on nail tips",
+      "retention_mode": "attribute_transfer",
+      "retention_description": "The per-finger placement of the floral tips on five fingers and the correct worn-state mapping are transferred to the generated hand; the anchor's background, hand identity, and lighting are not carried."
+    },
+    {
+      "asset_id": "video_macro_display",
+      "relationship": "reference_generation",
+      "subject_refs": [
+        "subject_1",
+        "subject_2"
+      ],
+      "definition": "the scoped motion and camera-feel reference for the hand-rotation macro showcase",
+      "retention_mode": "attribute_transfer",
+      "retention_description": "Only the simple hand-rotation motion and the macro close-up framing with shallow depth of field transfer to the output; red Christmas-themed content (red gradient polish, gold rings, Christmas tree and Santa graphics, red baubles, pine props, tutorial text overlays, and website branding), the multi-cut timeline structure, and the out-of-focus ending are excluded."
+    }
+  ],
+  "creative_focus": {
+    "primary_target": "the floral press-on nail tips worn on a hand, showcased in macro close-up",
+    "primary_subject_id": "subject_1",
+    "primary_asset_id": "image_product",
+    "primary_binding_ids": [
+      "b_1",
+      "b_2"
+    ],
+    "objective": "The finished 15-second vertical video must present the floral press-on nail tips as the dominant visible subject, worn on a generic hand with the correct per-finger mapping, displayed through a simple slow hand rotation in macro framing with shallow depth of field, and must contain no red Christmas-themed elements.",
+    "supporting_asset_ids": [
+      "image_worn_anchor",
+      "video_macro_display"
+    ],
+    "required_shot_ids": [
+      "01",
+      "02",
+      "03"
+    ],
+    "presentation_requirements": [
+      "The floral tips must fill the dominant portion of each 9:16 macro frame, with the hand as the only secondary element.",
+      "All five worn tips must follow the anchor's finger mapping: black with white dot, amber with gold ring accent, white with pink tip and gold bead, maroon with white flower and gold bead, and pink with gold-centered flower.",
+      "Shallow depth of field must keep the tips sharp while the neutral background stays blurred in every shot.",
+      "The rotation must be slow and simple (one gentle hand rotation arc) with no fast or complex motion.",
+      "No red Christmas-themed element may appear at any point: no red gradient polish, Christmas tree or Santa graphics, red baubles, snow-dusted pine branches, or tutorial text/branding.",
+      "The final hold must end with all five tips fully visible, sharp, and centered, matching the worn anchor's presentation."
+    ]
+  },
+  "isolation_rules": [
+    {
+      "binding_id": "b_1",
+      "allow": [
+        "floral nail tip appearance with floral, geometric, and 3D-accent designs; black, white, amber, pink, and wine-red colorway; press-on construction",
+        "floral nail tip appearance",
+        "floral designs, geometric patterns, and 3D accents",
+        "colorway in black, white, amber, pink, and wine-red",
+        "ten-piece press-on nail set construction"
+      ],
+      "block": [
+        "non-product background, packaging or brand text, props, and anything not part of the nail tip appearance",
+        "background and non-product scene content surrounding the nail tips in the product image",
+        "packaging, brand marks, or text",
+        "Christmas-themed decoration or props",
+        "anything not part of the nail tip appearance"
+      ]
+    },
+    {
+      "binding_id": "b_2",
+      "allow": [
+        "per-finger worn placement and finger mapping of the floral nail tips",
+        "per-finger placement of the floral nail tips on five fingers",
+        "correct worn-state presentation and finger mapping shown in the worn anchor"
+      ],
+      "block": [
+        "hand identity, skin tone, finger jewelry, anchor background, anchor lighting",
+        "hand identity details (skin tone, age, gender, hand size)",
+        "finger jewelry",
+        "background of the worn anchor image",
+        "lighting conditions of the worn anchor image",
+        "any non-product scene content"
+      ]
+    },
+    {
+      "binding_id": "b_3",
+      "allow": [
+        "simple hand rotation motion"
+      ],
+      "block": [
+        "performer identity, red gradient polish and glitter, gold rings, Christmas props and graphics, text overlays, multi-cut timeline structure, fast or complex motion",
+        "performer identity and hand appearance",
+        "red-to-clear gradient nail polish and glitter",
+        "gold rings",
+        "Christmas decorations, tree, Santa graphics, red baubles, pine props",
+        "text overlays and website branding",
+        "multi-cut timeline structure",
+        "fast or complex motion",
+        "out-of-focus ending",
+        "identity",
+        "outfit",
+        "product appearance",
+        "product geometry",
+        "scene",
+        "visible text",
+        "logo"
+      ]
+    },
+    {
+      "binding_id": "b_4",
+      "allow": [
+        "macro framing and shallow depth-of-field feel"
+      ],
+      "block": [
+        "reference background content, text overlays, Christmas decorations, wide or medium framing, camera moves",
+        "camera moves or reframing beyond the macro close-up feel",
+        "wide or medium framing",
+        "background content of the reference frames",
+        "text overlay graphics and Christmas decorations in frame",
+        "identity",
+        "outfit",
+        "product appearance",
+        "product geometry",
+        "scene",
+        "visible text",
+        "logo"
+      ]
+    },
+    {
+      "binding_id": "b_5",
+      "allow": [
+        "scene reference scope"
+      ],
+      "block": [
+        "red Christmas-themed elements: red gradient polish, Christmas tree and Santa graphics, red baubles, snow-dusted pine branches, tutorial text overlays, website branding",
+        "red Christmas-themed elements",
+        "red-to-clear gradient nail polish from the reference",
+        "Christmas tree and Santa logo overlays",
+        "red baubles and snow-dusted pine branches",
+        "tutorial text overlays and website branding"
+      ]
+    },
+    {
+      "binding_id": "b_6",
+      "allow": [
+        "15-second total duration"
+      ],
+      "block": [
+        "changes to the reference video's own duration or timeline structure, audio content, and any product appearance change",
+        "the reference video's own duration and timeline structure",
+        "audio content",
+        "changes to the floral nail tip appearance",
+        "identity",
+        "outfit",
+        "product appearance",
+        "product geometry",
+        "scene",
+        "visible text",
+        "logo"
+      ]
+    }
+  ],
+  "constraints": {
+    "preserve": [
+      "floral nail tip appearance (floral designs, geometric patterns, and 3D accents in black, white, amber, pink, and wine-red)",
+      "correct per-finger worn mapping of the floral nail tips",
+      "15-second total duration",
+      "simple hand rotation motion",
+      "macro framing and shallow depth-of-field feel",
+      "9:16 vertical aspect ratio"
+    ],
+    "allow_change": [
+      "neutral, softly blurred background appropriate for a macro product showcase (production completion)",
+      "generic neutral hand identity, size, and skin tone (production completion)",
+      "soft diffused lighting suitable for macro product display (production completion)"
+    ],
+    "prohibit": [
+      "red Christmas-themed elements (red gradient nail polish, Christmas tree and Santa graphics, red baubles, snow-dusted pine branches, tutorial text overlays, website branding)",
+      "text overlays or on-screen branding of any kind",
+      "the reference video's multi-cut timeline structure and out-of-focus ending",
+      "finger jewelry and any inherited performer identity or outfit",
+      "alteration or replacement of the floral nail tip designs",
+      "red Christmas-themed elements"
+    ]
+  },
+  "timeline": [
+    {
+      "shot_id": "01",
+      "start_seconds": 0,
+      "end_seconds": 5,
+      "primary_change": "A hand wearing the floral press-on nail tips is revealed in macro close-up and begins a slow, simple rotation.",
+      "event": "The generic hand wearing the five floral press-on nail tips appears centered in a macro close-up, palm facing the camera; the hand begins a slow clockwise rotation that keeps the floral tips sharp while the neutral background stays blurred.",
+      "action": "Hand rotates slowly clockwise from a frontal palm-facing view, fingertips angled toward the camera.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing.",
+      "lighting": "Soft diffused lighting with shallow depth of field; the floral tips stay sharp and the neutral background blurs.",
+      "transition": "Opening shot.",
+      "observable_end_state": "The hand is rotated roughly 40 degrees clockwise; all five floral tips remain visible, sharp, and centered.",
+      "state_changes": [
+        {
+          "subject_id": "subject_2",
+          "property": "wearing of floral nail tips",
+          "from": "hand not yet visible in frame",
+          "to": "hand visible wearing all five floral nail tips"
+        },
+        {
+          "subject_id": "subject_2",
+          "property": "hand rotation angle",
+          "from": "0 degrees (frontal palm-facing view)",
+          "to": "approximately 40 degrees clockwise"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_2"
+      ],
+      "asset_refs": [
+        "image_product",
+        "image_worn_anchor",
+        "video_macro_display"
+      ],
+      "binding_refs": [
+        "b_1",
+        "b_2",
+        "b_3",
+        "b_4",
+        "b_5",
+        "b_6"
+      ]
+    },
+    {
+      "shot_id": "02",
+      "start_seconds": 5,
+      "end_seconds": 10,
+      "primary_change": "The rotation advances past the profile angle, revealing the sides and underside edges of the floral tips.",
+      "event": "The same slow rotation continues past a profile angle so the camera sees the sides and back/underside edges of the fingers; the 3D accents on the tips catch the soft light as the angles change.",
+      "action": "Hand keeps rotating slowly clockwise through the profile to roughly 140 degrees, briefly showing the back and underside edges of the tips.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing.",
+      "lighting": "Same soft diffused lighting; shallow depth of field maintained, with subtle glints on the 3D accents.",
+      "transition": "Cut.",
+      "observable_end_state": "The hand is rotated roughly 140 degrees, showing the back and underside edges of the fingers with the floral tips still attached and sharp.",
+      "state_changes": [
+        {
+          "subject_id": "subject_2",
+          "property": "hand rotation angle",
+          "from": "approximately 40 degrees clockwise",
+          "to": "approximately 140 degrees clockwise"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_2"
+      ],
+      "asset_refs": [
+        "image_product",
+        "image_worn_anchor",
+        "video_macro_display"
+      ],
+      "binding_refs": [
+        "b_1",
+        "b_2",
+        "b_3",
+        "b_4",
+        "b_5",
+        "b_6"
+      ]
+    },
+    {
+      "shot_id": "03",
+      "start_seconds": 10,
+      "end_seconds": 15,
+      "primary_change": "The rotation returns to a stable frontal presentation and comes to a full stop.",
+      "event": "The hand rotates back through the frontal view and settles into a centered presentation pose with the fingers gently spread; the rotation eases to a complete stop and the macro focus holds on all five floral tips until the end of the video.",
+      "action": "Hand rotates counter-clockwise back to a frontal presentation pose, fingers gently spread, then holds completely still.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing.",
+      "lighting": "Soft diffused lighting; shallow depth of field keeps the full set of tips sharp against the blurred neutral background.",
+      "transition": "Final hold to end of video.",
+      "observable_end_state": "The hand is motionless in a frontal palm-facing presentation; all five floral tips are fully visible, sharp, and centered, and the frame holds steady at 15 seconds.",
+      "state_changes": [
+        {
+          "subject_id": "subject_2",
+          "property": "hand rotation angle",
+          "from": "approximately 140 degrees clockwise",
+          "to": "0 degrees (frontal presentation)"
+        },
+        {
+          "subject_id": "subject_2",
+          "property": "hand motion state",
+          "from": "rotating",
+          "to": "stationary final hold"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_2"
+      ],
+      "asset_refs": [
+        "image_product",
+        "image_worn_anchor",
+        "video_macro_display"
+      ],
+      "binding_refs": [
+        "b_1",
+        "b_2",
+        "b_3",
+        "b_4",
+        "b_5",
+        "b_6"
+      ]
+    }
+  ],
+  "audio_plan": {
+    "voice": "",
+    "music": "",
+    "sound_effects": "",
+    "ambient_sound": "",
+    "sync_rules": []
+  },
+  "generation_description": {
+    "cinematography": "Static macro close-up in 9:16 vertical; shallow depth of field isolates the hand and floral tips from a blurred neutral background; the only motion is the hand's slow, simple rotation arc within a fixed frame.",
+    "lighting": "Soft, diffused lighting with gentle highlights that keep the floral designs and 3D accents readable; no hard shadows and no red-hued lighting.",
+    "materials": "Glossy press-on nail surface carrying floral, geometric, and 3D-accent designs in black, white, amber, pink, and wine-red; realistic but generic bare hand skin; tips sit flush on the nails.",
+    "performance": "A generic bare hand wearing the five floral tips performs one slow, simple rotation: frontal view, advance through the profile to the back and underside edges, then return to a stable frontal presentation hold; no jewelry, no additional polish, no Christmas props.",
+    "continuity": "The same five floral tips stay attached to the same fingers throughout, following the worn anchor's finger mapping; rotation advances from 0 to roughly 140 degrees and returns to the frontal hold; the frame ends still at exactly 15 seconds; no red Christmas-themed element appears in any frame."
+  },
+  "runtime": {
+    "perception_provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3-VL-32B-Instruct",
+      "options": {
+        "base_url": "http://127.0.0.1:9012",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000
+      }
+    },
+    "reasoning_provider": {
+      "provider": "glm",
+      "model": "GLM-5.2"
+    },
+    "generation_provider": {
+      "provider": "minimax",
+      "model": "MiniMax-H3"
+    }
+  },
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 15,
+    "aspect_ratio": "9:16",
+    "generate_audio": false,
+    "style": ""
+  },
+  "assets": [
+    {
+      "asset_id": "image_product",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/ab_tests_20260820/case_004_nail_reference_isolation/assets/floral_nail_product.jpg",
+      "label": "authoritative_floral_nail_appearance"
+    },
+    {
+      "asset_id": "image_worn_anchor",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/ab_tests_20260820/case_004_nail_reference_isolation/assets/floral_worn_anchor.png",
+      "label": "correct_worn_state_and_finger_mapping"
+    },
+    {
+      "asset_id": "video_macro_display",
+      "media_type": "video",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/ab_tests_20260820/case_004_nail_reference_isolation/assets/red_christmas_motion_reference.mp4",
+      "label": "simple_hand_rotation_macro_framing_and_depth_of_field_only; not_a_complex_motion_or_full_timeline_reference"
+    }
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v2",
+    "provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3-VL-32B-Instruct",
+      "options": {
+        "base_url": "http://127.0.0.1:9012",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000
+      }
+    },
+    "assets": [
+      {
+        "asset_id": "image_product",
+        "summary": "1 distinct foreground objects localized and analyzed individually.",
+        "evidence": [
+          {
+            "evidence_id": "evidence_1",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "Localized floral press-on nail art (花朵穿戴甲) object_1"
+          }
+        ],
+        "regions": [
+          {
+            "region_id": "region_1",
+            "evidence_id": "evidence_1",
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "entity_ids": [
+              "object_1"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          }
+        ],
+        "entities": [
+          {
+            "entity_id": "object_1",
+            "category": "floral press-on nail art",
+            "subcategory": "floral press-on nail art",
+            "summary": "Ten artificial nails in two rows, featuring floral designs, geometric patterns, and 3D accents in black, white, amber, pink, and wine-red.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "localize_then_isolated_attribute_batches",
+          "localization_coordinate_system": "normalized_0_1",
+          "task_ids": [
+            "20260820_132333_227478_23d94ffe-8f6a-4732-8627-e4dcdf8036c1",
+            "20260820_132337_279937_2c57a058-14b5-4f6d-899d-0bd83a6ae868"
+          ]
+        },
+        "transcript": "",
+        "uncertainties": []
+      },
+      {
+        "asset_id": "image_worn_anchor",
+        "summary": "1 distinct foreground objects localized and analyzed individually.",
+        "evidence": [
+          {
+            "evidence_id": "evidence_1",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.062,
+              0.175,
+              0.997,
+              0.725
+            ],
+            "description": "Localized floral press-on nail art worn on five fingers (花朵穿戴甲) object_1"
+          }
+        ],
+        "regions": [
+          {
+            "region_id": "region_1",
+            "evidence_id": "evidence_1",
+            "bbox_normalized": [
+              0.062,
+              0.175,
+              0.997,
+              0.725
+            ],
+            "entity_ids": [
+              "object_1"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          }
+        ],
+        "entities": [
+          {
+            "entity_id": "object_1",
+            "category": "manicured fingernails with 3D decorations",
+            "subcategory": "manicured fingernails with 3D decorations",
+            "summary": "Five fingernails with distinct designs: black with white dot, amber with gold ring, white with pink tip and gold bead, maroon with white flower and gold bead, and pink flower with gold center.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "localize_then_isolated_attribute_batches",
+          "localization_coordinate_system": "normalized_0_1",
+          "task_ids": [
+            "20260820_132419_449361_ecd7d032-c3a9-48cb-b37d-4672cf32d5c2",
+            "20260820_132425_541126_ddfe58bb-bfbb-4765-a711-2d453bfd1526"
+          ]
+        },
+        "transcript": "",
+        "uncertainties": []
+      },
+      {
+        "asset_id": "video_macro_display",
+        "summary": "visible overview",
+        "evidence": [
+          {
+            "evidence_id": "evidence_event_1",
+            "kind": "frame",
+            "time_seconds": 0.5,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "close-up of hand with red gradient pointed nails, gold rings, and Christmas decorations in background"
+          },
+          {
+            "evidence_id": "evidence_event_2",
+            "kind": "frame",
+            "time_seconds": 1.5,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "hand remains in close-up, slight rotation; text overlay updates to include '22'"
+          },
+          {
+            "evidence_id": "evidence_event_3",
+            "kind": "frame",
+            "time_seconds": 2.5,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "hand rotates slightly, showing different angles of nails; glitter texture visible"
+          },
+          {
+            "evidence_id": "evidence_event_4",
+            "kind": "frame",
+            "time_seconds": 3.5,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "hand flips to show underside of nails; red gradient and glitter remain visible"
+          },
+          {
+            "evidence_id": "evidence_event_5",
+            "kind": "frame",
+            "time_seconds": 4.5,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "hand moves out of focus; Christmas tree and Santa logo overlay appear with website text"
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "entity_1",
+            "category": "hand",
+            "subcategory": "human hand with nail art",
+            "summary": "a hand with long, pointed nails featuring a red-to-clear gradient with glitter, wearing gold rings",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "nail shape",
+                  "value": "stiletto/pointed",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "nail gradient",
+                  "value": "red to clear with glitter",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "nail surface",
+                  "value": "glossy gel with glitter",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [
+                {
+                  "name": "jewelry",
+                  "value": "gold rings on fingers",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "entity_2",
+            "category": "nail_art",
+            "subcategory": "gradient glitter nail design",
+            "summary": "red gradient stiletto nails with glitter transitioning to clear base",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "nail shape",
+                  "value": "stiletto",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "gradient",
+                  "value": "red to clear",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "nail product",
+                  "value": "gel polish",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [
+                {
+                  "name": "finish",
+                  "value": "glossy with glitter",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "entity_3",
+            "category": "accessory",
+            "subcategory": "gold rings",
+            "summary": "two gold rings with textured or beaded design on fingers",
+            "quantity": {
+              "value": 2,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "ring color",
+                  "value": "gold",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "ring material",
+                  "value": "metallic",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [
+                {
+                  "name": "ring finish",
+                  "value": "textured or beaded",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [],
+              "component_layout": [
+                {
+                  "name": "ring placement",
+                  "value": "on ring and middle fingers",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "entity_4",
+            "category": "prop",
+            "subcategory": "Christmas decoration",
+            "summary": "green pine branches with red baubles and white snow-like texture",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "baubles",
+                  "value": "red",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "branches",
+                  "value": "green",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [
+                {
+                  "name": "branches",
+                  "value": "snow-dusted",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [
+                {
+                  "name": "decorative elements",
+                  "value": "red baubles and pine needles",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "entity_5",
+            "category": "text_overlay",
+            "subcategory": "tutorial title and branding",
+            "summary": "text overlays indicating '30 Xmas Nails Tutorials with Venalisa Nail Gel' and 'venalisa.com' with Christmas icon",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "graphic elements",
+                  "value": "Christmas tree icon with Santa and gifts",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [
+                {
+                  "name": "text position",
+                  "value": "centered top and bottom",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "identity_markers": [
+                {
+                  "name": "text content",
+                  "value": "30 Xmas Nails Tutorials with Venalisa Nail Gel",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "website",
+                  "value": "venalisa.com",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "environment_1",
+            "category": "environment",
+            "subcategory": "environment",
+            "summary": "Visible timeline entity; detailed attributes were unresolved in the entity pass.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.5
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "Detailed entity attributes were not returned by the compact entity pass"
+            ]
+          },
+          {
+            "entity_id": "person_1",
+            "category": "person",
+            "subcategory": "person",
+            "summary": "Visible timeline entity; detailed attributes were unresolved in the entity pass.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.5
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "Detailed entity attributes were not returned by the compact entity pass"
+            ]
+          },
+          {
+            "entity_id": "product_1",
+            "category": "product",
+            "subcategory": "product",
+            "summary": "Visible timeline entity; detailed attributes were unresolved in the entity pass.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.5
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "Detailed entity attributes were not returned by the compact entity pass"
+            ]
+          }
+        ],
+        "relations": [],
+        "events": [
+          {
+            "event_id": "event_1",
+            "time_range": [
+              0.0,
+              1.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "product_1",
+              "environment_1"
+            ],
+            "action": "close-up of hand with red gradient pointed nails, gold rings, and Christmas decorations in background",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "cut",
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.95
+          },
+          {
+            "event_id": "event_2",
+            "time_range": [
+              1.0,
+              2.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "product_1",
+              "environment_1"
+            ],
+            "action": "hand remains in close-up, slight rotation; text overlay updates to include '22'",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "cut",
+            "evidence_ids": [
+              "evidence_event_2"
+            ],
+            "confidence": 0.95
+          },
+          {
+            "event_id": "event_3",
+            "time_range": [
+              2.0,
+              3.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "product_1",
+              "environment_1"
+            ],
+            "action": "hand rotates slightly, showing different angles of nails; glitter texture visible",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "cut",
+            "evidence_ids": [
+              "evidence_event_3"
+            ],
+            "confidence": 0.95
+          },
+          {
+            "event_id": "event_4",
+            "time_range": [
+              3.0,
+              4.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "product_1",
+              "environment_1"
+            ],
+            "action": "hand flips to show underside of nails; red gradient and glitter remain visible",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "cut",
+            "evidence_ids": [
+              "evidence_event_4"
+            ],
+            "confidence": 0.95
+          },
+          {
+            "event_id": "event_5",
+            "time_range": [
+              4.0,
+              5.433333
+            ],
+            "entity_ids": [
+              "person_1",
+              "product_1",
+              "environment_1"
+            ],
+            "action": "hand moves out of focus; Christmas tree and Santa logo overlay appear with website text",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "cut",
+            "evidence_ids": [
+              "evidence_event_5"
+            ],
+            "confidence": 0.9
+          }
+        ],
+        "technical": {
+          "duration_seconds": 5.433333,
+          "framing": "macro close-up",
+          "camera": "static with slight hand movement",
+          "visible_text": [
+            "30 Xmas Nails Tutorials with Venalisa Nail Gel | 22",
+            "venalisa.com"
+          ],
+          "media_type": "video",
+          "analysis_pipeline": "compact_video_then_deterministic_expansion",
+          "task_ids": [
+            "20260820_132504_716477_16b76569-9912-4e3f-83a4-aac4b4ff8496",
+            "20260820_132557_921543_3166d4d4-01f0-431c-b7ac-4b0078641618"
+          ]
+        },
+        "transcript": "",
+        "uncertainties": [
+          "Compact entity pass omitted details for timeline entities: environment_1, person_1, product_1"
+        ]
+      }
+    ],
+    "missing_asset_ids": []
+  }
+}

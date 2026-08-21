@@ -1,0 +1,21 @@
+{
+  "task": "ref2va",
+  "prompt_file": "/home/mx/shenxing/context-ir-ab-tests-20260820/case_007_perfume_image_only/C_official_context_ir/detailed/h3_prompt.txt",
+  "conditions": [
+    {
+      "type": "image",
+      "uri": "/home/mx/shenxing/context-ir-ab-tests-20260820/case_007_perfume_image_only/assets/perfume_lumen07.png",
+      "role": "reference"
+    }
+  ],
+  "target": {
+    "short_edge": 480,
+    "aspect_ratio": "9:16",
+    "duration_seconds": 15.0
+  },
+  "seed": 42,
+  "n": 1,
+  "num_inference_steps": 20,
+  "output_mode": "decoded_files",
+  "output_path": "/home/mx/shenxing/context-ir-ab-tests-20260820/case_007_perfume_image_only/C_official_context_ir/detailed/h3_480_15s_20steps/output"
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": "context_ir_ab_case.v2",
+  "case_id": "case_006_cleaning_image_only",
+  "status": "ready",
+  "input_mode": "image_only",
+  "purpose": "Test conservative autonomous before-process-after planning and causal cleaning continuity from one product image.",
+  "task": {"type": "ref2va", "duration_seconds": 15, "aspect_ratio": "9:16", "generate_audio": true},
+  "input_variants": {"vague": "inputs/vague.txt", "detailed": "inputs/detailed.txt"},
+  "assets": [
+    {"asset_id": "image_product", "media_type": "image", "file": "assets/cleaning_brush.png", "role": "authoritative_cleaning_brush_geometry_and_colors"}
+  ],
+  "completion_policy": "infer only a plausible surface, limited dirt, hand interaction and causal cleaning action; invent no accessories or claims"
+}

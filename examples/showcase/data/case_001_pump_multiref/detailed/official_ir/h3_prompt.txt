@@ -1,0 +1,24 @@
+subject_definitions:
+<Subject 1> is the young woman in <Picture 1>, characterized by long wavy blonde hair styled into high double ponytails, a bright yellow short-sleeved t-shirt, and light blue denim overall shorts. <Subject 2> is the black rectangular portable air pump in <Picture 2>, featuring a digital display screen on its top front, a circular control interface below the screen with a central power button, and a rugged black air hose. <Subject 2> is also seen connected to a car tire in <Picture 3>, and held by <Subject 1> in <Picture 4>.
+
+summary:
+[reference generation] <Subject 1> demonstrates the portable air pump <Subject 2> across various outdoor scenarios. The video begins with <Subject 1> connecting <Subject 2> to a car tire on the roadside, proceeds to inflate a camping mattress, and concludes with <Subject 1> showcasing the device to the camera.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4], [Shot 5]): fully_preserved - identity, blonde hair, ponytails, yellow shirt, and denim overalls are consistent throughout the video.
+<Subject 2> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4], [Shot 5]): fully_preserved - the black rectangular air pump design, digital screen, and circular control interface are maintained across all scenes, including the tire and mattress inflation.
+
+detailed_description:
+The target video is in a bright, naturalistic style with clear, warm daylight. [Shot 1] At 00:00.000, in an outdoor roadside environment, <Subject 1> in her yellow t-shirt and light blue denim overalls is crouched next to a car tire. She holds the black air pump <Subject 2> and carefully connects the black air hose to the tire's air valve. The shot is static and focused on her task. The soundscape features light, rhythmic birdsong and the subtle, sharp mechanical click of the hose coupling. 
+
+[Shot 2] At 00:03.000, the shot cuts to a tight close-up of <Subject 2> and the tire. <Subject 1>'s finger presses the central button on the circular control area of <Subject 2>. The digital screen glows, and the soft, steady hum of the pump begins to rise, indicating inflation. The screen displays active numbers for pressure. 
+
+[Shot 3] At 00:06.000, the shot switches to a wide camping scene with a tent and a dark, deflated air mattress. <Subject 1> is now kneeling and connects the hose of <Subject 2> to the mattress valve. The camera performs a slow truck left, sliding along the length of the mattress to center the pump and valve connection. The sound of the pump changes slightly as it works against the mattress surface. 
+
+[Shot 4] At 00:10.000, the shot cuts to a close-up of the plumped mattress. <Subject 1>'s hand gently presses the surface to check the inflation. The pump hum continues in the background, then fades as she disconnects the hose. [Shot 5] At 00:12.000, the shot cuts to a medium close-up of <Subject 1> standing on the roadside. She holds <Subject 2> upright with both hands, presenting its front to the camera with a friendly smile. The camera performs a slow push-in until the pump fills a portion of the frame, then stabilizes. The environmental ambient sound of soft wind and distant foliage remains until the video ends.
+
+overall_soundscape:
+The soundscape consists of clear ambient nature sounds including soft wind and distant birds, layered with the realistic, steady low-frequency hum of the electric air pump during operation.
+
+non_diegetic_music:
+N/A

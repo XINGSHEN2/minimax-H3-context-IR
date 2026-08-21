@@ -1,0 +1,1519 @@
+{
+  "schema_version": "0.1.0",
+  "intent": {
+    "user_request": "把参考视频里的甲片换成商品图中的彩色甲片，其他内容尽量保持不变，生成15秒竖屏宣传视频。",
+    "resolved_request": "Replace the nail pieces visible in the reference base video with the colorful nail pieces from the product image, keep all other base video content as unchanged as possible, and output a 15-second vertical promotional video.",
+    "directives": [
+      {
+        "directive_id": "d_1",
+        "asset_id": "image_replacement_product",
+        "target": "nail piece identity in the output video",
+        "operation": "transfer",
+        "scope": [
+          "nail_piece_identity"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_2",
+        "asset_id": "image_replacement_product",
+        "target": "appearance of the replaced nail pieces in the output video",
+        "operation": "transfer",
+        "scope": [
+          "product_appearance"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_3",
+        "asset_id": "video_edit_base",
+        "target": "all base video content other than the replaced nail pieces",
+        "operation": "preserve",
+        "scope": [
+          "base_video_content_excluding_replaced_object"
+        ],
+        "priority": "soft",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_4",
+        "asset_id": "",
+        "target": "output video duration",
+        "operation": "preserve",
+        "scope": [
+          "duration_15_seconds"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_5",
+        "asset_id": "",
+        "target": "output video orientation",
+        "operation": "preserve",
+        "scope": [
+          "portrait_orientation"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      }
+    ],
+    "completion_policy": {
+      "technical": true,
+      "conservative_semantic": true,
+      "creative": false
+    },
+    "assumptions": [
+      "IR completion: The base video is 17.67s but the output must be exactly 15s; the base is trimmed to 15s by cutting the tail of the final closing segment, as permitted by the technical completion policy.",
+      "IR completion: The base video's source orientation is not evidenced; the output requires 9:16 portrait, so the base is reframed/cropped to 9:16 as technical completion.",
+      "IR completion: The replacement applies to the showcased nail pieces in the close-up showcase segment (approx. 2-8s); the background shelf packages are treated as 'other content' to preserve, per the minimal-change reading of the request.",
+      "IR completion: The base video's original audio track (presenter's Chinese speech) is retained; generate_audio=true is satisfied by keeping the source audio instead of synthesizing new audio.",
+      "IR completion: image_worn_anchor has no dedicated directive; per its supplied label it is used only as a scoped reference for worn-state presentation and finger mapping.",
+      "IR completion: Any fingernails visible on the presenter's hands in the close-ups are replaced to follow the worn anchor's finger mapping; if none are visible, no worn-nail content is added."
+    ],
+    "uncertainties": [
+      "The base video's source orientation is unresolved; the 9:16 reframe assumption above applies.",
+      "Whether the presenter's fingernails are visible in the close-up shots is unresolved (perception states original worn nails were not shown).",
+      "Whether background shelf packages should also be replaced is unresolved; the showcase-only interpretation is adopted.",
+      "Audio contents of the base video beyond speech (music, ambience) were not evidenced; the original track is retained unchanged.",
+      "The visible text 'remai' is likely a phonetic rendering of '热销'; the overlay is preserved verbatim as visible scene text."
+    ]
+  },
+  "protocol": {
+    "rewrite_language": "English",
+    "preserve_source_language_for": [
+      "dialogue",
+      "lyrics",
+      "visible scene text"
+    ],
+    "summary_task_types": [
+      "video editing",
+      "reference generation"
+    ]
+  },
+  "asset_bindings": [
+    {
+      "binding_id": "b_base_identity",
+      "asset_id": "video_edit_base",
+      "target": "presenter identity in the output video",
+      "role": "identity",
+      "priority": "soft",
+      "source_directive_ids": [
+        "d_3"
+      ],
+      "inherit": [
+        "base_video_content_excluding_replaced_object",
+        "presenter identity: female store staff member with long dark hair",
+        "facial identity and body as shown in the base video"
+      ],
+      "exclude": [
+        "nail piece identity and designs shown in the video",
+        "replacement product identity"
+      ]
+    },
+    {
+      "binding_id": "b_base_outfit",
+      "asset_id": "video_edit_base",
+      "target": "presenter outfit in the output video",
+      "role": "outfit",
+      "priority": "soft",
+      "source_directive_ids": [
+        "d_3"
+      ],
+      "inherit": [
+        "base_video_content_excluding_replaced_object",
+        "light pink long-sleeve top with ruffled collar",
+        "white wide-leg pants"
+      ],
+      "exclude": [
+        "nail product appearance",
+        "worn nail designs on the hands"
+      ]
+    },
+    {
+      "binding_id": "b_base_scene",
+      "asset_id": "video_edit_base",
+      "target": "store environment, props, and visible text in the output video",
+      "role": "scene",
+      "priority": "soft",
+      "source_directive_ids": [
+        "d_3"
+      ],
+      "inherit": [
+        "base_video_content_excluding_replaced_object",
+        "pink-walled retail store interior",
+        "light-colored tile floor",
+        "shelves filled with press-on nail packages",
+        "'NEW NIO' signage and Chinese overlay text",
+        "yellow plastic shopping basket",
+        "bright store lighting"
+      ],
+      "exclude": [
+        "nail piece designs inside the displayed packages (replaced by the product set)",
+        "any new scene elements or text"
+      ]
+    },
+    {
+      "binding_id": "b_base_motion",
+      "asset_id": "video_edit_base",
+      "target": "presenter and object motion in the output video",
+      "role": "motion",
+      "priority": "soft",
+      "source_directive_ids": [
+        "d_3"
+      ],
+      "inherit": [
+        "base_video_content_excluding_replaced_object",
+        "presenter standing before shelves",
+        "presenter walking through the aisle",
+        "gesturing and pointing at shelves",
+        "holding packages for close-ups"
+      ],
+      "exclude": [
+        "replacement-product animation",
+        "any motion not present in the base video",
+        "identity",
+        "outfit",
+        "product appearance",
+        "product geometry",
+        "scene",
+        "visible text",
+        "logo"
+      ]
+    },
+    {
+      "binding_id": "b_base_camera",
+      "asset_id": "video_edit_base",
+      "target": "camera structure and the output timing and framing spec",
+      "role": "camera",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_3",
+        "d_4",
+        "d_5"
+      ],
+      "inherit": [
+        "base_video_content_excluding_replaced_object",
+        "duration_15_seconds",
+        "portrait_orientation",
+        "alternation of wide, medium, and close-up shots",
+        "static camera with no zoom",
+        "slight lateral pan only during the aisle walk"
+      ],
+      "exclude": [
+        "any new camera move, zoom, cut, aspect ratio, or duration",
+        "identity",
+        "outfit",
+        "product appearance",
+        "product geometry",
+        "scene",
+        "visible text",
+        "logo"
+      ]
+    },
+    {
+      "binding_id": "b_base_voice",
+      "asset_id": "video_edit_base",
+      "target": "presenter speech audio in the output video",
+      "role": "voice",
+      "priority": "soft",
+      "source_directive_ids": [
+        "d_3"
+      ],
+      "inherit": [
+        "base_video_content_excluding_replaced_object",
+        "the presenter's original spoken Chinese presentation audio"
+      ],
+      "exclude": [
+        "new voice-over, dubbing, or added dialogue"
+      ]
+    },
+    {
+      "binding_id": "b_product_identity",
+      "asset_id": "image_replacement_product",
+      "target": "nail piece identity of the replaced product in the output video",
+      "role": "product",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_1"
+      ],
+      "inherit": [
+        "nail_piece_identity",
+        "press-on nail set identity from the product image",
+        "a ten-nail set composition"
+      ],
+      "exclude": [
+        "product image background and surroundings",
+        "card packaging layout",
+        "any packaging text or logos"
+      ]
+    },
+    {
+      "binding_id": "b_product_appearance",
+      "asset_id": "image_replacement_product",
+      "target": "appearance of the replaced nail pieces in the output video",
+      "role": "product",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_2"
+      ],
+      "inherit": [
+        "product_appearance",
+        "glossy nail finish",
+        "blue-purple and orange-red colorways",
+        "designs: galaxy swirls, stars, insects, buttons, keys",
+        "varied colorful designs across the set"
+      ],
+      "exclude": [
+        "background of the product image",
+        "card or packaging context",
+        "unrelated objects or text"
+      ]
+    },
+    {
+      "binding_id": "b_worn_anchor",
+      "asset_id": "image_worn_anchor",
+      "target": "worn-state presentation and finger mapping of the replacement nail pieces",
+      "role": "product",
+      "priority": "soft",
+      "source_directive_ids": [],
+      "inherit": [
+        "worn-state presentation of the replacement set on a hand",
+        "finger mapping: which colored nail lands on which finger",
+        "glossy colorful worn look consistent with the product image"
+      ],
+      "exclude": [
+        "background details",
+        "hand skin identity",
+        "text, 3D embellishments, or designs not present in the product image",
+        "scene context"
+      ]
+    }
+  ],
+  "subjects": [
+    {
+      "subject_id": "subject_1",
+      "name": "presenter (female store staff member)",
+      "kind": "person",
+      "primary": false,
+      "description": "Female store staff presenter with long dark hair, wearing a light pink long-sleeve top with a ruffled collar and white wide-leg pants; she stands before the shelves, walks through the store aisle, and speaks to the camera throughout the base video.",
+      "source_asset_ids": [
+        "video_edit_base"
+      ],
+      "binding_ids": [
+        "b_base_identity",
+        "b_base_outfit",
+        "b_base_motion",
+        "b_base_voice"
+      ],
+      "appearance_shot_ids": [
+        "01",
+        "02",
+        "03",
+        "04"
+      ],
+      "retention_mode": "fully_preserved",
+      "retention_description": "The presenter's identity, outfit, motion, and speech are preserved unchanged from the edit base video."
+    },
+    {
+      "subject_id": "subject_2",
+      "name": "colorful press-on nail set (replacement product)",
+      "kind": "product",
+      "primary": true,
+      "description": "A ten-nail press-on nail set with a glossy finish in blue-purple and orange-red colorways featuring varied designs including galaxy swirls, stars, insects, buttons, and keys; shown as a packaged set and, when worn, mapped across five fingers per the worn anchor.",
+      "source_asset_ids": [
+        "image_replacement_product",
+        "image_worn_anchor"
+      ],
+      "binding_ids": [
+        "b_product_identity",
+        "b_product_appearance",
+        "b_worn_anchor"
+      ],
+      "appearance_shot_ids": [
+        "02"
+      ],
+      "retention_mode": "attribute_transfer",
+      "retention_description": "The product image's nail identity and appearance transfer into the showcased nail pieces of the video; the worn presentation and finger mapping follow the worn anchor; nothing else transfers."
+    },
+    {
+      "subject_id": "subject_3",
+      "name": "pink retail store interior",
+      "kind": "environment",
+      "primary": false,
+      "description": "Brightly lit nail store interior with pink walls, light-colored tile floor, shelves filled with press-on nail packages, 'NEW NIO' signage, Chinese promotional overlay text, and a yellow plastic shopping basket.",
+      "source_asset_ids": [
+        "video_edit_base"
+      ],
+      "binding_ids": [
+        "b_base_scene"
+      ],
+      "appearance_shot_ids": [
+        "01",
+        "03",
+        "04"
+      ],
+      "retention_mode": "fully_preserved",
+      "retention_description": "The store environment, shelves, signage, props, and overlay text are preserved unchanged from the base video."
+    }
+  ],
+  "reference_relationships": [
+    {
+      "asset_id": "video_edit_base",
+      "relationship": "source_video_edit",
+      "subject_refs": [
+        "subject_1",
+        "subject_2",
+        "subject_3"
+      ],
+      "definition": "the directly edited base video supplying the presenter, store scene, camera structure, motion, and audio for the output",
+      "retention_mode": "fully_preserved",
+      "retention_description": "The base video is directly edited: the showcased nail pieces are replaced with the colorful nail set from the product image, while the presenter, outfit, store environment, camera structure, motion, visible text, and original audio track are preserved; the video is trimmed to 15 seconds and reframed to 9:16."
+    },
+    {
+      "asset_id": "image_replacement_product",
+      "relationship": "reference_generation",
+      "subject_refs": [
+        "subject_2"
+      ],
+      "definition": "the authoritative image source for the replacement nail set's identity and appearance",
+      "retention_mode": "attribute_transfer",
+      "retention_description": "Only the nail set's identity and appearance (ten-nail composition, blue-purple and orange-red colorways, galaxy swirls/stars/insects/buttons/keys designs, glossy finish) transfer into the replaced nail pieces; the product image's background and card-packaging context do not transfer."
+    },
+    {
+      "asset_id": "image_worn_anchor",
+      "relationship": "reference_generation",
+      "subject_refs": [
+        "subject_2"
+      ],
+      "definition": "the scoped image reference for the replacement set's worn-state presentation and finger mapping",
+      "retention_mode": "attribute_transfer",
+      "retention_description": "Only the worn-state presentation and finger mapping (which colored nail lands on which finger) transfer; background details, hand skin identity, and unrelated decorations are excluded."
+    }
+  ],
+  "creative_focus": {
+    "primary_target": "the colorful press-on nail set from the product image as the promoted product in the output video",
+    "primary_subject_id": "subject_2",
+    "primary_asset_id": "image_replacement_product",
+    "primary_binding_ids": [
+      "b_product_identity",
+      "b_product_appearance",
+      "b_worn_anchor"
+    ],
+    "objective": "The finished 15-second vertical promo must present the replacement product as the showcased item: every showcased nail piece in the base video is replaced with the exact identity and appearance of the colorful nail set from the product image, presented in clear close-ups, while the presenter, store scene, camera structure, motion, and audio stay as unchanged as possible.",
+    "supporting_asset_ids": [
+      "video_edit_base",
+      "image_worn_anchor"
+    ],
+    "required_shot_ids": [
+      "02"
+    ],
+    "presentation_requirements": [
+      "Shot 02 must show the replaced nail set in a held close-up where the full set is legible: ten glossy nails in blue-purple and orange-red colorways with galaxy swirls, stars, insects, buttons, and keys.",
+      "The replaced nail pieces must match the product image's identity and appearance exactly; no original showcased designs may remain visible in the close-up.",
+      "The set's glossy finish must be rendered with highlights consistent with the base video's bright store lighting so it reads as physically present in the scene.",
+      "Any fingernails visible on the holding hands must wear the same colorful set, mapped across five fingers per the worn anchor.",
+      "All non-replaced base content (presenter, outfit, store, signage, overlay text, camera, motion, audio) must remain unchanged around the replaced product."
+    ]
+  },
+  "isolation_rules": [
+    {
+      "binding_id": "b_base_identity",
+      "allow": [
+        "presenter identity",
+        "face",
+        "long dark hair",
+        "standing posture and speaking-to-camera behavior",
+        "base_video_content_excluding_replaced_object",
+        "presenter identity: female store staff member with long dark hair",
+        "facial identity and body as shown in the base video"
+      ],
+      "block": [
+        "nail piece identity and designs in the video",
+        "replacement product identity",
+        "outfit",
+        "nail piece identity and designs shown in the video"
+      ]
+    },
+    {
+      "binding_id": "b_base_outfit",
+      "allow": [
+        "light pink long-sleeve top with ruffled collar",
+        "white wide-leg pants",
+        "base_video_content_excluding_replaced_object"
+      ],
+      "block": [
+        "nail product appearance",
+        "worn nail designs",
+        "presenter identity",
+        "worn nail designs on the hands"
+      ]
+    },
+    {
+      "binding_id": "b_base_scene",
+      "allow": [
+        "pink walls",
+        "light-colored tile floor",
+        "shelves with press-on nail packages",
+        "'NEW NIO' signage",
+        "Chinese overlay text",
+        "yellow shopping basket",
+        "bright lighting",
+        "base_video_content_excluding_replaced_object",
+        "pink-walled retail store interior",
+        "shelves filled with press-on nail packages",
+        "'NEW NIO' signage and Chinese overlay text",
+        "yellow plastic shopping basket",
+        "bright store lighting"
+      ],
+      "block": [
+        "replacement of background shelf stock designs",
+        "new scene elements",
+        "product image background",
+        "nail piece designs inside the displayed packages (replaced by the product set)",
+        "any new scene elements or text"
+      ]
+    },
+    {
+      "binding_id": "b_base_motion",
+      "allow": [
+        "standing",
+        "walking through the aisle",
+        "gesturing and pointing",
+        "holding packages for close-ups",
+        "base_video_content_excluding_replaced_object",
+        "presenter standing before shelves",
+        "presenter walking through the aisle",
+        "gesturing and pointing at shelves"
+      ],
+      "block": [
+        "new movement",
+        "replacement-product animation",
+        "new camera motion",
+        "any motion not present in the base video",
+        "identity",
+        "outfit",
+        "product appearance",
+        "product geometry",
+        "scene",
+        "visible text",
+        "logo"
+      ]
+    },
+    {
+      "binding_id": "b_base_camera",
+      "allow": [
+        "wide/medium/close-up alternation",
+        "static camera",
+        "slight lateral pan during the aisle walk",
+        "15-second duration",
+        "9:16 portrait framing",
+        "base_video_content_excluding_replaced_object",
+        "duration_15_seconds",
+        "portrait_orientation",
+        "alternation of wide, medium, and close-up shots",
+        "static camera with no zoom",
+        "slight lateral pan only during the aisle walk"
+      ],
+      "block": [
+        "zoom",
+        "new camera moves",
+        "other aspect ratios",
+        "other durations",
+        "any new camera move, zoom, cut, aspect ratio, or duration",
+        "identity",
+        "outfit",
+        "product appearance",
+        "product geometry",
+        "scene",
+        "visible text",
+        "logo"
+      ]
+    },
+    {
+      "binding_id": "b_base_voice",
+      "allow": [
+        "original presenter speech audio in Chinese",
+        "base_video_content_excluding_replaced_object",
+        "the presenter's original spoken Chinese presentation audio"
+      ],
+      "block": [
+        "new voice-over",
+        "dubbing",
+        "added dialogue",
+        "added music",
+        "new voice-over, dubbing, or added dialogue"
+      ]
+    },
+    {
+      "binding_id": "b_product_identity",
+      "allow": [
+        "nail_piece_identity",
+        "ten-nail set identity from the product image",
+        "press-on nail set identity from the product image",
+        "a ten-nail set composition"
+      ],
+      "block": [
+        "product image background",
+        "card layout",
+        "packaging text and logos",
+        "other products",
+        "product image background and surroundings",
+        "card packaging layout",
+        "any packaging text or logos"
+      ]
+    },
+    {
+      "binding_id": "b_product_appearance",
+      "allow": [
+        "product_appearance",
+        "glossy finish",
+        "blue-purple and orange-red colorways",
+        "galaxy swirls, stars, insects, buttons, keys designs",
+        "glossy nail finish",
+        "designs: galaxy swirls, stars, insects, buttons, keys",
+        "varied colorful designs across the set"
+      ],
+      "block": [
+        "background scene",
+        "packaging context",
+        "unrelated objects",
+        "base-video original nail designs",
+        "background of the product image",
+        "card or packaging context",
+        "unrelated objects or text"
+      ]
+    },
+    {
+      "binding_id": "b_worn_anchor",
+      "allow": [
+        "worn-state placement across five fingers",
+        "finger mapping",
+        "glossy colorful worn look consistent with the product image",
+        "worn-state presentation of the replacement set on a hand",
+        "finger mapping: which colored nail lands on which finger"
+      ],
+      "block": [
+        "background details",
+        "hand skin identity",
+        "text or embellishments absent from the product image",
+        "scene context",
+        "text, 3D embellishments, or designs not present in the product image"
+      ]
+    }
+  ],
+  "constraints": {
+    "preserve": [
+      "Presenter identity: female store staff member with long dark hair",
+      "Presenter outfit: light pink long-sleeve top with ruffled collar and white wide-leg pants",
+      "Store scene: pink walls, light-colored tile floor, shelves filled with press-on nail packages",
+      "Signage and overlay text: 'NEW NIO' signage and all Chinese overlay text as in the base video",
+      "Yellow plastic shopping basket prop",
+      "Package packaging of the showcased nail sets: clear plastic with white card",
+      "Background shelf stock designs remain unchanged",
+      "Camera structure: wide/medium/close-up alternation, static camera with no zoom, slight pan only during the aisle walk",
+      "Presenter motion and speech: standing, walking, gesturing, pointing, speaking to camera",
+      "Original audio track of the base video, including the presenter's speech",
+      "duration_15_seconds",
+      "portrait_orientation"
+    ],
+    "allow_change": [
+      "Replace the showcased nail pieces with the replacement set's identity and appearance from image_replacement_product",
+      "Apply the worn anchor's finger mapping to any fingernails visible on the holding hands in the close-ups",
+      "Trim the base video from 17.67s to exactly 15s (technical completion)",
+      "Reframe the base video to 9:16 portrait (technical completion)",
+      "Render the transferred nail set's gloss and colors consistently with the base video's bright store lighting"
+    ],
+    "prohibit": [
+      "No changes to presenter identity, outfit, or speech",
+      "No changes to the store scene, shelves, signage, or overlay text",
+      "No new dialogue, voice-over, brand claims, logos, or text",
+      "No transfer of the product image's background or card-packaging context into the scene",
+      "No new camera moves, cuts, shots, characters, or scenes beyond the base video's structure",
+      "No creative additions: the replaced nail set is the only changed element"
+    ]
+  },
+  "timeline": [
+    {
+      "shot_id": "01",
+      "start_seconds": 0,
+      "end_seconds": 2,
+      "primary_change": "The base opening is preserved unchanged: the presenter introduces the store in front of the pink shelves.",
+      "event": "The female presenter stands before shelves filled with press-on nail packages, wearing her light pink top with ruffled collar and white wide-leg pants, and speaks to the camera introducing the store; 'NEW NIO' signage and Chinese promotional overlay text remain visible.",
+      "action": "The presenter introduces the store while facing the camera.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing.",
+      "lighting": "Bright, even store lighting, unchanged from the base video.",
+      "transition": "cut",
+      "observable_end_state": "The presenter stands centered before the pink shelves with 'NEW NIO' signage and the store intro visible, exactly as in the base video.",
+      "state_changes": [],
+      "subject_refs": [
+        "subject_1",
+        "subject_3"
+      ],
+      "asset_refs": [
+        "video_edit_base"
+      ],
+      "binding_refs": [
+        "b_base_identity",
+        "b_base_outfit",
+        "b_base_scene",
+        "b_base_camera",
+        "b_base_voice"
+      ]
+    },
+    {
+      "shot_id": "02",
+      "start_seconds": 2,
+      "end_seconds": 8,
+      "primary_change": "The showcased nail pieces in the held packages are replaced with the colorful nail set from the product image.",
+      "event": "Close-ups show hands holding the press-on nail packages; the nail pieces displayed in the held packages are replaced with the replacement set's exact identity and appearance: ten glossy nails in blue-purple and orange-red colorways with galaxy swirls, stars, insects, buttons, and keys; any fingernails visible on the holding hands wear the same set mapped across five fingers per the worn anchor; the clear-plastic-with-white-card packaging and the Chinese overlays '多巴胺系列' and '每一副都绚丽多彩' remain unchanged.",
+      "action": "The presenter holds the packages for close-up display while the replaced nail set is shown in detail.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing.",
+      "lighting": "Bright store lighting consistent with the base video, with glossy highlights on the replaced nail set.",
+      "transition": "cut",
+      "observable_end_state": "The held packages clearly display the full replacement set with its glossy blue-purple and orange-red designs; no original showcased designs remain in the close-up.",
+      "state_changes": [
+        {
+          "subject_id": "subject_2",
+          "property": "identity and appearance of the showcased nail pieces",
+          "from": "original base-video nail designs in the held packages",
+          "to": "replacement colorful nail set identity and appearance from image_replacement_product"
+        },
+        {
+          "subject_id": "subject_2",
+          "property": "worn presentation of any visible fingernails",
+          "from": "unverified original fingernails on the holding hands",
+          "to": "replacement set worn across five fingers per the worn anchor's finger mapping"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_2"
+      ],
+      "asset_refs": [
+        "video_edit_base",
+        "image_replacement_product",
+        "image_worn_anchor"
+      ],
+      "binding_refs": [
+        "b_product_identity",
+        "b_product_appearance",
+        "b_worn_anchor",
+        "b_base_scene",
+        "b_base_camera"
+      ]
+    },
+    {
+      "shot_id": "03",
+      "start_seconds": 8,
+      "end_seconds": 13,
+      "primary_change": "The presenter walks through the store aisle holding the yellow shopping basket and points to the shelves.",
+      "event": "The presenter walks through the store aisle holding the yellow plastic shopping basket, points to the shelves, and continues speaking; the pink shelves, the background staff member, and the Chinese overlays '每天都有上百个款式更新' and '都是当下remai的款式' remain unchanged.",
+      "action": "The presenter walks the aisle and points to the shelves while speaking.",
+      "camera": "Slight lateral pan following the presenter's aisle walk; low amplitude and slow speed, with no zoom or push-in.",
+      "lighting": "Bright, even store lighting, unchanged from the base video.",
+      "transition": "cut",
+      "observable_end_state": "The presenter is mid-aisle holding the yellow basket and pointing toward the shelves while continuing to speak.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "location and movement",
+          "from": "in the shelf area presenting products",
+          "to": "walking through the store aisle holding the yellow basket"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_3"
+      ],
+      "asset_refs": [
+        "video_edit_base"
+      ],
+      "binding_refs": [
+        "b_base_identity",
+        "b_base_outfit",
+        "b_base_scene",
+        "b_base_motion",
+        "b_base_camera",
+        "b_base_voice"
+      ]
+    },
+    {
+      "shot_id": "04",
+      "start_seconds": 13,
+      "end_seconds": 15,
+      "primary_change": "The presenter stops and delivers the closing wholesale pitch facing the camera.",
+      "event": "The presenter stands at the center of the store aisle facing the camera and gestures while speaking the closing message; the Chinese overlays '30副起批' and '感兴趣姐妹记得找我哟' and the consistent pink shelves and lighting remain visible; the video ends at 15 seconds.",
+      "action": "The presenter delivers the closing pitch with hand gestures, facing the camera.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing.",
+      "lighting": "Bright, even store lighting, unchanged from the base video.",
+      "transition": "cut",
+      "observable_end_state": "The presenter stands centered in the aisle facing the camera with the closing overlay text visible; the video ends exactly at 15 seconds.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "movement state",
+          "from": "walking through the aisle",
+          "to": "standing still at the aisle center facing the camera"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_3"
+      ],
+      "asset_refs": [
+        "video_edit_base"
+      ],
+      "binding_refs": [
+        "b_base_identity",
+        "b_base_outfit",
+        "b_base_scene",
+        "b_base_motion",
+        "b_base_camera",
+        "b_base_voice"
+      ]
+    }
+  ],
+  "audio_plan": {
+    "voice": "Retain the base video's original presenter speech in Chinese, unchanged; no new voice-over, dubbing, or added dialogue.",
+    "music": "No new music; the base video's original audio track is retained as-is.",
+    "sound_effects": "No new sound effects; the base video's original audio track is retained as-is.",
+    "ambient_sound": "Retain any store ambience already present in the base video's original audio track.",
+    "sync_rules": [
+      "The base video audio track stays time-aligned with the preserved footage; the nail-piece replacement does not shift, splice, or replace audio.",
+      "Presenter speech remains synchronized with the presenter's on-camera performance."
+    ]
+  },
+  "generation_description": {
+    "cinematography": "Preserve the base video's shot structure: a static wide opening shot of the presenter before the shelves, static close-ups of the hands holding the replaced nail packages, a slight slow lateral pan following the aisle walk, and a static closing shot of the presenter centered in the aisle; vertical 9:16 framing with no new camera moves or zooms.",
+    "lighting": "Bright, even store lighting as in the base video; the replacement nail set's glossy finish is rendered with highlights consistent with this lighting so it appears physically present in the scene.",
+    "materials": "The replacement nail set has a glossy nail finish with colorful designs in blue-purple and orange-red colorways (galaxy swirls, stars, insects, buttons, keys); the showcased packages keep their clear-plastic-with-white-card packaging, with only the nail pieces inside replaced.",
+    "performance": "The presenter's original performance is retained: standing introduction, holding packages for close-ups, walking through the aisle with the yellow basket, pointing at shelves, and the closing gesture while speaking; no new performance is added.",
+    "continuity": "The only changed element is the showcased nail pieces; presenter identity and outfit, store scene, signage, Chinese overlay text, camera structure, motion, and audio remain unchanged; any visible fingernails on the holding hands follow the worn anchor's finger mapping."
+  },
+  "runtime": {
+    "perception_provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3-VL-32B-Instruct",
+      "options": {
+        "base_url": "http://127.0.0.1:9012",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000
+      }
+    },
+    "reasoning_provider": {
+      "provider": "glm",
+      "model": "GLM-5.2"
+    },
+    "generation_provider": {
+      "provider": "minimax",
+      "model": "MiniMax-H3"
+    }
+  },
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 15,
+    "aspect_ratio": "9:16",
+    "generate_audio": true,
+    "style": ""
+  },
+  "assets": [
+    {
+      "asset_id": "video_edit_base",
+      "media_type": "video",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/ab_tests_20260820/case_003_nail_product_replacement/assets/shop_source_video.mp4",
+      "label": "base_video_presenter_shop_actions_camera_and_audio"
+    },
+    {
+      "asset_id": "image_replacement_product",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/ab_tests_20260820/case_003_nail_product_replacement/assets/colorful_nail_product.jpg",
+      "label": "authoritative_replacement_product_appearance_only"
+    },
+    {
+      "asset_id": "image_worn_anchor",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/ab_tests_20260820/case_003_nail_product_replacement/assets/colorful_worn_anchor.png",
+      "label": "replacement_worn_state_and_finger_mapping_only"
+    }
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v2",
+    "provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3-VL-32B-Instruct",
+      "options": {
+        "base_url": "http://127.0.0.1:9012",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000
+      }
+    },
+    "assets": [
+      {
+        "asset_id": "video_edit_base",
+        "summary": "A female staff member presents press-on nails in a brightly lit, pink-themed store. She showcases various colorful nail designs, emphasizing daily updates and affordability. The video alternates between wide shots of the store, medium shots of the staff, and close-ups of the nail products.",
+        "evidence": [
+          {
+            "evidence_id": "evidence_event_1",
+            "kind": "frame",
+            "time_seconds": 1.0,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "person_1 stands in front of shelves filled with press-on nails, wearing a light pink top with ruffled collar and white wide-leg pants. She speaks to the camera, introducing the store. The background features pink walls and shelves labeled 'NEW NIO' with Chinese text promoting nail products."
+          },
+          {
+            "evidence_id": "evidence_event_2",
+            "kind": "frame",
+            "time_seconds": 5.0,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "Close-up shots of hands holding various press-on nail packages. The nails are colorful and feature designs like stars, polka dots, and solid colors. Text overlays describe the '多巴胺系列' (Dopamine Series) and highlight that each set is '绚丽多彩' (vivid and colorful)."
+          },
+          {
+            "evidence_id": "evidence_event_3",
+            "kind": "frame",
+            "time_seconds": 10.5,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "person_1 is shown holding a yellow shopping basket, walking through the store aisle. She points to the shelves while speaking. Another person is visible in the background, organizing products. Text overlays mention daily updates of '上百个款式' (hundreds of styles) and that they are '当下remai的款式' (currently popular styles)."
+          },
+          {
+            "evidence_id": "evidence_event_4",
+            "kind": "frame",
+            "time_seconds": 15.0,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "person_1 stands in the center of the store aisle, facing the camera. She gestures with her hands while speaking. Text overlays state '30副起批' (minimum 30 sets for wholesale) and '感兴趣姐妹记得找我哟' (interested sisters, remember to find me). The store's pink shelves and lighting remain consistent in the background."
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "entity_1",
+            "category": "person",
+            "subcategory": "female staff member",
+            "summary": "A woman with long dark hair, wearing a light pink long-sleeve top with ruffled collar and white wide-leg pants, presenting products in a store.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "top",
+                  "value": "light pink",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3",
+                    "evidence_event_4"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "pants",
+                  "value": "white",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3",
+                    "evidence_event_4"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [
+                {
+                  "name": "collar",
+                  "value": "ruffled",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3",
+                    "evidence_event_4"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "orientation_cues": [
+                {
+                  "name": "posture",
+                  "value": "standing",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3",
+                    "evidence_event_4"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "entity_2",
+            "category": "product",
+            "subcategory": "press-on nail sets",
+            "summary": "Multiple packaged press-on nail sets displayed on shelves and held by hand, featuring colorful designs with stars, dots, and solid colors.",
+            "quantity": {
+              "value": "multiple",
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "nails",
+                  "value": "multicolor",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "packaging",
+                  "value": "clear plastic with white card",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [
+                {
+                  "name": "nail finish",
+                  "value": "glossy",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [
+                {
+                  "name": "designs",
+                  "value": "stars, dots, solid",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "entity_3",
+            "category": "environment",
+            "subcategory": "retail store interior",
+            "summary": "A brightly lit store with pink walls, shelves filled with press-on nail packages, and visible signage with Chinese text.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "walls",
+                  "value": "pink",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_3",
+                    "evidence_event_4"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [
+                {
+                  "name": "floor",
+                  "value": "light-colored tile",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_3",
+                    "evidence_event_4"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [],
+              "component_layout": [
+                {
+                  "name": "shelves",
+                  "value": "vertical rows",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_3",
+                    "evidence_event_4"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "signage",
+                  "value": "Chinese text, 'NEW NIO'",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_3",
+                    "evidence_event_4"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "entity_4",
+            "category": "prop",
+            "subcategory": "yellow shopping basket",
+            "summary": "A yellow plastic shopping basket held by the staff member while selecting products from shelves.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "basket",
+                  "value": "yellow",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "basket",
+                  "value": "plastic",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [],
+              "component_layout": [
+                {
+                  "name": "handle",
+                  "value": "integrated",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "orientation_cues": [
+                {
+                  "name": "position",
+                  "value": "held in hand",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "entity_5",
+            "category": "text",
+            "subcategory": "on-screen Chinese text",
+            "summary": "Overlay text in Chinese describing product updates, pricing, and promotional messages.",
+            "quantity": {
+              "value": "multiple",
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "text",
+                  "value": "white with black outline",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [
+                {
+                  "name": "placement",
+                  "value": "bottom center of frame",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "language",
+                  "value": "Chinese",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "product_1",
+            "category": "product",
+            "subcategory": "product",
+            "summary": "Visible timeline entity; detailed attributes were unresolved in the entity pass.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.5
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "Detailed entity attributes were not returned by the compact entity pass"
+            ]
+          }
+        ],
+        "relations": [],
+        "events": [
+          {
+            "event_id": "event_1",
+            "time_range": [
+              0.0,
+              2.0
+            ],
+            "entity_ids": [
+              "entity_1",
+              "entity_3"
+            ],
+            "action": "person_1 stands in front of shelves filled with press-on nails, wearing a light pink top with ruffled collar and white wide-leg pants. She speaks to the camera, introducing the store. The background features pink walls and shelves labeled 'NEW NIO' with Chinese text promoting nail products.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "cut",
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.95
+          },
+          {
+            "event_id": "event_2",
+            "time_range": [
+              2.0,
+              8.0
+            ],
+            "entity_ids": [
+              "entity_1",
+              "product_1"
+            ],
+            "action": "Close-up shots of hands holding various press-on nail packages. The nails are colorful and feature designs like stars, polka dots, and solid colors. Text overlays describe the '多巴胺系列' (Dopamine Series) and highlight that each set is '绚丽多彩' (vivid and colorful).",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "cut",
+            "evidence_ids": [
+              "evidence_event_2"
+            ],
+            "confidence": 0.95
+          },
+          {
+            "event_id": "event_3",
+            "time_range": [
+              8.0,
+              13.0
+            ],
+            "entity_ids": [
+              "entity_1",
+              "entity_3"
+            ],
+            "action": "person_1 is shown holding a yellow shopping basket, walking through the store aisle. She points to the shelves while speaking. Another person is visible in the background, organizing products. Text overlays mention daily updates of '上百个款式' (hundreds of styles) and that they are '当下remai的款式' (currently popular styles).",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "cut",
+            "evidence_ids": [
+              "evidence_event_3"
+            ],
+            "confidence": 0.95
+          },
+          {
+            "event_id": "event_4",
+            "time_range": [
+              13.0,
+              17.666667
+            ],
+            "entity_ids": [
+              "entity_1",
+              "entity_3"
+            ],
+            "action": "person_1 stands in the center of the store aisle, facing the camera. She gestures with her hands while speaking. Text overlays state '30副起批' (minimum 30 sets for wholesale) and '感兴趣姐妹记得找我哟' (interested sisters, remember to find me). The store's pink shelves and lighting remain consistent in the background.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "cut",
+            "evidence_ids": [
+              "evidence_event_4"
+            ],
+            "confidence": 0.95
+          }
+        ],
+        "technical": {
+          "duration_seconds": 17.666667,
+          "framing": "The video alternates between wide shots (0-2s, 8-13s, 13-17s) showing the store environment and person_1, and close-ups (2-8s) focusing on the press-on nail products held in hand. Camera remains mostly static with slight panning during the aisle walk.",
+          "camera": "Handheld or tripod-mounted, with smooth cuts between shots. No significant zoom or tracking movement.",
+          "visible_text": [
+            "NEW NIO",
+            "千种款式 任你挑选",
+            "穿戴甲",
+            "多巴胺系列",
+            "这是我们今天打版的多巴胺系列",
+            "每一副都绚丽多彩",
+            "每天都有上百个款式更新",
+            "都是当下remai的款式",
+            "30副起批",
+            "感兴趣姐妹记得找我哟"
+          ],
+          "media_type": "video",
+          "analysis_pipeline": "compact_video_then_deterministic_expansion",
+          "task_ids": [
+            "20260820_122243_172789_2e8ff06a-25d6-4cdb-a923-82929c28bfe6",
+            "20260820_122513_558954_ffde18a9-a8da-4f2c-868b-1b821b5df522"
+          ]
+        },
+        "transcript": "",
+        "uncertainties": [
+          "The exact brand or material of the press-on nails is not visible or stated.",
+          "The original nails on person_1's fingers are not shown; only the packaged products are displayed.",
+          "The term 'remai' in the text is likely a phonetic spelling of '热销' (best-selling), but not confirmed visually.",
+          "Compact entity pass omitted details for timeline entities: product_1"
+        ]
+      },
+      {
+        "asset_id": "image_replacement_product",
+        "summary": "1 distinct foreground objects localized and analyzed individually.",
+        "evidence": [
+          {
+            "evidence_id": "evidence_1",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.1,
+              0.1,
+              0.93,
+              0.95
+            ],
+            "description": "Localized press-on nail set object_1"
+          }
+        ],
+        "regions": [
+          {
+            "region_id": "region_1",
+            "evidence_id": "evidence_1",
+            "bbox_normalized": [
+              0.1,
+              0.1,
+              0.93,
+              0.95
+            ],
+            "entity_ids": [
+              "object_1"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          }
+        ],
+        "entities": [
+          {
+            "entity_id": "object_1",
+            "category": "press-on nail set",
+            "subcategory": "press-on nail set",
+            "summary": "A set of ten colorful press-on nails arranged on a card, featuring varied designs including stars, insects, buttons, keys, and galaxy swirls in blue-purple and orange-red colorways.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "localize_then_isolated_attribute_batches",
+          "localization_coordinate_system": "normalized_0_1",
+          "task_ids": [
+            "20260820_122732_881653_a59258b7-feab-482a-aa6c-99e745aaaf43",
+            "20260820_122737_948816_2871f10e-947c-498e-a165-2dc917fd7312"
+          ]
+        },
+        "transcript": "",
+        "uncertainties": []
+      },
+      {
+        "asset_id": "image_worn_anchor",
+        "summary": "1 distinct foreground objects localized and analyzed individually.",
+        "evidence": [
+          {
+            "evidence_id": "evidence_1",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.156,
+              0.188,
+              0.997,
+              0.788
+            ],
+            "description": "Localized colorful press-on nails worn on five fingers object_1"
+          }
+        ],
+        "regions": [
+          {
+            "region_id": "region_1",
+            "evidence_id": "evidence_1",
+            "bbox_normalized": [
+              0.156,
+              0.188,
+              0.997,
+              0.788
+            ],
+            "entity_ids": [
+              "object_1"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          }
+        ],
+        "entities": [
+          {
+            "entity_id": "object_1",
+            "category": "decorated fingernails",
+            "subcategory": "decorated fingernails",
+            "summary": "Five fingernails with colorful, artistic designs including swirls, stars, text, and 3D embellishments; worn on a hand with visible skin and blurred background.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "background details are indistinct; no clear Christmas decorations or jewelry visible"
+            ]
+          }
+        ],
+        "relations": [],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "localize_then_isolated_attribute_batches",
+          "localization_coordinate_system": "normalized_0_1",
+          "task_ids": [
+            "20260820_122828_138696_0416da9a-d23f-49db-aadf-ea23b94bea94",
+            "20260820_122833_235469_c93153f2-a888-40e8-9c49-26455de6f3a3"
+          ]
+        },
+        "transcript": "",
+        "uncertainties": []
+      }
+    ],
+    "missing_asset_ids": []
+  }
+}

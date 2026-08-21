@@ -1,0 +1,992 @@
+{
+  "schema_version": "0.1.0",
+  "intent": {
+    "user_request": "生成一条15秒、9:16竖屏的高级珠宝商品广告，不生成旁白，不添加字幕、价格、促销语或新品牌标识。\n\n素材使用方式：\n1. 图片1是唯一的商品外观参考，控制八边形礼盒的几何结构、深祖母绿色天鹅绒、金色窄边、奶油色内衬，以及金色项链和透明水滴形吊坠。以上特征在所有镜头中必须保持，不能更换项链款式、增加首饰、复制吊坠或改变礼盒颜色。\n2. 本案例没有参考视频，由系统根据珠宝商品类别保守补全镜头、台面和展示动作。\n3. 如果需要手部，只出现一双干净自然、没有明显首饰的手；手只是操作商品的辅助主体，不能遮挡礼盒和吊坠。\n\n分镜设计：\n- 0–3秒：中近景建立商品。礼盒闭合放在简洁深灰台面中央，镜头缓慢向前推进；礼盒保持图片1中的八边形、祖母绿天鹅绒和金色边框。\n- 3–6秒：一只手从画面侧面进入并缓慢打开盒盖。开盖后立即看到奶油色内衬及完整项链。\n- 6–10秒：微距展示水滴形透明吊坠、金色链条和天鹅绒材质。镜头采用轻微横向滑动和浅景深，吊坠始终只有一个，形状不能漂移。\n- 10–13秒：切换到略高角度，完整展示打开的礼盒与项链，手退出画面，保持商品居中且无遮挡。\n- 13–15秒：正面商品英雄特写作为结束画面，镜头稳定，商品占主要画幅，不出现额外文案。\n\n整体风格：高级、克制、真实珠宝摄影；柔和轮廓光突出金属、透明晶体和天鹅绒材质。所有补全的镜头语言都服从商品识别，不能改变图片1中的商品。",
+    "resolved_request": "Generate a 15-second, 9:16 vertical high-end jewelry product advertisement that preserves the reference product exactly as shown in image_product (octagonal box, deep emerald green velvet, thin gold edges, cream lining, gold chain, single transparent teardrop pendant), uses only clean natural hands without visible jewelry as an auxiliary operator that never occludes the box or pendant, follows the specified five-segment storyboard and camera moves, applies premium restrained realistic jewelry photography with soft rim light, completes missing shots/surfaces/display actions conservatively per jewelry product category since no reference video exists, and contains no narration, subtitles, price, promotional text, or new brand logo.",
+    "directives": [
+      {
+        "directive_id": "d_1",
+        "asset_id": "image_product",
+        "target": "product_box_locked_appearance [product]",
+        "operation": "preserve",
+        "scope": [
+          "octagonal box geometry"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_2",
+        "asset_id": "image_product",
+        "target": "product_box_locked_appearance [other]",
+        "operation": "preserve",
+        "scope": [
+          "deep emerald green velvet exterior",
+          "thin gold edges",
+          "cream interior lining"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_3",
+        "asset_id": "image_product",
+        "target": "necklace_and_pendant_locked_appearance [style]",
+        "operation": "preserve",
+        "scope": [
+          "gold chain style unchanged"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_4",
+        "asset_id": "image_product",
+        "target": "necklace_and_pendant_locked_appearance [other]",
+        "operation": "preserve",
+        "scope": [
+          "single transparent teardrop pendant",
+          "pendant quantity exactly one",
+          "pendant shape stability throughout"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_5",
+        "asset_id": "image_product",
+        "target": "no_added_jewelry",
+        "operation": "exclude",
+        "scope": [
+          "additional jewelry beyond reference",
+          "duplicated pendant"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_6",
+        "asset_id": "",
+        "target": "hand_appearance_and_role",
+        "operation": "preserve",
+        "scope": [
+          "clean natural hands only",
+          "no visible jewelry on hands",
+          "hands as auxiliary operator only"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_7",
+        "asset_id": "",
+        "target": "hand_opening_action",
+        "operation": "preserve",
+        "scope": [
+          "hand enters from frame side",
+          "slow lid opening",
+          "hand exits before high-angle full shot"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_8",
+        "asset_id": "",
+        "target": "camera_movement_plan",
+        "operation": "preserve",
+        "scope": [
+          "slow forward push-in during establishing shot",
+          "slight lateral slide with shallow depth of field during macro",
+          "slightly higher angle for full open-box view",
+          "stable front hero close-up as ending"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_9",
+        "asset_id": "",
+        "target": "scene_and_composition [other]",
+        "operation": "preserve",
+        "scope": [
+          "clean dark gray minimalist tabletop",
+          "no occlusion of box or pendant"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_10",
+        "asset_id": "",
+        "target": "scene_and_composition [product]",
+        "operation": "preserve",
+        "scope": [
+          "product centered"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_11",
+        "asset_id": "",
+        "target": "timing_and_format",
+        "operation": "preserve",
+        "scope": [
+          "total duration 15 seconds",
+          "vertical 9:16 aspect ratio",
+          "shot segments 0-3s, 3-6s, 6-10s, 10-13s, 13-15s"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_12",
+        "asset_id": "",
+        "target": "visual_style [other]",
+        "operation": "preserve",
+        "scope": [
+          "premium restrained realistic jewelry photography"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_13",
+        "asset_id": "",
+        "target": "visual_style [style]",
+        "operation": "preserve",
+        "scope": [
+          "soft rim lighting emphasizing metal, transparent crystal, and velvet"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_14",
+        "asset_id": "",
+        "target": "visual_style [product]",
+        "operation": "preserve",
+        "scope": [
+          "supplemental shots subordinate to product recognition"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_15",
+        "asset_id": "",
+        "target": "first_frame_establishing [other]",
+        "operation": "preserve",
+        "scope": [
+          "mid-close establishing shot"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_16",
+        "asset_id": "",
+        "target": "first_frame_establishing [identity]",
+        "operation": "preserve",
+        "scope": [
+          "closed box centered on dark gray surface"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_17",
+        "asset_id": "",
+        "target": "last_frame_hero_closeup [other]",
+        "operation": "preserve",
+        "scope": [
+          "front hero close-up as ending",
+          "no additional on-screen text"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_18",
+        "asset_id": "",
+        "target": "last_frame_hero_closeup [camera]",
+        "operation": "preserve",
+        "scope": [
+          "stable camera"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_19",
+        "asset_id": "",
+        "target": "last_frame_hero_closeup [product]",
+        "operation": "preserve",
+        "scope": [
+          "product dominates frame"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_20",
+        "asset_id": "",
+        "target": "voice_and_audio_speech",
+        "operation": "exclude",
+        "scope": [
+          "narration"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_21",
+        "asset_id": "",
+        "target": "on_screen_text_and_branding [scene]",
+        "operation": "exclude",
+        "scope": [
+          "subtitles"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_22",
+        "asset_id": "",
+        "target": "on_screen_text_and_branding [other]",
+        "operation": "exclude",
+        "scope": [
+          "price text",
+          "new brand logo"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_23",
+        "asset_id": "",
+        "target": "on_screen_text_and_branding [motion]",
+        "operation": "exclude",
+        "scope": [
+          "promotional phrases"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      }
+    ],
+    "completion_policy": {
+      "technical": true,
+      "conservative_semantic": true,
+      "creative": false
+    },
+    "assumptions": [
+      "(IR completion) The source image depicts the open octagonal box with the necklace resting on the cream lining (perception, quantity confidence 0.95); the storyboard's closed-to-open lid transition is executed exactly as the user commands, with the image supplying only the locked appearance attributes.",
+      "(IR completion) The hand entry side is unspecified; the hand enters from the left side of the frame in the 3-6s segment.",
+      "(IR completion) The lid is opened by tilting it back so the cream-lined interior and complete necklace face the camera.",
+      "(IR completion) During the 6-10s macro the hand remains visible only at the frame edge holding the open lid so it never occludes the box or pendant, and it withdraws within the 10-13s segment.",
+      "(IR completion) Camera behavior for the 3-6s and 10-13s segments is completed conservatively as static (the frame never moves); the slightly higher angle in the 10-13s segment is delivered as a cut, since only the 0-3s, 6-10s, and 13-15s segments specify camera motion.",
+      "(IR completion) The environment beyond the dark gray tabletop is completed as a minimal dark studio backdrop consistent with premium jewelry photography.",
+      "(IR completion) generate_audio=false and no music is specified, so the ad is produced silent with no audio track; the upstream open question about background music and ambient audio is resolved as silent.",
+      "(IR completion) The necklace is displayed resting inside the open box on the cream lining (perception, high confidence), consistent with the requested 3-6s reveal and all later shots.",
+      "(IR completion) No additional subjects or props are introduced; every supplemented shot remains subordinate to product recognition."
+    ],
+    "uncertainties": [
+      "Exact gold tone hue and pendant transparency/refraction degree are not field-level evidenced (perception attribute arrays are empty); the locked items are 'gold chain style' and 'transparent teardrop pendant', and minor hue or refraction variation within the reference look is acceptable.",
+      "Background music and ambient audio preference is unresolved upstream (open_questions); resolved here as silent because generate_audio=false, and any later addition of music would require a new directive."
+    ]
+  },
+  "protocol": {
+    "rewrite_language": "English",
+    "preserve_source_language_for": [
+      "dialogue",
+      "lyrics",
+      "visible scene text"
+    ],
+    "summary_task_types": [
+      "reference generation"
+    ]
+  },
+  "asset_bindings": [
+    {
+      "binding_id": "b_box_geometry",
+      "asset_id": "image_product",
+      "target": "product_box_locked_appearance [product]",
+      "role": "product",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_1"
+      ],
+      "inherit": [
+        "octagonal box geometry"
+      ],
+      "exclude": [
+        "necklace and pendant attributes",
+        "box exterior color and lining",
+        "scene background",
+        "hands",
+        "on-screen text or branding",
+        "additional jewelry"
+      ]
+    },
+    {
+      "binding_id": "b_box_materials",
+      "asset_id": "image_product",
+      "target": "product_box_locked_appearance [other]",
+      "role": "product",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_2"
+      ],
+      "inherit": [
+        "deep emerald green velvet exterior",
+        "thin gold edges",
+        "cream interior lining"
+      ],
+      "exclude": [
+        "box geometry",
+        "necklace and pendant",
+        "scene background",
+        "hands",
+        "on-screen text or branding",
+        "additional jewelry"
+      ]
+    },
+    {
+      "binding_id": "b_chain_style",
+      "asset_id": "image_product",
+      "target": "necklace_and_pendant_locked_appearance [style]",
+      "role": "product",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_3"
+      ],
+      "inherit": [
+        "gold chain style unchanged"
+      ],
+      "exclude": [
+        "pendant shape",
+        "box attributes",
+        "scene background",
+        "hands",
+        "on-screen text or branding",
+        "additional jewelry"
+      ]
+    },
+    {
+      "binding_id": "b_pendant",
+      "asset_id": "image_product",
+      "target": "necklace_and_pendant_locked_appearance [other]",
+      "role": "product",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_4"
+      ],
+      "inherit": [
+        "single transparent teardrop pendant",
+        "pendant quantity exactly one",
+        "pendant shape stability throughout"
+      ],
+      "exclude": [
+        "chain style",
+        "box attributes",
+        "scene background",
+        "hands",
+        "on-screen text or branding",
+        "additional jewelry",
+        "duplicated pendant"
+      ]
+    },
+    {
+      "binding_id": "b_no_added_jewelry",
+      "asset_id": "image_product",
+      "target": "no_added_jewelry",
+      "role": "product",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_5"
+      ],
+      "inherit": [
+        "product reference scope"
+      ],
+      "exclude": [
+        "additional jewelry beyond reference",
+        "duplicated pendant"
+      ]
+    }
+  ],
+  "subjects": [
+    {
+      "subject_id": "subject_1",
+      "name": "octagonal emerald velvet jewelry box with gold chain and teardrop pendant",
+      "kind": "product",
+      "primary": true,
+      "description": "The hero product: an octagonal jewelry box with deep emerald green velvet exterior and thin gold edges, cream interior lining, containing a gold chain necklace with a single transparent teardrop pendant. The box begins closed and is opened during the video; all appearance attributes remain identical to image_product in every shot.",
+      "source_asset_ids": [
+        "image_product"
+      ],
+      "binding_ids": [
+        "b_box_geometry",
+        "b_box_materials",
+        "b_chain_style",
+        "b_pendant",
+        "b_no_added_jewelry"
+      ],
+      "appearance_shot_ids": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05"
+      ],
+      "retention_mode": "fully_preserved",
+      "retention_description": "The full locked appearance of the reference product is retained exactly in all shots: octagonal geometry, deep emerald green velvet exterior, thin gold edges, cream interior lining, unchanged gold chain style, and exactly one transparent teardrop pendant with stable shape. No additional jewelry, duplicated pendant, on-screen text, or new branding is added."
+    },
+    {
+      "subject_id": "subject_2",
+      "name": "clean natural operator hand",
+      "kind": "person",
+      "primary": false,
+      "description": "A single pair of clean, natural hands with no visible jewelry, shown only as an auxiliary operator that slowly opens the box lid, holds it at the frame edge, and withdraws before the high-angle full shot; never occludes the box or pendant; no identity, clothing, or facial features are shown.",
+      "source_asset_ids": [],
+      "binding_ids": [],
+      "appearance_shot_ids": [
+        "02",
+        "03",
+        "04"
+      ],
+      "retention_mode": "attribute_transfer",
+      "retention_description": "Only the instructed attributes transfer: clean natural bare hands without any visible jewelry, operating the product as a minor auxiliary element. No performer identity, wardrobe, or scene attributes are attached."
+    }
+  ],
+  "reference_relationships": [
+    {
+      "asset_id": "image_product",
+      "relationship": "reference_generation",
+      "subject_refs": [
+        "subject_1"
+      ],
+      "definition": "the authoritative product appearance reference for the octagonal jewelry box, gold chain, and single transparent teardrop pendant",
+      "retention_mode": "fully_preserved",
+      "retention_description": "Every locked appearance attribute of image_product is retained exactly in all shots: octagonal box geometry, deep emerald green velvet exterior, thin gold edges, cream interior lining, unchanged gold chain style, and exactly one transparent teardrop pendant with stable shape. Only these product attributes transfer; the image's other content (background, layout, extra props, text) is not inherited, and no additional jewelry, duplicated pendant, or new branding is added."
+    }
+  ],
+  "creative_focus": {
+    "primary_target": "the reference jewelry product (octagonal emerald velvet box with gold chain and single transparent teardrop pendant) as the hero of the ad",
+    "primary_subject_id": "subject_1",
+    "primary_asset_id": "image_product",
+    "primary_binding_ids": [
+      "b_box_geometry",
+      "b_box_materials",
+      "b_chain_style",
+      "b_pendant",
+      "b_no_added_jewelry"
+    ],
+    "objective": "The finished video must present the reference product — octagonal geometry, deep emerald green velvet exterior, thin gold edges, cream interior lining, unchanged gold chain, and exactly one transparent teardrop pendant — as the unchanged, centered hero across all 15 seconds, executed in premium restrained realistic jewelry photography with no narration, on-screen text, added jewelry, or new branding.",
+    "supporting_asset_ids": [],
+    "required_shot_ids": [
+      "01",
+      "03",
+      "05"
+    ],
+    "presentation_requirements": [
+      "In shot 01 the closed box is centered on the dark gray tabletop and the slow push-in ends at a closer mid-close framing with the emerald velvet and thin gold edges clearly readable.",
+      "In shot 03 the macro holds exactly one transparent teardrop pendant with a stable shape, using the slight lateral slide and shallow depth of field; the pendant must not drift and no second pendant may appear.",
+      "In shot 05 the front hero close-up is stable with the product dominating the frame, centered and unobstructed, with no on-screen text.",
+      "The locked appearance bindings (b_box_geometry, b_box_materials, b_chain_style, b_pendant, b_no_added_jewelry) keep the product identical to image_product in every shot; no chain style change, extra jewelry, or duplicated pendant is allowed.",
+      "Any hands present (shots 02-04) are clean, natural, jewelry-free, and never occlude the box or pendant."
+    ]
+  },
+  "isolation_rules": [
+    {
+      "binding_id": "b_box_geometry",
+      "allow": [
+        "octagonal box geometry"
+      ],
+      "block": [
+        "necklace and pendant attributes",
+        "box exterior color and lining",
+        "scene background",
+        "hands",
+        "on-screen text or branding",
+        "additional jewelry"
+      ]
+    },
+    {
+      "binding_id": "b_box_materials",
+      "allow": [
+        "deep emerald green velvet exterior",
+        "thin gold edges",
+        "cream interior lining"
+      ],
+      "block": [
+        "box geometry",
+        "necklace and pendant",
+        "scene background",
+        "hands",
+        "on-screen text or branding",
+        "additional jewelry"
+      ]
+    },
+    {
+      "binding_id": "b_chain_style",
+      "allow": [
+        "gold chain style unchanged"
+      ],
+      "block": [
+        "pendant shape",
+        "box attributes",
+        "scene background",
+        "hands",
+        "on-screen text or branding",
+        "additional jewelry"
+      ]
+    },
+    {
+      "binding_id": "b_pendant",
+      "allow": [
+        "single transparent teardrop pendant",
+        "pendant quantity exactly one",
+        "pendant shape stability throughout"
+      ],
+      "block": [
+        "chain style",
+        "box attributes",
+        "scene background",
+        "hands",
+        "on-screen text or branding",
+        "additional jewelry",
+        "duplicated pendant"
+      ]
+    },
+    {
+      "binding_id": "b_no_added_jewelry",
+      "allow": [
+        "product reference scope"
+      ],
+      "block": [
+        "additional jewelry beyond reference",
+        "duplicated pendant"
+      ]
+    }
+  ],
+  "constraints": {
+    "preserve": [
+      "octagonal box geometry",
+      "deep emerald green velvet exterior",
+      "thin gold edges",
+      "cream interior lining",
+      "gold chain style unchanged",
+      "single transparent teardrop pendant",
+      "pendant quantity exactly one",
+      "pendant shape stability throughout",
+      "clean dark gray minimalist tabletop",
+      "no occlusion of box or pendant",
+      "product centered",
+      "total duration 15 seconds",
+      "vertical 9:16 aspect ratio",
+      "shot segments 0-3s, 3-6s, 6-10s, 10-13s, 13-15s",
+      "mid-close establishing shot",
+      "closed box centered on dark gray surface at first frame",
+      "front hero close-up as ending",
+      "stable camera in the final shot",
+      "product dominates frame in the final shot",
+      "premium restrained realistic jewelry photography",
+      "soft rim lighting emphasizing metal, transparent crystal, and velvet",
+      "clean natural hands only",
+      "no visible jewelry on hands",
+      "hands as auxiliary operator only",
+      "hand enters from frame side",
+      "slow lid opening",
+      "hand exits before high-angle full shot",
+      "supplemental shots subordinate to product recognition",
+      "slow forward push-in during establishing shot",
+      "slight lateral slide with shallow depth of field during macro",
+      "slightly higher angle for full open-box view",
+      "stable front hero close-up as ending",
+      "closed box centered on dark gray surface",
+      "no additional on-screen text",
+      "stable camera",
+      "product dominates frame"
+    ],
+    "allow_change": [
+      "Box lid state transition closed to open during 3-6s, remaining open through the end (requested storyboard beat).",
+      "Hand enters from the frame side, opens the lid, holds it at the frame edge, and withdraws within the 10-13s segment (requested auxiliary action).",
+      "Camera moves per segment: slow forward push-in (0-3s), slight lateral slide with shallow depth of field (6-10s), slightly higher static angle (10-13s), stable front hero close-up (13-15s).",
+      "Conservative completion of missing shot language, tabletop presentation, and display actions per the jewelry product category, all subordinate to product recognition (system completion, conservative_semantic).",
+      "Minimal dark studio backdrop beyond the dark gray tabletop, consistent with premium jewelry photography (IR completion).",
+      "Lid opening manner: the hand tilts the lid back to reveal the cream interior (IR completion).",
+      "Hand entry side set to the left of frame (IR completion).",
+      "No audio track; the ad remains silent because generate_audio=false and no music is specified (IR completion)."
+    ],
+    "prohibit": [
+      "narration",
+      "subtitles",
+      "price text",
+      "promotional phrases",
+      "new brand logo",
+      "additional jewelry beyond the reference",
+      "duplicated pendant",
+      "any change to chain style, pendant shape, box geometry, velvet color, gold edges, or cream lining",
+      "hands with visible jewelry",
+      "occlusion of the box or pendant by hands or props",
+      "non-realistic, flashy, or promotional visual treatment",
+      "shot language that competes with product recognition"
+    ]
+  },
+  "timeline": [
+    {
+      "shot_id": "01",
+      "start_seconds": 0,
+      "end_seconds": 3,
+      "primary_change": "The camera slowly pushes in on the closed octagonal jewelry box, establishing the hero product on the dark gray tabletop.",
+      "event": "A mid-close shot frames the closed octagonal jewelry box centered on a clean dark gray minimalist tabletop; the camera performs a slow forward push-in while soft rim light sculpts the deep emerald velvet and thin gold edges.",
+      "action": "",
+      "camera": "Slow forward push-in toward the product at low amplitude and gentle speed; no pan, no lateral slide, and no zoom.",
+      "lighting": "Soft rim light emphasizing the emerald velvet, thin gold edges, and gold metal.",
+      "transition": "Cut to shot 02 as the push-in settles at a closer mid-close framing.",
+      "observable_end_state": "The closed box is centered and visibly larger in frame after the push-in, with emerald velvet and gold edges clearly readable and no hands present.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "box lid state",
+          "from": "closed",
+          "to": "closed"
+        }
+      ],
+      "subject_refs": [
+        "subject_1"
+      ],
+      "asset_refs": [
+        "image_product"
+      ],
+      "binding_refs": [
+        "b_box_geometry",
+        "b_box_materials",
+        "b_chain_style",
+        "b_pendant",
+        "b_no_added_jewelry"
+      ]
+    },
+    {
+      "shot_id": "02",
+      "start_seconds": 3,
+      "end_seconds": 6,
+      "primary_change": "A clean natural hand slowly opens the box lid, revealing the cream lining and the complete necklace.",
+      "event": "A clean natural hand with no visible jewelry enters from the left side of the frame and slowly opens the box lid, tilting it back so the cream interior lining and the full gold chain with the single transparent teardrop pendant are immediately revealed.",
+      "action": "Slow lid opening by the hand; the hand then holds the open lid at the frame edge.",
+      "camera": "Static shot; the frame never moves, with no pan, push-in, zoom, or reframing, so the opening action carries the beat.",
+      "lighting": "Soft rim light continues to model the cream lining, gold chain, and velvet.",
+      "transition": "Cut to macro shot 03.",
+      "observable_end_state": "The lid is fully open, the cream interior and complete necklace with the single pendant are clearly visible, and the hand holds the lid at the frame edge without occluding the product.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "box lid state",
+          "from": "closed",
+          "to": "open"
+        },
+        {
+          "subject_id": "subject_2",
+          "property": "hand presence",
+          "from": "absent",
+          "to": "present, holding the open lid at the frame edge"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_2"
+      ],
+      "asset_refs": [
+        "image_product"
+      ],
+      "binding_refs": [
+        "b_box_geometry",
+        "b_box_materials",
+        "b_chain_style",
+        "b_pendant"
+      ]
+    },
+    {
+      "shot_id": "03",
+      "start_seconds": 6,
+      "end_seconds": 10,
+      "primary_change": "A macro lateral slide reveals the single teardrop pendant, gold chain, and velvet in shallow focus.",
+      "event": "The camera performs a slight lateral slide with shallow depth of field across the transparent teardrop pendant, gold chain, and emerald velvet; the pendant remains exactly one with a stable shape, and the hand stays at the frame edge holding the open lid without entering the product area.",
+      "action": "The hand holds the open lid at the frame edge; no other action.",
+      "camera": "Slight lateral slide at slow, low amplitude with shallow depth of field; no push-in and no zoom.",
+      "lighting": "Soft rim light catching the transparent crystal, polished gold, and velvet pile.",
+      "transition": "Cut to shot 04.",
+      "observable_end_state": "The single teardrop pendant and gold chain are shown in crisp macro detail against the cream lining and velvet in shallow focus, with the hand visible only at the frame edge.",
+      "state_changes": [],
+      "subject_refs": [
+        "subject_1",
+        "subject_2"
+      ],
+      "asset_refs": [
+        "image_product"
+      ],
+      "binding_refs": [
+        "b_box_materials",
+        "b_chain_style",
+        "b_pendant",
+        "b_box_geometry",
+        "b_no_added_jewelry"
+      ]
+    },
+    {
+      "shot_id": "04",
+      "start_seconds": 10,
+      "end_seconds": 13,
+      "primary_change": "The hand withdraws, revealing the fully unobstructed open box from a slightly higher angle.",
+      "event": "The hand withdraws out of the frame; the shot then holds a slightly higher-angle full view of the open box with the cream lining, complete gold chain, and single teardrop pendant centered and unobstructed on the dark gray tabletop.",
+      "action": "Hand withdrawal out of the frame.",
+      "camera": "Static shot from a slightly higher angle than the establishing shot; once the angle is set, the frame never moves, with no pan, push-in, zoom, or reframing.",
+      "lighting": "Soft rim light keeps the box, chain, and pendant evenly readable.",
+      "transition": "Cut to the final hero close-up shot 05.",
+      "observable_end_state": "No hands are in frame; the open box and complete necklace are centered, fully visible, and unobstructed.",
+      "state_changes": [
+        {
+          "subject_id": "subject_2",
+          "property": "hand presence",
+          "from": "present, holding the open lid at the frame edge",
+          "to": "absent, withdrawn from frame"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_2"
+      ],
+      "asset_refs": [
+        "image_product"
+      ],
+      "binding_refs": [
+        "b_box_geometry",
+        "b_box_materials",
+        "b_chain_style",
+        "b_pendant"
+      ]
+    },
+    {
+      "shot_id": "05",
+      "start_seconds": 13,
+      "end_seconds": 15,
+      "primary_change": "The video ends on a stable front hero close-up of the product.",
+      "event": "A stable front-on hero close-up frames the open box with the necklace and single teardrop pendant dominating the frame; no subtitles, price, promotional phrase, or new brand logo appears.",
+      "action": "",
+      "camera": "Static shot; the frame never moves, with no pan, push-in, zoom, or reframing.",
+      "lighting": "Soft rim light provides final polish on the velvet, gold, and crystal.",
+      "transition": "Hold the hero close-up to the end of the video at 15 seconds.",
+      "observable_end_state": "The product dominates the frame, centered and unobstructed, with the single pendant visible and no on-screen text of any kind.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "box lid state",
+          "from": "open",
+          "to": "open, held through the final frame"
+        }
+      ],
+      "subject_refs": [
+        "subject_1"
+      ],
+      "asset_refs": [
+        "image_product"
+      ],
+      "binding_refs": [
+        "b_box_geometry",
+        "b_box_materials",
+        "b_chain_style",
+        "b_pendant",
+        "b_no_added_jewelry"
+      ]
+    }
+  ],
+  "audio_plan": {
+    "voice": "",
+    "music": "",
+    "sound_effects": "",
+    "ambient_sound": "",
+    "sync_rules": []
+  },
+  "generation_description": {
+    "cinematography": "Vertical 9:16, five segments: 0-3s mid-close establishing with a slow forward push-in; 3-6s static shot of the hand opening the lid; 6-10s slight lateral slide with shallow depth of field on the pendant and chain; 10-13s static slightly higher-angle full open-box view after the hand withdraws; 13-15s stable front hero close-up. The product is centered in every shot and all supplemented shot language stays subordinate to product recognition.",
+    "lighting": "Premium restrained soft rim lighting that sculpts the deep emerald velvet, thin gold edges, polished gold chain, and transparent teardrop crystal; shallow depth of field in the macro segment.",
+    "materials": "Deep emerald green velvet exterior, thin gold edges, cream interior lining, gold chain with unchanged style, and exactly one transparent teardrop pendant, all identical to image_product in every shot.",
+    "performance": "A single clean natural hand with no visible jewelry enters from the left, slowly opens the lid, holds it at the frame edge, and withdraws before the high-angle full shot; no other performer, no dialogue, no narration.",
+    "continuity": "The box starts closed, opens in the 3-6s beat, and stays open through the final frame; exactly one pendant with stable shape throughout; hand presence tracked (absent 0-3s, present 3-10s, withdrawn 10-15s); product appearance unchanged in every shot; no text or branding; total duration exactly 15s with segments 0-3, 3-6, 6-10, 10-13, 13-15."
+  },
+  "runtime": {
+    "perception_provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3-VL-32B-Instruct",
+      "options": {
+        "base_url": "http://127.0.0.1:9012",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000
+      }
+    },
+    "reasoning_provider": {
+      "provider": "glm",
+      "model": "GLM-5.2"
+    },
+    "generation_provider": {
+      "provider": "minimax",
+      "model": "MiniMax-H3"
+    }
+  },
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 15,
+    "aspect_ratio": "9:16",
+    "generate_audio": false,
+    "style": ""
+  },
+  "assets": [
+    {
+      "asset_id": "image_product",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/ab_tests_20260820/case_005_jewelry_reference_isolation/assets/jewelry_box.png",
+      "label": "authoritative_box_necklace_and_pendant_appearance"
+    }
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v2",
+    "provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3-VL-32B-Instruct",
+      "options": {
+        "base_url": "http://127.0.0.1:9012",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000
+      }
+    },
+    "assets": [
+      {
+        "asset_id": "image_product",
+        "summary": "2 distinct foreground objects localized and analyzed individually.",
+        "evidence": [
+          {
+            "evidence_id": "evidence_1",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.166,
+              0.112,
+              0.8,
+              0.85
+            ],
+            "description": "Localized octagonal jewelry box object_1"
+          },
+          {
+            "evidence_id": "evidence_2",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.35,
+              0.47,
+              0.688,
+              0.712
+            ],
+            "description": "Localized gold-toned necklace with teardrop pendant object_2"
+          }
+        ],
+        "regions": [
+          {
+            "region_id": "region_1",
+            "evidence_id": "evidence_1",
+            "bbox_normalized": [
+              0.166,
+              0.112,
+              0.8,
+              0.85
+            ],
+            "entity_ids": [
+              "object_1"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          },
+          {
+            "region_id": "region_2",
+            "evidence_id": "evidence_2",
+            "bbox_normalized": [
+              0.35,
+              0.47,
+              0.688,
+              0.712
+            ],
+            "entity_ids": [
+              "object_2"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          }
+        ],
+        "entities": [
+          {
+            "entity_id": "object_1",
+            "category": "necklace in an octagonal jewelry box",
+            "subcategory": "necklace in an octagonal jewelry box",
+            "summary": "A gold-toned necklace with a teardrop-shaped transparent pendant rests inside an open octagonal box with deep green velvet exterior and cream interior lining.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "object_2",
+            "category": "gold-toned necklace with teardrop pendant",
+            "subcategory": "gold-toned necklace with teardrop pendant",
+            "summary": "A gold-toned chain necklace with a single teardrop-shaped transparent pendant displayed on a cream-colored fabric background.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "localize_then_isolated_attribute_batches",
+          "localization_coordinate_system": "normalized_0_1",
+          "task_ids": [
+            "20260820_141843_180618_70e46a72-1875-44a1-a472-925f13126fe6",
+            "20260820_141850_271156_ed20499b-b6ba-4cb1-bee9-f125e6bbfa63"
+          ]
+        },
+        "transcript": "",
+        "uncertainties": []
+      }
+    ],
+    "missing_asset_ids": []
+  }
+}

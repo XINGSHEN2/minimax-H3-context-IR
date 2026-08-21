@@ -1,0 +1,24 @@
+subject_definitions:
+<Subject 1> is the set of floral press-on nails seen in <Picture 1> and <Picture 2>, featuring varied intricate designs including a dark grey base with painted white petals, a mustard yellow base with a clear amber arch, a white nail with black and pink accents, a dark red base with white floral patterns, and a 3D translucent pink flower, all accented with small gold metallic beads.
+<Subject 2> is the hand wearing <Subject 1>, matching the fair skin tone and elegant finger structure shown in <Picture 2>.
+<Picture 2> is the first frame of [Shot 1], defining the tight macro composition of the hand wearing the floral nails against a soft pink floral background.
+<Video 1> is the motion and framing reference for the target video, providing the slow, graceful hand rotation, finger flexing, and macro display pacing.
+
+summary:
+[keyframe completion + reference generation] The video begins with a macro view of <Subject 1> worn on <Subject 2>, matching the exact composition and pink floral background of <Picture 2>. The hand gracefully rotates and flexes its fingers to display the intricate nail art, adopting the smooth, elegant motion style and macro camera feel from <Video 1>. The target video intentionally avoids any red Christmas elements, maintaining a fresh, spring-like aesthetic throughout the continuous 15-second showcase.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1]): fully_preserved - the specific floral and 3D nail designs, varied colors, and gold bead accents are accurately maintained on the hand exactly as shown in the reference pictures.
+<Picture 2> ([Shot 1] first frame): fully_preserved - the initial macro composition, hand pose, and the blurred pink floral background are perfectly preserved as the opening state.
+<Video 1> (motion and framing): attribute_transfer - the slow, elegant finger tilting, fluid hand rotation, and tight macro display pacing are applied to <Subject 2>, while the original red glitter nails and the Christmas background are completely discarded to meet the prompt's negative constraint.
+
+detailed_description:
+The target video is in a realistic, high-definition macro photographic style, emphasizing vivid textures and soft depth of field.
+
+[Shot 1] The shot begins from <Picture 2>, establishing a tight, highly detailed macro view of <Subject 2>, a fair-skinned hand elegantly posed to showcase <Subject 1>. The press-on nails present a stunning variety of intricate artistic designs: the index finger features a dark grey-black base adorned with painted white petals; the middle finger displays a mustard yellow base topped with a raised, clear amber crescent arch; the ring finger shows a crisp white center framed by black and pink curved sections; and the pinky carries a striking, three-dimensional translucent pink acrylic flower. Another nail, visible on the thumb, features a dark red base with a contrasting white floral pattern and delicate black dots. Every single nail is meticulously accented with small, highly reflective gold metallic beads at the center of their respective designs. The surrounding environment is a soft, beautifully out-of-focus array of light pink cherry blossoms, establishing a fresh, spring-like atmosphere and explicitly avoiding any red ornaments, pine branches, or winter holiday elements. Drawing specific motion inspiration from the graceful presentation in <Video 1>, the hand slowly begins to rotate and flex within the tight framing. The fingers gently spread, curve, and tilt, purposefully catching the soft ambient studio light to emphasize the ultra-glossy, gel-like finish of the nail surfaces. The macro lens holds a mostly static framing but subtly adjusts focus to keep the intricate 3D pink flower and the translucent amber arch perfectly sharp as the fingers continuously shift their distance to the camera. As the hand turns its palm slightly inward and then sweeps smoothly outward, a clean, bright highlight rolls continuously across the curved surfaces of the nails, making the gold beads glint brightly. The physical movement is deliberate, buttery smooth, and professionally paced, designed specifically to highlight the varied tactile textures, ranging from the smooth painted flat patterns to the elevated clear acrylic elements. The soft pink floral background remains a dreamy, blurred wash of pastel colors throughout the entire duration. The hand continues this fluid, mesmerizing modeling sequence, briefly pausing at the peak of a tilt to let the viewer fully appreciate the fine dotting details and the layered opacity of the 3D floral sculpt, before gently returning to its initial relaxed, elegant pose as the video concludes.
+
+overall_soundscape:
+N/A
+
+non_diegetic_music:
+N/A

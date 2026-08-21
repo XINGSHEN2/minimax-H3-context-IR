@@ -1,0 +1,591 @@
+{
+  "schema_version": "0.1.0",
+  "intent": {
+    "user_request": "用这张清洁刷商品图做一条前后效果明显的15秒竖屏短视频，产品始终要看得清楚。",
+    "resolved_request": "Produce a 15-second vertical-format short video using the supplied cleaning brush product image as the authoritative product appearance, featuring an obvious before/after effect, with the product kept clearly visible throughout.",
+    "directives": [
+      {
+        "directive_id": "d_1",
+        "asset_id": "image_product",
+        "target": "cleaning brush product appearance",
+        "operation": "preserve",
+        "scope": [
+          "cleaning_brush_geometry_and_colors"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_2",
+        "asset_id": "",
+        "target": "before/after effect strength",
+        "operation": "preserve",
+        "scope": [
+          "obvious_before_after_effect"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_3",
+        "asset_id": "",
+        "target": "total runtime",
+        "operation": "preserve",
+        "scope": [
+          "15_second_duration"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_4",
+        "asset_id": "",
+        "target": "frame orientation and format",
+        "operation": "preserve",
+        "scope": [
+          "vertical_portrait_format"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_5",
+        "asset_id": "",
+        "target": "product legibility over time",
+        "operation": "preserve",
+        "scope": [
+          "product_clearly_visible_throughout"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      }
+    ],
+    "completion_policy": {
+      "technical": true,
+      "conservative_semantic": true,
+      "creative": false
+    },
+    "assumptions": [
+      "IR completion: the obvious before/after effect is interpreted as the brushed surface visibly changing from soiled/grime-covered to clean, while the brush product appearance itself stays unchanged.",
+      "IR completion: the cleaned surface is a neutral light-colored hard surface (countertop-like); the exact surface type was not specified.",
+      "IR completion: the surface is introduced as subject_2 to carry the before/after state transition; it has no source asset and is defined conservatively for this effect.",
+      "IR completion: the 15-second runtime is split as 0-4s before state, 4-11s single continuous cleaning sweep, 11-15s completion and final presentation.",
+      "IR completion: no hands, people, text overlays, or UI elements appear in the frame, keeping the product clearly visible per d_5.",
+      "IR completion: generated audio is a short upbeat music bed with brushing/motor sound effects synced to the sweep; no voiceover is generated because none was requested.",
+      "IR completion: image_product is treated as the authoritative product appearance source only; its background, lighting, and camera perspective are not inherited."
+    ],
+    "uncertainties": [
+      "The exact grime pattern, surface material, and soiling density of the before state are unspecified; conservative neutral defaults were assumed and recorded in assumptions."
+    ]
+  },
+  "protocol": {
+    "rewrite_language": "English",
+    "preserve_source_language_for": [
+      "dialogue",
+      "lyrics",
+      "visible scene text"
+    ],
+    "summary_task_types": [
+      "reference generation"
+    ]
+  },
+  "asset_bindings": [
+    {
+      "binding_id": "b_product",
+      "asset_id": "image_product",
+      "target": "authoritative cleaning brush product appearance",
+      "role": "product",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_1"
+      ],
+      "inherit": [
+        "cleaning_brush_geometry_and_colors",
+        "component_layout_and_matte_finish"
+      ],
+      "exclude": [
+        "source_image_background_scene",
+        "source_image_lighting_and_shadows",
+        "source_image_camera_perspective",
+        "brand_text_or_logo",
+        "packaging",
+        "hand_or_environment_context",
+        "grime_or_soiling_on_the_product"
+      ]
+    }
+  ],
+  "subjects": [
+    {
+      "subject_id": "subject_1",
+      "name": "electric cleaning brush",
+      "kind": "product",
+      "primary": true,
+      "description": "A handheld electric cleaning brush with a cylindrical ivory-white matte body, a light blue circular brush head on a slightly slanted neck, a coral orange oval power button on the mid-body, and a dark gray thin base ring.",
+      "source_asset_ids": [
+        "image_product"
+      ],
+      "binding_ids": [
+        "b_product"
+      ],
+      "appearance_shot_ids": [
+        "01",
+        "02",
+        "03"
+      ],
+      "retention_mode": "fully_preserved",
+      "retention_description": "The brush's geometry, colors, component layout, and matte finish remain identical to the product image in every shot; only the surrounding surface state changes."
+    },
+    {
+      "subject_id": "subject_2",
+      "name": "cleaning surface",
+      "kind": "environment",
+      "primary": false,
+      "description": "A neutral light-colored hard surface that visibly transitions from soiled with grime to fully clean across the video.",
+      "source_asset_ids": [],
+      "binding_ids": [],
+      "appearance_shot_ids": [
+        "01",
+        "02",
+        "03"
+      ],
+      "retention_mode": "weak_reference",
+      "retention_description": "No source asset; the surface is an IR-defined environment created conservatively to carry the before/after cleaning transition."
+    }
+  ],
+  "reference_relationships": [
+    {
+      "asset_id": "image_product",
+      "relationship": "reference_generation",
+      "subject_refs": [
+        "subject_1"
+      ],
+      "definition": "the authoritative cleaning brush product appearance reference controlling the brush's geometry, colors, and component layout in the generated before/after video",
+      "retention_mode": "fully_preserved",
+      "retention_description": "The product geometry and colors are transferred fully and kept constant across all generated shots; the cleaned-surface scene, lighting, camera, and audio are newly generated."
+    }
+  ],
+  "creative_focus": {
+    "primary_target": "the electric cleaning brush performing an obvious surface-cleaning before/after transition",
+    "primary_subject_id": "subject_1",
+    "primary_asset_id": "image_product",
+    "primary_binding_ids": [
+      "b_product"
+    ],
+    "objective": "A 15-second vertical video in which the cleaning brush stays clearly visible and convincingly demonstrates an unmistakable before/after cleaning transition, ending with the surface fully clean while the product's appearance remains identical to the product image.",
+    "supporting_asset_ids": [],
+    "required_shot_ids": [
+      "01",
+      "02",
+      "03"
+    ],
+    "presentation_requirements": [
+      "The brush must remain in sharp focus and fully inside the 9:16 frame in every shot, with head, body, button, and base ring legible and unobstructed by grime, foam, hands, or overlays.",
+      "The before/after change is expressed on the brushed surface only; the brush's geometry, colors, and component layout never change.",
+      "At least one shot shows a single continuous brushing motion sweeping across the grime with an immediately visible clean trail.",
+      "The final shot holds the upright, unchanged brush beside a fully clean surface so the after state is unambiguous.",
+      "No text overlays, logos, brand claims, or packaging from the source image are introduced."
+    ]
+  },
+  "isolation_rules": [
+    {
+      "binding_id": "b_product",
+      "allow": [
+        "cleaning_brush_geometry_and_colors",
+        "component_layout_and_matte_finish"
+      ],
+      "block": [
+        "source_image_background_scene",
+        "source_image_lighting_and_shadows",
+        "source_image_camera_perspective",
+        "brand_text_or_logo",
+        "packaging",
+        "hand_or_environment_context",
+        "grime_or_soiling_on_the_product"
+      ]
+    }
+  ],
+  "constraints": {
+    "preserve": [
+      "cleaning brush geometry and colors exactly as in image_product: cylindrical ivory-white matte body, light blue circular brush head, coral orange oval mid-body button, dark gray thin base ring, slightly slanted neck",
+      "obvious before/after effect (d_2)",
+      "15-second total runtime (d_3)",
+      "vertical 9:16 portrait format (d_4)",
+      "product clearly visible throughout (d_5)",
+      "obvious_before_after_effect",
+      "15_second_duration",
+      "vertical_portrait_format",
+      "product_clearly_visible_throughout"
+    ],
+    "allow_change": [
+      "the brushed surface state transitions from soiled to fully clean",
+      "newly generated vertical framing, camera moves, lighting, and scene environment",
+      "brush pose and motion during the cleaning demonstration, while geometry and colors stay fixed",
+      "newly generated audio: upbeat music bed and brushing/motor sound effects"
+    ],
+    "prohibit": [
+      "changing the brush's geometry, colors, component layout, or finish",
+      "obscuring the product with grime, foam, hands, props, or overlays at any point",
+      "cropping the product out of frame or letting it go out of focus",
+      "adding brand names, logos, text overlays, dialogue, or claims not present in the source",
+      "inheriting the source image's background, lighting, or camera perspective"
+    ]
+  },
+  "timeline": [
+    {
+      "shot_id": "01",
+      "start_seconds": 0,
+      "end_seconds": 4,
+      "primary_change": "The before state is established: a visibly soiled surface appears beneath the motionless brush.",
+      "event": "The cleaning brush, appearing exactly as in the product image, hovers centered in the vertical frame with its light blue circular head slanted toward a grime-covered patch on the surface below; stains and smudges are clearly visible on the surface.",
+      "action": "The brush is held steady with no movement; no hands appear in frame.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing.",
+      "lighting": "Bright, soft, even lighting that makes the surface grime clearly legible while keeping the brush colors accurate to the reference image.",
+      "transition": "Cut to shot 02.",
+      "observable_end_state": "A soiled surface with visible grime occupies the lower half of the frame; the brush is centered above it, fully visible and in sharp focus.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "brush head contact with surface",
+          "from": "not in contact; hovering above the soiled surface with head slanted downward",
+          "to": "still not in contact; positioned directly over the most soiled area"
+        },
+        {
+          "subject_id": "subject_2",
+          "property": "surface condition",
+          "from": "not yet established on screen",
+          "to": "soiled with clearly visible grime (before state)"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_2"
+      ],
+      "asset_refs": [
+        "image_product"
+      ],
+      "binding_refs": [
+        "b_product"
+      ]
+    },
+    {
+      "shot_id": "02",
+      "start_seconds": 4,
+      "end_seconds": 11,
+      "primary_change": "One continuous left-to-right sweep visibly removes the grime and leaves a clean trail.",
+      "event": "The brush lowers its circular head onto the grimy patch and sweeps steadily from left to right; grime lifts and disappears beneath the moving head, leaving a visibly clean trail behind it, with a small grime patch remaining at the right edge when the sweep stops.",
+      "action": "The brush is guided in a steady horizontal sweep with the head flat against the surface; hands stay out of frame.",
+      "camera": "Slow push-in from a medium vertical framing toward a close-up of the clean trail over the full 7 seconds, at constant speed, tightening the framing by roughly 25%.",
+      "lighting": "Bright, even lighting that maximizes the contrast between the clean trail and the remaining grime.",
+      "transition": "Cut to shot 03.",
+      "observable_end_state": "Most of the visible surface is clean; a small grime patch remains at the far right edge; the brush head is lifted slightly off the surface at the end of the sweep.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "brush head contact with surface",
+          "from": "hovering above the soiled patch, no contact",
+          "to": "lifted slightly off the surface after completing the left-to-right sweep"
+        },
+        {
+          "subject_id": "subject_2",
+          "property": "surface condition",
+          "from": "soiled with visible grime",
+          "to": "mostly clean with a residual grime patch at the right edge"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_2"
+      ],
+      "asset_refs": [
+        "image_product"
+      ],
+      "binding_refs": [
+        "b_product"
+      ]
+    },
+    {
+      "shot_id": "03",
+      "start_seconds": 11,
+      "end_seconds": 15,
+      "primary_change": "The cleaning transition completes: the residual grime is removed and the fully clean after state is presented with the upright brush.",
+      "event": "The brush returns over the residual patch and makes a short second pass that clears the remaining grime, then rises to an upright presentation pose beside the now completely clean surface; the final frame holds the clean surface with the brush fully visible.",
+      "action": "One short sweep clears the residual patch, then the brush tilts upright with the head up and the body vertical.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing.",
+      "lighting": "Bright, clean, even lighting; the surface reads as fully clean and the brush colors match the reference image exactly.",
+      "transition": "None; the final frame holds to the end of the video.",
+      "observable_end_state": "The entire visible surface is clean with no grime; the brush stands upright and fully visible in sharp focus, with its ivory-white body, light blue circular head, coral orange button, and dark gray base ring unchanged.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "brush pose",
+          "from": "head lifted slightly off the surface at the right edge over the residual patch",
+          "to": "upright presentation pose, head up, fully visible"
+        },
+        {
+          "subject_id": "subject_2",
+          "property": "surface condition",
+          "from": "mostly clean with residual grime at the right edge",
+          "to": "fully clean, no grime visible"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_2"
+      ],
+      "asset_refs": [
+        "image_product"
+      ],
+      "binding_refs": [
+        "b_product"
+      ]
+    }
+  ],
+  "audio_plan": {
+    "voice": "None; no voiceover, narration, or dialogue is generated.",
+    "music": "Light, upbeat short-form product-video music bed, low to medium energy, mixed beneath the sound effects so the product visuals stay dominant.",
+    "sound_effects": "Soft mechanical hum of the brush motor during the sweep, a light brushing/swiping texture while the head moves across the surface, and a subtle whoosh at the start of each sweep.",
+    "ambient_sound": "None; no room ambience beyond the music bed.",
+    "sync_rules": [
+      "Music starts at 0:00 and resolves softly at 15:00 when the clean surface and upright brush are shown.",
+      "Motor hum and brushing texture start at 4s with the first sweep and fade out at 11s when the sweep ends.",
+      "A short whoosh accent marks the start of each sweep at 4s and 11s."
+    ]
+  },
+  "generation_description": {
+    "cinematography": "Vertical 9:16 framing throughout; shot 01 static medium framing of the brush above the soiled surface, shot 02 a slow push-in toward the clean trail, shot 03 a static framing of the upright brush and fully clean surface; no pans, zooms, or reframing in static shots.",
+    "lighting": "Bright, even, soft lighting across all shots so grime contrast stays legible and the brush colors remain accurate to the reference image; no hard shadows fall on the product.",
+    "materials": "The brush renders with a matte ivory-white cylindrical body, light blue circular bristle head, coral orange oval button, and dark gray thin base ring; the surface reads as a smooth hard material that visibly changes from stained to clean.",
+    "performance": "The brush performs one long left-to-right sweep (4-11s), then a short second pass over the residual patch (11-12s), then rises to an upright presentation pose; motion is steady, continuous, and hand-free, and the product never leaves focus.",
+    "continuity": "Brush geometry, colors, and component layout are identical in every shot and match image_product; the surface progresses from soiled to mostly clean to fully clean; brush-head contact and pose states are tracked across shots; the product stays fully visible and in sharp focus for the entire 15 seconds."
+  },
+  "runtime": {
+    "perception_provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3-VL-32B-Instruct",
+      "options": {
+        "base_url": "http://127.0.0.1:9012",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000
+      }
+    },
+    "reasoning_provider": {
+      "provider": "glm",
+      "model": "GLM-5.2"
+    },
+    "generation_provider": {
+      "provider": "minimax",
+      "model": "MiniMax-H3"
+    }
+  },
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 15,
+    "aspect_ratio": "9:16",
+    "generate_audio": true,
+    "style": ""
+  },
+  "assets": [
+    {
+      "asset_id": "image_product",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/ab_tests_20260820/case_006_cleaning_state_transition/assets/cleaning_brush.png",
+      "label": "authoritative_cleaning_brush_geometry_and_colors"
+    }
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v2",
+    "provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3-VL-32B-Instruct",
+      "options": {
+        "base_url": "http://127.0.0.1:9012",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000
+      }
+    },
+    "assets": [
+      {
+        "asset_id": "image_product",
+        "summary": "1 distinct foreground objects localized and analyzed individually.",
+        "evidence": [
+          {
+            "evidence_id": "evidence_1",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.25,
+              0.069,
+              0.65,
+              0.95
+            ],
+            "description": "Localized electric cleaning brush object_1"
+          }
+        ],
+        "regions": [
+          {
+            "region_id": "region_1",
+            "evidence_id": "evidence_1",
+            "bbox_normalized": [
+              0.25,
+              0.069,
+              0.65,
+              0.95
+            ],
+            "entity_ids": [
+              "object_1"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          }
+        ],
+        "entities": [
+          {
+            "entity_id": "object_1",
+            "category": "electric cleaning brush",
+            "subcategory": "electric cleaning brush",
+            "summary": "A white handheld electric cleaning brush with a light blue circular brush head, coral orange oval button, and dark gray base ring.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "body_shape",
+                  "value": "cylindrical",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "body_color",
+                  "value": "ivory white",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "button_color",
+                  "value": "coral orange",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "base_ring_color",
+                  "value": "dark gray",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [
+                {
+                  "name": "body_finish",
+                  "value": "matte",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [
+                {
+                  "name": "brush_head",
+                  "value": "circular",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "button",
+                  "value": "oval",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "base_ring",
+                  "value": "thin ring",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [
+                {
+                  "name": "button_placement",
+                  "value": "mid-body",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "orientation_cues": [
+                {
+                  "name": "brush_head_orientation",
+                  "value": "slanted neck",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "localize_then_isolated_attribute_batches",
+          "localization_coordinate_system": "normalized_0_1",
+          "task_ids": [
+            "20260820_143046_293894_28d91601-4dac-4adb-9af7-69bb9485b0e9",
+            "20260820_143050_366710_6c9a0ff7-992b-4c11-994e-b4597092ccf6"
+          ]
+        },
+        "transcript": "",
+        "uncertainties": []
+      }
+    ],
+    "missing_asset_ids": []
+  }
+}

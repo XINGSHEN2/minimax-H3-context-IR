@@ -1,0 +1,24 @@
+subject_definitions:
+<Subject 1> is LUMEN 07 perfume bottle, A transparent glass perfume bottle with a black matte asymmetrical cap, a cream-colored rectangular label with centered black serif text 'LUMEN 07', and light amber liquid inside; its bottle geometry, material, and cap, light amber liquid fill and color as depicted, exact label artwork and text, cream-colored rectangular label with centered black serif 'LUMEN 07' text comes exclusively from <Picture 1>.
+
+summary:
+[reference generation] <Subject 1> is the primary creative focus: A 15-second vertical premium advertisement in which the perfume bottle, with its transparent glass body, black matte asymmetrical cap, and exact 'LUMEN 07' label, appears unchanged as the dominant visual subject across the entire runtime. Audio generation: False.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4]): fully_preserved - Bottle geometry, glass material, cap shape and finish, liquid fill and color, and the exact 'LUMEN 07' label artwork and text are carried over unchanged into every generated shot.
+<Picture 1>: fully_preserved - The bottle and label are reproduced unchanged as the hero subject; camera movement, framing, lighting, and background presentation are generated around the preserved product.
+
+detailed_description:
+Must not introduce: any change to bottle geometry, material, or cap, any change to label artwork, typography, or text, adding new products, actors, logos, or brand claims, adding narrative content or text overlays, changing product identity or liquid color
+Presentation requirements: The bottle is the only subject and occupies dominant frame presence in every shot.; The label text 'LUMEN 07' stays fully legible and exactly unchanged whenever the label is in view.; Cap geometry, glass material, and liquid color read identically to the reference from every camera angle.; Premium presentation uses refined soft lighting and a neutral elegant surface; no new props, actors, narrative, or text overlays are introduced.
+cinematography: Vertical 9:16; continuous slow camera moves (push-in, slow arc, label push-in, pull-back) centered on the stationary product with no handheld shake; every framing keeps the bottle dominant.; lighting: Premium soft key light with gentle reflections on the glass, a subtle gradient on the black cap, and a dim elegant background; lighting consistent across all shots.
+[Shot 1] <Subject 1> is visible. The bottle emerges into a fully lit, centered hero framing on a neutral premium surface with the label facing the camera.; camera: Slow push-in; a single forward camera move from a slightly wider centered framing to a closer hero composition, small amplitude at slow speed, with no pan or reframing.; lighting: Soft premium key light with gentle gradient reflections on the glass and cap; dim, elegant background.; transition: Cut; observable end state: Bottle centered and sharp in a hero composition, cap and glass clearly defined, label legible.
+[Shot 2] At 00:04.000, <Subject 1> is visible. The camera arcs slowly around the stationary bottle from front-center to a three-quarter angle, revealing the asymmetrical black cap profile, glass refraction, and light amber liquid.; camera: Slow lateral arc around the product; one primary orbit move with small-to-medium amplitude at slow speed, with no zoom.; lighting: Premium soft lighting with subtle highlights tracing the cap edge and glass body.; transition: Cut; observable end state: Three-quarter view of the bottle showing the cap profile, transparent glass, and light amber liquid; label still legible.
+[Shot 3] At 00:08.000, <Subject 1> is visible. The camera pushes in from the three-quarter framing to a close-up of the cream label, holding 'LUMEN 07' centered, sharp, and unchanged.; camera: Slow push-in to the label; one forward move, small amplitude at slow speed, then the frame holds steady with no pan, zoom, or reframing.; lighting: Even, soft fill on the label surface so the text stays fully legible.; transition: Cut; observable end state: Close-up of the cream rectangular label with black serif 'LUMEN 07' centered, sharp, and exactly unchanged.
+[Shot 4] At 00:12.000, <Subject 1> is visible. The camera eases back from the label close-up to a final centered hero framing showing the complete bottle with cap and label, then holds steady.; camera: Slow pull-back to the final hero composition, small amplitude at slow speed, then the frame never moves with no pan, push-in, zoom, or reframing.; lighting: Premium key light consistent with shot 01, bottle fully and evenly defined.; transition: Fade out to black at the end of the beat; observable end state: Complete bottle in a centered final hero composition, cap and label both visible and unchanged; frame holds until 15.0 seconds.
+
+overall_soundscape:
+N/A
+
+non_diegetic_music:
+N/A

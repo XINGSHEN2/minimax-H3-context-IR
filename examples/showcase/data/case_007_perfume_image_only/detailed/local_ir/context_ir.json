@@ -1,0 +1,1071 @@
+{
+  "schema_version": "0.1.0",
+  "intent": {
+    "user_request": "生成一条15秒、9:16竖屏的电影感香水广告。整条视频只展示图片1中的一瓶香水，不出现人物、手、鲜花、其他瓶子、旁白、字幕或额外品牌文字；唯一允许出现的文字是瓶身原有标签“LUMEN 07”。\n\n素材使用方式：\n1. 图片1是商品身份的唯一来源，必须保持低矮宽矩形透明玻璃瓶、圆角、浅琥珀色液体、向右倾斜的非对称哑光黑色瓶盖、居中的奶油色矩形标签，以及标签上的准确文字“LUMEN 07”。不能改变瓶身比例、瓶盖倾斜方向、液体颜色或标签内容。\n2. 本案例没有参考视频，由系统根据高端香水广告类别保守补全明暗变化、轮廓光、慢速推进、微距切换和剪辑节奏。\n3. 自主补全只允许改变背景、台面、光线、少量雾气和镜头距离；风格表现必须服从商品可辨识度，不能遮挡标签或使瓶身陷入黑暗。\n\n分镜设计：\n- 0–3秒：黑灰渐变背景中建立瓶身轮廓，低机位中近景缓慢推进。轮廓光勾勒低矮宽瓶身与向右倾斜的黑色瓶盖；标签已经可见但不过曝。\n- 3–6秒：切至玻璃瓶侧前方微距，镜头沿瓶身缓慢横移，展示透明厚玻璃、圆角和浅琥珀色液体。瓶身几何不能随角度改变。\n- 6–9秒：微距展示黑色非对称瓶盖与瓶口连接处，保持瓶盖向右倾斜，不增加喷雾动作或拆下瓶盖。\n- 9–12秒：正面近景聚焦奶油色标签，准确、完整、清晰显示“LUMEN 07”，不得生成其他字母、数字或装饰标志。\n- 12–15秒：回到完整商品英雄镜头，瓶子居中放在深色反射台面，暖色侧光穿过浅琥珀液体，镜头轻微推进后稳定结束。\n\n连续性要求：五个固定特征——宽矩形圆角瓶、浅琥珀液体、右倾黑色瓶盖、奶油色标签、“LUMEN 07”——必须跨所有切镜持续一致。禁止把自主补全的风格元素误认为商品属性。",
+    "resolved_request": "Generate a 15-second, 9:16 vertical cinematic perfume advertisement in which the only on-screen subject is the bottle from image_product. Preserve its low wide rectangular transparent glass body with rounded corners, light amber liquid, right-tilting asymmetric matte black cap, centered cream rectangular label, and exact label text LUMEN 07 across every cut. Follow the prescribed five-segment storyboard (silhouette push-in, lateral macro, cap-neck macro, label close-up, hero finish) with consistent cut timing. Exclude people, hands, flowers, other bottles, voiceover, subtitles, and any brand text beyond the label. Allow autonomous completion only for background, tabletop, lighting, slight mist, and camera distance, keeping the bottle fully readable.",
+    "directives": [
+      {
+        "directive_id": "d_1",
+        "asset_id": "image_product",
+        "target": "product identity of the bottle in image_product",
+        "operation": "preserve",
+        "scope": [
+          "sole subject identity",
+          "cross-shot identity continuity"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_2",
+        "asset_id": "image_product",
+        "target": "authoritative product appearance [other]",
+        "operation": "preserve",
+        "scope": [
+          "low wide rectangular transparent glass bottle proportions",
+          "rounded corners",
+          "right-leaning asymmetric matte black cap",
+          "centered cream rectangular label"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_3",
+        "asset_id": "image_product",
+        "target": "authoritative product appearance [product]",
+        "operation": "preserve",
+        "scope": [
+          "light amber liquid color"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_4",
+        "asset_id": "image_product",
+        "target": "authoritative product appearance [camera]",
+        "operation": "preserve",
+        "scope": [
+          "bottle geometry invariant across camera angles"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_5",
+        "asset_id": "image_product",
+        "target": "label text integrity",
+        "operation": "preserve",
+        "scope": [
+          "exact label text LUMEN 07",
+          "no additional letters, numbers, or decorative marks"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_6",
+        "asset_id": "",
+        "target": "scene composition",
+        "operation": "exclude",
+        "scope": [
+          "people",
+          "hands",
+          "flowers",
+          "other bottles",
+          "additional objects"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_7",
+        "asset_id": "",
+        "target": "on-screen text [scene]",
+        "operation": "exclude",
+        "scope": [
+          "subtitles"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_8",
+        "asset_id": "",
+        "target": "on-screen text [other]",
+        "operation": "exclude",
+        "scope": [
+          "extra brand text beyond the LUMEN 07 label"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_9",
+        "asset_id": "",
+        "target": "voiceover",
+        "operation": "exclude",
+        "scope": [
+          "voiceover or narration"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_10",
+        "asset_id": "",
+        "target": "bottle behavior [motion]",
+        "operation": "exclude",
+        "scope": [
+          "spray action"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_11",
+        "asset_id": "",
+        "target": "bottle behavior [other]",
+        "operation": "exclude",
+        "scope": [
+          "cap removal",
+          "change in cap tilt direction"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_12",
+        "asset_id": "",
+        "target": "camera plan per storyboard",
+        "operation": "preserve",
+        "scope": [
+          "0-3s low-angle medium close-up slow push-in",
+          "3-6s front-side macro with slow lateral pan",
+          "6-9s macro of cap and neck connection",
+          "9-12s front close-up of label",
+          "12-15s full hero shot with slight push-in then stable end"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_13",
+        "asset_id": "",
+        "target": "camera distance",
+        "operation": "may_change",
+        "scope": [
+          "camera distance within the prescribed shot types"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_14",
+        "asset_id": "",
+        "target": "segment timing and cut rhythm",
+        "operation": "preserve",
+        "scope": [
+          "15-second total duration",
+          "five segments at 0-3s, 3-6s, 6-9s, 9-12s, and 12-15s"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_15",
+        "asset_id": "",
+        "target": "environment and lighting latitude [scene]",
+        "operation": "may_change",
+        "scope": [
+          "background"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_16",
+        "asset_id": "",
+        "target": "environment and lighting latitude [other]",
+        "operation": "may_change",
+        "scope": [
+          "tabletop",
+          "slight mist"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_17",
+        "asset_id": "",
+        "target": "environment and lighting latitude [style]",
+        "operation": "may_change",
+        "scope": [
+          "lighting"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_18",
+        "asset_id": "",
+        "target": "first segment look (0-3s) [scene]",
+        "operation": "preserve",
+        "scope": [
+          "black-gray gradient background"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_19",
+        "asset_id": "",
+        "target": "first segment look (0-3s) [other]",
+        "operation": "preserve",
+        "scope": [
+          "bottle silhouette with rim light",
+          "label visible and not overexposed"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_20",
+        "asset_id": "",
+        "target": "final segment look (12-15s)",
+        "operation": "preserve",
+        "scope": [
+          "full hero shot with centered bottle",
+          "dark reflective tabletop",
+          "warm side light passing through the light amber liquid",
+          "slight push-in then stable end"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_21",
+        "asset_id": "",
+        "target": "cinematic advertisement style [other]",
+        "operation": "preserve",
+        "scope": [
+          "high-end cinematic perfume advertisement look",
+          "rim light and chiaroscuro treatment"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_22",
+        "asset_id": "",
+        "target": "cinematic advertisement style [style]",
+        "operation": "preserve",
+        "scope": [
+          "style subordinate to product readability with label unobscured and bottle never plunged into darkness"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_23",
+        "asset_id": "",
+        "target": "delivery format",
+        "operation": "preserve",
+        "scope": [
+          "9:16 vertical aspect ratio"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      }
+    ],
+    "completion_policy": {
+      "technical": true,
+      "conservative_semantic": true,
+      "creative": false
+    },
+    "assumptions": [
+      "IR completion: no reference video is supplied, so camera moves, macro cut structure, and editing rhythm are completed from the explicit storyboard and the high-end perfume advertisement category, restricted to the permitted latitude.",
+      "IR completion: the five segments use hard cuts at 3s, 6s, 9s, and 12s; no dissolves, wipes, or other transitions are added.",
+      "IR completion: the 6-9s cap-neck macro and the 9-12s label close-up use static framing because no camera move is prescribed for those segments; static framing is the conservative default.",
+      "IR completion: the bottle rests stationary on a tabletop throughout the advertisement; only the 12-15s segment's dark reflective tabletop is explicitly prescribed.",
+      "IR completion: autonomous changes are limited to background, tabletop, lighting, slight mist, and camera distance within the prescribed shot types; all other bottle attributes are preserved from image_product.",
+      "IR completion: task.generate_audio is false, so no music, sound effects, or ambient sound are generated; voiceover and narration are excluded by directive d_9."
+    ],
+    "uncertainties": [
+      "Uncertainty: media_analysis.v2 for image_product supplies summary-level entity descriptions with empty attribute arrays and no field-level confidence values; the qualitative facts agree with the user's explicit text, which independently fixes the bottle attributes.",
+      "Uncertainty: no shot-level perception exists for the generated video (pre-generation); every shot state follows the user's storyboard and conservative IR completion.",
+      "Uncertainty: no audio analysis was performed and audio generation is disabled, so no audio content is asserted."
+    ]
+  },
+  "protocol": {
+    "rewrite_language": "English",
+    "preserve_source_language_for": [
+      "dialogue",
+      "lyrics",
+      "visible scene text"
+    ],
+    "summary_task_types": [
+      "reference generation"
+    ]
+  },
+  "asset_bindings": [
+    {
+      "binding_id": "b1_identity",
+      "asset_id": "image_product",
+      "target": "product identity of the bottle in image_product",
+      "role": "identity",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_1"
+      ],
+      "inherit": [
+        "sole subject identity",
+        "cross-shot identity continuity"
+      ],
+      "exclude": [
+        "people",
+        "hands",
+        "flowers",
+        "other bottles",
+        "additional objects",
+        "subtitles",
+        "extra brand text beyond the LUMEN 07 label",
+        "voiceover or narration",
+        "spray action",
+        "cap removal",
+        "change in cap tilt direction",
+        "background and lighting completion attributes",
+        "camera motion and cut rhythm"
+      ]
+    },
+    {
+      "binding_id": "b2_product_geometry",
+      "asset_id": "image_product",
+      "target": "authoritative product appearance of the bottle geometry, cap, and label in image_product",
+      "role": "product",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_2",
+        "d_4"
+      ],
+      "inherit": [
+        "low wide rectangular transparent glass bottle proportions",
+        "rounded corners",
+        "right-leaning asymmetric matte black cap",
+        "centered cream rectangular label",
+        "bottle geometry invariant across camera angles"
+      ],
+      "exclude": [
+        "people",
+        "hands",
+        "flowers",
+        "other bottles",
+        "additional objects",
+        "background",
+        "tabletop",
+        "lighting",
+        "slight mist",
+        "camera motion",
+        "cut rhythm",
+        "subtitles",
+        "extra brand text beyond the LUMEN 07 label",
+        "spray action",
+        "cap removal",
+        "change in cap tilt direction"
+      ]
+    },
+    {
+      "binding_id": "b3_liquid",
+      "asset_id": "image_product",
+      "target": "authoritative liquid color of the bottle in image_product",
+      "role": "product",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_3"
+      ],
+      "inherit": [
+        "light amber liquid color"
+      ],
+      "exclude": [
+        "any other liquid color",
+        "people",
+        "hands",
+        "flowers",
+        "other bottles",
+        "additional objects",
+        "background",
+        "tabletop",
+        "lighting",
+        "slight mist",
+        "camera motion",
+        "cut rhythm",
+        "extra brand text beyond the LUMEN 07 label"
+      ]
+    },
+    {
+      "binding_id": "b4_label_text",
+      "asset_id": "image_product",
+      "target": "label text integrity of the bottle in image_product",
+      "role": "product",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_5"
+      ],
+      "inherit": [
+        "exact label text LUMEN 07",
+        "no additional letters, numbers, or decorative marks"
+      ],
+      "exclude": [
+        "any letters, numbers, or decorative marks not present in LUMEN 07",
+        "subtitles",
+        "extra brand text beyond the LUMEN 07 label",
+        "people",
+        "hands",
+        "flowers",
+        "other bottles",
+        "additional objects",
+        "background",
+        "tabletop",
+        "lighting",
+        "slight mist",
+        "camera motion",
+        "cut rhythm"
+      ]
+    }
+  ],
+  "subjects": [
+    {
+      "subject_id": "subject_1",
+      "name": "LUMEN 07 perfume bottle",
+      "kind": "product",
+      "primary": true,
+      "description": "The single low wide rectangular transparent glass perfume bottle from image_product: rounded corners, visibly thick transparent glass, light amber liquid, a right-tilting asymmetric matte black cap, and a centered cream rectangular label bearing the exact black serif text 'LUMEN 07'. It is the only on-screen subject in every shot and its appearance never changes across cuts.",
+      "source_asset_ids": [
+        "image_product"
+      ],
+      "binding_ids": [
+        "b1_identity",
+        "b2_product_geometry",
+        "b3_liquid",
+        "b4_label_text"
+      ],
+      "appearance_shot_ids": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05"
+      ],
+      "retention_mode": "fully_preserved",
+      "retention_description": "The bottle's complete identity and appearance — low wide rectangular proportions, rounded corners, thick transparent glass, light amber liquid, right-tilting asymmetric matte black cap, centered cream rectangular label, and exact text 'LUMEN 07' — are preserved verbatim as hard constraints in every shot; only background, tabletop, lighting, slight mist, and camera distance may vary."
+    }
+  ],
+  "reference_relationships": [
+    {
+      "asset_id": "image_product",
+      "relationship": "reference_generation",
+      "subject_refs": [
+        "subject_1"
+      ],
+      "definition": "authoritative product source defining the LUMEN 07 bottle's identity, geometry, materials, cap, label, and exact label text for the generated advertisement",
+      "retention_mode": "fully_preserved",
+      "retention_description": "The bottle's full appearance is transferred as hard appearance authority into every generated shot; the reference image itself is not edited, and no people, hands, flowers, other bottles, subtitles, or extra brand text are carried into the scene."
+    }
+  ],
+  "creative_focus": {
+    "primary_target": "the LUMEN 07 perfume bottle as the sole, hero subject of a 15-second 9:16 cinematic advertisement",
+    "primary_subject_id": "subject_1",
+    "primary_asset_id": "image_product",
+    "primary_binding_ids": [
+      "b1_identity",
+      "b2_product_geometry",
+      "b3_liquid",
+      "b4_label_text"
+    ],
+    "objective": "Deliver a finished advertisement in which this exact bottle — low wide rounded transparent glass, light amber liquid, right-tilting asymmetric matte black cap, cream label reading 'LUMEN 07' — is the only on-screen subject, remains fully readable through five locked segments, and closes on a stable centered hero frame.",
+    "supporting_asset_ids": [],
+    "required_shot_ids": [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05"
+    ],
+    "presentation_requirements": [
+      "In every shot the bottle must occupy the primary focus and remain fully recognizable, with the label unobscured and the bottle never plunged into darkness.",
+      "Shot 01 must establish the bottle silhouette at low angle with rim light tracing the body and right-tilting cap, with the label visible but not overexposed.",
+      "Shot 02 must show thick transparent glass, rounded corners, and light amber liquid without changing the bottle's geometry at the new angle.",
+      "Shot 03 must show the cap-neck connection with the cap still tilting right, and must not include any spray action or cap removal.",
+      "Shot 04 must present the cream label frontally with the exact text 'LUMEN 07' accurate, complete, and sharp, with no other letters, numbers, or decorative marks.",
+      "Shot 05 must center the bottle on a dark reflective tabletop with warm side light passing through the light amber liquid, easing from a slight push-in into a completely stable final frame."
+    ]
+  },
+  "isolation_rules": [
+    {
+      "binding_id": "b1_identity",
+      "allow": [
+        "sole subject identity",
+        "cross-shot identity continuity"
+      ],
+      "block": [
+        "people",
+        "hands",
+        "flowers",
+        "other bottles",
+        "additional objects",
+        "subtitles",
+        "extra brand text beyond the LUMEN 07 label",
+        "voiceover or narration",
+        "spray action",
+        "cap removal",
+        "change in cap tilt direction",
+        "background and lighting completion attributes",
+        "camera motion and cut rhythm"
+      ]
+    },
+    {
+      "binding_id": "b2_product_geometry",
+      "allow": [
+        "low wide rectangular transparent glass bottle proportions",
+        "rounded corners",
+        "right-leaning asymmetric matte black cap",
+        "centered cream rectangular label",
+        "bottle geometry invariant across camera angles"
+      ],
+      "block": [
+        "people",
+        "hands",
+        "flowers",
+        "other bottles",
+        "additional objects",
+        "background and tabletop attributes",
+        "lighting and mist attributes",
+        "camera motion and cut rhythm",
+        "spray action",
+        "cap removal",
+        "change in cap tilt direction",
+        "extra brand text beyond the LUMEN 07 label",
+        "background",
+        "tabletop",
+        "lighting",
+        "slight mist",
+        "camera motion",
+        "cut rhythm",
+        "subtitles"
+      ]
+    },
+    {
+      "binding_id": "b3_liquid",
+      "allow": [
+        "light amber liquid color"
+      ],
+      "block": [
+        "any other liquid color",
+        "people",
+        "hands",
+        "flowers",
+        "other bottles",
+        "additional objects",
+        "background and tabletop attributes",
+        "lighting and mist attributes",
+        "camera motion and cut rhythm",
+        "background",
+        "tabletop",
+        "lighting",
+        "slight mist",
+        "camera motion",
+        "cut rhythm",
+        "extra brand text beyond the LUMEN 07 label"
+      ]
+    },
+    {
+      "binding_id": "b4_label_text",
+      "allow": [
+        "exact label text LUMEN 07",
+        "no additional letters, numbers, or decorative marks"
+      ],
+      "block": [
+        "any letters, numbers, or decorative marks not present in LUMEN 07",
+        "subtitles",
+        "extra brand text beyond the LUMEN 07 label",
+        "people",
+        "hands",
+        "flowers",
+        "other bottles",
+        "additional objects",
+        "background and tabletop attributes",
+        "lighting and mist attributes",
+        "camera motion and cut rhythm",
+        "background",
+        "tabletop",
+        "lighting",
+        "slight mist",
+        "camera motion",
+        "cut rhythm"
+      ]
+    }
+  ],
+  "constraints": {
+    "preserve": [
+      "low wide rectangular transparent glass bottle proportions",
+      "rounded corners",
+      "right-leaning asymmetric matte black cap",
+      "centered cream rectangular label",
+      "exact label text LUMEN 07 with no added letters, numbers, or decorative marks",
+      "light amber liquid color",
+      "bottle geometry invariant across camera angles",
+      "sole subject identity and cross-shot identity continuity",
+      "9:16 vertical aspect ratio",
+      "15-second total duration with five segments at 0-3s, 3-6s, 6-9s, 9-12s, and 12-15s",
+      "storyboard camera plan: 0-3s low-angle medium close-up slow push-in, 3-6s front-side macro with slow lateral pan, 6-9s macro of cap and neck connection, 9-12s front close-up of label, 12-15s full hero shot with slight push-in then stable end",
+      "0-3s black-gray gradient background with bottle silhouette and rim light, label visible and not overexposed",
+      "high-end cinematic perfume advertisement look with rim light and chiaroscuro treatment",
+      "12-15s full hero shot with centered bottle on a dark reflective tabletop, warm side light passing through the light amber liquid, slight push-in then stable end",
+      "style subordinate to product readability with label unobscured and bottle never plunged into darkness",
+      "0-3s low-angle medium close-up slow push-in",
+      "3-6s front-side macro with slow lateral pan",
+      "6-9s macro of cap and neck connection",
+      "9-12s front close-up of label",
+      "12-15s full hero shot with slight push-in then stable end",
+      "15-second total duration",
+      "five segments at 0-3s, 3-6s, 6-9s, 9-12s, and 12-15s",
+      "black-gray gradient background",
+      "bottle silhouette with rim light",
+      "label visible and not overexposed",
+      "full hero shot with centered bottle",
+      "dark reflective tabletop",
+      "warm side light passing through the light amber liquid",
+      "slight push-in then stable end",
+      "high-end cinematic perfume advertisement look",
+      "rim light and chiaroscuro treatment"
+    ],
+    "allow_change": [
+      "background within the permitted latitude, preserving the locked per-segment looks",
+      "tabletop",
+      "lighting",
+      "slight mist",
+      "camera distance within the prescribed shot types",
+      "background"
+    ],
+    "prohibit": [
+      "people, hands, flowers, other bottles, and additional objects",
+      "subtitles and extra brand text beyond the LUMEN 07 label",
+      "voiceover or narration",
+      "spray action, cap removal, and any change in cap tilt direction",
+      "changes to bottle proportions, liquid color, label content, or label text",
+      "style elements that obscure the label or plunge the bottle into darkness",
+      "treating autonomous completion elements (background, mist, lighting) as product attributes",
+      "people",
+      "hands",
+      "flowers",
+      "other bottles",
+      "additional objects",
+      "subtitles",
+      "extra brand text beyond the LUMEN 07 label",
+      "spray action",
+      "cap removal",
+      "change in cap tilt direction"
+    ]
+  },
+  "timeline": [
+    {
+      "shot_id": "01",
+      "start_seconds": 0,
+      "end_seconds": 3,
+      "primary_change": "The bottle silhouette is established on the black-gray gradient and the camera slowly pushes in from a low angle.",
+      "event": "Open on a black-gray gradient background; the low wide rectangular bottle appears as a dark silhouette with rim light tracing its body and the right-tilting matte black cap, while the cream label stays visible but not overexposed; the camera pushes in slowly from a low-angle medium close-up.",
+      "action": "Bottle remains stationary and untouched; no spray, no cap movement.",
+      "camera": "Slow push-in from a low-angle medium close-up; one continuous gentle forward move over the 3 seconds ending closer to the bottle, with no lateral pan, no zoom, and no reframing beyond the push.",
+      "lighting": "Rim light outlines the silhouette against the black-gray gradient; a soft key keeps the cream label readable and not overexposed.",
+      "transition": "",
+      "observable_end_state": "The bottle silhouette, now closer, is fully outlined by rim light with the label visible and unblown.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "subject presence",
+          "from": "not yet established (cold open on gradient background)",
+          "to": "bottle silhouette established as the sole visible subject"
+        }
+      ],
+      "subject_refs": [
+        "subject_1"
+      ],
+      "asset_refs": [
+        "image_product"
+      ],
+      "binding_refs": [
+        "b1_identity",
+        "b2_product_geometry",
+        "b3_liquid",
+        "b4_label_text"
+      ]
+    },
+    {
+      "shot_id": "02",
+      "start_seconds": 3,
+      "end_seconds": 6,
+      "primary_change": "Cut to a front-side macro where the camera pans slowly along the bottle to reveal thick glass and the amber liquid.",
+      "event": "Cut to a side-front macro of the glass body; the camera moves slowly laterally along the bottle, revealing transparent thick glass, rounded corners, and the light amber liquid inside, while the bottle's geometry stays unchanged.",
+      "action": "Bottle remains stationary; nothing touches it.",
+      "camera": "Slow lateral pan along the bottle in a front-side macro at a single slow constant speed; exactly one lateral move with no push-in, no zoom, and no vertical reframing.",
+      "lighting": "Side lighting reveals the glass thickness and the amber liquid; highlights stay soft so the body and label remain true to the reference.",
+      "transition": "Hard cut at 3s.",
+      "observable_end_state": "A clear side-front macro view shows the thick transparent glass, rounded corner, and light amber liquid with geometry identical to the reference.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "bottle geometry",
+          "from": "low wide rectangular reference proportions from image_product",
+          "to": "identical proportions at the side-front angle with no distortion"
+        }
+      ],
+      "subject_refs": [
+        "subject_1"
+      ],
+      "asset_refs": [
+        "image_product"
+      ],
+      "binding_refs": [
+        "b1_identity",
+        "b2_product_geometry",
+        "b3_liquid",
+        "b4_label_text"
+      ]
+    },
+    {
+      "shot_id": "03",
+      "start_seconds": 6,
+      "end_seconds": 9,
+      "primary_change": "Cut to a static macro of the black asymmetric cap and its connection to the bottle neck.",
+      "event": "Cut to a macro of the asymmetric matte black cap and the bottle-neck connection; the cap visibly keeps tilting right, no spray action occurs, and the cap is not removed.",
+      "action": "Bottle and cap remain stationary; cap stays attached.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing.",
+      "lighting": "Soft modeling light on the matte black cap and neck with minimal reflections so the cap's shape and right tilt read clearly.",
+      "transition": "Hard cut at 6s.",
+      "observable_end_state": "The cap-neck connection is shown in a static macro with the cap attached and tilting right; no spray and no removal.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "cap state",
+          "from": "cap attached and tilted right at the start of the segment",
+          "to": "cap still attached and tilted right, never sprayed or removed, at the end of the segment"
+        }
+      ],
+      "subject_refs": [
+        "subject_1"
+      ],
+      "asset_refs": [
+        "image_product"
+      ],
+      "binding_refs": [
+        "b1_identity",
+        "b2_product_geometry",
+        "b4_label_text",
+        "b3_liquid"
+      ]
+    },
+    {
+      "shot_id": "04",
+      "start_seconds": 9,
+      "end_seconds": 12,
+      "primary_change": "Cut to a front close-up in which the cream label and the exact text become fully legible.",
+      "event": "Cut to a frontal close-up of the centered cream rectangular label; the exact text 'LUMEN 07' is displayed accurately, completely, and sharply, with no other letters, numbers, or decorative marks.",
+      "action": "No action; the bottle and label are static.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing.",
+      "lighting": "Even, glare-free frontal light on the label for full legibility; no overexposure.",
+      "transition": "Hard cut at 9s.",
+      "observable_end_state": "The label fills the close-up, centered and fully legible, reading exactly 'LUMEN 07' with no added marks.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "label text integrity",
+          "from": "label intact and visible with the text unchanged",
+          "to": "label fully legible with the exact text 'LUMEN 07' and no added letters, numbers, or decorative marks"
+        }
+      ],
+      "subject_refs": [
+        "subject_1"
+      ],
+      "asset_refs": [
+        "image_product"
+      ],
+      "binding_refs": [
+        "b1_identity",
+        "b2_product_geometry",
+        "b4_label_text",
+        "b3_liquid"
+      ]
+    },
+    {
+      "shot_id": "05",
+      "start_seconds": 12,
+      "end_seconds": 15,
+      "primary_change": "Return to a full hero shot with a slight push-in that settles into a completely stable final frame.",
+      "event": "Cut back to a full hero shot with the bottle centered on a dark reflective tabletop; warm side light passes through the light amber liquid; the camera eases through a slight push-in and then holds completely still to the end.",
+      "action": "Bottle remains stationary and centered.",
+      "camera": "Slight push-in from the hero framing over the first part of the segment, decelerating into a completely stable frame; the final second is perfectly still with no pan, zoom, or reframing.",
+      "lighting": "Warm side light passes through the light amber liquid; the dark reflective tabletop mirrors the bottle; a gentle fill keeps the label and body readable.",
+      "transition": "Hard cut at 12s.",
+      "observable_end_state": "A centered full hero composition on the dark reflective tabletop with warm light through the liquid, and the frame completely stable for the final second.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "camera movement",
+          "from": "slight push-in in progress",
+          "to": "frame completely stable at the final hero composition"
+        }
+      ],
+      "subject_refs": [
+        "subject_1"
+      ],
+      "asset_refs": [
+        "image_product"
+      ],
+      "binding_refs": [
+        "b1_identity",
+        "b2_product_geometry",
+        "b3_liquid",
+        "b4_label_text"
+      ]
+    }
+  ],
+  "audio_plan": {
+    "voice": "None — voiceover and narration are excluded (directive d_9).",
+    "music": "None — no music track is generated (task.generate_audio is false).",
+    "sound_effects": "None.",
+    "ambient_sound": "None.",
+    "sync_rules": []
+  },
+  "generation_description": {
+    "cinematography": "9:16 vertical delivery with five locked segments and hard cuts at 3s, 6s, 9s, and 12s: 0-3s low-angle medium close-up slow push-in on the bottle silhouette; 3-6s slow lateral pan across a front-side macro of the glass body; 6-9s static macro of the cap and neck connection; 9-12s static front close-up of the label; 12-15s full hero shot with a slight push-in that ends in a completely stable frame.",
+    "lighting": "Chiaroscuro treatment with rim light throughout: the 0-3s segment uses a black-gray gradient background with rim light outlining the body and cap while the label stays visible and unblown; the 9-12s segment uses even, glare-free frontal light for a fully legible 'LUMEN 07'; the 12-15s segment uses warm side light passing through the light amber liquid over a dark reflective tabletop; the bottle is never plunged into darkness.",
+    "materials": "Low wide rectangular transparent glass bottle with rounded corners and visibly thick glass; light amber liquid; right-tilting asymmetric matte black cap; centered cream rectangular label with the exact black serif text 'LUMEN 07'; bottle proportions, cap tilt, liquid color, and label content stay identical in every shot.",
+    "performance": "No performer, hands, or props appear; the bottle is stationary in every shot and never sprays, tips, has its cap removed, or changes cap tilt direction.",
+    "continuity": "The bottle is the sole subject across all cuts; the five fixed features (wide rounded rectangular body, light amber liquid, right-tilting black cap, cream label, and 'LUMEN 07') persist identically; autonomous completion is limited to background, tabletop, lighting, slight mist, and camera distance, and never alters product attributes or obscures the label."
+  },
+  "runtime": {
+    "perception_provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3-VL-32B-Instruct",
+      "options": {
+        "base_url": "http://127.0.0.1:9012",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000
+      }
+    },
+    "reasoning_provider": {
+      "provider": "glm",
+      "model": "GLM-5.2"
+    },
+    "generation_provider": {
+      "provider": "minimax",
+      "model": "MiniMax-H3"
+    }
+  },
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 15,
+    "aspect_ratio": "9:16",
+    "generate_audio": false,
+    "style": ""
+  },
+  "assets": [
+    {
+      "asset_id": "image_product",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/ab_tests_20260820/case_007_perfume_text_geometry/assets/perfume_lumen07.png",
+      "label": "authoritative_bottle_geometry_material_cap_and_exact_label"
+    }
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v2",
+    "provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3-VL-32B-Instruct",
+      "options": {
+        "base_url": "http://127.0.0.1:9012",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000
+      }
+    },
+    "assets": [
+      {
+        "asset_id": "image_product",
+        "summary": "3 distinct foreground objects localized and analyzed individually.",
+        "evidence": [
+          {
+            "evidence_id": "evidence_1",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.14,
+              0.212,
+              0.862,
+              0.8
+            ],
+            "description": "Localized perfume bottle object_1"
+          },
+          {
+            "evidence_id": "evidence_2",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.294,
+              0.212,
+              0.772,
+              0.462
+            ],
+            "description": "Localized bottle cap object_2"
+          },
+          {
+            "evidence_id": "evidence_3",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.356,
+              0.538,
+              0.628,
+              0.662
+            ],
+            "description": "Localized label object_3"
+          }
+        ],
+        "regions": [
+          {
+            "region_id": "region_1",
+            "evidence_id": "evidence_1",
+            "bbox_normalized": [
+              0.14,
+              0.212,
+              0.862,
+              0.8
+            ],
+            "entity_ids": [
+              "object_1"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          },
+          {
+            "region_id": "region_2",
+            "evidence_id": "evidence_2",
+            "bbox_normalized": [
+              0.294,
+              0.212,
+              0.772,
+              0.462
+            ],
+            "entity_ids": [
+              "object_2"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          },
+          {
+            "region_id": "region_3",
+            "evidence_id": "evidence_3",
+            "bbox_normalized": [
+              0.356,
+              0.538,
+              0.628,
+              0.662
+            ],
+            "entity_ids": [
+              "object_3"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          }
+        ],
+        "entities": [
+          {
+            "entity_id": "object_1",
+            "category": "perfume bottle",
+            "subcategory": "perfume bottle",
+            "summary": "A transparent glass perfume bottle with a black asymmetrical cap and a cream-colored label reading 'LUMEN 07'. The liquid inside is light amber.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "object_2",
+            "category": "perfume bottle cap",
+            "subcategory": "perfume bottle cap",
+            "summary": "Close-up of a black, matte-finished cap with a curved, asymmetrical edge and a slight tilt, mounted on a glass base with visible liquid reflection.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "object_3",
+            "category": "label",
+            "subcategory": "label",
+            "summary": "A cream-colored rectangular label with the text 'LUMEN 07' in black serif font, centered and clearly legible.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "localize_then_isolated_attribute_batches",
+          "localization_coordinate_system": "normalized_0_1",
+          "task_ids": [
+            "20260820_144029_848747_8e63bd48-168e-4b7c-8cc1-509e2519e360",
+            "20260820_144039_945737_3042c0f1-7e45-4fc9-b1f5-771db6f31792"
+          ]
+        },
+        "transcript": "",
+        "uncertainties": []
+      }
+    ],
+    "missing_asset_ids": []
+  }
+}
