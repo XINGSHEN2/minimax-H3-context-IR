@@ -56,7 +56,7 @@ def reasoning_provider_config() -> dict[str, str]:
                 "http://litellm-poc.pgw.metax-tech.com/v1",
             ),
             "api_key_env": "LITELLM_API_KEY",
-            "http_host_env": "",
+            "http_host_env": "DEEPSEEK_LITELLM_HTTP_HOST",
         }
     if selected == "glm":
         return {

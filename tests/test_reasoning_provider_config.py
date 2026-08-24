@@ -13,7 +13,7 @@ def test_default_reasoning_provider_is_deepseek_litellm(monkeypatch):
         "model": "deepseek-v4-flash",
         "base_url": "http://litellm-poc.pgw.metax-tech.com/v1",
         "api_key_env": "LITELLM_API_KEY",
-        "http_host_env": "",
+        "http_host_env": "DEEPSEEK_LITELLM_HTTP_HOST",
     }
 
 
