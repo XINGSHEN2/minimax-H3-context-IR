@@ -23,15 +23,31 @@ except ModuleNotFoundError:
     )
 
 try:
-    from remote_source.backend.perception import _json_object, _canonical_entity_reference, _analysis_profile
+    from remote_source.backend.perception import _json_object, _canonical_entity_reference, _analysis_profile, _evidence_coverage, _required_supplements
 except ModuleNotFoundError:
-    from backend.perception import _json_object, _canonical_entity_reference, _analysis_profile
+    from backend.perception import _json_object, _canonical_entity_reference, _analysis_profile, _evidence_coverage, _required_supplements
 
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 class SourceContractTests(unittest.TestCase):
+    def test_only_missing_required_evidence_triggers_supplement(self):
+        analysis = {"asset_id": "image_1", "summary": "red bottle with a gold cap", "entities": []}
+        plan = {"evidence_requirements": [
+            {"claim": "label wording", "priority": "required", "max_retries": 1},
+            {"claim": "logo typography", "priority": "useful", "max_retries": 0},
+            {"claim": "decorative sparkle", "priority": "optional", "max_retries": 0},
+            {"claim": "gold cap", "priority": "required", "max_retries": 1},
+        ]}
+        coverage = _evidence_coverage(analysis, plan)
+        supplements = _required_supplements(coverage)
+        self.assertEqual([item["claim"] for item in supplements], ["label wording"])
+
+    def test_required_evidence_has_at_most_one_attempt(self):
+        coverage = [{"claim": "finger mapping", "priority": "required", "status": "missing", "attempts": 1, "max_retries": 3}]
+        self.assertEqual(_required_supplements(coverage), [])
+
     def test_perception_profiles_follow_asset_roles(self):
         image = {"media_type": "image", "user_role": "reference"}
         video = {"media_type": "video", "user_role": "reference"}

@@ -132,6 +132,68 @@ def _analysis_profile(asset: Mapping[str, Any], plan: Mapping[str, Any] | None) 
     return "unsupported"
 
 
+_EVIDENCE_STOPWORDS = {
+    "visible", "evidence", "detail", "details", "property", "properties", "the", "and",
+    "from", "with", "source", "reference", "image", "video", "asset", "generation", "relevant",
+}
+
+
+def _claim_terms(value: str) -> set[str]:
+    return {
+        token for token in re.findall(r"[a-z0-9_]+|[\u4e00-\u9fff]{2,}", value.casefold())
+        if len(token) >= 2 and token not in _EVIDENCE_STOPWORDS
+    }
+
+
+def _evidence_coverage(
+    analysis: Mapping[str, Any], plan: Mapping[str, Any] | None,
+) -> list[dict[str, Any]]:
+    """Cheap deterministic audit; it never calls a model or rejects an asset."""
+    requirements = (plan or {}).get("evidence_requirements", [])
+    if not isinstance(requirements, list):
+        return []
+    searchable = json.dumps({
+        key: analysis.get(key)
+        for key in ("summary", "evidence", "regions", "entities", "relations", "events", "technical", "transcript")
+    }, ensure_ascii=False).casefold()
+    coverage: list[dict[str, Any]] = []
+    for index, value in enumerate(requirements, start=1):
+        if not isinstance(value, Mapping):
+            continue
+        claim = str(value.get("claim", "")).strip()
+        priority = str(value.get("priority", "useful")).lower()
+        if priority not in {"required", "useful", "optional"}:
+            priority = "useful"
+        terms = _claim_terms(claim)
+        matched = sorted(term for term in terms if term in searchable)
+        # A non-empty, structured analysis is enough for broad optional requests;
+        # required claims need at least one claim-specific lexical anchor.
+        status = "covered" if matched else "missing"
+        coverage.append({
+            "requirement_id": f"requirement_{index}",
+            "claim": claim,
+            "priority": priority,
+            "source_asset_id": str(value.get("source_asset_id", analysis.get("asset_id", ""))),
+            "region_or_time": str(value.get("region_or_time", "")),
+            "status": status,
+            "matched_terms": matched,
+            "retry_policy": "local_only" if priority == "required" else "none",
+            "max_retries": 1 if priority == "required" else 0,
+            "attempts": 0,
+        })
+    return coverage
+
+
+def _required_supplements(coverage: Sequence[Mapping[str, Any]]) -> list[Mapping[str, Any]]:
+    """Only missing hard evidence is eligible for a bounded model request."""
+    return [
+        item for item in coverage
+        if item.get("priority") == "required"
+        and item.get("status") == "missing"
+        and int(item.get("attempts", 0)) < min(1, int(item.get("max_retries", 1)))
+    ]
+
+
 def _close_truncated_json(text: str) -> dict[str, Any] | None:
     """Recover only a syntactically complete JSON prefix truncated at its tail."""
     stack: list[str] = []
@@ -811,6 +873,42 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             time.sleep(poll_interval)
         raise TimeoutError(f"Local Qwen3-VL task timed out: {task_id}")
 
+    def _supplement_required_evidence(
+        self,
+        asset: Mapping[str, Any],
+        requirement: Mapping[str, Any],
+    ) -> tuple[dict[str, Any], float]:
+        """Ask one bounded question about one missing hard-constraint fact."""
+        source = Path(str(asset.get("uri", ""))).expanduser().resolve()
+        claim = str(requirement.get("claim", "")).strip()
+        region_or_time = str(requirement.get("region_or_time", "")).strip()
+        media_type = str(asset.get("media_type", ""))
+        prompt = (
+            "Inspect only the following missing fact required by an explicit user constraint. "
+            "Do not re-describe the whole asset and do not infer hidden content. "
+            f"Question: {claim}. "
+            + (f"Limit inspection to this region or source-time window: {region_or_time}. " if region_or_time else "")
+            + 'Return only compact JSON: {"status":"observed|uncertain","answer":"brief visible evidence","confidence":0.0}. '
+            "Use uncertain when the fact is not visibly supported."
+        )
+        output_root = Path(str(self.config.options.get(
+            "output_dir", "/home/mx/shenxing/minimax-H3-context-IR/outputs/qwen3-vl-32b",
+        ))).expanduser().resolve()
+        parameters: dict[str, Any] = {}
+        if media_type == "video":
+            parameters.update(
+                fps=float(self.config.options.get("supplemental_video_fps", self.config.options.get("video_fps", 2.0))),
+                max_frames=int(self.config.options.get("supplemental_video_max_frames", 48)),
+            )
+        started = time.perf_counter()
+        result = self._run_task(
+            source, prompt,
+            output_root / "supplemental" / str(asset.get("asset_id", "asset")) / str(requirement.get("requirement_id", "required")),
+            int(self.config.options.get("supplemental_max_tokens", 256)),
+            **parameters,
+        )
+        return result, time.perf_counter() - started
+
     @staticmethod
     def _localization_input(source: Path, target: Path) -> Path:
         from PIL import Image, ImageOps
@@ -875,15 +973,27 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
                 continue
             group, name, value, confidence = feature[:4]
             source = feature[4] if len(feature) == 5 else "visible"
+            try:
+                confidence_value = float(confidence)
+            except (TypeError, ValueError):
+                # Qwen occasionally omits the numeric confidence and shifts a
+                # provenance token such as "visible" into its position. Keep
+                # the rest of the entity evidence and discard only this
+                # malformed feature instead of failing the whole asset run.
+                continue
             attributes[str(group)].append({
                 "name": str(name), "value": value, "evidence_ids": [],
-                "confidence": float(confidence), "source": str(source), "alternatives": [],
+                "confidence": confidence_value, "source": str(source), "alternatives": [],
             })
+        try:
+            entity_confidence = float(item.get("confidence", 0.0))
+        except (TypeError, ValueError):
+            entity_confidence = 0.0
         return {
             "category": str(item.get("category", "unknown_object")),
             "subcategory": str(item.get("subcategory", item.get("category", "unknown_object"))),
             "summary": str(item.get("summary", "")),
-            "quantity": {"value": 1, "confidence": float(item.get("confidence", 0.0))},
+            "quantity": {"value": 1, "confidence": entity_confidence},
             "attributes": attributes,
             "variations": [],
             "uncertainties": list(item.get("uncertainties", [])),
@@ -1345,12 +1455,56 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             analysis, cache_hit, cache_key = self._analyze_visual_cached(asset, plan)
             analysis = dict(analysis)
             analysis["asset_id"] = str(asset.get("asset_id", ""))
+            coverage = _evidence_coverage(analysis, plan)
+            supplemental_attempts: list[dict[str, Any]] = []
+            supplemental_elapsed = 0.0
+            for requirement in _required_supplements(coverage):
+                # Exactly one local attempt per missing required fact. Useful and
+                # optional omissions never enter this branch.
+                requirement["attempts"] = 1
+                attempt_started = time.perf_counter()
+                try:
+                    supplemental, elapsed = self._supplement_required_evidence(asset, requirement)
+                    supplemental_elapsed += elapsed
+                    observed = str(supplemental.get("status", "")).lower() == "observed"
+                    answer = str(supplemental.get("answer", "")).strip()
+                    confidence = float(supplemental.get("confidence", 0.0) or 0.0)
+                    requirement["status"] = "covered_after_supplement" if observed and answer else "unresolved"
+                    requirement["supplemental_answer"] = answer
+                    requirement["confidence"] = confidence
+                    supplemental_attempts.append({
+                        "requirement_id": requirement["requirement_id"], "reason": "required_evidence_missing",
+                        "scope": requirement["region_or_time"], "status": requirement["status"],
+                        "elapsed_seconds": round(elapsed, 3), "task_id": str(supplemental.get("_task_id", "")),
+                    })
+                except Exception as exc:
+                    requirement["status"] = "unresolved"
+                    supplemental_attempts.append({
+                        "requirement_id": requirement["requirement_id"], "reason": "required_evidence_missing",
+                        "scope": requirement["region_or_time"], "status": "failed",
+                        "elapsed_seconds": round(time.perf_counter() - attempt_started, 3),
+                        "error": str(exc)[:500],
+                    })
+                if requirement["status"] == "unresolved":
+                    analysis.setdefault("uncertainties", []).append(
+                        f"Required evidence remains uncertain after one local attempt: {requirement['claim']}"
+                    )
+            analysis["evidence_coverage"] = coverage
+            analysis["supplemental_attempts"] = supplemental_attempts
             technical = analysis.setdefault("technical", {})
             if isinstance(technical, dict):
                 technical["analysis_profile"] = _analysis_profile(asset, plan)
                 technical["elapsed_seconds"] = round(time.perf_counter() - started, 3)
                 technical["cache_hit"] = cache_hit
                 technical["cache_key"] = cache_key
+                base_request_count = len(technical.get("task_ids", [])) or (0 if cache_hit else 1)
+                technical["perception_metrics"] = {
+                    "request_count": base_request_count + len(supplemental_attempts),
+                    "retry_count": sum(1 for item in supplemental_attempts if item.get("status") == "failed"),
+                    "supplemental_request_count": len(supplemental_attempts),
+                    "supplemental_elapsed_seconds": round(supplemental_elapsed, 3),
+                    "elapsed_seconds": technical["elapsed_seconds"],
+                }
             return index, analysis
 
         visual_items: list[tuple[int, Mapping[str, Any]]] = []
@@ -1381,7 +1535,15 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
                     analyses[result_index] = analysis
 
         completed = [item for item in analyses if item is not None]
-        return normalize_media_analysis({"assets": completed}, assets, self.config)
+        normalized = normalize_media_analysis({"assets": completed}, assets, self.config)
+        metrics = [item.get("technical", {}).get("perception_metrics", {}) for item in completed]
+        normalized["perception_metrics"] = {
+            "request_count": sum(int(item.get("request_count", 0)) for item in metrics),
+            "retry_count": sum(int(item.get("retry_count", 0)) for item in metrics),
+            "supplemental_request_count": sum(int(item.get("supplemental_request_count", 0)) for item in metrics),
+            "elapsed_seconds": round(max((float(item.get("elapsed_seconds", 0)) for item in metrics), default=0.0), 3),
+        }
+        return normalized
 
 
 class PerceptionProviderRegistry:
@@ -1443,6 +1605,8 @@ def normalize_media_analysis(
             "technical": dict(item.get("technical", {})),
             "transcript": str(item.get("transcript", "")),
             "uncertainties": list(item.get("uncertainties", [])),
+            "evidence_coverage": list(item.get("evidence_coverage", [])),
+            "supplemental_attempts": list(item.get("supplemental_attempts", [])),
         })
     return {
         "schema_version": "media_analysis.v2",

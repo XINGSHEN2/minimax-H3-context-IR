@@ -811,6 +811,82 @@ def normalize_focus_shot_bindings(payload: dict[str, Any]) -> dict[str, Any]:
     return payload
 
 
+def normalize_creative_focus_asset(payload: dict[str, Any]) -> dict[str, Any]:
+    """Repair focus asset/bindings after non-asset model bindings are lowered."""
+    focus = payload.get("creative_focus")
+    if not isinstance(focus, dict):
+        return payload
+    asset_ids = [
+        str(item.get("asset_id", "")).strip()
+        for item in payload.get("assets", [])
+        if isinstance(item, Mapping) and str(item.get("asset_id", "")).strip()
+    ]
+    if not asset_ids:
+        return payload
+    valid_bindings = [
+        item for item in payload.get("asset_bindings", [])
+        if isinstance(item, Mapping)
+        and str(item.get("binding_id", "")).strip()
+        and str(item.get("asset_id", "")).strip() in asset_ids
+    ]
+    valid_binding_ids = {str(item.get("binding_id", "")).strip() for item in valid_bindings}
+    primary_binding_ids = {
+        value for value in _strings(focus.get("primary_binding_ids"))
+        if value in valid_binding_ids
+    }
+    candidates: list[tuple[int, str]] = []
+    for binding in valid_bindings:
+        binding_id = str(binding.get("binding_id", "")).strip()
+        asset_id = str(binding.get("asset_id", "")).strip()
+        if binding_id not in primary_binding_ids or asset_id not in asset_ids:
+            continue
+        # Product appearance is the most concrete generation anchor for a
+        # person-plus-product composite subject. Other focus bindings remain
+        # supporting evidence rather than being concatenated into a fake ID.
+        priority = 0 if binding.get("role") == "product" else 1
+        candidates.append((priority, asset_id))
+    current_asset_id = str(focus.get("primary_asset_id", "")).strip()
+    if current_asset_id in asset_ids:
+        primary_asset_id = current_asset_id
+    elif candidates:
+        candidates.sort(key=lambda item: (item[0], asset_ids.index(item[1])))
+        primary_asset_id = candidates[0][1]
+    else:
+        product_assets = [
+            str(binding.get("asset_id", "")).strip()
+            for binding in valid_bindings if binding.get("role") == "product"
+        ]
+        primary_asset_id = product_assets[0] if product_assets else asset_ids[0]
+    if not candidates:
+        candidates = [(2, asset_ids[0])]
+    focus["primary_asset_id"] = primary_asset_id
+    focus["supporting_asset_ids"] = [
+        asset_id for asset_id in asset_ids if asset_id != primary_asset_id
+    ]
+    if not primary_binding_ids:
+        # Generated identity/outfit bindings may intentionally have no source
+        # asset and are removed by directive lowering. Anchor the final focus to
+        # the most concrete remaining asset-backed binding, preferring the
+        # selected product appearance instead of leaving the focus unverifiable.
+        ranked = sorted(
+            valid_bindings,
+            key=lambda binding: (
+                0 if str(binding.get("asset_id", "")) == primary_asset_id and binding.get("role") == "product" else
+                1 if binding.get("role") == "product" else
+                2 if str(binding.get("asset_id", "")) == primary_asset_id else 3,
+                str(binding.get("binding_id", "")),
+            ),
+        )
+        if ranked:
+            primary_binding_ids = {str(ranked[0].get("binding_id", "")).strip()}
+    focus["primary_binding_ids"] = [
+        str(binding.get("binding_id", "")).strip()
+        for binding in valid_bindings
+        if str(binding.get("binding_id", "")).strip() in primary_binding_ids
+    ]
+    return payload
+
+
 def normalize_timeline_state_fields(payload: dict[str, Any]) -> dict[str, Any]:
     """Upgrade legacy IR shots without inventing new semantic events."""
     for shot in payload.get("timeline", []):
@@ -984,6 +1060,32 @@ def normalize_production_policies(payload: dict[str, Any]) -> dict[str, Any]:
             if candidate.get("mode") == "disabled":
                 candidate["allow_new_events"] = False
                 candidate["events"] = []
+            if candidate.get("mode") == "reference" and not source_edit:
+                events = candidate.get("events")
+                has_completion_event = isinstance(events, list) and any(
+                    isinstance(event, Mapping)
+                    and event.get("source") not in {
+                        "explicit_user", "reference_evidence", "edit_base_preservation"
+                    }
+                    for event in events
+                )
+                if has_completion_event:
+                    # A reference-guided module may still contain conservative
+                    # production completion. It is therefore mixed/automatic,
+                    # not a pure reference replay. Preserve the reference while
+                    # making the additional event permission explicit.
+                    candidate["mode"] = "auto"
+                    candidate["allow_new_events"] = True
+                    assumptions = candidate.get("assumptions")
+                    if not isinstance(assumptions, list):
+                        assumptions = []
+                        candidate["assumptions"] = assumptions
+                    note = (
+                        "Reference-guided module also contains conservative "
+                        "completion events; normalized to auto mode."
+                    )
+                    if note not in assumptions:
+                        assumptions.append(note)
             if module == "audio" and not generate_audio:
                 candidate.update({
                     "mode": "disabled", "source": "explicit_prohibition",
@@ -1070,6 +1172,7 @@ def compile_context_ir(model_output: Mapping[str, Any], source_request: Mapping[
     normalize_reference_retention_modes(payload)
     normalize_reference_isolation(payload)
     normalize_subject_source_bindings(payload)
+    normalize_creative_focus_asset(payload)
     normalize_focus_shot_bindings(payload)
     normalize_timeline_state_fields(payload)
     normalize_production_policies(payload)

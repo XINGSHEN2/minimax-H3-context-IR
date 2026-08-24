@@ -115,7 +115,7 @@ Required shape:
   "resolved_request": "faithful concise operational restatement",
   "directives": [{{"directive_id":"d_1","asset_id":"image_1 or empty","target":"stable semantic target","operation":"preserve|replace|transfer|may_change|exclude","scope":["controlled attribute"],"priority":"hard|soft","provenance":"explicit_user"}}],
   "completion_policy": {{"technical":true,"conservative_semantic":true,"creative":false}},
-  "perception_plan": {{"assets":[{{"asset_id":"image_1","role":"authority/use role","user_claimed_category":"or empty","analyze":["visible property or relation"],"do_not_infer":["unsupported conclusion"]}}]}},
+  "perception_plan": {{"assets":[{{"asset_id":"image_1","role":"authority/use role","user_claimed_category":"or empty","analyze":["visible property or relation"],"evidence_requirements":[{{"claim":"single visible fact needed by a directive","priority":"required|useful|optional","region_or_time":"visible region, source-time window, or empty","retry_policy":"local_only","max_retries":1}}],"do_not_infer":["unsupported conclusion"]}}]}},
   "open_questions": []
 }}
 
@@ -147,6 +147,50 @@ def validate_intent_resolution(payload: Mapping[str, Any], source: Mapping[str, 
     planned: set[str] = set()
     plan_by_id: dict[str, dict[str, Any]] = {}
     normalized_plan = []
+    hard_by_asset: dict[str, list[str]] = {}
+    for directive in directives:
+        if not isinstance(directive, Mapping) or str(directive.get("priority", "")).lower() != "hard":
+            continue
+        directive_asset = str(directive.get("asset_id", "")).strip()
+        if directive_asset:
+            hard_by_asset.setdefault(directive_asset, []).extend(
+                str(value).strip() for value in directive.get("scope", []) if str(value).strip()
+            )
+
+    def evidence_requirements(item: Mapping[str, Any], asset_id: str) -> list[dict[str, Any]]:
+        raw = item.get("evidence_requirements")
+        if not isinstance(raw, list):
+            raw = item.get("analyze", [])
+        requirements: list[dict[str, Any]] = []
+        for value in raw:
+            if isinstance(value, Mapping):
+                claim = str(value.get("claim", value.get("target", ""))).strip()
+                proposed = str(value.get("priority", "")).strip().lower()
+                region_or_time = str(value.get("region_or_time", "")).strip()
+            else:
+                claim, proposed, region_or_time = str(value).strip(), "", ""
+            if not claim:
+                continue
+            # The model may suggest a priority, but only an explicit hard directive
+            # is allowed to create retry-triggering evidence.
+            claim_dimension = _scope_dimension(claim)
+            hard_scopes = hard_by_asset.get(asset_id, [])
+            is_hard = any(
+                _scope_dimension(scope) == claim_dimension != "other"
+                or claim.casefold() in scope.casefold()
+                or scope.casefold() in claim.casefold()
+                for scope in hard_scopes if scope
+            )
+            priority = "required" if is_hard else (proposed if proposed in {"useful", "optional"} else "useful")
+            requirements.append({
+                "claim": claim,
+                "priority": priority,
+                "source_asset_id": asset_id,
+                "region_or_time": region_or_time,
+                "retry_policy": "local_only" if priority == "required" else "none",
+                "max_retries": 1 if priority == "required" else 0,
+            })
+        return requirements
     for index, item in enumerate(plan["assets"]):
         if not isinstance(item, Mapping):
             raise ValueError(f"perception_plan.assets[{index}] must be an object")
@@ -163,6 +207,11 @@ def validate_intent_resolution(payload: Mapping[str, Any], source: Mapping[str, 
                         known.add(value.casefold())
             if not existing["user_claimed_category"]:
                 existing["user_claimed_category"] = str(item.get("user_claimed_category", "")).strip()
+            known_claims = {value["claim"].casefold() for value in existing["evidence_requirements"]}
+            for requirement in evidence_requirements(item, asset_id):
+                if requirement["claim"].casefold() not in known_claims:
+                    existing["evidence_requirements"].append(requirement)
+                    known_claims.add(requirement["claim"].casefold())
             continue
         planned.add(asset_id)
         normalized = {
@@ -170,13 +219,14 @@ def validate_intent_resolution(payload: Mapping[str, Any], source: Mapping[str, 
             "role": str(item.get("role", "reference")).strip() or "reference",
             "user_claimed_category": str(item.get("user_claimed_category", "")).strip(),
             "analyze": [str(v).strip() for v in item.get("analyze", []) if str(v).strip()],
+            "evidence_requirements": evidence_requirements(item, asset_id),
             "do_not_infer": [str(v).strip() for v in item.get("do_not_infer", []) if str(v).strip()],
         }
         normalized_plan.append(normalized)
         plan_by_id[asset_id] = normalized
     # Every asset must receive a plan, even when the model omitted an irrelevant one.
     for asset_id in sorted(asset_ids - planned):
-        normalized_plan.append({"asset_id": asset_id, "role": "reference", "user_claimed_category": "", "analyze": ["generation-relevant visible evidence"], "do_not_infer": ["unsupported identity, brand, function, or user intent"]})
+        normalized_plan.append({"asset_id": asset_id, "role": "reference", "user_claimed_category": "", "analyze": ["generation-relevant visible evidence"], "evidence_requirements": [{"claim":"generation-relevant visible evidence","priority":"optional","source_asset_id":asset_id,"region_or_time":"","retry_policy":"none","max_retries":0}], "do_not_infer": ["unsupported identity, brand, function, or user intent"]})
     resolved = normalize_source_request({
         **copy.deepcopy(dict(source)),
         "resolved_request": str(payload.get("resolved_request", "")).strip(),
