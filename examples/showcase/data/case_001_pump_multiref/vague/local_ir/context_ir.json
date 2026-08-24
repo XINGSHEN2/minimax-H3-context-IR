@@ -2,15 +2,15 @@
   "schema_version": "0.1.0",
   "intent": {
     "user_request": "用这些素材做一条15秒竖屏充气泵宣传视频，让图片里的女生演示这个产品，参考视频的使用方法和节奏。",
-    "resolved_request": "Create a 15-second, portrait-orientation promotional video for the inflatable pump product, using the supplied materials, featuring the presenter girl from image_identity demonstrating the product, and following the reference video's usage method and pacing.",
+    "resolved_request": "Create a 15-second vertical (portrait) promotional video for the inflatable pump, featuring the girl from the identity images demonstrating the product while following the usage method and pacing of the reference video.",
     "directives": [
       {
         "directive_id": "d_1",
         "asset_id": "",
-        "target": "total_edit_duration",
+        "target": "total_duration_15_seconds",
         "operation": "preserve",
         "scope": [
-          "15 seconds total runtime"
+          "total_duration_seconds"
         ],
         "priority": "hard",
         "provenance": "explicit_user"
@@ -18,21 +18,21 @@
       {
         "directive_id": "d_2",
         "asset_id": "",
-        "target": "portrait_orientation",
+        "target": "vertical_screen_orientation",
         "operation": "preserve",
         "scope": [
-          "vertical portrait 9:16 framing"
+          "vertical_orientation"
         ],
         "priority": "hard",
         "provenance": "explicit_user"
       },
       {
         "directive_id": "d_3",
-        "asset_id": "image_product",
-        "target": "product_appearance",
+        "asset_id": "image_identity",
+        "target": "presenter_identity",
         "operation": "preserve",
         "scope": [
-          "product appearance as shown in image_product"
+          "presenter_identity"
         ],
         "priority": "hard",
         "provenance": "explicit_user"
@@ -40,87 +40,43 @@
       {
         "directive_id": "d_4",
         "asset_id": "image_identity",
-        "target": "presenter_identity",
-        "operation": "preserve",
-        "scope": [
-          "presenter identity as shown in image_identity"
-        ],
-        "priority": "hard",
-        "provenance": "explicit_user"
-      },
-      {
-        "directive_id": "d_5",
-        "asset_id": "image_identity",
         "target": "presenter_outfit",
         "operation": "preserve",
         "scope": [
-          "presenter outfit as shown in image_identity"
+          "presenter_outfit"
         ],
         "priority": "soft",
         "provenance": "explicit_user"
       },
       {
+        "directive_id": "d_5",
+        "asset_id": "image_product",
+        "target": "product_identity",
+        "operation": "preserve",
+        "scope": [
+          "product_identity"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
         "directive_id": "d_6",
         "asset_id": "video_method",
-        "target": "presenter_demonstration_action",
+        "target": "presenter_demonstrates_product_usage",
         "operation": "transfer",
         "scope": [
-          "usage method and operating sequence from video_method"
+          "usage_action_sequence"
         ],
         "priority": "hard",
         "provenance": "explicit_user"
       },
       {
         "directive_id": "d_7",
-        "asset_id": "image_usage",
-        "target": "pump_to_tire_usage_relation",
-        "operation": "transfer",
-        "scope": [
-          "pump-to-tire relation as shown in image_usage"
-        ],
-        "priority": "soft",
-        "provenance": "explicit_user"
-      },
-      {
-        "directive_id": "d_8",
-        "asset_id": "image_anchor",
-        "target": "presenter_holding_anchor",
-        "operation": "transfer",
-        "scope": [
-          "holding posture and presenter-product scale from image_anchor"
-        ],
-        "priority": "soft",
-        "provenance": "explicit_user"
-      },
-      {
-        "directive_id": "d_9",
         "asset_id": "video_method",
-        "target": "camera_structure",
+        "target": "reference_video_pacing",
         "operation": "transfer",
         "scope": [
-          "camera framing and movement from video_method"
-        ],
-        "priority": "soft",
-        "provenance": "explicit_user"
-      },
-      {
-        "directive_id": "d_10",
-        "asset_id": "video_method",
-        "target": "edit_pacing",
-        "operation": "transfer",
-        "scope": [
-          "pacing and rhythm from video_method"
-        ],
-        "priority": "hard",
-        "provenance": "explicit_user"
-      },
-      {
-        "directive_id": "d_11",
-        "asset_id": "",
-        "target": "promotional_advertising_style",
-        "operation": "preserve",
-        "scope": [
-          "promotional advertising presentation"
+          "pacing_rhythm"
         ],
         "priority": "soft",
         "provenance": "explicit_user"
@@ -132,18 +88,23 @@
       "creative": false
     },
     "assumptions": [
-      "IR completion: The full four-beat operating sequence evidenced in video_method is reproduced (attach hose to tire valve and inflate, stand upright and smile, inflate the camping mat, present the pump to camera), including the mat beat, because d_6 hard-transfers the usage method and operating sequence.",
-      "IR completion: Camera structure is adopted from video_method at soft priority per d_9: medium close-up framing for the presenter beats, a low-angle close-up for the product/mat beat, and a slow subtle push-in on the final pump presentation shot.",
-      "IR completion: Reference beat lengths (about 2s/3s/3s/3s with inter-beat gaps) are proportionally scaled to 3.5s/3.5s/4.0s/4.0s so the timeline fills exactly 15 seconds with no gaps.",
-      "IR completion: Because generate_audio is true and no music, voiceover, or audio asset is supplied, a light upbeat music bed is generated at low prominence following the reference pacing, plus functional sound effects (pump motor, hose connection click) and outdoor ambience; no voiceover is added because no voice direction or voice reference exists.",
-      "IR completion: The tire is shown at low pressure at the start of the demo and fully inflated by the standing beat, a conservative execution of the evidenced usage sequence.",
-      "IR completion: The pump display numerals are treated as dynamic state (they differ across references), so exact values are not preserved as identity.",
-      "IR completion: The pump surface material (plastic) is inferred at 0.7 confidence and is treated as an assumption, not a hard product constraint."
+      "IR completion: The demonstration setting is unspecified; a consistent grassy outdoor area is used, matching the environment evidenced in image_identity and image_anchor.",
+      "IR completion: The usage action sequence (d_6) from the reference video comprises four beats — inflate the tire, present the pump, inflate an air mattress, show the digital display — all reproduced in order by the presenter.",
+      "IR completion: The soft pacing directive (d_7) is adapted from the 15.19s reference timings to exactly 15.0s (d_1), preserving beat order: opener 0-2s, connect 2-4.5s, tire inflation 4.5-7s, present 7-9.5s, mattress inflation 9.5-12.5s, display finale 12.5-15s.",
+      "IR completion: An opening hero beat (0-2s) is added from the image_anchor first-frame reference to establish presenter-product scale before the demonstration.",
+      "IR completion: The air mattress is a generic prop required by the transferred usage sequence; no asset supplies its appearance (the reference video entity appearance was intentionally not analyzed).",
+      "IR completion: Pump display pressure values may change during inflation as functional usage behavior; units, layout, and product identity stay fixed.",
+      "IR completion: Audio is completed technically with outdoor ambience, action-synchronized pump and hose Foley, and a light non-vocal music bed; no voice or narration is invented.",
+      "IR completion: The reference video's roadside/campsite environments, tools, spare tire, and performer identity are not inherited; the video is a usage, camera, and pacing reference only.",
+      "IR completion: image_usage's gray pavement and white box packaging are not inherited; the tire rests directly on the grass.",
+      "IR decision: asset roles — image_product, image_identity, and image_usage are authoritative content sources for product, presenter, and connection respectively; image_anchor is a scoped first-frame anchor; video_method is a scoped structural reference and is not an edit base."
     ],
     "uncertainties": [
-      "The reference video's soundtrack could not be analyzed (transcript empty, no audio evidence); audio is generated from scratch rather than copied or claimed.",
-      "image_identity attributes were supplied as an entity summary with empty attribute arrays; appearance facts are taken from the high-confidence summary.",
-      "The valve-stem detail in image_usage is blurred and low-confidence (0.5); the pump-to-tire attachment is executed generically as hose-to-valve-stem without inventing unseen fitting details."
+      "The scene and setting were left unspecified by the user; conservatively resolved to the grassy outdoor area evidenced in the presenter images.",
+      "Whether the reference pacing should match beat-for-beat was unspecified; it is adapted proportionally to the locked 15s (d_1, d_7 soft).",
+      "Whether music or voiceover is desired was unspecified; no voice is added, and only restrained non-vocal music is used as technical completion.",
+      "The air mattress appearance is unverified; a generic inflatable mattress is used.",
+      "Display readings differ across assets (2.20/250, 8.95/888, 2.00/6.50); they are treated as variable usage data, not fixed product identity."
     ]
   },
   "protocol": {
@@ -159,167 +120,93 @@
   },
   "asset_bindings": [
     {
-      "binding_id": "b_product_appearance",
-      "asset_id": "image_product",
-      "target": "product_appearance",
-      "role": "product",
+      "binding_id": "b_identity",
+      "asset_id": "image_identity",
+      "target": "presenter identity (face, hair, apparent age and gender)",
+      "role": "identity",
       "priority": "hard",
       "source_directive_ids": [
         "d_3"
       ],
       "inherit": [
-        "product appearance as shown in image_product",
-        "slim black rectangular body with matte casing",
-        "top-center digital LED display showing pressure readings",
-        "circular control pad below the display",
-        "textured side grille",
-        "vertical handheld orientation",
-        "flexible black hose with metallic nozzle"
+        "presenter_identity",
+        "young woman with blonde curly hair in pigtails (face, hair, apparent age and gender)"
       ],
       "exclude": [
-        "background environment of image_product",
-        "exact displayed numerals treated as static identity",
-        "brand logos or text not evidenced",
-        "other pump models or colors"
+        "presenter outfit (handled by b_outfit)",
+        "background scene and grass",
+        "pose",
+        "camera framing",
+        "motion",
+        "reference video performer identity"
       ]
     },
     {
-      "binding_id": "b_presenter_identity",
+      "binding_id": "b_outfit",
       "asset_id": "image_identity",
-      "target": "presenter_identity",
-      "role": "identity",
-      "priority": "hard",
+      "target": "presenter outfit",
+      "role": "outfit",
+      "priority": "soft",
       "source_directive_ids": [
         "d_4"
       ],
       "inherit": [
-        "presenter identity as shown in image_identity",
-        "young woman with blonde hair in twin pigtails"
+        "presenter_outfit",
+        "yellow t-shirt under light blue denim overalls shorts, white socks, white sneakers"
       ],
       "exclude": [
-        "outfit (handled by b_presenter_outfit)",
-        "grassy-field background",
-        "camera framing"
+        "identity beyond the outfit",
+        "background scene",
+        "camera framing",
+        "motion"
       ]
     },
     {
-      "binding_id": "b_presenter_outfit",
-      "asset_id": "image_identity",
-      "target": "presenter_outfit",
-      "role": "outfit",
-      "priority": "soft",
+      "binding_id": "b_product",
+      "asset_id": "image_product",
+      "target": "authoritative product identity and appearance of the digital air pump",
+      "role": "product",
+      "priority": "hard",
       "source_directive_ids": [
         "d_5"
       ],
       "inherit": [
-        "presenter outfit as shown in image_identity",
-        "yellow short-sleeve shirt under light blue denim overalls",
-        "white socks and white sneakers"
+        "product_identity",
+        "black rounded-rectangular handheld body with textured mesh side panel",
+        "digital display showing pressure in BAR and PSI",
+        "circular control pad with central power button and +/- buttons",
+        "vertical upright orientation when held"
       ],
       "exclude": [
-        "facial identity and hairstyle",
         "background scene",
-        "other wardrobe items"
+        "exact pressure readings as fixed values",
+        "packaging or box",
+        "un-evidenced logos or model text"
       ]
     },
     {
-      "binding_id": "b_usage_method",
+      "binding_id": "b_usage_actions",
       "asset_id": "video_method",
-      "target": "presenter_demonstration_action",
+      "target": "ordered usage action sequence demonstrated by the presenter",
       "role": "motion",
       "priority": "hard",
       "source_directive_ids": [
         "d_6"
       ],
       "inherit": [
-        "usage method and operating sequence from video_method",
-        "attach the pump hose to the tire valve stem and inflate the tire",
-        "stand upright holding the pump and smile",
-        "inflate the gray camping mat via its valve",
-        "present the pump toward the camera showing the display"
+        "usage_action_sequence",
+        "inflate the tire",
+        "present the pump to camera",
+        "inflate the air mattress",
+        "show the digital display"
       ],
       "exclude": [
-        "performer identity and outfit",
-        "specific roadside or campsite locations and props",
-        "reference footage content",
-        "audio",
-        "identity",
-        "outfit",
-        "product appearance",
-        "product geometry",
-        "scene",
-        "visible text",
-        "logo"
-      ]
-    },
-    {
-      "binding_id": "b_usage_relation",
-      "asset_id": "image_usage",
-      "target": "pump_to_tire_usage_relation",
-      "role": "scene",
-      "priority": "soft",
-      "source_directive_ids": [
-        "d_7"
-      ],
-      "inherit": [
-        "pump-to-tire relation as shown in image_usage",
-        "pump hose connected to the tire's valve stem",
-        "pump placed beside the tire on the ground"
-      ],
-      "exclude": [
-        "white box markings and printed symbols",
-        "tire brand or wheel-specific details beyond a generic silver alloy rim",
-        "background of image_usage"
-      ]
-    },
-    {
-      "binding_id": "b_holding_anchor",
-      "asset_id": "image_anchor",
-      "target": "presenter_holding_anchor",
-      "role": "motion",
-      "priority": "soft",
-      "source_directive_ids": [
-        "d_8"
-      ],
-      "inherit": [
-        "holding posture and presenter-product scale from image_anchor",
-        "pump gripped with both hands in front of the torso at chest height",
-        "pump is a handheld device small relative to the presenter"
-      ],
-      "exclude": [
-        "presenter identity and outfit",
-        "grassy outdoor background",
-        "display numerals",
-        "camera angle",
-        "identity",
-        "outfit",
-        "product appearance",
-        "product geometry",
-        "scene",
-        "visible text",
-        "logo"
-      ]
-    },
-    {
-      "binding_id": "b_camera",
-      "asset_id": "video_method",
-      "target": "camera_structure",
-      "role": "camera",
-      "priority": "soft",
-      "source_directive_ids": [
-        "d_9"
-      ],
-      "inherit": [
-        "camera framing and movement from video_method",
-        "medium close-up framing for the presenter beats",
-        "low-angle close-up for the product and mat inflation beat",
-        "static hold with a slow subtle push-in on the final pump presentation shot"
-      ],
-      "exclude": [
-        "scene content",
-        "subject identity",
-        "edit rhythm",
-        "lighting specifics",
+        "reference performer identity",
+        "reference performer outfit",
+        "roadside and campsite environments",
+        "tools and spare tire props",
+        "scene lighting",
+        "reference audio track",
         "identity",
         "outfit",
         "product appearance",
@@ -332,21 +219,20 @@
     {
       "binding_id": "b_pacing",
       "asset_id": "video_method",
-      "target": "edit_pacing",
+      "target": "reference video beat pacing adapted to 15 seconds",
       "role": "rhythm",
-      "priority": "hard",
+      "priority": "soft",
       "source_directive_ids": [
-        "d_10"
+        "d_7"
       ],
       "inherit": [
-        "pacing and rhythm from video_method",
-        "four-beat edit structure with cuts near 3.5s, 7.0s, and 11.0s",
-        "brisk opening, brief hold on the standing beat, product beat, and confident closing presentation"
+        "pacing_rhythm",
+        "four-beat sequence rhythm adapted proportionally to exactly 15 seconds"
       ],
       "exclude": [
-        "camera framing",
-        "scene content",
-        "visual style",
+        "exact source timestamps of the 15.19s video",
+        "cut structure beyond the adapted beat rhythm",
+        "content appearance",
         "identity",
         "outfit",
         "product appearance",
@@ -355,108 +241,153 @@
         "visible text",
         "logo"
       ]
+    },
+    {
+      "binding_id": "b_usage_scene",
+      "asset_id": "image_usage",
+      "target": "pump-to-tire usage setup (tire, wheel, valve, hose connection)",
+      "role": "scene",
+      "priority": "hard",
+      "source_directive_ids": [],
+      "inherit": [
+        "tire mounted on a multi-spoke silver alloy wheel",
+        "metal valve stem with yellow cap on the wheel",
+        "black flexible hose attached to the pump body and to the valve stem",
+        "pump smaller than the tire"
+      ],
+      "exclude": [
+        "gray pavement ground",
+        "white box packaging and printed symbols",
+        "display readings shown in this photo",
+        "environment beyond the tire and connection"
+      ]
+    },
+    {
+      "binding_id": "b_anchor",
+      "asset_id": "image_anchor",
+      "target": "first-frame anchor: presenter-product scale and holding composition",
+      "role": "first_frame",
+      "priority": "hard",
+      "source_directive_ids": [],
+      "inherit": [
+        "presenter grips the pump with both hands at torso height",
+        "pump held vertically with the screen facing forward",
+        "pump small relative to the presenter's hands (handheld scale)",
+        "pump centered in frame",
+        "eye-level, mid-thigh-up framing",
+        "grassy outdoor setting consistent with image_identity"
+      ],
+      "exclude": [
+        "background details beyond the grassy setting",
+        "exact photo lighting as a lighting requirement",
+        "static pose as a freeze frame",
+        "camera motion"
+      ]
     }
   ],
   "subjects": [
     {
       "subject_id": "subject_1",
-      "name": "Young female presenter (girl from image_identity)",
+      "name": "young woman presenter",
       "kind": "person",
       "primary": false,
-      "description": "Young woman with blonde hair styled in twin pigtails, wearing a yellow short-sleeve shirt under light blue denim overalls, white socks, and white sneakers.",
+      "description": "Young woman with blonde curly hair worn in two pigtails, wearing a yellow t-shirt under light blue denim overalls shorts, white socks, and white sneakers.",
       "source_asset_ids": [
         "image_identity"
       ],
       "binding_ids": [
-        "b_presenter_identity",
-        "b_presenter_outfit"
-      ],
-      "appearance_shot_ids": [
-        "01",
-        "02",
-        "04"
-      ],
-      "retention_mode": "fully_preserved",
-      "retention_description": "Facial identity, blonde twin-pigtail hairstyle, and full outfit (yellow shirt, light blue denim overalls, white socks, white sneakers) are preserved from image_identity in every appearance; the grassy-field background is not transferred."
-    },
-    {
-      "subject_id": "subject_2",
-      "name": "Portable digital inflatable pump",
-      "kind": "product",
-      "primary": true,
-      "description": "Slim black rectangular handheld air pump with a top-center digital LED display showing pressure readings, a circular control pad below the display, a textured side grille, a flexible black hose with metallic nozzle, and vertical handheld orientation.",
-      "source_asset_ids": [
-        "image_product"
-      ],
-      "binding_ids": [
-        "b_product_appearance"
+        "b_identity",
+        "b_outfit"
       ],
       "appearance_shot_ids": [
         "01",
         "02",
         "03",
-        "04"
+        "04",
+        "05",
+        "06"
       ],
       "retention_mode": "fully_preserved",
-      "retention_description": "The pump's black slim rectangular body, top-center digital LED display, circular control pad, textured side grille, and handheld scale are preserved exactly from image_product in every shot; only the live pressure numerals change during use."
+      "retention_description": "Face, blonde curly pigtail hair, and complete outfit are preserved from image_identity in every shot; position, actions, and the surrounding scene are generated."
     },
     {
-      "subject_id": "subject_3",
-      "name": "Car tire with alloy wheel",
-      "kind": "object",
-      "primary": false,
-      "description": "Black rubber car tire mounted on a silver alloy wheel with a valve stem, shown at the roadside demo scene.",
+      "subject_id": "subject_2",
+      "name": "black handheld digital air pump",
+      "kind": "product",
+      "primary": true,
+      "description": "Black handheld digital air pump with a rounded-rectangular body, textured mesh side panel, a digital display showing pressure in BAR and PSI, and a circular control pad with a central power button and +/- buttons; held vertically upright in the hand.",
       "source_asset_ids": [
-        "image_usage"
+        "image_product"
       ],
       "binding_ids": [
-        "b_usage_relation"
+        "b_product"
       ],
       "appearance_shot_ids": [
         "01",
         "02",
+        "03",
+        "04",
+        "05",
+        "06"
+      ],
+      "retention_mode": "fully_preserved",
+      "retention_description": "Product geometry, black body, side texture, display layout with BAR/PSI units, and control pad are preserved from image_product in every shot; display pressure values update during inflation."
+    },
+    {
+      "subject_id": "subject_3",
+      "name": "car tire on alloy wheel",
+      "kind": "object",
+      "primary": false,
+      "description": "Black rubber tire mounted on a multi-spoke silver alloy wheel, with a metal valve stem topped with a yellow cap, resting on the ground.",
+      "source_asset_ids": [
+        "image_usage"
+      ],
+      "binding_ids": [
+        "b_usage_scene"
+      ],
+      "appearance_shot_ids": [
+        "02",
+        "03",
         "04"
       ],
       "retention_mode": "attribute_transfer",
-      "retention_description": "Generic black car tire on a silver alloy wheel with a valve stem; the hose-to-valve attachment relation transfers from image_usage; brand or wheel-specific details are not reproduced."
+      "retention_description": "Only the tire-and-wheel appearance and the pump-to-valve connection geometry transfer from image_usage; the pavement ground and white box packaging are not inherited."
     },
     {
       "subject_id": "subject_4",
-      "name": "Inflatable camping mat",
+      "name": "air mattress",
       "kind": "object",
       "primary": false,
-      "description": "Gray quilted inflatable sleeping mat with blue trim and an inflation valve for the pump hose.",
+      "description": "Generic inflatable mattress laid flat on the grass, inflating from deflated to full during the demonstration; appearance is completed by IR with no asset as its source.",
       "source_asset_ids": [],
-      "binding_ids": [
-        "b_usage_method"
-      ],
+      "binding_ids": [],
       "appearance_shot_ids": [
-        "03"
+        "05"
       ],
-      "retention_mode": "attribute_transfer",
-      "retention_description": "Gray quilted inflatable mat with blue trim transfers from video_method for the mat-inflation beat of the operating sequence."
+      "retention_mode": "weak_reference",
+      "retention_description": "No appearance source exists for the mattress; a generic air mattress is completed by IR to execute the transferred mattress-inflation beat."
     }
   ],
   "reference_relationships": [
-    {
-      "asset_id": "image_product",
-      "relationship": "reference_generation",
-      "subject_refs": [
-        "subject_2"
-      ],
-      "definition": "authoritative product appearance reference for the portable digital inflatable pump",
-      "retention_mode": "fully_preserved",
-      "retention_description": "The pump's black slim rectangular body, top-center digital LED display, circular control pad, textured side grille, and handheld scale are preserved exactly in every shot; only the live pressure numerals change while inflating."
-    },
     {
       "asset_id": "image_identity",
       "relationship": "reference_generation",
       "subject_refs": [
         "subject_1"
       ],
-      "definition": "presenter identity and outfit reference for the young woman",
+      "definition": "presenter identity and outfit reference for the girl demonstrating the product",
       "retention_mode": "fully_preserved",
-      "retention_description": "The presenter's facial identity, blonde twin-pigtail hairstyle, and full outfit (yellow shirt, light blue denim overalls, white socks, white sneakers) are preserved in every shot where she appears."
+      "retention_description": "The presenter's face, blonde curly pigtail hair, and complete outfit (yellow t-shirt under light blue denim overalls shorts, white socks, white sneakers) are preserved in every shot; the surrounding scene, motion, and framing are newly generated."
+    },
+    {
+      "asset_id": "image_product",
+      "relationship": "reference_generation",
+      "subject_refs": [
+        "subject_2"
+      ],
+      "definition": "authoritative product appearance reference for the digital air pump",
+      "retention_mode": "fully_preserved",
+      "retention_description": "The pump's black rounded-rectangular body, textured mesh side panel, digital display with BAR/PSI units, and circular control pad are preserved exactly in every shot; only display pressure readings update during inflation."
     },
     {
       "asset_id": "image_usage",
@@ -465,9 +396,9 @@
         "subject_2",
         "subject_3"
       ],
-      "definition": "pump-to-tire usage relation reference showing the hose connected to the tire valve stem",
+      "definition": "pump-to-tire usage connection reference",
       "retention_mode": "attribute_transfer",
-      "retention_description": "Transfers only the functional relation: pump hose connected to the tire's valve stem with the pump placed beside the tire; the specific wheel, box, and background details are not reproduced."
+      "retention_description": "Transfers only the usage setup geometry: black hose attached to the pump and to the tire's metal valve stem (yellow cap), tire mounted on a multi-spoke silver alloy wheel, and pump-smaller-than-tire scale; pavement ground, white box packaging, and environment are not inherited."
     },
     {
       "asset_id": "image_anchor",
@@ -476,32 +407,30 @@
         "subject_1",
         "subject_2"
       ],
-      "definition": "presenter holding anchor reference for the pump's handheld scale and two-handed grip",
-      "retention_mode": "attribute_transfer",
-      "retention_description": "Transfers the holding posture (pump gripped with both hands in front of the torso) and the presenter-to-product scale (pump is a handheld device); identity, outfit, and background are not transferred from this image."
+      "definition": "presenter-product scale and holding anchor for the opening frame",
+      "retention_mode": "partially_preserved",
+      "retention_description": "The opening frame preserves the presenter's two-handed grip on the vertically held pump at torso height with the screen forward, the mid-thigh-up eye-level framing, and the pump centered in frame; background, lighting, and motion are generated."
     },
     {
       "asset_id": "video_method",
       "relationship": "reference_generation",
       "subject_refs": [
         "subject_1",
-        "subject_2",
-        "subject_3",
-        "subject_4"
+        "subject_2"
       ],
-      "definition": "usage-sequence, camera-structure, and pacing reference for the demonstration",
+      "definition": "usage action, static camera, and pacing reference",
       "retention_mode": "attribute_transfer",
-      "retention_description": "Transfers the four-beat operating sequence (tire inflation, standing presentation, mat inflation, pump display presentation), the medium close-up and low-angle framing, and the edit rhythm; the reference footage, performers, locations, and any audio are not reused."
+      "retention_description": "Transfers only the ordered usage actions (inflate tire, present pump, inflate air mattress, show the display), static camera behavior, and beat pacing; the reference performer's identity, outfit, roadside/campsite environments, tools, and audio are not inherited."
     }
   ],
   "creative_focus": {
-    "primary_target": "the portable digital inflatable pump product, demonstrated by the presenter and promoted as the hero of the 15-second ad",
+    "primary_target": "the black handheld digital air pump being promoted through the presenter's demonstration",
     "primary_subject_id": "subject_2",
     "primary_asset_id": "image_product",
     "primary_binding_ids": [
-      "b_product_appearance"
+      "b_product"
     ],
-    "objective": "A polished 15-second vertical promo in which the pump is clearly shown as a capable handheld inflator, with its black body, top-center display, and control pad recognizably consistent with image_product, while the presenter demonstrates tire and mat inflation and finally presents the pump to camera; image_identity, image_usage, image_anchor, and video_method only support execution (presenter, usage relation, holding scale, method, and pacing) and never override the pump's hard appearance.",
+    "objective": "The finished 15-second vertical video must promote the black handheld digital air pump as the dominant subject: the girl from image_identity demonstrates it by inflating a tire, presenting it to camera, inflating an air mattress, and showing its digital display, with the pump's authoritative image_product appearance constant in every shot.",
     "supporting_asset_ids": [
       "image_identity",
       "image_usage",
@@ -512,159 +441,79 @@
       "01",
       "02",
       "03",
-      "04"
+      "04",
+      "05",
+      "06"
     ],
     "presentation_requirements": [
-      "In shot 01 the pump must be clearly visible in the presenter's hands as the hose connects to the tire valve and the display lights up.",
-      "In shot 02 the fully inflated tire and the pump held by the presenter frame the successful demo in a static medium close-up.",
-      "In shot 03 the pump is the hero of a low-angle close-up as it inflates the mat, with the display legible.",
-      "In shot 04 the pump is presented at chest height directly to the camera with the display readable, under a slow subtle push-in.",
-      "Product identity must remain exactly per image_product: slim black rectangular body, top-center digital display, circular control pad, textured side grille, vertical handheld orientation."
+      "The pump must retain the authoritative image_product appearance in every shot: black rounded-rectangular body, textured mesh side panel, digital display with BAR/PSI units, and circular control pad.",
+      "In each required shot the pump must be meaningfully active or presented: held by the presenter (01, 04, 06), connected and inflating (02, 03, 05); it must never be out of frame or reduced to background.",
+      "Shot 06 must end with the pump's digital display clearly visible to the camera at close range, with the presenter smiling.",
+      "Hose attach and detach must remain visible and continuous, with no hidden connection changes across cuts (shots 02-03 and 05).",
+      "The presenter must remain the girl from image_identity (blonde curly pigtails, yellow t-shirt under light blue denim overalls shorts) across all shots."
     ]
   },
   "isolation_rules": [
     {
-      "binding_id": "b_product_appearance",
+      "binding_id": "b_identity",
       "allow": [
-        "slim black rectangular body",
-        "top-center digital LED display",
-        "circular control pad below the display",
-        "textured side grille",
-        "vertical handheld orientation",
-        "flexible black hose with metallic nozzle",
-        "product appearance as shown in image_product",
-        "slim black rectangular body with matte casing",
-        "top-center digital LED display showing pressure readings"
+        "presenter_identity",
+        "young woman with blonde curly hair in pigtails (face, hair, apparent age and gender)"
       ],
       "block": [
-        "background environment",
-        "other pump models or colors",
-        "brand logos or text",
-        "static display numerals",
-        "background environment of image_product",
-        "exact displayed numerals treated as static identity",
-        "brand logos or text not evidenced"
-      ]
-    },
-    {
-      "binding_id": "b_presenter_identity",
-      "allow": [
-        "young woman's facial identity",
-        "blonde twin-pigtail hairstyle",
-        "presenter identity as shown in image_identity",
-        "young woman with blonde hair in twin pigtails"
-      ],
-      "block": [
-        "outfit details",
-        "grassy-field background",
+        "presenter outfit (handled by b_outfit)",
+        "background scene and grass",
+        "pose",
         "camera framing",
-        "outfit (handled by b_presenter_outfit)"
+        "motion",
+        "reference video performer identity"
       ]
     },
     {
-      "binding_id": "b_presenter_outfit",
+      "binding_id": "b_outfit",
       "allow": [
-        "yellow short-sleeve shirt",
-        "light blue denim overalls",
-        "white socks and white sneakers",
-        "presenter outfit as shown in image_identity",
-        "yellow short-sleeve shirt under light blue denim overalls"
+        "presenter_outfit",
+        "yellow t-shirt under light blue denim overalls shorts, white socks, white sneakers"
       ],
       "block": [
-        "facial identity and hairstyle",
+        "identity beyond the outfit",
         "background scene",
-        "other wardrobe items"
+        "camera framing",
+        "motion"
       ]
     },
     {
-      "binding_id": "b_usage_method",
+      "binding_id": "b_product",
       "allow": [
-        "attach hose to tire valve and inflate",
-        "stand upright and smile holding the pump",
-        "inflate the camping mat",
-        "present the pump display to camera",
-        "usage method and operating sequence from video_method",
-        "attach the pump hose to the tire valve stem and inflate the tire",
-        "stand upright holding the pump and smile",
-        "inflate the gray camping mat via its valve",
-        "present the pump toward the camera showing the display"
+        "product_identity",
+        "black rounded-rectangular handheld body with textured mesh side panel",
+        "digital display showing pressure in BAR and PSI",
+        "circular control pad with central power button and +/- buttons",
+        "vertical upright orientation when held"
       ],
       "block": [
-        "performer identity and outfit",
-        "specific locations and props",
-        "reference footage content",
-        "audio",
-        "specific roadside or campsite locations and props",
-        "identity",
-        "outfit",
-        "product appearance",
-        "product geometry",
-        "scene",
-        "visible text",
-        "logo"
+        "background scene",
+        "exact pressure readings as fixed values",
+        "packaging or box",
+        "un-evidenced logos or model text"
       ]
     },
     {
-      "binding_id": "b_usage_relation",
+      "binding_id": "b_usage_actions",
       "allow": [
-        "pump hose connected to the tire valve stem",
-        "pump placed beside the tire",
-        "pump-to-tire relation as shown in image_usage",
-        "pump hose connected to the tire's valve stem",
-        "pump placed beside the tire on the ground"
+        "usage_action_sequence",
+        "inflate the tire",
+        "present the pump to camera",
+        "inflate the air mattress",
+        "show the digital display"
       ],
       "block": [
-        "white box markings",
-        "tire brand or wheel-specific details",
-        "image_usage background",
-        "white box markings and printed symbols",
-        "tire brand or wheel-specific details beyond a generic silver alloy rim",
-        "background of image_usage"
-      ]
-    },
-    {
-      "binding_id": "b_holding_anchor",
-      "allow": [
-        "two-handed grip at torso height",
-        "presenter-product scale (pump is handheld)",
-        "holding posture and presenter-product scale from image_anchor",
-        "pump gripped with both hands in front of the torso at chest height",
-        "pump is a handheld device small relative to the presenter"
-      ],
-      "block": [
-        "identity and outfit",
-        "grassy background",
-        "display numerals",
-        "camera angle",
-        "presenter identity and outfit",
-        "grassy outdoor background",
-        "identity",
-        "outfit",
-        "product appearance",
-        "product geometry",
-        "scene",
-        "visible text",
-        "logo"
-      ]
-    },
-    {
-      "binding_id": "b_camera",
-      "allow": [
-        "medium close-up framing for presenter beats",
-        "low-angle close-up for the product beat",
-        "subtle push-in on the final shot",
-        "static holds elsewhere",
-        "camera framing and movement from video_method",
-        "medium close-up framing for the presenter beats",
-        "low-angle close-up for the product and mat inflation beat",
-        "static hold with a slow subtle push-in on the final pump presentation shot"
-      ],
-      "block": [
-        "scene content",
-        "subject identity",
-        "pacing structure",
-        "lighting specifics",
-        "edit rhythm",
+        "reference performer identity",
+        "reference performer outfit",
+        "roadside and campsite environments",
+        "tools and spare tire props",
+        "scene lighting",
+        "reference audio track",
         "identity",
         "outfit",
         "product appearance",
@@ -677,15 +526,13 @@
     {
       "binding_id": "b_pacing",
       "allow": [
-        "four-beat edit rhythm with cuts near 3.5s, 7.0s, and 11.0s",
-        "pacing and rhythm from video_method",
-        "four-beat edit structure with cuts near 3.5s, 7.0s, and 11.0s",
-        "brisk opening, brief hold on the standing beat, product beat, and confident closing presentation"
+        "pacing_rhythm",
+        "four-beat sequence rhythm adapted proportionally to exactly 15 seconds"
       ],
       "block": [
-        "camera framing",
-        "scene content",
-        "visual style",
+        "exact source timestamps of the 15.19s video",
+        "cut structure beyond the adapted beat rhythm",
+        "content appearance",
         "identity",
         "outfit",
         "product appearance",
@@ -694,138 +541,137 @@
         "visible text",
         "logo"
       ]
+    },
+    {
+      "binding_id": "b_usage_scene",
+      "allow": [
+        "tire mounted on a multi-spoke silver alloy wheel",
+        "metal valve stem with yellow cap on the wheel",
+        "black flexible hose attached to the pump body and to the valve stem",
+        "pump smaller than the tire"
+      ],
+      "block": [
+        "gray pavement ground",
+        "white box packaging and printed symbols",
+        "display readings shown in this photo",
+        "environment beyond the tire and connection"
+      ]
+    },
+    {
+      "binding_id": "b_anchor",
+      "allow": [
+        "presenter grips the pump with both hands at torso height",
+        "pump held vertically with the screen facing forward",
+        "pump small relative to the presenter's hands (handheld scale)",
+        "pump centered in frame",
+        "eye-level, mid-thigh-up framing",
+        "grassy outdoor setting consistent with image_identity"
+      ],
+      "block": [
+        "background details beyond the grassy setting",
+        "exact photo lighting as a lighting requirement",
+        "static pose as a freeze frame",
+        "camera motion"
+      ]
     }
   ],
   "constraints": {
     "preserve": [
-      "Total runtime of 15 seconds (d_1).",
-      "Vertical portrait 9:16 framing for every shot (d_2).",
-      "Pump appearance from image_product: slim black rectangular body, top-center digital LED display, circular control pad below the display, textured side grille, vertical handheld orientation, flexible black hose with metallic nozzle (d_3).",
-      "Presenter identity from image_identity: young woman with blonde hair in twin pigtails (d_4).",
-      "Presenter outfit from image_identity: yellow short-sleeve shirt under light blue denim overalls, white socks, white sneakers (d_5).",
-      "Usage method and operating sequence from video_method: attach the hose to the tire valve and inflate, stand upright and smile, inflate the camping mat, present the pump to camera (d_6).",
-      "Pump-to-tire relation from image_usage: hose connected to the tire's valve stem with the pump beside the tire (d_7).",
-      "Holding posture and presenter-product scale from image_anchor: pump handheld at torso height with both hands (d_8).",
-      "Camera framing and movement from video_method: medium close-ups for presenter beats, low-angle close-up for the product beat, subtle push-in on the final shot (d_9).",
-      "Four-beat edit pacing from video_method with cuts near 3.5s, 7.0s, and 11.0s (d_10).",
-      "Promotional advertising presentation: clear product demonstration, confident smiling presenter, upbeat tone (d_11).",
-      "15 seconds total runtime",
-      "vertical portrait 9:16 framing",
-      "promotional advertising presentation"
+      "total duration locked to 15 seconds (d_1)",
+      "vertical 9:16 screen orientation (d_2)",
+      "presenter identity: young woman with blonde curly hair in pigtails, from image_identity (d_3)",
+      "presenter outfit: yellow t-shirt under light blue denim overalls shorts, white socks, white sneakers, from image_identity (d_4)",
+      "product identity: black rounded-rectangular handheld digital air pump with textured mesh side panel, digital BAR/PSI display, and circular control pad, from image_product (d_5)",
+      "ordered usage action sequence from the reference video: inflate tire, present pump, inflate air mattress, show the display (d_6)",
+      "reference beat pacing adapted to the locked 15-second duration (d_7, soft)",
+      "pump-to-tire connection geometry (hose to pump and to valve stem, pump smaller than tire) from image_usage",
+      "presenter-product scale and holding anchor (both hands, vertical pump, screen forward, mid-thigh-up eye-level framing) from image_anchor",
+      "static camera behavior and cut-based editing from the reference video",
+      "total_duration_seconds",
+      "vertical_orientation"
     ],
     "allow_change": [
-      "Live pressure numerals on the pump display may change while inflating; the display is dynamic state, not fixed identity text.",
-      "Generic outdoor execution of the roadside and campsite scenes without copying the reference locations or props.",
-      "Cut timing proportionally scaled from the reference video's beats to fill exactly 15 seconds with no gaps.",
-      "Audio completion: light upbeat music bed, pump motor and hose-connection sound effects, and outdoor ambience, because generate_audio is true and no audio direction or audio asset was supplied.",
-      "The camping-mat beat is shown as a product close-up without a visible presenter, matching the reference video's evidence."
+      "pump display pressure values during inflation (functional usage behavior)",
+      "pump operating state (standby or motor running) and hose attachment states across the demonstration beats",
+      "demonstration setting completed as a grassy outdoor area (IR completion)",
+      "reference beat timings adapted proportionally from 15.19s to exactly 15s (soft d_7)",
+      "generic air mattress prop added to execute the transferred mattress-inflation beat (IR completion)"
     ],
     "prohibit": [
-      "No changes to the pump's body shape, color, display, control pad, grille, or handheld scale.",
-      "No changes to the presenter's facial identity, hairstyle, or outfit.",
-      "No brand logos, product names, or text overlays other than the pump's own pressure display.",
-      "No dialogue, voiceover, or narration.",
-      "No reuse of video_method footage, its performer, its exact locations, or its audio (no audio evidence exists for it).",
-      "No landscape or square framing, and no runtime other than 15 seconds.",
-      "No transfer of tire, mat, or scene brand markings or text.",
-      "No additional creative content beyond the evidenced demonstration beats (creative is disabled)."
+      "reference video performer identity, outfit, roadside/campsite environments, tools, or spare tire",
+      "gray pavement ground and white box packaging from image_usage",
+      "added speech, narration, dialogue, or voiceover",
+      "added captions, titles, logos, or text overlays",
+      "effects overlays or stylized rendering",
+      "un-evidenced product claims, logos, or model text"
     ]
   },
   "timeline": [
     {
       "shot_id": "01",
       "start_seconds": 0,
-      "end_seconds": 3.5,
-      "primary_change": "The pump hose connects to the tire valve stem and the pump starts inflating the tire.",
-      "event": "In a grassy roadside setting, the presenter girl kneels beside the car tire, guides the pump's hose nozzle to the tire's valve stem, presses the circular control pad, and the pump's digital display lights up as the tire begins to inflate.",
-      "action": "kneel beside the tire; press the hose nozzle onto the valve stem; press the control pad to start the pump.",
-      "camera": "Static medium close-up shot; the frame never moves, with no pan, push-in, zoom, or reframing.",
-      "lighting": "Bright sunny natural daylight, consistent with the outdoor roadside scene.",
-      "transition": "",
-      "observable_end_state": "The hose is attached to the tire valve stem, the pump display is lit with a rising pressure value, and the tire is visibly firming.",
+      "end_seconds": 2,
+      "primary_change": "The presenter is introduced holding the pump in the anchor composition.",
+      "event": "The young woman stands in the grassy outdoor area, holding the black pump with both hands at torso height with the screen facing forward, looking naturally at the camera.",
+      "action": "Stand and present the pump; look at the camera.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing. Eye-level, mid-thigh-up framing with the pump centered, matching the image_anchor composition.",
+      "lighting": "Stable natural daylight; no dynamic change within the shot.",
+      "transition": "Opening frame; the video begins on this composition.",
+      "observable_end_state": "Presenter standing with the pump held centered at torso height, screen facing the camera; the display is lit and the hose is unattached.",
       "state_changes": [
         {
-          "subject_id": "subject_1",
-          "property": "posture",
-          "from": "standing beside the tire",
-          "to": "bent over the tire, operating the pump"
-        },
-        {
           "subject_id": "subject_2",
-          "property": "hose connection",
-          "from": "hose stowed, not attached",
-          "to": "hose nozzle attached to the tire valve stem"
-        },
-        {
-          "subject_id": "subject_2",
-          "property": "power state",
-          "from": "off",
-          "to": "on, motor running, display lit with rising pressure"
-        },
-        {
-          "subject_id": "subject_3",
-          "property": "tire pressure",
-          "from": "low pressure, tire soft",
-          "to": "pressure rising, tire firming"
+          "property": "product_presence",
+          "from": "off-screen",
+          "to": "held in both hands at torso height, screen facing forward"
         }
       ],
       "subject_refs": [
         "subject_1",
-        "subject_2",
-        "subject_3"
+        "subject_2"
       ],
       "asset_refs": [
-        "image_product",
-        "image_usage",
-        "video_method"
+        "image_anchor",
+        "image_identity",
+        "image_product"
       ],
       "binding_refs": [
-        "b_product_appearance",
-        "b_usage_relation",
-        "b_usage_method"
+        "b_anchor",
+        "b_identity",
+        "b_outfit",
+        "b_product",
+        "b_pacing"
       ]
     },
     {
       "shot_id": "02",
-      "start_seconds": 3.5,
-      "end_seconds": 7.0,
-      "primary_change": "The girl stands upright from the tire and smiles as the inflation completes.",
-      "event": "The girl stands up from the tire, unclips the hose nozzle from the valve stem, holds the pump in her right hand, turns to face the camera, and her expression shifts from neutral to a satisfied smile with the fully inflated tire behind her.",
-      "action": "stand up; unclip the hose from the valve; hold the pump in the right hand; face the camera and smile.",
-      "camera": "Static medium close-up shot; the frame never moves, with no pan, push-in, zoom, or reframing.",
-      "lighting": "Bright sunny natural daylight, consistent with the outdoor roadside scene.",
-      "transition": "Cut",
-      "observable_end_state": "The girl stands upright facing the camera, smiling, holding the pump with the hose free; the tire behind her is fully inflated.",
+      "start_seconds": 2,
+      "end_seconds": 4.5,
+      "primary_change": "The hose is connected to the tire valve and the pump starts inflating.",
+      "event": "The presenter kneels beside the tire, fits the black hose onto the tire's valve stem with an audible click, presses the control to start inflation, and the pump motor begins running.",
+      "action": "Kneel, attach hose to the valve stem, start the pump.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing. Eye-level medium shot showing the presenter kneeling at the tire with the connection point and pump in view.",
+      "lighting": "Stable natural daylight; no dynamic change within the shot.",
+      "transition": "Cut from shot 01.",
+      "observable_end_state": "Hose locked onto the valve stem; pump motor running with the display lit; presenter kneeling beside the tire.",
       "state_changes": [
         {
           "subject_id": "subject_1",
           "property": "posture",
-          "from": "bent over the tire",
-          "to": "standing upright, facing the camera"
-        },
-        {
-          "subject_id": "subject_1",
-          "property": "expression",
-          "from": "neutral, focused",
-          "to": "smiling"
+          "from": "standing",
+          "to": "kneeling beside the tire"
         },
         {
           "subject_id": "subject_2",
-          "property": "hose connection",
-          "from": "attached to the tire valve stem",
-          "to": "detached; hose free as she stands"
+          "property": "hose_state",
+          "from": "unattached",
+          "to": "attached to the tire valve stem"
         },
         {
           "subject_id": "subject_2",
-          "property": "power state",
-          "from": "running, inflating the tire",
-          "to": "idle, display showing the final pressure"
-        },
-        {
-          "subject_id": "subject_3",
-          "property": "tire pressure",
-          "from": "firming, pressure rising",
-          "to": "fully inflated, holding target pressure"
+          "property": "operating_state",
+          "from": "standby, display lit",
+          "to": "inflating, motor running"
         }
       ],
       "subject_refs": [
@@ -834,92 +680,43 @@
         "subject_3"
       ],
       "asset_refs": [
-        "image_product",
+        "image_usage",
         "image_identity",
-        "image_anchor",
+        "image_product",
         "video_method"
       ],
       "binding_refs": [
-        "b_product_appearance",
-        "b_presenter_identity",
-        "b_presenter_outfit",
-        "b_holding_anchor",
-        "b_usage_method"
+        "b_identity",
+        "b_outfit",
+        "b_product",
+        "b_usage_scene",
+        "b_usage_actions",
+        "b_pacing"
       ]
     },
     {
       "shot_id": "03",
-      "start_seconds": 7.0,
-      "end_seconds": 11.0,
-      "primary_change": "The pump inflates the gray camping mat from flat to fully firm.",
-      "event": "In a grassy campsite, a low-angle close-up shows the pump's hose nozzle inserted into the gray mat's inflation valve; the control pad is pressed to restart the pump and the mat visibly swells from flat into a firm quilted pad as the display shows the rising pressure; no presenter is visible.",
-      "action": "insert the hose nozzle into the mat valve; press the control pad; watch the mat inflate to firmness.",
-      "camera": "Static low-angle close-up shot; the frame never moves, with no pan, push-in, zoom, or reframing.",
-      "lighting": "Warm golden-hour sunlight over the campsite scene.",
-      "transition": "Cut",
-      "observable_end_state": "The mat is fully inflated and firm with the hose still attached to its valve, and the pump display shows the target pressure.",
+      "start_seconds": 4.5,
+      "end_seconds": 7,
+      "primary_change": "The tire inflates to full pressure.",
+      "event": "The pump motor runs as air flows through the hose into the tire; the pressure value on the display climbs while the presenter watches; the presenter then pulls the hose off the valve stem.",
+      "action": "Inflate the tire; watch the display; detach the hose.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing. Medium close-up on the pump, hose, and valve connection during inflation.",
+      "lighting": "Stable natural daylight; no dynamic change within the shot.",
+      "transition": "Cut from shot 02.",
+      "observable_end_state": "Tire visibly full and firm; hose detached from the valve stem; pump held in the presenter's hand with the display lit and the motor idle.",
       "state_changes": [
         {
           "subject_id": "subject_2",
-          "property": "hose connection",
-          "from": "free, detached in shot 02",
-          "to": "hose nozzle inserted into the mat's inflation valve"
+          "property": "hose_state",
+          "from": "attached to the tire valve",
+          "to": "detached, pump in hand"
         },
         {
-          "subject_id": "subject_2",
-          "property": "power state",
-          "from": "idle",
-          "to": "restarted, motor running, inflating the mat"
-        },
-        {
-          "subject_id": "subject_4",
-          "property": "inflation state",
-          "from": "flat, deflated",
-          "to": "fully inflated, firm"
-        }
-      ],
-      "subject_refs": [
-        "subject_2",
-        "subject_4"
-      ],
-      "asset_refs": [
-        "image_product",
-        "video_method"
-      ],
-      "binding_refs": [
-        "b_product_appearance",
-        "b_usage_method"
-      ]
-    },
-    {
-      "shot_id": "04",
-      "start_seconds": 11.0,
-      "end_seconds": 15.0,
-      "primary_change": "The girl presents the pump to the camera, showing the display and smiling.",
-      "event": "Back in the roadside scene, the girl stands facing the camera and holds the pump with both hands at chest height, screen angled toward the lens showing the pressure reading; she smiles and looks directly into the camera while the fully inflated tire remains visible behind her.",
-      "action": "raise the pump to chest height with both hands; angle the display toward the lens; look into the camera and smile.",
-      "camera": "Static medium close-up shot with one slow, subtle push-in toward the pump; the push-in covers roughly 5-10% of the frame over 4 seconds, with no pan, tilt, or reframing.",
-      "lighting": "Bright sunny natural daylight, matching the roadside scenes.",
-      "transition": "Cut",
-      "observable_end_state": "The girl holds the pump toward the camera at chest height, the display is legible with the final pressure value, and she smiles with direct eye contact; the fully inflated tire is visible behind her.",
-      "state_changes": [
-        {
-          "subject_id": "subject_1",
-          "property": "holding and gaze",
-          "from": "not visible in shot 03",
-          "to": "standing at the roadside, presenting the pump with both hands toward the camera and looking directly into the lens"
-        },
-        {
-          "subject_id": "subject_2",
-          "property": "handling",
-          "from": "placed on the ground beside the mat",
-          "to": "held with both hands, presented toward the camera at chest height"
-        },
-        {
-          "subject_id": "subject_2",
-          "property": "power state",
-          "from": "idle after completing the mat inflation",
-          "to": "idle, display showing the final pressure value presented to camera"
+          "subject_id": "subject_3",
+          "property": "inflation_state",
+          "from": "underinflated",
+          "to": "fully inflated and firm"
         }
       ],
       "subject_refs": [
@@ -928,39 +725,669 @@
         "subject_3"
       ],
       "asset_refs": [
-        "image_product",
+        "image_usage",
         "image_identity",
-        "image_anchor",
+        "image_product",
         "video_method"
       ],
       "binding_refs": [
-        "b_product_appearance",
-        "b_presenter_identity",
-        "b_presenter_outfit",
-        "b_holding_anchor",
-        "b_usage_method",
-        "b_camera"
+        "b_identity",
+        "b_outfit",
+        "b_product",
+        "b_usage_scene",
+        "b_usage_actions",
+        "b_pacing"
+      ]
+    },
+    {
+      "shot_id": "04",
+      "start_seconds": 7,
+      "end_seconds": 9.5,
+      "primary_change": "The presenter stands and presents the pump to the camera.",
+      "event": "The presenter rises to a standing position, holds the pump in both hands in front of her torso with the screen facing forward, and smiles at the camera; the inflated tire stays visible in the background.",
+      "action": "Stand, present the pump, smile at the camera.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing. Eye-level, mid-thigh-up framing with the presenter and pump centered, matching the image_anchor composition.",
+      "lighting": "Stable natural daylight; no dynamic change within the shot.",
+      "transition": "Cut from shot 03.",
+      "observable_end_state": "Presenter standing upright, pump centered at torso height with screen facing forward, smiling; inflated tire visible behind her.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "posture",
+          "from": "kneeling beside the tire",
+          "to": "standing upright"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_2",
+        "subject_3"
+      ],
+      "asset_refs": [
+        "image_anchor",
+        "image_identity",
+        "image_product",
+        "video_method"
+      ],
+      "binding_refs": [
+        "b_identity",
+        "b_outfit",
+        "b_product",
+        "b_usage_actions",
+        "b_anchor",
+        "b_pacing"
+      ]
+    },
+    {
+      "shot_id": "05",
+      "start_seconds": 9.5,
+      "end_seconds": 12.5,
+      "primary_change": "The air mattress inflates to full.",
+      "event": "The presenter kneels beside the deflated air mattress, attaches the hose to its valve, starts the inflation, the pump fills the mattress with air, and once the mattress is fully inflated she pulls the hose off.",
+      "action": "Attach hose to the mattress valve, inflate the mattress, detach the hose.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing. Eye-level medium shot of the presenter kneeling at the mattress with the pump and valve in view.",
+      "lighting": "Stable natural daylight; no dynamic change within the shot.",
+      "transition": "Cut from shot 04.",
+      "observable_end_state": "Air mattress fully inflated on the grass; hose detached; presenter kneeling beside the mattress holding the pump.",
+      "state_changes": [
+        {
+          "subject_id": "subject_2",
+          "property": "hose_state",
+          "from": "unattached",
+          "to": "attached to the mattress valve during inflation"
+        },
+        {
+          "subject_id": "subject_4",
+          "property": "inflation_state",
+          "from": "deflated",
+          "to": "fully inflated"
+        },
+        {
+          "subject_id": "subject_2",
+          "property": "hose_state",
+          "from": "attached to the mattress valve",
+          "to": "detached, pump in hand"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_2",
+        "subject_4"
+      ],
+      "asset_refs": [
+        "image_identity",
+        "image_product",
+        "video_method"
+      ],
+      "binding_refs": [
+        "b_identity",
+        "b_outfit",
+        "b_product",
+        "b_usage_actions",
+        "b_pacing"
+      ]
+    },
+    {
+      "shot_id": "06",
+      "start_seconds": 12.5,
+      "end_seconds": 15,
+      "primary_change": "The pump's digital display is shown directly to the camera.",
+      "event": "The presenter stands, raises the pump toward the camera so the digital display faces the viewer, shows the pressure reading, then turns the pump slightly sideways with a smile.",
+      "action": "Stand, raise the pump to the camera, show the display, turn it slightly with a smile.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing. Static close-up on the pump held toward the camera with the display facing the viewer and the presenter's face visible above it.",
+      "lighting": "Stable natural daylight; no dynamic change within the shot.",
+      "transition": "Cut from shot 05.",
+      "observable_end_state": "Pump held toward the camera with the digital display clearly visible; presenter smiling; the video ends on this frame.",
+      "state_changes": [
+        {
+          "subject_id": "subject_1",
+          "property": "posture",
+          "from": "kneeling beside the mattress",
+          "to": "standing upright"
+        }
+      ],
+      "subject_refs": [
+        "subject_1",
+        "subject_2"
+      ],
+      "asset_refs": [
+        "image_identity",
+        "image_product",
+        "video_method"
+      ],
+      "binding_refs": [
+        "b_identity",
+        "b_outfit",
+        "b_product",
+        "b_usage_actions",
+        "b_pacing"
       ]
     }
   ],
   "audio_plan": {
-    "voice": "None; no voiceover, dialogue, or voice reference is supplied, so no narration is generated.",
-    "music": "Light, upbeat background music bed generated at low prominence, matched to the reference video's brisk four-beat promotional pacing.",
-    "sound_effects": "Soft click when the hose nozzle engages the tire valve (shot 01) and the mat valve (shot 03); steady low pump motor hum while the pump is running, stopping when each inflation completes.",
-    "ambient_sound": "Gentle outdoor daytime ambience (light breeze, birdsong) during the roadside and campsite scenes.",
+    "voice": "",
+    "music": "Light, upbeat non-vocal commercial music bed at a low-to-mid level that supports the promotional tone without overpowering the product.",
+    "sound_effects": "Valve click when the hose locks onto a valve stem; low pump motor whir and steady air hiss during tire inflation; softer continuous air flow during mattress inflation; short release puff when the hose is pulled off.",
+    "ambient_sound": "Gentle outdoor ambience: light breeze and distant birds, consistent with the grassy field, throughout the video.",
     "sync_rules": [
-      "Music downbeats align with the cuts at 3.5s, 7.0s, and 11.0s.",
-      "Pump motor sound starts when the control pad is pressed (shot 01 and shot 03) and stops when the target pressure is reached.",
-      "Hose connection click lands at the moment the nozzle engages the valve stem in shot 01 and the mat valve in shot 03.",
-      "Music stays at low prominence in shot 04 so the pump display read remains the focus."
+      "The valve click lands exactly at the moment the hose locks onto the valve stem in shot 02 and shot 05.",
+      "The pump motor whir starts precisely when the presenter starts the inflation in shot 02, continues through shot 03, and stops when the hose is detached.",
+      "The mattress inflation air flow begins at the shot 05 attach and ends when the mattress is fully inflated.",
+      "The music bed fades in at the start, stays at low-to-mid level, and ends cleanly on the final frame at 15.0s."
     ]
   },
+  "production_policies": {
+    "camera": {
+      "mode": "reference",
+      "source": "reference_evidence",
+      "priority": "soft",
+      "allow_new_events": false,
+      "preserve_reference": true,
+      "constraints": {
+        "movement": "static only: the frame never moves and pan, push-in, zoom, and reframing are rejected in every shot",
+        "framing": "medium close-up to full-body framing per the reference video; eye-level for presenter shots; pump centered when presented"
+      },
+      "events": [],
+      "prohibit": [
+        "pan",
+        "push-in",
+        "zoom",
+        "reframe",
+        "handheld drift",
+        "camera whip or tilt"
+      ],
+      "assumptions": [
+        "Camera movement was not requested; the reference video's static camera behavior is followed (reference evidence; the asset label includes camera)."
+      ]
+    },
+    "editing": {
+      "mode": "reference",
+      "source": "reference_evidence",
+      "priority": "soft",
+      "allow_new_events": true,
+      "preserve_reference": true,
+      "constraints": {
+        "transition_style": "hard cuts between beats, matching the reference video's cut-based structure",
+        "coverage": "six sequential beats covering 0-15s with no gaps or overlaps"
+      },
+      "events": [
+        {
+          "event_id": "edit_1",
+          "type": "cut",
+          "description": "Hard cut at 2.0s from shot 01 to shot 02.",
+          "source": "reference_evidence",
+          "priority": "soft",
+          "shot_refs": [
+            "01",
+            "02"
+          ]
+        },
+        {
+          "event_id": "edit_2",
+          "type": "cut",
+          "description": "Hard cut at 4.5s from shot 02 to shot 03.",
+          "source": "reference_evidence",
+          "priority": "soft",
+          "shot_refs": [
+            "02",
+            "03"
+          ]
+        },
+        {
+          "event_id": "edit_3",
+          "type": "cut",
+          "description": "Hard cut at 7.0s from shot 03 to shot 04.",
+          "source": "reference_evidence",
+          "priority": "soft",
+          "shot_refs": [
+            "03",
+            "04"
+          ]
+        },
+        {
+          "event_id": "edit_4",
+          "type": "cut",
+          "description": "Hard cut at 9.5s from shot 04 to shot 05.",
+          "source": "reference_evidence",
+          "priority": "soft",
+          "shot_refs": [
+            "04",
+            "05"
+          ]
+        },
+        {
+          "event_id": "edit_5",
+          "type": "cut",
+          "description": "Hard cut at 12.5s from shot 05 to shot 06.",
+          "source": "reference_evidence",
+          "priority": "soft",
+          "shot_refs": [
+            "05",
+            "06"
+          ]
+        }
+      ],
+      "prohibit": [
+        "fade",
+        "dissolve",
+        "wipe",
+        "flash transition",
+        "speed-ramp edit"
+      ],
+      "assumptions": [
+        "The reference video uses cuts between events; hard cuts are retained at the adapted timestamps (d_7 soft)."
+      ]
+    },
+    "motion": {
+      "mode": "reference",
+      "source": "reference_evidence",
+      "priority": "hard",
+      "allow_new_events": true,
+      "preserve_reference": true,
+      "constraints": {
+        "scope": "only the ordered usage actions from the reference video (inflate tire, present pump, inflate air mattress, show the display); no performer identity, outfit, or environments are inherited",
+        "handling": "pump held with both hands, vertical, screen facing forward when presented, per the image_anchor"
+      },
+      "events": [
+        {
+          "event_id": "motion_1",
+          "type": "connection",
+          "description": "Presenter kneels and attaches the hose to the tire valve stem.",
+          "source": "reference_evidence",
+          "priority": "hard",
+          "shot_refs": [
+            "02"
+          ]
+        },
+        {
+          "event_id": "motion_2",
+          "type": "activation",
+          "description": "Presenter starts the inflation; the pump motor begins running.",
+          "source": "reference_evidence",
+          "priority": "hard",
+          "shot_refs": [
+            "02"
+          ]
+        },
+        {
+          "event_id": "motion_3",
+          "type": "inflation",
+          "description": "Pump inflates the tire as the display pressure rises; presenter watches.",
+          "source": "reference_evidence",
+          "priority": "hard",
+          "shot_refs": [
+            "03"
+          ]
+        },
+        {
+          "event_id": "motion_4",
+          "type": "detachment",
+          "description": "Presenter pulls the hose off the tire valve stem.",
+          "source": "reference_evidence",
+          "priority": "hard",
+          "shot_refs": [
+            "03"
+          ]
+        },
+        {
+          "event_id": "motion_5",
+          "type": "presentation",
+          "description": "Presenter stands upright holding the pump and presents it to the camera.",
+          "source": "reference_evidence",
+          "priority": "hard",
+          "shot_refs": [
+            "04"
+          ]
+        },
+        {
+          "event_id": "motion_6",
+          "type": "connection",
+          "description": "Presenter attaches the hose to the mattress valve and inflates the mattress.",
+          "source": "reference_evidence",
+          "priority": "hard",
+          "shot_refs": [
+            "05"
+          ]
+        },
+        {
+          "event_id": "motion_7",
+          "type": "detachment",
+          "description": "Presenter pulls the hose off the mattress valve.",
+          "source": "reference_evidence",
+          "priority": "hard",
+          "shot_refs": [
+            "05"
+          ]
+        },
+        {
+          "event_id": "motion_8",
+          "type": "product_display",
+          "description": "Presenter raises the pump toward the camera, shows the display, and turns it slightly sideways.",
+          "source": "reference_evidence",
+          "priority": "hard",
+          "shot_refs": [
+            "06"
+          ]
+        }
+      ],
+      "prohibit": [
+        "inheriting the reference video performer's identity, outfit, roadside or campsite environments, tools, or spare tire",
+        "actions outside the transferred usage sequence"
+      ],
+      "assumptions": [
+        "Usage actions are transferred hard via d_6; additional movement details are the minimum needed to execute them."
+      ]
+    },
+    "performance": {
+      "mode": "reference",
+      "source": "reference_evidence",
+      "priority": "soft",
+      "allow_new_events": false,
+      "preserve_reference": true,
+      "constraints": {
+        "demeanor": "natural, friendly presenter behavior; smile at the camera when presenting the pump; watch the display while inflating"
+      },
+      "events": [
+        {
+          "event_id": "perf_1",
+          "type": "facial_expression",
+          "description": "Presenter smiles naturally at the camera when presenting the pump.",
+          "source": "reference_evidence",
+          "priority": "soft",
+          "shot_refs": [
+            "01",
+            "04",
+            "06"
+          ]
+        },
+        {
+          "event_id": "perf_2",
+          "type": "gaze",
+          "description": "Presenter looks at the pump display during inflation.",
+          "source": "reference_evidence",
+          "priority": "soft",
+          "shot_refs": [
+            "03",
+            "05"
+          ]
+        },
+        {
+          "event_id": "perf_3",
+          "type": "handling",
+          "description": "Presenter handles the pump with a natural two-handed grip at torso height.",
+          "source": "reference_evidence",
+          "priority": "soft",
+          "shot_refs": [
+            "01",
+            "02",
+            "04",
+            "06"
+          ]
+        }
+      ],
+      "prohibit": [
+        "overacting",
+        "unsupported dialogue, narration, or vocalization",
+        "facial identity changes across shots"
+      ],
+      "assumptions": [
+        "Smiling and camera-facing presentation are part of the transferred reference usage actions; no additional performance is invented."
+      ]
+    },
+    "composition": {
+      "mode": "reference",
+      "source": "reference_evidence",
+      "priority": "soft",
+      "allow_new_events": false,
+      "preserve_reference": true,
+      "constraints": {
+        "presentation_framing": "eye-level, mid-thigh-up framing with the pump centered when the presenter presents it (image_anchor)",
+        "usage_framing": "medium shot or medium close-up with the pump, hose, and valve clearly in view during connection and inflation",
+        "vertical_layout": "vertical 9:16 layout respected in every shot; product and connection points kept within the safe center area"
+      },
+      "events": [],
+      "prohibit": [
+        "extreme low-angle or high-angle shots",
+        "composition that hides the pump or the hose connection",
+        "cluttered backgrounds that compete with the product"
+      ],
+      "assumptions": [
+        "Framing follows the reference video's medium close-up to full-body range and the anchor image's centered product layout."
+      ]
+    },
+    "lighting": {
+      "mode": "auto",
+      "source": "default_completion",
+      "priority": "soft",
+      "allow_new_events": false,
+      "preserve_reference": false,
+      "constraints": {
+        "exposure": "stable natural daylight exposure consistent across all shots",
+        "quality": "soft outdoor light matching a grassy field; no visible light-source change between cuts"
+      },
+      "events": [],
+      "prohibit": [
+        "dynamic light changes",
+        "studio strobes or flicker",
+        "shadow pop between cuts"
+      ],
+      "assumptions": [
+        "Scene lighting was not specified; natural daylight matches the grassy outdoor setting evidenced in image_identity and image_anchor (IR completion)."
+      ]
+    },
+    "audio": {
+      "mode": "auto",
+      "source": "default_completion",
+      "priority": "soft",
+      "allow_new_events": true,
+      "preserve_reference": false,
+      "constraints": {
+        "voice": "no voice, narration, or dialogue; no vocal identity is evidenced or requested",
+        "balance": "restrained soundtrack that keeps the pump and its demonstration dominant; music at low-to-mid level",
+        "character": "scene-consistent outdoor ambience and action-synchronized product Foley"
+      },
+      "events": [
+        {
+          "event_id": "audio_1",
+          "type": "ambience",
+          "description": "Gentle outdoor breeze with distant birds throughout the video.",
+          "source": "default_completion",
+          "priority": "soft",
+          "shot_refs": [
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06"
+          ]
+        },
+        {
+          "event_id": "audio_2",
+          "type": "foley",
+          "description": "Valve click when the hose locks onto the valve stem.",
+          "source": "default_completion",
+          "priority": "soft",
+          "shot_refs": [
+            "02",
+            "05"
+          ]
+        },
+        {
+          "event_id": "audio_3",
+          "type": "product_sound",
+          "description": "Low pump motor whir and steady air hiss during tire inflation.",
+          "source": "default_completion",
+          "priority": "soft",
+          "shot_refs": [
+            "03"
+          ]
+        },
+        {
+          "event_id": "audio_4",
+          "type": "product_sound",
+          "description": "Softer continuous air flow during mattress inflation.",
+          "source": "default_completion",
+          "priority": "soft",
+          "shot_refs": [
+            "05"
+          ]
+        },
+        {
+          "event_id": "audio_5",
+          "type": "foley",
+          "description": "Short release puff when the hose is pulled off the valve.",
+          "source": "default_completion",
+          "priority": "soft",
+          "shot_refs": [
+            "03",
+            "05"
+          ]
+        },
+        {
+          "event_id": "audio_6",
+          "type": "music",
+          "description": "Light upbeat non-vocal commercial music bed supporting the promo tone.",
+          "source": "default_completion",
+          "priority": "soft",
+          "shot_refs": [
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06"
+          ]
+        }
+      ],
+      "prohibit": [
+        "speech, narration, dialogue, or vocals without an explicit request",
+        "loud or distorted audio",
+        "music that overpowers the product focus"
+      ],
+      "assumptions": [
+        "Audio content was not specified; restrained technical completion adds ambience, product Foley, and non-vocal music (IR completion).",
+        "The reference video's soundtrack is not reused because it is a generation reference only and no audio analysis is available."
+      ]
+    },
+    "style": {
+      "mode": "auto",
+      "source": "default_completion",
+      "priority": "soft",
+      "allow_new_events": false,
+      "preserve_reference": false,
+      "constraints": {
+        "look": "clean, natural, realistic promotional look consistent with the supplied photos",
+        "consistency": "uniform visual style across all six shots"
+      },
+      "events": [],
+      "prohibit": [
+        "stylized filters",
+        "illustration or cartoon rendering",
+        "style contamination from the reference video",
+        "identity or logo contamination from any reference"
+      ],
+      "assumptions": [
+        "No style was requested; the photos' natural look is the conservative default."
+      ]
+    },
+    "effects": {
+      "mode": "disabled",
+      "source": "default_completion",
+      "priority": "soft",
+      "allow_new_events": false,
+      "preserve_reference": false,
+      "constraints": {},
+      "events": [],
+      "prohibit": [
+        "overlay graphics",
+        "particle or screen effects",
+        "VFX on the pump or display",
+        "animated transitions"
+      ],
+      "assumptions": [
+        "Effects are disabled by default (no request authorizes them)."
+      ]
+    },
+    "text": {
+      "mode": "disabled",
+      "source": "default_completion",
+      "priority": "soft",
+      "allow_new_events": false,
+      "preserve_reference": false,
+      "constraints": {
+        "on_device_text": "only the pump's on-device display text may appear (BAR/PSI units, pressure values, battery icon); it is product identity, not added text"
+      },
+      "events": [],
+      "prohibit": [
+        "added captions, subtitles, titles, slogans, logos, or watermark text"
+      ],
+      "assumptions": [
+        "New text is disabled by default; no title or caption was requested."
+      ]
+    }
+  },
+  "entity_constraints": {
+    "identity": {
+      "mode": "strict",
+      "source": "explicit_user",
+      "priority": "hard",
+      "allow_new_events": false,
+      "preserve_reference": true,
+      "constraints": {
+        "presenter_identity": "the presenter must remain the young woman from image_identity in every shot: blonde curly hair in pigtails, unchanged facial identity"
+      },
+      "events": [],
+      "prohibit": [
+        "identity drift between shots",
+        "adopting the reference video performer's identity"
+      ],
+      "assumptions": []
+    },
+    "product": {
+      "mode": "strict",
+      "source": "explicit_user",
+      "priority": "hard",
+      "allow_new_events": false,
+      "preserve_reference": true,
+      "constraints": {
+        "product_identity": "the pump must keep the image_product appearance in every shot: black rounded-rectangular body, textured mesh side panel, digital display with BAR/PSI units, circular control pad with power and +/- buttons, vertical handheld orientation; display pressure values may change only as functional inflation readings"
+      },
+      "events": [],
+      "prohibit": [
+        "changing product geometry, material, color, count, or control layout",
+        "adding un-evidenced logos or model text",
+        "mixing in the display state or packaging from other photos"
+      ],
+      "assumptions": []
+    },
+    "continuity": {
+      "mode": "strict",
+      "source": "derived_requirement",
+      "priority": "hard",
+      "allow_new_events": false,
+      "preserve_reference": true,
+      "constraints": {
+        "hose_state": "hose attachment and detachment follow the recorded state changes with no hidden transitions inside cuts",
+        "display_state": "pump display is lit from shot 01 onward; the motor runs during inflation beats (02-03, 05) and is idle while held (01, 04, 06)",
+        "tire_state": "tire remains fully inflated after shot 03",
+        "mattress_state": "mattress remains fully inflated after shot 05"
+      },
+      "events": [],
+      "prohibit": [
+        "hidden attach or detach",
+        "product state jumps between shots",
+        "posture jumps (standing/kneeling) between shots"
+      ],
+      "assumptions": []
+    }
+  },
   "generation_description": {
-    "cinematography": "Vertical 9:16 portrait framing for every shot; static medium close-ups for the presenter beats (01, 02, 04), a static low-angle close-up for the mat-inflation beat (03), and one slow subtle push-in on the final pump presentation (04), following video_method's camera structure at soft priority.",
-    "lighting": "Bright sunny natural daylight for the roadside scenes and warm golden-hour sunlight for the campsite scene, consistent with the reference video's outdoor settings.",
-    "materials": "The pump has a slim matte black rectangular casing with a textured side grille, a top-center digital LED display, and a circular control pad below it; the flexible black hose carries a metallic nozzle; the mat is a smooth quilted synthetic fabric in gray with blue trim.",
-    "performance": "The presenter moves from a focused, slightly concerned expression while inflating the tire to a relaxed, confident smile; she holds the pump in her right hand when standing and presents it with both hands at chest height in the final beat, making direct eye contact with the camera.",
-    "continuity": "The hose is visibly attached to the tire valve in shot 01, detached as she stands in shot 02, inserted into the mat valve in shot 03, and free while the pump is presented in shot 04; the pump display shows rising pressure while running and the final value when idle; the tire goes from low pressure to fully inflated and the mat from flat to firm; the presenter's identity, hairstyle, and full outfit stay consistent across all appearances."
+    "cinematography": "Vertical 9:16. Six static shots in sequence with hard cuts. Framing alternates between mid-thigh-up eye-level presentation shots (opener and presentation beats) and medium shots or medium close-ups of the pump connected to the tire and mattress valves. The frame never moves within a shot; no pan, push-in, zoom, or reframing.",
+    "lighting": "Stable natural daylight across all shots, soft outdoor light consistent with a grassy field; no dynamic lighting changes between cuts.",
+    "materials": "The pump keeps its black rounded-rectangular plastic body with textured mesh side panel, glossy digital display, and circular control pad; the tire is black rubber on a multi-spoke silver alloy wheel; the hose is black flexible rubber.",
+    "performance": "The presenter demonstrates naturally: kneels to connect the hose, watches the display while inflating, stands and holds the pump in both hands at torso height, smiles at the camera, and finally raises the pump to show the display and turns it slightly sideways with a smile.",
+    "continuity": "Hose attach and detach, pump operating state, tire inflation, and mattress inflation progress exactly as recorded in the timeline state changes; no hidden connection changes across cuts; the presenter's identity and outfit and the pump's appearance stay constant across all shots."
   },
   "runtime": {
     "perception_provider": {
@@ -970,7 +1397,11 @@
         "base_url": "http://127.0.0.1:9012",
         "api_key_env": "GITEE_AI_API_KEY",
         "video_frame_count": 6,
-        "max_tokens": 3000
+        "max_tokens": 3000,
+        "cache_enabled": false,
+        "max_parallel_assets": 2,
+        "max_parallel_attribute_batches": 2,
+        "image_attribute_batch_size": 3
       }
     },
     "reasoning_provider": {
@@ -1030,7 +1461,11 @@
         "base_url": "http://127.0.0.1:9012",
         "api_key_env": "GITEE_AI_API_KEY",
         "video_frame_count": 6,
-        "max_tokens": 3000
+        "max_tokens": 3000,
+        "cache_enabled": false,
+        "max_parallel_assets": 2,
+        "max_parallel_attribute_batches": 2,
+        "image_attribute_batch_size": 3
       }
     },
     "assets": [
@@ -1071,20 +1506,103 @@
         "entities": [
           {
             "entity_id": "object_1",
-            "category": "person wearing denim overalls and yellow shirt",
-            "subcategory": "person wearing denim overalls and yellow shirt",
-            "summary": "A person with blonde twin tails stands in a grassy field, wearing a yellow short-sleeve shirt under light blue denim overalls, white socks, and white sneakers.",
+            "category": "person",
+            "subcategory": "person",
+            "summary": "A young woman with blonde curly hair in pigtails, wearing a yellow t-shirt under denim overalls shorts, white socks, and sneakers, standing on grass.",
             "quantity": {
               "value": 1,
               "confidence": 0.9
             },
             "attributes": {
               "geometry": [],
-              "color": [],
+              "color": [
+                {
+                  "name": "hair_color",
+                  "value": "blonde",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "shirt_color",
+                  "value": "yellow",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "overalls_color",
+                  "value": "light blue",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "socks_color",
+                  "value": "white",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "shoes_color",
+                  "value": "white",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
               "material": [],
               "surface": [],
-              "components": [],
-              "component_layout": [],
+              "components": [
+                {
+                  "name": "hair_style",
+                  "value": "pigtails",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "clothing_items",
+                  "value": "t-shirt, denim overalls shorts, socks, sneakers",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [
+                {
+                  "name": "outfit_layering",
+                  "value": "t-shirt under overalls",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
               "orientation_cues": [],
               "identity_markers": [],
               "other": []
@@ -1100,12 +1618,70 @@
           "analysis_pipeline": "localize_then_isolated_attribute_batches",
           "localization_coordinate_system": "normalized_0_1",
           "task_ids": [
-            "20260821_064015_034614_3d553604-572c-4775-8bce-48c2cd3e4cb7",
-            "20260821_064019_094530_4b81a955-8af6-4a2f-bb16-b5d84d2ea090"
-          ]
+            "20260823_153123_635765_0e3a1817-6a3b-4e66-ac1a-8239961dc6b3",
+            "20260823_153127_686191_3f5522ad-4b96-4a1c-bb63-a6bbec3a612f"
+          ],
+          "analysis_profile": "staged_detail",
+          "elapsed_seconds": 23.143,
+          "cache_hit": false,
+          "cache_key": "3ddfbdcfd28ecdeaf32e4732150fa94d2a307d5dd4834e9dda39fd750e41a44f",
+          "perception_metrics": {
+            "request_count": 2,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 23.143
+          }
         },
         "transcript": "",
-        "uncertainties": []
+        "uncertainties": [],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "presenter face and identity-defining features are clearly visible",
+            "priority": "required",
+            "source_asset_id": "image_identity",
+            "region_or_time": "face region",
+            "status": "covered",
+            "matched_terms": [
+              "face",
+              "identity"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "presenter outfit colors and style are visible",
+            "priority": "useful",
+            "source_asset_id": "image_identity",
+            "region_or_time": "full-body region",
+            "status": "covered",
+            "matched_terms": [
+              "outfit",
+              "style"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "presenter apparent gender and age group are visible",
+            "priority": "useful",
+            "source_asset_id": "image_identity",
+            "region_or_time": "full-body region",
+            "status": "covered",
+            "matched_terms": [
+              "age"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
       },
       {
         "asset_id": "image_product",
@@ -1116,12 +1692,12 @@
             "kind": "region",
             "time_seconds": null,
             "bbox_normalized": [
-              0.25,
+              0.28,
               0.088,
-              0.688,
+              0.68,
               0.95
             ],
-            "description": "Localized air pump object_1"
+            "description": "Localized digital air pump object_1"
           }
         ],
         "regions": [
@@ -1129,9 +1705,9 @@
             "region_id": "region_1",
             "evidence_id": "evidence_1",
             "bbox_normalized": [
-              0.25,
+              0.28,
               0.088,
-              0.688,
+              0.68,
               0.95
             ],
             "entity_ids": [
@@ -1144,9 +1720,9 @@
         "entities": [
           {
             "entity_id": "object_1",
-            "category": "portable digital air pump",
-            "subcategory": "portable digital air pump",
-            "summary": "Slim black rectangular air pump with front digital display showing pressure readings and a circular control pad below. Side features textured grille.",
+            "category": "digital air pump",
+            "subcategory": "digital air pump",
+            "summary": "Black handheld device with digital display showing pressure in BAR and PSI, circular control pad with power and +/- buttons, textured side panel.",
             "quantity": {
               "value": 1,
               "confidence": 0.9
@@ -1155,7 +1731,7 @@
               "geometry": [
                 {
                   "name": "shape",
-                  "value": "slim rectangular",
+                  "value": "rectangular with rounded edges",
                   "evidence_ids": [
                     "evidence_1"
                   ],
@@ -1178,12 +1754,12 @@
               ],
               "material": [
                 {
-                  "name": "surface_material",
+                  "name": "housing_material",
                   "value": "plastic",
                   "evidence_ids": [
                     "evidence_1"
                   ],
-                  "confidence": 0.7,
+                  "confidence": 0.8,
                   "source": "inferred",
                   "alternatives": []
                 }
@@ -1191,19 +1767,19 @@
               "surface": [
                 {
                   "name": "side_texture",
-                  "value": "textured grille",
+                  "value": "textured mesh pattern",
                   "evidence_ids": [
                     "evidence_1"
                   ],
-                  "confidence": 0.8,
+                  "confidence": 0.9,
                   "source": "visible",
                   "alternatives": []
                 }
               ],
               "components": [
                 {
-                  "name": "display_type",
-                  "value": "digital LED",
+                  "name": "display",
+                  "value": "digital screen showing 2.20 BAR and 250 PSI",
                   "evidence_ids": [
                     "evidence_1"
                   ],
@@ -1214,18 +1790,8 @@
               ],
               "component_layout": [
                 {
-                  "name": "display_position",
-                  "value": "top-center",
-                  "evidence_ids": [
-                    "evidence_1"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                },
-                {
                   "name": "control_layout",
-                  "value": "circular pad below display",
+                  "value": "circular pad with central power button and +/- buttons",
                   "evidence_ids": [
                     "evidence_1"
                   ],
@@ -1236,8 +1802,8 @@
               ],
               "orientation_cues": [
                 {
-                  "name": "orientation",
-                  "value": "vertical",
+                  "name": "device_orientation",
+                  "value": "vertical upright",
                   "evidence_ids": [
                     "evidence_1"
                   ],
@@ -1248,28 +1814,17 @@
               ],
               "identity_markers": [
                 {
-                  "name": "display_text",
-                  "value": "2.20 BAR, 2.50",
+                  "name": "text_labels",
+                  "value": "BAR, PSI, battery icon, pressure values",
                   "evidence_ids": [
                     "evidence_1"
                   ],
-                  "confidence": 0.8,
+                  "confidence": 0.9,
                   "source": "visible",
                   "alternatives": []
                 }
               ],
-              "other": [
-                {
-                  "name": "display_icons",
-                  "value": "battery, pressure unit, settings",
-                  "evidence_ids": [
-                    "evidence_1"
-                  ],
-                  "confidence": 0.7,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ]
+              "other": []
             },
             "variations": [],
             "uncertainties": []
@@ -1282,161 +1837,94 @@
           "analysis_pipeline": "localize_then_isolated_attribute_batches",
           "localization_coordinate_system": "normalized_0_1",
           "task_ids": [
-            "20260821_064100_187565_f3f6e0bb-4be7-4f22-ba06-9f1a91b75e75",
-            "20260821_064104_207397_62685202-bac7-413d-8fab-f3a44cfb006b"
-          ]
+            "20260823_153123_616572_fba7988c-941a-46b1-b75e-7d2a301d6728",
+            "20260823_153127_645478_fe877e97-75fd-43d1-86c4-e90c8552bc9b"
+          ],
+          "analysis_profile": "staged_detail",
+          "elapsed_seconds": 25.113,
+          "cache_hit": false,
+          "cache_key": "25ec45bb347ae1c3a836878521ff3c65c0064f63cbb4ea32be97e9e4c9de634a",
+          "perception_metrics": {
+            "request_count": 2,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 25.113
+          }
         },
         "transcript": "",
-        "uncertainties": []
+        "uncertainties": [],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "product body shape and color are clearly visible",
+            "priority": "required",
+            "source_asset_id": "image_product",
+            "region_or_time": "product body",
+            "status": "covered",
+            "matched_terms": [
+              "body",
+              "color",
+              "shape"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "hose, nozzle, and valve connector are visible",
+            "priority": "useful",
+            "source_asset_id": "image_product",
+            "region_or_time": "connector area",
+            "status": "missing",
+            "matched_terms": [],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "visible logos or model text are legible",
+            "priority": "useful",
+            "source_asset_id": "image_product",
+            "region_or_time": "product surface markings",
+            "status": "covered",
+            "matched_terms": [
+              "or",
+              "text"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
       },
       {
         "asset_id": "image_usage",
-        "summary": "5 distinct foreground objects localized and analyzed individually.",
+        "summary": "visible relationship overview",
         "evidence": [
           {
             "evidence_id": "evidence_1",
-            "kind": "region",
+            "kind": "frame",
             "time_seconds": null,
             "bbox_normalized": [
               0.0,
-              0.088,
-              0.888,
-              0.747
-            ],
-            "description": "Localized car tire object_1"
-          },
-          {
-            "evidence_id": "evidence_2",
-            "kind": "region",
-            "time_seconds": null,
-            "bbox_normalized": [
-              0.65,
-              0.397,
-              0.888,
-              0.688
-            ],
-            "description": "Localized air pump object_2"
-          },
-          {
-            "evidence_id": "evidence_3",
-            "kind": "region",
-            "time_seconds": null,
-            "bbox_normalized": [
-              0.388,
-              0.447,
-              0.65,
-              0.6
-            ],
-            "description": "Localized hose object_3"
-          },
-          {
-            "evidence_id": "evidence_4",
-            "kind": "region",
-            "time_seconds": null,
-            "bbox_normalized": [
-              0.4,
-              0.447,
-              0.488,
-              0.525
-            ],
-            "description": "Localized valve stem object_4"
-          },
-          {
-            "evidence_id": "evidence_5",
-            "kind": "region",
-            "time_seconds": null,
-            "bbox_normalized": [
-              0.562,
-              0.662,
-              1.0,
-              0.788
-            ],
-            "description": "Localized pump base object_5"
-          }
-        ],
-        "regions": [
-          {
-            "region_id": "region_1",
-            "evidence_id": "evidence_1",
-            "bbox_normalized": [
               0.0,
-              0.088,
-              0.888,
-              0.747
-            ],
-            "entity_ids": [
-              "object_1"
-            ],
-            "analysis_priority": "high",
-            "detail_request": "isolated object attributes"
-          },
-          {
-            "region_id": "region_2",
-            "evidence_id": "evidence_2",
-            "bbox_normalized": [
-              0.65,
-              0.397,
-              0.888,
-              0.688
-            ],
-            "entity_ids": [
-              "object_2"
-            ],
-            "analysis_priority": "high",
-            "detail_request": "isolated object attributes"
-          },
-          {
-            "region_id": "region_3",
-            "evidence_id": "evidence_3",
-            "bbox_normalized": [
-              0.388,
-              0.447,
-              0.65,
-              0.6
-            ],
-            "entity_ids": [
-              "object_3"
-            ],
-            "analysis_priority": "high",
-            "detail_request": "isolated object attributes"
-          },
-          {
-            "region_id": "region_4",
-            "evidence_id": "evidence_4",
-            "bbox_normalized": [
-              0.4,
-              0.447,
-              0.488,
-              0.525
-            ],
-            "entity_ids": [
-              "object_4"
-            ],
-            "analysis_priority": "high",
-            "detail_request": "isolated object attributes"
-          },
-          {
-            "region_id": "region_5",
-            "evidence_id": "evidence_5",
-            "bbox_normalized": [
-              0.562,
-              0.662,
               1.0,
-              0.788
+              1.0
             ],
-            "entity_ids": [
-              "object_5"
-            ],
-            "analysis_priority": "high",
-            "detail_request": "isolated object attributes"
+            "description": "visible relationship overview"
           }
         ],
+        "regions": [],
         "entities": [
           {
-            "entity_id": "object_1",
-            "category": "car tire with air pump attachment",
-            "subcategory": "car tire with air pump attachment",
-            "summary": "Silver alloy wheel with black tire, air pump hose connected to valve stem, pump base on white box.",
+            "entity_id": "entity_1",
+            "category": "tire",
+            "subcategory": "tire",
+            "summary": "black rubber tire with visible sidewall text, mounted on a multi-spoke silver alloy wheel, positioned vertically on ground",
             "quantity": {
               "value": 1,
               "confidence": 0.9
@@ -1456,10 +1944,10 @@
             "uncertainties": []
           },
           {
-            "entity_id": "object_2",
-            "category": "digital air pump",
-            "subcategory": "digital air pump",
-            "summary": "Black handheld air pump with digital display showing 0.95 and 8.88, circular button below display.",
+            "entity_id": "entity_2",
+            "category": "air pump",
+            "subcategory": "air pump",
+            "summary": "black handheld digital air pump with LCD display showing '8.95' and '888', resting on a white box",
             "quantity": {
               "value": 1,
               "confidence": 0.9
@@ -1479,13 +1967,13 @@
             "uncertainties": []
           },
           {
-            "entity_id": "object_3",
-            "category": "hose attached to car wheel",
-            "subcategory": "hose attached to car wheel",
-            "summary": "Black braided hose connected to silver alloy wheel, resting against wheel rim.",
+            "entity_id": "entity_3",
+            "category": "hose",
+            "subcategory": "hose",
+            "summary": "black flexible hose connecting the air pump to the tire valve stem",
             "quantity": {
               "value": 1,
-              "confidence": 0.8
+              "confidence": 0.9
             },
             "attributes": {
               "geometry": [],
@@ -1502,13 +1990,13 @@
             "uncertainties": []
           },
           {
-            "entity_id": "object_4",
-            "category": "blurred car wheel section",
-            "subcategory": "blurred car wheel section",
-            "summary": "Out-of-focus close-up of silver wheel rim and black tire, no distinct features visible.",
+            "entity_id": "entity_4",
+            "category": "valve_stem",
+            "subcategory": "valve_stem",
+            "summary": "metal valve stem protruding from tire rim, with yellow cap, connected to hose",
             "quantity": {
               "value": 1,
-              "confidence": 0.5
+              "confidence": 0.9
             },
             "attributes": {
               "geometry": [],
@@ -1522,18 +2010,16 @@
               "other": []
             },
             "variations": [],
-            "uncertainties": [
-              "low resolution prevents detailed feature extraction"
-            ]
+            "uncertainties": []
           },
           {
-            "entity_id": "object_5",
-            "category": "whiteboxwithmarkings",
-            "subcategory": "whiteboxwithmarkings",
-            "summary": "White box with printed symbols including '1 2' and 'm', plus sign, and other marks, placed on ground.",
+            "entity_id": "entity_5",
+            "category": "box",
+            "subcategory": "box",
+            "summary": "white rectangular box with printed symbols, supporting the air pump",
             "quantity": {
               "value": 1,
-              "confidence": 0.7
+              "confidence": 0.9
             },
             "attributes": {
               "geometry": [],
@@ -1547,92 +2033,204 @@
               "other": []
             },
             "variations": [],
-            "uncertainties": [
-              "symbols not fully legible, possible partial text or code"
-            ]
+            "uncertainties": []
+          },
+          {
+            "entity_id": "entity_6",
+            "category": "ground_surface",
+            "subcategory": "ground_surface",
+            "summary": "gray textured pavement with linear grooves, supporting tire and box",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
           }
         ],
-        "relations": [],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "connected_to",
+            "subject_id": "entity_3",
+            "object_id": "entity_2",
+            "anchor": "hose attached to pump",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_2",
+            "type": "connected_to",
+            "subject_id": "entity_3",
+            "object_id": "entity_4",
+            "anchor": "hose attached to valve stem",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_3",
+            "type": "positioned_relative_to",
+            "subject_id": "entity_2",
+            "object_id": "entity_5",
+            "anchor": "pump resting on box",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_4",
+            "type": "positioned_relative_to",
+            "subject_id": "entity_1",
+            "object_id": "entity_6",
+            "anchor": "tire resting on ground",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_5",
+            "type": "positioned_relative_to",
+            "subject_id": "entity_5",
+            "object_id": "entity_6",
+            "anchor": "box resting on ground",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_6",
+            "type": "scale_relative_to",
+            "subject_id": "entity_2",
+            "object_id": "entity_1",
+            "anchor": "pump smaller than tire",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_7",
+            "type": "orientation_cues",
+            "subject_id": "entity_1",
+            "object_id": "entity_4",
+            "anchor": "valve stem oriented vertically upward from tire",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_8",
+            "type": "orientation_cues",
+            "subject_id": "entity_3",
+            "object_id": "entity_4",
+            "anchor": "hose extends from valve stem downward and away",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
         "events": [],
         "technical": {
           "media_type": "image",
-          "analysis_pipeline": "localize_then_isolated_attribute_batches",
-          "localization_coordinate_system": "normalized_0_1",
+          "analysis_pipeline": "relational_one_shot",
           "task_ids": [
-            "20260821_064125_263972_29f69dea-b45b-4b05-8b20-d9e268153f69",
-            "20260821_064514_711317_cc46306c-d81c-45af-9d1d-5fa9c740a8e8"
-          ]
+            "20260823_153330_880996_946d895b-9791-4704-95ab-bf6b07c3ad2b"
+          ],
+          "analysis_profile": "relational_one_shot",
+          "elapsed_seconds": 179.297,
+          "cache_hit": false,
+          "cache_key": "79ac20f3aa2128671c721ff9810d571cac23040f6ad16583464bc8d5dee2e481",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 179.297
+          }
         },
         "transcript": "",
-        "uncertainties": []
+        "uncertainties": [],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "pump-to-tire connection point and orientation are visible",
+            "priority": "useful",
+            "source_asset_id": "image_usage",
+            "region_or_time": "connection area",
+            "status": "covered",
+            "matched_terms": [
+              "orientation",
+              "pump",
+              "tire",
+              "to"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
       },
       {
         "asset_id": "image_anchor",
-        "summary": "2 distinct foreground objects localized and analyzed individually.",
+        "summary": "A person stands in a grassy field, holding a black rectangular device with both hands. The device is oriented vertically, and the person's grip is centered and secure. The device appears small relative to the person's hands and body, suggesting a handheld scale. The person is wearing a yellow t-shirt under light blue denim overalls with rolled cuffs. The camera is positioned at eye level, framing the person from mid-thigh up, with the product clearly visible in the center of the frame.",
         "evidence": [
           {
             "evidence_id": "evidence_1",
-            "kind": "region",
+            "kind": "frame",
             "time_seconds": null,
             "bbox_normalized": [
-              0.174,
-              0.031,
-              0.888,
+              0.0,
+              0.0,
+              1.0,
               1.0
             ],
-            "description": "Localized woman object_1"
-          },
-          {
-            "evidence_id": "evidence_2",
-            "kind": "region",
-            "time_seconds": null,
-            "bbox_normalized": [
-              0.428,
-              0.34,
-              0.492,
-              0.488
-            ],
-            "description": "Localized air pump object_2"
+            "description": "A person stands in a grassy field, holding a black rectangular device with both hands. The device is oriented vertically, and the person's grip is centered and secure. The device appears small relative to the person's hands and body, suggesting a handheld scale. The person is wearing a yellow t-shirt under light blue denim overalls with rolled cuffs. The camera is positioned at eye level, framing the person from mid-thigh up, with the product clearly visible in the center of the frame."
           }
         ],
-        "regions": [
-          {
-            "region_id": "region_1",
-            "evidence_id": "evidence_1",
-            "bbox_normalized": [
-              0.174,
-              0.031,
-              0.888,
-              1.0
-            ],
-            "entity_ids": [
-              "object_1"
-            ],
-            "analysis_priority": "high",
-            "detail_request": "isolated object attributes"
-          },
-          {
-            "region_id": "region_2",
-            "evidence_id": "evidence_2",
-            "bbox_normalized": [
-              0.428,
-              0.34,
-              0.492,
-              0.488
-            ],
-            "entity_ids": [
-              "object_2"
-            ],
-            "analysis_priority": "high",
-            "detail_request": "isolated object attributes"
-          }
-        ],
+        "regions": [],
         "entities": [
           {
-            "entity_id": "object_1",
-            "category": "person holding a black handheld device",
-            "subcategory": "person holding a black handheld device",
-            "summary": "A young woman with blonde pigtails, wearing a yellow shirt and denim overalls, holds a black rectangular device with both hands in a grassy outdoor setting.",
+            "entity_id": "entity_1",
+            "category": "person",
+            "subcategory": "person",
+            "summary": "A person with blonde curly hair in two pigtails, wearing a yellow t-shirt and light blue denim overalls, standing upright in a grassy field.",
             "quantity": {
               "value": 1,
               "confidence": 0.9
@@ -1652,10 +2250,10 @@
             "uncertainties": []
           },
           {
-            "entity_id": "object_2",
-            "category": "black handheld device with digital display",
-            "subcategory": "black handheld device with digital display",
-            "summary": "Close-up of a black rectangular device showing a digital display with white numerals '20' and '250', a circular gray button below, and a hand holding it from the right side.",
+            "entity_id": "entity_2",
+            "category": "rectangular electronic device",
+            "subcategory": "rectangular electronic device",
+            "summary": "A black, vertically oriented rectangular device with a digital display showing '2:28' and '250', and a circular button below the display.",
             "quantity": {
               "value": 1,
               "confidence": 0.9
@@ -1675,19 +2273,115 @@
             "uncertainties": []
           }
         ],
-        "relations": [],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "held_by",
+            "subject_id": "entity_2",
+            "object_id": "entity_1",
+            "anchor": "both hands gripping the device vertically",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_2",
+            "type": "positioned_relative_to",
+            "subject_id": "entity_2",
+            "object_id": "entity_1",
+            "anchor": "device held in front of torso, centered between hands",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_3",
+            "type": "scale_relative_to",
+            "subject_id": "entity_2",
+            "object_id": "entity_1",
+            "anchor": "device is small relative to hands and body, fitting comfortably in both hands",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_4",
+            "type": "orientation_cues",
+            "subject_id": "entity_2",
+            "object_id": "entity_1",
+            "anchor": "device oriented vertically, screen facing forward, aligned with person's torso",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_5",
+            "type": "camera_framing",
+            "subject_id": "entity_1",
+            "object_id": "entity_2",
+            "anchor": "framed from mid-thigh up, eye-level shot, product centered in frame",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
         "events": [],
         "technical": {
           "media_type": "image",
-          "analysis_pipeline": "localize_then_isolated_attribute_batches",
-          "localization_coordinate_system": "normalized_0_1",
+          "analysis_pipeline": "relational_one_shot",
           "task_ids": [
-            "20260821_064923_198906_1273dcbe-d0aa-427a-8a38-308a27a6977b",
-            "20260821_064929_257340_dea7aaee-d1d0-4d32-97b9-fec695a77eb8"
-          ]
+            "20260823_153148_689883_68b5cad3-3af3-4ef1-b770-c9005790bf28"
+          ],
+          "analysis_profile": "relational_one_shot",
+          "elapsed_seconds": 77.147,
+          "cache_hit": false,
+          "cache_key": "ffa242d348b5ad965c3c57ec6367f709487a6c73f4c3d663ebb90c735d3c3541",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 77.147
+          }
         },
         "transcript": "",
-        "uncertainties": []
+        "uncertainties": [],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "presenter holding the product and hand-to-pump scale are visible",
+            "priority": "useful",
+            "source_asset_id": "image_anchor",
+            "region_or_time": "hands and product region",
+            "status": "covered",
+            "matched_terms": [
+              "hand",
+              "holding",
+              "product",
+              "scale",
+              "to"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
       },
       {
         "asset_id": "video_method",
@@ -1703,7 +2397,7 @@
               1.0,
               1.0
             ],
-            "description": "person_1 bends over tire, holding product_1 (air pump) with hose inserted into tire valve; outfit: yellow t-shirt, denim overalls, white socks, sneakers; environment_1: roadside with grass, tools, spare tire visible; expression: concerned or frustrated"
+            "description": "person_1 uses product_1 to inflate tire, standing on roadside with tools and spare tire visible"
           },
           {
             "evidence_id": "evidence_event_2",
@@ -1715,7 +2409,7 @@
               1.0,
               1.0
             ],
-            "description": "person_1 stands upright, holding product_1 in right hand, facing camera; expression shifts from neutral to smiling; background: same roadside with tires and tools; outfit unchanged"
+            "description": "person_1 stands upright, holding product_1, smiling at camera, tire and tools in background"
           },
           {
             "evidence_id": "evidence_event_3",
@@ -1727,7 +2421,7 @@
               1.0,
               1.0
             ],
-            "description": "product_1 inflates gray camping mat on grass; environment_2: campsite with tent, picnic table, trees; product_1 screen displays numbers (e.g., '200', '2.00'); no person visible"
+            "description": "product_1 inflates air mattress in grassy campsite with tent and picnic table in background"
           },
           {
             "evidence_id": "evidence_event_4",
@@ -1739,647 +2433,16 @@
               1.0,
               1.0
             ],
-            "description": "person_1 holds product_1 toward camera, displaying screen with numbers (e.g., '200', '2.00'); smiles and looks at camera; background: roadside with black ball and tire visible; outfit unchanged"
+            "description": "person_1 holds product_1 toward camera, showing digital display, then turns it sideways with smile"
           }
         ],
         "regions": [],
         "entities": [
           {
-            "entity_id": "entity_1",
-            "category": "person",
-            "subcategory": "young woman",
-            "summary": "A young woman with blonde curly hair styled in pigtails, wearing a yellow t-shirt and denim overalls, is shown in multiple outdoor scenes interacting with a portable air pump.",
-            "quantity": {
-              "value": 1,
-              "confidence": 0.9
-            },
-            "attributes": {
-              "geometry": [],
-              "color": [
-                {
-                  "name": "hair",
-                  "value": "blonde",
-                  "evidence_ids": [
-                    "evidence_event_1",
-                    "evidence_event_2",
-                    "evidence_event_4"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                },
-                {
-                  "name": "t-shirt",
-                  "value": "yellow",
-                  "evidence_ids": [
-                    "evidence_event_1",
-                    "evidence_event_2",
-                    "evidence_event_4"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                },
-                {
-                  "name": "overalls",
-                  "value": "light blue denim",
-                  "evidence_ids": [
-                    "evidence_event_1",
-                    "evidence_event_2",
-                    "evidence_event_4"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "material": [],
-              "surface": [],
-              "components": [
-                {
-                  "name": "hairstyle",
-                  "value": "pigtails",
-                  "evidence_ids": [
-                    "evidence_event_1",
-                    "evidence_event_2",
-                    "evidence_event_4"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                },
-                {
-                  "name": "footwear",
-                  "value": "white sneakers with white socks",
-                  "evidence_ids": [
-                    "evidence_event_1",
-                    "evidence_event_2",
-                    "evidence_event_4"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "component_layout": [],
-              "orientation_cues": [
-                {
-                  "name": "posture",
-                  "value": "bent over then standing upright",
-                  "evidence_ids": [
-                    "evidence_event_1",
-                    "evidence_event_2",
-                    "evidence_event_4"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "identity_markers": [
-                {
-                  "name": "facial expression",
-                  "value": "concerned then smiling",
-                  "evidence_ids": [
-                    "evidence_event_1",
-                    "evidence_event_2",
-                    "evidence_event_4"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "other": [
-                {
-                  "name": "actions",
-                  "value": "using air pump on tire, holding pump toward camera",
-                  "evidence_ids": [
-                    "evidence_event_1",
-                    "evidence_event_2",
-                    "evidence_event_4"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ]
-            },
-            "variations": [],
-            "uncertainties": []
-          },
-          {
-            "entity_id": "entity_2",
-            "category": "product",
-            "subcategory": "portable air pump",
-            "summary": "A black handheld digital air pump with a hose and nozzle, used to inflate a tire and a camping mat, displaying pressure readings on its screen.",
-            "quantity": {
-              "value": 1,
-              "confidence": 0.9
-            },
-            "attributes": {
-              "geometry": [],
-              "color": [
-                {
-                  "name": "body",
-                  "value": "black",
-                  "evidence_ids": [
-                    "evidence_event_1",
-                    "evidence_event_2",
-                    "evidence_event_3",
-                    "evidence_event_4"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "material": [],
-              "surface": [
-                {
-                  "name": "texture",
-                  "value": "smooth plastic casing",
-                  "evidence_ids": [
-                    "evidence_event_1",
-                    "evidence_event_2",
-                    "evidence_event_3",
-                    "evidence_event_4"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "components": [
-                {
-                  "name": "display",
-                  "value": "digital screen showing numbers",
-                  "evidence_ids": [
-                    "evidence_event_1",
-                    "evidence_event_2",
-                    "evidence_event_3",
-                    "evidence_event_4"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                },
-                {
-                  "name": "hose",
-                  "value": "flexible black hose with yellow connector",
-                  "evidence_ids": [
-                    "evidence_event_1",
-                    "evidence_event_2",
-                    "evidence_event_3",
-                    "evidence_event_4"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                },
-                {
-                  "name": "nozzle",
-                  "value": "metallic nozzle inserted into tire valve",
-                  "evidence_ids": [
-                    "evidence_event_1",
-                    "evidence_event_2",
-                    "evidence_event_3",
-                    "evidence_event_4"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "component_layout": [],
-              "orientation_cues": [
-                {
-                  "name": "position",
-                  "value": "held vertically or placed on ground",
-                  "evidence_ids": [
-                    "evidence_event_1",
-                    "evidence_event_2",
-                    "evidence_event_3",
-                    "evidence_event_4"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "identity_markers": [
-                {
-                  "name": "display text",
-                  "value": "shows '28.0' and '2.00' in different scenes",
-                  "evidence_ids": [
-                    "evidence_event_1",
-                    "evidence_event_2",
-                    "evidence_event_3",
-                    "evidence_event_4"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "other": [
-                {
-                  "name": "function",
-                  "value": "inflates tire and camping mat",
-                  "evidence_ids": [
-                    "evidence_event_1",
-                    "evidence_event_2",
-                    "evidence_event_3",
-                    "evidence_event_4"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ]
-            },
-            "variations": [],
-            "uncertainties": []
-          },
-          {
-            "entity_id": "entity_3",
-            "category": "prop",
-            "subcategory": "vehicle tire",
-            "summary": "A black rubber tire with a silver rim, shown on the ground during inflation with the air pump, with a spare tire and tools nearby.",
-            "quantity": {
-              "value": 1,
-              "confidence": 0.9
-            },
-            "attributes": {
-              "geometry": [
-                {
-                  "name": "shape",
-                  "value": "circular with flat base",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "color": [
-                {
-                  "name": "tire",
-                  "value": "black",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "material": [
-                {
-                  "name": "tread",
-                  "value": "rubber with deep grooves",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "surface": [
-                {
-                  "name": "condition",
-                  "value": "appears worn but functional",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "components": [
-                {
-                  "name": "rim",
-                  "value": "silver metallic center",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                },
-                {
-                  "name": "valve",
-                  "value": "yellow valve stem",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "component_layout": [],
-              "orientation_cues": [
-                {
-                  "name": "placement",
-                  "value": "lying flat on asphalt",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "identity_markers": [],
-              "other": [
-                {
-                  "name": "context",
-                  "value": "on roadside with tools and spare tire",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ]
-            },
-            "variations": [],
-            "uncertainties": []
-          },
-          {
-            "entity_id": "entity_4",
-            "category": "prop",
-            "subcategory": "inflatable camping mat",
-            "summary": "A gray inflatable sleeping mat with blue trim, being inflated by the air pump in a grassy campsite setting.",
-            "quantity": {
-              "value": 1,
-              "confidence": 0.9
-            },
-            "attributes": {
-              "geometry": [
-                {
-                  "name": "shape",
-                  "value": "rectangular with quilted sections",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "color": [
-                {
-                  "name": "mat",
-                  "value": "gray with blue trim",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "material": [
-                {
-                  "name": "surface",
-                  "value": "smooth synthetic fabric",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "surface": [
-                {
-                  "name": "texture",
-                  "value": "padded and segmented",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "components": [
-                {
-                  "name": "inflation valve",
-                  "value": "connected to air pump hose",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                },
-                {
-                  "name": "connector",
-                  "value": "yellow hose attachment",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "component_layout": [],
-              "orientation_cues": [
-                {
-                  "name": "placement",
-                  "value": "lying flat on ground",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "identity_markers": [],
-              "other": [
-                {
-                  "name": "context",
-                  "value": "on grass near tent and picnic table",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ]
-            },
-            "variations": [],
-            "uncertainties": []
-          },
-          {
-            "entity_id": "entity_5",
-            "category": "environment",
-            "subcategory": "roadside setting",
-            "summary": "An asphalt road bordered by grass and trees, where the woman is shown inflating a tire with tools and a spare tire visible nearby.",
-            "quantity": {
-              "value": 1,
-              "confidence": 0.9
-            },
-            "attributes": {
-              "geometry": [
-                {
-                  "name": "layout",
-                  "value": "straight road with grass verge",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "color": [
-                {
-                  "name": "vegetation",
-                  "value": "green grass and trees",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "material": [],
-              "surface": [
-                {
-                  "name": "ground",
-                  "value": "cracked asphalt",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                },
-                {
-                  "name": "texture",
-                  "value": "rough asphalt with cracks",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "components": [
-                {
-                  "name": "tools",
-                  "value": "wrench and orange tool on ground",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                },
-                {
-                  "name": "spare tire",
-                  "value": "black tire lying on grass",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "component_layout": [],
-              "orientation_cues": [
-                {
-                  "name": "perspective",
-                  "value": "low-angle shot of tire and pump",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "identity_markers": [],
-              "other": [
-                {
-                  "name": "context",
-                  "value": "daytime, sunny, outdoor roadside",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ]
-            },
-            "variations": [],
-            "uncertainties": []
-          },
-          {
-            "entity_id": "entity_6",
-            "category": "environment",
-            "subcategory": "campsite setting",
-            "summary": "A grassy campsite with a tent, picnic table, and an inflatable mat being inflated by the air pump, under warm sunlight.",
-            "quantity": {
-              "value": 1,
-              "confidence": 0.9
-            },
-            "attributes": {
-              "geometry": [
-                {
-                  "name": "layout",
-                  "value": "open field with trees in background",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "color": [
-                {
-                  "name": "lighting",
-                  "value": "golden hour sunlight",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "material": [],
-              "surface": [
-                {
-                  "name": "ground",
-                  "value": "green grass",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "components": [
-                {
-                  "name": "tent",
-                  "value": "beige and gray dome tent",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                },
-                {
-                  "name": "picnic table",
-                  "value": "wooden with slats",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                },
-                {
-                  "name": "inflatable mat",
-                  "value": "gray with blue trim",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "component_layout": [],
-              "orientation_cues": [
-                {
-                  "name": "perspective",
-                  "value": "low-angle focus on mat and pump",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "identity_markers": [],
-              "other": [
-                {
-                  "name": "context",
-                  "value": "outdoor camping environment",
-                  "evidence_ids": [],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ]
-            },
-            "variations": [],
-            "uncertainties": []
-          },
-          {
             "entity_id": "environment_1",
             "category": "environment",
             "subcategory": "environment",
-            "summary": "Visible timeline entity; detailed attributes were unresolved in the entity pass.",
+            "summary": "Timeline entity retained only for action and shot references.",
             "quantity": {
               "value": 1,
               "confidence": 0.5
@@ -2397,14 +2460,14 @@
             },
             "variations": [],
             "uncertainties": [
-              "Detailed entity attributes were not returned by the compact entity pass"
+              "Detailed appearance analysis intentionally skipped for structural reference"
             ]
           },
           {
             "entity_id": "environment_2",
             "category": "environment",
             "subcategory": "environment",
-            "summary": "Visible timeline entity; detailed attributes were unresolved in the entity pass.",
+            "summary": "Timeline entity retained only for action and shot references.",
             "quantity": {
               "value": 1,
               "confidence": 0.5
@@ -2422,91 +2485,61 @@
             },
             "variations": [],
             "uncertainties": [
-              "Detailed entity attributes were not returned by the compact entity pass"
+              "Detailed appearance analysis intentionally skipped for structural reference"
+            ]
+          },
+          {
+            "entity_id": "person_1",
+            "category": "person",
+            "subcategory": "person",
+            "summary": "Timeline entity retained only for action and shot references.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.5
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "Detailed appearance analysis intentionally skipped for structural reference"
+            ]
+          },
+          {
+            "entity_id": "product_1",
+            "category": "product",
+            "subcategory": "product",
+            "summary": "Timeline entity retained only for action and shot references.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.5
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "Detailed appearance analysis intentionally skipped for structural reference"
             ]
           }
         ],
-        "relations": [
-          {
-            "relation_id": "relation_1",
-            "type": "using",
-            "subject_id": "entity_1",
-            "object_id": "entity_2",
-            "anchor": "entity_3",
-            "spatial_constraints": {},
-            "evidence_ids": [
-              "evidence_event_1",
-              "evidence_event_2",
-              "evidence_event_3",
-              "evidence_event_4"
-            ],
-            "confidence": 0.9,
-            "source": "entity_1 holds entity_2 and uses it to inflate entity_3"
-          },
-          {
-            "relation_id": "relation2",
-            "type": "using",
-            "subject_id": "entity_1",
-            "object_id": "entity_2",
-            "anchor": "entity_4",
-            "spatial_constraints": {},
-            "evidence_ids": [
-              "evidence_event_1",
-              "evidence_event_2",
-              "evidence_event_3",
-              "evidence_event_4"
-            ],
-            "confidence": 0.9,
-            "source": "entity_1 holds entity_2 and uses it to inflate entity_4"
-          },
-          {
-            "relation_id": "relation3",
-            "type": "located_in",
-            "subject_id": "entity_1",
-            "object_id": "entity_5",
-            "anchor": "entity_3",
-            "spatial_constraints": {},
-            "evidence_ids": [
-              "evidence_event_1",
-              "evidence_event_2",
-              "evidence_event_4"
-            ],
-            "confidence": 0.9,
-            "source": "entity_1 and entity_3 are on entity_5"
-          },
-          {
-            "relation_id": "relation4",
-            "type": "located_in",
-            "subject_id": "entity_2",
-            "object_id": "entity_6",
-            "anchor": "entity_4",
-            "spatial_constraints": {},
-            "evidence_ids": [
-              "evidence_event_1",
-              "evidence_event_2",
-              "evidence_event_3",
-              "evidence_event_4"
-            ],
-            "confidence": 0.9,
-            "source": "entity_2 and entity_4 are on entity_6"
-          },
-          {
-            "relation_id": "relation5",
-            "type": "holding",
-            "subject_id": "entity_1",
-            "object_id": "entity_2",
-            "anchor": "entity_1",
-            "spatial_constraints": {},
-            "evidence_ids": [
-              "evidence_event_1",
-              "evidence_event_2",
-              "evidence_event_3",
-              "evidence_event_4"
-            ],
-            "confidence": 0.9,
-            "source": "entity_1 holds entity_2 in front of camera"
-          }
-        ],
+        "relations": [],
         "events": [
           {
             "event_id": "event_1",
@@ -2515,18 +2548,18 @@
               2.0
             ],
             "entity_ids": [
-              "entity_1",
-              "entity_2",
+              "person_1",
+              "product_1",
               "environment_1"
             ],
-            "action": "person_1 bends over tire, holding product_1 (air pump) with hose inserted into tire valve; outfit: yellow t-shirt, denim overalls, white socks, sneakers; environment_1: roadside with grass, tools, spare tire visible; expression: concerned or frustrated",
+            "action": "person_1 uses product_1 to inflate tire, standing on roadside with tools and spare tire visible",
             "state_before": {},
             "state_after": {},
             "transition_type": "cut",
             "evidence_ids": [
               "evidence_event_1"
             ],
-            "confidence": 0.95
+            "confidence": 0.9
           },
           {
             "event_id": "event_2",
@@ -2535,18 +2568,18 @@
               6.0
             ],
             "entity_ids": [
-              "entity_1",
-              "entity_2",
+              "person_1",
+              "product_1",
               "environment_1"
             ],
-            "action": "person_1 stands upright, holding product_1 in right hand, facing camera; expression shifts from neutral to smiling; background: same roadside with tires and tools; outfit unchanged",
+            "action": "person_1 stands upright, holding product_1, smiling at camera, tire and tools in background",
             "state_before": {},
             "state_after": {},
             "transition_type": "cut",
             "evidence_ids": [
               "evidence_event_2"
             ],
-            "confidence": 0.95
+            "confidence": 0.9
           },
           {
             "event_id": "event_3",
@@ -2555,17 +2588,17 @@
               10.0
             ],
             "entity_ids": [
-              "entity_2",
+              "product_1",
               "environment_2"
             ],
-            "action": "product_1 inflates gray camping mat on grass; environment_2: campsite with tent, picnic table, trees; product_1 screen displays numbers (e.g., '200', '2.00'); no person visible",
+            "action": "product_1 inflates air mattress in grassy campsite with tent and picnic table in background",
             "state_before": {},
             "state_after": {},
             "transition_type": "cut",
             "evidence_ids": [
               "evidence_event_3"
             ],
-            "confidence": 0.95
+            "confidence": 0.9
           },
           {
             "event_id": "event_4",
@@ -2574,41 +2607,110 @@
               14.0
             ],
             "entity_ids": [
-              "entity_1",
-              "entity_2",
+              "person_1",
+              "product_1",
               "environment_1"
             ],
-            "action": "person_1 holds product_1 toward camera, displaying screen with numbers (e.g., '200', '2.00'); smiles and looks at camera; background: roadside with black ball and tire visible; outfit unchanged",
+            "action": "person_1 holds product_1 toward camera, showing digital display, then turns it sideways with smile",
             "state_before": {},
             "state_after": {},
             "transition_type": "cut",
             "evidence_ids": [
               "evidence_event_4"
             ],
-            "confidence": 0.95
+            "confidence": 0.9
           }
         ],
         "technical": {
           "duration_seconds": 15.188639,
-          "framing": "medium close-up in events 1,2,4; low-angle close-up in event 3",
-          "camera": "static shots with slight zoom or repositioning in event 4",
+          "framing": "medium close-up to full-body shots, static camera",
+          "camera": "static shots with no panning or zooming",
           "visible_text": [
-            "200",
-            "2.00"
+            "2.00",
+            "6.50"
           ],
           "media_type": "video",
-          "analysis_pipeline": "compact_video_then_deterministic_expansion",
+          "analysis_pipeline": "compact_video_timeline_only",
           "task_ids": [
-            "20260821_065100_526558_8401b61d-92de-4298-a876-dd577890bcb4",
-            "20260821_065211_768160_36c59737-15bc-4049-9d72-6a7c5181de1f"
-          ]
+            "20260823_153305_931942_766761fe-e329-4953-878b-9139bccbecd2"
+          ],
+          "analysis_profile": "timeline_only",
+          "elapsed_seconds": 61.196,
+          "cache_hit": false,
+          "cache_key": "865eeb47636f74f82452007e750b9f61f47bd44a8678850603d97277a1d5b9d7",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 61.196
+          }
         },
         "transcript": "",
         "uncertainties": [
-          "Compact entity pass omitted details for timeline entities: environment_1, environment_2"
-        ]
+          "Detailed entity appearance pass intentionally skipped for structural reference"
+        ],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "complete ordered usage action sequence is visible",
+            "priority": "required",
+            "source_asset_id": "video_method",
+            "region_or_time": "full video timeline",
+            "status": "covered",
+            "matched_terms": [
+              "action",
+              "is"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "per-action and per-shot timing is measurable",
+            "priority": "required",
+            "source_asset_id": "video_method",
+            "region_or_time": "full video timeline",
+            "status": "covered",
+            "matched_terms": [
+              "action",
+              "is",
+              "per",
+              "shot"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "camera framing and movement per usage shot are visible",
+            "priority": "useful",
+            "source_asset_id": "video_method",
+            "region_or_time": "full video timeline",
+            "status": "covered",
+            "matched_terms": [
+              "are",
+              "camera",
+              "framing",
+              "per",
+              "shot"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
       }
     ],
-    "missing_asset_ids": []
+    "missing_asset_ids": [],
+    "perception_metrics": {
+      "request_count": 7,
+      "retry_count": 0,
+      "supplemental_request_count": 0,
+      "elapsed_seconds": 179.297
+    }
   }
 }

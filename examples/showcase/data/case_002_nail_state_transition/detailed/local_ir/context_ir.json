@@ -1,83 +1,51 @@
 {
   "schema_version": "0.1.0",
-  "runtime": {
-    "perception_provider": {
-      "name": "local-qwen3-vl-32b",
-      "model": "Qwen3-VL-32B-Instruct",
-      "options": {
-        "base_url": "http://127.0.0.1:9012",
-        "api_key_env": "GITEE_AI_API_KEY",
-        "video_frame_count": 6,
-        "max_tokens": 3000
-      }
-    },
-    "reasoning_provider": {
-      "provider": "deepseek",
-      "model": "deepseek-v4-flash"
-    },
-    "generation_provider": {
-      "provider": "minimax",
-      "model": "MiniMax-H3"
-    }
-  },
   "intent": {
-    "user_request": "生成一条15秒、9:16竖屏的穿戴甲前后反差宣传视频。不要复制参考视频中的人物、服装、户外场景、首饰和文字，不生成旁白或额外字幕。\n\n素材使用方式：\n1. 商品图控制十枚甲片的款式集合，包括黑白花朵、琥珀黄色立体弧饰、白黑粉色几何、酒红白花朵和粉色立体花。佩戴锚点图只控制这些甲片安装到五指后的正确形态、朝向、长度和对应关系。\n2. 参考视频是前后反差与手部展示姿势参考，不是连续安装教程。只继承“先展示自然手，再展示完成美甲”的结构、手靠近镜头的姿态和生活方式节奏；不继承其中任何人物身份、美甲款式、首饰、文字或具体背景。\n\n分镜与状态：\n- 0–3秒：第一镜只展示一只干净裸手，五指完整可见，没有甲片、指甲油或戒指。\n- 3–4秒：用一次明确遮挡转场完成状态切换；不展示错误或半安装状态。\n- 4–8秒：第二镜开始完整佩戴商品图对应的五枚甲片，手部形态以佩戴锚点图为准，缓慢翻转展示正面和侧面。\n- 8–12秒：切换背景和手势，但同一套甲片持续存在，五指款式、长度和位置不能交换或消失。\n- 12–15秒：微距英雄特写，五指扇形展开，重点展示立体花、金色珠饰和琥珀装饰，保持无文字结束。\n\n状态约束：0–3秒必须裸手；4秒以后必须始终完整佩戴同一套甲片。切镜不能触发甲片消失、替换、换指或重新变成裸手。",
-    "resolved_request": "Generate a 15-second, 9:16 vertical before/after press-on nail promotional video: 0–3s shows one clean bare hand with all five fingers fully visible and no pieces, polish or rings; 3–4s is a single clear occlusion transition with no wrong or half-installed state; from 4–15s the same full five-piece set derived from the product image is worn per the worn anchor (form, orientation, length, finger mapping), with a slow front/side hand display, a background and gesture change at 8–12s that keeps the identical set intact, and a 12–15s text-free macro hero close-up of the fan-spread hand emphasizing 3D flowers, gold beads and amber decoration. Inherit from the reference video only the bare-hand-first-then-completed-manicure structure, hand-close-to-camera framing and lifestyle pacing; do not copy any person, clothing, outdoor scene, jewelry, text, specific background or reference manicure style, and generate no narration or extra subtitles.",
+    "user_request": "生成一条15秒、9:16竖屏的穿戴甲前后反差宣传视频。整条视频以“一位身份稳定的成年女性模特佩戴并展示目标甲片”为同一个复合主体。模特是每个镜头中持续可见的画面主体，甲片是附着在她手上的核心商品；二者不能被拆分为互相竞争的主体。\n\n素材使用方式：\n1. 商品图只控制十枚甲片的外观，包括黑白花朵、琥珀黄色立体弧饰、白黑粉色几何、酒红白花朵和粉色立体花。\n2. 佩戴锚点图只控制五枚甲片佩戴到拇指、食指、中指、无名指和小指后的形态、方向、长度和对应关系，不控制人物身份、肤色或画面构图。\n3. 参考视频只控制“先展示裸手、再展示完成美甲”的结构、手靠近镜头的展示动作和生活方式节奏，不控制目标人物身份、服装、场景、美甲款式、首饰、文字或音频。\n4. 目标人物使用一位新生成的成年女性模特，脸部、发型、体型和服装在所有镜头中保持一致，不复制任何参考素材中的人物身份。\n\n构图与时间线：\n- 0–3秒：中近景建立同一位模特和干净室内场景。她的脸、肩部、一条完整手臂、手腕和抬起的裸手同时可见；裸手靠近镜头但不遮住脸和上半身，五指完整可见，没有甲片、指甲油或戒指。\n- 3–4秒：模特用自己的手向镜头做一次遮挡动作完成状态转换。遮挡前是裸手，遮挡结束后同一位模特、同一只手已经完整佩戴目标五枚甲片，不表现安装过程或半安装状态。\n- 4–8秒：保持中近景，模特的脸、肩部、完整手臂和佩戴甲片的手同时留在画面内。她缓慢转动手腕展示甲片正面和侧面；手部约占画面三分之一，人物与手的身体关系清楚可读。\n- 8–12秒：同一位模特在新的干净室内背景中改变展示手势。构图仍同时包含脸部、上半身、手臂和手，人物身份、服装以及五指上的甲片款式和位置保持连续。\n- 12–15秒：镜头适度靠近甲片细节，但不是孤立手部微距。前景清楚展示扇形展开的五指和甲片，画面同时保留连续的前臂、肩部以及背景中柔焦但可识别的同一张脸；重点展示立体花、金色珠饰和琥珀装饰，最终画面无文字。\n\n可观察的连续性要求：每个镜头都能同时追踪到同一位模特以及从肩部、手臂、手腕到手的完整连接。0–3秒是她的裸手；4–15秒是她的同一只手完整佩戴同一套甲片，切镜后人物、手和甲片的身份与状态持续不变。\n\n声音与排除项：生成克制的非人声商业音乐、室内环境底声和与遮挡转换同步的轻柔拟音；不生成旁白、对白、歌词或额外字幕。画面不继承参考视频的户外场景、服装、首饰、文字、人物身份和美甲款式，不出现包装、教程步骤或品牌宣称。",
+    "resolved_request": "Create a 15-second, 9:16 vertical before-after promotional video for a press-on nail set, in which one newly generated adult female model wearing and presenting the nail set on her own hand is the persistent compound subject of every shot. image_product locks the ten-piece appearance (black-white floral, amber-yellow 3D arc, white-black-pink geometric, wine-red-and-white floral, pink 3D flower); image_worn_anchor locks the worn form, direction, length, and thumb-to-pinky finger mapping of five pieces; video_contrast contributes only the bare-hand-then-finished-nails structure, hand-near-camera display, and lifestyle pacing. The timeline specifies a medium-close opening with a bare hand (0-3s), a single cover-gesture state switch (3-4s), wrist-rotation display (4-8s), a new clean indoor background with a changed display gesture and full continuity (8-12s), and a moderate closer nail-emphasis framing that keeps forearm, shoulder, and the same softly blurred face visible with no final-frame text (12-15s). Audio is restrained non-vocal commercial music, indoor ambience, and soft cover-synced foley with no narration, dialogue, lyrics, subtitles, packaging, tutorial steps, brand claims, or inherited reference identity, scene, clothing, jewelry, text, or nail style.",
     "directives": [
       {
         "directive_id": "d_1",
-        "asset_id": "image_product",
-        "target": "ten-piece press-on nail style collection",
+        "asset_id": "",
+        "target": "video format",
         "operation": "preserve",
         "scope": [
-          "ten-piece count",
-          "style groups: black-and-white floral, amber-yellow 3D arc ornaments, white-black-pink geometric, wine-red-white floral, pink 3D floral",
-          "per-piece colors, patterns and decorative elements"
+          "9:16 vertical aspect ratio"
         ],
         "priority": "hard",
         "provenance": "explicit_user"
       },
       {
         "directive_id": "d_2",
-        "asset_id": "image_worn_anchor",
-        "target": "correct worn state of the set on five fingers",
+        "asset_id": "",
+        "target": "total duration",
         "operation": "preserve",
         "scope": [
-          "worn form and silhouette",
-          "piece orientation",
-          "piece length",
-          "five-finger piece mapping"
+          "15-second total duration"
         ],
         "priority": "hard",
         "provenance": "explicit_user"
       },
       {
         "directive_id": "d_3",
-        "asset_id": "video_contrast",
-        "target": "before-after contrast structure, hand-display framing and lifestyle pacing",
-        "operation": "transfer",
+        "asset_id": "",
+        "target": "adult female model identity [other]",
+        "operation": "preserve",
         "scope": [
-          "bare natural hand first, then completed manicure",
-          "hand close to camera",
-          "lifestyle pacing"
+          "single adult female model as the persistent on-screen subject in every shot",
+          "continuous shoulder-arm-wrist-hand connection in every shot"
         ],
         "priority": "hard",
         "provenance": "explicit_user"
       },
       {
         "directive_id": "d_4",
-        "asset_id": "video_contrast",
-        "target": "reference-specific content and tutorial continuity",
-        "operation": "exclude",
+        "asset_id": "",
+        "target": "adult female model identity [identity]",
+        "operation": "preserve",
         "scope": [
-          "person identity",
-          "clothing",
-          "outdoor scene",
-          "jewelry",
-          "visible text",
-          "specific background",
-          "reference manicure style",
-          "continuous application tutorial sequence"
+          "same face, hairstyle, and body across all shots",
+          "newly generated identity, not copied from any reference asset"
         ],
         "priority": "hard",
         "provenance": "explicit_user"
@@ -85,14 +53,11 @@
       {
         "directive_id": "d_5",
         "asset_id": "",
-        "target": "first shot (0–3s) bare-hand state",
+        "target": "model outfit and styling",
         "operation": "preserve",
         "scope": [
-          "single clean bare hand",
-          "all five fingers fully visible",
-          "no press-on pieces",
-          "no nail polish",
-          "no rings"
+          "consistent outfit across all shots",
+          "no clothing or jewelry from the reference video"
         ],
         "priority": "hard",
         "provenance": "explicit_user"
@@ -100,74 +65,412 @@
       {
         "directive_id": "d_6",
         "asset_id": "",
-        "target": "state transition (3–4s)",
+        "target": "compound subject composition",
         "operation": "preserve",
         "scope": [
-          "single explicit occlusion transition",
-          "no wrong or half-installed state"
+          "model and worn nail set presented as one compound subject",
+          "no competing-subject split between model and nails"
         ],
         "priority": "hard",
         "provenance": "explicit_user"
       },
       {
         "directive_id": "d_7",
-        "asset_id": "",
-        "target": "completed-manicure continuity (4–15s)",
+        "asset_id": "image_product",
+        "target": "ten-piece nail set appearance [product]",
         "operation": "preserve",
         "scope": [
-          "same full five-piece set always present",
-          "styles, lengths and finger positions unchanged",
-          "no piece disappearance, replacement or finger swap",
-          "never reverts to bare hand after 4s"
+          "appearance of the ten-piece nail set"
         ],
         "priority": "hard",
         "provenance": "explicit_user"
       },
       {
         "directive_id": "d_8",
-        "asset_id": "",
-        "target": "second completed-manicure segment (8–12s)",
-        "operation": "may_change",
+        "asset_id": "image_product",
+        "target": "ten-piece nail set appearance [other]",
+        "operation": "preserve",
         "scope": [
-          "background",
-          "hand gesture"
+          "black-white floral decals",
+          "amber-yellow 3D arc accents",
+          "white-black-pink geometric accents",
+          "wine-red-and-white floral decals",
+          "pink 3D flowers"
         ],
         "priority": "hard",
         "provenance": "explicit_user"
       },
       {
         "directive_id": "d_9",
-        "asset_id": "",
-        "target": "macro hero close-up (12–15s)",
+        "asset_id": "image_product",
+        "target": "ten-piece nail set appearance [scene]",
         "operation": "preserve",
         "scope": [
-          "five fingers fan-spread",
-          "emphasis on 3D flowers, gold beads and amber decoration",
-          "ends with no text overlay"
+          "no nail design from the reference video"
         ],
         "priority": "hard",
         "provenance": "explicit_user"
       },
       {
         "directive_id": "d_10",
-        "asset_id": "",
-        "target": "output video format",
+        "asset_id": "image_worn_anchor",
+        "target": "worn state of five pieces on one hand",
         "operation": "preserve",
         "scope": [
-          "15-second duration",
-          "9:16 vertical aspect ratio"
+          "worn form of the five pieces",
+          "worn direction and length",
+          "finger mapping to thumb, index, middle, ring, and pinky"
         ],
         "priority": "hard",
         "provenance": "explicit_user"
       },
       {
         "directive_id": "d_11",
+        "asset_id": "video_contrast",
+        "target": "before-after structure and lifestyle pacing [product]",
+        "operation": "preserve",
+        "scope": [
+          "bare-hand-before then finished-nails-after sequence"
+        ],
+        "priority": "soft",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_12",
+        "asset_id": "video_contrast",
+        "target": "before-after structure and lifestyle pacing [rhythm]",
+        "operation": "preserve",
+        "scope": [
+          "lifestyle pacing"
+        ],
+        "priority": "soft",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_13",
+        "asset_id": "video_contrast",
+        "target": "hand display motion",
+        "operation": "preserve",
+        "scope": [
+          "hand display near the camera"
+        ],
+        "priority": "soft",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_14",
         "asset_id": "",
-        "target": "audio and text overlay policy",
+        "target": "0-3s opening framing [camera]",
+        "operation": "preserve",
+        "scope": [
+          "medium-close framing"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_15",
+        "asset_id": "",
+        "target": "0-3s opening framing [identity]",
+        "operation": "preserve",
+        "scope": [
+          "face, shoulder, one complete arm, wrist, and raised bare hand simultaneously visible",
+          "bare hand near the camera without covering the face or upper body"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_16",
+        "asset_id": "",
+        "target": "0-3s first-frame state [other]",
+        "operation": "preserve",
+        "scope": [
+          "bare hand with all five fingers fully visible"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_17",
+        "asset_id": "",
+        "target": "0-3s first-frame state [product]",
+        "operation": "preserve",
+        "scope": [
+          "no nail pieces, polish, or rings"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_18",
+        "asset_id": "",
+        "target": "3-4s cover transition gesture [motion]",
+        "operation": "preserve",
+        "scope": [
+          "single covering gesture by the model's own hand"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_19",
+        "asset_id": "",
+        "target": "3-4s cover transition gesture [other]",
+        "operation": "preserve",
+        "scope": [
+          "no installation process shown"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_20",
+        "asset_id": "",
+        "target": "3-4s worn-state switch [motion]",
+        "operation": "preserve",
+        "scope": [
+          "five pieces fully worn on the hand immediately after the gesture"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_21",
+        "asset_id": "",
+        "target": "3-4s worn-state switch [other]",
+        "operation": "preserve",
+        "scope": [
+          "no half-worn or in-progress state"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_22",
+        "asset_id": "",
+        "target": "4-8s wrist rotation display",
+        "operation": "preserve",
+        "scope": [
+          "slow wrist rotation showing the front and side of the worn pieces"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_23",
+        "asset_id": "",
+        "target": "4-8s framing [camera]",
+        "operation": "preserve",
+        "scope": [
+          "medium-close framing maintained"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_24",
+        "asset_id": "",
+        "target": "4-8s framing [identity]",
+        "operation": "preserve",
+        "scope": [
+          "face, shoulder, complete arm, and worn hand together in frame"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_25",
+        "asset_id": "",
+        "target": "4-8s framing [other]",
+        "operation": "preserve",
+        "scope": [
+          "hand occupying about one-third of the frame",
+          "clear body-to-hand relationship"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_26",
+        "asset_id": "",
+        "target": "scene and backgrounds",
+        "operation": "preserve",
+        "scope": [
+          "clean indoor scene at 0-3s",
+          "new clean indoor background at 8-12s",
+          "no outdoor scene from the reference video"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_27",
+        "asset_id": "",
+        "target": "8-12s display gesture",
+        "operation": "may_change",
+        "scope": [
+          "changed display gesture within the new indoor background"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_28",
+        "asset_id": "",
+        "target": "8-12s framing",
+        "operation": "preserve",
+        "scope": [
+          "framing keeps face, upper body, arm, and hand in frame"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_29",
+        "asset_id": "",
+        "target": "12-15s closer framing [camera]",
+        "operation": "preserve",
+        "scope": [
+          "moderate closer framing on the nail details"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_30",
+        "asset_id": "",
+        "target": "12-15s closer framing [other]",
+        "operation": "preserve",
+        "scope": [
+          "not an isolated hand macro",
+          "foreground shows five splayed fingers with the worn set"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_31",
+        "asset_id": "",
+        "target": "12-15s closer framing [identity]",
+        "operation": "preserve",
+        "scope": [
+          "frame retains continuous forearm, shoulder, and a softly blurred but recognizable same face in the background"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_32",
+        "asset_id": "image_product",
+        "target": "decoration emphasis at 12-15s",
+        "operation": "preserve",
+        "scope": [
+          "emphasis on 3D flowers, gold bead accents, and amber decorations"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_33",
+        "asset_id": "",
+        "target": "final frame at 12-15s",
+        "operation": "preserve",
+        "scope": [
+          "five splayed fingers and worn pieces clearly visible in the foreground",
+          "no text in the final frame"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_34",
+        "asset_id": "",
+        "target": "voice track [voice]",
         "operation": "exclude",
         "scope": [
-          "narration or voice-over",
-          "additional subtitles"
+          "voiceover",
+          "dialogue"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_35",
+        "asset_id": "",
+        "target": "voice track [other]",
+        "operation": "exclude",
+        "scope": [
+          "lyrics"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_36",
+        "asset_id": "",
+        "target": "music and sound design [music]",
+        "operation": "preserve",
+        "scope": [
+          "restrained non-vocal commercial music"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_37",
+        "asset_id": "",
+        "target": "music and sound design [other]",
+        "operation": "preserve",
+        "scope": [
+          "indoor ambient bed",
+          "soft foley synced with the 3-4s cover transition"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_38",
+        "asset_id": "",
+        "target": "on-screen text and branding [other]",
+        "operation": "exclude",
+        "scope": [
+          "on-screen text",
+          "brand claims"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_39",
+        "asset_id": "",
+        "target": "on-screen text and branding [scene]",
+        "operation": "exclude",
+        "scope": [
+          "subtitles"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_40",
+        "asset_id": "",
+        "target": "product presentation extras",
+        "operation": "exclude",
+        "scope": [
+          "packaging",
+          "tutorial or how-to steps"
+        ],
+        "priority": "hard",
+        "provenance": "explicit_user"
+      },
+      {
+        "directive_id": "d_41",
+        "asset_id": "video_contrast",
+        "target": "reference-inherited audio",
+        "operation": "exclude",
+        "scope": [
+          "audio from the reference video"
         ],
         "priority": "hard",
         "provenance": "explicit_user"
@@ -179,18 +482,18 @@
       "creative": false
     },
     "assumptions": [
-      "IR completion: gold beads are evidenced on all ten pieces of the authoritative product image (visible, confidence 0.91–0.95, as central element or tip accent), so the 12–15s emphasis on gold beads is grounded in the product asset and requires no user confirmation.",
-      "IR completion: the occlusion transition is executed conservatively as the bare hand moving toward the lens until the frame is fully covered, then receding to reveal the completed set; this satisfies the single explicit occlusion transition and shows no wrong or half-installed state.",
-      "IR completion: the worn set uses one piece of each of the five style groups (black-and-white floral, amber-yellow 3D arc, white-black-pink geometric, wine-red-white floral, pink 3D floral) assigned to the five fingers following the worn anchor's positional layout, because the user locked five worn pieces and the anchor controls mapping rather than style.",
-      "IR completion: backgrounds are clean, neutral studio environments (soft plain backdrops) with no identifiable real-world location, consistent with the exclusion of the reference's outdoor scenes and specific backgrounds.",
-      "IR completion: shots frame only the hand with minimal wrist/forearm; no face, torso, outfit, or person identity is shown, consistent with the hand-display scope and the reference identity exclusion.",
-      "IR completion: no text overlays, captions, or subtitles appear at any point, conservatively extending the text-free ending (d_9) and the no-subtitles exclusion (d_11).",
-      "IR completion: soft studio lighting is used throughout so the glossy finish, gold beads, and 3D ornaments remain readable in every shot."
+      "Five-of-ten worn mapping: the user's worn hand wears five pieces; perception of image_worn_anchor confirms five worn pieces with black, amber, white, maroon, and pink bases. Conservative completion: the worn hand wears five of the set's ten pieces, one of each user-named motif (black-white floral, amber-yellow 3D arc, white-black-pink geometric, wine-red-and-white floral, pink 3D flower), in the anchor's worn form, direction, and length. IR completion.",
+      "Gold bead accents: perception of image_product confirms gold bead accents are visible on the set's pieces (high-confidence visible evidence), so the 12-15s gold-bead emphasis reflects the authoritative product asset rather than a new design element.",
+      "Model identity and outfit details (specific face, hair color, outfit style) are not specified; conservative completion supplies a clean, neutral, unobtrusive outfit and natural styling identical in every shot. IR completion.",
+      "The clean indoor scenes are not further described; conservative completion supplies minimal, tidy indoor backgrounds (softly blurred), scene A for 0-8s and a distinct new clean scene B for 8-15s. IR completion.",
+      "Lighting is not specified; stable soft natural indoor light with even exposure is completed as a technical default with no dynamic light events. IR completion.",
+      "Facial expression is not specified; a neutral, relaxed expression with the gaze toward the presented hand is completed as a conservative default. IR completion.",
+      "No jewelry on the worn hand: the user prohibits reference jewelry and requires a clean bare hand at 0-3s; conservative completion keeps the worn hand free of rings and jewelry so the product stays dominant. IR completion.",
+      "Segment boundaries at 4s, 8s, and 12s are rendered as cuts implied by the user's timeline; the 0-4s portion is one continuous take with the 3s marker as a beat boundary rather than a cut. IR completion."
     ],
     "uncertainties": [
-      "The worn anchor's perceived per-finger styles (e.g., 'white base with pink heart', 'dark brown base with white floral') differ in detail from the product image styles; per the user's explicit role separation, the product image is authoritative for style and the anchor only for worn form, orientation, length, and mapping, so the worn styles follow the product image.",
-      "The exact mapping of the five style groups to specific fingers is inferred conservatively from the worn anchor's positional layout because the user did not name finger-by-finger styles.",
-      "The exact occlusion technique at 3–4s is unspecified; the conservative hand-occlusion execution is an IR completion and may be replaced by any other single explicit occlusion that shows no wrong or half-installed state."
+      "Which five of the ten pieces are worn on the hand was not explicitly confirmed; the conservative interpretation (one of each named motif per the worn anchor's mapping) is recorded in assumptions.",
+      "Perception reports bead positions that vary by piece in image_product; exact bead placement in the worn views is governed by image_worn_anchor and the authoritative product appearance."
     ]
   },
   "protocol": {
@@ -204,194 +507,148 @@
       "reference generation"
     ]
   },
-  "task": {
-    "type": "ref2va",
-    "duration_seconds": 15.0,
-    "aspect_ratio": "9:16",
-    "generate_audio": false,
-    "style": ""
-  },
-  "assets": [
-    {
-      "asset_id": "image_product",
-      "media_type": "image",
-      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/ab_tests_20260820/case_002_nail_state_transition/assets/nail_product.jpg",
-      "label": "authoritative ten-piece press-on nail set appearance"
-    },
-    {
-      "asset_id": "image_worn_anchor",
-      "media_type": "image",
-      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/ab_tests_20260820/case_002_nail_state_transition/assets/worn_hand_anchor.png",
-      "label": "correct worn state, orientation, length and finger mapping anchor"
-    },
-    {
-      "asset_id": "video_contrast",
-      "media_type": "video",
-      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/ab_tests_20260820/case_002_nail_state_transition/assets/before_after_method.mp4",
-      "label": "before-after structure, hand display and lifestyle pacing only; not an application tutorial or continuous identity source"
-    }
-  ],
   "asset_bindings": [
     {
-      "binding_id": "b_1",
+      "binding_id": "b_product_appearance",
       "asset_id": "image_product",
-      "target": "authoritative ten-piece press-on nail style collection and its locked presentation in the output video: worn-set styles, set continuity, hero emphasis, output format, and clean audio/text policy",
+      "target": "ten-piece nail set appearance",
       "role": "product",
       "priority": "hard",
       "source_directive_ids": [
-        "d_1",
         "d_7",
+        "d_8",
         "d_9",
-        "d_10",
-        "d_11"
+        "d_32"
       ],
       "inherit": [
-        "ten-piece count",
-        "style groups: black-and-white floral, amber-yellow 3D arc ornaments, white-black-pink geometric, wine-red-white floral, pink 3D floral",
-        "per-piece colors, patterns and decorative elements",
-        "same full five-piece set always present",
-        "styles, lengths and finger positions unchanged",
-        "no piece disappearance, replacement or finger swap",
-        "never reverts to bare hand after 4s",
-        "five fingers fan-spread",
-        "emphasis on 3D flowers, gold beads and amber decoration",
-        "ends with no text overlay",
-        "15-second duration",
-        "9:16 vertical aspect ratio"
+        "appearance of the ten-piece nail set",
+        "black-white floral decals",
+        "amber-yellow 3D arc accents",
+        "white-black-pink geometric accents",
+        "wine-red-and-white floral decals",
+        "pink 3D flowers",
+        "no nail design from the reference video",
+        "emphasis on 3D flowers, gold bead accents, and amber decorations"
       ],
       "exclude": [
-        "narration or voice-over",
-        "additional subtitles",
-        "worn-hand silhouette, piece orientation, piece length and five-finger mapping details (governed by image_worn_anchor)",
-        "product image background and grid layout",
-        "hand identity, skin tone or any person attributes",
-        "any text, logo or label content",
-        "reference video identity, clothing, jewelry, scenes and nail styles"
+        "nail designs from video_contrast",
+        "packaging",
+        "branding or labels",
+        "background, hand, or person content from image_product",
+        "unrequested design elements or color changes"
       ]
     },
     {
-      "binding_id": "b_2",
+      "binding_id": "b_worn_state",
       "asset_id": "image_worn_anchor",
-      "target": "correct worn state, orientation, length and five-finger mapping of the five-piece set on the model hand",
+      "target": "worn state of five pieces on one hand",
       "role": "product",
       "priority": "hard",
       "source_directive_ids": [
-        "d_2",
-        "d_7"
+        "d_10"
       ],
       "inherit": [
-        "worn form and silhouette",
-        "piece orientation",
-        "piece length",
-        "five-finger piece mapping",
-        "same full five-piece set always present",
-        "styles, lengths and finger positions unchanged",
-        "no piece disappearance, replacement or finger swap",
-        "never reverts to bare hand after 4s"
-      ],
-      "exclude": [
-        "per-piece colors, patterns and decorative elements (governed by image_product)",
-        "hand identity, skin tone or any person attributes",
-        "anchor image background and setting",
-        "jewelry, rings or props visible in the anchor image",
-        "any text, logo or label content"
-      ]
-    },
-    {
-      "binding_id": "b_3",
-      "asset_id": "video_contrast",
-      "target": "hand display motion: bare hand first, hand close to camera, occlusion-based state switch, and the 8–12s background/gesture change",
-      "role": "motion",
-      "priority": "hard",
-      "source_directive_ids": [
-        "d_3",
-        "d_4",
-        "d_5",
-        "d_6",
-        "d_8"
-      ],
-      "inherit": [
-        "bare natural hand first, then completed manicure",
-        "hand close to camera",
-        "lifestyle pacing",
-        "single clean bare hand",
-        "all five fingers fully visible",
-        "no press-on pieces",
-        "no nail polish",
-        "no rings",
-        "single explicit occlusion transition",
-        "no wrong or half-installed state",
-        "background",
-        "hand gesture"
+        "worn form of the five pieces",
+        "worn direction and length",
+        "finger mapping to thumb, index, middle, ring, and pinky"
       ],
       "exclude": [
         "person identity",
-        "clothing",
-        "outdoor scene",
-        "jewelry",
-        "visible text",
-        "specific background",
-        "reference manicure style",
-        "continuous application tutorial sequence",
-        "incidental gestures such as waving, touching the neck or hair, holding a flower, or lying down",
-        "the reference's cut cadence and scene-by-scene continuity",
-        "handheld camera wobble",
-        "identity",
+        "skin tone",
+        "hand proportions of the reference",
+        "image composition",
         "outfit",
-        "product appearance",
-        "product geometry",
-        "scene",
-        "logo"
+        "scene or background",
+        "jewelry"
       ]
     },
     {
-      "binding_id": "b_4",
+      "binding_id": "b_ref_rhythm",
       "asset_id": "video_contrast",
-      "target": "lifestyle pacing and the bare-first-then-worn narrative structure of the output",
+      "target": "before-after structure and lifestyle pacing",
       "role": "rhythm",
-      "priority": "hard",
+      "priority": "soft",
       "source_directive_ids": [
-        "d_3",
-        "d_4"
+        "d_11",
+        "d_12"
       ],
       "inherit": [
-        "bare natural hand first, then completed manicure",
-        "hand close to camera",
+        "bare-hand-before then finished-nails-after sequence",
         "lifestyle pacing"
       ],
       "exclude": [
-        "person identity",
-        "clothing",
-        "outdoor scene",
-        "jewelry",
-        "visible text",
-        "specific background",
-        "reference manicure style",
-        "continuous application tutorial sequence",
-        "the reference's rapid cut rhythm and tutorial step timing",
+        "person identity, face, hair, or skin tone",
+        "outfits and jewelry",
+        "outdoor scenes",
+        "nail designs",
+        "on-screen text",
+        "audio",
+        "camera work",
         "identity",
         "outfit",
         "product appearance",
         "product geometry",
         "scene",
+        "visible text",
         "logo"
+      ]
+    },
+    {
+      "binding_id": "b_ref_motion",
+      "asset_id": "video_contrast",
+      "target": "hand display motion",
+      "role": "motion",
+      "priority": "soft",
+      "source_directive_ids": [
+        "d_13"
+      ],
+      "inherit": [
+        "hand display near the camera"
+      ],
+      "exclude": [
+        "any other motion content",
+        "person identity, face, hair, or skin tone",
+        "outfits and jewelry",
+        "outdoor scenes",
+        "nail designs",
+        "on-screen text",
+        "audio",
+        "camera work",
+        "identity",
+        "outfit",
+        "product appearance",
+        "product geometry",
+        "scene",
+        "visible text",
+        "logo"
+      ]
+    },
+    {
+      "binding_id": "b_ref_audio_exclude",
+      "asset_id": "video_contrast",
+      "target": "reference-inherited audio",
+      "role": "music",
+      "priority": "hard",
+      "source_directive_ids": [
+        "d_41"
+      ],
+      "inherit": [
+        "music reference scope"
+      ],
+      "exclude": [
+        "audio from the reference video"
       ]
     }
   ],
   "subjects": [
     {
       "subject_id": "subject_1",
-      "name": "model hand",
-      "kind": "object",
-      "primary": false,
-      "description": "A clean, natural bare hand with five fully visible fingers for the 0–4s before state; from the 4s reveal it wears the five-piece press-on set and presents it close to the camera through a slow front/side rotation, a second gesture, and a final fan-spread. No face, torso, outfit, polish, rings, or other jewelry; no person identity is inherited from any reference.",
-      "source_asset_ids": [
-        "image_worn_anchor"
-      ],
-      "binding_ids": [
-        "b_2",
-        "b_3"
-      ],
+      "name": "Adult female model",
+      "kind": "person",
+      "primary": true,
+      "description": "A newly generated adult female model with a stable, un-copied identity: the same face, hairstyle, body, and outfit across all shots, with a continuous shoulder-arm-wrist-hand connection in every shot; she wears and presents the target press-on nail set on her own hand as one compound subject.",
+      "source_asset_ids": [],
+      "binding_ids": [],
       "appearance_shot_ids": [
         "01",
         "02",
@@ -399,22 +656,22 @@
         "04",
         "05"
       ],
-      "retention_mode": "attribute_transfer",
-      "retention_description": "Transfers only structural presentation: bare-hand-first-then-worn state, hand close to camera with fingers spread, and relaxed lifestyle pacing; the worn-state hand pose (slightly curled, nails seen from side and top) follows the worn anchor; no person identity, skin tone, outfits, rings, or scenes transfer from any reference."
+      "retention_mode": "fully_preserved",
+      "retention_description": "The model's identity, hairstyle, body, and outfit remain identical in every shot; no reference asset contributes identity, face, hair, skin tone, or outfit."
     },
     {
       "subject_id": "subject_2",
-      "name": "five-piece press-on nail set",
+      "name": "Target press-on nail set worn on the model's hand",
       "kind": "product",
-      "primary": true,
-      "description": "The five worn press-on nails selected from the ten-piece product collection: one black-and-white floral, one amber-yellow with 3D arc ornament, one white-black-pink geometric, one wine-red-white floral, and one pink 3D flower, each glossy with gold-bead details; worn on the model hand from the 4s reveal with form, orientation, medium length, and five-finger mapping per the worn anchor, and unchanged through 15s.",
+      "primary": false,
+      "description": "Ten-piece press-on nail set whose appearance is locked by image_product (black-white floral decals, amber-yellow 3D arc with gold bead, white-black-pink geometric accents, wine-red-and-white floral decals, pink 3D flower, glossy finish, gold bead accents); five pieces are worn on the thumb, index, middle, ring, and pinky per image_worn_anchor with its worn form, direction, and length; always attached to the model's hand as part of the compound subject, never an independent protagonist.",
       "source_asset_ids": [
         "image_product",
         "image_worn_anchor"
       ],
       "binding_ids": [
-        "b_1",
-        "b_2"
+        "b_product_appearance",
+        "b_worn_state"
       ],
       "appearance_shot_ids": [
         "02",
@@ -423,7 +680,7 @@
         "05"
       ],
       "retention_mode": "fully_preserved",
-      "retention_description": "Exact product-image styles (colors, patterns, 3D flowers, gold beads, amber arc ornaments, glossy finish) and the anchor's worn form, orientation, length, and finger mapping are fully preserved from the 4s reveal through the 15s hero close-up."
+      "retention_description": "The full set's appearance and the five-piece worn form, direction, length, and thumb-to-pinky mapping are preserved exactly; no reference-video nail designs, jewelry, or text are included."
     }
   ],
   "reference_relationships": [
@@ -433,255 +690,276 @@
       "subject_refs": [
         "subject_2"
       ],
-      "definition": "authoritative ten-piece press-on nail style collection governing the worn set's appearance",
+      "definition": "the authoritative appearance source for the ten-piece press-on nail set worn by the model",
       "retention_mode": "fully_preserved",
-      "retention_description": "The five worn pieces keep the exact product-image styles: black-and-white floral, amber-yellow 3D arc ornaments, white-black-pink geometric, wine-red-white floral, and pink 3D floral, including per-piece colors, patterns, gold beads, and glossy finish, for the entire 4–15s segment."
+      "retention_description": "All ten pieces' visible appearance — colors, floral and geometric motifs, amber 3D arcs, pink 3D flowers, gold bead accents, and glossy finish — is preserved exactly in the worn set; no reference scene, hand, person, or text is transferred."
     },
     {
       "asset_id": "image_worn_anchor",
       "relationship": "reference_generation",
       "subject_refs": [
-        "subject_1",
         "subject_2"
       ],
-      "definition": "authoritative worn-state anchor for piece form, orientation, length, and five-finger mapping",
-      "retention_mode": "fully_preserved",
-      "retention_description": "The worn set reproduces the anchor's worn silhouette, piece orientation, medium length, and five-finger mapping; only worn geometry transfers, while the decorative styles follow the product image."
+      "definition": "the authoritative source for the worn form, direction, length, and thumb-to-pinky mapping of the five pieces on the model's hand",
+      "retention_mode": "partially_preserved",
+      "retention_description": "Only the worn form, direction, length, and finger mapping of the five pieces transfer to the generated model's hand; the reference person's identity, skin tone, hand proportions, outfit, composition, and background are excluded."
     },
     {
       "asset_id": "video_contrast",
       "relationship": "reference_generation",
       "subject_refs": [
-        "subject_1"
+        "subject_1",
+        "subject_2"
       ],
-      "definition": "before-after structure, hand-close-to-camera display, and lifestyle pacing reference (not a tutorial)",
+      "definition": "the structural reference for the bare-hand-before to finished-nails-after sequence, hand-near-camera display, and relaxed lifestyle pacing only",
       "retention_mode": "attribute_transfer",
-      "retention_description": "Transfers only the bare-hand-first-then-completed-manicure structure, hand-close-to-camera framing, and relaxed lifestyle pacing; all person identity, outfits, outdoor scenes, jewelry, visible text, backgrounds, and the reference manicure style are excluded."
+      "retention_description": "Only the before-after sequence structure, the hand-near-camera display behavior, and the lifestyle pacing transfer; the reference person's identity, skin tone, outfits, jewelry, outdoor scenes, nail designs, on-screen text, camera work, and audio are excluded."
     }
   ],
   "creative_focus": {
-    "primary_target": "the completed five-piece press-on nail set worn on a clean hand — the after state of the before/after story",
-    "primary_subject_id": "subject_2",
+    "primary_target": "the compound subject: the newly generated adult female model wearing and presenting the target press-on nail set on her own hand",
+    "primary_subject_id": "subject_1",
     "primary_asset_id": "image_product",
     "primary_binding_ids": [
-      "b_1",
-      "b_2"
+      "b_product_appearance",
+      "b_worn_state"
     ],
-    "objective": "The finished 15s video must make the exact five-piece press-on set the hero: it is revealed fully worn at 4s through a single clean occlusion transition, presented in slow front/side rotation (4–8s), restaged on a new background with a new gesture while remaining identical in styles, lengths, orientations, and finger positions (8–12s), and climaxes in a 12–15s text-free macro hero close-up where the 3D flowers, gold beads, and amber arc ornaments are the sharpest, most prominent elements. The bare hand is only the before state that makes the reveal meaningful.",
+    "objective": "The finished 15-second, 9:16 vertical video must read as one before-after promotional reveal of the target nail set worn by one stable adult female model: a bare hand opens the video, a single cover gesture at 3-4s switches to the same hand fully wearing the five-piece set, and the closing moderate close-up at 12-15s showcases the 3D flowers, gold bead accents, and amber decorations with no on-screen text. The model and the worn nails must never read as separate competing subjects.",
     "supporting_asset_ids": [
       "image_worn_anchor",
       "video_contrast"
     ],
     "required_shot_ids": [
+      "01",
       "02",
       "03",
       "04",
       "05"
     ],
     "presentation_requirements": [
-      "Shot 02 must complete the state switch so that by 4s the hand wears the full five-piece set in the worn anchor's form, orientation, length, and finger mapping, with no wrong, partial, or half-installed state at any moment.",
-      "Shot 03 must show every nail of the five-piece set in sharp, readable detail from front and side so each product-image style (colors, patterns, gold beads, 3D ornaments) is identifiable.",
-      "Shot 04 must keep the identical set on the same fingers with the same styles, lengths, and positions while only the background and hand gesture change.",
-      "Shot 05 must be a macro close-up in which all five nails fan-spread and fill the frame, with 3D flowers, gold beads, and amber decoration in clear focus and no text overlay at the end.",
-      "From the 4s reveal onward the set must never disappear, swap fingers, be replaced, or revert to a bare hand; no text overlays, narration, or subtitles appear anywhere."
+      "Every shot shows the same model with a continuous shoulder-arm-wrist-hand connection, and the worn nail set is attached to her hand from the 3-4s reveal onward; the nails are never presented detached or as an independent subject.",
+      "Shots 01-03 keep a medium-close framing with the face, shoulder, complete arm, and hand together; the bare hand (01) and worn hand (02-03) stay near the camera without covering the face or upper body.",
+      "In shot 03 the hand occupies about one-third of the frame while the body-to-hand relationship stays clearly readable during the slow wrist rotation showing front and side views.",
+      "Shots 04-05 move to a second clean indoor background with the same identity, outfit, and five-piece mapping; shot 05 uses a moderate closer framing that keeps the five splayed fingers and worn pieces sharp in the foreground with the continuous forearm, shoulder, and the softly blurred same face visible behind.",
+      "The final frame contains no text, and the closing emphasis highlights the 3D flowers, gold bead accents, and amber decorations without isolated-hand macro framing."
     ]
   },
   "isolation_rules": [
     {
-      "binding_id": "b_1",
+      "binding_id": "b_product_appearance",
       "allow": [
-        "ten-piece count",
-        "style groups and per-piece colors, patterns, and decorative elements",
-        "gold beads, 3D flowers, amber arc ornaments, glossy finish",
-        "worn-set continuity across shots",
-        "hero close-up emphasis on 3D flowers, gold beads, and amber decoration",
-        "15-second duration and 9:16 vertical format",
-        "no narration, voice-over, or subtitles in the presentation",
-        "style groups: black-and-white floral, amber-yellow 3D arc ornaments, white-black-pink geometric, wine-red-white floral, pink 3D floral",
-        "per-piece colors, patterns and decorative elements",
-        "same full five-piece set always present",
-        "styles, lengths and finger positions unchanged",
-        "no piece disappearance, replacement or finger swap",
-        "never reverts to bare hand after 4s",
-        "five fingers fan-spread",
-        "emphasis on 3D flowers, gold beads and amber decoration",
-        "ends with no text overlay",
-        "15-second duration",
-        "9:16 vertical aspect ratio"
+        "ten-piece appearance",
+        "named motifs and colors",
+        "3D decorations",
+        "glossy finish",
+        "gold bead accents",
+        "appearance of the ten-piece nail set",
+        "black-white floral decals",
+        "amber-yellow 3D arc accents",
+        "white-black-pink geometric accents",
+        "wine-red-and-white floral decals",
+        "pink 3D flowers",
+        "no nail design from the reference video",
+        "emphasis on 3D flowers, gold bead accents, and amber decorations"
       ],
       "block": [
-        "worn silhouette, orientation, length, and finger-mapping details",
-        "hand identity, skin tone, or person attributes",
-        "product image background and grid layout",
-        "any text, logo, or label content",
-        "reference video identity, clothing, jewelry, scenes, and nail styles",
-        "narration or voice-over",
-        "additional subtitles",
-        "worn-hand silhouette, piece orientation, piece length and five-finger mapping details (governed by image_worn_anchor)",
-        "hand identity, skin tone or any person attributes",
-        "any text, logo or label content",
-        "reference video identity, clothing, jewelry, scenes and nail styles"
+        "reference-video nail designs",
+        "packaging or branding",
+        "unrequested design elements",
+        "background or hand content from image_product",
+        "nail designs from video_contrast",
+        "packaging",
+        "branding or labels",
+        "background, hand, or person content from image_product",
+        "unrequested design elements or color changes"
       ]
     },
     {
-      "binding_id": "b_2",
+      "binding_id": "b_worn_state",
       "allow": [
-        "worn form and silhouette",
-        "piece orientation",
-        "piece length",
-        "five-finger piece mapping",
-        "worn-set continuity",
-        "same full five-piece set always present",
-        "styles, lengths and finger positions unchanged",
-        "no piece disappearance, replacement or finger swap",
-        "never reverts to bare hand after 4s"
-      ],
-      "block": [
-        "per-piece decorative styles, colors, and patterns",
-        "hand identity or skin tone",
-        "anchor image background and setting",
-        "jewelry, rings, or props",
-        "any text, logo, or label content",
-        "per-piece colors, patterns and decorative elements (governed by image_product)",
-        "hand identity, skin tone or any person attributes",
-        "jewelry, rings or props visible in the anchor image",
-        "any text, logo or label content"
-      ]
-    },
-    {
-      "binding_id": "b_3",
-      "allow": [
-        "bare-hand-first-then-worn structure",
-        "hand close to camera",
-        "bare-hand state in 0–3s",
-        "single occlusion transition in 3–4s",
-        "background and hand gesture change at 8–12s",
-        "hand display motions",
-        "bare natural hand first, then completed manicure",
-        "lifestyle pacing",
-        "single clean bare hand",
-        "all five fingers fully visible",
-        "no press-on pieces",
-        "no nail polish",
-        "no rings",
-        "single explicit occlusion transition",
-        "no wrong or half-installed state",
-        "background",
-        "hand gesture"
+        "worn form, direction, and length of the five pieces",
+        "thumb-to-pinky finger mapping",
+        "worn form of the five pieces",
+        "worn direction and length",
+        "finger mapping to thumb, index, middle, ring, and pinky"
       ],
       "block": [
         "person identity",
-        "clothing",
-        "outdoor scene",
-        "jewelry",
-        "visible text",
-        "specific background",
-        "reference manicure style",
-        "continuous application tutorial sequence",
-        "incidental reference gestures (waving, neck or hair touch, flower holding, lying down)",
-        "reference cut cadence and handheld wobble",
-        "incidental gestures such as waving, touching the neck or hair, holding a flower, or lying down",
-        "the reference's cut cadence and scene-by-scene continuity",
-        "handheld camera wobble",
+        "skin tone",
+        "hand proportions of the reference",
+        "image composition",
+        "outfit",
+        "scene or background",
+        "jewelry"
+      ]
+    },
+    {
+      "binding_id": "b_ref_rhythm",
+      "allow": [
+        "bare-hand-then-finished-nails sequence",
+        "lifestyle pacing",
+        "bare-hand-before then finished-nails-after sequence"
+      ],
+      "block": [
+        "identity, face, hair, or skin tone",
+        "outfits and jewelry",
+        "outdoor scenes",
+        "nail designs",
+        "on-screen text",
+        "audio",
+        "camera work",
+        "person identity, face, hair, or skin tone",
         "identity",
         "outfit",
         "product appearance",
         "product geometry",
         "scene",
+        "visible text",
         "logo"
       ]
     },
     {
-      "binding_id": "b_4",
+      "binding_id": "b_ref_motion",
       "allow": [
-        "lifestyle pacing",
-        "bare-hand-first-then-worn structure",
-        "hand close to camera",
-        "bare natural hand first, then completed manicure"
+        "hand display near the camera"
       ],
       "block": [
-        "person identity",
-        "clothing",
-        "outdoor scene",
-        "jewelry",
-        "visible text",
-        "specific background",
-        "reference manicure style",
-        "continuous application tutorial sequence",
-        "rapid tutorial cut rhythm and step timing",
-        "the reference's rapid cut rhythm and tutorial step timing",
+        "any other motion content",
+        "identity, face, hair, or skin tone",
+        "outfits and jewelry",
+        "outdoor scenes",
+        "nail designs",
+        "on-screen text",
+        "audio",
+        "camera work",
+        "person identity, face, hair, or skin tone",
         "identity",
         "outfit",
         "product appearance",
         "product geometry",
         "scene",
+        "visible text",
         "logo"
+      ]
+    },
+    {
+      "binding_id": "b_ref_audio_exclude",
+      "allow": [
+        "music reference scope"
+      ],
+      "block": [
+        "audio from the reference video"
       ]
     }
   ],
   "constraints": {
     "preserve": [
-      "Ten-piece press-on collection with its five style groups and per-piece colors, patterns, and decorative elements (gold beads, 3D flowers, amber arc ornaments, glossy finish) from image_product [b_1].",
-      "Worn form and silhouette, piece orientation, piece length, and five-finger mapping of the worn set from image_worn_anchor [b_2].",
-      "0–3s single clean bare hand with all five fingers fully visible, no press-on pieces, nail polish, or rings [b_3].",
-      "3–4s single explicit occlusion transition with no wrong or half-installed state [b_3].",
-      "From 4s to 15s the same full five-piece set is always present with unchanged styles, lengths, and finger positions; no disappearance, replacement, finger swap, or return to bare hand [b_1, b_2].",
-      "12–15s macro hero close-up with five fingers fan-spread, emphasis on 3D flowers, gold beads, and amber decoration, ending with no text overlay [b_1].",
-      "15-second duration and 9:16 vertical aspect ratio [b_1].",
-      "Bare-hand-first-then-completed-manicure structure, hand-close-to-camera framing, and lifestyle pacing inherited from video_contrast [b_3, b_4].",
-      "single clean bare hand",
-      "all five fingers fully visible",
-      "no press-on pieces",
-      "no nail polish",
-      "no rings",
-      "single explicit occlusion transition",
-      "no wrong or half-installed state",
-      "same full five-piece set always present",
-      "styles, lengths and finger positions unchanged",
-      "no piece disappearance, replacement or finger swap",
-      "never reverts to bare hand after 4s",
-      "five fingers fan-spread",
-      "emphasis on 3D flowers, gold beads and amber decoration",
-      "ends with no text overlay",
-      "15-second duration",
-      "9:16 vertical aspect ratio"
+      "9:16 vertical aspect ratio across the full video",
+      "15-second total duration",
+      "One adult female model as the persistent on-screen subject in every shot",
+      "Same face, hairstyle, and body across all shots; newly generated identity not copied from any reference",
+      "Consistent outfit across all shots; no clothing or jewelry from the reference video",
+      "Continuous shoulder-arm-wrist-hand connection in every shot",
+      "Model and worn nail set presented as one compound subject; no competing-subject split",
+      "Bare hand with all five fingers fully visible and no nail pieces, polish, or rings at 0-3s",
+      "Medium-close framing at 0-8s with face, shoulder, complete arm, wrist, and hand together; hand about one-third of the frame at 4-8s",
+      "Single covering gesture at 3-4s completes the bare-to-worn switch with no installation or half-worn state",
+      "Five pieces fully worn on thumb, index, middle, ring, and pinky immediately after the reveal and through 15s",
+      "Ten-piece nail set appearance from image_product: black-white floral, amber-yellow 3D arc, white-black-pink geometric, wine-red-and-white floral, pink 3D flower, glossy finish, gold bead accents",
+      "Worn form, direction, and length of the five pieces per image_worn_anchor",
+      "Clean indoor scene at 0-8s and a new clean indoor background at 8-15s; no outdoor scene from the reference video",
+      "Framing at 8-12s keeps face, upper body, arm, and hand in frame",
+      "Moderate closer framing at 12-15s (not an isolated macro) with five splayed fingers and worn pieces in the foreground and continuous forearm, shoulder, and softly blurred same face behind",
+      "Emphasis at 12-15s on 3D flowers, gold bead accents, and amber decorations",
+      "Final frame with no text",
+      "Restrained non-vocal commercial music, indoor ambient bed, and soft foley synced to the 3-4s cover transition",
+      "9:16 vertical aspect ratio",
+      "single adult female model as the persistent on-screen subject in every shot",
+      "same face, hairstyle, and body across all shots",
+      "newly generated identity, not copied from any reference asset",
+      "consistent outfit across all shots",
+      "no clothing or jewelry from the reference video",
+      "model and worn nail set presented as one compound subject",
+      "no competing-subject split between model and nails",
+      "medium-close framing",
+      "face, shoulder, one complete arm, wrist, and raised bare hand simultaneously visible",
+      "bare hand near the camera without covering the face or upper body",
+      "bare hand with all five fingers fully visible",
+      "no nail pieces, polish, or rings",
+      "single covering gesture by the model's own hand",
+      "no installation process shown",
+      "five pieces fully worn on the hand immediately after the gesture",
+      "no half-worn or in-progress state",
+      "slow wrist rotation showing the front and side of the worn pieces",
+      "medium-close framing maintained",
+      "face, shoulder, complete arm, and worn hand together in frame",
+      "hand occupying about one-third of the frame",
+      "clear body-to-hand relationship",
+      "clean indoor scene at 0-3s",
+      "new clean indoor background at 8-12s",
+      "no outdoor scene from the reference video",
+      "framing keeps face, upper body, arm, and hand in frame",
+      "moderate closer framing on the nail details",
+      "not an isolated hand macro",
+      "foreground shows five splayed fingers with the worn set",
+      "frame retains continuous forearm, shoulder, and a softly blurred but recognizable same face in the background",
+      "five splayed fingers and worn pieces clearly visible in the foreground",
+      "no text in the final frame",
+      "restrained non-vocal commercial music",
+      "indoor ambient bed",
+      "soft foley synced with the 3-4s cover transition"
     ],
     "allow_change": [
-      "Background and hand gesture may change at 8–12s while the identical five-piece set remains worn [d_8].",
-      "IR completion: occlusion executed as the hand moving to fully cover the frame, then receding with the completed set.",
-      "IR completion: clean, neutral studio backgrounds with no identifiable real-world content.",
-      "IR completion: soft studio lighting chosen to keep the glossy finish and 3D details readable.",
-      "background",
-      "hand gesture"
+      "Newly generated model identity and outfit details (conservative design completion)",
+      "Bare-to-worn state switch executed via the single cover gesture at 3-4s",
+      "Changed display gesture at 8-12s within the new clean indoor background",
+      "New clean indoor background for 8-15s, distinct from the 0-8s scene",
+      "Moderate closer framing with a slow gentle push-in at 12-15s",
+      "Stable natural indoor lighting and neutral relaxed performance (technical and conservative completion)",
+      "Restrained non-vocal commercial music, indoor ambience, and cover-synced foley (technical completion)",
+      "changed display gesture within the new indoor background"
     ],
     "prohibit": [
-      "Any reference-video content: person identity, clothing, outdoor scene, jewelry, visible text, specific background, reference manicure style, or continuous application tutorial sequence [d_4].",
-      "Narration, voice-over, and additional subtitles [d_11].",
-      "Any wrong, partial, or half-installed nail state; piece disappearance, replacement, finger swap, or bare-hand return after 4s [d_6, d_7].",
-      "Text overlays or captions at any point, including the final hero shot [d_9, d_11].",
-      "Rings or any jewelry in any shot [d_5, d_4].",
-      "narration or voice-over",
-      "additional subtitles"
+      "Reference video's person identity, skin tone, face, or hair",
+      "Reference video outfits, jewelry, or outdoor scenes",
+      "Reference video nail designs",
+      "Reference video on-screen text and audio",
+      "Voiceover, dialogue, lyrics, or subtitles",
+      "On-screen text, brand claims, logos, or watermarks at any point, including the final frame",
+      "Packaging or tutorial/how-to steps",
+      "Nail pieces, polish, or rings on the bare hand at 0-3s",
+      "Installation process, half-worn states, or off-screen state switching",
+      "Isolated hand macro at 12-15s",
+      "Any product geometry, material, color, count, or mapping change not explicitly requested",
+      "Any competing presentation of the nails as an independent subject",
+      "voiceover",
+      "dialogue",
+      "lyrics",
+      "on-screen text",
+      "brand claims",
+      "subtitles",
+      "packaging",
+      "tutorial or how-to steps"
     ]
   },
   "timeline": [
     {
       "shot_id": "01",
       "start_seconds": 0,
-      "end_seconds": 3.0,
-      "primary_change": "A single clean bare hand rises into a static frame, palm toward camera, with all five fingers fully visible and separated.",
-      "event": "A bare natural hand enters the frame from the bottom, rises close to the camera with the palm facing forward, and holds still with all five fingers fully visible and separated; no press-on pieces, no nail polish, and no rings appear on the hand or wrist.",
-      "action": "Hand rises and holds toward the camera; fingers gently spread open and remain fully visible.",
-      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing; the hand's motion provides the only movement.",
-      "lighting": "Soft, even studio lighting; the hand is fully lit with no harsh shadows.",
-      "transition": "The bare hand holds at the end of the shot, ready for the occlusion transition.",
-      "observable_end_state": "A single clean bare hand with all five fingers fully visible, no pieces, no polish, and no rings, centered in a static frame at 3s.",
+      "end_seconds": 3,
+      "primary_change": "Establishes the same adult female model and a clean indoor scene with her bare hand raised near the camera.",
+      "event": "The model stands in a clean indoor scene in medium-close framing; she raises her bare hand toward the camera so that her face, shoulder, one complete arm, wrist, and the raised hand remain simultaneously visible; all five fingers are fully visible with no nail pieces, polish, or rings, and the hand nears the camera without covering her face or upper body.",
+      "action": "The model lifts her bare hand toward the camera and presents it with all five fingers extended and fully visible.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing; only the model's hand moves slightly nearer to the camera within the fixed frame.",
+      "lighting": "Stable soft natural indoor light, even exposure; no light changes.",
+      "transition": "None (video start); continuous take into shot 02.",
+      "observable_end_state": "The model's bare hand — all five fingers visible, no nail pieces, polish, or rings — is held near the camera while her face and upper body remain clearly visible in the clean indoor scene.",
       "state_changes": [
         {
           "subject_id": "subject_1",
-          "property": "hand state",
-          "from": "hand enters frame bare and clean",
-          "to": "bare hand held toward camera with five fingers fully visible, no pieces, polish, or rings"
+          "property": "hand_nail_state",
+          "from": "bare (no nail pieces, polish, or rings)",
+          "to": "bare (unchanged; first-frame state locked)"
         }
       ],
       "subject_refs": [
@@ -689,32 +967,34 @@
       ],
       "asset_refs": [],
       "binding_refs": [
-        "b_3"
+        "b_ref_motion",
+        "b_product_appearance",
+        "b_worn_state"
       ]
     },
     {
       "shot_id": "02",
-      "start_seconds": 3.0,
-      "end_seconds": 4.0,
-      "primary_change": "The bare hand moves toward the lens until it fully covers the frame (occlusion), then recedes to reveal the complete five-piece set worn on the same hand.",
-      "event": "The bare hand glides straight toward the camera; as it fills the frame the view is fully occluded by the palm, then the hand pulls back and the reveal shows the complete five-piece press-on set worn on all five fingers in the anchor's form, orientation, length, and mapping. No wrong, partial, or half-installed state appears at any moment.",
-      "action": "Hand moves toward the lens, fully covers the frame, then recedes, revealing the completed set.",
-      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing; the occlusion is created entirely by the hand's motion.",
-      "lighting": "Even lighting maintained throughout the occlusion and reveal; all five nails stay fully lit.",
-      "transition": "The frame fully covered by the hand acts as the single occlusion; the receding motion reveals the worn set by 4s.",
-      "observable_end_state": "The same hand now wears the complete five-piece set; all five pieces visible, correctly oriented, medium length, and mapped to the five fingers; no bare-hand view remains.",
+      "start_seconds": 3,
+      "end_seconds": 4,
+      "primary_change": "A single covering gesture by the model's own hand switches the bare hand to the same hand fully wearing the five target pieces.",
+      "event": "Continuing the same take, the model brings her bare hand in front of the lens in one covering gesture; when the gesture clears, the same hand, wrist, and arm are shown fully wearing five pieces on the thumb, index, middle, ring, and pinky, with no installation process and no half-worn state.",
+      "action": "The model covers the hand with a single sweeping gesture toward the camera and then reveals it wearing the five pieces.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing; the state change is carried entirely by the hand gesture.",
+      "lighting": "Stable soft natural indoor light, even exposure; no light changes during the reveal.",
+      "transition": "Continuous from shot 01 (no cut at 3s); ends with a cut to shot 03 at 4.0s.",
+      "observable_end_state": "The same hand is fully worn with five pieces in the anchor's mapping (thumb, index, middle, ring, pinky), with the same model, arm, and shoulder connection.",
       "state_changes": [
         {
           "subject_id": "subject_1",
-          "property": "hand state",
-          "from": "bare hand with no pieces, polish, or rings",
-          "to": "hand wearing the complete five-piece press-on set"
+          "property": "hand_nail_state",
+          "from": "bare",
+          "to": "fully worn with five target pieces on thumb, index, middle, ring, and pinky"
         },
         {
           "subject_id": "subject_2",
-          "property": "worn state",
-          "from": "not worn (set absent)",
-          "to": "fully worn on five fingers with form, orientation, length, and mapping per the worn anchor"
+          "property": "worn_status",
+          "from": "not worn / not visible",
+          "to": "worn on the model's hand per image_worn_anchor mapping"
         }
       ],
       "subject_refs": [
@@ -726,28 +1006,27 @@
         "image_worn_anchor"
       ],
       "binding_refs": [
-        "b_1",
-        "b_2",
-        "b_3"
+        "b_product_appearance",
+        "b_worn_state"
       ]
     },
     {
       "shot_id": "03",
-      "start_seconds": 4.0,
-      "end_seconds": 8.0,
-      "primary_change": "The hand slowly rotates from front to side and back while the identical five-piece set stays fully worn and unchanged.",
-      "event": "The hand holds the completed set up toward the camera and slowly turns the wrist, showing the nails from the front (palm view) and then the side profile, returning to front; each of the five pieces keeps its exact style, length, orientation, and finger position throughout.",
-      "action": "Hand rotates slowly at the wrist, presenting front and side views of the worn set.",
-      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing; the rotation is the hand's motion within a fixed frame.",
-      "lighting": "Soft studio lighting; the glossy finish and 3D ornaments remain clearly lit in both front and side orientations.",
-      "transition": "Direct cut from the end of the reveal into the static slow-rotation shot; the same set is visible before and after the cut.",
-      "observable_end_state": "The hand faces the camera again with the identical five-piece set worn; styles, lengths, and finger positions exactly as revealed at 4s.",
+      "start_seconds": 4,
+      "end_seconds": 8,
+      "primary_change": "The model slowly rotates her wrist to show the front and side of the worn pieces while the medium-close framing is maintained.",
+      "event": "In the same clean indoor scene and medium-close framing, the model keeps her face, shoulder, complete arm, and worn hand together in frame and slowly rotates her wrist so the worn pieces are seen from the front and then in profile; the hand occupies about one-third of the frame with a clear body-to-hand relationship.",
+      "action": "The model slowly rotates her wrist, presenting the front and then the side of the five worn pieces.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing; all motion is the model's wrist rotation within the fixed frame.",
+      "lighting": "Stable soft natural indoor light, even exposure; no light changes.",
+      "transition": "Cut at 4.0s from shot 02.",
+      "observable_end_state": "The worn hand has been shown from both front and side; face, shoulder, complete arm, and worn hand are still together in the medium-close frame with the hand at about one-third of the frame.",
       "state_changes": [
         {
-          "subject_id": "subject_1",
-          "property": "hand orientation",
-          "from": "front-facing after the reveal",
-          "to": "rotated to side profile and back to front, set unchanged"
+          "subject_id": "subject_2",
+          "property": "display_orientation",
+          "from": "front view",
+          "to": "front and side views shown via slow wrist rotation"
         }
       ],
       "subject_refs": [
@@ -759,40 +1038,33 @@
         "image_worn_anchor"
       ],
       "binding_refs": [
-        "b_1",
-        "b_2",
-        "b_3"
+        "b_product_appearance",
+        "b_worn_state"
       ]
     },
     {
       "shot_id": "04",
-      "start_seconds": 8.0,
-      "end_seconds": 12.0,
-      "primary_change": "The background and hand gesture change while the identical five-piece set remains fully worn and unchanged.",
-      "event": "A cut places the hand in a new clean background with a different display gesture; the hand presents the nails in the new pose with fingers gently spread and the palm angled toward the camera, and every piece keeps its exact style, length, orientation, and finger position — nothing disappears, swaps, or reverts.",
-      "action": "Hand moves into a new display gesture against the new background, showing the unchanged set.",
-      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing.",
-      "lighting": "Soft, even lighting consistent with the previous shots; the nails stay fully lit.",
-      "transition": "Cut to the new background and gesture; the set is identical on both sides of the cut.",
-      "observable_end_state": "The identical five-piece set is worn in a new gesture on a new clean background; styles, lengths, and finger positions unchanged.",
+      "start_seconds": 8,
+      "end_seconds": 12,
+      "primary_change": "The same model, outfit, and worn set move to a new clean indoor background with a changed display gesture.",
+      "event": "The scene cuts to a new clean indoor background where the same model, wearing the same outfit and the same five pieces in the same mapping, changes her display gesture while the framing keeps her face, upper body, arm, and hand together.",
+      "action": "In the new indoor background, the model presents the worn hand with a different, relaxed display gesture, keeping identity, outfit, and the five-piece mapping continuous.",
+      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing; the gesture change is carried by the model's pose.",
+      "lighting": "Stable soft natural indoor light, even exposure, consistent with scene B; no light changes.",
+      "transition": "Cut at 8.0s from shot 03; the cut introduces the new clean indoor background.",
+      "observable_end_state": "The same model and the same worn set are visible in the new clean indoor background in the changed display gesture, with face, upper body, arm, and hand in frame.",
       "state_changes": [
         {
           "subject_id": "subject_1",
-          "property": "background",
-          "from": "first clean studio background",
-          "to": "second clean studio background"
+          "property": "environment",
+          "from": "clean indoor scene A (0-8s)",
+          "to": "new clean indoor scene B (8-15s)"
         },
         {
           "subject_id": "subject_1",
-          "property": "hand gesture",
-          "from": "slow-rotation display pose",
-          "to": "new display gesture with fingers spread, set unchanged"
-        },
-        {
-          "subject_id": "subject_2",
-          "property": "set state",
-          "from": "worn, complete, unchanged",
-          "to": "worn, complete, identical styles, lengths, and finger positions"
+          "property": "display_gesture",
+          "from": "wrist-rotation presentation pose",
+          "to": "changed display gesture in the new background"
         }
       ],
       "subject_refs": [
@@ -804,34 +1076,33 @@
         "image_worn_anchor"
       ],
       "binding_refs": [
-        "b_1",
-        "b_2",
-        "b_3"
+        "b_product_appearance",
+        "b_worn_state"
       ]
     },
     {
       "shot_id": "05",
-      "start_seconds": 12.0,
-      "end_seconds": 15.0,
-      "primary_change": "The hand fans all five fingers open in a macro hero close-up that fills the frame with the decorated nails, emphasizing the 3D flowers, gold beads, and amber arc ornaments, and ends text-free.",
-      "event": "In macro framing, the hand opens into a fan: all five fingers spread wide toward the camera so every nail is fully in frame; light plays over the glossy surfaces, and the 3D pink flowers, gold beads, and amber-yellow arc ornaments are the sharp, readable focus; the shot holds to 15s with no text overlay.",
-      "action": "Hand fans the five fingers open and holds; nails presented face-on to the camera.",
-      "camera": "Static Shot; the frame never moves, with no pan, push-in, zoom, or reframing; the macro framing is fixed while the hand spreads inside it.",
-      "lighting": "Focused soft key light with subtle highlights on the glossy finish, gold beads, and 3D ornaments; no harsh shadows across the nails.",
-      "transition": "Cut from the second segment into the macro close-up; the identical set is visible before and after the cut.",
-      "observable_end_state": "All five decorated nails fill the macro frame in a fan-spread with 3D flowers, gold beads, and amber decorations clearly readable; the video ends at 15s with no text overlay.",
+      "start_seconds": 12,
+      "end_seconds": 15,
+      "primary_change": "A slow, moderate approach to the nail details shows five splayed fingers and the worn pieces in the foreground while the forearm, shoulder, and the softly blurred same face stay visible.",
+      "event": "The camera gently pushes in from the medium-close to a moderately closer framing: the foreground clearly shows five splayed fingers with the worn set, while a continuous forearm and shoulder lead back to the softly blurred but recognizable same face in the background; the framing emphasizes the 3D flowers, gold bead accents, and amber decorations and is not an isolated hand macro.",
+      "action": "The model splays her five fingers toward the camera, and the camera slowly moves closer to the nail details, letting the decorations fill the frame.",
+      "camera": "Slow, gentle push-in; the camera advances a small amount (roughly one step closer) at a slow, even speed over the 3 seconds, stopping at a moderate closer framing that still shows the forearm, shoulder, and softly blurred face; no pan, zoom, or reframing.",
+      "lighting": "Stable soft natural indoor light, even exposure; no light changes.",
+      "transition": "Cut at 12.0s from shot 04 to the closer framing.",
+      "observable_end_state": "Final frame: five splayed fingers and the worn pieces are clearly visible in the foreground, with the forearm, shoulder, and softly blurred same face behind; 3D flowers, gold bead accents, and amber decorations are emphasized; no text in the frame.",
       "state_changes": [
         {
-          "subject_id": "subject_1",
-          "property": "finger configuration",
-          "from": "new display gesture",
-          "to": "five fingers fan-spread toward camera in macro"
+          "subject_id": "subject_2",
+          "property": "hand_configuration",
+          "from": "worn hand in display gesture",
+          "to": "five fingers splayed toward the camera in the foreground"
         },
         {
           "subject_id": "subject_2",
-          "property": "set state",
-          "from": "worn, complete, identical",
-          "to": "worn, complete, identical, presented in macro with details emphasized"
+          "property": "detail_emphasis",
+          "from": "full set visible at medium distance",
+          "to": "3D flowers, gold bead accents, and amber decorations emphasized in moderate closer framing"
         }
       ],
       "subject_refs": [
@@ -843,23 +1114,3391 @@
         "image_worn_anchor"
       ],
       "binding_refs": [
-        "b_1",
-        "b_2"
+        "b_product_appearance",
+        "b_worn_state"
       ]
     }
   ],
   "audio_plan": {
-    "voice": "None; no narration or voice-over per d_11.",
-    "music": "None; generate_audio=false, so no background music is generated.",
-    "sound_effects": "None.",
-    "ambient_sound": "None.",
-    "sync_rules": []
+    "voice": "",
+    "music": "Restrained non-vocal commercial music bed, low and even across the full 15 seconds, supportive and non-distracting so the product visuals stay dominant.",
+    "sound_effects": "Soft foley synced to the 3-4s cover gesture — a light, gentle brush/whoosh of the hand covering and revealing — with no voice, dialogue, or lyrics.",
+    "ambient_sound": "Subtle indoor room tone (quiet ambient bed) throughout, matching the clean indoor scenes.",
+    "sync_rules": [
+      "The cover-gesture foley starts at 3.0s and resolves by 4.0s, timed to the hand's covering and revealing motion in shot 02.",
+      "The music bed stays continuous and low across the 4s, 8s, and 12s cuts with no beat-locked hits required.",
+      "No audio continues past 15.0s; the final frame lands with the music bed at a soft, even level."
+    ]
+  },
+  "production_policies": {
+    "camera": {
+      "mode": "strict",
+      "source": "explicit_user",
+      "priority": "hard",
+      "allow_new_events": false,
+      "preserve_reference": false,
+      "constraints": {
+        "framing": "9:16 vertical; medium-close 0-8s; moderate closer framing at 12-15s",
+        "movement": "static 0-12s with no pan, push-in, zoom, or reframing; single slow gentle push-in at 12-15s",
+        "no_isolated_macro": true,
+        "continuity": "continuous forearm, shoulder, and softly blurred same face visible at 12-15s"
+      },
+      "events": [
+        {
+          "event_id": "cam_push_in_05",
+          "type": "push_in",
+          "description": "Slow, gentle push-in toward the worn nail details at 12-15s, stopping at a moderate closer framing that keeps the forearm, shoulder, and softly blurred face visible.",
+          "source": "explicit_user",
+          "priority": "hard",
+          "shot_refs": [
+            "05"
+          ]
+        }
+      ],
+      "prohibit": [
+        "pan",
+        "zoom",
+        "reframing",
+        "extreme macro",
+        "camera work copied from video_contrast"
+      ],
+      "assumptions": [
+        "Camera remains static wherever the user specified framing only; the only camera move is the requested moderate approach in shot 05. IR completion."
+      ]
+    },
+    "editing": {
+      "mode": "strict",
+      "source": "explicit_user",
+      "priority": "hard",
+      "allow_new_events": false,
+      "preserve_reference": false,
+      "constraints": {
+        "structure": "continuous take 0-4s; cuts at 4s, 8s, and 12s",
+        "no_transition_effects": true
+      },
+      "events": [
+        {
+          "event_id": "edit_cut_4s",
+          "type": "cut",
+          "description": "Hard cut from shot 02 to shot 03 at 4.0s after the reveal completes.",
+          "source": "explicit_user",
+          "priority": "hard",
+          "shot_refs": [
+            "03"
+          ]
+        },
+        {
+          "event_id": "edit_cut_8s",
+          "type": "cut",
+          "description": "Hard cut from shot 03 to shot 04 at 8.0s, introducing the new clean indoor background.",
+          "source": "explicit_user",
+          "priority": "hard",
+          "shot_refs": [
+            "04"
+          ]
+        },
+        {
+          "event_id": "edit_cut_12s",
+          "type": "cut",
+          "description": "Hard cut from shot 04 to shot 05 at 12.0s, moving to the moderate closer framing.",
+          "source": "explicit_user",
+          "priority": "hard",
+          "shot_refs": [
+            "05"
+          ]
+        }
+      ],
+      "prohibit": [
+        "transition effects",
+        "dissolves",
+        "wipes",
+        "speed ramps"
+      ],
+      "assumptions": [
+        "The 0-4s portion is rendered as one continuous take; the 3s marker is a beat boundary, not a cut. IR completion."
+      ]
+    },
+    "motion": {
+      "mode": "strict",
+      "source": "explicit_user",
+      "priority": "hard",
+      "allow_new_events": false,
+      "preserve_reference": true,
+      "constraints": {
+        "gestures": "raise bare hand; single cover gesture; slow wrist rotation; changed display gesture; splay five fingers",
+        "no_installation": true,
+        "no_half_worn": true,
+        "hand_behavior": "hand display near the camera (authorized reference dimension only)"
+      },
+      "events": [
+        {
+          "event_id": "motion_hand_raise_01",
+          "type": "hand_raise",
+          "description": "The model raises her bare hand toward the camera with all five fingers fully visible.",
+          "source": "explicit_user",
+          "priority": "hard",
+          "shot_refs": [
+            "01"
+          ]
+        },
+        {
+          "event_id": "motion_cover_02",
+          "type": "cover_gesture",
+          "description": "A single covering gesture by the model's own hand switches the bare hand to the fully worn hand, with no installation and no half-worn state.",
+          "source": "explicit_user",
+          "priority": "hard",
+          "shot_refs": [
+            "02"
+          ]
+        },
+        {
+          "event_id": "motion_wrist_rotation_03",
+          "type": "wrist_rotation",
+          "description": "Slow wrist rotation showing the front and side of the five worn pieces.",
+          "source": "explicit_user",
+          "priority": "hard",
+          "shot_refs": [
+            "03"
+          ]
+        },
+        {
+          "event_id": "motion_changed_gesture_04",
+          "type": "gesture_change",
+          "description": "The model changes her display gesture within the new clean indoor background.",
+          "source": "explicit_user",
+          "priority": "hard",
+          "shot_refs": [
+            "04"
+          ]
+        },
+        {
+          "event_id": "motion_finger_splay_05",
+          "type": "finger_splay",
+          "description": "The model splays her five fingers toward the camera so the worn pieces fill the foreground.",
+          "source": "explicit_user",
+          "priority": "hard",
+          "shot_refs": [
+            "05"
+          ]
+        },
+        {
+          "event_id": "motion_hand_near_camera",
+          "type": "hand_display",
+          "description": "The presented hand stays near the camera during the display beats, transferred from the reference structure.",
+          "source": "reference_evidence",
+          "priority": "soft",
+          "shot_refs": [
+            "01",
+            "02",
+            "03",
+            "04",
+            "05"
+          ]
+        }
+      ],
+      "prohibit": [
+        "installation motion",
+        "assistive hands",
+        "half-worn transitions",
+        "fast or jerky motion",
+        "removal of pieces"
+      ],
+      "assumptions": []
+    },
+    "performance": {
+      "mode": "auto",
+      "source": "default_completion",
+      "priority": "soft",
+      "allow_new_events": false,
+      "preserve_reference": false,
+      "constraints": {
+        "expression": "neutral, relaxed, natural expression",
+        "gaze": "gaze follows the presented hand",
+        "posture": "relaxed upright posture",
+        "hand_control": "smooth, controlled gestures"
+      },
+      "events": [
+        {
+          "event_id": "perf_expression_gaze",
+          "type": "expression_and_gaze",
+          "description": "The model keeps a neutral relaxed expression and looks naturally toward her hand as she presents it, with controlled smooth gestures.",
+          "source": "default_completion",
+          "priority": "soft",
+          "shot_refs": [
+            "01",
+            "02",
+            "03",
+            "04",
+            "05"
+          ]
+        }
+      ],
+      "prohibit": [
+        "stiff or theatrical performance",
+        "reference person's mannerisms"
+      ],
+      "assumptions": [
+        "Facial expression is not specified; conservative completion supplies a neutral relaxed look. IR completion."
+      ]
+    },
+    "composition": {
+      "mode": "strict",
+      "source": "explicit_user",
+      "priority": "hard",
+      "allow_new_events": false,
+      "preserve_reference": false,
+      "constraints": {
+        "compound": "model and worn nails as one compound subject; no competing split",
+        "full_continuity": "face, shoulder, arm, wrist, and hand visible at 0-8s; face, upper body, arm, and hand at 8-12s; forearm, shoulder, and softly blurred same face at 12-15s",
+        "hand_scale": "hand about one-third of the frame in shot 03",
+        "no_occlusion": "bare hand never covers the face or upper body",
+        "final": "five splayed fingers in the foreground, not an isolated macro"
+      },
+      "events": [
+        {
+          "event_id": "comp_compound_subject",
+          "type": "compound_framing",
+          "description": "Every shot frames the model and the worn nail set as one compound subject with no competing-subject split.",
+          "source": "explicit_user",
+          "priority": "hard",
+          "shot_refs": [
+            "01",
+            "02",
+            "03",
+            "04",
+            "05"
+          ]
+        },
+        {
+          "event_id": "comp_hand_scale_03",
+          "type": "hand_scale",
+          "description": "The hand occupies about one-third of the frame at 4-8s with a clear body-to-hand relationship.",
+          "source": "explicit_user",
+          "priority": "hard",
+          "shot_refs": [
+            "03"
+          ]
+        }
+      ],
+      "prohibit": [
+        "isolated hand macro at 12-15s",
+        "occlusion of the face or upper body",
+        "subject split between model and nails"
+      ],
+      "assumptions": []
+    },
+    "lighting": {
+      "mode": "auto",
+      "source": "default_completion",
+      "priority": "soft",
+      "allow_new_events": false,
+      "preserve_reference": false,
+      "constraints": {
+        "exposure": "stable, even natural indoor light",
+        "dynamic": "no light changes or flashes",
+        "reference": "no outdoor sunlight or reference lighting"
+      },
+      "events": [],
+      "prohibit": [
+        "dynamic light events",
+        "harsh outdoor sunlight",
+        "flicker"
+      ],
+      "assumptions": [
+        "Stable soft natural indoor lighting is completed as a technical default; no dynamic light event is added. IR completion."
+      ]
+    },
+    "audio": {
+      "mode": "strict",
+      "source": "explicit_user",
+      "priority": "hard",
+      "allow_new_events": true,
+      "preserve_reference": false,
+      "constraints": {
+        "voice": "none; no voiceover, dialogue, or lyrics",
+        "music": "restrained non-vocal commercial music bed",
+        "ambience": "subtle indoor room tone",
+        "foley": "soft foley synced to the 3-4s cover gesture",
+        "levels": "music and ambience kept low so the product visuals dominate"
+      },
+      "events": [
+        {
+          "event_id": "audio_music_bed",
+          "type": "music_bed",
+          "description": "Restrained non-vocal commercial music bed under the whole video at a low, even level.",
+          "source": "explicit_user",
+          "priority": "hard",
+          "shot_refs": [
+            "01",
+            "02",
+            "03",
+            "04",
+            "05"
+          ]
+        },
+        {
+          "event_id": "audio_indoor_ambience",
+          "type": "ambience",
+          "description": "Subtle indoor room tone bed matching the clean indoor scenes.",
+          "source": "explicit_user",
+          "priority": "hard",
+          "shot_refs": [
+            "01",
+            "02",
+            "03",
+            "04",
+            "05"
+          ]
+        },
+        {
+          "event_id": "audio_cover_foley",
+          "type": "foley",
+          "description": "Soft foley (light brush/whoosh) exactly synced to the model's cover gesture and reveal at 3-4s.",
+          "source": "explicit_user",
+          "priority": "hard",
+          "shot_refs": [
+            "02"
+          ]
+        }
+      ],
+      "prohibit": [
+        "voiceover",
+        "dialogue",
+        "lyrics",
+        "reference-video audio",
+        "loud or aggressive music",
+        "unsupported vocal identity"
+      ],
+      "assumptions": []
+    },
+    "style": {
+      "mode": "auto",
+      "source": "default_completion",
+      "priority": "soft",
+      "allow_new_events": false,
+      "preserve_reference": false,
+      "constraints": {
+        "aesthetic": "clean, modern commercial promotional aesthetic",
+        "consistency": "consistent across both indoor scenes",
+        "no_reference_style": "no outdoor or lifestyle-bohemian style elements from the reference video"
+      },
+      "events": [],
+      "prohibit": [
+        "reference outdoor lifestyle style",
+        "cluttered or casual snap aesthetics",
+        "stylized filters"
+      ],
+      "assumptions": [
+        "Clean commercial promotional aesthetic is completed as a conservative default; no style asset was supplied. IR completion."
+      ]
+    },
+    "effects": {
+      "mode": "disabled",
+      "source": "default_completion",
+      "priority": "soft",
+      "allow_new_events": false,
+      "preserve_reference": false,
+      "constraints": {},
+      "events": [],
+      "prohibit": [
+        "transition effects",
+        "overlays",
+        "filters",
+        "glitch or flash effects",
+        "any unsupported visual effect"
+      ],
+      "assumptions": [
+        "Effects are disabled by default; none were requested. IR completion."
+      ]
+    },
+    "text": {
+      "mode": "disabled",
+      "source": "explicit_prohibition",
+      "priority": "hard",
+      "allow_new_events": false,
+      "preserve_reference": false,
+      "constraints": {},
+      "events": [],
+      "prohibit": [
+        "on-screen text",
+        "subtitles",
+        "brand claims",
+        "logos",
+        "watermarks",
+        "text in the final frame"
+      ],
+      "assumptions": []
+    }
+  },
+  "entity_constraints": {
+    "identity": {
+      "mode": "strict",
+      "source": "explicit_user",
+      "priority": "hard",
+      "allow_new_events": false,
+      "preserve_reference": true,
+      "constraints": {
+        "same_person": "the same adult female model in every shot",
+        "stable_features": "same face, hairstyle, and body across all shots",
+        "generated_identity": "newly generated identity; not copied from any reference asset",
+        "body_connection": "continuous shoulder-arm-wrist-hand connection in every shot"
+      },
+      "events": [],
+      "prohibit": [
+        "reference person identity, face, hair, or skin tone",
+        "identity changes between shots"
+      ],
+      "assumptions": []
+    },
+    "product": {
+      "mode": "strict",
+      "source": "explicit_user",
+      "priority": "hard",
+      "allow_new_events": false,
+      "preserve_reference": true,
+      "constraints": {
+        "set_appearance": "ten-piece appearance per image_product: black-white floral, amber-yellow 3D arc, white-black-pink geometric, wine-red-and-white floral, pink 3D flower, glossy finish, gold bead accents",
+        "worn_mapping": "five pieces worn on thumb, index, middle, ring, and pinky per image_worn_anchor, with worn form, direction, and length",
+        "bare_hand": "no nail pieces, polish, or rings on the bare hand at 0-3s",
+        "no_reference_design": "no nail design from the reference video",
+        "geometry_material_color": "product geometry, material, color, count, and mapping unchanged unless explicitly requested"
+      },
+      "events": [],
+      "prohibit": [
+        "reference-video nail designs",
+        "packaging",
+        "brand logos or claims",
+        "product design changes",
+        "polish on the bare hand",
+        "rings"
+      ],
+      "assumptions": [
+        "Gold bead accents are evidenced on image_product pieces (visible, high confidence), so the 12-15s gold-bead emphasis is consistent with the authoritative asset.",
+        "The five worn pieces are the five designs named by the user (one per motif) worn per the anchor's mapping; see intent.assumptions."
+      ]
+    },
+    "continuity": {
+      "mode": "strict",
+      "source": "explicit_user",
+      "priority": "hard",
+      "allow_new_events": false,
+      "preserve_reference": true,
+      "constraints": {
+        "hand_state": "bare at 0-3s; the same hand fully wears the same five-piece set from 4s to 15s",
+        "state_switch": "single cover gesture at 3-4s completes the bare-to-worn switch with no installation or half-worn state",
+        "scene_flow": "clean indoor scene A for 0-8s; new clean indoor scene B for 8-15s",
+        "outfit": "consistent outfit across all shots",
+        "product_continuity": "same set, same mapping, and same hand throughout after the reveal"
+      },
+      "events": [],
+      "prohibit": [
+        "missing detach or re-attach",
+        "product or hand swaps between shots",
+        "installation or half-worn frames",
+        "outfit or scene changes outside the 8s boundary"
+      ],
+      "assumptions": []
+    }
   },
   "generation_description": {
-    "cinematography": "9:16 vertical output, 15s exactly; hand-centric frames with a static camera throughout: bare hand centered palm-forward (0–3s), hand-driven occlusion reveal (3–4s), slow wrist rotation showing front and side (4–8s), new clean background and gesture (8–12s), and a fixed macro close-up with the fan-spread hand (12–15s).",
-    "lighting": "Soft, even studio lighting with gentle highlights on the glossy nail surfaces; the macro shot uses a focused key light so gold beads and 3D ornaments sparkle without harsh shadows.",
-    "materials": "Glossy press-on nail finish; 3D pink flowers with layered petals; gold beads; amber-yellow 3D arc ornaments; a clean natural-looking bare hand with no polish, rings, or jewelry.",
-    "performance": "Bare hand rises and holds with five fingers fully visible (0–3s); hand moves to cover the lens and recedes, revealing the completed set (3–4s); slow wrist rotation for the front/side display (4–8s); new gesture on a new background (8–12s); final fan-spread macro hold (12–15s).",
-    "continuity": "The identical five-piece set persists from the 4s reveal to 15s with the same styles, lengths, orientations, and finger positions; no disappearance, replacement, finger swap, or bare-hand return; the occlusion transition exposes no wrong or half-installed state; no text overlays, narration, or subtitles anywhere."
+    "cinematography": "9:16 vertical. Shots 01-04 hold a medium-close framing with the face, shoulder, complete arm, and hand together; shot 05 takes a moderate closer framing via a slow gentle push-in, keeping the five splayed fingers and worn pieces in the foreground with the forearm, shoulder, and softly blurred same face behind. The camera is static from 0-12s with no pan, push-in, zoom, or reframing; cuts occur at 4s, 8s, and 12s, and the 0-4s opening is one continuous take.",
+    "lighting": "Stable, even, soft natural indoor light in both clean indoor scenes; no dynamic light changes, no outdoor sunlight, and no flashes.",
+    "materials": "The worn press-on nails show the glossy finish and 3D decorations of the authoritative set: black-white floral decals, amber-yellow 3D arcs, white-black-pink geometric accents, wine-red-and-white floral decals, and pink 3D flowers, with gold bead accents; realistic hand skin and nail material; clean minimal indoor surfaces in the background.",
+    "performance": "The model raises her bare hand near the camera with all five fingers fully visible, performs one covering gesture that reveals the same hand fully wearing five pieces, slowly rotates her wrist to show the front and side views, changes her display gesture in the second scene, and finally splays her five fingers toward the camera; neutral relaxed expression with the gaze following the hand.",
+    "continuity": "The same adult female model, outfit, and hand persist in every shot with a continuous shoulder-arm-wrist-hand connection; the bare hand at 0-3s becomes the same hand fully wearing the same five-piece set at 4-15s via the 3-4s cover gesture, with no installation or half-worn state; clean indoor scene A (0-8s) gives way to new clean indoor scene B (8-15s); the final frame has no text."
+  },
+  "runtime": {
+    "perception_provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3-VL-32B-Instruct",
+      "options": {
+        "base_url": "http://127.0.0.1:9012",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000,
+        "cache_enabled": false,
+        "max_parallel_assets": 2,
+        "max_parallel_attribute_batches": 2,
+        "image_attribute_batch_size": 3
+      }
+    },
+    "reasoning_provider": {
+      "provider": "glm",
+      "model": "GLM-5.2"
+    },
+    "generation_provider": {
+      "provider": "minimax",
+      "model": "MiniMax-H3"
+    }
+  },
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 15,
+    "aspect_ratio": "9:16",
+    "generate_audio": true,
+    "style": ""
+  },
+  "assets": [
+    {
+      "asset_id": "image_product",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/ab_tests_20260820/case_002_nail_state_transition/assets/nail_product.jpg",
+      "label": "authoritative_nail_set_appearance"
+    },
+    {
+      "asset_id": "image_worn_anchor",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/ab_tests_20260820/case_002_nail_state_transition/assets/worn_hand_anchor.png",
+      "label": "correct_worn_state_and_finger_mapping"
+    },
+    {
+      "asset_id": "video_contrast",
+      "media_type": "video",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/ab_tests_20260820/case_002_nail_state_transition/assets/before_after_method.mp4",
+      "label": "before_after_structure_hand_display_and_lifestyle_pacing_only; not_an_application_tutorial_and_not_a_continuous_identity_reference"
+    }
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v2",
+    "provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3-VL-32B-Instruct",
+      "options": {
+        "base_url": "http://127.0.0.1:9012",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000,
+        "cache_enabled": false,
+        "max_parallel_assets": 2,
+        "max_parallel_attribute_batches": 2,
+        "image_attribute_batch_size": 3
+      }
+    },
+    "assets": [
+      {
+        "asset_id": "image_product",
+        "summary": "10 distinct foreground objects localized and analyzed individually.",
+        "evidence": [
+          {
+            "evidence_id": "evidence_1",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.074,
+              0.1,
+              0.275,
+              0.39
+            ],
+            "description": "Localized press-on nail object_1"
+          },
+          {
+            "evidence_id": "evidence_2",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.292,
+              0.1,
+              0.444,
+              0.39
+            ],
+            "description": "Localized press-on nail object_2"
+          },
+          {
+            "evidence_id": "evidence_3",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.462,
+              0.1,
+              0.6,
+              0.39
+            ],
+            "description": "Localized press-on nail object_3"
+          },
+          {
+            "evidence_id": "evidence_4",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.612,
+              0.1,
+              0.762,
+              0.39
+            ],
+            "description": "Localized press-on nail object_4"
+          },
+          {
+            "evidence_id": "evidence_5",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.775,
+              0.1,
+              0.925,
+              0.39
+            ],
+            "description": "Localized press-on nail object_5"
+          },
+          {
+            "evidence_id": "evidence_6",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.075,
+              0.51,
+              0.275,
+              0.8
+            ],
+            "description": "Localized press-on nail object_6"
+          },
+          {
+            "evidence_id": "evidence_7",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.292,
+              0.51,
+              0.444,
+              0.8
+            ],
+            "description": "Localized press-on nail object_7"
+          },
+          {
+            "evidence_id": "evidence_8",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.462,
+              0.51,
+              0.6,
+              0.8
+            ],
+            "description": "Localized press-on nail object_8"
+          },
+          {
+            "evidence_id": "evidence_9",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.612,
+              0.51,
+              0.762,
+              0.8
+            ],
+            "description": "Localized press-on nail object_9"
+          },
+          {
+            "evidence_id": "evidence_10",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.775,
+              0.51,
+              0.925,
+              0.8
+            ],
+            "description": "Localized press-on nail object_10"
+          }
+        ],
+        "regions": [
+          {
+            "region_id": "region_1",
+            "evidence_id": "evidence_1",
+            "bbox_normalized": [
+              0.074,
+              0.1,
+              0.275,
+              0.39
+            ],
+            "entity_ids": [
+              "object_1"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          },
+          {
+            "region_id": "region_2",
+            "evidence_id": "evidence_2",
+            "bbox_normalized": [
+              0.292,
+              0.1,
+              0.444,
+              0.39
+            ],
+            "entity_ids": [
+              "object_2"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          },
+          {
+            "region_id": "region_3",
+            "evidence_id": "evidence_3",
+            "bbox_normalized": [
+              0.462,
+              0.1,
+              0.6,
+              0.39
+            ],
+            "entity_ids": [
+              "object_3"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          },
+          {
+            "region_id": "region_4",
+            "evidence_id": "evidence_4",
+            "bbox_normalized": [
+              0.612,
+              0.1,
+              0.762,
+              0.39
+            ],
+            "entity_ids": [
+              "object_4"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          },
+          {
+            "region_id": "region_5",
+            "evidence_id": "evidence_5",
+            "bbox_normalized": [
+              0.775,
+              0.1,
+              0.925,
+              0.39
+            ],
+            "entity_ids": [
+              "object_5"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          },
+          {
+            "region_id": "region_6",
+            "evidence_id": "evidence_6",
+            "bbox_normalized": [
+              0.075,
+              0.51,
+              0.275,
+              0.8
+            ],
+            "entity_ids": [
+              "object_6"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          },
+          {
+            "region_id": "region_7",
+            "evidence_id": "evidence_7",
+            "bbox_normalized": [
+              0.292,
+              0.51,
+              0.444,
+              0.8
+            ],
+            "entity_ids": [
+              "object_7"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          },
+          {
+            "region_id": "region_8",
+            "evidence_id": "evidence_8",
+            "bbox_normalized": [
+              0.462,
+              0.51,
+              0.6,
+              0.8
+            ],
+            "entity_ids": [
+              "object_8"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          },
+          {
+            "region_id": "region_9",
+            "evidence_id": "evidence_9",
+            "bbox_normalized": [
+              0.612,
+              0.51,
+              0.762,
+              0.8
+            ],
+            "entity_ids": [
+              "object_9"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          },
+          {
+            "region_id": "region_10",
+            "evidence_id": "evidence_10",
+            "bbox_normalized": [
+              0.775,
+              0.51,
+              0.925,
+              0.8
+            ],
+            "entity_ids": [
+              "object_10"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          }
+        ],
+        "entities": [
+          {
+            "entity_id": "object_1",
+            "category": "press-on nail",
+            "subcategory": "press-on nail",
+            "summary": "Black base with white floral pattern, gold dots, and a central gold bead accent.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "base_color",
+                  "value": "black",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "pattern_color",
+                  "value": "white",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "accent_color",
+                  "value": "gold",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [
+                {
+                  "name": "texture",
+                  "value": "glossy",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [
+                {
+                  "name": "bead_accent",
+                  "value": "present",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "pattern_motif",
+                  "value": "floral",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [
+                {
+                  "name": "bead_position",
+                  "value": "center",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "dot_pattern",
+                  "value": "scattered gold dots",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "object_2",
+            "category": "press-on nail",
+            "subcategory": "press-on nail",
+            "summary": "Amber-yellow nail with glossy finish and a 3D arched design, featuring a gold bead accent.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "shape",
+                  "value": "curved",
+                  "evidence_ids": [
+                    "evidence_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "dominant_color",
+                  "value": "amber-yellow",
+                  "evidence_ids": [
+                    "evidence_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "finish",
+                  "value": "glossy",
+                  "evidence_ids": [
+                    "evidence_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [
+                {
+                  "name": "texture",
+                  "value": "smooth",
+                  "evidence_ids": [
+                    "evidence_2"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [
+                {
+                  "name": "3d_structure",
+                  "value": "arched",
+                  "evidence_ids": [
+                    "evidence_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "bead_accent",
+                  "value": "present",
+                  "evidence_ids": [
+                    "evidence_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [
+                {
+                  "name": "bead_position",
+                  "value": "side",
+                  "evidence_ids": [
+                    "evidence_2"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "design",
+                  "value": "3D arc",
+                  "evidence_ids": [
+                    "evidence_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "object_3",
+            "category": "press-on nail",
+            "subcategory": "press-on nail",
+            "summary": "White nail with black edge, pink base, and a gold bead accent at the cuticle area.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "shape",
+                  "value": "oval",
+                  "evidence_ids": [
+                    "evidence_3"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "dominant_color",
+                  "value": "white",
+                  "evidence_ids": [
+                    "evidence_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "edge_color",
+                  "value": "black",
+                  "evidence_ids": [
+                    "evidence_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "base_color",
+                  "value": "pink",
+                  "evidence_ids": [
+                    "evidence_3"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [
+                {
+                  "name": "texture",
+                  "value": "glossy",
+                  "evidence_ids": [
+                    "evidence_3"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [
+                {
+                  "name": "bead_accent",
+                  "value": "present",
+                  "evidence_ids": [
+                    "evidence_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [
+                {
+                  "name": "bead_position",
+                  "value": "cuticle",
+                  "evidence_ids": [
+                    "evidence_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "edge_pattern",
+                  "value": "black trim",
+                  "evidence_ids": [
+                    "evidence_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "object_4",
+            "category": "decorated press-on nail",
+            "subcategory": "decorated press-on nail",
+            "summary": "White floral design with black polka dots on dark red base, gold bead center, glossy finish.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.0
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "base_color",
+                  "value": "dark red",
+                  "evidence_ids": [
+                    "evidence_4"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "flower_color",
+                  "value": "white",
+                  "evidence_ids": [
+                    "evidence_4"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "dot_color",
+                  "value": "black",
+                  "evidence_ids": [
+                    "evidence_4"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "bead_color",
+                  "value": "gold",
+                  "evidence_ids": [
+                    "evidence_4"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [
+                {
+                  "name": "finish",
+                  "value": "glossy",
+                  "evidence_ids": [
+                    "evidence_4"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [
+                {
+                  "name": "central_bead",
+                  "value": "present",
+                  "evidence_ids": [
+                    "evidence_4"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [
+                {
+                  "name": "flower_petals",
+                  "value": "five",
+                  "evidence_ids": [
+                    "evidence_4"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "polka_dot_pattern",
+                  "value": "present",
+                  "evidence_ids": [
+                    "evidence_4"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "object_5",
+            "category": "decorated press-on nail",
+            "subcategory": "decorated press-on nail",
+            "summary": "Pink 3D flower with translucent petals and gold bead center on white base, glossy finish.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.0
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "petal_shape",
+                  "value": "rounded",
+                  "evidence_ids": [
+                    "evidence_5"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "flower_color",
+                  "value": "pink",
+                  "evidence_ids": [
+                    "evidence_5"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "base_color",
+                  "value": "white",
+                  "evidence_ids": [
+                    "evidence_5"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "bead_color",
+                  "value": "gold",
+                  "evidence_ids": [
+                    "evidence_5"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [
+                {
+                  "name": "finish",
+                  "value": "glossy",
+                  "evidence_ids": [
+                    "evidence_5"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [
+                {
+                  "name": "central_bead",
+                  "value": "present",
+                  "evidence_ids": [
+                    "evidence_5"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [
+                {
+                  "name": "petal_arrangement",
+                  "value": "radial",
+                  "evidence_ids": [
+                    "evidence_5"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "3d_flower_decoration",
+                  "value": "present",
+                  "evidence_ids": [
+                    "evidence_5"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "object_6",
+            "category": "decorated press-on nail",
+            "subcategory": "decorated press-on nail",
+            "summary": "White floral design with gold speckles on black base, gold bead center, glossy finish.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.0
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "base_color",
+                  "value": "black",
+                  "evidence_ids": [
+                    "evidence_6"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "flower_color",
+                  "value": "white",
+                  "evidence_ids": [
+                    "evidence_6"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "speckle_color",
+                  "value": "gold",
+                  "evidence_ids": [
+                    "evidence_6"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "bead_color",
+                  "value": "gold",
+                  "evidence_ids": [
+                    "evidence_6"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [
+                {
+                  "name": "finish",
+                  "value": "glossy",
+                  "evidence_ids": [
+                    "evidence_6"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [
+                {
+                  "name": "central_bead",
+                  "value": "present",
+                  "evidence_ids": [
+                    "evidence_6"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [
+                {
+                  "name": "speckle_pattern",
+                  "value": "scattered",
+                  "evidence_ids": [
+                    "evidence_6"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "gold_speckle_motif",
+                  "value": "present",
+                  "evidence_ids": [
+                    "evidence_6"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "object_7",
+            "category": "press-on nail",
+            "subcategory": "press-on nail",
+            "summary": "Pink 3D flower design with white base and gold bead accent at center.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "shape",
+                  "value": "rounded",
+                  "evidence_ids": [
+                    "evidence_7"
+                  ],
+                  "confidence": 0.8,
+                  "source": "inferred",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "base_color",
+                  "value": "white",
+                  "evidence_ids": [
+                    "evidence_7"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "flower_color",
+                  "value": "pink",
+                  "evidence_ids": [
+                    "evidence_7"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "surface_finish",
+                  "value": "glossy",
+                  "evidence_ids": [
+                    "evidence_7"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [
+                {
+                  "name": "decoration_type",
+                  "value": "3D flower",
+                  "evidence_ids": [
+                    "evidence_7"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "accent",
+                  "value": "gold bead",
+                  "evidence_ids": [
+                    "evidence_7"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [
+                {
+                  "name": "bead_position",
+                  "value": "center",
+                  "evidence_ids": [
+                    "evidence_7"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "pattern",
+                  "value": "floral",
+                  "evidence_ids": [
+                    "evidence_7"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "object_8",
+            "category": "press-on nail",
+            "subcategory": "press-on nail",
+            "summary": "White base with black polka dots, wine-red top layer, and gold bead accent.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "shape",
+                  "value": "rounded",
+                  "evidence_ids": [
+                    "evidence_8"
+                  ],
+                  "confidence": 0.8,
+                  "source": "inferred",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "base_color",
+                  "value": "white",
+                  "evidence_ids": [
+                    "evidence_8"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "dot_color",
+                  "value": "black",
+                  "evidence_ids": [
+                    "evidence_8"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "top_layer_color",
+                  "value": "wine-red",
+                  "evidence_ids": [
+                    "evidence_8"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "surface_finish",
+                  "value": "glossy",
+                  "evidence_ids": [
+                    "evidence_8"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [
+                {
+                  "name": "decoration_type",
+                  "value": "polka dots",
+                  "evidence_ids": [
+                    "evidence_8"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "accent",
+                  "value": "gold bead",
+                  "evidence_ids": [
+                    "evidence_8"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "pattern",
+                  "value": "geometric",
+                  "evidence_ids": [
+                    "evidence_8"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "object_9",
+            "category": "press-on nail",
+            "subcategory": "press-on nail",
+            "summary": "Amber-yellow 3D arc design with glossy finish and gold bead accent.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "shape",
+                  "value": "rounded",
+                  "evidence_ids": [
+                    "evidence_9"
+                  ],
+                  "confidence": 0.8,
+                  "source": "inferred",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "dominant_color",
+                  "value": "amber-yellow",
+                  "evidence_ids": [
+                    "evidence_9"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "surface_finish",
+                  "value": "glossy",
+                  "evidence_ids": [
+                    "evidence_9"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [
+                {
+                  "name": "texture",
+                  "value": "smooth",
+                  "evidence_ids": [
+                    "evidence_9"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [
+                {
+                  "name": "decoration_type",
+                  "value": "3D arc",
+                  "evidence_ids": [
+                    "evidence_9"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "accent",
+                  "value": "gold bead",
+                  "evidence_ids": [
+                    "evidence_9"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [
+                {
+                  "name": "bead_position",
+                  "value": "bottom",
+                  "evidence_ids": [
+                    "evidence_9"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "pattern",
+                  "value": "3D arc",
+                  "evidence_ids": [
+                    "evidence_9"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "object_10",
+            "category": "press-on nail",
+            "subcategory": "press-on nail",
+            "summary": "White curved nail tip with black base and gold bead accent at junction.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "shape",
+                  "value": "curved oval",
+                  "evidence_ids": [
+                    "evidence_10"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "dominant_color",
+                  "value": "white",
+                  "evidence_ids": [
+                    "evidence_10"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "base_color",
+                  "value": "black",
+                  "evidence_ids": [
+                    "evidence_10"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "surface_material",
+                  "value": "glossy",
+                  "evidence_ids": [
+                    "evidence_10"
+                  ],
+                  "confidence": 0.7,
+                  "source": "inferred",
+                  "alternatives": []
+                }
+              ],
+              "surface": [
+                {
+                  "name": "finish",
+                  "value": "smooth",
+                  "evidence_ids": [
+                    "evidence_10"
+                  ],
+                  "confidence": 0.7,
+                  "source": "inferred",
+                  "alternatives": []
+                }
+              ],
+              "components": [
+                {
+                  "name": "accent_element",
+                  "value": "gold bead",
+                  "evidence_ids": [
+                    "evidence_10"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [
+                {
+                  "name": "bead_position",
+                  "value": "at base of white tip",
+                  "evidence_ids": [
+                    "evidence_10"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "orientation_cues": [
+                {
+                  "name": "view_angle",
+                  "value": "top-down close-up",
+                  "evidence_ids": [
+                    "evidence_10"
+                  ],
+                  "confidence": 0.8,
+                  "source": "inferred",
+                  "alternatives": []
+                }
+              ],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "localize_then_isolated_attribute_batches",
+          "localization_coordinate_system": "normalized_0_1",
+          "task_ids": [
+            "20260823_161610_445660_0f606041-5f8a-44b1-b7a5-ec0141f6c719",
+            "20260823_161636_518890_9bd49ba7-0363-4da2-ac45-1d90e030cf08",
+            "20260823_161636_519207_ac29cc05-3a91-4b9c-9017-92875de6fd8d",
+            "20260823_161732_665494_18599b27-3111-48f2-8ee5-65c31b58e1e8",
+            "20260823_161732_658148_0049494f-c7bb-40ae-93da-56f8df1c3c48"
+          ],
+          "analysis_profile": "staged_detail",
+          "elapsed_seconds": 150.392,
+          "cache_hit": false,
+          "cache_key": "f90b196c8012536967c4119245b5b4484a7e0f8ba2e0db8fb84614a83c386328",
+          "perception_metrics": {
+            "request_count": 5,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 150.392
+          }
+        },
+        "transcript": "",
+        "uncertainties": [],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "the set's visible colors, motifs, and 3D decorations match the user's described ten-piece designs",
+            "priority": "required",
+            "source_asset_id": "image_product",
+            "region_or_time": "whole image",
+            "status": "covered",
+            "matched_terms": [
+              "3d"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "presence and location of gold bead accents on any piece",
+            "priority": "useful",
+            "source_asset_id": "image_product",
+            "region_or_time": "visible piece surfaces",
+            "status": "covered",
+            "matched_terms": [
+              "bead",
+              "gold",
+              "of",
+              "on"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "the number of distinct pieces visible and their arrangement",
+            "priority": "useful",
+            "source_asset_id": "image_product",
+            "region_or_time": "whole image",
+            "status": "covered",
+            "matched_terms": [
+              "arrangement",
+              "distinct",
+              "of"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      },
+      {
+        "asset_id": "image_worn_anchor",
+        "summary": "1 distinct foreground objects localized and analyzed individually.",
+        "evidence": [
+          {
+            "evidence_id": "evidence_1",
+            "kind": "region",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.1,
+              0.175,
+              0.98,
+              0.998
+            ],
+            "description": "Localized hand with five press-on nails object_1"
+          }
+        ],
+        "regions": [
+          {
+            "region_id": "region_1",
+            "evidence_id": "evidence_1",
+            "bbox_normalized": [
+              0.1,
+              0.175,
+              0.98,
+              0.998
+            ],
+            "entity_ids": [
+              "object_1"
+            ],
+            "analysis_priority": "high",
+            "detail_request": "isolated object attributes"
+          }
+        ],
+        "entities": [
+          {
+            "entity_id": "object_1",
+            "category": "manicured fingernails",
+            "subcategory": "manicured fingernails",
+            "summary": "Five artificial nails with distinct designs worn on fingers, featuring varied colors, patterns, and embellishments.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "shape",
+                  "value": "stiletto",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "base_color",
+                  "value": "black",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "base_color",
+                  "value": "amber",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "base_color",
+                  "value": "white",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "base_color",
+                  "value": "maroon",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "base_color",
+                  "value": "pink",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [
+                {
+                  "name": "finish",
+                  "value": "glossy",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [
+                {
+                  "name": "embellishment",
+                  "value": "gold bead",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "embellishment",
+                  "value": "pink heart",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "embellishment",
+                  "value": "white flower",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "embellishment",
+                  "value": "gold dot",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [
+                {
+                  "name": "design_arrangement",
+                  "value": "asymmetrical",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "pattern",
+                  "value": "floral",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "pattern",
+                  "value": "polka dot",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "localize_then_isolated_attribute_batches",
+          "localization_coordinate_system": "normalized_0_1",
+          "task_ids": [
+            "20260823_161610_490165_3fcb82d3-9921-4f33-93aa-e5119b01f53a",
+            "20260823_161614_583564_10bcf2ac-4324-41c5-8ab5-2044d748a91f"
+          ],
+          "analysis_profile": "staged_detail",
+          "elapsed_seconds": 30.237,
+          "cache_hit": false,
+          "cache_key": "95b55107ad6cda76b7b81b2f769193d3ee973f9f28a012860a54f7ddb5c153c4",
+          "perception_metrics": {
+            "request_count": 2,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 30.237
+          }
+        },
+        "transcript": "",
+        "uncertainties": [],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "piece-to-finger mapping for all five worn pieces",
+            "priority": "useful",
+            "source_asset_id": "image_worn_anchor",
+            "region_or_time": "the hand with worn pieces",
+            "status": "covered",
+            "matched_terms": [
+              "all",
+              "finger",
+              "five",
+              "for",
+              "to",
+              "worn"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "worn orientation and length of each piece relative to its finger",
+            "priority": "useful",
+            "source_asset_id": "image_worn_anchor",
+            "region_or_time": "each worn finger",
+            "status": "covered",
+            "matched_terms": [
+              "finger",
+              "orientation",
+              "to",
+              "worn"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "fit and coverage of each piece on its finger",
+            "priority": "useful",
+            "source_asset_id": "image_worn_anchor",
+            "region_or_time": "the worn hand",
+            "status": "covered",
+            "matched_terms": [
+              "finger",
+              "on"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      },
+      {
+        "asset_id": "video_contrast",
+        "summary": "A before-and-after visual sequence showing a person's hands transitioning from bare nails to a completed manicure, displayed in various outdoor settings with lifestyle poses and on-screen text.",
+        "evidence": [
+          {
+            "evidence_id": "evidence_event_1",
+            "kind": "frame",
+            "time_seconds": 1.5,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "person_1 stands indoors, wearing outfit_1 (black textured shirt, black belt), showing bare hands with rings; text overlay 'POV: 当你第一次做美甲...' appears; hands are raised and moved toward camera for display."
+          },
+          {
+            "evidence_id": "evidence_event_2",
+            "kind": "frame",
+            "time_seconds": 4.0,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "scene cuts to outdoors; person_1 now wears outfit_2 (light gray off-shoulder top, white pants), with completed manicure featuring blue, white, and black nail designs; hands are raised and displayed toward camera; text overlay '做了个✨新潮痛甲!' appears."
+          },
+          {
+            "evidence_id": "evidence_event_3",
+            "kind": "frame",
+            "time_seconds": 6.5,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "person_1 poses outdoors in grassy field with lake and mountains in background; hands are shown close to camera with manicure; one hand holds a yellow flower; text overlay '和蓝天白云草地好搭!' appears."
+          },
+          {
+            "evidence_id": "evidence_event_4",
+            "kind": "frame",
+            "time_seconds": 9.5,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "scene changes to different outdoor location with metal tower and hills; person_1 wears outfit_3 (beige jacket with brown details, white pants); hands are displayed with manicure; person_1 adjusts hair and poses."
+          },
+          {
+            "evidence_id": "evidence_event_5",
+            "kind": "frame",
+            "time_seconds": 12.0,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "person_1 wears straw hat; poses with hands near face, showcasing manicure and rings; close-up on hands with manicure and flower."
+          },
+          {
+            "evidence_id": "evidence_event_6",
+            "kind": "frame",
+            "time_seconds": 14.0,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "scene changes to person_1 lying on grass in white top; hands are visible with manicure; relaxed pose with one hand resting on grass; background shows mountains and blue sky."
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "category": "person",
+            "subcategory": "individual",
+            "summary": "a person shown in multiple outfits and settings, displaying hands before and after manicure",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "skin_tone",
+                  "value": "light",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3",
+                    "evidence_event_4",
+                    "evidence_event_5",
+                    "evidence_event_6"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "hair",
+                  "value": "black",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3",
+                    "evidence_event_4",
+                    "evidence_event_5",
+                    "evidence_event_6"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "face",
+                  "value": "neutral to smiling expression",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3",
+                    "evidence_event_4",
+                    "evidence_event_5",
+                    "evidence_event_6"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "hands",
+                  "value": "displayed prominently in multiple frames",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3",
+                    "evidence_event_4",
+                    "evidence_event_5",
+                    "evidence_event_6"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "outfit_1",
+            "category": "outfit",
+            "subcategory": "casual black shirt and belt",
+            "summary": "black textured short-sleeve shirt with black belt, worn indoors",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "shirt",
+                  "value": "black",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "shirt",
+                  "value": "textured fabric",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [
+                {
+                  "name": "belt",
+                  "value": "black leather-style",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [
+                {
+                  "name": "buttons",
+                  "value": "front button-down",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "outfit_2",
+            "category": "outfit",
+            "subcategory": "off-shoulder light gray top",
+            "summary": "light gray off-shoulder top with ruffled sleeves, worn outdoors",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "top",
+                  "value": "light gray",
+                  "evidence_ids": [
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "top",
+                  "value": "lightweight fabric",
+                  "evidence_ids": [
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [
+                {
+                  "name": "sleeves",
+                  "value": "ruffled, three-quarter length",
+                  "evidence_ids": [
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [
+                {
+                  "name": "neckline",
+                  "value": "off-shoulder",
+                  "evidence_ids": [
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "outfit_3",
+            "category": "outfit",
+            "subcategory": "beige jacket with straw hat",
+            "summary": "beige jacket with white pants and straw hat, worn outdoors",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "jacket",
+                  "value": "beige",
+                  "evidence_ids": [
+                    "evidence_event_4",
+                    "evidence_event_5"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "hat",
+                  "value": "straw, wide brim",
+                  "evidence_ids": [
+                    "evidence_event_4",
+                    "evidence_event_5"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "pants",
+                  "value": "white, loose fit",
+                  "evidence_ids": [
+                    "evidence_event_4",
+                    "evidence_event_5"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [
+                {
+                  "name": "jacket",
+                  "value": "open front, long sleeves",
+                  "evidence_ids": [
+                    "evidence_event_4",
+                    "evidence_event_5"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "outfit_4",
+            "category": "outfit",
+            "subcategory": "white off-shoulder top",
+            "summary": "white off-shoulder top with thin straps, worn while lying in grass",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "top",
+                  "value": "white",
+                  "evidence_ids": [
+                    "evidence_event_6"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "top",
+                  "value": "light fabric",
+                  "evidence_ids": [
+                    "evidence_event_6"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [
+                {
+                  "name": "straps",
+                  "value": "thin, adjustable",
+                  "evidence_ids": [
+                    "evidence_event_6"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [
+                {
+                  "name": "neckline",
+                  "value": "off-shoulder",
+                  "evidence_ids": [
+                    "evidence_event_6"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "environment_1",
+            "category": "environment",
+            "subcategory": "indoor room with mirror",
+            "summary": "indoor setting with mirror, door, and visible wall vent",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [
+                {
+                  "name": "floor",
+                  "value": "light-colored",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [
+                {
+                  "name": "mirror",
+                  "value": "full-length",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "door",
+                  "value": "wooden, brown",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "vent",
+                  "value": "wall-mounted",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "environment_2",
+            "category": "environment",
+            "subcategory": "outdoor grassy field with lake and mountains",
+            "summary": "open grassy field with lake and distant mountains under blue sky",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "sky",
+                  "value": "blue with white clouds",
+                  "evidence_ids": [
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [
+                {
+                  "name": "ground",
+                  "value": "green grass",
+                  "evidence_ids": [
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [
+                {
+                  "name": "lake",
+                  "value": "distant, blue",
+                  "evidence_ids": [
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "mountains",
+                  "value": "distant, snow-capped",
+                  "evidence_ids": [
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "environment_3",
+            "category": "environment",
+            "subcategory": "outdoor with metal tower and green hill",
+            "summary": "outdoor with metal tower and green hill in background",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "hill",
+                  "value": "green",
+                  "evidence_ids": [
+                    "evidence_event_4",
+                    "evidence_event_5"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [
+                {
+                  "name": "ground",
+                  "value": "grass",
+                  "evidence_ids": [
+                    "evidence_event_4",
+                    "evidence_event_5"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [
+                {
+                  "name": "tower",
+                  "value": "metal, lattice",
+                  "evidence_ids": [
+                    "evidence_event_4",
+                    "evidence_event_5"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "door",
+                  "value": "wooden, brown",
+                  "evidence_ids": [
+                    "evidence_event_4",
+                    "evidence_event_5"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "environment_4",
+            "category": "environment",
+            "subcategory": "grass field with yellow flowers",
+            "summary": "grass field with yellow flowers, person lying down",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "flowers",
+                  "value": "yellow",
+                  "evidence_ids": [
+                    "evidence_event_6"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [
+                {
+                  "name": "ground",
+                  "value": "green grass with yellow flowers",
+                  "evidence_ids": [
+                    "evidence_event_6"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [
+                {
+                  "name": "person",
+                  "value": "lying on grass",
+                  "evidence_ids": [
+                    "evidence_event_6"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [
+                {
+                  "name": "camera",
+                  "value": "low angle",
+                  "evidence_ids": [
+                    "evidence_event_6"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "wears",
+            "subject_id": "person_1",
+            "object_id": "outfit_1",
+            "anchor": "indoor scene",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2",
+              "evidence_event_3",
+              "evidence_event_4",
+              "evidence_event_5",
+              "evidence_event_6"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_2",
+            "type": "wears",
+            "subject_id": "person_1",
+            "object_id": "outfit_2",
+            "anchor": "outdoor field",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2",
+              "evidence_event_3",
+              "evidence_event_4",
+              "evidence_event_5",
+              "evidence_event_6"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_3",
+            "type": "wears",
+            "subject_id": "person_1",
+            "object_id": "outfit_3",
+            "anchor": "outdoor with tower",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2",
+              "evidence_event_3",
+              "evidence_event_4",
+              "evidence_event_5",
+              "evidence_event_6"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_4",
+            "type": "wears",
+            "subject_id": "person_1",
+            "object_id": "outfit_4",
+            "anchor": "grass field with flowers",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2",
+              "evidence_event_3",
+              "evidence_event_4",
+              "evidence_event_5",
+              "evidence_event_6"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_5",
+            "type": "located_in",
+            "subject_id": "person_1",
+            "object_id": "environment_1",
+            "anchor": "indoor",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2",
+              "evidence_event_3",
+              "evidence_event_4",
+              "evidence_event_5",
+              "evidence_event_6"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_6",
+            "type": "located_in",
+            "subject_id": "person_1",
+            "object_id": "environment_2",
+            "anchor": "outdoor field",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2",
+              "evidence_event_3",
+              "evidence_event_4",
+              "evidence_event_5",
+              "evidence_event_6"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_7",
+            "type": "located_in",
+            "subject_id": "person_1",
+            "object_id": "environment_3",
+            "anchor": "door with tower",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2",
+              "evidence_event_3",
+              "evidence_event_4",
+              "evidence_event_5",
+              "evidence_event_6"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_8",
+            "type": "located_in",
+            "subject_id": "person_1",
+            "object_id": "environment_4",
+            "anchor": "grass with flowers",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2",
+              "evidence_event_3",
+              "evidence_event_4",
+              "evidence_event_5",
+              "evidence_event_6"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "events": [
+          {
+            "event_id": "event_1",
+            "time_range": [
+              0.0,
+              3.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "outfit_1",
+              "environment_1"
+            ],
+            "action": "person_1 stands indoors, wearing outfit_1 (black textured shirt, black belt), showing bare hands with rings; text overlay 'POV: 当你第一次做美甲...' appears; hands are raised and moved toward camera for display.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "cut",
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.95
+          },
+          {
+            "event_id": "event_2",
+            "time_range": [
+              3.0,
+              5.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "outfit_2",
+              "environment_2"
+            ],
+            "action": "scene cuts to outdoors; person_1 now wears outfit_2 (light gray off-shoulder top, white pants), with completed manicure featuring blue, white, and black nail designs; hands are raised and displayed toward camera; text overlay '做了个✨新潮痛甲!' appears.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "cut",
+            "evidence_ids": [
+              "evidence_event_2"
+            ],
+            "confidence": 0.95
+          },
+          {
+            "event_id": "event_3",
+            "time_range": [
+              5.0,
+              8.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "outfit_2",
+              "environment_2"
+            ],
+            "action": "person_1 poses outdoors in grassy field with lake and mountains in background; hands are shown close to camera with manicure; one hand holds a yellow flower; text overlay '和蓝天白云草地好搭!' appears.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "cut",
+            "evidence_ids": [
+              "evidence_event_3"
+            ],
+            "confidence": 0.95
+          },
+          {
+            "event_id": "event_4",
+            "time_range": [
+              8.0,
+              11.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "outfit_3",
+              "environment_3"
+            ],
+            "action": "scene changes to different outdoor location with metal tower and hills; person_1 wears outfit_3 (beige jacket with brown details, white pants); hands are displayed with manicure; person_1 adjusts hair and poses.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "cut",
+            "evidence_ids": [
+              "evidence_event_4"
+            ],
+            "confidence": 0.95
+          },
+          {
+            "event_id": "event_5",
+            "time_range": [
+              11.0,
+              13.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "outfit_3",
+              "environment_3"
+            ],
+            "action": "person_1 wears straw hat; poses with hands near face, showcasing manicure and rings; close-up on hands with manicure and flower.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "cut",
+            "evidence_ids": [
+              "evidence_event_5"
+            ],
+            "confidence": 0.95
+          },
+          {
+            "event_id": "event_6",
+            "time_range": [
+              13.0,
+              15.648798
+            ],
+            "entity_ids": [
+              "person_1",
+              "outfit_4",
+              "environment_4"
+            ],
+            "action": "scene changes to person_1 lying on grass in white top; hands are visible with manicure; relaxed pose with one hand resting on grass; background shows mountains and blue sky.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "cut",
+            "evidence_ids": [
+              "evidence_event_6"
+            ],
+            "confidence": 0.95
+          }
+        ],
+        "technical": {
+          "duration_seconds": 15.648798,
+          "framing": "medium to close-up shots focusing on person_1 and hands; outdoor scenes use natural lighting and wide backgrounds.",
+          "camera": "static and handheld shots; camera moves closer to hands during display moments.",
+          "visible_text": [
+            "POV: 当你第一次做美甲...",
+            "做了个✨新潮痛甲!",
+            "和蓝天白云草地好搭!"
+          ],
+          "media_type": "video",
+          "analysis_pipeline": "compact_video_then_deterministic_expansion",
+          "task_ids": [
+            "20260823_161640_715141_f31f5316-7cc5-49fa-99af-e0a1a9797f52",
+            "20260823_161952_124471_931c9024-e9ab-4a5e-81af-8fa942442d41"
+          ],
+          "analysis_profile": "timeline_and_entities",
+          "elapsed_seconds": 477.958,
+          "cache_hit": false,
+          "cache_key": "88ef4254f4a3e0b072084d4de5cd62ba001eb266b8d10ea753c72568136efa8e",
+          "perception_metrics": {
+            "request_count": 2,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 477.958
+          }
+        },
+        "transcript": "",
+        "uncertainties": [],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "the footage shows a bare-hand state before a finished-manicure state",
+            "priority": "useful",
+            "source_asset_id": "video_contrast",
+            "region_or_time": "start-to-end order of the video",
+            "status": "covered",
+            "matched_terms": [
+              "bare",
+              "before",
+              "hand",
+              "manicure",
+              "shows",
+              "state"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "the hand moves near the camera during display",
+            "priority": "useful",
+            "source_asset_id": "video_contrast",
+            "region_or_time": "display moments in the video",
+            "status": "covered",
+            "matched_terms": [
+              "camera",
+              "display",
+              "during",
+              "hand",
+              "moves",
+              "near"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "overall pacing and lifestyle rhythm of the footage",
+            "priority": "useful",
+            "source_asset_id": "video_contrast",
+            "region_or_time": "whole video",
+            "status": "covered",
+            "matched_terms": [
+              "lifestyle",
+              "of"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_4",
+            "claim": "presence of application steps, on-screen text, or outdoor scenes (for exclusion verification)",
+            "priority": "useful",
+            "source_asset_id": "video_contrast",
+            "region_or_time": "whole video",
+            "status": "covered",
+            "matched_terms": [
+              "for",
+              "of",
+              "on",
+              "or",
+              "outdoor",
+              "scenes",
+              "screen",
+              "text"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      }
+    ],
+    "missing_asset_ids": [],
+    "perception_metrics": {
+      "request_count": 9,
+      "retry_count": 0,
+      "supplemental_request_count": 0,
+      "elapsed_seconds": 477.958
+    }
   }
 }
