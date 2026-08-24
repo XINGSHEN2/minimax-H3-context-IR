@@ -93,7 +93,9 @@ def build_config(reasoning: dict[str, str]) -> dict[str, Any]:
         "supports_websockets": False,
         "request_max_retries": 1,
         "stream_max_retries": 1,
-        "stream_idle_timeout_ms": 180_000,
+        "stream_idle_timeout_ms": int(
+            os.environ.get("CONTEXT_IR_LLM_STREAM_IDLE_TIMEOUT_MS", "600000")
+        ),
     }
     http_host_env = reasoning.get("http_host_env", "")
     if http_host_env and os.environ.get(http_host_env):
