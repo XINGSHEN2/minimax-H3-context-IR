@@ -332,12 +332,13 @@ agent.log
 推理 LLM 可通过环境变量切换：
 
 ```text
-CONTEXT_IR_LLM_PROVIDER=deepseek|glm
+CONTEXT_IR_LLM_PROVIDER=deepseek_litellm|deepseek|glm
 ```
 
 当前支持：
 
-- DeepSeek：默认模型 `deepseek-v4-flash`；
+- DeepSeek LiteLLM（默认）：模型 `deepseek-v4-flash`；
+- DeepSeek 官方 API（可选）：模型 `deepseek-v4-flash`；
 - GLM：默认模型 `GLM-5.2`；
 - Qwen：本地 `Qwen3-VL-32B-Instruct`；
 - 生成：MiniMax-H3。

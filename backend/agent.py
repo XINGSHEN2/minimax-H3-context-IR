@@ -44,7 +44,20 @@ OFFICIAL_SKILLS = {
 
 
 def reasoning_provider_config() -> dict[str, str]:
-    selected = os.environ.get("CONTEXT_IR_LLM_PROVIDER", "glm").strip().lower()
+    selected = os.environ.get("CONTEXT_IR_LLM_PROVIDER", "deepseek_litellm").strip().lower()
+    if selected in {"deepseek_litellm", "deepseek-litellm", "litellm"}:
+        return {
+            "selection": "deepseek_litellm",
+            "name": "DeepSeek via LiteLLM",
+            "provider_id": os.environ.get("DEEPSEEK_LITELLM_PROVIDER_ID", "deepseek_litellm"),
+            "model": os.environ.get("DEEPSEEK_LITELLM_MODEL", "deepseek-v4-flash"),
+            "base_url": os.environ.get(
+                "DEEPSEEK_LITELLM_RESPONSES_BASE_URL",
+                "http://litellm-poc.pgw.metax-tech.com/v1",
+            ),
+            "api_key_env": "LITELLM_API_KEY",
+            "http_host_env": "",
+        }
     if selected == "glm":
         return {
             "selection": "glm",
@@ -65,7 +78,9 @@ def reasoning_provider_config() -> dict[str, str]:
             "api_key_env": "DEEPSEEK_API_KEY",
             "http_host_env": "",
         }
-    raise ValueError("CONTEXT_IR_LLM_PROVIDER must be 'glm' or 'deepseek'")
+    raise ValueError(
+        "CONTEXT_IR_LLM_PROVIDER must be 'deepseek_litellm', 'deepseek', or 'glm'"
+    )
 
 
 def build_config(reasoning: dict[str, str]) -> dict[str, Any]:

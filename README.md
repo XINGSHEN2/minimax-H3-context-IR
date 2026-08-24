@@ -156,7 +156,17 @@ bash deploy/run.sh --validate-only outputs/<run>/context_ir.json
 
 本地图片和视频的绝对路径会直接提交给服务。服务将输入复制到 FIFO 任务目录，并使用 Qwen 原生视频工具按时间顺序解码帧；当前不分析音轨。原有 `gitee-qwen3-vl` 联系表适配器仍可作为显式指定的备用感知提供方。
 
-Codex Agent 通过 Responses API 支持切换推理模型。在 `deploy/context_ir.env` 中设置 `CONTEXT_IR_LLM_PROVIDER=deepseek` 或 `CONTEXT_IR_LLM_PROVIDER=glm`。
+Codex Agent 通过 Responses API 支持切换推理模型。默认使用 LiteLLM
+提供的 `deepseek-v4-flash`；在 `deploy/context_ir.env` 中设置
+`CONTEXT_IR_LLM_PROVIDER=deepseek_litellm`、`deepseek` 或 `glm`。
+
+默认 DeepSeek LiteLLM 配置：
+
+- `DEEPSEEK_LITELLM_MODEL`：默认值 `deepseek-v4-flash`
+- `DEEPSEEK_LITELLM_PROVIDER_ID`：默认值 `deepseek_litellm`
+- `DEEPSEEK_LITELLM_RESPONSES_BASE_URL`：默认值 `http://litellm-poc.pgw.metax-tech.com/v1`
+- `LITELLM_API_KEY`：LiteLLM Bearer Key；未设置时启动脚本兼容复用 `OPENAI_API_KEY`
+- 传输 API：`responses`
 
 GLM 配置：
 
@@ -167,7 +177,7 @@ GLM 配置：
 - `OPENAI_API_KEY`：必填，LiteLLM Bearer Key
 - 传输 API：`responses`
 
-DeepSeek 配置：
+DeepSeek 官方 API 配置（可选）：
 
 - `DEEPSEEK_MODEL`：默认值 `deepseek-v4-flash`
 - `DEEPSEEK_PROVIDER_ID`：默认值 `deepseek`
@@ -175,9 +185,14 @@ DeepSeek 配置：
 - `DEEPSEEK_API_KEY`：必填，DeepSeek 官方 API Key
 - 传输 API：`responses`
 
-DeepSeek 官方 Responses 端点可以直接与 Codex 配合使用，不经过 GLM 的 LiteLLM 隧道。切换推理模型不会影响 Qwen 感知阶段和确定性的 Context-IR 校验流程。
+选择 `CONTEXT_IR_LLM_PROVIDER=deepseek` 时，DeepSeek 官方 Responses
+端点可以直接与 Codex 配合使用。切换推理模型不会影响 Qwen 感知阶段和
+确定性的 Context-IR 校验流程。
 
-真实 LiteLLM 密钥只应保存在已忽略的 `deploy/context_ir.env` 文件中。由于 `aigc` 无法解析 LiteLLM 内网域名，需要由 Windows 通过 SSH 反向隧道提供网络访问：
+真实 API Key 只应保存在已忽略的 `deploy/context_ir.env` 文件中。默认
+LiteLLM 地址可由 `aigc` 服务器直接访问，不需要 Windows SSH 反向隧道。
+
+旧的 GLM 本地代理方案仍可按需使用：
 
 ```powershell
 Start-Process ssh -ArgumentList @(
@@ -200,4 +215,5 @@ CONTEXT_IR_IMAGE=minimax-h3-context-ir:latest bash deploy/run.sh request.json
 
 挂载后的项目保持独立，不依赖 `/home/mx/shenxing/yiwu_codex`。
 
-只有选择 GLM 时才需要外部 LiteLLM Responses 网关；本项目的启动脚本不会启动或管理该网关。
+选择 GLM 本地代理时仍需要外部 LiteLLM Responses 网关；项目启动脚本
+不会启动或管理该网关。
