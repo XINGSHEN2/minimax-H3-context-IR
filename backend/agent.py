@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Codex SDK Context-IR agent runner with switchable reasoning providers."""
+"""Context-IR compiler runner with replaceable direct or Codex LLM runtimes."""
 
 from __future__ import annotations
 
@@ -16,6 +16,7 @@ from typing import Any, Callable
 from urllib.parse import urlparse
 
 from backend.context_ir import (
+    ContextIRError,
     audit_h3_prompt,
     build_h3_request,
     compile_context_ir,
@@ -112,17 +113,22 @@ def build_config(reasoning: dict[str, str]) -> dict[str, Any]:
 
 
 def preflight_reasoning_provider(reasoning: dict[str, str], timeout: float = 3.0) -> dict[str, Any]:
-    base_url = reasoning["base_url"]
+    runtime = os.environ.get("CONTEXT_IR_LLM_RUNTIME", "direct").strip().lower()
+    base_url = (
+        os.environ.get(f"{reasoning['selection'].upper()}_CHAT_BASE_URL")
+        or os.environ.get("CONTEXT_IR_LLM_CHAT_BASE_URL")
+        or reasoning["base_url"]
+    ) if runtime == "direct" else reasoning["base_url"]
     parsed = urlparse(base_url)
     if parsed.scheme not in {"http", "https"} or not parsed.hostname:
-        raise ValueError(f"invalid {reasoning['name']} Responses base URL: {base_url}")
+        raise ValueError(f"invalid {reasoning['name']} LLM base URL: {base_url}")
     port = parsed.port or (443 if parsed.scheme == "https" else 80)
     try:
         with socket.create_connection((parsed.hostname, port), timeout=timeout):
             pass
     except OSError as exc:
         raise RuntimeError(
-            f"{reasoning['name']} Responses API is unreachable at {parsed.hostname}:{port}: {exc}"
+            f"{reasoning['name']} LLM API is unreachable at {parsed.hostname}:{port}: {exc}"
         ) from exc
     return {"passed": True, "selection": reasoning["selection"], "provider_id": reasoning["provider_id"], "model": reasoning["model"], "base_url": base_url, "host": parsed.hostname, "port": port}
 
@@ -131,6 +137,8 @@ def perception_config(source: dict[str, Any]) -> PerceptionProviderConfig:
     supplied = source.get("perception_provider") or {}
     options = dict(supplied.get("options") or {})
     options.setdefault("base_url", os.environ.get("YIWU_VLM_BASE_URL", "https://ai.gitee.com/v1"))
+    options.setdefault("image_base_url", os.environ.get("QWEN_IMAGE_UNDERSTAND_BASE_URL", "http://127.0.0.1:9012"))
+    options.setdefault("video_base_url", os.environ.get("QWEN_VIDEO_UNDERSTAND_BASE_URL", "http://127.0.0.1:9015"))
     options.setdefault("api_key_env", os.environ.get("YIWU_VLM_API_KEY_ENV", "GITEE_AI_API_KEY"))
     options.setdefault("video_frame_count", int(os.environ.get("CONTEXT_IR_VIDEO_FRAME_COUNT", "0")))
     options.setdefault("max_tokens", int(os.environ.get("CONTEXT_IR_VLM_MAX_TOKENS", "3000")))
@@ -164,7 +172,25 @@ def invoke_reasoning_json(
     log_path: Path,
     skill_names: list[str] | None = None,
 ) -> dict[str, Any]:
-    """Run one strict JSON turn through the currently selected Codex provider."""
+    """Run one strict JSON turn through the configured replaceable runtime."""
+    runtime = os.environ.get("CONTEXT_IR_LLM_RUNTIME", "direct").strip().lower()
+    if runtime == "direct":
+        from backend.llm_runtime import direct_runtime_from_config
+
+        system_parts = [(ROOT / "AGENTS.md").read_text(encoding="utf-8")]
+        for name in skill_names or []:
+            path = SKILLS_DIR / name / "SKILL.md"
+            if not path.is_file():
+                raise FileNotFoundError(f"missing official Skill: {path.parent}")
+            system_parts.append(path.read_text(encoding="utf-8"))
+        return direct_runtime_from_config(reasoning).invoke_json(
+            prompt,
+            system_parts=system_parts,
+            log_path=log_path,
+        )
+    if runtime != "codex":
+        raise ValueError("CONTEXT_IR_LLM_RUNTIME must be 'direct' or 'codex'")
+
     from openai_codex import ApprovalMode, Codex, CodexConfig, Sandbox, SkillInput, TextInput
 
     api_key_env = reasoning["api_key_env"]
@@ -379,12 +405,87 @@ def audit_or_raise(ir: dict[str, Any], prompt: str) -> None:
         raise ContextIRError(json.dumps(report.to_dict(), ensure_ascii=False, indent=2))
 
 
+def _validation_payload(error: Exception) -> dict[str, Any]:
+    try:
+        value = json.loads(str(error))
+    except (TypeError, ValueError, json.JSONDecodeError):
+        value = None
+    if isinstance(value, dict):
+        return value
+    return {"passed": False, "errors": [{"code": "COMPILATION_FAILED", "message": str(error), "path": "$", "severity": "error"}], "warnings": []}
+
+
+def build_semantic_repair_prompt(source: dict[str, Any], candidate: dict[str, Any], validation: dict[str, Any], phase: str) -> str:
+    locked_source = {
+        "user_request": source.get("user_request", ""),
+        "resolved_request": source.get("resolved_request", ""),
+        "task": source.get("task", {}),
+        "directives": source.get("directives", []),
+        "completion_policy": source.get("completion_policy", {}),
+        "assets": [{key: asset.get(key) for key in ("asset_id", "media_type", "label", "user_role") if asset.get(key) is not None} for asset in source.get("assets", []) if isinstance(asset, dict)],
+    }
+    semantic_candidate = {key: value for key, value in candidate.items() if key not in {"task", "assets", "perception", "runtime"}}
+    return f"""
+Repair the supplied Context-IR candidate so it passes the official H3 compiler and Prompt audit. This is a bounded repair turn, not a new creative generation.
+
+Rules:
+- Fix every item in validation.errors and no unrelated content.
+- Treat locked_source as immutable and authoritative.
+- Preserve verbatim dialogue, lyrics, visible scene text, asset IDs, asset roles, product identity, subject identity, requested shot order, and duration.
+- Do not delete a user requirement merely to satisfy an audit rule.
+- Do not translate verbatim dialogue. Format it using official `<d>[Language] ...</d>` tags when required.
+- Do not invent evidence, assets, brand claims, speech, or new creative beats.
+- Return one complete Context-IR semantic JSON object only. Do not return a patch, Markdown, commentary, task, assets, perception, or runtime; those fields are injected by the compiler.
+
+Failure phase:
+{phase}
+
+Validation result:
+{json.dumps(validation, ensure_ascii=False, indent=2)}
+
+Locked source:
+{json.dumps(locked_source, ensure_ascii=False, indent=2)}
+
+Current semantic candidate:
+{json.dumps(semantic_candidate, ensure_ascii=False, indent=2)}
+""".strip()
+
+
+def compile_render_with_semantic_repair(model_output: dict[str, Any], source: dict[str, Any], repair_callback: Callable[[str], dict[str, Any]], max_repairs: int = 1) -> tuple[dict[str, Any], str, dict[str, Any]]:
+    candidate = model_output
+    repairs: list[dict[str, Any]] = []
+    last_validation: dict[str, Any] | None = None
+    for attempt in range(max(0, max_repairs) + 1):
+        try:
+            ir = compile_context_ir(candidate, source)
+        except ContextIRError as exc:
+            phase = "context_ir_validation"
+            validation = _validation_payload(exc)
+        else:
+            prompt = render_h3_prompt(ir)
+            report = audit_h3_prompt(ir, prompt)
+            if report.passed:
+                audit_payload = report.to_dict()
+                audit_payload["repair"] = {"attempted": bool(repairs), "attempts": len(repairs), "history": repairs}
+                return ir, prompt, audit_payload
+            phase = "h3_prompt_audit"
+            validation = report.to_dict()
+            candidate = ir
+        last_validation = validation
+        if attempt >= max_repairs:
+            break
+        candidate = repair_callback(build_semantic_repair_prompt(source, candidate, validation, phase))
+        repairs.append({"attempt": attempt + 1, "phase": phase, "errors": validation.get("errors", []), "method": "reasoning_model_constrained_repair"})
+    raise ContextIRError(json.dumps({"passed": False, "code": "SEMANTIC_REPAIR_EXHAUSTED", "message": "Context-IR remained invalid after the bounded semantic repair attempt", "validation": last_validation, "repair": {"attempted": bool(repairs), "attempts": len(repairs), "history": repairs}}, ensure_ascii=False, indent=2))
+
+
 def run_agent(
     source: dict[str, Any],
     output_dir: Path,
     style_skill: str | None,
     perception_from: Path | None = None,
     progress_callback: Callable[[str], None] | None = None,
+    intent_resolved: bool = False,
 ) -> int:
     run_started = time.perf_counter()
     stage_timings: dict[str, Any] = {
@@ -413,10 +514,29 @@ def run_agent(
     if progress_callback:
         progress_callback("intent")
     stage_started = time.perf_counter()
-    resolution = resolve_intent(
-        source,
-        lambda prompt: invoke_reasoning_json(prompt, reasoning, output_dir / "intent_resolver.log"),
-    )
+    if intent_resolved:
+        if not str(source.get("resolved_request", "")).strip():
+            raise ValueError("intent_resolved=True requires source.resolved_request")
+        resolution = {
+            "source": source,
+            "perception_plan": {
+                "assets": [
+                    {
+                        "asset_id": str(asset.get("asset_id", "")),
+                        "role": str(asset.get("user_role", "reference")),
+                        "user_claimed_category": "",
+                        "analyze": [],
+                        "do_not_infer": [],
+                    }
+                    for asset in source.get("assets", []) if isinstance(asset, dict)
+                ]
+            },
+        }
+    else:
+        resolution = resolve_intent(
+            source,
+            lambda prompt: invoke_reasoning_json(prompt, reasoning, output_dir / "intent_resolver.log"),
+        )
     finish_stage("intent_resolver", stage_started)
     source = resolution["source"]
     perception_plan = resolution["perception_plan"]
@@ -453,20 +573,25 @@ def run_agent(
     model_output = invoke_reasoning_json(build_prompt(source, style_skill), reasoning, output_dir / "agent.log", skill_names)
     finish_stage("semantic_agent", stage_started)
     stage_started = time.perf_counter()
-    ir = compile_context_ir(model_output, source)
+    repair_started = time.perf_counter()
+    ir, prompt, audit_payload = compile_render_with_semantic_repair(
+        model_output,
+        source,
+        lambda repair_prompt: invoke_reasoning_json(repair_prompt, reasoning, output_dir / "semantic_repair.log", ["h3-prompt-writing"]),
+        max_repairs=int(os.environ.get("CONTEXT_IR_SEMANTIC_REPAIR_ATTEMPTS", "1")),
+    )
+    finish_stage("semantic_repair", repair_started)
     if progress_callback:
         progress_callback("isolation")
     context_path = output_dir / "context_ir.json"
     context_path.write_text(json.dumps(ir, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    prompt = render_h3_prompt(ir)
     if progress_callback:
         progress_callback("prompt")
-    audit_or_raise(ir, prompt)
     prompt_path = output_dir / "h3_prompt.txt"
     prompt_path.write_text(prompt, encoding="utf-8")
     audit_path = output_dir / "h3_prompt_audit.json"
     audit_path.write_text(
-        json.dumps(audit_h3_prompt(ir, prompt).to_dict(), ensure_ascii=False, indent=2) + "\n",
+        json.dumps(audit_payload, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
     request = build_h3_request(ir, str(prompt_path), str(output_dir / "h3_outputs"))

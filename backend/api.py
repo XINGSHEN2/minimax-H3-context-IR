@@ -22,7 +22,11 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import unquote, urlparse
 
-from backend.agent import preflight_reasoning_provider, reasoning_provider_config, run_agent
+from backend.agent import perception_config, preflight_reasoning_provider, reasoning_provider_config, run_agent
+from backend.capabilities import (
+    audio_understand, context_ir_generate, h3_prompt_generate, image_understand,
+    video_generate, video_understand,
+)
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -39,7 +43,7 @@ RESULT_FILES = {
     "input.json", "resolved_input.json", "intent_resolution.json", "perception_plan.json",
     "media_analysis.json", "context_ir.json", "h3_prompt.txt",
     "h3_prompt_audit.json", "h3_request.json", "stage_timings.json",
-    "intent_resolver.log", "agent.log",
+    "intent_resolver.log", "agent.log", "semantic_repair.log",
 }
 CASE_PATTERN = re.compile(r"^case_(\d{3,})$")
 SAFE_NAME_PATTERN = re.compile(r"[^A-Za-z0-9._-]+")
@@ -55,6 +59,20 @@ PROGRESS_STAGES = {
     "timeline": (2, 58, "正在编排时间线"),
     "isolation": (3, 78, "正在检查引用隔离"),
     "prompt": (4, 90, "正在生成 H3 Prompt"),
+}
+
+# Product-facing APIs complete a business task. General understanding APIs are
+# optional building blocks for other agents and services. Normalization remains
+# internal to h3_prompt_generate and is intentionally not routed over HTTP.
+BUSINESS_API_ROUTES = {
+    "/api/h3/prompt": "prompt",
+    "/api/h3/videos": "video",
+    "/api/context-ir/generate": "workflow",
+}
+OPTIONAL_GENERAL_API_ROUTES = {
+    "/api/understand/image": "image",
+    "/api/understand/video": "video_understand",
+    "/api/understand/audio": "audio",
 }
 
 
@@ -249,6 +267,8 @@ def _create_case(form: cgi.FieldStorage) -> tuple[str, dict[str, Any]]:
                 "model": os.environ.get("YIWU_VLM_MODEL", "Qwen3-VL-32B-Instruct"),
                 "options": {
                     "base_url": os.environ.get("YIWU_VLM_BASE_URL", "http://127.0.0.1:9012"),
+                    "image_base_url": os.environ.get("QWEN_IMAGE_UNDERSTAND_BASE_URL", "http://127.0.0.1:9012"),
+                    "video_base_url": os.environ.get("QWEN_VIDEO_UNDERSTAND_BASE_URL", "http://127.0.0.1:9015"),
                     "api_key_env": os.environ.get("YIWU_VLM_API_KEY_ENV", "GITEE_AI_API_KEY"),
                     "video_frame_count": int(os.environ.get("CONTEXT_IR_VIDEO_FRAME_COUNT", "6")),
                     "video_fps": float(os.environ.get("CONTEXT_IR_VIDEO_FPS", "2")),
@@ -273,17 +293,23 @@ def _service_status() -> dict[str, Any]:
     vlm_provider = os.environ.get("CONTEXT_IR_VLM_PROVIDER", "local-qwen3-vl-32b")
     vlm_model = os.environ.get("YIWU_VLM_MODEL", "Qwen3-VL-32B-Instruct")
     if vlm_provider == "local-qwen3-vl-32b":
-        endpoint = os.environ.get("YIWU_VLM_BASE_URL", "http://127.0.0.1:9012").rstrip("/") + "/health"
-        try:
-            with urllib.request.urlopen(endpoint, timeout=0.8) as response:
-                local_health = json.loads(response.read().decode("utf-8"))
-            vlm_ready = local_health.get("status") == "ok"
-        except (OSError, ValueError, urllib.error.URLError):
-            vlm_ready = False
+        services = {}
+        for media_kind, base_url in {
+            "image": os.environ.get("QWEN_IMAGE_UNDERSTAND_BASE_URL", "http://127.0.0.1:9012"),
+            "video": os.environ.get("QWEN_VIDEO_UNDERSTAND_BASE_URL", "http://127.0.0.1:9015"),
+        }.items():
+            try:
+                with urllib.request.urlopen(base_url.rstrip("/") + "/health", timeout=0.8) as response:
+                    health = json.loads(response.read().decode("utf-8"))
+                services[media_kind] = {"ready": health.get("status") == "ok", "base_url": base_url}
+            except (OSError, ValueError, urllib.error.URLError):
+                services[media_kind] = {"ready": False, "base_url": base_url}
+        vlm_ready = all(item["ready"] for item in services.values())
         vlm = {
             "ready": vlm_ready,
-            "label": "本地 Qwen3-VL-32B 已连接" if vlm_ready else "本地 Qwen3-VL-32B 未连接",
+            "label": "图片与视频理解服务已连接" if vlm_ready else "图片或视频理解服务未连接",
             "model": vlm_model,
+            "services": services,
         }
     else:
         vlm = {
@@ -354,6 +380,24 @@ class StudioHandler(BaseHTTPRequestHandler):
         if path == "/api/health":
             self._json(HTTPStatus.OK, {"ok": True, "services": _service_status()})
             return
+        if path == "/api/capabilities":
+            self._json(HTTPStatus.OK, {
+                "ok": True,
+                "schema_version": "context_ir_capabilities.v1",
+                "business_api": {
+                    "h3_prompt_generate": "/api/h3/prompt",
+                    "video_generate": "/api/h3/videos",
+                    "context_ir_generate": "/api/context-ir/generate",
+                },
+                "optional_general_api": {
+                    "image_understand": "/api/understand/image",
+                    "video_understand": "/api/understand/video",
+                    "audio_understand": "/api/understand/audio",
+                },
+                "internal": ["media_evidence_normalize"],
+                "h3_prompt_input_types": ["assets", "asset_descriptions", "media_analysis", "context_ir"],
+            })
+            return
         if path.startswith("/api/jobs/"):
             parts = path.strip("/").split("/")
             job_id = parts[2] if len(parts) >= 3 else ""
@@ -386,6 +430,41 @@ class StudioHandler(BaseHTTPRequestHandler):
 
     def do_POST(self) -> None:
         path = urlparse(self.path).path
+        capability_routes = {**BUSINESS_API_ROUTES, **OPTIONAL_GENERAL_API_ROUTES}
+        if path in capability_routes:
+            content_length = int(self.headers.get("Content-Length", "0"))
+            if content_length <= 0 or content_length > MAX_UPLOAD_BYTES:
+                self._error(HTTPStatus.REQUEST_ENTITY_TOO_LARGE, "请求为空或超过限制")
+                return
+            try:
+                payload = json.loads(self.rfile.read(content_length).decode("utf-8"))
+                if not isinstance(payload, dict):
+                    raise ValueError("request body must be a JSON object")
+                route = capability_routes[path]
+                if route in {"image", "video_understand", "audio"}:
+                    asset = payload.get("asset")
+                    if not isinstance(asset, dict):
+                        raise ValueError("understand capability requires asset object")
+                    config = perception_config({"perception_provider": payload.get("perception_provider", {})})
+                    directive = payload.get("analysis_directive")
+                    if directive is not None and not isinstance(directive, dict):
+                        raise ValueError("analysis_directive must be an object")
+                    function = {"image": image_understand, "video_understand": video_understand, "audio": audio_understand}[route]
+                    result = function(asset, config, directive)
+                elif route == "prompt":
+                    output_dir = OUTPUTS / f"capability-{datetime.now().strftime('%Y%m%d-%H%M%S-%f')}"
+                    result = h3_prompt_generate(payload, output_dir=output_dir, style_skill=payload.get("style_skill"))
+                elif route == "video":
+                    result = video_generate(payload, wait=bool(payload.get("wait", False)))
+                else:
+                    output_dir = OUTPUTS / f"workflow-{datetime.now().strftime('%Y%m%d-%H%M%S-%f')}"
+                    result = context_ir_generate(payload, output_dir=output_dir, generate_video=bool(payload.get("generate_video", False)), wait_for_video=bool(payload.get("wait_for_video", False)))
+                self._json(HTTPStatus.OK, {"ok": True, "result": result})
+            except (ValueError, json.JSONDecodeError) as exc:
+                self._error(HTTPStatus.BAD_REQUEST, str(exc))
+            except Exception as exc:
+                self._error(HTTPStatus.INTERNAL_SERVER_ERROR, str(exc))
+            return
         if path != "/api/jobs":
             self._error(HTTPStatus.NOT_FOUND, "Not found")
             return

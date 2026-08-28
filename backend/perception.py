@@ -716,8 +716,9 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
         path: str,
         payload: Mapping[str, Any] | None = None,
         timeout: float = 30.0,
+        base_url: str | None = None,
     ) -> dict[str, Any]:
-        endpoint = str(self.config.options.get("base_url", "http://127.0.0.1:9012")).rstrip("/") + path
+        endpoint = (base_url or str(self.config.options.get("base_url", "http://127.0.0.1:9012"))).rstrip("/") + path
         data = None if payload is None else json.dumps(payload, ensure_ascii=False).encode("utf-8")
         request = urllib.request.Request(
             endpoint,
@@ -736,6 +737,19 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
         if not isinstance(value, dict):
             raise RuntimeError("Local Qwen3-VL returned a non-object response")
         return value
+
+    def _service_base_url(self, media_type: str) -> str:
+        if media_type == "image":
+            return str(self.config.options.get(
+                "image_base_url",
+                os.getenv("QWEN_IMAGE_UNDERSTAND_BASE_URL", self.config.options.get("base_url", "http://127.0.0.1:9012")),
+            ))
+        if media_type == "video":
+            return str(self.config.options.get(
+                "video_base_url",
+                os.getenv("QWEN_VIDEO_UNDERSTAND_BASE_URL", "http://127.0.0.1:9015"),
+            ))
+        raise ValueError(f"Unsupported local Qwen media type: {media_type}")
 
     @staticmethod
     def _file_sha256(path: Path) -> str:
@@ -811,6 +825,8 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
         **parameters: Any,
     ) -> dict[str, Any]:
         output_dir.mkdir(parents=True, exist_ok=True)
+        media_type = "video" if media_path.suffix.lower() in {".mp4", ".mov", ".mkv", ".avi", ".webm", ".m4v"} else "image"
+        service_base_url = self._service_base_url(media_type)
         payload: dict[str, Any] = {
             "media_path": str(media_path.resolve()),
             "prompt": prompt,
@@ -820,14 +836,14 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             "top_p": float(self.config.options.get("top_p", 0.9)),
             **parameters,
         }
-        submitted = self._request_json("POST", "/submit", payload)
+        submitted = self._request_json("POST", "/submit", payload, base_url=service_base_url)
         task_id = str(submitted.get("task_id", ""))
         if not task_id:
             raise RuntimeError("Local Qwen3-VL submit response did not contain task_id")
         deadline = time.monotonic() + float(self.config.options.get("timeout_seconds", 1800))
         poll_interval = max(0.25, float(self.config.options.get("poll_interval_seconds", 1.0)))
         while time.monotonic() < deadline:
-            status = self._request_json("GET", f"/status/{task_id}")
+            status = self._request_json("GET", f"/status/{task_id}", base_url=service_base_url)
             state = str(status.get("status", ""))
             if state == "done":
                 files = status.get("output_files") or []
@@ -883,6 +899,7 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
         claim = str(requirement.get("claim", "")).strip()
         region_or_time = str(requirement.get("region_or_time", "")).strip()
         media_type = str(asset.get("media_type", ""))
+        service_base_url = self._service_base_url(media_type)
         prompt = (
             "Inspect only the following missing fact required by an explicit user constraint. "
             "Do not re-describe the whole asset and do not infer hidden content. "
@@ -1025,7 +1042,16 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
                 "bbox_normalized": [round(value / 1000.0, 4) for value in coords],
             })
         if not objects:
-            raise RuntimeError("Local Qwen3-VL localization returned no valid objects")
+            # Collections, textures, environments, and other diffuse references
+            # may be visually meaningful without having one boxable foreground
+            # object. Preserve the staged attribute pass by treating the full
+            # image as one low-confidence region instead of failing the asset.
+            objects.append({
+                "object_id": "object_1",
+                "category": "whole_image_subject",
+                "confidence": 0.5,
+                "bbox_normalized": [0.0, 0.0, 1.0, 1.0],
+            })
 
         details: dict[str, dict[str, Any]] = {}
         task_ids = [str(localized.get("_task_id", ""))]
@@ -1376,6 +1402,7 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
 
     def _analyze_visual(self, asset: Mapping[str, Any], plan: Mapping[str, Any] | None = None) -> dict[str, Any]:
         media_type = str(asset.get("media_type", ""))
+        service_base_url = self._service_base_url(media_type)
         source = Path(str(asset.get("uri", ""))).expanduser().resolve()
         if not source.is_file():
             raise FileNotFoundError(f"local Qwen3-VL media path does not exist: {source}")
@@ -1421,14 +1448,14 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
                 fps=float(self.config.options.get("video_fps", 2.0)),
                 max_frames=int(self.config.options.get("video_max_frames", 256)),
             )
-        submitted = self._request_json("POST", "/submit", request_payload)
+        submitted = self._request_json("POST", "/submit", request_payload, base_url=service_base_url)
         task_id = str(submitted.get("task_id", ""))
         if not task_id:
             raise RuntimeError("Local Qwen3-VL submit response did not contain task_id")
         deadline = time.monotonic() + float(self.config.options.get("timeout_seconds", 1800))
         poll_interval = max(0.25, float(self.config.options.get("poll_interval_seconds", 1.0)))
         while time.monotonic() < deadline:
-            status = self._request_json("GET", f"/status/{task_id}")
+            status = self._request_json("GET", f"/status/{task_id}", base_url=service_base_url)
             state = str(status.get("status", ""))
             if state == "done":
                 files = status.get("output_files") or []

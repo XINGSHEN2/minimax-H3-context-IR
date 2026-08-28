@@ -6,6 +6,68 @@
 
 完整设计与字段说明见 [当前 Context-IR 工作流](docs/CURRENT_CONTEXT_IR_WORKFLOW.md)。
 
+## API 分层
+
+对外接口按“完整业务能力”和“可复用基础能力”分层。普通调用方只需要使用稳定业务接口，不需要了解素材证据标准化等内部步骤。
+
+### 稳定业务接口
+
+| 接口 | 用途 |
+|---|---|
+| `POST /api/h3/prompt` | 从原始素材、素材描述、标准分析或已有 IR 生成 Context-IR、H3 Prompt、审计和 H3 Request |
+| `POST /api/h3/videos` | 提交 H3 Request，并可选等待视频生成完成 |
+| `POST /api/context-ir/generate` | 组合 Prompt 编译与可选视频生成 |
+
+`/api/h3/prompt` 是普通用户的推荐入口，支持四种 `input_type`：
+
+| input_type | 输入 | 系统行为 |
+|---|---|---|
+| `assets` | 原始图片、视频或音频 | 调用素材理解模型后生成 Prompt |
+| `asset_descriptions` | 人工或外部系统提供的自然语言素材描述 | 不调用 VLM，内部标准化后生成 Prompt |
+| `media_analysis` | 标准 `media_analysis.v2` | 校验并复用分析结果 |
+| `context_ir` | 已有合法 Context-IR | 仅渲染、审计和构建请求 |
+
+使用自然语言素材描述的最小示例：
+
+```bash
+curl -X POST http://10.100.4.2:38080/api/h3/prompt \
+  -H "Content-Type: application/json" \
+  -d '{
+    "input_type": "asset_descriptions",
+    "source": {
+      "user_request": "用图片中的香水制作15秒高级竖屏广告，保持瓶身、瓶盖和标签文字不变。",
+      "task": {
+        "type": "ref2va",
+        "duration_seconds": 15,
+        "aspect_ratio": "9:16",
+        "generate_audio": true
+      }
+    },
+    "asset_descriptions": [
+      {
+        "asset_id": "image_1",
+        "media_type": "image",
+        "uri": "/shared/assets/perfume.png",
+        "description": "透明玻璃香水瓶，黑色斜切瓶盖，标签文字为 LUMEN 07。"
+      }
+    ]
+  }'
+```
+
+完整协议、返回字段、所有公开接口和调用示例见 [Context-IR 对外 API 使用文档](docs/API.md)。
+
+### 可选通用理解接口
+
+这些接口供其他 Agent、Skill 或素材系统复用，不直接生成 H3 Prompt：
+
+| 接口 | 输出 |
+|---|---|
+| `POST /api/understand/image` | 图片实体、属性、关系、区域证据和不确定性 |
+| `POST /api/understand/video` | 视频事件、实际时间线、动作、镜头和剪辑结构 |
+| `POST /api/understand/audio` | 音频证据；当前需配置真正的音频感知模型 |
+
+`media_evidence_normalize` 只保留为内部函数，由 `/api/h3/prompt` 自动调用，不再要求用户先请求一个中间接口。能力清单可通过 `GET /api/capabilities` 查询。
+
 ## 项目结构
 
 ```text
@@ -143,10 +205,15 @@ bash deploy/run.sh --validate-only outputs/<run>/context_ir.json
 
 ## 运行配置
 
-视觉感知默认使用本地部署的 Qwen3-VL-32B FIFO 服务：
+视觉感知默认使用两个独立部署的 Qwen3-VL-32B FIFO 服务。Context-IR 根据素材类型自动路由：
+
+- 图片 → `qwen3_vl_image_understanding`
+- 视频 → `qwen3_vl_video_understanding`
 
 - `CONTEXT_IR_VLM_PROVIDER`：默认值 `local-qwen3-vl-32b`
-- `YIWU_VLM_BASE_URL`：默认值 `http://127.0.0.1:9012`
+- `QWEN_IMAGE_UNDERSTAND_BASE_URL`：默认值 `http://127.0.0.1:9012`
+- `QWEN_VIDEO_UNDERSTAND_BASE_URL`：默认值 `http://127.0.0.1:9015`
+- `YIWU_VLM_BASE_URL`：旧版兼容回退地址，默认值 `http://127.0.0.1:9012`
 - `YIWU_VLM_MODEL`：默认值 `Qwen3-VL-32B-Instruct`
 - `CONTEXT_IR_VIDEO_FPS`：默认值 `2`
 - `CONTEXT_IR_VIDEO_MAX_FRAMES`：默认值 `256`
