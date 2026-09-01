@@ -205,14 +205,15 @@ bash deploy/run.sh --validate-only outputs/<run>/context_ir.json
 
 ## 运行配置
 
-视觉感知默认使用两个独立部署的 Qwen3-VL-32B FIFO 服务。Context-IR 根据素材类型自动路由：
+视觉感知默认使用一个统一部署的 Qwen3-VL-32B 服务。图片和视频请求进入
+同一全局 FIFO，再由 GPU `2,3` 与 `4,5` 两个 Worker 并行处理：
 
-- 图片 → `qwen3_vl_image_understanding`
-- 视频 → `qwen3_vl_video_understanding`
+- 图片 → `image_url`
+- 视频 → `video_url`
 
 - `CONTEXT_IR_VLM_PROVIDER`：默认值 `local-qwen3-vl-32b`
 - `QWEN_IMAGE_UNDERSTAND_BASE_URL`：默认值 `http://127.0.0.1:9012`
-- `QWEN_VIDEO_UNDERSTAND_BASE_URL`：默认值 `http://127.0.0.1:9015`
+- `QWEN_VIDEO_UNDERSTAND_BASE_URL`：兼容配置项，默认与图片相同，为 `http://127.0.0.1:9012`
 - `YIWU_VLM_BASE_URL`：旧版兼容回退地址，默认值 `http://127.0.0.1:9012`
 - `YIWU_VLM_MODEL`：默认值 `Qwen3-VL-32B-Instruct`
 - `CONTEXT_IR_VIDEO_FPS`：默认值 `2`
@@ -221,7 +222,41 @@ bash deploy/run.sh --validate-only outputs/<run>/context_ir.json
 
 与 `yiwu_codex` 启动方式一致，运行参数可以保存在本地环境文件中。将 `deploy/context_ir.env.example` 复制为 `deploy/context_ir.env`，在其中填写密钥，并确保该文件不进入版本控制。系统中已经导出的环境变量优先于文件内配置。
 
-本地图片和视频的绝对路径会直接提交给服务。服务将输入复制到 FIFO 任务目录，并使用 Qwen 原生视频工具按时间顺序解码帧；当前不分析音轨。原有 `gitee-qwen3-vl` 联系表适配器仍可作为显式指定的备用感知提供方。
+Context-IR 通过统一服务的 OpenAI 风格同步入口
+`POST /v1/chat/completions` 调用 Qwen。图片使用标准 `image_url` 内容块；
+视频使用 Qwen 的 `video_url` 多模态扩展。IR 中的本地绝对路径会转换为
+受限的 `file://` URL，仍由服务复制到持久化 FIFO 任务目录，因此不会绕过
+原有队列、恢复和审计机制。对外系统应使用 HTTP(S) 素材 URL；图片也支持
+Base64 Data URL。
+
+图片请求结构示例：
+
+```json
+{
+  "model": "Qwen3-VL-32B-Instruct",
+  "messages": [{
+    "role": "user",
+    "content": [
+      {"type": "text", "text": "提取客观可见证据，输出指定 JSON。"},
+      {
+        "type": "image_url",
+        "image_url": {"url": "https://assets.example.com/product.png"}
+      }
+    ]
+  }],
+  "max_tokens": 2048,
+  "temperature": 0,
+  "stream": false
+}
+```
+
+标准响应正文位于 `choices[0].message.content`，内部任务号位于扩展字段
+`x_task_id`。当前部署不支持 `stream=true`；返回的 `usage` 是估算值，并以
+`x_usage_estimated=true` 明确标记。服务同时保留 `/submit`、`/status` 和
+`/download`，供需要异步任务管理及服务器绝对路径的内部调用使用。
+
+服务使用 Qwen 原生视频工具按时间顺序解码帧；当前不分析音轨。原有
+`gitee-qwen3-vl` 联系表适配器仍可作为显式指定的备用感知提供方。
 
 Codex Agent 通过 Responses API 支持切换推理模型。默认使用 LiteLLM
 提供的 `deepseek-v4-flash`；在 `deploy/context_ir.env` 中设置

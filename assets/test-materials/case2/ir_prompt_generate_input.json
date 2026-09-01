@@ -1,0 +1,33 @@
+{
+  "input_type": "asset_descriptions",
+  "source": {
+    "user_request": "制作一条15秒、9:16竖屏、真实自然的卧室UGC鞋子种草视频。使用同一名年轻女生、同一双白色厚底老爹鞋和同一卧室场景贯穿全片。商品外观必须来自商品图：白色厚底拼接鞋身、网眼与光滑材质组合、黄色和蓝色双色鞋带、浅棕色厚底；不得更改鞋型、鞋底厚度、配色、鞋带或材质。人物身份和服装来自角色图，场景布局和氛围来自场景图。严格执行以下连续时间线和同步中文口播：0–2秒近景，女生坐在卧室地毯上，一手拎起鞋举到镜头前，脚上尚未穿这双鞋，对镜头自然说“给你们看新入的这双鞋”；2–5秒近景特写，商品仍在手中、脚上仍未穿，女生将鞋侧面朝向镜头并用手指指出厚底，镜头轻微推近，同步说“你看这个底，好厚，穿上直接显高”；5–9秒硬切至中景，试穿从接近完成状态开始，一只脚已经穿好，另一只脚已经伸进鞋里，女生整理双色鞋带后站起并轻跺试脚感，不展示冗长的完整穿鞋过程，同步说“上脚包裹感挺好的，而且真的高了一截”；9–12秒，试穿完成并从此保持双脚穿着同一双鞋，女生后退几步自然露出全身穿搭，画面从中景过渡到全身，同步说“这个颜色也很百搭，随便搭都不出错”；12–15秒保持全身构图和穿鞋完成状态，女生轻微转身或调整站姿，自然展示鞋与整体搭配，无台词、无强制CTA。商品状态必须严格连续：0–5秒只在手中且脚上未穿，5–9秒接近完成试穿，9–15秒完成试穿并保持，不得在后续镜头消失、变款、变色或回到未穿状态。口型、对白和动作必须同步；保留自然卧室环境声，可加入低存在感、轻松自然的UGC背景音乐，但不得盖住人声，不增加未提供的价格、销量、医学效果、绝对化宣传或屏幕文字。",
+    "task": {
+      "type": "ref2va",
+      "duration_seconds": 15,
+      "aspect_ratio": "9:16",
+      "generate_audio": true,
+      "style": "photorealistic natural bedroom UGC product recommendation"
+    }
+  },
+  "asset_descriptions": [
+    {
+      "asset_id": "image_1",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/test-materials/case2/product.jpeg",
+      "description": "商品主参考：一双白色厚底老爹鞋，拼接设计，网眼与光滑材质组合，黄色和蓝色双色鞋带，浅棕色厚底。控制鞋型、鞋底厚度、颜色、鞋带、材质和左右脚一致性；不继承商品图背景。"
+    },
+    {
+      "asset_id": "image_2",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/test-materials/case2/creator_reference.png",
+      "description": "人物身份参考：年轻女生，白色休闲T恤和蓝色牛仔裤。控制同一人物的身份、脸部特征、发型、体型和服装；不继承参考图背景或原有商品。"
+    },
+    {
+      "asset_id": "image_3",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/test-materials/case2/scene_reference.png",
+      "description": "场景参考：浅米色卧室地毯、窗边柔和自然光和少量绿植。控制卧室环境、地毯、自然光方向和整体生活化氛围；不得改变商品和人物身份。"
+    }
+  ]
+}

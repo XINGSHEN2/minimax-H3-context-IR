@@ -811,6 +811,143 @@ def normalize_focus_shot_bindings(payload: dict[str, Any]) -> dict[str, Any]:
     return payload
 
 
+def normalize_primary_subject(payload: dict[str, Any]) -> dict[str, Any]:
+    """Make the declared creative-focus subject the only primary subject."""
+    focus = payload.get("creative_focus")
+    subjects = payload.get("subjects")
+    if not isinstance(focus, Mapping) or not isinstance(subjects, list):
+        return payload
+    primary_subject_id = str(focus.get("primary_subject_id", "")).strip()
+    valid_ids = {
+        str(subject.get("subject_id", "")).strip()
+        for subject in subjects if isinstance(subject, Mapping)
+    }
+    if primary_subject_id not in valid_ids:
+        return payload
+    for subject in subjects:
+        if isinstance(subject, dict):
+            subject["primary"] = str(subject.get("subject_id", "")).strip() == primary_subject_id
+    return payload
+
+
+def normalize_binding_isolation_conflicts(payload: dict[str, Any]) -> dict[str, Any]:
+    """Resolve exact allow/block collisions in favor of the controlled property."""
+    directives = {
+        str(directive.get("directive_id", "")).strip(): directive
+        for directive in payload.get("intent", {}).get("directives", [])
+        if isinstance(directive, Mapping)
+        and str(directive.get("directive_id", "")).strip()
+    } if isinstance(payload.get("intent"), Mapping) else {}
+    bindings = {
+        str(binding.get("binding_id", "")): binding
+        for binding in payload.get("asset_bindings", [])
+        if isinstance(binding, dict) and str(binding.get("binding_id", "")).strip()
+    }
+    for binding in bindings.values():
+        inherited = _strings(binding.get("inherit"))
+        explicit_excluded = {
+            scope.casefold()
+            for directive_id in _strings(binding.get("source_directive_ids"))
+            for directive in [directives.get(directive_id, {})]
+            if directive.get("operation") == "exclude"
+            for scope in _strings(directive.get("scope"))
+        }
+        inherited = [
+            value for value in inherited
+            if value.casefold() not in explicit_excluded
+        ]
+        if not inherited:
+            inherited = [f"{binding.get('role', 'scene')} reference scope"]
+        inherited_lower = {value.casefold() for value in inherited}
+        binding["inherit"] = inherited
+        binding["exclude"] = [
+            value for value in _strings(binding.get("exclude"))
+            if value.casefold() not in inherited_lower
+            or value.casefold() in explicit_excluded
+        ]
+    for rule in payload.get("isolation_rules", []):
+        if not isinstance(rule, dict):
+            continue
+        binding = bindings.get(str(rule.get("binding_id", "")))
+        allowed = _strings(binding.get("inherit")) if binding else _strings(rule.get("allow"))
+        allowed_lower = {value.casefold() for value in allowed}
+        rule["allow"] = allowed
+        rule["block"] = [
+            value for value in _strings(rule.get("block"))
+            if value.casefold() not in allowed_lower
+        ]
+    return payload
+
+
+def normalize_timeline_boundaries(payload: dict[str, Any]) -> dict[str, Any]:
+    """Repair only technical gaps/overlaps while preserving shot order and end beats."""
+    timeline = payload.get("timeline")
+    task = payload.get("task")
+    if not isinstance(timeline, list) or not timeline or not isinstance(task, Mapping):
+        return payload
+    try:
+        duration = float(task.get("duration_seconds"))
+    except (TypeError, ValueError):
+        return payload
+    expected = 0.0
+    total = len(timeline)
+    for index, shot in enumerate(timeline):
+        if not isinstance(shot, dict):
+            continue
+        shot["start_seconds"] = expected
+        if index == total - 1:
+            end = duration
+        else:
+            try:
+                end = float(shot.get("end_seconds"))
+            except (TypeError, ValueError):
+                end = expected
+            remaining_shots = total - index - 1
+            if end <= expected or end >= duration:
+                end = expected + (duration - expected) / (remaining_shots + 1)
+        shot["end_seconds"] = end
+        expected = end
+    return payload
+
+
+def normalize_subject_appearance_shots(payload: dict[str, Any]) -> dict[str, Any]:
+    """Derive the subject appearance index from executable timeline references."""
+    timeline = payload.get("timeline")
+    subjects = payload.get("subjects")
+    if not isinstance(timeline, list) or not isinstance(subjects, list):
+        return payload
+    for subject in subjects:
+        if not isinstance(subject, dict):
+            continue
+        subject_id = str(subject.get("subject_id", "")).strip()
+        subject["appearance_shot_ids"] = [
+            str(shot.get("shot_id", "")).strip()
+            for shot in timeline
+            if isinstance(shot, Mapping)
+            and subject_id in _strings(shot.get("subject_refs"))
+        ]
+    return payload
+
+
+def normalize_global_constraint_conflicts(payload: dict[str, Any]) -> dict[str, Any]:
+    """Remove exact model duplicates from lower-authority mutable/prohibit lists."""
+    constraints = payload.get("constraints")
+    if not isinstance(constraints, dict):
+        return payload
+    preserve = _strings(constraints.get("preserve"))
+    preserve_lower = {value.casefold() for value in preserve}
+    constraints["preserve"] = preserve
+    constraints["allow_change"] = [
+        value for value in _strings(constraints.get("allow_change"))
+        if value.casefold() not in preserve_lower
+    ]
+    constraints["prohibit"] = [
+        value for value in _strings(constraints.get("prohibit"))
+        if value.casefold() not in preserve_lower
+    ]
+    return payload
+
+
 def normalize_creative_focus_asset(payload: dict[str, Any]) -> dict[str, Any]:
     """Repair focus asset/bindings after non-asset model bindings are lowered."""
     focus = payload.get("creative_focus")
@@ -1057,6 +1194,15 @@ def normalize_production_policies(payload: dict[str, Any]) -> dict[str, Any]:
                     "priority": "hard", "allow_new_events": False,
                     "preserve_reference": True,
                 })
+                events = candidate.get("events")
+                if isinstance(events, list):
+                    candidate["events"] = [
+                        event for event in events
+                        if isinstance(event, Mapping)
+                        and event.get("source") in {
+                            "explicit_user", "reference_evidence", "edit_base_preservation"
+                        }
+                    ]
             if candidate.get("mode") == "disabled":
                 candidate["allow_new_events"] = False
                 candidate["events"] = []
@@ -1173,7 +1319,12 @@ def compile_context_ir(model_output: Mapping[str, Any], source_request: Mapping[
     normalize_reference_isolation(payload)
     normalize_subject_source_bindings(payload)
     normalize_creative_focus_asset(payload)
+    normalize_primary_subject(payload)
     normalize_focus_shot_bindings(payload)
+    normalize_binding_isolation_conflicts(payload)
+    normalize_timeline_boundaries(payload)
+    normalize_subject_appearance_shots(payload)
+    normalize_global_constraint_conflicts(payload)
     normalize_timeline_state_fields(payload)
     normalize_production_policies(payload)
     report = validate_context_ir(payload)
@@ -1532,6 +1683,15 @@ def audit_h3_prompt(payload: Mapping[str, Any], prompt: str) -> ValidationReport
     if INTERNAL_MEDIA_TERMS.search(prompt):
         report.add("INTERNAL_MEDIA_LEAK", "internal sampled-frame terminology leaked into final prompt", "$.h3_prompt")
     language_probe = prompt
+    # Official H3 dialogue/lyrics tags preserve verbatim source language. Strip
+    # their contents only for the rewrite-language audit; the tags remain in the
+    # delivered prompt. Untagged CJK prose must still fail below.
+    language_probe = re.sub(
+        r"<(?:d|l)(?:\s[^>]*)?>.*?</(?:d|l)>",
+        "",
+        language_probe,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
     perception = payload.get("perception")
     visible_text_literals: list[str] = []
     if isinstance(perception, Mapping):

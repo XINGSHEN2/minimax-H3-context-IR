@@ -138,7 +138,7 @@ def perception_config(source: dict[str, Any]) -> PerceptionProviderConfig:
     options = dict(supplied.get("options") or {})
     options.setdefault("base_url", os.environ.get("YIWU_VLM_BASE_URL", "https://ai.gitee.com/v1"))
     options.setdefault("image_base_url", os.environ.get("QWEN_IMAGE_UNDERSTAND_BASE_URL", "http://127.0.0.1:9012"))
-    options.setdefault("video_base_url", os.environ.get("QWEN_VIDEO_UNDERSTAND_BASE_URL", "http://127.0.0.1:9015"))
+    options.setdefault("video_base_url", os.environ.get("QWEN_VIDEO_UNDERSTAND_BASE_URL", "http://127.0.0.1:9012"))
     options.setdefault("api_key_env", os.environ.get("YIWU_VLM_API_KEY_ENV", "GITEE_AI_API_KEY"))
     options.setdefault("video_frame_count", int(os.environ.get("CONTEXT_IR_VIDEO_FRAME_COUNT", "0")))
     options.setdefault("max_tokens", int(os.environ.get("CONTEXT_IR_VLM_MAX_TOKENS", "3000")))

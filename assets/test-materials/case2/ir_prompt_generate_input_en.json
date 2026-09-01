@@ -1,0 +1,33 @@
+{
+  "input_type": "asset_descriptions",
+  "source": {
+    "user_request": "Create a 15-second, 9:16, photorealistic bedroom UGC shoe recommendation video. Use the same young woman, the same pair of white platform chunky sneakers, and the same bedroom throughout. The product appearance must come exclusively from the product image: white paneled chunky sneaker construction, mesh and smooth mixed materials, yellow-and-blue two-tone laces, and a light-brown thick platform sole. Do not alter the shoe geometry, sole thickness, colorway, laces, or materials. The creator identity and outfit come from the creator image. The bedroom layout and atmosphere come from the scene image. Execute this continuous timeline with synchronized Mandarin dialogue. Shot 1, 0–2s: close shot. The woman sits on the bedroom rug, lifts one shoe toward the camera while neither foot is wearing this product, and naturally says: <d>[Chinese] 给你们看新入的这双鞋</d>. Shot 2, 2–5s: close product detail. The shoe remains in her hand and is still not worn. She turns its side toward the camera and points to the platform sole as the camera makes a subtle push-in, saying: <d>[Chinese] 你看这个底，好厚，穿上直接显高</d>. Shot 3, 5–9s: hard cut to a medium shot. Start near the end of dressing: one foot already wears the shoe, the other foot is already inside the second shoe, and she adjusts the two-tone laces before standing and making a small natural foot tap. Do not depict the full dressing process. She says: <d>[Chinese] 上脚包裹感挺好的，而且真的高了一截</d>. Shot 4, 9–12s: dressing is complete and both feet must keep wearing the same shoes from this point onward. She takes a few steps backward to reveal the full outfit, transitioning from medium to full-body framing, and says: <d>[Chinese] 这个颜色也很百搭，随便搭都不出错</d>. Shot 5, 12–15s: keep the full-body framing and completed worn state. She makes a slight turn or adjusts her stance to show the shoes with the outfit. No dialogue and no forced CTA. Product-state continuity is a hard constraint: during 0–5s the product is only held and is not worn; during 5–9s dressing is nearly complete; during 9–15s both shoes are fully worn and remain visible. The product must not disappear, change model or color, or revert to an unworn state. Lip motion, Mandarin dialogue, and actions must remain synchronized. Preserve natural bedroom ambience. A low-prominence, casual UGC music bed is allowed but must not mask speech. Do not introduce price, sales claims, medical claims, absolute performance claims, captions, subtitles, or other on-screen text.",
+    "task": {
+      "type": "ref2va",
+      "duration_seconds": 15,
+      "aspect_ratio": "9:16",
+      "generate_audio": true,
+      "style": "photorealistic natural bedroom UGC product recommendation"
+    }
+  },
+  "asset_descriptions": [
+    {
+      "asset_id": "image_1",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/test-materials/case2/product.jpeg",
+      "description": "Primary product reference: a pair of white chunky platform sneakers with a paneled construction, mixed mesh and smooth materials, yellow-and-blue two-tone laces, and a light-brown thick platform sole. Control shoe geometry, sole thickness, colors, laces, materials, and left-right consistency. Do not inherit the source background."
+    },
+    {
+      "asset_id": "image_2",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/test-materials/case2/creator_reference.png",
+      "description": "Creator identity reference: a young woman wearing a casual white T-shirt and blue jeans. Control the same person's identity, facial features, hairstyle, body proportions, and outfit. Do not inherit the reference background or any original product."
+    },
+    {
+      "asset_id": "image_3",
+      "media_type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR/assets/test-materials/case2/scene_reference.png",
+      "description": "Scene reference: a bedroom with a light beige rug, soft natural window light, and a small amount of greenery. Control the bedroom environment, rug, natural-light direction, and casual lived-in atmosphere. Do not alter the product or creator identity."
+    }
+  ]
+}

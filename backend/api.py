@@ -268,7 +268,7 @@ def _create_case(form: cgi.FieldStorage) -> tuple[str, dict[str, Any]]:
                 "options": {
                     "base_url": os.environ.get("YIWU_VLM_BASE_URL", "http://127.0.0.1:9012"),
                     "image_base_url": os.environ.get("QWEN_IMAGE_UNDERSTAND_BASE_URL", "http://127.0.0.1:9012"),
-                    "video_base_url": os.environ.get("QWEN_VIDEO_UNDERSTAND_BASE_URL", "http://127.0.0.1:9015"),
+                    "video_base_url": os.environ.get("QWEN_VIDEO_UNDERSTAND_BASE_URL", "http://127.0.0.1:9012"),
                     "api_key_env": os.environ.get("YIWU_VLM_API_KEY_ENV", "GITEE_AI_API_KEY"),
                     "video_frame_count": int(os.environ.get("CONTEXT_IR_VIDEO_FRAME_COUNT", "6")),
                     "video_fps": float(os.environ.get("CONTEXT_IR_VIDEO_FPS", "2")),
@@ -296,7 +296,7 @@ def _service_status() -> dict[str, Any]:
         services = {}
         for media_kind, base_url in {
             "image": os.environ.get("QWEN_IMAGE_UNDERSTAND_BASE_URL", "http://127.0.0.1:9012"),
-            "video": os.environ.get("QWEN_VIDEO_UNDERSTAND_BASE_URL", "http://127.0.0.1:9015"),
+            "video": os.environ.get("QWEN_VIDEO_UNDERSTAND_BASE_URL", "http://127.0.0.1:9012"),
         }.items():
             try:
                 with urllib.request.urlopen(base_url.rstrip("/") + "/health", timeout=0.8) as response:

@@ -708,7 +708,7 @@ class GiteeQwen3VLProvider(PerceptionProvider):
 
 
 class LocalQwen3VL32BProvider(PerceptionProvider):
-    """Local FIFO Qwen3-VL-32B service with native image/video path input."""
+    """OpenAI Chat Completions adapter for the local FIFO Qwen3-VL services."""
 
     def _request_json(
         self,
@@ -747,7 +747,7 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
         if media_type == "video":
             return str(self.config.options.get(
                 "video_base_url",
-                os.getenv("QWEN_VIDEO_UNDERSTAND_BASE_URL", "http://127.0.0.1:9015"),
+                os.getenv("QWEN_VIDEO_UNDERSTAND_BASE_URL", "http://127.0.0.1:9012"),
             ))
         raise ValueError(f"Unsupported local Qwen media type: {media_type}")
 
@@ -824,70 +824,56 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
         _json_parse_attempt: int = 0,
         **parameters: Any,
     ) -> dict[str, Any]:
-        output_dir.mkdir(parents=True, exist_ok=True)
         media_type = "video" if media_path.suffix.lower() in {".mp4", ".mov", ".mkv", ".avi", ".webm", ".m4v"} else "image"
         service_base_url = self._service_base_url(media_type)
+        content_type = "video_url" if media_type == "video" else "image_url"
         payload: dict[str, Any] = {
-            "media_path": str(media_path.resolve()),
-            "prompt": prompt,
-            "output_dir": str(output_dir.resolve()),
-            "max_new_tokens": max_new_tokens,
+            "model": self.config.model,
+            "messages": [{
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": prompt},
+                    {"type": content_type, content_type: {"url": media_path.resolve().as_uri()}},
+                ],
+            }],
+            "max_tokens": max_new_tokens,
             "temperature": float(self.config.options.get("temperature", 0.0)),
             "top_p": float(self.config.options.get("top_p", 0.9)),
             **parameters,
         }
-        submitted = self._request_json("POST", "/submit", payload, base_url=service_base_url)
-        task_id = str(submitted.get("task_id", ""))
-        if not task_id:
-            raise RuntimeError("Local Qwen3-VL submit response did not contain task_id")
-        deadline = time.monotonic() + float(self.config.options.get("timeout_seconds", 1800))
-        poll_interval = max(0.25, float(self.config.options.get("poll_interval_seconds", 1.0)))
-        while time.monotonic() < deadline:
-            status = self._request_json("GET", f"/status/{task_id}", base_url=service_base_url)
-            state = str(status.get("status", ""))
-            if state == "done":
-                files = status.get("output_files") or []
-                if not files or not isinstance(files[0], Mapping):
-                    raise RuntimeError("Local Qwen3-VL completed without an output file")
-                response_path = Path(str(files[0].get("path", ""))).expanduser().resolve()
-                if not response_path.is_file():
-                    raise RuntimeError(f"Local Qwen3-VL output is missing: {response_path}")
-                response_text = response_path.read_text(encoding="utf-8")
-                try:
-                    result = _json_object(response_text)
-                except (ValueError, json.JSONDecodeError) as exc:
-                    retry_limit = max(0, int(self.config.options.get("json_parse_retries", 2)))
-                    if _json_parse_attempt >= retry_limit:
-                        raise RuntimeError(
-                            f"Local Qwen3-VL returned invalid JSON after {retry_limit + 1} attempts: {exc}"
-                        ) from exc
-                    retry_prompt = (
-                        prompt
-                        + "\nYour previous response was invalid or truncated JSON. Retry from scratch. "
-                        + "Return only complete compact JSON in the exact requested schema. "
-                        + "Use fewer words and fewer optional details so the closing braces fit."
-                    )
-                    retry_max_new_tokens = _next_json_retry_token_budget(
-                        max_new_tokens,
-                        self.config.options,
-                    )
-                    return self._run_task(
-                        media_path,
-                        retry_prompt,
-                        output_dir.parent / f"{output_dir.name}_json_retry_{_json_parse_attempt + 1}",
-                        retry_max_new_tokens,
-                        _json_parse_attempt=_json_parse_attempt + 1,
-                        **parameters,
-                    )
-                result["_task_id"] = task_id
-                result["_input_media"] = dict(status.get("input_media", {}))
-                return result
-            if state in {"error", "cancelled"}:
-                error = status.get("error") or {}
-                message = error.get("message") if isinstance(error, Mapping) else str(error)
-                raise RuntimeError(f"Local Qwen3-VL task {state}: {message or 'unknown error'}")
-            time.sleep(poll_interval)
-        raise TimeoutError(f"Local Qwen3-VL task timed out: {task_id}")
+        response = self._request_json(
+            "POST", "/v1/chat/completions", payload,
+            timeout=float(self.config.options.get("timeout_seconds", 1800)),
+            base_url=service_base_url,
+        )
+        choices = response.get("choices") or []
+        try:
+            response_text = str(choices[0]["message"]["content"])
+        except (IndexError, KeyError, TypeError) as exc:
+            raise RuntimeError("Local Qwen3-VL returned an invalid Chat Completions response") from exc
+        try:
+            result = _json_object(response_text)
+        except (ValueError, json.JSONDecodeError) as exc:
+            retry_limit = max(0, int(self.config.options.get("json_parse_retries", 2)))
+            if _json_parse_attempt >= retry_limit:
+                raise RuntimeError(
+                    f"Local Qwen3-VL returned invalid JSON after {retry_limit + 1} attempts: {exc}"
+                ) from exc
+            retry_prompt = (
+                prompt
+                + "\nYour previous response was invalid or truncated JSON. Retry from scratch. "
+                + "Return only complete compact JSON in the exact requested schema. "
+                + "Use fewer words and fewer optional details so the closing braces fit."
+            )
+            return self._run_task(
+                media_path, retry_prompt,
+                output_dir.parent / f"{output_dir.name}_json_retry_{_json_parse_attempt + 1}",
+                _next_json_retry_token_budget(max_new_tokens, self.config.options),
+                _json_parse_attempt=_json_parse_attempt + 1, **parameters,
+            )
+        result["_task_id"] = str(response.get("x_task_id", ""))
+        result["_input_media"] = {"kind": media_type}
+        return result
 
     def _supplement_required_evidence(
         self,
@@ -1435,42 +1421,17 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
                 )
             )
         ).expanduser().resolve()
-        request_payload: dict[str, Any] = {
-            "media_path": str(source),
-            "prompt": prompt,
-            "output_dir": str(output_dir),
-            "max_new_tokens": int(self.config.options.get("max_tokens", 2048)),
-            "temperature": float(self.config.options.get("temperature", 0.0)),
-            "top_p": float(self.config.options.get("top_p", 0.9)),
-        }
+        request_parameters: dict[str, Any] = {}
         if media_type == "video":
-            request_payload.update(
+            request_parameters.update(
                 fps=float(self.config.options.get("video_fps", 2.0)),
                 max_frames=int(self.config.options.get("video_max_frames", 256)),
             )
-        submitted = self._request_json("POST", "/submit", request_payload, base_url=service_base_url)
-        task_id = str(submitted.get("task_id", ""))
-        if not task_id:
-            raise RuntimeError("Local Qwen3-VL submit response did not contain task_id")
-        deadline = time.monotonic() + float(self.config.options.get("timeout_seconds", 1800))
-        poll_interval = max(0.25, float(self.config.options.get("poll_interval_seconds", 1.0)))
-        while time.monotonic() < deadline:
-            status = self._request_json("GET", f"/status/{task_id}", base_url=service_base_url)
-            state = str(status.get("status", ""))
-            if state == "done":
-                files = status.get("output_files") or []
-                if not files or not isinstance(files[0], Mapping):
-                    raise RuntimeError("Local Qwen3-VL completed without an output file")
-                response_path = Path(str(files[0].get("path", ""))).expanduser().resolve()
-                if not response_path.is_file():
-                    raise RuntimeError(f"Local Qwen3-VL output is missing: {response_path}")
-                return _json_object(response_path.read_text(encoding="utf-8"))
-            if state == "error":
-                error = status.get("error") or {}
-                message = error.get("message") if isinstance(error, Mapping) else str(error)
-                raise RuntimeError(f"Local Qwen3-VL task failed: {message or 'unknown error'}")
-            time.sleep(poll_interval)
-        raise TimeoutError(f"Local Qwen3-VL task timed out: {task_id}")
+        return self._run_task(
+            source, prompt, output_dir,
+            int(self.config.options.get("max_tokens", 2048)),
+            **request_parameters,
+        )
 
     def analyze(self, assets: Sequence[Mapping[str, Any]], perception_plan: Mapping[str, Any] | None = None) -> dict[str, Any]:
         plans = {str(item.get("asset_id", "")): item for item in (perception_plan or {}).get("assets", []) if isinstance(item, Mapping)}

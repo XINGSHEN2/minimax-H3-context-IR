@@ -35,23 +35,39 @@ class FakeLocalProvider(LocalQwen3VL32BProvider):
 
 
 class PerceptionPerformanceTests(unittest.TestCase):
+    def test_local_provider_uses_chat_completions_shape(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            image = Path(temporary) / "input.jpg"
+            image.write_bytes(b"image")
+            provider = LocalQwen3VL32BProvider(PerceptionProviderConfig(options={"cache_enabled": False}))
+            captured = {}
+            def fake_request(method, path, payload=None, timeout=30, base_url=None):
+                captured.update(method=method, path=path, payload=payload, base_url=base_url)
+                return {"choices": [{"message": {"content": '{"summary":"ok"}'}}], "x_task_id": "task_1"}
+            provider._request_json = fake_request
+            result = provider._run_task(image, "describe", Path(temporary) / "out", 512)
+            self.assertEqual(captured["path"], "/v1/chat/completions")
+            self.assertEqual(captured["payload"]["messages"][0]["content"][1]["type"], "image_url")
+            self.assertTrue(captured["payload"]["messages"][0]["content"][1]["image_url"]["url"].startswith("file:"))
+            self.assertEqual(result["_task_id"], "task_1")
+
     def test_local_provider_routes_images_and_videos_to_separate_services(self):
         provider = LocalQwen3VL32BProvider(PerceptionProviderConfig(options={
             "base_url": "http://legacy:9000",
             "image_base_url": "http://image:9012",
-            "video_base_url": "http://video:9015",
+            "video_base_url": "http://video:9012",
         }))
         self.assertEqual(provider._service_base_url("image"), "http://image:9012")
-        self.assertEqual(provider._service_base_url("video"), "http://video:9015")
+        self.assertEqual(provider._service_base_url("video"), "http://video:9012")
 
     def test_local_provider_reads_split_service_environment(self):
         with patch.dict("os.environ", {
             "QWEN_IMAGE_UNDERSTAND_BASE_URL": "http://env-image:9012",
-            "QWEN_VIDEO_UNDERSTAND_BASE_URL": "http://env-video:9015",
+            "QWEN_VIDEO_UNDERSTAND_BASE_URL": "http://env-video:9012",
         }):
             provider = LocalQwen3VL32BProvider(PerceptionProviderConfig(options={}))
             self.assertEqual(provider._service_base_url("image"), "http://env-image:9012")
-            self.assertEqual(provider._service_base_url("video"), "http://env-video:9015")
+            self.assertEqual(provider._service_base_url("video"), "http://env-video:9012")
 
     def test_attribute_prompt_requires_one_valid_group(self):
         self.assertIn("must be exactly one of", ATTRIBUTE_CROP_PROMPT)
