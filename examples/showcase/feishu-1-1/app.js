@@ -62,7 +62,7 @@ async function render() {
 }
 
 async function init() {
-  state.data = await fetch("cases.json").then((response) => response.json());
+  state.data = await fetch("cases.json?v=20260902-2", { cache: "no-store" }).then((response) => response.json());
   const select = $("#caseSelect");
   state.data.cases.forEach((item, index) => select.add(new Option(item.title, index)));
   select.addEventListener("change", () => {
