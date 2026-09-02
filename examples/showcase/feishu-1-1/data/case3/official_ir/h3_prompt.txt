@@ -1,0 +1,23 @@
+subject_definitions:
+<Subject 1> is the environment and visual style from <Picture 1>, featuring a massive, dark, circular metallic cosmic door, a pitch-black central void, a wet and highly reflective ground, and a high-contrast cinematic atmosphere.
+<Subject 2> is the young woman defined in the multi-view reference board <Picture 2>, who has dark wavy hair and wears a long dark grey tailored coat over a black top, dark trousers, and black lace-up combat boots.
+
+summary:
+[reference generation] The target video features a realistic, high-contrast cinematic atmosphere based on <Subject 1>. It opens with an ultra-wide shot of <Subject 2> standing before a massive circular cosmic door as the rusted red title "THE STARS WERE LISTENING" slowly fades in. After a hard cut, <Subject 2> steps forward into the glowing, misty darkness of the threshold.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1], [Shot 2]): fully_preserved - the massive circular cosmic door, wet reflective ground, pitch-black central void, and high-contrast cinematic lighting are faithfully utilized as the primary environment and visual style.
+<Subject 2> (appears in [Shot 1], [Shot 2]): fully_preserved - the character's identity, dark wavy hair, long dark grey tailored coat, dark trousers, and black boots are accurately reproduced.
+
+detailed_description:
+The target video is in a realistic cinematic style with high-contrast lighting, deep shadows, and a tense, gritty texture, heavily drawing from the environmental atmosphere of <Subject 1>.
+
+[Shot 1] An ultra-wide establishing shot reveals the massive, dark, circular metallic cosmic door of <Subject 1>, which dominates almost the entire visual frame. The center of the colossal ring is a profound, pitch-black void, giving the impression of an endless abyss. The ground beneath the structure is wet and highly reflective, mirroring the faint, cold ambient light spilling from the metallic edges. Standing in the lower-right foreground, with her back to the camera, is <Subject 2>. She appears exceptionally small against the sheer scale of the cosmic door, her long dark grey tailored coat and black lace-up combat boots clearly distinguishable in the stark silhouette. The camera slowly pushes in toward the dark center, creating a sense of creeping dread and anticipation. As the camera glides forward, a massive title begins to emerge from the upper edges of the darkness: "THE STARS WERE LISTENING". The on-screen text is rendered in an extremely narrow, heavy, all-caps font, colored in a textured mix of dark red and rust red. It features a slight film grain and misted, ethereal edges. The text starts out completely blurry and gradually sharpens into perfect clarity as the push-in continues. A continuous deep low-frequency pulse rumbles underneath the scene, layered with distant, subtle metallic vibrations that suggest heavy machinery in the deep background. Exactly as the blood-red text snaps into crisp focus, a distinct, light percussive hit echoes sharply through the cavernous space.
+
+[Shot 2] At 00:08.500, the shot cuts to a medium-close angle on <Subject 2> from a slight side-profile as she stands just inches from the threshold of the doorway. The high-contrast lighting from the environment of <Subject 1> casts deep, dramatic shadows across her face, highlighting her tense, focused, and resolved expression. Her dark wavy hair shifts gently in a faint, unseen draft blowing out from the dark void, and the thick, woven texture of her long dark grey tailored coat becomes highly visible as she breathes steadily. She stares intently into the pitch-black emptiness ahead of her, her jaw set with determination. Slowly, she shifts her weight, lifts her leg, and takes a deliberate, heavy step forward. The fabric of her dark trousers shifts naturally against the tops of her black lace-up combat boots. The heavy boot makes a wet, muted splashing thud as it strikes the damp, reflective ground, breaking the mirrored surface. The deep low-frequency pulse from the previous shot continues seamlessly over the cut, steadily swelling in intensity and physical vibration. As she firmly commits to entering the darkness, the pulsing ambient sound culminates in a haunting, resonant metallic groan that reverberates through the entire structure before the visual slowly fades to black.
+
+overall_soundscape:
+A tense, cinematic atmospheric soundscape dominated by a continuous deep low-frequency pulse, layered with distant metallic vibrations, a precise percussive hit for the title reveal, and echoing mechanical groans.
+
+non_diegetic_music:
+N/A

@@ -1,0 +1,29 @@
+subject_definitions:
+<Picture 1> is the first frame of [Shot 1], showing a woman from behind looking out a spaceship window at a large fleet in space, with cinematic text floating in the view.
+<Subject 1> is the woman with her hair tied back, wearing a dark uniform with epaulets, seen from behind in <Picture 1>.
+<Subject 2> is the deep space environment outside the window, featuring a dense, glowing galaxy, scattered stars, and a vast fleet of dark, angular spaceships, in <Picture 1>.
+
+summary:
+[keyframe completion] The target video begins with <Picture 1>, showing <Subject 1> looking out from a bridge at the vast fleet of <Subject 2>. The pace quickly accelerates into a grand, chaotic sequence featuring violent bridge shaking, intense light flashes, and a massive warp jump impact. Cinematic text dynamically interacts with the environment, expanding its letter spacing with motion blur and a restrained metallic glow, frequently interrupted by aggressive, fast-paced black frame flashes.
+
+retention_analysis:
+<Picture 1> ([Shot 1] first frame): fully_preserved - the target video begins with the exact composition of the woman looking out the window at the fleet and the text.
+<Subject 1> (appears in [Shot 1], [Shot 2], [Shot 4]): fully_preserved - the dark uniform, epaulets, and hair tied back are maintained throughout the bridge scenes.
+<Subject 2> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4]): fully_preserved - the dark angular spaceships, glowing galaxy, and starfield are maintained and subsequently transition into high-speed warp streaks.
+
+detailed_description:
+The target video is in a high-fidelity cinematic sci-fi style.
+
+[Shot 1] The shot begins with <Picture 1>. <Subject 1> stands completely motionless on the dimly lit, metallic bridge, her sharp, dark silhouette framing the breathtaking view. Through the massive, angled window, the bright, glowing galaxy of <Subject 2> stretches across the cosmos, crowded with an imposing fleet of heavily armored spaceships. The on-screen text, "THE LAST FLEET LEFT EARTH" and "SHE WAS NOT ON BOARD", features a cinematic trailer-style wide-letter-spacing title packaging. The font is explicitly not pure white; instead, it possesses a textured metallic material feel with a restrained, faint edge glow. As the camera executes a slow, deliberate push-in, distant starlight sweeps dynamically across the text, illuminating its metallic surface as if the letters are emerging from the deep, dark shadows of space.
+
+[Shot 2] At 00:03.000, the shot cuts to a slightly closer, low-angle view from right behind <Subject 1>, looking up at the cosmic display. The pacing suddenly accelerates violently as the bridge begins a severe, high-frequency physical shake, vibrating the character and the window frame. The massive, angular spaceships in <Subject 2> simultaneously ignite their primary thrusters, erupting with intense, blinding light flashes that momentarily wash out the dark bridge interior with harsh white highlights. Alongside this chaos, the cinematic text undergoes dynamic animation: its wide letter spacing begins to steadily expand outward across the frame, leaving subtle, ghostly motion-blur trails in its wake. A split-second black frame flashes on screen, aggressively disrupting the visual continuity.
+
+[Shot 3] At 00:07.500, the shot cuts to an expansive exterior wide view of <Subject 2>, omitting the bridge window entirely. The entire dark fleet surges forward in terrifying unison, triggering a colossal, space-bending warp jump impact. A concentrated, rippling shockwave distorts the starfield, accompanied by rapid, aggressive strobe flashes of stark white light that flare across the camera lens. The cinematic text persists over the turbulent chaos, maintaining its faint, restrained glow while expanding further toward the screen edges. This sequence is repeatedly interspersed with rapid, staccato black frame flashes that systematically heighten the cinematic tension.
+
+[Shot 4] At 00:11.500, the shot cuts back to the interior bridge, tight on <Subject 1>'s back and uniform epaulets. The sheer, overwhelming force of the warp jump violently rocks the camera with strong amplitude. Outside the shattered perspective of the window, the dense galaxy and fleet of <Subject 2> stretch instantly into blinding, elongated streaks of blue and white warp-speed light. These glowing, hyper-speed streaks sweep across the metallic text, which is now widely dispersed and stretched by motion blur. The intense bridge shaking peaks in a chaotic crescendo of light and vibration, before a final, sudden hard cut to a solid black frame terminates the visual perfectly.
+
+overall_soundscape:
+The soundscape features a deep, ominous cinematic drone that rapidly builds into a chaotic mix of heavy, low-frequency bridge rumbles, sharp metallic groans, and the explosive, booming impacts of a warp jump shockwave, punctuated by sharp digital swooshes during the black frame flashes.
+
+non_diegetic_music:
+An intense, fast-paced cinematic trailer score with aggressive percussion, sudden brass braams, and a driving, urgent rhythm that matches the hard cuts and visual flashes, peaking abruptly into silence at the final blackout.

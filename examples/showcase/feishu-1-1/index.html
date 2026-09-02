@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="MiniMax-H3 Context-IR 品牌大片与影视内容对比">
+  <title>品牌大片与影视内容 · Context-IR 对比</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <a class="back-link" href="../">← 返回原测试集</a>
+      <p class="eyebrow">MiniMax-H3 Context-IR · Feishu Cases 1.1</p>
+      <h1>品牌大片与影视内容</h1>
+      <p class="subtitle">Raw、本地 IR、官方 IR 与参考输出的四路视频对比</p>
+    </div>
+    <label class="case-picker">
+      <span>选择案例</span>
+      <select id="caseSelect" aria-label="选择案例"></select>
+    </label>
+  </header>
+
+  <main>
+    <section class="case-intro">
+      <div>
+        <p class="section-label">当前案例</p>
+        <h2 id="caseTitle"></h2>
+      </div>
+      <p id="caseDescription"></p>
+    </section>
+
+    <section class="toolbar" aria-label="视频同步控制">
+      <button id="playAll" type="button">▶ 同步播放</button>
+      <button id="pauseAll" type="button">Ⅱ 同步暂停</button>
+      <button id="restartAll" type="button">↺ 从头播放</button>
+      <label class="loop-control"><input id="loopAll" type="checkbox" checked> 循环</label>
+      <span id="availability"></span>
+    </section>
+
+    <section class="comparison-grid" id="comparison" aria-live="polite"></section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

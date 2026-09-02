@@ -1,0 +1,60 @@
+{
+  "title": "1.1 品牌大片与影视内容",
+  "cases": [
+    {
+      "id": "case1-ref2va",
+      "title": "Case 1 · 望远镜窥视时尚 Campaign",
+      "description": "四张连续关键帧构成老式望远镜窥视视角，在固定双圆镜片遮罩中完成扫视、甩动转场、重新对焦与时尚人物展示。",
+      "groups": {
+        "raw": {"order":"01","label":"Raw","status":"ready","video":"data/case1/raw/video.mp4","prompt":"data/case1/raw/h3_prompt.txt"},
+        "local_ir": {"order":"02","label":"本地 IR（local_ir_2）","status":"ready","video":"data/case1/local_ir/video.mp4","prompt":"data/case1/local_ir/h3_prompt.txt"},
+        "official_ir": {"order":"03","label":"官方 IR","status":"ready","video":"data/case1/official_ir/video.mp4","prompt":"data/case1/official_ir/h3_prompt.txt"},
+        "reference": {"order":"04","label":"Reference Output","status":"ready","video":"data/case1/reference_output/video.mp4","prompt":null}
+      }
+    },
+    {
+      "id": "case2-ref2va",
+      "title": "Case 2 · 深空舰桥电影预告",
+      "description": "快速硬切、舰桥震动、强光爆闪与跃迁冲击构成宏大紧凑的科幻电影预告，配合宽字距标题包装。",
+      "groups": {
+        "raw": {"order":"01","label":"Raw","status":"ready","video":"data/case2/raw/video.mp4","prompt":"data/case2/raw/h3_prompt.txt"},
+        "local_ir": {"order":"02","label":"本地 IR","status":"ready","video":"data/case2/local_ir/video.mp4","prompt":"data/case2/local_ir/h3_prompt.txt"},
+        "official_ir": {"order":"03","label":"官方 IR","status":"ready","video":"data/case2/official_ir/video.mp4","prompt":"data/case2/official_ir/h3_prompt.txt"},
+        "reference": {"order":"04","label":"Reference Output","status":"ready","video":"data/case2/reference_output/video.mp4","prompt":null}
+      }
+    },
+    {
+      "id": "case3-ref2va",
+      "title": "Case 3 · 宇宙门写实电影短片",
+      "description": "以巨大圆形宇宙门和人物背影建立高反差写实电影空间，通过推进镜头、硬切和暗红标题制造紧张叙事。",
+      "groups": {
+        "raw": {"order":"01","label":"Raw","status":"ready","video":"data/case3/raw/video.mp4","prompt":"data/case3/raw/h3_prompt.txt"},
+        "local_ir": {"order":"02","label":"本地 IR","status":"ready","video":"data/case3/local_ir/video.mp4","prompt":"data/case3/local_ir/h3_prompt.txt"},
+        "official_ir": {"order":"03","label":"官方 IR","status":"ready","video":"data/case3/official_ir/video.mp4","prompt":"data/case3/official_ir/h3_prompt.txt"},
+        "reference": {"order":"04","label":"Reference Output","status":"ready","video":"data/case3/reference_output/video.mp4","prompt":null}
+      }
+    },
+    {
+      "id": "case4-ref2va",
+      "title": "Case 4 · 荒漠公路高级时尚 Campaign",
+      "description": "荒漠公路与复古车构成冷感克制的时尚场景，人物从后备箱取出黑色包袋，在自然行动中同时呈现服装与包袋。",
+      "groups": {
+        "raw": {"order":"01","label":"Raw","status":"ready","video":"data/case4/raw/video.mp4","prompt":"data/case4/raw/h3_prompt.txt"},
+        "local_ir": {"order":"02","label":"本地 IR","status":"ready","video":"data/case4/local_ir/video.mp4","prompt":"data/case4/local_ir/h3_prompt.txt"},
+        "official_ir": {"order":"03","label":"官方 IR","status":"ready","video":"data/case4/official_ir/video.mp4","prompt":"data/case4/official_ir/h3_prompt.txt"},
+        "reference": {"order":"04","label":"Reference Output","status":"ready","video":"data/case4/reference_output/video.mp4","prompt":null}
+      }
+    },
+    {
+      "id": "case5-ref2va",
+      "title": "Case 5 · 夜间火场潮流时装短片",
+      "description": "白金长发人物与黑色漆皮风衣保持一致，在夜间火场、黑烟和橙红火焰中融合 VHS 故障、扫描线与胶片快切。",
+      "groups": {
+        "raw": {"order":"01","label":"Raw","status":"ready","video":"data/case5/raw/video.mp4","prompt":"data/case5/raw/h3_prompt.txt"},
+        "local_ir": {"order":"02","label":"本地 IR","status":"ready","video":"data/case5/local_ir/video.mp4","prompt":"data/case5/local_ir/h3_prompt.txt"},
+        "official_ir": {"order":"03","label":"官方 IR","status":"ready","video":"data/case5/official_ir/video.mp4","prompt":"data/case5/official_ir/h3_prompt.txt"},
+        "reference": {"order":"04","label":"Reference Output","status":"ready","video":"data/case5/reference_output/video.mp4","prompt":null}
+      }
+    }
+  ]
+}
