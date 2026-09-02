@@ -28,6 +28,13 @@ async function render() {
 
   $("#caseTitle").textContent = item.title;
   $("#caseDescription").textContent = item.description;
+  $("#assetCount").textContent = `${item.assets.length} 张素材`;
+  $("#assetGrid").innerHTML = item.assets.map((asset, index) => `
+    <a class="asset-card" href="${escapeHtml(asset.src)}" target="_blank" rel="noopener">
+      <img src="${escapeHtml(asset.src)}" alt="${escapeHtml(asset.label)}" loading="lazy">
+      <span><b>${String(index + 1).padStart(2, "0")}</b>${escapeHtml(asset.label)}</span>
+    </a>
+  `).join("");
   $("#availability").textContent = `${ready}/4 个视频可用`;
   $("#comparison").innerHTML = "";
 

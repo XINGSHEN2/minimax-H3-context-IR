@@ -63,6 +63,17 @@ main { padding: 26px 3vw 56px; }
 .case-intro h2 { margin-top: 3px; font-size: clamp(21px, 2vw, 30px); }
 .case-intro > p { color: #cbd5e1; white-space: pre-wrap; }
 
+.asset-section { margin-bottom: 25px; padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: rgb(20 24 33 / 72%); }
+.asset-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 14px; }
+.asset-heading h2 { margin-top: 2px; font-size: 19px; }
+#assetCount { color: var(--muted); font-size: 12px; }
+.asset-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.asset-card { overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: #0d1118; color: var(--text); text-decoration: none; transition: transform .18s ease, border-color .18s ease; }
+.asset-card:hover { transform: translateY(-2px); border-color: #64748b; }
+.asset-card img { display: block; width: 100%; height: 150px; object-fit: contain; background: #050608; }
+.asset-card span { display: flex; gap: 8px; padding: 8px 10px; color: #dbe4f0; font-size: 12px; }
+.asset-card b { color: #64748b; font: 11px ui-monospace, monospace; }
+
 .toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
 .toolbar button:first-child { border-color: #3f7655; }
 .loop-control { display: flex; gap: 7px; align-items: center; color: #d0d5dd; }
@@ -97,5 +108,7 @@ pre { max-height: 330px; margin: 12px 0 0; overflow: auto; white-space: pre-wrap
   .case-picker { margin-top: 16px; }
   .case-intro > p { margin-top: 12px; }
   .comparison-grid { grid-template-columns: 1fr; }
+  .asset-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .asset-card img { height: 120px; }
   #availability { width: 100%; margin: 0; }
 }
