@@ -1,0 +1,71 @@
+{
+  "task_mode": "reference_transfer",
+  "must_keep": [
+    "realistic cinematic look and high-contrast light-and-shadow treatment",
+    "image_1 as the overall atmosphere/style reference only",
+    "image_2 as the protagonist identity/appearance reference",
+    "Shot 1 ultra-wide establishing shot",
+    "huge circular cosmic gate dominating the frame with an empty dark center",
+    "wet reflective ground",
+    "tiny back-facing protagonist standing at lower right",
+    "camera slowly pushes forward in Shot 1",
+    "exact title text: THE STARS WERE LISTENING",
+    "extremely narrow, heavy, all-caps title in dark red mixed with rust red, with fine grain and fogged soft edges",
+    "title fades in from darkness, starts blurred and resolves to clear",
+    "audio: deep low-frequency pulse, distant faint metallic vibration, light hit exactly when the title becomes clear",
+    "hard cut after Shot 1"
+  ],
+  "bindings": [
+    {
+      "asset_id": "image_1",
+      "role": "<Picture 1>: overall atmosphere/style reference",
+      "retained_attributes": [
+        "high-contrast cinematic light and shadow",
+        "rust-dark palette",
+        "damp reflective ground feel",
+        "weathered industrial texture",
+        "grain and fogged light falloff"
+      ],
+      "excluded_attributes": [
+        "source frame composition and layout",
+        "luminous starfield-like aperture glow",
+        "secondary caption SOMETHING ANSWERED BELOW",
+        "any incidental source text"
+      ]
+    },
+    {
+      "asset_id": "image_2",
+      "role": "<Picture 2>: protagonist identity/appearance reference",
+      "retained_attributes": [
+        "tall slender straight-postured silhouette",
+        "dark wavy shoulder-length hair",
+        "long black single-breasted coat with notched lapel and front flap pockets reaching about mid-calf",
+        "black long-sleeved layers and black trousers",
+        "black combat boots"
+      ],
+      "excluded_attributes": [
+        "white studio background",
+        "multi-panel layout",
+        "frontal face details not visible in the back-facing shot"
+      ]
+    }
+  ],
+  "shots": [
+    {
+      "start_seconds": 0,
+      "end_seconds": 8,
+      "start_state": "Ultra-wide scene with a colossal dark-centered circular gate, wet reflective ground, and tiny back-facing protagonist at lower right; image_1 atmosphere/style and image_2 appearance inform the look and character.",
+      "action": "Camera slowly pushes in while the title THE STARS WERE LISTENING fades in from darkness, initially blurred, then resolves to clear rust-red narrow heavy caps with grain and fogged edges.",
+      "end_state": "Camera has pushed in slightly; title is clear and readable; figure remains motionless at lower right.",
+      "sound_cues": "Deep low-frequency pulse begins with camera move; distant faint metallic vibration continues; one light hit occurs at the moment the title becomes clear."
+    },
+    {
+      "start_seconds": 8,
+      "end_seconds": 15,
+      "start_state": "Hard cut after title hit; title is removed from the frame; same back-facing protagonist remains lower-right in the same gate environment.",
+      "action": "Protagonist begins walking slowly toward the dark center of the gate while the camera tracks forward behind her; the gate expands in the frame as she advances.",
+      "end_state": "At 15s the protagonist is a small dark silhouette approaching the gate's dark center; audio fades out within the duration.",
+      "sound_cues": "Distant metallic vibration thins and fades; one or two soft damp footsteps accompany the walk; low pulse softens and fades before the final frame."
+    }
+  ]
+}

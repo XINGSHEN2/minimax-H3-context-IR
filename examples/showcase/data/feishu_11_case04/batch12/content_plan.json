@@ -1,0 +1,157 @@
+{
+  "task_mode": "reference_transfer",
+  "must_keep": [
+    "16:9 horizontal, 15 seconds, high-end cold restrained luxury mood with lively fashion-editorial cutting",
+    "Desert dusk road and vintage car setting with filmic twilight atmosphere/grain",
+    "Woman: dark wavy hair in bun, black high-neck long-sleeve croc-textured mini dress, black high-heeled pumps",
+    "Man: short dark curly hair, long black high-collar coat, black trousers, black dress shoes",
+    "Black structured handbag with two rounded top handles, embossed/croc textured leather, central metallic D-shaped clasp",
+    "Core sequence: woman returns to rear, opens trunk, removes black bag, shares quiet gaze with man beside car, leaves carrying bag",
+    "Bag and clothing integrated naturally into movements as character attitude",
+    "Final brand end-card from image_4: exact white NOCTURNE / thin line / LEATHER GOODS on black"
+  ],
+  "bindings": [
+    {
+      "asset_id": "image_1",
+      "role": "atmosphere, primary scene/environment, film texture, and vintage car source",
+      "retained_attributes": [
+        "flat dry desert road landscape",
+        "dense twilight sky with purple/grey clouds",
+        "sparse scrub and distant low hills",
+        "rounded vintage two-door sedan with dark metallic brown/maroon body and circular red taillight",
+        "cool desaturated cinematic color grade and analog film grain",
+        "dark moody restraint"
+      ],
+      "excluded_attributes": [
+        "3x3 storyboard grid layout",
+        "source panel borders or framing artifacts",
+        "source figure placement/person pose unless otherwise requested",
+        "incidental gold Φ emblem hardware on the source handbag, which conflicts with image_3 and is not used for the target bag"
+      ]
+    },
+    {
+      "asset_id": "image_2",
+      "role": "casting and appearance reference for woman and man",
+      "retained_attributes": [
+        "woman: dark wavy hair pulled back into bun, black high-neck long-sleeve form-fitting mini dress with glossy crocodile-embossed texture, black high-heeled pumps",
+        "man: short dark curly hair, long black high-collar coat, black trousers, black dress shoes"
+      ],
+      "excluded_attributes": [
+        "white studio background",
+        "multi-view layout/front-side-back grid",
+        "standing pose as a fixed performance beat",
+        "irrelevant environment/props"
+      ]
+    },
+    {
+      "asset_id": "image_3",
+      "role": "authoritative product reference for black handbag",
+      "retained_attributes": [
+        "structured rectangular handbag silhouette with curved top edges",
+        "two rounded top handles attached to upper corners",
+        "black embossed/crocodile-like leather texture with subtle glossy sheen",
+        "central metallic circular clasp with interlocking D-shaped elements",
+        "flat bottom with small feet/studs"
+      ],
+      "excluded_attributes": [
+        "white studio background",
+        "different hardware/symbols from other source images, especially gold Φ emblem",
+        "scene context absent from image_3"
+      ]
+    },
+    {
+      "asset_id": "image_4",
+      "role": "brand ending logo final frame",
+      "retained_attributes": [
+        "solid black background",
+        "centered white serif NOCTURNE text",
+        "thin horizontal line below NOCTURNE",
+        "LEATHER GOODS below the line in smaller uppercase text",
+        "minimal high-contrast centered layout"
+      ],
+      "excluded_attributes": [
+        "animation or lettering variants not present in the source",
+        "source image background content beyond the black end-card"
+      ]
+    }
+  ],
+  "shots": [
+    {
+      "start_seconds": 0.0,
+      "end_seconds": 3.0,
+      "start_state": "Desert dusk; vintage car parked with trunk closed; man is near the car; woman has not yet reached the tailgate",
+      "action": "Woman walks back to the rear of the car in her black dress and heels, reaches the tailgate, and places her hand near the latch",
+      "end_state": "Woman stands at the tailgate, hand on latch; man is watching",
+      "sound_cues": [
+        "dry desert wind",
+        "heeled footsteps on compact earth"
+      ],
+      "audience_gain": "Establishes the desert/car scene, both figures, wardrobe, and the trunk as the next story action",
+      "cut_reason": "none"
+    },
+    {
+      "start_seconds": 3.0,
+      "end_seconds": 6.0,
+      "start_state": "Woman is at the closed tailgate, hand on latch; man remains beside the car",
+      "action": "She lifts the latch and opens the trunk; interior is revealed with the black bag visible inside",
+      "end_state": "Trunk lid is open, black bag sits visibly inside the dark trunk",
+      "sound_cues": [
+        "firm metallic click of trunk latch",
+        "contained lid movement as trunk opens"
+      ],
+      "audience_gain": "Advances the action and visually introduces the bag asset inside the car",
+      "cut_reason": "action_match"
+    },
+    {
+      "start_seconds": 6.0,
+      "end_seconds": 8.0,
+      "start_state": "Trunk is open; black bag is inside the cargo space",
+      "action": "Close-ups show her hands taking the two top handles and lifting the black bag clear from the trunk",
+      "end_state": "Woman holds the black bag clear of the trunk at her side",
+      "sound_cues": [
+        "soft leather shift",
+        "gentle handle movement"
+      ],
+      "audience_gain": "Shows the bag's authoritative product texture and hardware as it becomes part of the woman's action",
+      "cut_reason": "action_match"
+    },
+    {
+      "start_seconds": 8.0,
+      "end_seconds": 10.0,
+      "start_state": "Woman stands beside the open trunk holding the black bag; man is near the car",
+      "action": "The woman looks at the man; the man returns her gaze; the two hold a quiet still beat with only wind movement",
+      "end_state": "Woman and man share a direct but restrained gaze; bag remains visibly held in her hand",
+      "sound_cues": [
+        "desert wind",
+        "relative quiet"
+      ],
+      "audience_gain": "Gives the quiet relational moment requested in the story without turning it into dramatic dialogue",
+      "cut_reason": "new_information"
+    },
+    {
+      "start_seconds": 10.0,
+      "end_seconds": 13.0,
+      "start_state": "Woman and man have shared the quiet gaze; woman is still beside the open trunk with the bag",
+      "action": "She turns and walks away into the open desert carrying the bag by its handle; the car and man fall behind her",
+      "end_state": "Woman continues away with the bag; car and man remain behind the frame",
+      "sound_cues": [
+        "heeled footsteps on dust",
+        "soft movement of dress and bag"
+      ],
+      "audience_gain": "Completes the core narrative and shows the bag becoming part of the character's exit attitude",
+      "cut_reason": "state_change"
+    },
+    {
+      "start_seconds": 13.0,
+      "end_seconds": 15.0,
+      "start_state": "Woman has turned to leave the scene with the bag",
+      "action": "Hard cut to the final brand end-card: black background with exact NOCTURNE text, thin horizontal line, and LEATHER GOODS below",
+      "end_state": "Final brand end-card fills the frame unchanged until 15.0 seconds",
+      "sound_cues": [
+        "music cuts with the end-card; no new physical sound"
+      ],
+      "audience_gain": "Delivers the requested brand ending logo as the final frame",
+      "cut_reason": "user_locked"
+    }
+  ]
+}

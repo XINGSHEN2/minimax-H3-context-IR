@@ -617,9 +617,52 @@
       "id": "feishu_11_case01",
       "title": "Case 1 · 四图望远镜搜索",
       "category": "1.1 品牌大片与影视内容",
-      "description": "本地结果：08批次，768p、20步。Raw和官方复用历史原始结果，时长与生成参数可能不同；本页不代表严格同参数评测。",
+      "description": "新增12批次简化版（v5）：aigc-2 H3生成，短边768、20步、seed 0。可切换08批次对照；Raw与官方沿用历史结果，参数可能不同。",
       "variants": {
         "original": {
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case01/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_11_case01/original/raw/result.mp4",
+              "prompt": "data/feishu_11_case01/original/raw/h3_prompt.txt",
+              "request": "data/feishu_11_case01/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · 12批次简化版",
+              "status": "ready",
+              "video": "data/feishu_11_case01/batch12/result.mp4",
+              "prompt": "data/feishu_11_case01/batch12/h3_prompt.txt",
+              "request": "data/feishu_11_case01/batch12/request.json",
+              "content_plan": "data/feishu_11_case01/batch12/content_plan.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_11_case01/original/official_ir/result.mp4",
+              "prompt": "data/feishu_11_case01/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case01/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            }
+          },
+          "label": "12 批次 · 简化版"
+        },
+        "batch08": {
           "groups": {
             "reference": {
               "label": "参考成片",
@@ -658,7 +701,8 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             }
-          }
+          },
+          "label": "08 批次对照"
         }
       },
       "assets": [
@@ -688,9 +732,52 @@
       "id": "feishu_11_case02",
       "title": "Case 2 · 太空预告片",
       "category": "1.1 品牌大片与影视内容",
-      "description": "本地结果：08批次，768p、20步。Raw和官方复用历史原始结果，时长与生成参数可能不同；本页不代表严格同参数评测。",
+      "description": "新增12批次简化版（v5）：aigc-2 H3生成，短边768、20步、seed 0。可切换08批次对照；Raw与官方沿用历史结果，参数可能不同。",
       "variants": {
         "original": {
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case02/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_11_case02/original/raw/result.mp4",
+              "prompt": "data/feishu_11_case02/original/raw/h3_prompt.txt",
+              "request": "data/feishu_11_case02/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · 12批次简化版",
+              "status": "ready",
+              "video": "data/feishu_11_case02/batch12/result.mp4",
+              "prompt": "data/feishu_11_case02/batch12/h3_prompt.txt",
+              "request": "data/feishu_11_case02/batch12/request.json",
+              "content_plan": "data/feishu_11_case02/batch12/content_plan.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_11_case02/original/official_ir/result.mp4",
+              "prompt": "data/feishu_11_case02/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case02/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            }
+          },
+          "label": "12 批次 · 简化版"
+        },
+        "batch08": {
           "groups": {
             "reference": {
               "label": "参考成片",
@@ -729,7 +816,8 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             }
-          }
+          },
+          "label": "08 批次对照"
         }
       },
       "assets": [
@@ -744,9 +832,52 @@
       "id": "feishu_11_case03",
       "title": "Case 3 · 宇宙门开场",
       "category": "1.1 品牌大片与影视内容",
-      "description": "本地结果：08批次，768p、20步。Raw和官方复用历史原始结果，时长与生成参数可能不同；本页不代表严格同参数评测。",
+      "description": "新增12批次简化版（v5）：aigc-2 H3生成，短边768、20步、seed 0。可切换08批次对照；Raw与官方沿用历史结果，参数可能不同。",
       "variants": {
         "original": {
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case03/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_11_case03/original/raw/result.mp4",
+              "prompt": "data/feishu_11_case03/original/raw/h3_prompt.txt",
+              "request": "data/feishu_11_case03/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · 12批次简化版",
+              "status": "ready",
+              "video": "data/feishu_11_case03/batch12/result.mp4",
+              "prompt": "data/feishu_11_case03/batch12/h3_prompt.txt",
+              "request": "data/feishu_11_case03/batch12/request.json",
+              "content_plan": "data/feishu_11_case03/batch12/content_plan.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_11_case03/original/official_ir/result.mp4",
+              "prompt": "data/feishu_11_case03/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case03/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            }
+          },
+          "label": "12 批次 · 简化版"
+        },
+        "batch08": {
           "groups": {
             "reference": {
               "label": "参考成片",
@@ -785,7 +916,8 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             }
-          }
+          },
+          "label": "08 批次对照"
         }
       },
       "assets": [
@@ -805,9 +937,52 @@
       "id": "feishu_11_case04",
       "title": "Case 4 · 衣服与包时尚广告",
       "category": "1.1 品牌大片与影视内容",
-      "description": "本地结果：08批次，768p、20步。Raw和官方复用历史原始结果，时长与生成参数可能不同；本页不代表严格同参数评测。",
+      "description": "新增12批次简化版（v5）：aigc-2 H3生成，短边768、20步、seed 0。可切换08批次对照；Raw与官方沿用历史结果，参数可能不同。",
       "variants": {
         "original": {
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case04/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_11_case04/original/raw/result.mp4",
+              "prompt": "data/feishu_11_case04/original/raw/h3_prompt.txt",
+              "request": "data/feishu_11_case04/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · 12批次简化版",
+              "status": "ready",
+              "video": "data/feishu_11_case04/batch12/result.mp4",
+              "prompt": "data/feishu_11_case04/batch12/h3_prompt.txt",
+              "request": "data/feishu_11_case04/batch12/request.json",
+              "content_plan": "data/feishu_11_case04/batch12/content_plan.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_11_case04/original/official_ir/result.mp4",
+              "prompt": "data/feishu_11_case04/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case04/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            }
+          },
+          "label": "12 批次 · 简化版"
+        },
+        "batch08": {
           "groups": {
             "reference": {
               "label": "参考成片",
@@ -846,7 +1021,8 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             }
-          }
+          },
+          "label": "08 批次对照"
         }
       },
       "assets": [
@@ -876,9 +1052,52 @@
       "id": "feishu_11_case05",
       "title": "Case 5 · 火焰时装广告",
       "category": "1.1 品牌大片与影视内容",
-      "description": "本地结果：08批次，768p、20步。Raw和官方复用历史原始结果，时长与生成参数可能不同；本页不代表严格同参数评测。",
+      "description": "新增12批次简化版（v5）：aigc-2 H3生成，短边768、20步、seed 0。可切换08批次对照；Raw与官方沿用历史结果，参数可能不同。",
       "variants": {
         "original": {
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case05/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_11_case05/original/raw/result.mp4",
+              "prompt": "data/feishu_11_case05/original/raw/h3_prompt.txt",
+              "request": "data/feishu_11_case05/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · 12批次简化版",
+              "status": "ready",
+              "video": "data/feishu_11_case05/batch12/result.mp4",
+              "prompt": "data/feishu_11_case05/batch12/h3_prompt.txt",
+              "request": "data/feishu_11_case05/batch12/request.json",
+              "content_plan": "data/feishu_11_case05/batch12/content_plan.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_11_case05/original/official_ir/result.mp4",
+              "prompt": "data/feishu_11_case05/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case05/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            }
+          },
+          "label": "12 批次 · 简化版"
+        },
+        "batch08": {
           "groups": {
             "reference": {
               "label": "参考成片",
@@ -917,7 +1136,8 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             }
-          }
+          },
+          "label": "08 批次对照"
         }
       },
       "assets": [

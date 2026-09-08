@@ -1,0 +1,117 @@
+{
+  "task_mode": "reference_transfer",
+  "must_keep": [
+    "15-second duration and 16:9 horizontal framing",
+    "featured model visually consistent: white-gold long wavy hair, narrow black retro sunglasses, black high-gloss patent-leather trench coat with lapels and waist belt",
+    "cold, confident fashion expression",
+    "orange firelight reflection visible on patent-leather coat surface",
+    "night fireground environment with black smoke and orange-red flames",
+    "texture/atmosphere from image_1: high-contrast burning-night look and analog-broadcast/VHS treatment character",
+    "full treatment: VHS glitch, CCTV broadcast-interruption stutter, 90s analog film grain, scanlines, chromatic aberration, light leaks, flash-white transitions, slight image jitter",
+    "very quick-cut fashion-advertising edit rhythm"
+  ],
+  "bindings": [
+    {
+      "asset_id": "image_1",
+      "role": "texture_and_atmosphere_reference",
+      "retained_attributes": [
+        "dark night fireground color and contrast",
+        "black smoke and orange-red flame glow",
+        "fire reflections on dark reflective surfaces",
+        "analog/VHS texture feel: scanlines, noise, glitch, chromatic aberration, light leaks, broadcast-interruption stutter",
+        "high-energy dramatic atmosphere"
+      ],
+      "excluded_attributes": [
+        "specific person in source",
+        "partial vehicle",
+        "exact visible caption strings",
+        "source frame layout"
+      ]
+    },
+    {
+      "asset_id": "image_2",
+      "role": "character_appearance_reference",
+      "retained_attributes": [
+        "white-gold long wavy hair",
+        "narrow black retro sunglasses",
+        "black high-gloss patent-leather trench coat with lapels and waist belt",
+        "black thigh-high boots",
+        "tall slender silhouette",
+        "cold confident expression as user-specified"
+      ],
+      "excluded_attributes": [
+        "white studio background",
+        "three-panel layout",
+        "unconfirmed exact sunglass-frame shape"
+      ]
+    }
+  ],
+  "shots": [
+    {
+      "shot_id": "01",
+      "start_seconds": 0.0,
+      "end_seconds": 2.2,
+      "audience_gain": "model and fireground setting in one iconic orienting composition",
+      "cut_reason": "none",
+      "start_state": "model near center of night fireground, flames and black smoke visible on both sides",
+      "action": "medium-wide establishing view; camera holds with slight jitter and slow small push-in; model lifts chin slightly as firelight plays over the coat",
+      "end_state": "confident posed figure established before flames and smoke",
+      "sound_cues": "low fire rumble and crackling flames begin"
+    },
+    {
+      "shot_id": "02",
+      "start_seconds": 2.2,
+      "end_seconds": 4.6,
+      "audience_gain": "direct view through the black sunglasses and the cool neutral expression",
+      "cut_reason": "viewpoint_change",
+      "start_state": "waist-up closer angle after white flash",
+      "action": "model turns head directly toward camera while white-gold hair shifts; camera makes a small lateral pan following the head movement",
+      "end_state": "head facing camera, hair shifted, glossy lapels lit by fire",
+      "sound_cues": "crackling fire continues; subtle fabric rustle from the head turn"
+    },
+    {
+      "shot_id": "03",
+      "start_seconds": 4.6,
+      "end_seconds": 7.2,
+      "audience_gain": "side profile and hair gesture reveal the silhouette, coat side and swept-back white-gold hair",
+      "cut_reason": "viewpoint_change",
+      "start_state": "three-quarter profile angle after white flash",
+      "action": "model turns upper body slightly and brushes a strand of white-gold hair back; camera holds the profile with slight jitter",
+      "end_state": "side view showing profile, glossy side of trench coat and swept-back hair",
+      "sound_cues": "fire crackle continues; orange flare causes a louder crackle"
+    },
+    {
+      "shot_id": "04",
+      "start_seconds": 7.2,
+      "end_seconds": 10.0,
+      "audience_gain": "close isolation of the coat material and moving orange firelight reflection",
+      "cut_reason": "new_information",
+      "start_state": "close-up over the model's shoulder after white flash, framing lapel and collar",
+      "action": "model draws the high-gloss lapel slightly toward her collarbone with the visible hand, bending the patent surface; black smoke drifts in the background",
+      "end_state": "lapel held close, glossy surface catching orange reflections",
+      "sound_cues": "fire pops louder as the flame flare hits the coat"
+    },
+    {
+      "shot_id": "05",
+      "start_seconds": 10.0,
+      "end_seconds": 12.4,
+      "audience_gain": "extreme close-up on sunglasses and mouth, then a CCTV-style interruption stutter crosses the image",
+      "cut_reason": "state_change",
+      "start_state": "extreme close-up from sunglass bridge to lower face after white flash",
+      "action": "model keeps features still while a short VHS glitch and CCTV-style broadcast-interruption stutter with scanline roll pass across the frame before stabilizing",
+      "end_state": "stable extreme close-up of the still, confident face",
+      "sound_cues": "short analog buzz/static during broadcast stutter"
+    },
+    {
+      "shot_id": "06",
+      "start_seconds": 12.4,
+      "end_seconds": 15.0,
+      "audience_gain": "final lower-angle medium-full view resolving on the confident model in firelight",
+      "cut_reason": "viewpoint_change",
+      "start_state": "after final white flash, lower-angle medium-full view backed by wide fire glow",
+      "action": "model brings hands to her sides, tips chin up slightly toward camera, and holds the final fashion pose until the end",
+      "end_state": "model holds final pose as flames and smoke continue until 15.000",
+      "sound_cues": "fire ambience holds; no new physical sound"
+    }
+  ]
+}

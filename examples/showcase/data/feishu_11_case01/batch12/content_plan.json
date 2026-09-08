@@ -1,0 +1,121 @@
+{
+  "task_mode": "generate",
+  "must_keep": [
+    "Preserve exact image_1 -> image_2 -> image_3 -> image_4 keyframe order",
+    "Fixed double-circular binocular mask over the whole 15s video; mask may never drift, deform, shake or reframe",
+    "Only content inside the circular lenses may move",
+    "Open blurred and hand-held, then quick rack-focus/push into sharp image_1",
+    "Between keyframes: telescope whip/scan transition with motion blur, optical smear, light streaks and exposure flicker; cut at maximum blur then quickly stabilize and refocus",
+    "image_1: preserve bus shelter, MINIMAX awning lettering, cast MINIMAX shadow, core composition",
+    "image_2: preserve pale facade and draped cloth; cloth moves with restrained wind and the vertical MINIMAX lettering stays readable",
+    "image_3: preserve person identity, hair, beige tailoring and red shoulder bag while performing a natural fashion-passerby walk, turn and arm swing",
+    "image_4: preserve person identity, red-framed sunglasses and red garment; execute a subtle chin raise rather than adding an unseen hand",
+    "Red caption type loads with focus: starts mildly defocused near 0.3 opacity, resolves within 0.3-0.5s, may micro-slide or breathe letter-spacing, never rotates/bounces/fly-large, exits by fade or motion blur before transitions",
+    "Wes Anderson-like voyeuristic 35mm look: fine grain, soft highlight bloom, restrained color grade, red used as selective accent",
+    "No new people, vehicles, buildings or logos",
+    "Keep MINIMAX/source-depicted wordmarks exactly as in their reference without inventing new spelling variants"
+  ],
+  "bindings": [
+    {
+      "asset_id": "image_1",
+      "role": "Shot 1 keyframe and opening focus anchor",
+      "retained_attributes": [
+        "bus shelter with MINIMAX awning lettering",
+        "cast MINIMAX shadow on pale facade",
+        "original core composition and framing priorities",
+        "existing red field-note caption style"
+      ],
+      "excluded_attributes": [
+        "any source-specific aperture border that differs from the fixed double-circular target mask"
+      ]
+    },
+    {
+      "asset_id": "image_2",
+      "role": "Shot 2 keyframe and fabric-animation anchor",
+      "retained_attributes": [
+        "pale building facade with vertical bays",
+        "large white draped cloth with vertical MINIMAX lettering",
+        "source-depicted red lower cloth area",
+        "existing red field-note caption style"
+      ],
+      "excluded_attributes": [
+        "any source-specific aperture border that differs from the fixed double-circular target mask"
+      ]
+    },
+    {
+      "asset_id": "image_3",
+      "role": "Shot 3 keyframe and passerby identity anchor",
+      "retained_attributes": [
+        "wavy shoulder-length brown hair and bangs",
+        "beige blazer and light top",
+        "matching wide trousers and red shoulder bag",
+        "rooftop, parapet, pale sky, architecture and source building lettering as shown"
+      ],
+      "excluded_attributes": [
+        "static observational pose that blocks required walking/arm-swing",
+        "holding-binoculars or pocketed-hand pose unless compatible with natural arm swing",
+        "any source-specific aperture border that differs from the fixed double-circular target mask"
+      ]
+    },
+    {
+      "asset_id": "image_4",
+      "role": "Shot 4 keyframe and final fashion-portrait anchor",
+      "retained_attributes": [
+        "short dark hair",
+        "red-framed angular sunglasses with source reflection in right lens",
+        "red garment and silver earring",
+        "close core composition in front of pale buildings and sky"
+      ],
+      "excluded_attributes": [
+        "source-specific aperture border that differs from the fixed double-circular target mask",
+        "adding a hand/glasses-adjust gesture; chin raise is used instead"
+      ]
+    }
+  ],
+  "shots": [
+    {
+      "shot_id": "01",
+      "start_seconds": 0,
+      "end_seconds": 4.6,
+      "start_state": "Inside the fixed lens mask, image_1 content appears heavily defocused and slightly hand-held; the mask itself remains locked.",
+      "action": "Quick push/rack-focus brings the bus shelter, MINIMAX awning and cast shadow into sharp focus; red field-note captions load and then clear; a telescope whip-scan builds motion blur, smear, streaks and exposure flicker until maximum blur at the cut.",
+      "end_state": "image_1 content is at its greatest smear and is cut on that maximum-blur moment; mask has not moved.",
+      "sound_cues": "Soft outdoor air, faint optical focus-ring tick, rising optical smear that cuts at the transition.",
+      "audience_gain": "Establishes the MINIMAX street-shelter scene and the peek-through-telescope focus ritual.",
+      "cut_reason": "reference_match"
+    },
+    {
+      "shot_id": "02",
+      "start_seconds": 4.6,
+      "end_seconds": 8.6,
+      "start_state": "Incoming maximum-blur smear inherited from Shot 1 is still moving inside the mask.",
+      "action": "The smear stabilizes and refocuses into image_2; the pale facade and white draped cloth become sharp; restrained wind animates the cloth while vertical MINIMAX lettering remains readable; red field-note captions load then clear; a second whip-scan reaches maximum blur at the cut.",
+      "end_state": "image_2 composition and MINIMAX cloth lettering are readable, then dissolve into maximum smear at 8.6s; mask fixed.",
+      "sound_cues": "Wind rises with cloth movement, soft cloth rustle and crease sounds, rustling stops before the scan; scan smear cuts at transition.",
+      "audience_gain": "Reveals cloth as the MINIMAX fabric signal while preserving readable typography on moving material.",
+      "cut_reason": "reference_match"
+    },
+    {
+      "shot_id": "03",
+      "start_seconds": 8.6,
+      "end_seconds": 12.4,
+      "start_state": "Incoming maximum-blur smear starts Shot 3 inside the fixed mask.",
+      "action": "The smear quickly stabilizes into image_3; the person with beige tailoring and red shoulder bag moves like a candidly captured passerby: relaxed steps, natural arm swings, and a smooth partial turn of head and torso; red captions load and clear; final whip-scan builds until the cut at maximum blur.",
+      "end_state": "The passerby has completed a natural partial turn and paused in a different but source-consistent orientation; image_3 content then smears to the cut; mask fixed.",
+      "sound_cues": "Footsteps on concrete occur only for actual steps and stop at the pause; fabric swish accompanies arm swing.",
+      "audience_gain": "Shows the person as a natural fashion passerby without losing identity or wardrobe.",
+      "cut_reason": "reference_match"
+    },
+    {
+      "shot_id": "04",
+      "start_seconds": 12.4,
+      "end_seconds": 15,
+      "start_state": "Incoming maximum-blur smear starts the final shot inside the fixed mask.",
+      "action": "The smear stabilizes into image_4; the person with red-framed sunglasses and red garment performs a subtle chin raise while holding a cool, relaxed fashion-campaign attitude; red captions load and remain sharp through the ending.",
+      "end_state": "Final close-up pose and red captions hold in focus until 15.000s; no further cut; mask fixed.",
+      "sound_cues": "No contact sound; only low air tone under the music during the final hold.",
+      "audience_gain": "Resolves on the cool reflective portrait and the final MINIMAX caption beat.",
+      "cut_reason": "none"
+    }
+  ]
+}

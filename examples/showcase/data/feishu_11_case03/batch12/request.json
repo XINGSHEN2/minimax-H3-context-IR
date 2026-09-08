@@ -1,0 +1,26 @@
+{
+  "task": "ref2va",
+  "prompt_file": "/home/mx/shenxing/minimax-H3-context-IR-runs/local_ir_260908_12_singlecall_fresh_aigc2/11_case3-ref2va/h3_prompt.txt",
+  "conditions": [
+    {
+      "type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR-runs/local_ir_260908_12_singlecall_fresh_aigc2/11_case3-ref2va/assets/0.png",
+      "role": "reference"
+    },
+    {
+      "type": "image",
+      "uri": "/home/mx/shenxing/minimax-H3-context-IR-runs/local_ir_260908_12_singlecall_fresh_aigc2/11_case3-ref2va/assets/1.png",
+      "role": "reference"
+    }
+  ],
+  "target": {
+    "short_edge": 768,
+    "aspect_ratio": "16:9",
+    "duration_seconds": 15
+  },
+  "seed": 0,
+  "n": 1,
+  "num_inference_steps": 20,
+  "output_mode": "decoded_files",
+  "output_path": "/home/mx/shenxing/minimax-H3-context-IR-runs/local_ir_260908_12_singlecall_fresh_aigc2/11_case3-ref2va/videos"
+}
