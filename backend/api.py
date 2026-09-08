@@ -41,9 +41,10 @@ ALLOWED_EXTENSIONS = {
 }
 RESULT_FILES = {
     "input.json", "resolved_input.json", "intent_resolution.json", "perception_plan.json",
-    "media_analysis.json", "context_ir.json", "h3_prompt.txt",
+    "media_analysis.json", "context_ir_draft.json", "h3_prompt_draft.txt",
+    "context_ir.json", "h3_prompt.txt", "llm_optimization.json",
     "h3_prompt_audit.json", "h3_request.json", "stage_timings.json",
-    "intent_resolver.log", "agent.log", "semantic_repair.log",
+    "intent_resolver.log", "agent.log", "final_optimizer.log",
 }
 CASE_PATTERN = re.compile(r"^case_(\d{3,})$")
 SAFE_NAME_PATTERN = re.compile(r"[^A-Za-z0-9._-]+")
@@ -57,8 +58,8 @@ PROGRESS_STAGES = {
     "intent": (0, 18, "正在解析用户意图"),
     "bindings": (1, 36, "正在分析素材绑定"),
     "timeline": (2, 58, "正在编排时间线"),
-    "isolation": (3, 78, "正在检查引用隔离"),
-    "prompt": (4, 90, "正在生成 H3 Prompt"),
+    "isolation": (3, 78, "最终导演正在优化镜头与引用关系"),
+    "prompt": (4, 90, "正在保存最终 H3 Prompt"),
 }
 
 # Product-facing APIs complete a business task. General understanding APIs are
@@ -132,7 +133,7 @@ def _run_job(job_id: str) -> None:
             result_files=available,
             progress_stage=len(PROGRESS_STAGES),
             progress_percent=100,
-            progress_label="H3 Prompt 已生成并通过审计",
+            progress_label="H3 Prompt 已由最终导演模型优化生成",
         )
     except Exception as exc:
         _update_job(

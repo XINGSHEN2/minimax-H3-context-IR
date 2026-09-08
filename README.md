@@ -14,7 +14,7 @@
 
 | 接口 | 用途 |
 |---|---|
-| `POST /api/h3/prompt` | 从原始素材、素材描述、标准分析或已有 IR 生成 Context-IR、H3 Prompt、审计和 H3 Request |
+| `POST /api/h3/prompt` | 从原始素材、素材描述、标准分析或已有 IR 生成经 LLM 最终优化的 Context-IR、H3 Prompt 和 H3 Request |
 | `POST /api/h3/videos` | 提交 H3 Request，并可选等待视频生成完成 |
 | `POST /api/context-ir/generate` | 组合 Prompt 编译与可选视频生成 |
 
@@ -25,7 +25,7 @@
 | `assets` | 原始图片、视频或音频 | 调用素材理解模型后生成 Prompt |
 | `asset_descriptions` | 人工或外部系统提供的自然语言素材描述 | 不调用 VLM，内部标准化后生成 Prompt |
 | `media_analysis` | 标准 `media_analysis.v2` | 校验并复用分析结果 |
-| `context_ir` | 已有合法 Context-IR | 仅渲染、审计和构建请求 |
+| `context_ir` | 已有 Context-IR | 锁定已有 IR，仅由受约束的 LLM 编译官方 Prompt，再构建请求 |
 
 使用自然语言素材描述的最小示例：
 
@@ -74,9 +74,9 @@ curl -X POST http://10.100.4.2:38080/api/h3/prompt \
 backend/     Python Agent、感知适配器、Context-IR 编译器与 Web API
 frontend/    独立浏览器界面
 assets/      按案例组织的上传与请求素材
-skills/      MiniMax-H3 官方 Skills
+skills/      H3 官方 Prompt Skill 与内部镜头规划 Skill
 deploy/      容器启动脚本与本地环境配置模板
-outputs/     生成的 Context-IR、H3 Prompt、审计与请求文件
+outputs/     Context-IR 草稿、LLM 最终优化结果、H3 Prompt 与请求文件
 ```
 
 根目录下的 `agent.py`、`context_ir.py` 和 `perception.py` 作为向后兼容入口保留；当前实际实现位于 `backend/`。
@@ -92,22 +92,26 @@ flowchart TD
     A --> F["Context-IR Semantic Agent<br/>DeepSeek / GLM"]
     C --> F
     E --> F
-    G["MiniMax-H3 官方 Skills"] --> F
+    G["H3 Prompt Skill<br/>H3 Shot Planning Skill"] --> F
     F --> H["Context-IR Candidate"]
-    H --> I["Directive Binding Compiler"]
-    I --> J["规范化与严格校验"]
-    J --> K["H3 官方格式 Prompt Renderer"]
-    K --> L["Prompt Auditor"]
-    L --> M["Context-IR JSON<br/>H3 Prompt<br/>H3 Request JSON"]
+    H --> R["Keyframe Role Compiler<br/>Performance Beat Compiler"]
+    R --> I["确定性编译与语义锁定<br/>权威字段、绑定图谱、稳定 ID"]
+    I --> J["Constrained Prompt Compiler LLM<br/>仅优化表达与官方格式"]
+    G --> J
+    J --> K["锁定 Context-IR<br/>LLM 直写 H3 Prompt"]
+    K --> M["文件保存<br/>H3 Request JSON"]
 ```
 
 各层职责：
 
 - **Intent Resolver**：先理解用户明确指定的素材用途、替换关系、保持项、禁止项和镜头要求，并生成 VLM 应重点观察的问题。
 - **Qwen3-VL 感知层**：只提取图片与视频中的客观证据，不负责决定最终创意；视频默认按 2 FPS 解码并保留实际时间语义。
-- **Semantic Agent**：结合用户原始需求、锁定指令和素材证据，推理资产角色、引用隔离、状态变化、连续性与时间线。
-- **Directive Binding Compiler**：把用户已明确指定的要求编译为程序级强绑定，防止后续模型输出偏离重点。
-- **Renderer 与 Auditor**：生成 MiniMax-H3 官方三段式或六段式 Prompt，并检查引用、主体、时间线、商品重点与禁止项。
+- **Semantic Agent**：结合用户原始需求、锁定指令和素材证据，推理资产角色、图片用途、目标动作语义、引用隔离、状态变化、连续性与 Shot 时间线；镜头规划 Skill 为每镜分配唯一功能，并决定是否运镜、为什么切镜以及切换边界。
+- **Keyframe Role Compiler**：把每张提交给 H3 的图片编译为外观来源、场景锚点、动作关键帧、商品细节、首尾帧、构图锚点或风格参考；同图可以承担多个分维度角色，但不能提供动作、运镜、剪辑或音乐。
+- **Performance Beat Compiler**：把 Qwen 的视频事件编译为 Shot 内部的连续表演节拍，使用源视频实测时长线性映射至目标时长。用户要求的对象替换由 Semantic Agent 写入目标动作，源事件描述只保留为证据；无证据尾段标记为 `unresolved_tail`，不得循环或补写。
+- **确定性编译与语义锁定**：整理用户权威字段、素材 ID、Binding 图谱、图片角色、Performance Beat 与 Shot 挂载关系；Beat 不自动变成 Shot，无效语义草稿只允许在这一阶段局部重试，编译通过后整份 Context-IR 锁定。
+- **Constrained Prompt Compiler LLM**：不能改主体、素材角色、镜头数量、顺序、时间、状态或用户约束，只能压缩重复表达、明确既有运镜并生成 MiniMax-H3 官方三段式或六段式 Prompt。
+- **程序输出层**：执行不涉及审美判断的格式、引用和时间契约检查，保存锁定 IR 与 Prompt，并构建 H3 Request。
 
 视觉分析标准输出为 `media_analysis.v2`。传入已有 perception 缓存时可以跳过 VLM，便于重复调试 IR；测试 VLM 准确性时应禁用缓存重新分析。音频目前会保留在素材清单中，但 Qwen 视觉层不分析音轨，后续可接入独立音频感知模型。
 
@@ -167,7 +171,7 @@ bash deploy/run.sh assets/case_001/request.json
 bash deploy/web.sh
 ```
 
-然后打开 `http://<aigc-host>:38080`。界面支持自然语言需求和拖放素材，会自动为图片、视频和音频编号，记录每份素材的预期用途，创建新的 `assets/case_NNN`，并运行同一套 Codex Agent 流程。生成文件保存在 `outputs/` 下，可在 Context-IR、H3 Prompt 和审计标签页中查看。
+然后打开 `http://<aigc-host>:38080`。界面支持自然语言需求和拖放素材，会自动为图片、视频和音频编号，记录每份素材的预期用途，创建新的 `assets/case_NNN`，并运行同一套两阶段 LLM 流程。生成文件保存在 `outputs/` 下，可查看 Context-IR、H3 Prompt 和 LLM 优化记录。
 
 该界面参考了 MIT 许可项目 `ComfyUI-MiniMaxH3-Prompt-Writer` 的交互方式，但属于独立实现，不依赖 ComfyUI，也没有复制其运行时集成。
 
@@ -177,13 +181,16 @@ bash deploy/web.sh
 ```text
 intent_resolution.json   用户指令锁定与定向感知计划
 media_analysis.json      Qwen 客观素材分析（media_analysis.v2）
-context_ir.json          规范化并通过校验的 Context-IR
-h3_prompt.txt            可直接提交给 H3 的官方格式 Prompt
-h3_prompt_audit.json     Prompt 审计结果、错误与警告
+context_ir_draft.json    第一阶段编译通过并锁定的语义 IR
+h3_prompt_draft.txt      仅供最终 LLM 编辑参考的草稿 Prompt
+context_ir.json          与锁定语义 IR 等价的最终 Context-IR
+h3_prompt.txt            受约束 Prompt 编译 LLM 生成的官方格式 Prompt
+llm_optimization.json    优化方式及修改说明
+h3_prompt_audit.json     官方格式、引用和时间等确定性契约检查结果（不做主观评分）
 h3_request.json          MiniMax-H3 服务请求
 ```
 
-每次成功运行都会生成 `h3_prompt_audit.json`。基础任务（`T2VA/I2VA/FL2VA/L2VA`）使用官方三段式结构，`Ref2VA` 使用官方六段式结构。H3 引用标签根据最终条件顺序确定性生成。
+每次成功运行固定执行“语义规划 LLM → 语义锁定 → 受约束 Prompt 编译 LLM”。第二次推理加载 H3 Prompt 与镜头规划 Skills，但无权修改 Context-IR，只能直接产出可提交 Prompt。若第一阶段 IR 无法通过确定性编译，系统在语义阶段最多局部修复一次，不把修复权下放给最终 Prompt 阶段。`h3_prompt_audit.json` 记录官方格式、引用和时间等确定性契约检查，不做主观审美评分；实际优化说明位于 `llm_optimization.json`。
 
 仅检查 Codex 运行环境和 GLM 网关，不执行 Agent 推理：
 
@@ -191,11 +198,11 @@ h3_request.json          MiniMax-H3 服务请求
 bash deploy/run.sh --preflight-only
 ```
 
-需要指定官方风格 Skill 时：
+镜头规划 Skill 默认启用，不需要额外参数，也不会额外增加一次 LLM 调用。原先的垂类风格 Skill 已移除；风格、光照、声音和特效倾向统一由用户要求、素材证据及 `production_policies` 决定。
 
-```bash
-bash deploy/run.sh request.json --style-skill minimalist-product-ad-generator
-```
+动作/表演参考与镜头参考采用分维度授权：仅要求参考视频的动作、表情或表演节奏时，视频不自动获得运镜、剪辑、转场和镜头数量控制权。编译器会强制使用能够覆盖完整互动的连续单镜，并禁止新增手持、推拉摇移和切镜；只有意图解析明确生成运镜、镜头节奏、剪辑或转场硬指令时，视频才可控制相应镜头维度。该规则由确定性编译器校验，不依赖最终 Prompt 模型自行遵守。
+
+图片角色、表演节拍与镜头是三个正交层级：`keyframe_roles` 回答“每张图片控制什么”，`performance_plan.beats` 回答“连续动作按什么顺序和时间发生”，`timeline` 回答“何时真正切镜、采用什么机位”。`timeline[].beat_refs` 只把 Beat 挂到已有 Shot，不允许因为 Qwen 返回多个动作事件就自动生成多个镜头。整个过程复用同一次图片/视频感知，不增加新的 Qwen 或 LLM 调用。
 
 不调用 GLM，仅校验已有 Context-IR：
 

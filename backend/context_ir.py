@@ -9,7 +9,7 @@ import re
 from dataclasses import asdict, dataclass, field
 from typing import Any, Mapping
 
-from backend.directive_binding import compile_directive_bindings
+from backend.directive_binding import compile_directive_bindings, derive_binding_graph
 
 
 IR_SCHEMA_VERSION = "0.1.0"
@@ -29,6 +29,17 @@ POLICY_SOURCES = {
     "explicit_user", "explicit_prohibition", "reference_evidence",
     "edit_base_preservation", "user_soft_goal", "category_prior",
     "default_completion", "inferred", "derived_requirement",
+}
+SUPPORTED_KEYFRAME_ROLES = {
+    "appearance_source", "scene_anchor", "action_keyframe", "product_detail",
+    "first_frame", "last_frame", "composition_anchor", "style_reference",
+}
+KEYFRAME_ROLE_SOURCES = {
+    "explicit_user", "reference_evidence", "derived_requirement",
+}
+PERFORMANCE_BEAT_STATUSES = {"observed", "user_overridden", "unresolved_tail"}
+PERFORMANCE_ACTION_SOURCES = {
+    "reference_evidence", "explicit_user", "derived_requirement", "unresolved",
 }
 PRODUCTION_POLICY_MODULES = (
     "camera", "editing", "motion", "performance", "composition",
@@ -69,6 +80,29 @@ SUBJECT_TAG_PATTERN = re.compile(r"<Subject\s+(\d+)>")
 ANGLE_TAG_PATTERN = re.compile(r"<([^>]+)>")
 TIMESTAMP_PATTERN = re.compile(r"\b(\d{2}):(\d{2})\.(\d{3})\b")
 CJK_PATTERN = re.compile(r"[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]")
+RAW_ASSET_ID_PATTERN = re.compile(r"(?<![A-Za-z0-9_])(?:image|video|audio)_\d+(?![A-Za-z0-9_])", re.IGNORECASE)
+CAMERA_MOVE_PATTERN = re.compile(
+    r"\b(?:camera\s+)?(?:pan(?:s|ning)?|tilt(?:s|ing)?|track(?:s|ing)?|"
+    r"push(?:es|ing)?\s+in|pull(?:s|ing)?\s+(?:back|out)|zoom(?:s|ing)?|"
+    r"arc(?:s|ing)?|orbit(?:s|ing)?|handheld|reframe(?:s|ing)?)\b",
+    re.IGNORECASE,
+)
+INTERNAL_CUT_PATTERN = re.compile(
+    r"\b(?:(?:quick|hard|smash|match|jump)\s+)?cut(?:s)?\s+"
+    r"(?:to|back\s+to)\b",
+    re.IGNORECASE,
+)
+EDITORIAL_AUTHORITY_PATTERN = re.compile(
+    r"(?:\bcamera\b|\bshot(?:s)?\b|\bedit(?:ing|orial)?\b|\btransition(?:s)?\b|"
+    r"\bcut(?:s|ting)?\b|\bcinematograph(?:y|ic)\b|\bshot\s+(?:rhythm|pacing)\b|"
+    r"运镜|镜头(?:运动|节奏|切换|设计|结构)?|剪辑|转场|切镜)",
+    re.IGNORECASE,
+)
+STORY_CONTINUATION_PATTERN = re.compile(
+    r"(?:\bcontinue\b|\bcontinuation\b|\bextend\b|\bcomplete\s+the\s+story\b|"
+    r"\bimprovise\b|续写|延续(?:剧情|故事)|补全(?:剧情|故事)|补充(?:剧情|故事)|自由发挥)",
+    re.IGNORECASE,
+)
 
 
 class ContextIRError(ValueError):
@@ -111,6 +145,104 @@ def _strings(value: Any) -> list[str]:
 
 def _number(value: Any) -> bool:
     return isinstance(value, (int, float)) and not isinstance(value, bool)
+
+
+def _motion_reference_without_editorial_authority(payload: Mapping[str, Any]) -> set[str]:
+    """Return video IDs authorized for performance transfer but not shot design.
+
+    Motion, expression, and performance rhythm do not implicitly authorize the
+    reference video's camera, cuts, transitions, or a newly invented edit.  A
+    video used as an edit base or appearance/scene source is excluded because
+    its existing visual timeline may legitimately remain authoritative.
+    """
+    asset_media = {
+        str(asset.get("asset_id", "")): str(asset.get("media_type", ""))
+        for asset in payload.get("assets", [])
+        if isinstance(asset, Mapping)
+    }
+    bindings = [
+        binding for binding in payload.get("asset_bindings", [])
+        if isinstance(binding, Mapping)
+    ]
+    motion_ids = {
+        str(binding.get("asset_id", ""))
+        for binding in bindings
+        if asset_media.get(str(binding.get("asset_id", ""))) == "video"
+        and str(binding.get("role", "")) == "motion"
+        and str(binding.get("priority", "")) == "hard"
+    }
+    if not motion_ids:
+        return set()
+
+    edit_base_ids = {
+        str(item.get("asset_id", ""))
+        for item in payload.get("reference_relationships", [])
+        if isinstance(item, Mapping) and item.get("relationship") == "source_video_edit"
+    }
+    appearance_or_scene_ids = {
+        str(binding.get("asset_id", ""))
+        for binding in bindings
+        if str(binding.get("priority", "")) == "hard"
+        and str(binding.get("role", "")) in {
+            "identity", "outfit", "product", "scene", "first_frame", "last_frame"
+        }
+    }
+    editorial_ids = {
+        str(binding.get("asset_id", ""))
+        for binding in bindings
+        if str(binding.get("role", "")) == "camera"
+        or (
+            str(binding.get("role", "")) == "rhythm"
+            and EDITORIAL_AUTHORITY_PATTERN.search(
+                " ".join([
+                    str(binding.get("target", "")),
+                    *(_strings(binding.get("inherit"))),
+                ])
+            )
+        )
+    }
+    directives = (
+        payload.get("intent", {}).get("directives", [])
+        if isinstance(payload.get("intent"), Mapping)
+        else []
+    )
+    global_editorial_authority = False
+    for directive in directives:
+        if not isinstance(directive, Mapping) or directive.get("priority") != "hard":
+            continue
+        directive_text = " ".join([
+            str(directive.get("target", "")),
+            *(_strings(directive.get("scope"))),
+        ])
+        if not EDITORIAL_AUTHORITY_PATTERN.search(directive_text):
+            continue
+        asset_id = str(directive.get("asset_id", ""))
+        if asset_id:
+            editorial_ids.add(asset_id)
+        else:
+            global_editorial_authority = True
+    if global_editorial_authority:
+        editorial_ids.update(motion_ids)
+    return motion_ids - edit_base_ids - appearance_or_scene_ids - editorial_ids
+
+
+def _explicit_story_continuation_authority(payload: Mapping[str, Any]) -> bool:
+    intent = payload.get("intent")
+    if not isinstance(intent, Mapping):
+        return False
+    completion_policy = intent.get("completion_policy")
+    if isinstance(completion_policy, Mapping) and completion_policy.get("creative") is True:
+        return True
+    for directive in intent.get("directives", []):
+        if not isinstance(directive, Mapping) or directive.get("priority") != "hard":
+            continue
+        directive_text = " ".join([
+            str(directive.get("target", "")),
+            *(_strings(directive.get("scope"))),
+        ])
+        if STORY_CONTINUATION_PATTERN.search(directive_text):
+            return True
+    return False
 
 
 def normalize_source_request(source: Mapping[str, Any]) -> dict[str, Any]:
@@ -321,6 +453,27 @@ def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
         bindings = []
     binding_ids: set[str] = set()
     covered_directive_ids: set[str] = set()
+    # Global directives are target-production constraints, not attributes
+    # inherited from a particular asset. The lowering stage stores them once.
+    global_constraints = payload.get("constraints", {})
+    if not isinstance(global_constraints, Mapping):
+        global_constraints = {}
+    for directive_id in directive_ids:
+        directive = directives_by_id[directive_id]
+        if str(directive.get("asset_id", "")).strip():
+            continue
+        operation = directive.get("operation")
+        destination = "prohibit" if operation == "exclude" else "allow_change" if operation == "may_change" else "preserve"
+        missing = {item.casefold() for item in _strings(directive.get("scope"))} - {
+            item.casefold() for item in _strings(global_constraints.get(destination))
+        }
+        if missing:
+            report.add(
+                "GLOBAL_DIRECTIVE_NOT_RETAINED",
+                f"global directive {directive_id} is missing from constraints.{destination}: {sorted(missing)}",
+                f"$.constraints.{destination}",
+                severity="error" if directive.get("priority") == "hard" else "warning",
+            )
     for index, binding in enumerate(bindings):
         path = f"$.asset_bindings[{index}]"
         if not isinstance(binding, Mapping):
@@ -344,6 +497,10 @@ def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
                 covered_directive_ids.add(directive_id)
                 directive = directives_by_id[directive_id]
                 directive_asset = str(directive.get("asset_id", "")).strip()
+                if not directive_asset:
+                    # A binding may cite a global directive as provenance;
+                    # that does not turn global presentation into asset truth.
+                    continue
                 if directive_asset and directive_asset != str(binding.get("asset_id", "")):
                     report.add("BINDING_DIRECTIVE_ASSET_MISMATCH", f"binding asset does not implement directive {directive_id}'s asset", path)
                 if directive.get("priority") == "hard" and binding.get("priority") != "hard":
@@ -386,6 +543,16 @@ def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
                     path,
                 )
     if directive_ids:
+        for permission in payload.get("change_permissions", []):
+            if not isinstance(permission, Mapping):
+                continue
+            directive_id = str(permission.get("directive_id", ""))
+            directive = directives_by_id.get(directive_id, {})
+            if (directive.get("operation") == "may_change"
+                and permission.get("asset_id") == directive.get("asset_id")
+                and permission.get("target") == directive.get("target")
+                and _strings(permission.get("scope")) == _strings(directive.get("scope"))):
+                covered_directive_ids.add(directive_id)
         binding_directive_ids = {
             directive_id for directive_id, directive in directives_by_id.items()
             if str(directive.get("asset_id", "")).strip()
@@ -565,6 +732,30 @@ def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
                 report.add("SHOT_PRIMARY_CHANGE_MISSING", "each shot needs exactly one primary visible change", path)
             if not str(shot.get("observable_end_state", "")).strip():
                 report.add("SHOT_END_STATE_MISSING", "each shot needs an observable end state", path)
+            camera_text = str(shot.get("camera", ""))
+            locked_camera = re.search(
+                r"\b(?:static|locked)(?:-off)?\b",
+                camera_text,
+                re.IGNORECASE,
+            )
+            camera_move = CAMERA_MOVE_PATTERN.search(camera_text)
+            if locked_camera and camera_move:
+                report.add(
+                    "SHOT_CAMERA_CONTRADICTION",
+                    "a semantic shot cannot combine locked/static camera wording with camera movement",
+                    path + ".camera",
+                    severity="warning",
+                )
+            execution_text = " ".join(
+                str(shot.get(field, "")) for field in ("event", "action", "camera")
+            )
+            if INTERNAL_CUT_PATTERN.search(execution_text):
+                report.add(
+                    "SHOT_INTERNAL_CUT",
+                    "an internal cut must be represented as a separate timeline shot",
+                    path,
+                    severity="warning",
+                )
             state_changes = shot.get("state_changes", [])
             if not isinstance(state_changes, list):
                 report.add("SHOT_STATE_CHANGES_INVALID", "state_changes must be an array", path)
@@ -609,6 +800,8 @@ def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
             if declared != actual:
                 report.add("SUBJECT_APPEARANCE_MISMATCH", f"{subject.get('subject_id')} appearance_shot_ids must match timeline subject_refs", "$.subjects")
 
+    _validate_keyframe_and_performance(payload, report)
+
     audio = payload.get("audio_plan")
     if not isinstance(audio, Mapping):
         report.add("AUDIO_PLAN_MISSING", "audio_plan must be an object", "$.audio_plan")
@@ -644,7 +837,317 @@ def validate_context_ir(payload: Mapping[str, Any]) -> ValidationReport:
             if key not in generation:
                 report.add("GENERATION_FIELD_MISSING", f"generation_description.{key} is required", "$.generation_description")
     _validate_policy_collection(payload, report)
+    motion_only_video_ids = _motion_reference_without_editorial_authority(payload)
+    if motion_only_video_ids:
+        semantic_plan = payload.get("semantic_plan")
+        completion_authority = (
+            semantic_plan.get("completion_authority", {})
+            if isinstance(semantic_plan, Mapping)
+            else {}
+        )
+        if (
+            isinstance(completion_authority, Mapping)
+            and completion_authority.get("story_continuation") is True
+            and not _explicit_story_continuation_authority(payload)
+        ):
+            report.add(
+                "MOTION_REFERENCE_STORY_CONTINUATION_VIOLATION",
+                "a motion/performance transfer does not authorize a new consequence or story continuation; stop at the last user-requested or evidenced action",
+                "$.semantic_plan.completion_authority.story_continuation",
+            )
+        timeline_items = [
+            shot for shot in payload.get("timeline", [])
+            if isinstance(shot, Mapping)
+        ]
+        if len(timeline_items) > 1:
+            report.add(
+                "MOTION_REFERENCE_CUT_SCOPE_VIOLATION",
+                "a motion/performance-only video reference does not authorize multiple content shots; preserve the interaction as one continuous full-duration shot unless an explicit camera/editing directive authorizes cuts",
+                "$.timeline",
+            )
+        for index, shot in enumerate(timeline_items):
+            camera_text = str(shot.get("camera", ""))
+            if CAMERA_MOVE_PATTERN.search(camera_text):
+                # Lexical matches also occur in prohibitions such as "no zoom".
+                # Natural-language scope needs semantic review, not a hard gate.
+                report.add(
+                    "MOTION_REFERENCE_CAMERA_SCOPE_VIOLATION",
+                    "camera vocabulary occurs in a motion-only reference plan; check whether it describes an actual unauthorized move or merely prohibits one",
+                    f"$.timeline[{index}].camera",
+                    severity="warning",
+                )
+            transition = str(shot.get("transition", "")).strip().casefold()
+            if transition not in {"", "none", "continuous", "end", "no cut", "no transition"}:
+                report.add(
+                    "MOTION_REFERENCE_TRANSITION_SCOPE_VIOLATION",
+                    "a motion/performance-only video reference does not authorize a new cut or transition",
+                    f"$.timeline[{index}].transition",
+                )
+    perception = payload.get("perception")
+    perception_assets = perception.get("assets", []) if isinstance(perception, Mapping) else []
+    invalid_video_ids = {
+        str(asset.get("asset_id", ""))
+        for asset in perception_assets
+        if isinstance(asset, Mapping)
+        and str(asset.get("technical", {}).get("media_type", asset.get("media_type", ""))) == "video"
+        and str(asset.get("technical", {}).get("analysis_status", "")) == "invalid_placeholder"
+    }
+    observed_video_ids = {
+        str(asset.get("asset_id", ""))
+        for asset in perception_assets
+        if isinstance(asset, Mapping)
+        and str(asset.get("technical", {}).get("media_type", asset.get("media_type", ""))) == "video"
+        and str(asset.get("technical", {}).get("analysis_status", "")) in {"observed", "degraded"}
+    }
+    invalid_structural_reference = any(
+        isinstance(binding, Mapping)
+        and str(binding.get("asset_id", "")) in invalid_video_ids
+        and str(binding.get("role", "")) in STRUCTURAL_BINDING_ROLES
+        for binding in payload.get("asset_bindings", [])
+    )
+    if invalid_structural_reference and not observed_video_ids:
+        for module in ("camera", "editing", "motion", "performance", "style"):
+            policy = payload.get("production_policies", {}).get(module, {})
+            for index, event in enumerate(policy.get("events", []) if isinstance(policy, Mapping) else []):
+                if isinstance(event, Mapping) and event.get("source") == "reference_evidence":
+                    report.add(
+                        "INVALID_REFERENCE_EVIDENCE_EVENT",
+                        "an invalid-placeholder video cannot support a concrete reference_evidence event",
+                        f"$.production_policies.{module}.events[{index}]",
+                    )
+        timeline_items = payload.get("timeline", []) if isinstance(payload.get("timeline"), list) else []
+        durations = [
+            round(float(shot.get("end_seconds")) - float(shot.get("start_seconds")), 3)
+            for shot in timeline_items
+            if isinstance(shot, Mapping) and _number(shot.get("start_seconds")) and _number(shot.get("end_seconds"))
+        ]
+        uniform = len(durations) > 1 and max(durations) - min(durations) <= EPSILON
+        request_text = str(payload.get("intent", {}).get("user_request", ""))
+        explicit_uniform_timing = bool(re.search(
+            r"(?:equal[ -]?duration|evenly\s+divid|均分|等时长|等长|"
+            r"每(?:张|幅|镜|个镜头).{0,10}(?:秒|均分|等长)|"
+            r"\d+(?:\.\d+)?\s*(?:秒|seconds?\b)|\d+(?:\.\d+)?\s*[-–]\s*\d+(?:\.\d+)?)",
+            request_text,
+            re.IGNORECASE,
+        ))
+        if uniform and not explicit_uniform_timing:
+            report.add(
+                "UNSUPPORTED_UNIFORM_REFERENCE_TIMELINE",
+                "do not replace unavailable reference timing with assumed equal-duration shots; use one unresolved structural-reference shot unless the user supplied exact timing",
+                "$.timeline",
+            )
     return report
+
+
+def _validate_keyframe_and_performance(payload: Mapping[str, Any], report: ValidationReport) -> None:
+    """Validate the orthogonal Picture-role, performance-beat, and Shot layers."""
+    asset_media = {
+        str(item.get("asset_id", "")): str(item.get("media_type", ""))
+        for item in payload.get("assets", [])
+        if isinstance(item, Mapping)
+    }
+    subject_ids = {
+        str(item.get("subject_id", ""))
+        for item in payload.get("subjects", [])
+        if isinstance(item, Mapping)
+    }
+    shot_ids = {
+        str(item.get("shot_id", ""))
+        for item in payload.get("timeline", [])
+        if isinstance(item, Mapping)
+    }
+    plan = payload.get("performance_plan")
+    beat_ids: set[str] = set()
+    beats: list[Mapping[str, Any]] = []
+    mappings_by_asset: dict[str, Mapping[str, Any]] = {}
+    perception_videos = _perception_video_index(payload)
+    observed_event_ids = {
+        asset_id: {str(event.get("event_id", "")) for event in _valid_video_events(analysis)}
+        for asset_id, analysis in perception_videos.items()
+    }
+    if plan is not None:
+        if not isinstance(plan, Mapping):
+            report.add("PERFORMANCE_PLAN_INVALID", "performance_plan must be an object", "$.performance_plan")
+        else:
+            source_ids = _strings(plan.get("source_asset_ids"))
+            for source_id in source_ids:
+                if asset_media.get(source_id) != "video":
+                    report.add("PERFORMANCE_PLAN_SOURCE_INVALID", f"{source_id} is not a Video", "$.performance_plan.source_asset_ids")
+            mappings = plan.get("duration_mappings", [])
+            if not isinstance(mappings, list):
+                report.add("PERFORMANCE_PLAN_MAPPING_INVALID", "duration_mappings must be an array", "$.performance_plan.duration_mappings")
+                mappings = []
+            for index, mapping in enumerate(mappings):
+                path = f"$.performance_plan.duration_mappings[{index}]"
+                if not isinstance(mapping, Mapping):
+                    report.add("PERFORMANCE_PLAN_MAPPING_INVALID", "duration mapping must be an object", path)
+                    continue
+                source_id = str(mapping.get("source_asset_id", ""))
+                if source_id not in source_ids or source_id in mappings_by_asset:
+                    report.add("PERFORMANCE_PLAN_MAPPING_SOURCE_INVALID", "each performance Video needs one unique duration mapping", path)
+                mappings_by_asset[source_id] = mapping
+                if mapping.get("mode") == "scale_to_target":
+                    if not _number(mapping.get("source_duration")) or float(mapping.get("source_duration", 0)) <= 0:
+                        report.add("PERFORMANCE_PLAN_SOURCE_DURATION_INVALID", "source_duration must be positive", path)
+                    if not _number(mapping.get("target_duration")) or float(mapping.get("target_duration", 0)) <= 0:
+                        report.add("PERFORMANCE_PLAN_TARGET_DURATION_INVALID", "target_duration must be positive", path)
+                    if not _number(mapping.get("scale")) or float(mapping.get("scale", 0)) <= 0:
+                        report.add("PERFORMANCE_PLAN_SCALE_INVALID", "scale must be positive", path)
+            if set(source_ids) != set(mappings_by_asset):
+                report.add("PERFORMANCE_PLAN_MAPPING_COVERAGE", "every performance Video must have a duration mapping", "$.performance_plan.duration_mappings")
+            beats_value = plan.get("beats", [])
+            if not isinstance(beats_value, list):
+                report.add("PERFORMANCE_BEATS_INVALID", "beats must be an array", "$.performance_plan.beats")
+                beats_value = []
+            beats = [item for item in beats_value if isinstance(item, Mapping)]
+            motion_only_ids = _motion_reference_without_editorial_authority(payload)
+            for index, beat in enumerate(beats_value):
+                path = f"$.performance_plan.beats[{index}]"
+                if not isinstance(beat, Mapping):
+                    report.add("PERFORMANCE_BEAT_INVALID", "performance beat must be an object", path)
+                    continue
+                beat_id = str(beat.get("beat_id", ""))
+                if not beat_id or beat_id in beat_ids:
+                    report.add("PERFORMANCE_BEAT_ID_INVALID", "beat_id must be present and unique", path)
+                beat_ids.add(beat_id)
+                source_id = str(beat.get("source_asset_id", ""))
+                if source_id not in source_ids:
+                    report.add("PERFORMANCE_BEAT_SOURCE_UNKNOWN", "beat must reference a declared performance Video", path)
+                if beat.get("status") not in PERFORMANCE_BEAT_STATUSES:
+                    report.add("PERFORMANCE_BEAT_STATUS_INVALID", f"status must use {sorted(PERFORMANCE_BEAT_STATUSES)}", path)
+                if beat.get("action_source") not in PERFORMANCE_ACTION_SOURCES:
+                    report.add("PERFORMANCE_BEAT_ACTION_SOURCE_INVALID", f"action_source must use {sorted(PERFORMANCE_ACTION_SOURCES)}", path)
+                if not str(beat.get("action", "")).strip():
+                    report.add("PERFORMANCE_BEAT_ACTION_MISSING", "action is required", path)
+                source_event_id = str(beat.get("source_event_id", ""))
+                if beat.get("status") != "unresolved_tail" and source_event_id not in observed_event_ids.get(source_id, set()):
+                    report.add("PERFORMANCE_BEAT_EVENT_UNKNOWN", "observed beat must reference a real perception event", path + ".source_event_id")
+                for field_name in ("source_range", "target_range"):
+                    value = beat.get(field_name)
+                    if (
+                        not isinstance(value, list)
+                        or len(value) != 2
+                        or not all(_number(item) for item in value)
+                        or float(value[0]) < 0
+                        or float(value[1]) <= float(value[0])
+                    ):
+                        report.add("PERFORMANCE_BEAT_TIME_INVALID", f"{field_name} must be a positive [start, end] range", path + f".{field_name}")
+                target_range = beat.get("target_range")
+                duration = payload.get("task", {}).get("duration_seconds")
+                if isinstance(target_range, list) and len(target_range) == 2 and all(_number(item) for item in target_range) and _number(duration):
+                    if float(target_range[1]) > float(duration) + EPSILON:
+                        report.add("PERFORMANCE_BEAT_TIME_OUT_OF_RANGE", "target beat exceeds target duration", path + ".target_range")
+                source_range = beat.get("source_range")
+                mapping = mappings_by_asset.get(source_id)
+                if (
+                    isinstance(mapping, Mapping)
+                    and mapping.get("mode") == "scale_to_target"
+                    and _number(mapping.get("scale"))
+                    and isinstance(source_range, list) and len(source_range) == 2 and all(_number(item) for item in source_range)
+                    and isinstance(target_range, list) and len(target_range) == 2 and all(_number(item) for item in target_range)
+                ):
+                    scale = float(mapping["scale"])
+                    expected = [float(source_range[0]) * scale, float(source_range[1]) * scale]
+                    if any(abs(float(actual) - value) > 0.01 for actual, value in zip(target_range, expected)):
+                        report.add("PERFORMANCE_BEAT_TIME_MAPPING_MISMATCH", "target_range must be the deterministic source-to-target time mapping", path + ".target_range")
+                for subject_id in _strings(beat.get("subject_refs")):
+                    if subject_id not in subject_ids:
+                        report.add("PERFORMANCE_BEAT_SUBJECT_UNKNOWN", f"unknown subject {subject_id}", path + ".subject_refs")
+                if beat.get("editorial_boundary") is not False and not isinstance(beat.get("editorial_boundary"), bool):
+                    report.add("PERFORMANCE_BEAT_EDITORIAL_INVALID", "editorial_boundary must be boolean", path + ".editorial_boundary")
+                if beat.get("editorial_boundary") is True and source_id in motion_only_ids:
+                    report.add("UNAUTHORIZED_EDITORIAL_BOUNDARY", "a performance-only Video cannot create a cut boundary", path + ".editorial_boundary")
+            for source_id, mapping in mappings_by_asset.items():
+                if mapping.get("mode") != "scale_to_target" or not _number(mapping.get("source_duration")):
+                    continue
+                source_duration = float(mapping["source_duration"])
+                events = _valid_video_events(perception_videos.get(source_id, {}))
+                observed_end = max((float(item["time_range"][1]) for item in events), default=0.0)
+                if source_duration - observed_end <= max(EPSILON, 0.25):
+                    continue
+                tails = [
+                    beat for beat in beats
+                    if beat.get("source_asset_id") == source_id and beat.get("status") == "unresolved_tail"
+                ]
+                if len(tails) != 1:
+                    report.add("PERFORMANCE_BEAT_COVERAGE_TAIL_MISSING", "unobserved source tail must have exactly one unresolved_tail beat", "$.performance_plan.beats")
+
+    keyframe_roles = payload.get("keyframe_roles")
+    role_ids: set[str] = set()
+    if keyframe_roles is not None:
+        if not isinstance(keyframe_roles, list):
+            report.add("KEYFRAME_ROLES_INVALID", "keyframe_roles must be an array", "$.keyframe_roles")
+            keyframe_roles = []
+        assigned_images: set[str] = set()
+        for index, item in enumerate(keyframe_roles):
+            path = f"$.keyframe_roles[{index}]"
+            if not isinstance(item, Mapping):
+                report.add("KEYFRAME_ROLE_INVALID", "keyframe role must be an object", path)
+                continue
+            role_id = str(item.get("role_id", ""))
+            if not role_id or role_id in role_ids:
+                report.add("KEYFRAME_ROLE_ID_INVALID", "role_id must be present and unique", path)
+            role_ids.add(role_id)
+            asset_id = str(item.get("asset_id", ""))
+            if asset_media.get(asset_id) != "image":
+                report.add("KEYFRAME_ROLE_ASSET_INVALID", "keyframe role must reference a Picture", path + ".asset_id")
+            else:
+                assigned_images.add(asset_id)
+            if item.get("role") not in SUPPORTED_KEYFRAME_ROLES:
+                report.add("KEYFRAME_ROLE_TYPE_INVALID", f"role must use {sorted(SUPPORTED_KEYFRAME_ROLES)}", path + ".role")
+            if item.get("source") not in KEYFRAME_ROLE_SOURCES:
+                report.add("KEYFRAME_ROLE_SOURCE_INVALID", f"source must use {sorted(KEYFRAME_ROLE_SOURCES)}", path + ".source")
+            if not _strings(item.get("controls")):
+                report.add("KEYFRAME_ROLE_CONTROLS_EMPTY", "controls must state what the Picture contributes", path + ".controls")
+            forbidden_controls = {"motion", "camera", "editing", "music", "performance rhythm"}
+            if forbidden_controls.intersection(value.casefold() for value in _strings(item.get("controls"))):
+                report.add("KEYFRAME_ROLE_SCOPE_INVALID", "a Picture cannot control motion, camera, editing, music, or performance rhythm", path + ".controls")
+            for subject_id in _strings(item.get("subject_refs")):
+                if subject_id not in subject_ids:
+                    report.add("KEYFRAME_ROLE_SUBJECT_UNKNOWN", f"unknown subject {subject_id}", path + ".subject_refs")
+            for shot_id in _strings(item.get("shot_refs")):
+                if shot_id not in shot_ids:
+                    report.add("KEYFRAME_ROLE_SHOT_UNKNOWN", f"unknown shot {shot_id}", path + ".shot_refs")
+            refs = _strings(item.get("beat_refs"))
+            for beat_id in refs:
+                if beat_id not in beat_ids:
+                    report.add("ACTION_KEYFRAME_BEAT_UNKNOWN", f"unknown beat {beat_id}", path + ".beat_refs")
+            if item.get("role") == "action_keyframe" and not refs:
+                report.add("ACTION_KEYFRAME_BEAT_REQUIRED", "action_keyframe must anchor at least one performance beat", path + ".beat_refs")
+            role_shots = _strings(item.get("shot_refs"))
+            ordered_shots = [
+                str(shot.get("shot_id", ""))
+                for shot in payload.get("timeline", [])
+                if isinstance(shot, Mapping)
+            ]
+            if item.get("role") == "first_frame" and ordered_shots and role_shots != [ordered_shots[0]]:
+                report.add("KEYFRAME_ROLE_FIRST_FRAME_SHOT_INVALID", "first_frame must anchor only the first Shot", path + ".shot_refs")
+            if item.get("role") == "last_frame" and ordered_shots and role_shots != [ordered_shots[-1]]:
+                report.add("KEYFRAME_ROLE_LAST_FRAME_SHOT_INVALID", "last_frame must anchor only the last Shot", path + ".shot_refs")
+        conditioned_images = {
+            str(asset.get("asset_id", ""))
+            for asset in _condition_assets(payload)
+            if asset.get("media_type") == "image"
+        }
+        for asset_id in sorted(conditioned_images - assigned_images):
+            report.add("KEYFRAME_ROLE_COVERAGE", f"conditioned Picture {asset_id} has no explicit role", "$.keyframe_roles")
+
+    if plan is not None and isinstance(plan, Mapping):
+        assigned_beats: set[str] = set()
+        for index, shot in enumerate(payload.get("timeline", [])):
+            if not isinstance(shot, Mapping):
+                continue
+            for beat_id in _strings(shot.get("beat_refs")):
+                if beat_id not in beat_ids:
+                    report.add("TIMELINE_BEAT_UNKNOWN", f"unknown beat {beat_id}", f"$.timeline[{index}].beat_refs")
+                else:
+                    assigned_beats.add(beat_id)
+        for beat_id in sorted(beat_ids - assigned_beats):
+            report.add("PERFORMANCE_BEAT_UNASSIGNED", f"performance beat {beat_id} is not attached to a Shot", "$.performance_plan.beats")
+        for index, beat in enumerate(beats):
+            for role_id in _strings(beat.get("keyframe_refs")):
+                if role_id not in role_ids:
+                    report.add("PERFORMANCE_KEYFRAME_UNKNOWN", f"unknown keyframe role {role_id}", f"$.performance_plan.beats[{index}].keyframe_refs")
 
 
 def _validate_policy_collection(payload: Mapping[str, Any], report: ValidationReport) -> None:
@@ -737,11 +1240,11 @@ def normalize_reference_isolation(payload: dict[str, Any]) -> dict[str, Any]:
 def normalize_subject_source_bindings(payload: dict[str, Any]) -> dict[str, Any]:
     """Keep subject sources only when a compatible appearance binding supports them."""
     compatible_roles = {
-        "person": {"identity", "outfit"},
+        "person": {"identity", "outfit", "product"},
         "product": {"product"},
         "environment": {"scene"},
         "animal": {"identity", "outfit"},
-        "object": {"product", "scene"},
+        "object": {"identity", "product", "scene"},
         "other": APPEARANCE_BINDING_ROLES,
     }
     bindings = {
@@ -907,6 +1410,119 @@ def normalize_timeline_boundaries(payload: dict[str, Any]) -> dict[str, Any]:
                 end = expected + (duration - expected) / (remaining_shots + 1)
         shot["end_seconds"] = end
         expected = end
+    return payload
+
+
+def normalize_unresolved_reference_timeline(payload: dict[str, Any]) -> dict[str, Any]:
+    """Remove false timing precision when structural video evidence is unusable.
+
+    The conditioned video remains in the H3 request.  This fallback preserves
+    the planned visible events and subject order but collapses unsupported,
+    uniformly divided cuts into one full-duration instruction so H3 can consume
+    the reference directly.
+    """
+    perception = payload.get("perception")
+    perception_assets = perception.get("assets", []) if isinstance(perception, Mapping) else []
+    invalid_video_ids = {
+        str(asset.get("asset_id", ""))
+        for asset in perception_assets
+        if isinstance(asset, Mapping)
+        and str(asset.get("technical", {}).get("media_type", asset.get("media_type", ""))) == "video"
+        and str(asset.get("technical", {}).get("analysis_status", "")) == "invalid_placeholder"
+    }
+    observed_video = any(
+        isinstance(asset, Mapping)
+        and str(asset.get("technical", {}).get("media_type", asset.get("media_type", ""))) == "video"
+        and str(asset.get("technical", {}).get("analysis_status", "")) in {"observed", "degraded"}
+        for asset in perception_assets
+    )
+    structural_invalid = any(
+        isinstance(binding, Mapping)
+        and str(binding.get("asset_id", "")) in invalid_video_ids
+        and str(binding.get("role", "")) in STRUCTURAL_BINDING_ROLES
+        for binding in payload.get("asset_bindings", [])
+    )
+    timeline = payload.get("timeline")
+    if not structural_invalid or observed_video or not isinstance(timeline, list) or len(timeline) <= 1:
+        return payload
+    durations = [
+        round(float(shot.get("end_seconds")) - float(shot.get("start_seconds")), 3)
+        for shot in timeline
+        if isinstance(shot, Mapping) and _number(shot.get("start_seconds")) and _number(shot.get("end_seconds"))
+    ]
+    if len(durations) != len(timeline) or max(durations) - min(durations) > EPSILON:
+        return payload
+    request_text = str(payload.get("intent", {}).get("user_request", ""))
+    if re.search(
+        r"(?:equal[ -]?duration|evenly\s+divid|均分|等时长|等长|"
+        r"每(?:张|幅|镜|个镜头).{0,10}(?:秒|均分|等长)|"
+        r"\d+(?:\.\d+)?\s*(?:秒|seconds?\b)|\d+(?:\.\d+)?\s*[-–]\s*\d+(?:\.\d+)?)",
+        request_text,
+        re.IGNORECASE,
+    ):
+        return payload
+
+    def collect(field: str) -> list[str]:
+        return list(dict.fromkeys(
+            value
+            for shot in timeline if isinstance(shot, Mapping)
+            for value in _strings(shot.get(field))
+        ))
+
+    visible_beats = [
+        str(shot.get("primary_change", "")).strip().rstrip(".")
+        for shot in timeline if isinstance(shot, Mapping) and str(shot.get("primary_change", "")).strip()
+    ]
+    actions = [
+        str(shot.get("action", "")).strip().rstrip(".")
+        for shot in timeline if isinstance(shot, Mapping) and str(shot.get("action", "")).strip()
+    ]
+    last = next((shot for shot in reversed(timeline) if isinstance(shot, Mapping)), {})
+    duration = float(payload.get("task", {}).get("duration_seconds", timeline[-1].get("end_seconds", 0.0)))
+    merged = {
+        "shot_id": "01",
+        "start_seconds": 0.0,
+        "end_seconds": duration,
+        "primary_change": "The supplied visual subjects appear in their requested order while the conditioned video controls unresolved rhythm and transitions.",
+        "event": "; then ".join(visible_beats),
+        "action": "; then ".join(actions) or "Present the supplied subjects in their requested order.",
+        "camera": "Follow the conditioned video directly for camera execution; no unverified camera path is asserted.",
+        "lighting": str(next((shot.get("lighting") for shot in timeline if isinstance(shot, Mapping) and str(shot.get("lighting", "")).strip()), "")),
+        "transition": "Follow the conditioned video directly; exact cut boundaries are unresolved.",
+        "observable_end_state": str(last.get("observable_end_state", "The final supplied subject is visible.")),
+        "state_changes": [
+            dict(change)
+            for shot in timeline if isinstance(shot, Mapping)
+            for change in shot.get("state_changes", []) if isinstance(change, Mapping)
+        ],
+        "subject_refs": collect("subject_refs"),
+        "binding_refs": collect("binding_refs"),
+    }
+    asset_refs = collect("asset_refs")
+    if asset_refs:
+        merged["asset_refs"] = asset_refs
+    payload["timeline"] = [merged]
+    focus = payload.get("creative_focus")
+    if isinstance(focus, dict):
+        focus["required_shot_ids"] = ["01"]
+    intent = payload.get("intent")
+    if isinstance(intent, dict):
+        uncertainties = intent.setdefault("uncertainties", [])
+        if isinstance(uncertainties, list):
+            uncertainties[:] = [
+                value for value in uncertainties
+                if "equal-duration" not in str(value).casefold() and "equal duration" not in str(value).casefold()
+            ]
+            note = "Reference video analysis is unusable; concrete cut timing and transition types are not asserted, and H3 must consume the conditioned video directly."
+            if note not in uncertainties:
+                uncertainties.append(note)
+    for module in ("camera", "editing", "motion", "performance", "style"):
+        policy = payload.get("production_policies", {}).get(module)
+        if isinstance(policy, dict):
+            policy["events"] = [
+                event for event in policy.get("events", [])
+                if not isinstance(event, Mapping) or event.get("source") != "reference_evidence"
+            ]
     return payload
 
 
@@ -1121,6 +1737,376 @@ def normalize_source_video_audio_relationship(payload: dict[str, Any]) -> dict[s
     return payload
 
 
+def _perception_video_index(payload: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    perception = payload.get("perception")
+    items = perception.get("assets", []) if isinstance(perception, Mapping) else []
+    return {
+        str(item.get("asset_id", "")): dict(item)
+        for item in items
+        if isinstance(item, Mapping)
+        and str(item.get("technical", {}).get("media_type", item.get("media_type", ""))) == "video"
+        and str(item.get("asset_id", ""))
+    }
+
+
+def _valid_video_events(analysis: Mapping[str, Any]) -> list[dict[str, Any]]:
+    """Return timestamped observations only; never repair event semantics here."""
+    result: list[dict[str, Any]] = []
+    for item in analysis.get("events", []) if isinstance(analysis.get("events"), list) else []:
+        if not isinstance(item, Mapping):
+            continue
+        time_range = item.get("time_range")
+        if (
+            not isinstance(time_range, list)
+            or len(time_range) != 2
+            or not all(_number(value) for value in time_range)
+        ):
+            continue
+        start, end = float(time_range[0]), float(time_range[1])
+        if start < 0 or end <= start:
+            continue
+        event_id = str(item.get("event_id", "")).strip()
+        action = str(item.get("action", "")).strip()
+        if not event_id or not action:
+            continue
+        result.append({**dict(item), "time_range": [start, end]})
+    return sorted(result, key=lambda item: (item["time_range"][0], item["time_range"][1]))
+
+
+def normalize_performance_plan(payload: dict[str, Any]) -> dict[str, Any]:
+    """Compile observed Video events into performance beats, never into shots.
+
+    The semantic model may replace an observed event's object-level meaning in
+    ``action`` (for example sponge -> foam), but source timing and source action
+    always come from perception.  This keeps semantic transfer flexible while
+    making temporal provenance deterministic.
+    """
+    asset_media = {
+        str(item.get("asset_id", "")): str(item.get("media_type", ""))
+        for item in payload.get("assets", [])
+        if isinstance(item, Mapping)
+    }
+    motion_video_ids = list(dict.fromkeys(
+        str(binding.get("asset_id", ""))
+        for binding in payload.get("asset_bindings", [])
+        if isinstance(binding, Mapping)
+        and binding.get("role") == "motion"
+        and asset_media.get(str(binding.get("asset_id", ""))) == "video"
+    ))
+    candidate = payload.get("performance_plan")
+    if not isinstance(candidate, Mapping):
+        candidate = {}
+    candidate_beats = [
+        item for item in candidate.get("beats", [])
+        if isinstance(item, Mapping)
+    ] if isinstance(candidate.get("beats"), list) else []
+    candidate_by_event = {
+        (str(item.get("source_asset_id", "")), str(item.get("source_event_id", ""))): item
+        for item in candidate_beats
+        if str(item.get("source_asset_id", "")) and str(item.get("source_event_id", ""))
+    }
+    candidate_by_asset: dict[str, list[Mapping[str, Any]]] = {}
+    for item in candidate_beats:
+        candidate_by_asset.setdefault(str(item.get("source_asset_id", "")), []).append(item)
+
+    requested_sources = [
+        item for item in _strings(candidate.get("source_asset_ids"))
+        if item in motion_video_ids
+    ]
+    source_ids = list(dict.fromkeys(requested_sources + motion_video_ids))
+    perception = _perception_video_index(payload)
+    target_duration = float(payload.get("task", {}).get("duration_seconds", 0.0) or 0.0)
+    motion_only_ids = _motion_reference_without_editorial_authority(payload)
+    normalized_beats: list[dict[str, Any]] = []
+    duration_mappings: list[dict[str, Any]] = []
+
+    for source_id in source_ids:
+        analysis = perception.get(source_id, {})
+        technical = analysis.get("technical", {}) if isinstance(analysis, Mapping) else {}
+        events = _valid_video_events(analysis)
+        source_duration_value = technical.get("duration_seconds") if isinstance(technical, Mapping) else None
+        source_duration = float(source_duration_value) if _number(source_duration_value) else 0.0
+        if source_duration <= 0 and events:
+            source_duration = max(float(item["time_range"][1]) for item in events)
+        scale = target_duration / source_duration if source_duration > 0 else None
+        duration_mappings.append({
+            "source_asset_id": source_id,
+            "mode": "scale_to_target" if scale is not None else "unresolved",
+            "source_duration": source_duration if source_duration > 0 else None,
+            "target_duration": target_duration,
+            "scale": round(scale, 8) if scale is not None else None,
+        })
+        positional = candidate_by_asset.get(source_id, [])
+        for event_index, event in enumerate(events):
+            event_id = str(event["event_id"])
+            semantic = candidate_by_event.get((source_id, event_id))
+            if semantic is None and event_index < len(positional):
+                semantic = positional[event_index]
+            source_range = [float(value) for value in event["time_range"]]
+            target_range = [
+                round(value * scale, 3) if scale is not None else 0.0
+                for value in source_range
+            ]
+            source_action = str(event.get("action", "")).strip()
+            action = str(semantic.get("action", "")).strip() if isinstance(semantic, Mapping) else ""
+            if not action:
+                # Source actions often name source-world props or performers.
+                # Without a semantic Beat supplied by the reasoning model,
+                # projecting that wording can contradict a requested content
+                # replacement. Keep the source description as audit evidence
+                # and render only the authorized abstract transfer.
+                action = (
+                    "Follow the observed action, expression, and performance "
+                    "rhythm from the reference Video for this interval."
+                )
+            requested_action_source = (
+                str(semantic.get("action_source", "")).strip()
+                if isinstance(semantic, Mapping) else ""
+            )
+            action_source = requested_action_source if requested_action_source in PERFORMANCE_ACTION_SOURCES else (
+                "reference_evidence" if action == source_action else
+                "explicit_user" if isinstance(semantic, Mapping) else "derived_requirement"
+            )
+            status = "user_overridden" if isinstance(semantic, Mapping) and action != source_action else "observed"
+            transition_type = str(event.get("transition_type", "")).casefold()
+            editorial_boundary = (
+                source_id not in motion_only_ids
+                and transition_type in {"cut", "hard_cut", "jump_cut", "match_cut", "dissolve", "fade"}
+            )
+            normalized_beats.append({
+                "beat_id": "",
+                "source_asset_id": source_id,
+                "source_event_id": event_id,
+                "source_range": source_range,
+                "target_range": target_range,
+                "source_action": source_action,
+                "action": action,
+                "action_source": action_source,
+                "subject_refs": list(dict.fromkeys(_strings(semantic.get("subject_refs")))) if isinstance(semantic, Mapping) else [],
+                "keyframe_refs": [],
+                "editorial_boundary": editorial_boundary,
+                "status": status,
+                "evidence_refs": [f"{source_id}.{event_id}"],
+            })
+        if source_duration > 0:
+            observed_end = max((float(item["time_range"][1]) for item in events), default=0.0)
+            if source_duration - observed_end > max(EPSILON, 0.25):
+                normalized_beats.append({
+                    "beat_id": "",
+                    "source_asset_id": source_id,
+                    "source_event_id": "",
+                    "source_range": [observed_end, source_duration],
+                    "target_range": [round(observed_end * scale, 3), target_duration] if scale is not None else [0.0, target_duration],
+                    "source_action": "",
+                    "action": "Reference performance is unresolved for this interval; do not loop, repeat, or invent a new action.",
+                    "action_source": "unresolved",
+                    "subject_refs": [],
+                    "keyframe_refs": [],
+                    "editorial_boundary": False,
+                    "status": "unresolved_tail",
+                    "evidence_refs": [],
+                })
+
+    for index, beat in enumerate(normalized_beats, start=1):
+        beat["beat_id"] = f"beat_{index:02d}"
+    plan = {
+        "source_asset_ids": source_ids,
+        "transfer_scope": list(dict.fromkeys(
+            _strings(candidate.get("transfer_scope"))
+            or ["action", "expression", "performance_rhythm"]
+        )) if source_ids else [],
+        "excluded_scope": list(dict.fromkeys(
+            _strings(candidate.get("excluded_scope"))
+            or ["identity", "outfit", "scene", "camera", "editing"]
+        )) if source_ids else [],
+        "duration_mappings": duration_mappings,
+        "beats": normalized_beats,
+    }
+    if len(duration_mappings) == 1:
+        plan["duration_mapping"] = copy.deepcopy(duration_mappings[0])
+    payload["performance_plan"] = plan
+    return payload
+
+
+def normalize_timeline_beat_refs(payload: dict[str, Any]) -> dict[str, Any]:
+    """Attach beats to overlapping shots without deriving any new shot."""
+    beats = payload.get("performance_plan", {}).get("beats", [])
+    if not isinstance(beats, list):
+        beats = []
+    for shot in payload.get("timeline", []):
+        if not isinstance(shot, dict):
+            continue
+        if not _number(shot.get("start_seconds")) or not _number(shot.get("end_seconds")):
+            shot["beat_refs"] = []
+            continue
+        shot_start, shot_end = float(shot["start_seconds"]), float(shot["end_seconds"])
+        refs = []
+        for beat in beats:
+            if not isinstance(beat, Mapping):
+                continue
+            target_range = beat.get("target_range")
+            if not isinstance(target_range, list) or len(target_range) != 2 or not all(_number(value) for value in target_range):
+                continue
+            beat_start, beat_end = float(target_range[0]), float(target_range[1])
+            if beat_end > shot_start + EPSILON and beat_start < shot_end - EPSILON:
+                refs.append(str(beat.get("beat_id", "")))
+        shot["beat_refs"] = [item for item in refs if item]
+    return payload
+
+
+def normalize_keyframe_roles(payload: dict[str, Any]) -> dict[str, Any]:
+    """Compile each conditioned Picture into an explicit, dimension-scoped role."""
+    assets = {
+        str(item.get("asset_id", "")): item
+        for item in payload.get("assets", [])
+        if isinstance(item, Mapping) and str(item.get("asset_id", ""))
+    }
+    bindings_by_asset: dict[str, list[Mapping[str, Any]]] = {}
+    for binding in payload.get("asset_bindings", []):
+        if isinstance(binding, Mapping):
+            bindings_by_asset.setdefault(str(binding.get("asset_id", "")), []).append(binding)
+    subject_shots = {
+        str(subject.get("subject_id", "")): _strings(subject.get("appearance_shot_ids"))
+        for subject in payload.get("subjects", [])
+        if isinstance(subject, Mapping)
+    }
+    relationship_subjects = {
+        str(item.get("asset_id", "")): _strings(item.get("subject_refs"))
+        for item in payload.get("reference_relationships", [])
+        if isinstance(item, Mapping)
+    }
+    candidates = payload.get("keyframe_roles")
+    candidates = [item for item in candidates if isinstance(item, Mapping)] if isinstance(candidates, list) else []
+    normalized: list[dict[str, Any]] = []
+    seen: set[tuple[Any, ...]] = set()
+
+    def add_role(item: Mapping[str, Any]) -> None:
+        asset_id = str(item.get("asset_id", "")).strip()
+        role = str(item.get("role", "")).strip()
+        subject_refs = list(dict.fromkeys(_strings(item.get("subject_refs"))))
+        shot_refs = list(dict.fromkeys(_strings(item.get("shot_refs"))))
+        beat_refs = list(dict.fromkeys(_strings(item.get("beat_refs"))))
+        key = (asset_id, role, tuple(subject_refs), tuple(shot_refs), tuple(beat_refs))
+        if key in seen:
+            return
+        seen.add(key)
+        related_bindings = bindings_by_asset.get(asset_id, [])
+        controls = list(dict.fromkeys(
+            _strings(item.get("controls"))
+            or [value for binding in related_bindings for value in _strings(binding.get("inherit"))]
+        ))
+        excludes = list(dict.fromkeys(
+            _strings(item.get("excludes"))
+            + [value for binding in related_bindings for value in _strings(binding.get("exclude"))]
+            + ["motion", "camera", "editing", "music", "performance rhythm"]
+        ))
+        source = str(item.get("source", ""))
+        normalized.append({
+            "role_id": "",
+            "asset_id": asset_id,
+            "role": role,
+            "subject_refs": subject_refs,
+            "shot_refs": shot_refs,
+            "beat_refs": beat_refs,
+            "controls": controls or [role.replace("_", " ")],
+            "excludes": excludes,
+            "description": str(item.get("description", "")).strip() or f"The Picture supplies {role.replace('_', ' ')} only.",
+            "source": source if source in KEYFRAME_ROLE_SOURCES else "derived_requirement",
+            "evidence_refs": list(dict.fromkeys(_strings(item.get("evidence_refs")))),
+            "confidence": float(item.get("confidence")) if _number(item.get("confidence")) else (1.0 if source == "explicit_user" else 0.8),
+        })
+
+    for candidate in candidates:
+        add_role(candidate)
+
+    conditioned_image_ids = [
+        str(asset.get("asset_id", ""))
+        for asset in _condition_assets(payload)
+        if asset.get("media_type") == "image"
+    ]
+    assigned_roles: dict[str, set[str]] = {}
+    for item in normalized:
+        assigned_roles.setdefault(item["asset_id"], set()).add(item["role"])
+    first_shot = str(payload.get("timeline", [{}])[0].get("shot_id", "01")) if payload.get("timeline") else "01"
+    last_shot = str(payload.get("timeline", [{}])[-1].get("shot_id", "01")) if payload.get("timeline") else "01"
+    for asset_id in conditioned_image_ids:
+        bindings = bindings_by_asset.get(asset_id, [])
+        binding_roles = {str(item.get("role", "")) for item in bindings}
+        inherited = list(dict.fromkeys(
+            value for binding in bindings for value in _strings(binding.get("inherit"))
+        ))
+        inherited_text = " ".join(inherited).casefold()
+        subject_refs = relationship_subjects.get(asset_id, [])
+        shot_refs = list(dict.fromkeys(
+            shot_id for subject_id in subject_refs for shot_id in subject_shots.get(subject_id, [])
+        ))
+        derived_roles: list[tuple[str, list[str], list[str]]] = []
+        if "first_frame" in binding_roles:
+            derived_roles.append(("first_frame", [first_shot], inherited))
+        if "last_frame" in binding_roles:
+            derived_roles.append(("last_frame", [last_shot], inherited))
+        appearance_markers = (
+            "appearance", "identity", "face", "facial", "hair", "body",
+            "outfit", "wardrobe", "clothing", "product", "geometry", "material",
+        )
+        if binding_roles.intersection({"identity", "outfit", "product"}) or any(
+            re.search(r"\b" + re.escape(marker) + r"\b", inherited_text) for marker in appearance_markers
+        ):
+            appearance_controls = [
+                value for value in inherited
+                if any(re.search(r"\b" + re.escape(marker) + r"\b", value.casefold()) for marker in appearance_markers)
+            ]
+            derived_roles.append(("appearance_source", shot_refs or [first_shot], appearance_controls or inherited))
+        scene_markers = (
+            "scene", "environment", "background", "layout", "sink", "cabinet",
+            "counter", "door", "wall", "set dressing", "location",
+        )
+        if "scene" in binding_roles or any(re.search(r"\b" + re.escape(marker) + r"\b", inherited_text) for marker in scene_markers):
+            scene_controls = [
+                value for value in inherited
+                if any(re.search(r"\b" + re.escape(marker) + r"\b", value.casefold()) for marker in scene_markers)
+            ]
+            derived_roles.append(("scene_anchor", shot_refs or [first_shot], scene_controls or inherited))
+        if "style" in binding_roles:
+            derived_roles.append(("style_reference", shot_refs or [first_shot], inherited))
+        if not derived_roles:
+            derived_roles.append(("composition_anchor", shot_refs or [first_shot], inherited))
+        for role, role_shots, role_controls in derived_roles:
+            if role in assigned_roles.get(asset_id, set()):
+                continue
+            add_role({
+                "asset_id": asset_id,
+                "role": role,
+                "subject_refs": subject_refs,
+                "shot_refs": role_shots,
+                "beat_refs": [],
+                "controls": role_controls,
+                "description": f"The Picture is the scoped {role.replace('_', ' ')} for the referenced target.",
+                "source": "derived_requirement",
+                "evidence_refs": [],
+                "confidence": 0.8,
+            })
+    for index, item in enumerate(normalized, start=1):
+        item["role_id"] = f"keyframe_role_{index:03d}"
+    payload["keyframe_roles"] = normalized
+    beats = payload.get("performance_plan", {}).get("beats", [])
+    beat_index = {
+        str(beat.get("beat_id", "")): beat
+        for beat in beats
+        if isinstance(beat, dict)
+    }
+    for item in normalized:
+        if item["role"] != "action_keyframe":
+            continue
+        for beat_id in item["beat_refs"]:
+            beat = beat_index.get(beat_id)
+            if beat is None:
+                continue
+            refs = list(dict.fromkeys(_strings(beat.get("keyframe_refs")) + [item["role_id"]]))
+            beat["keyframe_refs"] = refs
+    return payload
+
+
 def _policy_default(module: str, source_edit: bool, generate_audio: bool) -> dict[str, Any]:
     if module in ENTITY_CONSTRAINT_MODULES:
         return {
@@ -1244,6 +2230,37 @@ def normalize_production_policies(payload: dict[str, Any]) -> dict[str, Any]:
                 candidate["allow_new_events"] = False
             if candidate.get("source") in {"explicit_user", "explicit_prohibition"}:
                 candidate["priority"] = "hard"
+    motion_only_video_ids = _motion_reference_without_editorial_authority(payload)
+    if motion_only_video_ids:
+        # A hard performance transfer is dimension-scoped.  Technical
+        # completion may select a conservative locked framing, but it may not
+        # silently turn performance rhythm into editorial or camera authority.
+        for module in ("camera", "editing"):
+            candidate = production[module]
+            candidate.update({
+                "mode": "disabled" if module == "editing" else "auto",
+                "source": "derived_requirement",
+                "priority": "hard",
+                "allow_new_events": False,
+                "preserve_reference": False,
+            })
+            candidate["events"] = []
+            assumptions = candidate.get("assumptions")
+            if not isinstance(assumptions, list):
+                assumptions = []
+                candidate["assumptions"] = assumptions
+            note = (
+                "Motion/performance transfer does not grant camera or editing "
+                "authority; use one continuous shot with conservative framing."
+            )
+            if note not in assumptions:
+                assumptions.append(note)
+        semantic_plan = payload.get("semantic_plan")
+        if isinstance(semantic_plan, dict):
+            semantic_plan["shot_planning_mode"] = "reference"
+            authority = semantic_plan.get("completion_authority")
+            if isinstance(authority, dict):
+                authority["timeline"] = False
     return payload
 
 
@@ -1314,6 +2331,10 @@ def compile_context_ir(model_output: Mapping[str, Any], source_request: Mapping[
                         )
                     ]
         compile_directive_bindings(payload, source)
+    # asset_bindings is the single authoritative relation graph. All duplicate
+    # cross-field references are compiler-derived, not independently authored
+    # by the semantic model.
+    derive_binding_graph(payload)
     normalize_source_video_audio_relationship(payload)
     normalize_reference_retention_modes(payload)
     normalize_reference_isolation(payload)
@@ -1323,10 +2344,15 @@ def compile_context_ir(model_output: Mapping[str, Any], source_request: Mapping[
     normalize_focus_shot_bindings(payload)
     normalize_binding_isolation_conflicts(payload)
     normalize_timeline_boundaries(payload)
+    normalize_unresolved_reference_timeline(payload)
     normalize_subject_appearance_shots(payload)
+    normalize_focus_shot_bindings(payload)
     normalize_global_constraint_conflicts(payload)
     normalize_timeline_state_fields(payload)
     normalize_production_policies(payload)
+    normalize_performance_plan(payload)
+    normalize_timeline_beat_refs(payload)
+    normalize_keyframe_roles(payload)
     report = validate_context_ir(payload)
     if not report.passed:
         raise ContextIRError(json.dumps(report.to_dict(), ensure_ascii=False, indent=2))
@@ -1377,6 +2403,20 @@ def build_subject_inventory(payload: Mapping[str, Any]) -> dict[str, str]:
     }
 
 
+def project_reference_labels(text: str, inventory: Mapping[str, str]) -> str:
+    """Replace internal asset IDs with the exact official H3 reference labels."""
+    result = str(text)
+    # Longest first prevents image_1 from touching a hypothetical image_10.
+    for asset_id in sorted(inventory, key=len, reverse=True):
+        result = re.sub(
+            rf"(?<![A-Za-z0-9_]){re.escape(asset_id)}(?![A-Za-z0-9_])",
+            inventory[asset_id],
+            result,
+            flags=re.IGNORECASE,
+        )
+    return result
+
+
 def _shot_text(shot: Mapping[str, Any], shot_number: int, subject_inventory: Mapping[str, str] | None = None) -> str:
     subject_inventory = subject_inventory or {}
     labels = [subject_inventory[item] for item in _strings(shot.get("subject_refs")) if item in subject_inventory]
@@ -1414,25 +2454,35 @@ def _sound_sections(payload: Mapping[str, Any]) -> tuple[str, str]:
     return soundscape, music
 
 
+def _dedupe_prompt_items(values: Iterable[str]) -> list[str]:
+    """Deduplicate executable prompt items without changing their first wording."""
+    result: list[str] = []
+    seen: set[str] = set()
+    for value in values:
+        text = " ".join(str(value).strip().split()).rstrip(".;")
+        if not text:
+            continue
+        key = text.casefold()
+        if key in seen:
+            continue
+        seen.add(key)
+        result.append(text)
+    return result
+
+
 def _constraint_text(payload: Mapping[str, Any]) -> str:
-    """Compile the IR's edit boundary into executable prompt language."""
+    """Render one authoritative global constraint block.
+
+    Policy provenance, modes and event registries remain in Context-IR for
+    auditability.  The H3 prompt receives only executable boundaries.  Policy
+    events are already expressed by their referenced timeline shots and must
+    not be expanded a second time here.
+    """
     constraints = payload["constraints"]
     parts = []
-    preserve = _strings(constraints.get("preserve"))
-    allow_change = _strings(constraints.get("allow_change"))
-    prohibit = _strings(constraints.get("prohibit"))
-    if preserve:
-        parts.append("Must preserve: " + ", ".join(preserve))
-    if allow_change:
-        parts.append("May change only as requested: " + ", ".join(allow_change))
-    if prohibit:
-        parts.append("Must not introduce: " + ", ".join(prohibit))
-    return "; ".join(parts)
-
-
-def _policy_text(payload: Mapping[str, Any]) -> str:
-    """Compile policy permissions into concise executable H3 instructions."""
-    lines = []
+    preserve = _dedupe_prompt_items(_strings(constraints.get("preserve")))
+    allow_change = _dedupe_prompt_items(_strings(constraints.get("allow_change")))
+    prohibit_values = list(_strings(constraints.get("prohibit")))
     for collection_name, modules in (
         ("production_policies", PRODUCTION_POLICY_MODULES),
         ("entity_constraints", ENTITY_CONSTRAINT_MODULES),
@@ -1442,31 +2492,142 @@ def _policy_text(payload: Mapping[str, Any]) -> str:
             continue
         for module in modules:
             policy = collection.get(module)
-            if not isinstance(policy, Mapping):
+            if isinstance(policy, Mapping):
+                prohibit_values.extend(_strings(policy.get("prohibit")))
+    prohibit = _dedupe_prompt_items(prohibit_values)
+    if preserve:
+        parts.append("Must preserve: " + ", ".join(preserve))
+    if allow_change:
+        parts.append("May change only as requested: " + ", ".join(allow_change))
+    if prohibit:
+        parts.append("Must not introduce: " + ", ".join(prohibit))
+    return "Global constraints: " + "; ".join(parts) if parts else ""
+
+
+def _projected_constraint_text(payload: Mapping[str, Any], covered_text: str = "") -> str:
+    """Project only authoritative user-facing boundaries into the H3 prompt.
+
+    The full normalized constraint and policy matrices remain in Context-IR.
+    Prompt text follows the official rewrite style: user directives appear
+    once, while compiler safety defaults and audit provenance stay internal.
+    """
+    intent = payload.get("intent", {})
+    directives = intent.get("directives", []) if isinstance(intent, Mapping) else []
+    preserve: list[str] = []
+    change: list[str] = []
+    prohibit: list[str] = []
+    for directive in directives if isinstance(directives, list) else []:
+        if not isinstance(directive, Mapping):
+            continue
+        scopes = _strings(directive.get("scope"))
+        # The target carries semantic scope (for example Shot 1 only).
+        # Dropping it promotes local requirements into global restrictions.
+        target = str(directive.get("target", "")).strip()
+        if target and scopes:
+            scopes = [f"For {target}: " + "; ".join(scopes)]
+        operation = str(directive.get("operation", ""))
+        if operation == "exclude":
+            prohibit.extend(scopes)
+        elif operation in {"replace", "transfer", "may_change"}:
+            change.extend(scopes)
+        elif operation == "preserve":
+            preserve.extend(scopes)
+    # Legacy/natural-language callers may have no directive contract. In that
+    # case retain their explicit normalized constraints rather than dropping
+    # safety boundaries from the prompt projection.
+    if not directives:
+        constraints = payload.get("constraints", {})
+        if isinstance(constraints, Mapping):
+            preserve.extend(_strings(constraints.get("preserve")))
+            change.extend(_strings(constraints.get("allow_change")))
+            prohibit.extend(_strings(constraints.get("prohibit")))
+    covered_folded = " ".join(covered_text.casefold().split())
+    preserve = [item for item in preserve if " ".join(item.casefold().split()) not in covered_folded]
+    change = [item for item in change if " ".join(item.casefold().split()) not in covered_folded]
+    prohibit = [item for item in prohibit if " ".join(item.casefold().split()) not in covered_folded]
+    parts: list[str] = []
+    preserve = _dedupe_prompt_items(preserve)
+    change = _dedupe_prompt_items(change)
+    prohibit = _dedupe_prompt_items(prohibit)
+    if preserve:
+        parts.append("Preserve " + ", ".join(preserve))
+    if change:
+        parts.append("Change only as specified: " + ", ".join(change))
+    if prohibit:
+        parts.append("Do not introduce or inherit " + ", ".join(prohibit))
+    return "Scoped requirements: " + "; ".join(parts) + "." if parts else ""
+
+
+def _shot_text_projected(
+    shot: Mapping[str, Any],
+    shot_number: int,
+    subject_inventory: Mapping[str, str],
+    performance_beats: Mapping[str, Mapping[str, Any]] | None = None,
+) -> str:
+    """Render an official-style shot from the richer executable IR state."""
+    labels = [subject_inventory[item] for item in _strings(shot.get("subject_refs")) if item in subject_inventory]
+    event = str(shot.get("event", "")).strip().rstrip(".;")
+    parts = [event] if event else []
+    event_folded = event.casefold()
+    camera_markers = (
+        "camera", " shot", "frame", "view", "focus", "pan", "zoom", "dolly",
+        "orbit", "track", "handheld", "static", "rack", "push-in", "pull-back", "tilt",
+    )
+    camera = str(shot.get("camera", "")).strip().rstrip(".;")
+    if camera and not any(marker in event_folded for marker in camera_markers):
+        parts.append(camera)
+    transition = str(shot.get("transition", "")).strip().rstrip(".;")
+    transition_markers = ("transition", "cut", "whip", "dissolve", "fade", "blur", "smear")
+    if transition and not any(marker in event_folded for marker in transition_markers):
+        parts.append(transition)
+    beat_items = [
+        performance_beats[beat_id]
+        for beat_id in _strings(shot.get("beat_refs"))
+        if performance_beats and beat_id in performance_beats
+    ]
+    if beat_items:
+        sequence_parts = []
+        generic_by_source: dict[str, list[str]] = {}
+        for beat in beat_items:
+            target_range = beat.get("target_range", [])
+            if not isinstance(target_range, list) or len(target_range) != 2:
                 continue
-            pieces = [
-                f"mode={policy.get('mode')}", f"priority={policy.get('priority')}",
-                f"source={policy.get('source')}",
-                f"new events={'allowed' if policy.get('allow_new_events') else 'not allowed'}",
-                f"reference={'preserve' if policy.get('preserve_reference') else 'scope only'}",
-            ]
-            constraints = policy.get("constraints")
-            if isinstance(constraints, Mapping) and constraints:
-                pieces.append("constraints=" + json.dumps(constraints, ensure_ascii=False, sort_keys=True))
-            prohibit = _strings(policy.get("prohibit"))
-            if prohibit:
-                pieces.append("prohibit=" + ", ".join(prohibit))
-            events = policy.get("events")
-            if isinstance(events, list) and events:
-                event_text = []
-                for event in events:
-                    if isinstance(event, Mapping):
-                        refs = ",".join(_strings(event.get("shot_refs")))
-                        event_text.append(f"{event.get('description')} (shots {refs})")
-                if event_text:
-                    pieces.append("events=" + " | ".join(event_text))
-            lines.append(f"{module}: " + "; ".join(pieces))
-    return "Production permissions:\n" + "\n".join(lines)
+            start = _format_timestamp(float(target_range[0]))
+            if beat.get("status") == "unresolved_tail":
+                sequence_parts.append(
+                    f"From {start} onward, the reference performance is unresolved; do not loop, repeat, or invent a new action"
+                )
+            else:
+                action = str(beat.get("action", "")).strip().rstrip(".;")
+                if beat.get("action_source") == "derived_requirement":
+                    generic_by_source.setdefault(str(beat.get("source_asset_id", "the reference Video")), []).append(start)
+                elif action:
+                    sequence_parts.append(f"At {start}, {action[0].lower() + action[1:]}")
+        for source_id, times in generic_by_source.items():
+            change_times = [value for value in times if value != "00:00.000"]
+            timing = f"; observed action beats change at {', '.join(change_times)}" if change_times else ""
+            sequence_parts.insert(
+                0,
+                f"Follow {source_id} continuously for ordered action, expression, and performance rhythm{timing}",
+            )
+        if sequence_parts:
+            parts.append("Performance sequence: " + "; then ".join(sequence_parts))
+    end_state = str(shot.get("observable_end_state", "")).strip().rstrip(".;")
+    if end_state:
+        meaningful = {
+            token for token in re.findall(r"[a-z0-9'-]+", end_state.casefold())
+            if len(token) > 3 and token not in {"with", "that", "this", "from", "into", "shot", "state"}
+        }
+        covered = sum(token in event_folded for token in meaningful)
+        if meaningful and covered / len(meaningful) < 0.55:
+            parts.append("The shot ends with " + end_state[0].lower() + end_state[1:])
+    subject_opening = ""
+    if labels:
+        subject_opening = ", ".join(labels) + (" are visible. " if len(labels) > 1 else " is visible. ")
+    prefix = f"[Shot {shot_number}]"
+    if shot_number != 1:
+        prefix += f" At {_format_timestamp(float(shot['start_seconds']))},"
+    return prefix + " " + subject_opening + ". ".join(parts) + "."
 
 
 def _render_base_prompt(payload: Mapping[str, Any], inventory: Mapping[str, str]) -> str:
@@ -1505,7 +2666,7 @@ def _render_base_prompt(payload: Mapping[str, Any], inventory: Mapping[str, str]
         f"Primary visual focus: {focus['objective']}. Presentation requirements: "
         + "; ".join(_strings(focus.get("presentation_requirements")))
     )
-    description = ". ".join(part for part in (focus_text, constraint_text, _policy_text(payload), opening, " ".join(shots)) if part)
+    description = ". ".join(part for part in (focus_text, constraint_text, opening, " ".join(shots)) if part)
     soundscape, music = _sound_sections(payload)
     core = "\n\n".join((
         "integrated_multimodal_description: " + description,
@@ -1534,6 +2695,17 @@ def _render_ref_prompt(payload: Mapping[str, Any], inventory: Mapping[str, str])
         for asset in payload.get("assets", [])
         if isinstance(asset, Mapping)
     }
+    performance_beats = {
+        str(beat.get("beat_id", "")): beat
+        for beat in payload.get("performance_plan", {}).get("beats", [])
+        if isinstance(beat, Mapping) and str(beat.get("beat_id", ""))
+    }
+    keyframe_roles_by_subject: dict[str, list[Mapping[str, Any]]] = {}
+    for role in payload.get("keyframe_roles", []):
+        if not isinstance(role, Mapping):
+            continue
+        for subject_id in _strings(role.get("subject_refs")):
+            keyframe_roles_by_subject.setdefault(subject_id, []).append(role)
     for subject in payload["subjects"]:
         label = subject_inventory[subject["subject_id"]]
         source_controls: dict[str, dict[str, Any]] = {}
@@ -1550,21 +2722,80 @@ def _render_ref_prompt(payload: Mapping[str, Any], inventory: Mapping[str, str])
             control["exclude"].extend(_strings(binding.get("exclude")))
             control["hard"] = control["hard"] or binding.get("priority") == "hard"
         clauses = []
-        for asset_id in _strings(subject.get("source_asset_ids")):
+        source_asset_ids = list(_strings(subject.get("source_asset_ids")))
+        # Structural bindings still need an explicit provenance/appearance
+        # guard in the official Subject definition.  A reasoning model may
+        # correctly omit a style, motion or camera reference from
+        # source_asset_ids because it is not an appearance source; recover the
+        # bound asset here so the renderer can state that distinction instead
+        # of leaving the reference ambiguous.
+        for binding_id in _strings(subject.get("binding_ids")):
+            binding = binding_by_id.get(binding_id)
+            if not binding:
+                continue
+            bound_asset_id = str(binding.get("asset_id", ""))
+            if bound_asset_id in inventory and bound_asset_id not in source_asset_ids:
+                source_asset_ids.append(bound_asset_id)
+        for asset_id in source_asset_ids:
             if asset_id not in inventory:
                 continue
             label_ref = inventory[asset_id]
             control = source_controls.get(asset_id, {"roles": [], "inherit": [], "exclude": [], "hard": False})
             roles = set(control["roles"])
-            dimensions = list(dict.fromkeys(control["inherit"]))
-            dimension_text = ", ".join(dimensions) or "the explicitly scoped reference attributes"
+            structural_roles = roles.intersection(STRUCTURAL_BINDING_ROLES)
+            appearance_roles = roles.intersection(APPEARANCE_BINDING_ROLES)
             if roles and roles.issubset(STRUCTURAL_BINDING_ROLES):
-                clauses.append(f"its {dimension_text} is guided by {label_ref}; {label_ref} is not an appearance source")
-            elif roles.intersection(APPEARANCE_BINDING_ROLES):
-                authority = "exclusively " if control["hard"] else ""
-                clauses.append(f"its {dimension_text} comes {authority}from {label_ref}")
+                role_text = ", ".join(sorted(roles))
+                clauses.append(f"its {role_text} follows {label_ref}; {label_ref} is not an appearance source")
+            elif appearance_roles:
+                ordered_roles = [
+                    role for role in ("identity", "outfit", "product", "scene")
+                    if role in appearance_roles
+                ]
+                role_labels = {
+                    "identity": "identity and facial appearance",
+                    "outfit": "outfit",
+                    "product": "product appearance",
+                    "scene": "environment appearance",
+                }
+                scope_text = ", ".join(role_labels[role] for role in ordered_roles)
+                clause = f"{label_ref} controls its {scope_text}"
+                if structural_roles:
+                    clause += f" and its {', '.join(sorted(structural_roles))} also follows that reference"
+                clauses.append(clause)
             else:
-                clauses.append(f"its {dimension_text} comes from {label_ref}")
+                clauses.append(f"its scoped reference guidance comes from {label_ref}")
+        for role in keyframe_roles_by_subject.get(str(subject.get("subject_id", "")), []):
+            asset_id = str(role.get("asset_id", ""))
+            label_ref = inventory.get(asset_id)
+            if not label_ref:
+                continue
+            role_type = str(role.get("role", ""))
+            if role_type == "action_keyframe":
+                times = []
+                for beat_id in _strings(role.get("beat_refs")):
+                    beat = performance_beats.get(beat_id)
+                    target_range = beat.get("target_range", []) if beat else []
+                    if isinstance(target_range, list) and len(target_range) == 2 and _number(target_range[0]):
+                        times.append(_format_timestamp(float(target_range[0])))
+                timing = " at " + ", ".join(times) if times else ""
+                clauses.append(f"{label_ref} anchors its exact action pose{timing}, not motion or edit rhythm")
+            elif role_type == "product_detail":
+                clauses.append(f"{label_ref} anchors its exact product surface and close-detail appearance")
+            elif role_type == "appearance_source":
+                bound_roles = set(source_controls.get(asset_id, {}).get("roles", []))
+                if not bound_roles.intersection(APPEARANCE_BINDING_ROLES - {"scene"}):
+                    controls = ", ".join(_strings(role.get("controls"))[:6])
+                    detail = f" ({controls})" if controls else ""
+                    clauses.append(f"{label_ref} controls its appearance{detail}")
+            elif role_type == "scene_anchor":
+                if "scene" not in source_controls.get(asset_id, {}).get("roles", []):
+                    clauses.append(f"{label_ref} anchors its environment appearance without supplying motion")
+            elif role_type == "composition_anchor":
+                clauses.append(f"{label_ref} anchors its composition without supplying motion or editing")
+            elif role_type == "style_reference":
+                if "style" not in source_controls.get(asset_id, {}).get("roles", []):
+                    clauses.append(f"{label_ref} supplies only its authorized visual style")
         source_text = ("; " + "; ".join(clauses)) if clauses else ""
         subjects.append(f"{label} is {str(subject['name']).strip().rstrip('.')}, {str(subject['description']).strip().rstrip('.')}{source_text}.")
         shots = ", ".join(f"[Shot {int(item)}]" for item in _strings(subject.get("appearance_shot_ids")))
@@ -1580,6 +2811,8 @@ def _render_ref_prompt(payload: Mapping[str, Any], inventory: Mapping[str, str])
         if isinstance(subject, Mapping)
         for binding_id in _strings(subject.get("binding_ids"))
     }
+
+
     subject_roles_by_asset: dict[str, set[str]] = {}
     for binding_id in subject_binding_ids:
         binding = binding_by_id.get(binding_id)
@@ -1619,7 +2852,16 @@ def _render_ref_prompt(payload: Mapping[str, Any], inventory: Mapping[str, str])
     edit_opening = f"The target video is an edited version of {source_video_label}. " if "video editing" in task_types and source_video_label else ""
     primary_subject_label = subject_inventory.get(str(focus.get("primary_subject_id", "")), "")
     focus_objective = str(focus['objective']).strip().rstrip('.')
-    focus_summary = f"{primary_subject_label} is the primary creative focus: {focus_objective}" if primary_subject_label else f"Primary creative objective: {focus_objective}"
+    priority = (payload.get("semantic_plan") or {}).get("subject_priority") or {}
+    joint_labels = list(dict.fromkeys(
+        subject_inventory[subject_id]
+        for subject_id in _strings(priority.get("subject_ids"))
+        if subject_id in subject_inventory
+    ))
+    if priority.get("mode") == "co_equal" and len(joint_labels) > 1:
+        focus_summary = f"{', '.join(joint_labels)} share the creative focus: {focus_objective}"
+    else:
+        focus_summary = f"{primary_subject_label} is the primary creative focus: {focus_objective}" if primary_subject_label else f"Primary creative objective: {focus_objective}"
     style = str(task.get("style", "")).strip().rstrip(".")
     style_summary = f" Target style: {style}." if style else ""
     summary = (
@@ -1628,16 +2870,24 @@ def _render_ref_prompt(payload: Mapping[str, Any], inventory: Mapping[str, str])
         f"{style_summary} "
         f"Audio generation: {task['generate_audio']}."
     )
+    projected_shots = [
+        _shot_text_projected(shot, index, subject_inventory, performance_beats)
+        for index, shot in enumerate(payload["timeline"], start=1)
+    ]
     details = []
     generation = payload["generation_description"]
-    prohibit = _strings(payload.get("constraints", {}).get("prohibit"))
-    if prohibit:
-        details.append("Must not introduce: " + ", ".join(prohibit))
-    focus_requirements = "; ".join(_strings(focus.get("presentation_requirements")))
-    details.append(f"Presentation requirements: {focus_requirements.rstrip('.')}.")
-    details.append(_policy_text(payload))
-    details.append("; ".join(f"{key}: {generation[key]}" for key in ("cinematography", "lighting") if generation.get(key)))
-    details.extend(_shot_text(shot, index, subject_inventory) for index, shot in enumerate(payload["timeline"], start=1))
+    style_opening = ". ".join(
+        str(value).strip().rstrip(".")
+        for value in (task.get("style"), generation.get("cinematography"), generation.get("lighting"))
+        if str(value or "").strip()
+    )
+    if style_opening:
+        details.append(style_opening + ".")
+    covered_text = "\n".join(subjects + retention + [summary, style_opening] + projected_shots)
+    global_constraints = _projected_constraint_text(payload, covered_text)
+    if global_constraints:
+        details.insert(0, global_constraints)
+    details.extend(projected_shots)
     soundscape, music = _sound_sections(payload)
     return "\n\n".join([
         "subject_definitions:\n" + "\n".join(subjects),
@@ -1656,8 +2906,10 @@ def render_h3_prompt(payload: Mapping[str, Any]) -> str:
     inventory = build_reference_inventory(payload)
     mode = str(payload["task"]["type"]).lower()
     if mode == "ref2va":
-        return _render_ref_prompt(payload, inventory)
-    return _render_base_prompt(payload, inventory)
+        prompt = _render_ref_prompt(payload, inventory)
+    else:
+        prompt = _render_base_prompt(payload, inventory)
+    return project_reference_labels(prompt, inventory)
 
 
 def audit_h3_prompt(payload: Mapping[str, Any], prompt: str) -> ValidationReport:
@@ -1682,6 +2934,13 @@ def audit_h3_prompt(payload: Mapping[str, Any], prompt: str) -> ValidationReport
         report.add("PROMPT_SHOT_ONE_MISSING", "[Shot 1] is required", "$.h3_prompt")
     if INTERNAL_MEDIA_TERMS.search(prompt):
         report.add("INTERNAL_MEDIA_LEAK", "internal sampled-frame terminology leaked into final prompt", "$.h3_prompt")
+    raw_asset_ids = sorted(set(RAW_ASSET_ID_PATTERN.findall(prompt)), key=str.casefold)
+    if raw_asset_ids:
+        report.add(
+            "RAW_ASSET_ID_LEAK",
+            f"internal asset IDs must be projected to official reference labels: {raw_asset_ids}",
+            "$.h3_prompt",
+        )
     language_probe = prompt
     # Official H3 dialogue/lyrics tags preserve verbatim source language. Strip
     # their contents only for the rewrite-language audit; the tags remain in the
@@ -1814,6 +3073,19 @@ def audit_h3_prompt(payload: Mapping[str, Any], prompt: str) -> ValidationReport
         primary_label = build_subject_inventory(payload).get(primary_subject)
         if primary_label and primary_label not in summary_text:
             report.add("SUMMARY_PRIMARY_SUBJECT_MISSING", "summary must cite the primary Subject label", "$.h3_prompt.summary")
+    intent = payload.get("intent", {})
+    directives = intent.get("directives", []) if isinstance(intent, Mapping) else []
+    prompt_folded = prompt.casefold()
+    for directive in directives if isinstance(directives, list) else []:
+        if not isinstance(directive, Mapping) or directive.get("priority") != "hard":
+            continue
+        for scope in _strings(directive.get("scope")):
+            if scope.casefold() not in prompt_folded:
+                report.add(
+                    "PROMPT_HARD_DIRECTIVE_MISSING",
+                    f"hard directive scope is absent from prompt projection: {scope}",
+                    "$.h3_prompt",
+                )
     focus = payload.get("creative_focus")
     if isinstance(focus, Mapping):
         primary_binding_ids = set(_strings(focus.get("primary_binding_ids")))
@@ -1838,9 +3110,307 @@ def audit_h3_prompt(payload: Mapping[str, Any], prompt: str) -> ValidationReport
         pictures = {label for label in expected if label.startswith("<Picture ")}
         if pictures - actual:
             report.add("KEYFRAME_TAG_MISSING", f"missing keyframe tags: {sorted(pictures - actual)}", "$.h3_prompt")
-    if len(prompt) > 12000:
-        report.add("PROMPT_OVERLONG", "compiled H3 prompt exceeds 12,000 characters; consider moving analysis-only repetition back into Context-IR", "$.h3_prompt", "warning")
+    if len(prompt) > 8000:
+        report.add("PROMPT_OVERLONG", "compiled H3 prompt exceeds the 8,000-character soft budget", "$.h3_prompt", "warning")
+    if mode == "ref2va":
+        detail_match = re.search(
+            r"(?ms)^detailed_description:\s*(.*?)(?=^overall_soundscape:)",
+            prompt,
+        )
+        if detail_match and len(re.findall(r"\b[\w'-]+\b", detail_match.group(1))) > 650:
+            report.add(
+                "PROMPT_DETAIL_OVERLONG",
+                "detailed_description exceeds the 650-word soft projection budget",
+                "$.h3_prompt.detailed_description",
+                "warning",
+            )
     return report
+
+
+_PROMPT_CONTRACT_CODES = {
+    "PROMPT_SECTION_MISSING",
+    "PROMPT_SECTION_ORDER",
+    "PROMPT_SECTION_UNEXPECTED",
+    "PROMPT_SHOT_ONE_MISSING",
+    "INTERNAL_MEDIA_LEAK",
+    "RAW_ASSET_ID_LEAK",
+    "PROMPT_REWRITE_LANGUAGE_VIOLATION",
+    "PROMPT_TIMESTAMP_RANGE",
+    "REFERENCE_TAG_UNEXPECTED",
+    "REFERENCE_TAG_MISSING",
+    "SUBJECT_TAG_UNEXPECTED",
+    "SUBJECT_TAG_MISSING",
+    "PROMPT_NONOFFICIAL_ANGLE_TAG",
+    "SUBJECT_DEFINITION_MISSING",
+    "SUMMARY_TASK_PREFIX_INVALID",
+    "SUMMARY_VIDEO_EDIT_OPENING_INVALID",
+}
+
+
+_PROMPT_PRESENTATION_CODES = {
+    "PROMPT_SECTION_ORDER",
+    "PROMPT_SECTION_UNEXPECTED",
+    "PROMPT_SHOT_LABEL_NOT_LINE_START",
+    "SUMMARY_TASK_PREFIX_INVALID",
+    "SUMMARY_VIDEO_EDIT_OPENING_INVALID",
+}
+
+
+def audit_h3_prompt_contract(payload: Mapping[str, Any], prompt: str) -> ValidationReport:
+    """Check only the deterministic H3 transport/format contract.
+
+    This intentionally does not score aesthetics, shot quality, or creative
+    semantics.  Failures are suitable for a bounded LLM format-repair turn.
+    """
+    full = audit_h3_prompt(payload, prompt)
+    report = ValidationReport([
+        item for item in full.issues
+        if item.code in _PROMPT_CONTRACT_CODES and item.severity == "error"
+    ])
+    cjk_fragments = list(dict.fromkeys(re.findall(
+        r"[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]+",
+        re.sub(r"<(?:d|l)(?:\s[^>]*)?>.*?</(?:d|l)>", "", prompt, flags=re.IGNORECASE | re.DOTALL),
+    )))
+    if cjk_fragments and any(item.code == "PROMPT_REWRITE_LANGUAGE_VIOLATION" for item in report.issues):
+        report.add(
+            "PROMPT_UNTAGGED_CJK_FRAGMENTS",
+            "translate or remove unsupported CJK prose: " + ", ".join(cjk_fragments[:12]),
+            "$.h3_prompt",
+        )
+    mode = str(payload.get("task", {}).get("type", "")).lower()
+    required = REF_SECTIONS if mode == "ref2va" else BASE_SECTIONS
+    for section in required:
+        count = len(re.findall(rf"(?m)^{re.escape(section)}:\s*", prompt))
+        if count > 1:
+            report.add(
+                "PROMPT_SECTION_DUPLICATE",
+                f"section {section} appears {count} times",
+                "$.h3_prompt",
+            )
+
+    exact_shots = [int(value) for value in re.findall(r"(?m)^\[Shot\s+(\d+)\](?:\s|$)", prompt)]
+    detail_match = re.search(
+        r"(?ms)^detailed_description:\s*(.*?)(?=^overall_soundscape:)",
+        prompt,
+    )
+    shot_label_scope = detail_match.group(1) if detail_match else prompt
+    misplaced_shots = [
+        line.strip()
+        for line in shot_label_scope.splitlines()
+        if re.search(r"\[Shot\s+\d+\]", line, re.IGNORECASE)
+        and not re.match(r"^\[Shot\s+\d+\](?:\s|$)", line, re.IGNORECASE)
+    ]
+    if misplaced_shots:
+        report.add(
+            "PROMPT_SHOT_LABEL_NOT_LINE_START",
+            f"every shot line must begin with [Shot N]: {misplaced_shots[:4]}",
+            "$.h3_prompt.detailed_description",
+        )
+    bracketed_shot_lines = re.findall(r"(?m)^\[[^\]\r\n]+\]", prompt)
+    malformed = [
+        value for value in bracketed_shot_lines
+        if re.match(r"^\[(?:Shot|\d)", value, re.IGNORECASE)
+        and not re.fullmatch(r"\[Shot\s+\d+\]", value)
+    ]
+    if malformed:
+        report.add(
+            "PROMPT_SHOT_LABEL_INVALID",
+            f"shot labels must use exactly [Shot N]: {malformed[:4]}",
+            "$.h3_prompt",
+        )
+    if exact_shots and exact_shots != list(range(1, len(exact_shots) + 1)):
+        report.add(
+            "PROMPT_SHOT_SEQUENCE_INVALID",
+            f"shot labels must be sequential from 1: {exact_shots}",
+            "$.h3_prompt",
+        )
+
+    camera_scope_match = re.search(
+        r"(?ms)^detailed_description:\s*(.*?)(?=^overall_soundscape:)",
+        prompt,
+    )
+    camera_scope = camera_scope_match.group(1) if camera_scope_match else prompt
+    shot_chunks = re.split(r"(?m)(?=^\[Shot\s+\d+\])", camera_scope)
+    for index, chunk in enumerate(shot_chunks[1:], start=1):
+        locked_camera = re.search(
+            r"(?:\b(?:static|locked)(?:-off)?\s+(?:camera|shot)\b|"
+            r"\b(?:static|locked)(?:-off)?\b.{0,60}\b(?:pan|tilt|track|push|pull|zoom|arc|orbit|handheld|reframe))",
+            chunk,
+            re.IGNORECASE,
+        )
+        camera_move = re.search(
+            r"\b(?:camera\s+)?(?:pan(?:s|ning)?|tilt(?:s|ing)?|track(?:s|ing)?|"
+            r"push(?:es|ing)?\s+in|pull(?:s|ing)?\s+(?:back|out)|zoom(?:s|ing)?|"
+            r"arc(?:s|ing)?|orbit(?:s|ing)?|handheld|reframe(?:s|ing)?)\b",
+            chunk,
+            re.IGNORECASE,
+        )
+        if locked_camera and camera_move:
+            report.add(
+                "PROMPT_CAMERA_CONTRADICTION",
+                f"Shot {index} combines a locked/static camera with camera movement",
+                "$.h3_prompt.detailed_description",
+                severity="warning",
+            )
+        camera_terms = (
+            r"(?:static(?:-off)?\s+(?:camera|shot)|locked(?:-off)?\s+(?:camera|shot)|"
+            r"handheld|pan(?:s|ning)?|tilt(?:s|ing)?|track(?:s|ing)?|"
+            r"push(?:es|ing)?\s+in|pull(?:s|ing)?\s+(?:back|out)|zoom(?:s|ing)?|"
+            r"arc(?:s|ing)?|orbit(?:s|ing)?|reframe(?:s|ing)?)"
+        )
+        if re.search(rf"\b{camera_terms}\b.{{0,50}}\bor\b.{{0,50}}\b{camera_terms}\b", chunk, re.IGNORECASE):
+            report.add(
+                "PROMPT_CAMERA_ALTERNATIVE",
+                f"Shot {index} offers multiple camera alternatives instead of one executable choice",
+                "$.h3_prompt.detailed_description",
+                severity="warning",
+            )
+
+    semantic_plan = payload.get("semantic_plan")
+    if isinstance(semantic_plan, Mapping):
+        subject_priority = semantic_plan.get("subject_priority")
+        if (
+            isinstance(subject_priority, Mapping)
+            and subject_priority.get("mode") == "co_equal"
+            and len(_strings(subject_priority.get("subject_ids"))) > 1
+        ):
+            summary_match = re.search(
+                r"(?ms)^summary:\s*(.*?)(?=^retention_analysis:)",
+                prompt,
+            )
+            summary_body = summary_match.group(1).lstrip() if summary_match else ""
+            summary_body = re.sub(r"^\[[^\]\r\n]+\]\s*", "", summary_body)
+            if re.match(r"<Subject\s+\d+>\s+is the primary creative focus", summary_body, re.IGNORECASE):
+                report.add(
+                    "PROMPT_COEQUAL_PRIORITY_CONTRADICTION",
+                    "summary makes one subject dominant although semantic_plan marks the subjects co-equal",
+                    "$.h3_prompt.summary",
+                )
+
+    if mode == "ref2va":
+        definitions_match = re.search(
+            r"(?ms)^subject_definitions:\s*(.*?)(?=^summary:)",
+            prompt,
+        )
+        definitions = definitions_match.group(1) if definitions_match else ""
+        subject_inventory = build_subject_inventory(payload)
+        reference_inventory = build_reference_inventory(payload)
+        subject_blocks: dict[str, str] = {}
+        subject_matches = list(re.finditer(r"(?m)^(<Subject\s+\d+>)\s+is\s+", definitions))
+        for index, match in enumerate(subject_matches):
+            end = subject_matches[index + 1].start() if index + 1 < len(subject_matches) else len(definitions)
+            subject_blocks[match.group(1)] = definitions[match.start():end]
+        for subject in payload.get("subjects", []):
+            if not isinstance(subject, Mapping):
+                continue
+            subject_label = subject_inventory.get(str(subject.get("subject_id", "")), "")
+            block = subject_blocks.get(subject_label, "")
+            for asset_id in _strings(subject.get("source_asset_ids")):
+                reference_label = reference_inventory.get(asset_id, "")
+                if reference_label and reference_label not in block:
+                    report.add(
+                        "SUBJECT_APPEARANCE_SOURCE_MISSING",
+                        f"{subject_label} must cite appearance source {reference_label} in its definition",
+                        "$.h3_prompt.subject_definitions",
+                    )
+            if len(_strings(subject.get("source_asset_ids"))) > 1 and len(re.findall(
+                r"appearance\s+comes\s+exclusively\s+from",
+                block,
+                re.IGNORECASE,
+            )) > 1:
+                report.add(
+                    "SUBJECT_APPEARANCE_AUTHORITY_CONTRADICTION",
+                    f"{subject_label} assigns exclusive whole-appearance authority to multiple references; scope each source by attribute",
+                    "$.h3_prompt.subject_definitions",
+                )
+    # Presentation differences remain visible to callers, but must not consume
+    # another generation turn when references and required content are present.
+    # Missing sections, invalid references and out-of-range timing still block.
+    report.issues = [
+        ValidationIssue(item.code, item.message, item.path, "warning")
+        if item.code in _PROMPT_PRESENTATION_CODES else item
+        for item in report.issues
+    ]
+    return report
+
+
+def normalize_h3_prompt_transport(payload: Mapping[str, Any], prompt: str) -> str:
+    """Repair format-only H3 transport defects without changing semantics.
+
+    The final director remains responsible for all content.  This helper only
+    canonicalizes exact section-name lines and moves an already-authored shot
+    label in front of an already-authored timestamp on the same line.
+    """
+    mode = str(payload.get("task", {}).get("type", "")).lower()
+    required = REF_SECTIONS if mode == "ref2va" else BASE_SECTIONS
+    normalized_lines: list[str] = []
+    for raw_line in str(prompt).replace("\r\n", "\n").replace("\r", "\n").split("\n"):
+        stripped = raw_line.strip()
+        heading_key = re.sub(r"[\s-]+", "_", stripped.rstrip(":").casefold())
+        if heading_key in required and re.fullmatch(r"[A-Za-z_\- ]+:?", stripped):
+            normalized_lines.append(f"{heading_key}:")
+            continue
+        shot_after_time = re.match(
+            r"^At\s+(\d{2}:\d{2}\.\d{3}),?\s*\[Shot\s+(\d+)\]\s*(.*)$",
+            stripped,
+            re.IGNORECASE,
+        )
+        if shot_after_time:
+            timestamp, shot_number, remainder = shot_after_time.groups()
+            suffix = f" {remainder.strip()}" if remainder.strip() else ""
+            if int(shot_number) == 1 and timestamp == "00:00.000":
+                normalized_lines.append(f"[Shot 1]{suffix}".rstrip())
+            else:
+                normalized_lines.append(f"[Shot {int(shot_number)}] At {timestamp},{suffix}".rstrip())
+            continue
+        first_shot_zero = re.match(
+            r"^\[Shot\s+1\]\s+At\s+00:00\.000,?\s*(.*)$",
+            stripped,
+            re.IGNORECASE,
+        )
+        if first_shot_zero:
+            suffix = f" {first_shot_zero.group(1).strip()}" if first_shot_zero.group(1).strip() else ""
+            normalized_lines.append(f"[Shot 1]{suffix}".rstrip())
+            continue
+        if re.match(r"^\[Shot\s+1\](?:\s|$)", stripped, re.IGNORECASE):
+            # Models occasionally insert the zero timestamp after subject
+            # setup prose instead of directly after the shot label.  It is
+            # still format-only metadata and the first shot must omit it.
+            first_shot_clean = re.sub(
+                r"\s*\bAt\s+00:00\.000,?\s*",
+                " ",
+                stripped,
+                count=1,
+                flags=re.IGNORECASE,
+            )
+            normalized_lines.append(re.sub(r"\s{2,}", " ", first_shot_clean).strip())
+            continue
+        normalized_lines.append(raw_line)
+    normalized = "\n".join(normalized_lines).strip() + "\n"
+    if mode == "ref2va":
+        task_types = _strings(payload.get("protocol", {}).get("summary_task_types"))
+        expected_prefix = "[" + " + ".join(task_types) + "]"
+        source_video_label = ""
+        inventory = build_reference_inventory(payload)
+        for relationship in payload.get("reference_relationships", []):
+            if isinstance(relationship, Mapping) and relationship.get("relationship") == "source_video_edit":
+                source_video_label = inventory.get(str(relationship.get("asset_id", "")), "")
+                break
+        summary_match = re.search(
+            r"(?ms)(^summary:\s*)(.*?)(?=^retention_analysis:)",
+            normalized,
+        )
+        if summary_match and expected_prefix != "[]":
+            body = summary_match.group(2).strip()
+            body = re.sub(r"^\[[^\]\r\n]+\]\s*", "", body)
+            if "video editing" in task_types and source_video_label:
+                official_opening = f"The target video is an edited version of {source_video_label}."
+                if not body.startswith(official_opening):
+                    body = re.sub(r"^This is (?:a )?video editing task:\s*", "", body, flags=re.IGNORECASE)
+                    body = f"{official_opening} {body}".strip()
+            replacement = f"summary:\n{expected_prefix} {body}\n\n"
+            normalized = normalized[:summary_match.start()] + replacement + normalized[summary_match.end():]
+    return normalized
 
 
 def build_h3_request(payload: Mapping[str, Any], prompt_file: str, output_path: str) -> dict[str, Any]:
