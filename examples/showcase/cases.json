@@ -7,6 +7,10 @@
       "variants": {
         "vague": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -35,6 +39,10 @@
         },
         "detailed": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -62,7 +70,34 @@
           }
         }
       },
-      "category": "原有 A/B 测试案例"
+      "category": "原始 A/B Test",
+      "assets": [
+        {
+          "src": "data/case_001_pump_multiref/assets/avatar.png",
+          "label": "avatar.png",
+          "type": "image"
+        },
+        {
+          "src": "data/case_001_pump_multiref/assets/method_reference.mp4",
+          "label": "method_reference.mp4",
+          "type": "video"
+        },
+        {
+          "src": "data/case_001_pump_multiref/assets/presenter_holding_pump.png",
+          "label": "presenter_holding_pump.png",
+          "type": "image"
+        },
+        {
+          "src": "data/case_001_pump_multiref/assets/pump.png",
+          "label": "pump.png",
+          "type": "image"
+        },
+        {
+          "src": "data/case_001_pump_multiref/assets/tire_usage.png",
+          "label": "tire_usage.png",
+          "type": "image"
+        }
+      ]
     },
     {
       "id": "case_002_nail_state_transition",
@@ -71,6 +106,10 @@
       "variants": {
         "vague": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -99,6 +138,10 @@
         },
         "detailed": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -126,7 +169,29 @@
           }
         }
       },
-      "category": "原有 A/B 测试案例"
+      "category": "原始 A/B Test",
+      "assets": [
+        {
+          "src": "data/case_002_nail_state_transition/assets/before_after_method.mp4",
+          "label": "before_after_method.mp4",
+          "type": "video"
+        },
+        {
+          "src": "data/case_002_nail_state_transition/assets/before_after_method.official-14.9s.mp4",
+          "label": "before_after_method.official-14.9s.mp4",
+          "type": "video"
+        },
+        {
+          "src": "data/case_002_nail_state_transition/assets/nail_product.jpg",
+          "label": "nail_product.jpg",
+          "type": "image"
+        },
+        {
+          "src": "data/case_002_nail_state_transition/assets/worn_hand_anchor.png",
+          "label": "worn_hand_anchor.png",
+          "type": "image"
+        }
+      ]
     },
     {
       "id": "case_003_nail_product_replacement",
@@ -135,6 +200,10 @@
       "variants": {
         "vague": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -163,6 +232,10 @@
         },
         "detailed": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -190,7 +263,29 @@
           }
         }
       },
-      "category": "原有 A/B 测试案例"
+      "category": "原始 A/B Test",
+      "assets": [
+        {
+          "src": "data/case_003_nail_product_replacement/assets/colorful_nail_product.jpg",
+          "label": "colorful_nail_product.jpg",
+          "type": "image"
+        },
+        {
+          "src": "data/case_003_nail_product_replacement/assets/colorful_worn_anchor.png",
+          "label": "colorful_worn_anchor.png",
+          "type": "image"
+        },
+        {
+          "src": "data/case_003_nail_product_replacement/assets/shop_source_video.mp4",
+          "label": "shop_source_video.mp4",
+          "type": "video"
+        },
+        {
+          "src": "data/case_003_nail_product_replacement/assets/shop_source_video.official-14.9s.mp4",
+          "label": "shop_source_video.official-14.9s.mp4",
+          "type": "video"
+        }
+      ]
     },
     {
       "id": "case_004_nail_reference_isolation",
@@ -199,6 +294,10 @@
       "variants": {
         "vague": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -227,6 +326,10 @@
         },
         "detailed": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -254,7 +357,24 @@
           }
         }
       },
-      "category": "原有 A/B 测试案例"
+      "category": "原始 A/B Test",
+      "assets": [
+        {
+          "src": "data/case_004_nail_reference_isolation/assets/floral_nail_product.jpg",
+          "label": "floral_nail_product.jpg",
+          "type": "image"
+        },
+        {
+          "src": "data/case_004_nail_reference_isolation/assets/floral_worn_anchor.png",
+          "label": "floral_worn_anchor.png",
+          "type": "image"
+        },
+        {
+          "src": "data/case_004_nail_reference_isolation/assets/red_christmas_motion_reference.mp4",
+          "label": "red_christmas_motion_reference.mp4",
+          "type": "video"
+        }
+      ]
     },
     {
       "id": "case_005_jewelry_reference_isolation",
@@ -263,6 +383,10 @@
       "variants": {
         "vague": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -291,6 +415,10 @@
         },
         "detailed": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -318,7 +446,14 @@
           }
         }
       },
-      "category": "原有 A/B 测试案例"
+      "category": "原始 A/B Test",
+      "assets": [
+        {
+          "src": "data/case_005_jewelry_reference_isolation/assets/jewelry_box.png",
+          "label": "jewelry_box.png",
+          "type": "image"
+        }
+      ]
     },
     {
       "id": "case_006_cleaning_image_only",
@@ -327,6 +462,10 @@
       "variants": {
         "vague": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -355,6 +494,10 @@
         },
         "detailed": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -382,7 +525,14 @@
           }
         }
       },
-      "category": "原有 A/B 测试案例"
+      "category": "原始 A/B Test",
+      "assets": [
+        {
+          "src": "data/case_006_cleaning_image_only/assets/cleaning_brush.png",
+          "label": "cleaning_brush.png",
+          "type": "image"
+        }
+      ]
     },
     {
       "id": "case_007_perfume_image_only",
@@ -391,6 +541,10 @@
       "variants": {
         "vague": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -419,6 +573,10 @@
         },
         "detailed": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -446,7 +604,14 @@
           }
         }
       },
-      "category": "原有 A/B 测试案例"
+      "category": "原始 A/B Test",
+      "assets": [
+        {
+          "src": "data/case_007_perfume_image_only/assets/perfume_lumen07.png",
+          "label": "perfume_lumen07.png",
+          "type": "image"
+        }
+      ]
     },
     {
       "id": "feishu_11_case01",
@@ -456,6 +621,13 @@
       "variants": {
         "original": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case01/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -488,7 +660,29 @@
             }
           }
         }
-      }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_11_case01/assets/图1.png",
+          "label": "图1.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_11_case01/assets/图2.png",
+          "label": "图2.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_11_case01/assets/图3.png",
+          "label": "图3.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_11_case01/assets/图4.png",
+          "label": "图4.png",
+          "type": "image"
+        }
+      ]
     },
     {
       "id": "feishu_11_case02",
@@ -498,6 +692,13 @@
       "variants": {
         "original": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case02/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -530,7 +731,14 @@
             }
           }
         }
-      }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_11_case02/assets/图1.png",
+          "label": "图1.png",
+          "type": "image"
+        }
+      ]
     },
     {
       "id": "feishu_11_case03",
@@ -540,6 +748,13 @@
       "variants": {
         "original": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case03/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -572,7 +787,19 @@
             }
           }
         }
-      }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_11_case03/assets/图1.png",
+          "label": "图1.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_11_case03/assets/图2.png",
+          "label": "图2.png",
+          "type": "image"
+        }
+      ]
     },
     {
       "id": "feishu_11_case04",
@@ -582,6 +809,13 @@
       "variants": {
         "original": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case04/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -614,7 +848,29 @@
             }
           }
         }
-      }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_11_case04/assets/图1.png",
+          "label": "图1.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_11_case04/assets/图2.png",
+          "label": "图2.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_11_case04/assets/图3.png",
+          "label": "图3.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_11_case04/assets/图4.png",
+          "label": "图4.png",
+          "type": "image"
+        }
+      ]
     },
     {
       "id": "feishu_11_case05",
@@ -624,6 +880,13 @@
       "variants": {
         "original": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case05/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -656,7 +919,19 @@
             }
           }
         }
-      }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_11_case05/assets/图1.png",
+          "label": "图1.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_11_case05/assets/图2.png",
+          "label": "图2.png",
+          "type": "image"
+        }
+      ]
     },
     {
       "id": "feishu_22_case01",
@@ -666,6 +941,13 @@
       "variants": {
         "original": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_22_case01/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -698,7 +980,19 @@
             }
           }
         }
-      }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_22_case01/assets/图片1.png",
+          "label": "图片1.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_22_case01/assets/视频1.mp4",
+          "label": "视频1.mp4",
+          "type": "video"
+        }
+      ]
     },
     {
       "id": "feishu_22_case02",
@@ -708,6 +1002,13 @@
       "variants": {
         "original": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_22_case02/reference.mp4",
+              "duration_seconds": 10.125,
+              "size": "2560×1440"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -740,7 +1041,24 @@
             }
           }
         }
-      }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_22_case02/assets/图片1.png",
+          "label": "图片1.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_22_case02/assets/图片2.png",
+          "label": "图片2.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_22_case02/assets/视频1.mp4",
+          "label": "视频1.mp4",
+          "type": "video"
+        }
+      ]
     },
     {
       "id": "feishu_22_case03",
@@ -750,6 +1068,13 @@
       "variants": {
         "original": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_22_case03/reference.mp4",
+              "duration_seconds": 6.584,
+              "size": "2560×1440"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -782,7 +1107,24 @@
             }
           }
         }
-      }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_22_case03/assets/视频1.mp4",
+          "label": "视频1.mp4",
+          "type": "video"
+        },
+        {
+          "src": "data/feishu_22_case03/assets/视频2.mp4",
+          "label": "视频2.mp4",
+          "type": "video"
+        },
+        {
+          "src": "data/feishu_22_case03/assets/视频3.mp4",
+          "label": "视频3.mp4",
+          "type": "video"
+        }
+      ]
     },
     {
       "id": "feishu_22_case04",
@@ -792,6 +1134,13 @@
       "variants": {
         "original": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_22_case04/reference.mp4",
+              "duration_seconds": 6.584,
+              "size": "2560×1440"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -824,7 +1173,14 @@
             }
           }
         }
-      }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_22_case04/assets/视频1.mp4",
+          "label": "视频1.mp4",
+          "type": "video"
+        }
+      ]
     }
   ],
   "default_category": "1.1 品牌大片与影视内容"
