@@ -1,0 +1,26 @@
+subject_definitions:
+<Subject 1> is the café woman from <Video 2> who becomes the target singer, with curly dark hair, a lightly freckled face, a white top, a blue apron, and colorful bracelets on her left wrist; <Video 2> establishes her identity and outfit, while the wordless sung voice and visible singing performance follow <Video 3> and belong to speaker (S1).
+<Subject 2> is the outdoor café street scene from <Video 2>, with a café table and white ceramic cup in the foreground and pedestrians and a red-and-white bus moving in the background street.
+<Video 1> is the camera-movement reference whose user-labelled Hitchcock-style dolly zoom is applied during the single continuous shot of <Subject 1>.
+<Video 2> is the identity and scene source for <Subject 1> and <Subject 2> in the target video.
+<Video 3> is the singing-voice and visible-performance reference for <Subject 1> (S1); its source performer identity, outfit, and studio background are not transferred.
+
+summary:
+[reference generation] The target video is a five-second single-shot clip generated around <Subject 1>, the café woman from <Video 2>, who shifts from sitting quietly to singing an expressive wordless vocal line. The camera executes <Video 1>'s Hitchcock-style dolly zoom over <Subject 2>'s café street, and both the vocal character and the visible mouth, head, and hand performance follow <Video 3> without inheriting that performer's appearance.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1]): partially_preserved - her identity, curly hair, freckled face, white top, blue apron, and bracelets remain, while her original sipping action is replaced by singing.
+<Subject 2> (appears in [Shot 1]): fully_preserved - the outdoor café table, white cup, pedestrians, and red-and-white bus remain as the backdrop; the dolly zoom changes only apparent perspective.
+<Video 1>: attribute_transfer - only the Hitchcock-style dolly-zoom movement is applied to the target's single continuous shot; content, people, audio, and edit structure of <Video 1> are unused.
+<Video 2>: partially_preserved - identity and outfit of <Subject 1> and the café-street setting are retained, while her sipping action and locked-camera structure are not carried over.
+<Video 3>: attribute_transfer - its vocal character and visible singing performance transfer to <Subject 1>; its performer identity, black outfit, and neutral studio background are not transferred.
+
+detailed_description:
+The target video is in a realistic live-action style with stable natural daylight and a single continuous five-second, medium-close shot without cuts.
+[Shot 1] <Subject 1> (S1), the café woman from <Video 2>, sits centered at the outdoor café table of <Subject 2>, with pedestrians and a red-and-white bus visible on the street behind her. She lowers the white ceramic cup from her right hand to the table; a short ceramic clink is heard. She then begins an expressive, wordless sung vocal line in the voice character referenced from <Video 3>: her mouth opens and closes in rhythmic sung phrasing, her head tilts subtly, and her hands make expressive gestures timed to the voice. Throughout the shot, the camera performs <Video 1>'s Hitchcock-style dolly zoom, dollies slightly toward her while the lens zooms out in opposition at a restrained continuous speed, keeping her centered in the medium-close framing while <Subject 2> visibly shifts in perspective. The shot ends on her final sung phrase with her mouth open and one hand posed, still seated at the café table, with the background perspective settled.
+
+overall_soundscape:
+Low-level outdoor café ambience continues throughout the scene: distant voices, street traffic, footsteps, light crockery, and the sound of the red-and-white bus passing behind the café. The ambience remains subdued beneath the performance and ends cleanly at the final frame.
+
+non_diegetic_music:
+N/A

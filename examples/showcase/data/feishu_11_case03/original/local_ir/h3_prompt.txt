@@ -1,0 +1,22 @@
+subject_definitions:
+<Subject 1> is the protagonist whose stable identity and outfit come from <Picture 2>: tall, slender build; dark wavy shoulder-length hair; a long single-breasted black coat reaching mid-calf with notched lapel and two front patch pockets, worn over a black top, black pants, and black lace-up combat boots.
+<Subject 2> is the giant circular cosmic gate environment built for Shot 1: a colossal gate of weathered, concentric, dark metallic rings that nearly fills the frame, with a deep, near-black center, fronted by dark wet reflective ground. Its atmosphere is rendered in the dark, gritty visual mood of <Picture 1>, without copying <Picture 1>'s architecture, layout, or text.
+
+summary:
+[reference generation] The target video is a 15-second realistic cinematic title moment with high-contrast, low-key lighting and compact editorial pacing. It borrows the dark atmospheric mood and visual texture of <Picture 1>, while <Subject 1> carries the protagonist identity from <Picture 2>. In one ultra-wide establishing shot, the tiny back-view protagonist stands lower right before the vast dark cosmic gate <Subject 2>; the exact title "THE STARS WERE LISTENING" resolves from a blurred fade-in to sharp rust-red legibility as the camera slowly pushes in, and the video ends with a hard cut at 15.00 seconds.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1]): fully_preserved - The protagonist keeps the <Picture 2> face, hair, body, and black outfit; because only the distant back view is visible, the dark wavy hair, long black coat, and combat boots define the on-screen identity.
+<Subject 2> (appears in [Shot 1]): weak_reference - The gate environment follows the user's Shot 1 scene description and receives only dark, gritty atmosphere and high-contrast mood from <Picture 1>; exact architecture, layout, and text from <Picture 1> are not inherited.
+<Picture 1>: attribute_transfer - Its dark, gritty cinematic mood, low-key high-contrast atmosphere, muted rust-red accent, and lone-figure scale are transferred into the generated opening.
+<Picture 2>: fully_preserved - The protagonist's face, hair, body, and full outfit are preserved from <Picture 2>, even though Shot 1 shows the figure from behind and at small scale.
+
+detailed_description:
+The target video uses a realistic cinematic look with high-contrast low-key lighting and compact, tight pacing, drawing its overall dark atmosphere and visual texture from <Picture 1>.
+[Shot 1] The ultra-wide establishing composition is dominated by <Subject 2>, a colossal circular cosmic gate whose weathered, concentric dark metal rings nearly fill the frame while its center remains deep, near-black darkness; dark wet reflective ground fills the lower frame. <Subject 1>, the protagonist from <Picture 2>, stands as a tiny, still back-view figure lower right in the long black coat with dark wavy hair, and does not move, turn, or reveal its face. The ultra-wide camera performs one slow, continuous forward push-in along the gate axis for the entire shot, from the opening wide framing to a somewhat closer but still establishing framing, with no pan, tilt, lateral track, zoom, or handheld shake. A deep low-frequency pulse begins as the shot opens, while a distant light metallic vibration remains faintly present. Around 8.5 seconds, the large title "THE STARS WERE LISTENING" fades in from the dark edge of the frame, first blurred and soft-edged; by approximately 10.0 seconds it resolves into clear, extremely narrow, heavy all-capital letters in dark red blended with rust red, with subtle grain and fogged edges, and a single light hit lands at that exact moment of full legibility. The fully legible title holds while the camera keeps easing forward. At 15.00 seconds the final frame ends with an abrupt hard cut; no shot or content follows the cut.
+
+overall_soundscape:
+A very low open-space tone sits beneath the shot together with a distant, light metallic vibration at low level, giving the dark space a quiet resonance; there is no dialogue, crowd, or identifiable incidental sound. All ambience ceases exactly at the final hard cut.
+
+non_diegetic_music:
+Deep low-frequency sub-bass pulse at a slow, restrained tempo begins at the opening and runs as the dark bed. A single light low-end hit lands at approximately 10.00 seconds, exactly when the title becomes fully sharp and legible, after which the pulse stays quiet and present until the hard cut at 15.00 seconds.

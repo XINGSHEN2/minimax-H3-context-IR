@@ -1,0 +1,20 @@
+subject_definitions:
+<Subject 1> is the young man defined by <Picture 1> and <Picture 2>, with short dark hair, wearing a white hoodie with a front pocket, brown knee-length shorts with drawstrings, high white socks, and white sneakers; he performs the street dance action sourced from <Video 1>.
+<Audio 1> is the beat-sync and style reference for the target video's background music.
+
+summary:
+[reference generation + audio reference] <Subject 1> performs an energetic street dance in an outdoor stadium. He executes the dynamic choreography referenced from <Video 1>, while <Audio 1> serves as the beat-sync reference, providing the rhythmic backdrop for his continuous performance.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1]): fully_preserved - the man's identity, face, short dark hair, white hoodie with a front pocket, brown shorts with drawstrings, white socks, and white sneakers are completely retained, and he accurately executes the transferred street dance choreography from <Video 1>.
+<Audio 1>: reference - the upbeat rhythm and beat from <Audio 1> guide the pacing, motion peaks, and synchronization of the dance performance.
+
+detailed_description:
+The target video is in a realistic photographic style.
+[Shot 1] The video opens with a wide, full-body shot of <Subject 1> standing confidently on the wet paved ground of an empty outdoor stadium. Behind him, rows of red stadium seats rise in a tiered arrangement under an overcast, moody sky. <Subject 1> is a young man with a strong build, short dark hair, and a defined facial structure. He is dressed casually in a loose-fitting white hoodie with a front pocket, brown knee-length sweat shorts with white drawstrings, high ribbed white socks, and classic white sneakers. The soft, diffused lighting of the overcast day casts natural, subtle shadows on the ground and highlights the texture of his clothing. An upbeat, driving hip-hop track begins, drawing its rhythmic energy from <Audio 1>. Synchronized with the first heavy beat, <Subject 1> launches into a dynamic street dance, precisely executing the choreography transferred from <Video 1>. He starts with a light, rhythmic bounce on his feet, quickly extending both arms wide before snapping them back inward with sharp, controlled precision. The camera remains in a fixed, static position, maintaining a wide frame that captures his entire body and the surrounding stadium environment. He smoothly transitions into a series of lateral steps, moving his legs with agility while his upper body performs rhythmic chest pops and fluid isolations. His white hoodie shifts, folds, and bounces naturally with his energetic upper body movements, while the drawstrings on his brown shorts sway back and forth. His white sneakers step, slide, and stomp firmly against the wet pavement, landing perfectly in sync with the driving beat of the music. He incorporates intricate arm swings, waving motions, and quick hip rotations, fully embodying the expressive street dance style. The ambient sounds of his heavy footsteps and the rustling of his thick cotton hoodie blend seamlessly into the energetic background music. <Subject 1> maintains an intense, focused expression as he continues to dance, linking complex footwork with sharp upper body hits. The continuous, high-energy performance dominates the frame, with the contrasting red stadium seats providing a steady, geometric backdrop to his fluid and dynamic motion, carrying the rhythmic action flawlessly through to the end of the video.
+
+overall_soundscape:
+An upbeat, energetic hip-hop track plays continuously, complemented by the ambient sounds of sneakers scuffing on wet pavement and the natural rustling of thick cotton clothing during the dance.
+
+non_diegetic_music:
+A rhythmic, driving hip-hop beat with a heavy bassline and fast tempo, providing a steady groove for the dance performance.

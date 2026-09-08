@@ -1,0 +1,19 @@
+subject_definitions:
+<Video 1> is the source video for the environment, lighting, static camera setup, and action choreography.
+<Audio 1> is partially reused as the target video's audio track for the main action sequence.
+
+summary:
+[video editing + audio reuse] The target video is an edited version of <Video 1>. Three highly realistic capybaras completely replace the original three men in suits, while the original indoor office environment and static wide-shot camera are preserved. The capybaras strictly follow the original action choreography, dropping to the floor, rolling, and jumping to swap positions, before the middle capybara jumps onto the backs of the other two to form a stable pyramid. <Audio 1> is reused to score the acrobatic sequence.
+
+retention_analysis:
+<Video 1> (source-video editing): partially_preserved - The original office environment, lighting, static wide-shot camera setup, and action choreography are preserved, but the three men in suits are completely replaced by three highly realistic capybaras.
+<Audio 1>: partially_copy - The audio signal from <Audio 1> is copied to score the main capybara acrobatics, while the remainder of the extended target duration features added quiet office ambience.
+
+detailed_description:
+[Shot 1] The target video is in a realistic style, maintaining the exact indoor office environment, polished wooden floor, warm lighting, and static wide-shot camera angle of <Video 1>. The original three men in suits are entirely replaced by three highly realistic capybaras positioned side-by-side in the center of the room. The capybaras feature coarse, thick brown fur, and their shadows and lighting interactions blend seamlessly with the environment. Before the action starts, brief quiet office ambience is heard. The sequence then begins as the three capybaras quickly drop to the floor one by one, landing heavily on their bellies, accompanied by the copied energetic music and sound effects from <Audio 1>. Next, the leftmost capybara jumps nimbly into the middle position, while the original middle capybara simultaneously rolls over the smooth floor to the far-left spot, effectively swapping places. Maintaining the rhythmic momentum, the capybara currently in the middle rolls over to the far-right position. In response, the rightmost capybara jumps into the middle space. The furry bodies of the capybaras squish and flex realistically as they land and roll. For the finale, the capybara now positioned in the center leaps upwards and lands squarely onto the backs of the left and right capybaras. It balances perfectly on top of them, creating a stable, three-tiered capybara pyramid. The bottom two capybaras brace their legs to support the weight, their fur compressing slightly under the impact. The camera remains perfectly locked off throughout the entire acrobatic display. The copied audio from <Audio 1> ends after the pyramid is formed, leaving the ambient quiet of the office to play out through the remaining duration as the capybaras statically hold their stacked pose.
+
+overall_soundscape:
+The soundscape features the copied music and energetic sound effects from <Audio 1> synchronized to the capybaras' acrobatics, transitioning to quiet office ambience once the pyramid is formed.
+
+non_diegetic_music:
+Background music from <Audio 1> plays during the main acrobatic sequence, stopping after the final pyramid pose is achieved.

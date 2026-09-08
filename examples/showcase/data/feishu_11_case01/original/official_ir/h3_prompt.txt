@@ -1,0 +1,35 @@
+subject_definitions:
+<Subject 1> is the fixed binocular double-circle mask interface in <Picture 1>, <Picture 2>, <Picture 3>, and <Picture 4>, featuring a black feathered vignette and red text annotations.
+<Subject 2> is the fashionable woman in <Picture 3> wearing a beige suit and carrying a red shoulder bag, and also the woman in <Picture 4> wearing red angular sunglasses and a large silver button earring.
+<Picture 1> is the keyframe of [Shot 1], showing a concrete bus stop with a MINIMAX cutout roof and its shadow.
+<Picture 2> is the keyframe of [Shot 2], showing a tall building with a hanging white MINIMAX banner.
+<Picture 3> is the keyframe of [Shot 3], showing <Subject 2> standing near a concrete building with a large MINIMAX graphic.
+<Picture 4> is the keyframe of [Shot 4], showing a close-up of <Subject 2> with a building and Minimax text reflected in her sunglasses.
+
+summary:
+[keyframe completion + reference generation] The target video simulates a view through <Subject 1>, an old binocular mask with red text, searching for MINIMAX installations. Shot 1 starts out of focus and rack-focuses to the bus stop in <Picture 1>. The video uses rapid, blurry whip-pan transitions between scenes. Shot 2 focuses on the building and waving banner from <Picture 2>. Shot 3 reveals <Subject 2> walking naturally in the scene from <Picture 3>. Finally, Shot 4 whips to a close-up of <Subject 2> from <Picture 4>, where she tilts her chin with a relaxed fashion attitude. The binocular mask remains perfectly stable throughout, styled with a Wes Anderson 35mm film aesthetic.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4]): fully_preserved - the fixed double-circle black vignette and the layout of the red text annotations are maintained consistently across all shots.
+<Subject 2> (appears in [Shot 3], [Shot 4]): fully_preserved - the woman's brown hair, beige suit, red bag, red angular sunglasses, and large silver earring are retained.
+<Picture 1> ([Shot 1] keyframe): fully_preserved - the concrete bus stop, the MINIMAX cutout roof, and its projected shadow are reproduced exactly.
+<Picture 2> ([Shot 2] keyframe): fully_preserved - the tall building and the hanging white MINIMAX banner are maintained.
+<Picture 3> ([Shot 3] keyframe): fully_preserved - the concrete building with the MINIMAX graphic and the scene layout are preserved.
+<Picture 4> ([Shot 4] keyframe): fully_preserved - the close-up framing, the red sunglasses, and the Minimax reflection are retained.
+
+detailed_description:
+The target video is in a Wes Anderson 35mm film style with slight grain, soft highlights, restrained colors, and a minimalist, high-end, slightly quirky aesthetic.
+
+[Shot 1] The video opens entirely through <Subject 1>, a fixed binocular double-circle mask with a black feathered vignette. The mask's position, size, and edge softness remain absolutely consistent, with no distortion or drift; only the internal image moves. Initially, the internal view is out of focus with shaky, handheld camera movement. The camera rapidly executes a rack focus, snapping sharply into the keyframe composition of <Picture 1>. The scene reveals a minimalist concrete bus stop with a MINIMAX cutout roof, casting a crisp MINIMAX shadow on the back wall. As the focus locks, the small red text accents of <Subject 1> fade in within 0.3 to 0.5 seconds, starting slightly out of focus and gaining clarity with a subtle kerning breathing effect, avoiding any bouncing. The bus stop stands still in the soft sunlight. Just before the cut, the red text fades out as a rapid camera whip begins.
+
+[Shot 2] At 00:03.500, the shot cuts to a rapid binocular panning transition characterized by heavy motion blur, optical smearing, and exposure flicker. At the point of maximum blur, the view switches and quickly stabilizes, refocusing into the keyframe composition of <Picture 2>. The internal view reveals a tall building with a massive white banner reading MINIMAX hanging down its facade. The banner gently and restrainedly flaps in the wind, its fabric undulating while the MINIMAX typography remains clearly readable. The red text of <Subject 1> smoothly fades in again as the focus settles. The mask remains perfectly locked in place over the cinematic 35mm film grain.
+
+[Shot 3] At 00:07.000, the shot cuts to another smearing, motion-blurred transition, quickly stabilizing and refocusing into the keyframe of <Picture 3>. The scene features <Subject 2>, a fashionable woman with brown wavy hair, wearing a beige suit and a red shoulder bag, standing near a concrete building with tall MINIMAX graphic lines. Behaving like a casually captured stylish pedestrian, <Subject 2> walks naturally, turns gracefully, and swings her arms with a relaxed rhythm. The red text of <Subject 1> fades in to clarity as the focus locks on her moving figure.
+
+[Shot 4] At 00:11.000, the shot cuts to a final sweeping blur and exposure flicker, snapping into the close-up keyframe of <Picture 4>. The frame tightly captures the face of <Subject 2>, showcasing her red angular sunglasses and a large silver button earring. The reflection in her sunglasses sharply displays the building and Minimax text. She adjusts her sunglasses slightly and micro-tilts her chin up, exuding a cold, relaxed fashion campaign attitude. The red text of <Subject 1> fades in one last time with a subtle vertical slide. The binocular mask stays rigidly fixed, framing her confident expression as the video concludes.
+
+overall_soundscape:
+The soundscape features the mechanical clicks and whirs of a vintage binocular focusing, accompanied by rhythmic whipping whooshes during transitions, and subtle outdoor ambience like gentle wind.
+
+non_diegetic_music:
+A quirky, minimalist, and rhythmic instrumental track featuring pizzicato strings and subtle percussion, driving the quick transitions and matching the Wes Anderson aesthetic.

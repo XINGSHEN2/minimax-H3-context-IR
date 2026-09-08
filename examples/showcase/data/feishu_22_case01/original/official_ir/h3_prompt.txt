@@ -1,0 +1,31 @@
+subject_definitions:
+<Subject 1> is the young man with dark wavy hair wearing a white t-shirt in <Picture 1>.
+<Subject 2> is the young woman with long dark hair wearing a black shirt in <Picture 1>.
+<Subject 3> is the kitchen environment in <Picture 1>, featuring a sink and cabinets on the right and a doorway in the background left.
+<Picture 1> is the keyframe of [Shot 1], showing <Subject 1> holding foam and looking over his shoulder toward <Subject 2> in <Subject 3>.
+<Video 1> is the action, expression, and pacing reference for the characters' interaction.
+<Audio 1> is the sound-effect and vocal reference, containing the ambient water sounds, splashes, and loud laughter.
+
+summary:
+[keyframe completion + reference generation] The target video is a continuous shot where the key moment corresponds to <Picture 1>. In the kitchen (<Subject 3>), <Subject 1> washes a plate at the sink and hands it to <Subject 2>. Following the exact action, expression, and pacing of <Video 1>, <Subject 1> suddenly turns and throws dish soap foam at <Subject 2>. Startled, she immediately fights back. They happily splash foam at each other and dodge, accompanied by loud laughter and water sounds that reference <Audio 1>.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1]): fully_preserved - the young man's identity, dark wavy hair, and white t-shirt are fully preserved.
+<Subject 2> (appears in [Shot 1]): fully_preserved - the young woman's identity, dark hair, and black shirt are fully preserved.
+<Subject 3> (appears in [Shot 1]): fully_preserved - the kitchen scene with the sink on the right and doorway in the background is fully preserved.
+<Picture 1> ([Shot 1] keyframe): fully_preserved - the image anchors the key moment of the shot, preserving the spatial layout, the characters' appearances, and the kitchen environment.
+<Video 1> (action and pacing structure): attribute_transfer - the plate-handing, sudden foam-throwing, dodging, and laughing actions, along with the performance rhythm from the video, are transferred to <Subject 1> and <Subject 2>.
+<Audio 1>: reference - the target audio references the running water, splashing sounds, and loud laughter from <Audio 1> to match the visible action rhythm.
+
+detailed_description:
+[Shot 1] The target video is in a realistic photographic style, featuring soft, natural indoor lighting that gently illuminates the kitchen setting (<Subject 3>). The keyframe of the shot corresponds to <Picture 1>, capturing the precise spatial layout and the critical moment of the interaction. The scene is composed with the sink and upper cabinets positioned on the right, and a softly focused doorway in the background on the left. <Subject 1>, the young man with dark wavy hair and a plain white t-shirt, stands in the right foreground, angled toward the sink. To his left stands <Subject 2>, the young woman with long dark hair wearing a black shirt, positioned at the left edge of the frame. Following the exact action sequence and rhythm of <Video 1>, the interaction begins with <Subject 1> finishing washing a white ceramic plate under the faucet. The continuous sound of running water and the subtle clinking of dishes set a domestic audio atmosphere, referencing the ambient sounds in <Audio 1>. He turns slightly to his left and extends his hands to pass the clean plate to <Subject 2>. She reaches out with both hands, gripping the edges of the plate to receive it.
+
+As soon as she takes the dish, <Subject 1> swiftly turns back to the sink, plunging his right hand into the sudsy water to gather a thick handful of dish soap foam. His expression shifts to a mischievous grin as he reaches the exact pose from the keyframe. With a sudden, dynamic twist of his torso, he whips his right arm around and aggressively flings the white foam directly at <Subject 2>. A crisp, wet splashing sound marks the impact. <Subject 2> gasps, her eyes widening and her mouth dropping open in a genuine look of startle as the foam splatters near her. However, her shock instantly melts into a competitive, playful smile. She quickly sets the plate aside, scoops up a large handful of foam from the edge of the sink, and hurls it straight back at <Subject 1>.
+
+This immediate counterattack triggers a lively, rapid-fire water fight. <Subject 1> and <Subject 2> enthusiastically scoop and splash bubbly foam at one another. Their upper bodies sway and dip as they actively dodge the flying suds. <Subject 1> raises his left arm defensively while preparing his next throw, his white t-shirt catching flecks of wet foam. <Subject 2> leans back, laughing openly as she launches another handful. Both the young man (S1) and the young woman (S2) exhibit highly expressive, joyful faces, their eyes crinkling with amusement. Their bright, loud laughter rings out continuously, synchronizing with the chaotic energy and fast-paced performance rhythm dictated by <Video 1>. The camera is a Static Shot throughout, maintaining a stable medium composition that clearly captures the physical depth between the characters, the flying droplets of water, and the escalating, lighthearted foam battle until the sequence concludes.
+
+overall_soundscape:
+The soundscape features continuous ambient running water and clinking dishes, transitioning into crisp, wet splashes and loud, joyful laughter that reference the chaotic energy of <Audio 1>.
+
+non_diegetic_music:
+N/A

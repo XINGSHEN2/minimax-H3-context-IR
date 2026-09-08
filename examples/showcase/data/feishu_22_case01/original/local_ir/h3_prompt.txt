@@ -1,0 +1,23 @@
+subject_definitions:
+<Subject 1> is the male kitchen participant from <Picture 1>, an adult with medium-length dark curly hair, light-to-medium skin, and a white short-sleeved t-shirt; his body motion, facial expressions, and performance timing follow <Video 1>.
+<Subject 2> is the female kitchen participant from <Picture 1>, with dark hair, light skin, and a dark near-black top, seen from head and shoulders in the reference image; her body motion, facial expressions, and performance timing follow <Video 1>.
+<Subject 3> is the kitchen environment from <Picture 1>, containing a stainless-steel sink and curved faucet on the right, light-wood or off-white cabinets, minimal counter objects, and a brighter doorway in the background.
+<Video 1> is the performance reference that supplies body motion, facial expression changes, and performance rhythm to <Subject 1> and <Subject 2>; its performers' identities, wardrobe, scene, camera, and audio are not transferred.
+
+summary:
+[reference generation] The target video is one continuous 14.90-second kitchen scene in which <Subject 1> and <Subject 2>, using the appearance from <Picture 1> and the performance style from <Video 1>, act out the playful foam fight inside <Subject 3>: the male by the sink on the right hands a washed dish to the female on the left, suddenly flicks dish-soap foam at her with his right hand, and both then dodge, laugh, and splash foam at each other while keeping their left/right positions unchanged.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1]): fully_preserved - retains his facial identity, curly hair, skin tone, and white t-shirt from <Picture 1>, with foam and wet marks added.
+<Subject 2> (appears in [Shot 1]): fully_preserved - retains her facial identity, dark hair, complexion, and dark top from <Picture 1>, with foam possibly landing on her hands and top.
+<Subject 3> (appears in [Shot 1]): fully_preserved - the sink, faucet, cabinets, and background doorway stay unchanged as the stable scene, with foam droplets appearing on nearby surfaces.
+<Video 1>: attribute_transfer - the playful performance beat order, reactions, facial expressions, and timing of <Video 1> are transferred to <Subject 1> and <Subject 2>, while its identities, wardrobe, environment, camera, and audio are not transferred.
+
+detailed_description:
+The target video is a natural live-action kitchen scene with a soft vignette and stable daylight from <Picture 1>; the characters' body motion, facial expressions, and performance timing follow <Video 1> without changing their image-derived identity, outfits, or kitchen. [Shot 1] A static, locked, medium-wide shot holds the entire 14.90-second interaction in one continuous take, keeping <Subject 1>, the curly-haired man in the white short-sleeved t-shirt, on the right beside the sink, and <Subject 2>, the dark-haired woman in the dark top, on the left, with <Subject 3> visible around and behind them. For the opening three seconds, <Subject 1> finishes washing the clean dish, reaches across, and hands it to <Subject 2>; a light wet click and soft clink accompany the transfer as she receives it, and both remain relaxed and smiling while looking at each other. At the 00:03.000 mark, still inside [Shot 1], <Subject 1> turns suddenly and uses his right hand to fling a clump of dish-soap foam toward <Subject 2> on the left edge; his hand leaves the foam with a quick wet whoosh. She flinches, opens her mouth, and releases a short startled gasp as the foam lands with a soft splat on her hands, arm, or the adjacent surface. At the 00:06.000 mark, he follows the first throw with a brief playful motion, ducking and laughing, while she recovers, evades, and scoops foam into her hand. At the 00:10.000 mark, she splashes the foam back at <Subject 1>, and the two trade arcs of foam, dodge, step sideways, and laugh loudly through the remaining seconds, each throw and hit marked by wet whooshes and soft splats. The shot ends at the 00:14.900 mark with both characters mid-laugh, foam visible in the air and on their hands, clothing, the sink, and the counter, while <Subject 1> remains on the right and <Subject 2> remains on the left.
+
+overall_soundscape:
+Low kitchen room tone continues beneath the whole video, with faint water dripping or softly running in the sink and a subtle detergent-foam fizz. No dialogue or narration is present; the non-verbal gasps, laughter, and wet physical impacts begin and end inside the 14.90-second shot.
+
+non_diegetic_music:
+N/A
