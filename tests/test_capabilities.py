@@ -2,6 +2,7 @@ import copy
 import json
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from backend.capabilities import _prepare_asset_descriptions, h3_prompt_generate, video_generate
 from backend.api import BUSINESS_API_ROUTES, OPTIONAL_GENERAL_API_ROUTES
@@ -35,12 +36,32 @@ class CapabilityContractTests(unittest.TestCase):
             self.source,
         )
 
-    def test_context_ir_start_is_deterministic_and_needs_no_llm(self):
+    @patch("backend.agent.optimize_existing_context_ir")
+    def test_context_ir_start_uses_llm_final_optimizer(self, optimize):
+        optimized_ir = copy.deepcopy(self.ir)
+        optimized_ir["timeline"][0]["event"] = "LLM-optimized opening shot"
+        optimization = {
+            "schema_version": "h3_llm_optimization.v1",
+            "method": "llm_final_director",
+            "programmatic_content_audit": False,
+            "optimization_notes": [],
+        }
+        optimize.return_value = (
+            optimized_ir,
+            "subject_definitions:\n<Subject 1> is the primary product.",
+            optimization,
+        )
         result = h3_prompt_generate({"input_type": "context_ir", "context_ir": self.ir})
         self.assertEqual(result["schema_version"], "h3_prompt_generate.v1")
-        self.assertEqual(result["sources"]["context_ir"], "caller_supplied")
+        self.assertEqual(
+            result["sources"]["context_ir"], "caller_supplied_semantics_locked"
+        )
+        self.assertTrue(result["h3_prompt_audit"]["enabled"])
         self.assertTrue(result["h3_prompt_audit"]["passed"])
+        self.assertFalse(result["h3_prompt_audit"]["subjective_content_score_enabled"])
+        self.assertFalse(result["llm_optimization"]["programmatic_content_audit"])
         self.assertEqual(result["h3_request"]["num_inference_steps"], 20)
+        optimize.assert_called_once()
 
     def test_input_type_and_structure_must_match(self):
         with self.assertRaisesRegex(ValueError, "requires context_ir"):
@@ -95,7 +116,18 @@ class CapabilityContractTests(unittest.TestCase):
                 PerceptionProviderConfig(provider="test", model="none", options={}),
             )
 
-    def test_video_generation_is_a_separate_capability(self):
+    @patch("backend.agent.optimize_existing_context_ir")
+    def test_video_generation_is_a_separate_capability(self, optimize):
+        optimize.return_value = (
+            copy.deepcopy(self.ir),
+            "subject_definitions:\n<Subject 1> is the primary product.",
+            {
+                "schema_version": "h3_llm_optimization.v1",
+                "method": "llm_final_director",
+                "programmatic_content_audit": False,
+                "optimization_notes": [],
+            },
+        )
         compiled = h3_prompt_generate({"input_type": "context_ir", "context_ir": self.ir})
         client = _FakeH3Client()
         result = video_generate(compiled, client=client, wait=True)

@@ -9,9 +9,10 @@ Context-IR 是多素材视频生成任务的结构化编译层。它接收用户
 - 用户明确要求具有最高优先级，不能被视觉模型或推理模型弱化；
 - 多模态模型只报告可见或可听证据，不决定最终继承关系；
 - LLM 负责语义理解、跨素材推理和创意编排；
-- 确定性 Compiler 负责把模型判断转成稳定结构；
-- H3 Prompt 从已校验的 Context-IR 确定性渲染，不由模型自由改写；
-- 每个中间产物落盘，支持复用、审计、对比和问题定位。
+- 确定性代码负责整理权威输入字段、稳定素材 ID、图片角色合法性、视频时间映射和跨层引用，不参与创意判断；
+- 语义 IR 编译通过后整体锁定，受约束 Prompt LLM 只负责表达和官方格式，不得改变用户意图；
+- 程序不对镜头审美或 Prompt 内容作通过/失败判断；
+- 每个中间产物落盘，支持复用、对比和问题定位。
 
 ## 2. 总体架构
 
@@ -28,14 +29,14 @@ flowchart TD
     A --> H[Context-IR Semantic Agent]
     D --> H
     G --> H
-    S[MiniMax 官方 H3 Skills] --> H
+    S[H3 Prompt Skill + H3 Shot Planning Skill] --> H
     H --> I[Context-IR 候选 JSON]
-    I --> J[Directive Binding Compiler]
-    J --> K[规范化与状态字段补全]
-    K --> L[Context-IR 严格校验]
-    L --> N[H3 六段式 Prompt Renderer]
-    N --> O[H3 Prompt Auditor]
-    O --> P[MiniMax-H3 Request JSON]
+    I --> R[Keyframe Role Compiler + Performance Beat Compiler]
+    R --> J[草稿结构准备]
+    J --> K[Final Director LLM]
+    S --> K
+    K --> N[最终 Context-IR + LLM 直写 H3 Prompt]
+    N --> P[文件保存与 MiniMax-H3 Request JSON]
     P --> Q[MiniMax-H3 视频服务]
 ```
 
@@ -194,12 +195,16 @@ DeepSeek/GLM 接收：
 - 素材 manifest；
 - Qwen `media_analysis.v2`；
 - MiniMax 官方 `h3-prompt-writing` Skill；
-- 可选风格 Skill。
+- 常驻的内部 `h3-shot-planning` Skill，用于镜头功能、运镜、切换边界、节奏、去重和连续性。
 
 LLM 负责：
 
 - 判断 edit base、权威内容源和 scoped reference；
 - 建立 canonical subjects；
+- 为每张图片判断外观、场景、动作关键帧、商品细节、首尾帧、构图或风格角色；
+- 把每个可用视频事件改写为目标世界中的动作语义，保留事件 ID，不自行换算时间；
+- 在 `strict / reference / adaptive` 模式下完成镜头规划；
+- 为每镜指定唯一功能、观众新增信息和切镜原因；
 - 推断跨素材实体关系；
 - 确定商品、人物、服装、动作、运镜、节奏和场景的控制范围；
 - 处理素材污染和约束冲突；
@@ -209,9 +214,9 @@ LLM 负责：
 
 模型不能宣称直接看到原始素材，只能引用 Qwen 的结构化证据。
 
-## 7. Directive Binding Compiler
+## 7. 草稿结构准备
 
-LLM 候选结果在严格校验前进入确定性 Binding Compiler。它不重新理解业务，只修复能够从 source directive 直接证明的结构事实。
+第一阶段 LLM 候选进入确定性编译与语义锁定。它不判断镜头是否高级，只整理能够从 source directive 和输入结构直接确定的工程事实，并验证绑定、引用、时间线和约束。编译失败时，仅在这一语义阶段携带明确错误局部重试一次；通过后整份 Context-IR 不再允许下游模型修改。
 
 主要职责：
 
@@ -223,8 +228,12 @@ LLM 候选结果在严格校验前进入确定性 Binding Compiler。它不重�
 - 生成或补齐对应的 isolation rule；
 - 清除 timeline、subject、creative focus 中无效的 binding 引用；
 - 确保结构型视频参考明确写出“不是外观来源”。
+- 根据已锁定 Binding 补齐每张条件图片的分维度角色并阻止图片获得动作、运镜、剪辑或音乐控制权；
+- 从 Qwen 事件读取源时间，用实测源视频时长映射到目标时长；
+- 将 Performance Beat 挂载到相交的 Shot，但绝不根据 Beat 数量新增 Shot；
+- 当最后一个可靠事件未覆盖源视频结尾时生成 `unresolved_tail`，禁止循环、均分或补写结局。
 
-职责边界：Compiler 不能猜素材角色、商品类别、人物身份或用户未表达的创意内容。
+职责边界：程序不能猜素材角色、商品类别、人物身份或用户未表达的创意内容；它只锁定上游已经明确作出的语义决定，并阻止最终 Prompt 阶段越权改写。
 
 ## 8. Context-IR 核心结构
 
@@ -236,14 +245,36 @@ LLM 候选结果在严格校验前进入确定性 Binding Compiler。它不重�
 - `asset_bindings`：每份素材控制和排除的属性；
 - `subjects`：跨镜头稳定实体注册表；
 - `reference_relationships`：图片、视频、音频的 H3 引用类型；
+- `keyframe_roles`：图片作为外观来源、场景锚点、动作关键帧、商品细节、首尾帧、构图锚点或风格参考的明确职责；
+- `performance_plan`：视频来源、允许迁移维度、源到目标时长映射及有证据的动作 Beat；
 - `creative_focus`：最终视频的主视觉目标；
 - `isolation_rules`：引用隔离规则；
 - `constraints`：保持、允许变化和禁止内容；
-- `timeline`：镜头、时间、动作、相机、结束状态和状态变化；
+- `timeline`：真正的 Shot、时间、相机、结束状态、状态变化及其 `beat_refs`；
 - `audio_plan`；
 - `generation_description`。
 
 ## 9. 状态与连续性
+
+### 9.1 图片角色、Performance Beat 与 Shot 分层
+
+三者不能相互替代：
+
+```text
+Picture → keyframe_roles：控制哪些静态视觉维度
+Video event → performance_plan.beats：动作顺序、表情和表演节奏
+timeline：真正的镜头边界、机位与剪辑结构
+```
+
+`action_keyframe` 必须引用一个已验证 Beat；静态图片不能单独声明动作时序。每个 Beat 的 `source_range` 和 `source_action` 由 Qwen 证据锁定，Semantic Agent 只能在 `action` 中完成用户要求的目标对象替换。确定性换算公式为：
+
+```text
+target_time = source_time / source_duration × target_duration
+```
+
+例如源视频 14 秒、目标 15 秒时，源时间 4 秒映射为目标时间约 4.286 秒。动作参考没有镜头授权时，全部 Beat 进入同一个连续 Shot，且 `editorial_boundary=false`。只有用户硬指令或已授权且可靠的真实切点可以形成剪辑边界。
+
+源事件覆盖不足时只记录 `unresolved_tail`。该区间不会被均分、循环上一动作、推断完成状态或自动生成结尾。
 
 每个镜头必须包含：
 
@@ -251,6 +282,8 @@ LLM 候选结果在严格校验前进入确定性 Binding Compiler。它不重�
 - 一个可观察的 `observable_end_state`；
 - 必要的 `state_changes`；
 - `subject_refs`、`asset_refs` 和 `binding_refs`。
+
+镜头规划遵循“先信息、后运镜”：先确定这一镜要让观众获得的新信息，再决定构图和相机。锁定机位足以完成目标时不添加运镜；使用运镜时必须有开始画面、动作或信息触发点、几何路径、速度幅度、结束画面和新增信息。切镜必须带来主体、视点、景别、空间、时间、动作状态或商品信息的实质变化，转场效果附着在相邻内容镜头边界，不单独占用镜头。
 
 例如穿戴甲前后反差：
 
@@ -264,20 +297,17 @@ LLM 候选结果在严格校验前进入确定性 Binding Compiler。它不重�
 
 当前状态判断主要由 LLM 根据用户要求和 Qwen event 文本完成；后续计划增加独立的 State Compiler，以确定性传播跨镜头状态。
 
-## 10. 校验、渲染与审计
+## 10. 受约束 Prompt Compiler LLM
 
-`validate_context_ir()` 严格检查：
+第二次 LLM 推理不是新的导演决策层，而是受约束的 Prompt 编译层。它接收：
 
-- 素材、directive、binding、subject 和镜头引用是否存在；
-- hard directive 是否被弱化；
-- scope 是否完整覆盖；
-- motion/style/camera 引用是否正确隔离；
-- 时间线是否从 0 开始、无重叠且精确结束；
-- subject appearance 与 timeline 是否一致；
-- 状态变化字段是否完整；
-- 主视觉对象是否在必需镜头中真正呈现。
+- 用户原始需求、解析后的意图和硬约束；
+- 精简后的素材证据；
+- 已编译并锁定的 Context-IR；
+- 草稿 H3 Prompt；
+- `h3-prompt-writing` 与 `h3-shot-planning` Skills。
 
-通过校验后，Renderer 生成 H3 六段式 Prompt：
+它只能在不改变语义的前提下压缩重复描述、把既有运镜写得可执行、明确素材属性范围，并直接输出 H3 Prompt。它不得新增、删除、合并、拆分、重排或重定时镜头，也不得修改主体主次、素材绑定、状态变化、文字策略、音频选择和用户约束。需要语义修改的问题必须返回第一阶段处理，不能在最终阶段静默修正。基础任务使用官方三段式结构，Ref2VA 使用六段式结构：
 
 ```text
 subject_definitions
@@ -286,6 +316,7 @@ retention_analysis
 detailed_description
 overall_soundscape
 non_diegetic_music
+```
 
 ## 统一生产策略层
 
@@ -296,6 +327,9 @@ Context-IR 在时间线编排前先生成 `production_policies` 权限矩阵。�
 - 用户明确要求或禁止的策略为硬约束；
 - 直接编辑源视频时，相机、剪辑、动作、光照和原音频默认按硬参考保持；
 - 参考素材只能控制用户授权的维度；
+- 动作、表情和表演节奏属于 performance 权限，不等同于运镜、镜头节奏或剪辑权限；
+- 只有 motion/performance 权限的视频采用覆盖完整互动的连续单镜，不得自动产生手持、特写切换、硬切或转场；
+- 只有意图解析明确生成 camera、shot rhythm、editing 或 transition 硬指令时，参考视频才获得对应镜头控制权；
 - `auto` 使用最小新增原则，光照不默认增加动态事件；
 - 特效和新增文字默认关闭；
 - 启用音频时允许保守的技术性声景补全，但禁止无来源人声；
@@ -303,9 +337,7 @@ Context-IR 在时间线编排前先生成 `production_policies` 权限矩阵。�
 - 所有动态策略事件必须绑定到有效的时间线镜头。
 
 类别先验只能形成软策略，不能覆盖商品真实性、人物身份、连续性、用户硬要求或编辑底片保持约束。
-```
-
-Prompt Auditor 再检查 H3 引用标签、Subject 定义、引用保留模式、结构参考隔离、时间戳、语言和音频一致性。只有审计通过才生成 `h3_request.json`。
+程序要求最终模型只返回非空字符串 `h3_prompt` 和数组 `optimization_notes`。即使模型额外返回 `context_ir` 也会被忽略。随后执行仅覆盖官方分段、引用标签、镜头编号、时间范围和确定性冲突的契约检查；不做主观审美打分，也不允许这一步修改语义 IR。
 
 ## 11. 运行产物与缓存
 
@@ -366,19 +398,23 @@ CONTEXT_IR_VLM_IMAGE_ATTRIBUTE_BATCH_SIZE=3
 - 商品、身份和结构参考支持作用域隔离；
 - 视频使用真实秒数；
 - 感知缓存可复用；
-- Context-IR 与 H3 Prompt 均有严格审计；
+- Context-IR 与 H3 Prompt 由独立的最终导演 LLM 统一优化；
+- Context-IR 的结构错误由代码阻断；镜头表达等语义问题仅生成 warning；
+- 编译 warning 会在同一次最终导演调用中处理，不额外增加一次 LLM 审核；
+- 最终审计同时保留 warning 输入、LLM 处理状态和仍未解决的 warning；
 - 运行产物可追踪；
 - DeepSeek/GLM 可切换；
-- 官方 H3 Skill 与确定性 Renderer 强绑定。
+- 官方 H3 Prompt Skill 与镜头规划 Skill 同时提供给最终导演 LLM。
 
 ## 14. 当前已知问题
 
 1. Prompt 仍可能过长并重复连续性要求，稀释商品视觉重点；
 2. 部分 task、timeline 或 prohibit scope 可能被 LLM 绑定到商品图片，形成 Binding 语义污染；
-3. 为追求稳定性，LLM 容易过度使用静态镜头，降低广告表现力；
+3. 镜头审美仍取决于推理模型和 H3 执行效果；镜头矛盾不会阻断生成，但会作为 warning 返回；
 4. Qwen 能在事件文本中识别状态变化，但 `state_before/state_after` 仍可能为空；
 5. Qwen 分阶段图片分析耗时较长，同一素材流水线暂未并行；
-6. 当前官方格式审计主要验证结构正确，不等价于最终视频质量评测。
+6. 最终导演只优化 Prompt 表达，不能修改已锁定的素材绑定、Shot 顺序、时间、状态和用户硬约束；
+7. LLM 最终优化仍不等价于生成视频质量评测，需要后续 VLM 审片闭环。
 
 ## 15. 下一步改进
 
@@ -387,7 +423,7 @@ CONTEXT_IR_VLM_IMAGE_ATTRIBUTE_BATCH_SIZE=3
 1. 增加 directive 语义路由，将 task、audio、timeline、continuity 和 appearance 分层；
 2. 增加 State Compiler，从 Qwen事件和 LLM判断中生成并传播跨镜头状态；
 3. 增加 Prompt 去重器，仅在必要镜头重复连续性要求；
-4. 在不影响锁定约束的前提下恢复适度 push-in、macro drift 等镜头自由度；
+4. 用真实 Case 校准 `strict / reference / adaptive` 镜头模式和合理镜头数量；
 5. 对素材类别冲突增加 targeted second pass；
 6. 建立“原始 Prompt / 当前 IR / 官方 IR”同 seed 视频 A/B 评测；
 7. 使用商品保持率、状态连续率、引用污染率和审美质量作为视频级指标。
@@ -399,9 +435,10 @@ backend/agent.py                主流程、LLM配置和运行入口
 backend/intent_resolver.py      用户意图与 perception plan
 backend/perception.py           Qwen Provider、图片/视频感知
 backend/directive_binding.py    确定性 Directive Binding Compiler
-backend/context_ir.py           IR规范化、校验、H3渲染和审计
+backend/context_ir.py           草稿结构准备、旧版渲染兼容与 H3 Request 构建
 backend/api.py                  Web API 与任务进度
 skills/h3-prompt-writing/       MiniMax 官方 H3 Prompt Skill
+skills/h3-shot-planning/        运镜、切镜、节奏与连续性规划 Skill
 deploy/run.sh                   Docker CLI 运行入口
 deploy/web.sh                   Web 服务入口
 tests/                          输入、Binding、Renderer 与感知回归测试

@@ -1,0 +1,25 @@
+subject_definitions:
+<Subject 1> is the overall atmosphere and visual-style reference from <Picture 1>: a photorealistic low-key cinematic treatment with high-contrast light and shadow, charcoal and rust-red tonal accents, fine film grain, thin haze, weathered rusted metal, and wet reflective ground surfaces broken by pale reflections.
+<Subject 2> is the protagonist identified from <Picture 2>: a slim young woman with dark-brown wavy hair reaching to the middle of her back, an oval face, dark eyes, and light freckles. In this sequence she wears a long matte black wool coat with a center vent, a black top, black trousers, and black lace-up combat boots.
+
+summary:
+[reference generation] The target video is a 15-second audio-enabled cinematic prologue in which the atmosphere of <Subject 1> drives the visual look and <Subject 2> provides the protagonist identity. It opens in a slow ultra-wide push toward a colossal circular cosmic gate while the title "THE STARS WERE LISTENING" fades in and resolves, then hard-cuts to a closer approach as <Subject 2> walks toward the dark gate and pauses in side profile before the core.
+
+retention_analysis:
+<Subject 1> (atmosphere and visual execution throughout [Shot 1], [Shot 2], and [Shot 3]): fully_preserved - the generated footage keeps the high-contrast low-key palette, haze, grain, rusted metallic gate surface, and wet reflective floor treatment defined in <Subject 1>; incidental content from <Picture 1>, including the lower caption, is not transferred.
+<Subject 2> (protagonist in [Shot 1], [Shot 2], and [Shot 3]): fully_preserved - the protagonist retains the slim build, dark wavy mid-back hair, long matte black coat with center vent, black top and trousers, and black lace-up combat boots from <Picture 2>.
+
+detailed_description:
+The target video is in a photorealistic live-action cinematic style governed by <Subject 1>: high-contrast low-key lighting, a rust-red and charcoal palette, fine grain, thin haze, and wet reflective ground planes, with tight pacing throughout.
+
+[Shot 1] The opening shot is an ultra-wide establishing view: a colossal circular cosmic gate nearly fills the frame, its center a dark, near-black void. Weathered metallic rings tinted rust red and dark steel surround the void, and the wet floor below mirrors faint pale highlights. <Subject 2> appears in the lower-right area, seen fully from behind at very small scale, with dark wavy hair falling down her back, a long matte black coat, and black combat boots. The camera pushes forward slowly while the figure remains tiny against the gate. There is no dialogue. Deep low-frequency pulses begin underneath, joined by a distant, light metallic vibration. As the push develops, a blurred rust-red glow rises from a dark edge of the frame and resolves into the main title "THE STARS WERE LISTENING", first soft and unfocused, then fully legible, extremely narrow, heavy, all capital letters in dark red mixed with rust red, with slight grain and misty edges. The title stays clear for a short beat; exactly as its focus locks, a soft low sound-design hit lands. Immediately after the hit, the shot hard-cuts.
+
+[Shot 2] At 00:07.500, the shot cuts hard to a low-angle, medium-long back view of <Subject 2> in the same gate space. She steps from stillness into a steady walk toward the dark gate center; the camera tracks forward behind her at a slow speed, keeping her centered while her long coat swings and her dark wavy hair shifts against the coat. Her boot steps create soft, distinct sounds in the shallow wet reflections. No dialogue.
+
+[Shot 3] At 00:11.000, the shot cuts to a closer side profile as the protagonist nears the gate. She slows and stops just before the dark core, then turns her head slightly inward. The low side light reveals her oval face, dark eyes, and light freckles, while the gate's dark interior fills the closer background. The camera holds on the profile pause. No further movement or dialogue follows; the sound cue fades to silence by the final frame.
+
+overall_soundscape:
+Low damp hall tone and a remote metallic vibration from the gate continue beneath the sequence. Footsteps are limited to <Subject 2>'s walking beats in [Shot 2] and the final slowing steps in [Shot 3], stopping the moment she halts; faint wool-coat rustle accompanies her gait, and no other voice or physical action sound appears.
+
+non_diegetic_music:
+A deep low-frequency pulse begins near the opening at a slow irregular rhythm, continuing under the metallic ambience. It lands one soft low hit exactly when the title locks into focus, opens its spacing after the hard cut, and decays completely to silence just before the final frame.

@@ -1,0 +1,21 @@
+subject_definitions:
+<Subject 1> is the young male street-dance performer whose face, short light-brown hair, light-to-medium complexion, and youthful body build come jointly from <Picture 1> and <Picture 2>; his consistent look consists of a cream oversized hoodie with the hood up and a front kangaroo pocket, brown mid-thigh shorts with white drawstrings, white socks, and low-top white sneakers. His continuous street-dance choreography follows the motion shown in <Video 1>, and nothing other than movement is inherited from <Video 1>.
+<Subject 2> is the outdoor stadium environment around <Subject 1>, assembled from the scene evidence in <Picture 1> and <Picture 2>: tiered red plastic stadium seats with metal railings and supports, a wet grey concrete apron, and a flat overcast sky with diffuse daylight.
+
+summary:
+[reference generation] The target video is one continuous vertical 9:16 shot in which <Subject 1>, a young male street-dance performer with stable identity and outfit derived from <Picture 1> and <Picture 2>, performs a continuous street-dance routine for the full duration inside <Subject 2>, the red-tiered stadium environment, while his arm swings, body turns, footwork, and dance flow follow the motion reference supplied by <Video 1>.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1]): fully_preserved - the target dancer's face, hair, build, and cream hoodie / brown shorts / white socks / white sneakers outfit remain consistent with <Picture 1> and <Picture 2> in every frame.
+<Subject 2> (appears in [Shot 1]): fully_preserved - the red tiered seating, wet concrete foreground, and flat overcast lighting are retained as the visual environment around the dancer.
+<Video 1> (motion reference transferred to <Subject 1>): attribute_transfer - the rhythmic arm swings, body turns, footwork, and dance flow are transferred to <Subject 1>, while the source dancer's identity, outfit, cap, studio background, visible signage, camera, cuts, and audio are not reused.
+
+detailed_description:
+The target video is a live-action, realistic vertical 9:16 clip. The camera is fixed, front-facing, and centered at roughly chest height in a full-body frame, with soft diffuse overcast daylight and a consistent red-and-grey stadium background so the only motion in the frame is the dance.
+[Shot 1] <Subject 1> begins in a relaxed upright pose with his face, hood-up cream hoodie, brown shorts, white socks, and white sneakers matching <Picture 1> and <Picture 2>. He stands in the foreground of <Subject 2>, the wet grey concrete apron in front of tiered red plastic seats and metal rails under an overcast sky. As the restrained hip-hop groove begins, he swings both arms into motion and launches into the full continuous street-dance routine drawn from <Video 1>, driving through rhythmic torso turns and alternating footwork. His sneakers scuff and land softly on the concrete at each major footwork step and body-turn reset, while the hoodie fabric swishes faintly with each arm swing. The camera remains locked and centered, and he stays inside the full-body vertical frame as the red bleachers remain visible and unchanged in the background. At the 9.474-second boundary, he is still inside the continuous routine and the final drum hit lands as the shot ends with the dance still in motion.
+
+overall_soundscape:
+Low outdoor stadium tone with faint wind and a distant crowd hum continues steadily beneath the performance.
+
+non_diegetic_music:
+Restrained hip-hop instrumental at a moderate tempo, built from a low kick-and-snare groove with subtle synth accents. It enters gently as the first arm swing begins, drives steadily beneath the dance, and resolves cleanly on the final drum hit at the 9.474-second boundary with no audible tail.

@@ -9,6 +9,7 @@ that the IR can make policy decisions without depending on a product category.
 from __future__ import annotations
 
 import base64
+import copy
 import hashlib
 import json
 import math
@@ -62,7 +63,7 @@ class Qwen3OmniProvider(CallablePerceptionProvider):
 
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".bmp"}
 JSON_FENCE_PATTERN = re.compile(r"^```(?:json)?\s*|\s*```$", re.IGNORECASE)
-PERCEPTION_CACHE_SCHEMA_VERSION = "local-qwen3-vl-cache.v2"
+PERCEPTION_CACHE_SCHEMA_VERSION = "local-qwen3-vl-cache.v4"
 
 
 def _canonical_entity_reference(value: Any, known_ids: set[str]) -> str:
@@ -83,10 +84,10 @@ VISUAL_SYSTEM_PROMPT = (
     "Return exactly one JSON object and no Markdown."
 )
 
-LOCALIZATION_PROMPT = """Locate every distinct primary foreground object in this image.
-Return only compact valid JSON: {"boxes":[["actual open-vocabulary category",x1,y1,x2,y2,confidence]]}
+LOCALIZATION_PROMPT = """Analyze the whole-frame visual structure, then locate every distinct primary foreground object.
+Return only compact valid JSON: {"global_analysis":{"scene":"whole-frame visible scene","composition":"spatial arrangement and framing","framing_layers":[{"description":"mask, border, overlay, interface, split-screen, frame-within-frame, or other layer spanning the composition","coverage":"whole_frame|partial_frame","confidence":0.9}],"visible_text":[{"text":"exactly legible text only","legibility":"exact|partial|uncertain","region":"visible location","confidence":0.9}],"uncertainties":[]},"boxes":[["actual open-vocabulary category",x1,y1,x2,y2,confidence]]}
 Coordinates use 0-1000: top-left [0,0], bottom-right [1000,1000].
-Give one tight box per distinct object. Do not group separable objects. The category must name what the object actually is; never output the literal phrase 'open vocabulary'. No descriptions or Markdown."""
+Give one tight box per distinct object. Do not group separable objects. Do not represent a whole-frame mask, border, overlay, interface, vignette, or framing aperture as an ordinary foreground object; record it in framing_layers. Distinguish binocular double-circle masks, heart-shaped apertures, split screens, and ordinary vignettes by visible geometry. For text, never complete cropped, obscured, faint, or ambiguous characters: mark them partial or uncertain. The category must name what the object actually is; never output the literal phrase 'open vocabulary'. No Markdown."""
 
 ATTRIBUTE_CROP_PROMPT = """The image is a labeled crop sheet made from one source image.
 Each labeled cell contains exactly one primary object. Analyze cells independently and never merge content across cells.
@@ -102,9 +103,15 @@ COMPACT_VIDEO_ENTITY_PROMPT = """Analyze this complete source video as provider-
 The first feature value is exactly one of: geometry, color, material, surface, components, component_layout, orientation_cues, identity_markers, other. Never join group names with |. Return at most 8 high-value reusable entities, prioritizing people, the showcased product, outfit/garment variations, accessory groups, key props, environments, and visible text. Group related outfit changes or environments as variations/features when that avoids low-value entity proliferation. Do not enumerate incidental background objects.
 Every relation endpoint must exactly match a declared entity_id. Return 4-8 concise reproduction-critical features per entity. Estimate confidence from 0.5-1.0 for visible/inferred facts; use 0 only when unresolved. Emit compact JSON without indentation or Markdown."""
 
-RELATIONAL_IMAGE_PROMPT = """Analyze only the visible relationship, pose, grip, connection, orientation, and relative-scale evidence requested by the inspection plan. Do not perform exhaustive object cataloging or describe incidental background objects. Return only compact valid JSON:
-{"summary":"visible relationship overview","entities":[{"entity_id":"entity_1","category":"generic visible type","summary":"brief visible facts","quantity":[1,0.9],"features":[["geometry|color|material|surface|components|component_layout|orientation_cues|identity_markers|other","name","value",0.9,"visible"]],"uncertainties":[]}],"relations":[["relation_1","connected_to|held_by|positioned_relative_to|scale_relative_to|other","entity_1","entity_2","visible anchor",0.9,"visible"]],"uncertainties":[]}
-Declare at most 6 task-relevant entities and at most 8 relations. Every relation endpoint must match a declared entity_id. Keep features limited to facts necessary to understand the requested relationship. Do not infer function, performance, identity, brand, audio, ownership, or hidden connections. Emit compact JSON without Markdown."""
+COMPACT_VIDEO_SINGLE_PASS_PROMPT = """Analyze this complete source video once as provider-neutral visual evidence. Do not infer audio, dialogue, identity, brand, price, ownership, intent, or user instructions. Return only compact valid JSON using this concrete example shape:
+{"summary":"A woman turns toward a product display","events":[{"event_id":"event_1","start_seconds":0.0,"end_seconds":1.0,"entity_ids":["person_1","product_1"],"action":"The woman turns from the display toward the camera","transition_type":"cut","confidence":0.9}],"entities":[{"entity_id":"person_1","category":"person","subcategory":"adult woman","summary":"Woman standing beside the display","quantity":[1,0.9],"features":[["color","top color","white",0.9,"visible"]],"uncertainties":[]},{"entity_id":"product_1","category":"product","subcategory":"bottle","summary":"Bottle arranged on the display","quantity":[1,0.9],"features":[["geometry","container shape","rectangular bottle",0.9,"visible"]],"uncertainties":[]}],"relations":[["relation_1","positioned_relative_to","person_1","product_1","person stands left of product",0.9,"visible"]],"technical":{"duration_seconds":1.0,"framing":"medium shot","camera":"locked camera","visible_text":[]},"uncertainties":[]}
+Use elapsed source-video seconds and cover the visible beginning through ending. Create a separate event for each cut, scene, outfit, or distinct action. Reuse exactly the same declared entity IDs in events and relations. Replace every example value with an observation from the supplied video: never emit literal schema placeholders such as "generic visible category", "open vocabulary type", "visible facts", "visible shot", "name", or "value". Return at most 8 high-value entities and 4-8 concise reproduction-critical features per entity. Feature groups must be one of geometry, color, material, surface, components, component_layout, orientation_cues, identity_markers, other. Feature source must be visible, inferred, or unresolved. Never complete cropped, obscured, faint, or ambiguous text; mark it partial or uncertain. Emit compact JSON without Markdown."""
+
+RELATIONAL_IMAGE_PROMPT = """Analyze this image once as provider-neutral visual evidence. Return only compact valid JSON using this illustrative shape (its bottle and table are examples, not observations of the supplied image):
+{"summary":"A blue rectangular bottle rests on a white table","global_analysis":{"scene":"white tabletop against a grey wall","composition":"bottle centered in a close view","framing_layers":[],"visible_text":[],"uncertainties":[]},"entities":[{"entity_id":"bottle_1","category":"bottle","summary":"Blue rectangular bottle with a black round cap","quantity":[1,0.9],"features":[["geometry","body shape","rectangular with rounded shoulders",0.9,"visible"],["color","body color","blue",0.9,"visible"],["components","cap","round black cap",0.9,"visible"]],"uncertainties":[]},{"entity_id":"table_1","category":"table","summary":"White tabletop beneath bottle","quantity":[1,0.9],"features":[["color","top color","white",0.9,"visible"]],"uncertainties":[]}],"relations":[["relation_1","positioned_relative_to","bottle_1","table_1","bottle rests on tabletop",0.9,"visible"]],"uncertainties":[]}
+Replace every example value with actual visible evidence. Never return schema labels such as "whole-frame scene", "spatial arrangement", "name" or "value" as observations. Empty arrays are correct when a field has no visible evidence. For a framing layer provide description, coverage (whole_frame or partial_frame), and confidence. For visible text provide text, legibility (exact, partial, or uncertain), region, and confidence.
+Prioritize the user's requested understanding focus. Put distinguishing visible appearance in the main entity's features: silhouette, color, material cues, component arrangement, markings; for a person, visible hair, clothing, footwear and relevant facial appearance. Do not spend the entity budget listing each body part or garment separately unless it has an independent requested role. A multi-view reference board may show the same subject several times: record the layout separately and link views only when evidence supports sameness; do not assume every panel is a different target person. Do not infer a real-world name or identity from appearance.
+Describe global composition before local entities. Distinguish binocular double-circle masks, heart-shaped apertures, split screens, ordinary vignettes, and the scene visible inside them. Declare at most 8 task-relevant entities and at most 10 relations. Every relation endpoint must match a declared entity_id. Use 4-8 concise reproduction-critical features per important entity. Feature groups must be one of geometry, color, material, surface, components, component_layout, orientation_cues, identity_markers, other. Feature source must be visible, inferred, or unresolved. Never complete cropped, obscured, faint, or ambiguous text; mark it partial or uncertain. Do not infer function, performance, identity, brand claims, audio, ownership, intent, or hidden connections. Emit compact JSON without Markdown."""
 
 
 def _analysis_profile(asset: Mapping[str, Any], plan: Mapping[str, Any] | None) -> str:
@@ -114,13 +121,7 @@ def _analysis_profile(asset: Mapping[str, Any], plan: Mapping[str, Any] | None) 
     requested = " ".join(str(item) for item in (plan or {}).get("analyze", []) if str(item).strip()).lower()
     blocked = " ".join(str(item) for item in (plan or {}).get("do_not_infer", []) if str(item).strip()).lower()
     if media_type == "image":
-        if any(token in role for token in ("identity", "product_appearance", "authoritative_product")):
-            return "staged_detail"
-        if any(token in role for token in ("connection", "motion", "pose", "usage", "scale", "style")):
-            return "relational_one_shot"
-        if any(token in requested for token in ("connect", "grip", "pose", "relative size", "orientation")):
-            return "relational_one_shot"
-        return "staged_detail"
+        return "single_pass"
     if media_type == "video":
         structural_role = any(token in role for token in ("motion", "camera", "rhythm", "structure"))
         structural_request = any(token in requested for token in ("action", "camera", "shot", "pacing", "transition"))
@@ -154,7 +155,10 @@ def _evidence_coverage(
         return []
     searchable = json.dumps({
         key: analysis.get(key)
-        for key in ("summary", "evidence", "regions", "entities", "relations", "events", "technical", "transcript")
+        for key in (
+            "summary", "global_analysis", "evidence", "regions", "entities",
+            "relations", "events", "technical", "transcript",
+        )
     }, ensure_ascii=False).casefold()
     coverage: list[dict[str, Any]] = []
     for index, value in enumerate(requirements, start=1):
@@ -455,6 +459,179 @@ def _video_duration_seconds(path: Path) -> float | None:
         return duration if duration > 0 else None
     except (FileNotFoundError, subprocess.SubprocessError, ValueError):
         return None
+
+
+def _video_scene_cut_seconds(
+    path: Path,
+    threshold: float = 0.32,
+    max_cuts: int = 24,
+) -> list[float]:
+    """Return conservative pixel-change cut candidates without claiming semantics.
+
+    The values are hints for the VLM, not authoritative shot boundaries.  This
+    separates timestamp measurement from semantic interpretation and prevents a
+    failed video description from silently turning into uniformly sized shots.
+    """
+    try:
+        result = subprocess.run(
+            [
+                "ffmpeg", "-hide_banner", "-loglevel", "info", "-i", str(path),
+                "-vf", f"select=gt(scene\\,{float(threshold):.3f}),showinfo",
+                "-an", "-f", "null", "-",
+            ],
+            check=False,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=180,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return []
+    values: list[float] = []
+    for match in re.finditer(r"pts_time:([0-9]+(?:\.[0-9]+)?)", result.stderr or ""):
+        value = round(float(match.group(1)), 3)
+        if value <= 0.05 or (values and value - values[-1] < 0.12):
+            continue
+        values.append(value)
+        if len(values) >= max(0, int(max_cuts)):
+            break
+    return values
+
+
+_PLACEHOLDER_TEXT = {
+    "generic visible category",
+    "generic visible type",
+    "open vocabulary type",
+    "actual open-vocabulary category",
+    "visible facts",
+    "visible shot",
+    "visible overview",
+    "whole-image visible overview",
+    "name",
+    "value",
+}
+
+
+def _is_placeholder_text(value: Any) -> bool:
+    if not isinstance(value, str):
+        return False
+    folded = value.strip().casefold()
+    if folded in _PLACEHOLDER_TEXT:
+        return True
+    # Older Qwen responses sometimes copied a placeholder and appended a comma
+    # followed by plausible nouns (for example ``visible shot, cityscape``).
+    # The prefix still proves that the model emitted the schema example rather
+    # than a grounded observation, so the whole field is unusable evidence.
+    return any(
+        folded.startswith(placeholder + delimiter)
+        for placeholder in _PLACEHOLDER_TEXT
+        for delimiter in (",", ":", ";", " - ")
+    )
+
+
+def _sanitize_analysis_quality(analysis: Mapping[str, Any]) -> dict[str, Any]:
+    """Drop literal schema placeholders and soft-invalid cross references.
+
+    This is a truth/shape guard only.  It never fabricates replacement evidence.
+    """
+    cleaned = copy.deepcopy(dict(analysis))
+    warnings: list[str] = []
+    if _is_placeholder_text(cleaned.get("summary")):
+        cleaned["summary"] = ""
+        warnings.append("Dropped placeholder asset summary")
+
+    entities: list[dict[str, Any]] = []
+    for raw_entity in cleaned.get("entities", []):
+        if not isinstance(raw_entity, Mapping):
+            continue
+        entity = dict(raw_entity)
+        for key in ("category", "subcategory", "summary"):
+            if _is_placeholder_text(entity.get(key)):
+                entity[key] = ""
+                warnings.append(f"Dropped placeholder entity {key}")
+        attributes = entity.get("attributes")
+        if isinstance(attributes, Mapping):
+            filtered: dict[str, list[Any]] = {}
+            for group, raw_features in attributes.items():
+                features = []
+                for feature in raw_features if isinstance(raw_features, list) else []:
+                    if not isinstance(feature, Mapping):
+                        continue
+                    if _is_placeholder_text(feature.get("name")) or _is_placeholder_text(feature.get("value")):
+                        warnings.append("Dropped placeholder entity feature")
+                        continue
+                    features.append(dict(feature))
+                filtered[str(group)] = features
+            entity["attributes"] = filtered
+        has_attributes = any(entity.get("attributes", {}).values()) if isinstance(entity.get("attributes"), Mapping) else False
+        if not any(str(entity.get(key, "")).strip() for key in ("category", "subcategory", "summary")) and not has_attributes:
+            warnings.append(f"Dropped empty placeholder entity {entity.get('entity_id', '')}")
+            continue
+        entities.append(entity)
+    cleaned["entities"] = entities
+    known_ids = {str(item.get("entity_id", "")) for item in entities}
+
+    events = []
+    for raw_event in cleaned.get("events", []):
+        if not isinstance(raw_event, Mapping):
+            continue
+        event = dict(raw_event)
+        if _is_placeholder_text(event.get("action")):
+            warnings.append(f"Dropped placeholder event {event.get('event_id', '')}")
+            continue
+        ids = [str(value) for value in event.get("entity_ids", []) if str(value) in known_ids]
+        if ids != list(event.get("entity_ids", [])):
+            warnings.append(f"Removed unknown entity references from event {event.get('event_id', '')}")
+        event["entity_ids"] = ids
+        events.append(event)
+    cleaned["events"] = events
+
+    relations = []
+    for raw_relation in cleaned.get("relations", []):
+        if not isinstance(raw_relation, Mapping):
+            continue
+        relation = dict(raw_relation)
+        if str(relation.get("subject_id", "")) not in known_ids or str(relation.get("object_id", "")) not in known_ids:
+            warnings.append(f"Dropped relation with unknown endpoint {relation.get('relation_id', '')}")
+            continue
+        relations.append(relation)
+    cleaned["relations"] = relations
+
+    technical = cleaned.setdefault("technical", {})
+    if not isinstance(technical, dict):
+        technical = {}
+        cleaned["technical"] = technical
+    usable = bool(str(cleaned.get("summary", "")).strip() or entities or events or cleaned.get("global_analysis"))
+    media_type = str(technical.get("media_type") or cleaned.get("media_type") or "").lower()
+    # An audio asset intentionally skipped by a visual provider is not a failed
+    # visual analysis. This also repairs cached empty audio entries previously
+    # mislabeled invalid_placeholder, without asserting signal availability or
+    # inventing a transcript, duration, timbre, or any other audible evidence.
+    audio_not_analyzed = media_type == "audio" and (
+        technical.get("analysis_status") == "unsupported_by_visual_provider"
+        or (not usable and not warnings)
+    )
+    technical["analysis_status"] = (
+        "not_analyzed" if audio_not_analyzed
+        else "degraded" if warnings and usable
+        else "invalid_placeholder" if not usable
+        else "observed"
+    )
+    technical["quality_warnings"] = warnings
+    if warnings:
+        cleaned.setdefault("uncertainties", []).extend(warnings)
+    return cleaned
+
+
+def sanitize_media_analysis_quality(payload: Mapping[str, Any]) -> dict[str, Any]:
+    """Apply the same quality gate to caller-supplied or cached media evidence."""
+    cleaned = copy.deepcopy(dict(payload))
+    cleaned["assets"] = [
+        _sanitize_analysis_quality(item)
+        for item in cleaned.get("assets", [])
+        if isinstance(item, Mapping)
+    ]
+    return cleaned
 
 
 def _analysis_prompt(
@@ -766,6 +943,7 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             key: self.config.options.get(key)
             for key in (
                 "staged_image_analysis", "compact_video_analysis",
+                "single_pass_image_analysis", "single_pass_video_analysis",
                 "image_attribute_batch_size", "relational_image_max_tokens",
                 "video_timeline_max_tokens", "video_entity_max_tokens",
                 "video_fps", "video_max_frames", "max_tokens",
@@ -1011,7 +1189,21 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
         plan_text = json.dumps(plan or {}, ensure_ascii=False)
         guard = ("\nIntent-derived inspection plan (not visual evidence): " + plan_text
                  + "\nUse claimed categories only as hypotheses. Obey do_not_infer and report visible conflicts.")
-        localized = self._run_task(localization_image, LOCALIZATION_PROMPT + guard, run_dir / "localization", 320)
+        localized = self._run_task(localization_image, LOCALIZATION_PROMPT + guard, run_dir / "localization", 700)
+        global_analysis = localized.get("global_analysis")
+        if not isinstance(global_analysis, Mapping):
+            global_analysis = {
+                "scene": "", "composition": "", "framing_layers": [],
+                "visible_text": [], "uncertainties": ["whole-frame analysis missing"],
+            }
+        else:
+            global_analysis = {
+                "scene": str(global_analysis.get("scene", "")),
+                "composition": str(global_analysis.get("composition", "")),
+                "framing_layers": [dict(value) for value in global_analysis.get("framing_layers", []) if isinstance(value, Mapping)],
+                "visible_text": [dict(value) for value in global_analysis.get("visible_text", []) if isinstance(value, Mapping)],
+                "uncertainties": [str(value) for value in global_analysis.get("uncertainties", []) if str(value).strip()],
+            }
         boxes = localized.get("boxes", [])
         objects = []
         for index, box in enumerate(boxes, start=1):
@@ -1087,9 +1279,14 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
                 for value in values:
                     value["evidence_ids"] = [evidence_id]
             entities.append(entity)
+        global_summary = "; ".join(value for value in (
+            str(global_analysis.get("scene", "")).strip(),
+            str(global_analysis.get("composition", "")).strip(),
+        ) if value)
         return {
             "asset_id": str(asset.get("asset_id", "")),
-            "summary": f"{len(entities)} distinct foreground objects localized and analyzed individually.",
+            "summary": global_summary or f"{len(entities)} distinct foreground objects localized and analyzed individually.",
+            "global_analysis": global_analysis,
             "evidence": evidence, "regions": regions, "entities": entities,
             "relations": [], "events": [],
             "technical": {
@@ -1111,7 +1308,7 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
         raw = self._run_task(
             source, RELATIONAL_IMAGE_PROMPT + guard,
             output_root / "relational_image",
-            int(self.config.options.get("relational_image_max_tokens", 1000)),
+            int(self.config.options.get("relational_image_max_tokens", 2600)),
         )
         evidence_id = "evidence_1"
         entities = []
@@ -1145,8 +1342,10 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             })
         if not entities:
             raise RuntimeError("Local Qwen3-VL relational image analysis returned no entities")
+        global_analysis = raw.get("global_analysis") if isinstance(raw.get("global_analysis"), Mapping) else {}
         return {
             "asset_id": str(asset.get("asset_id", "")), "summary": str(raw.get("summary", "")),
+            "global_analysis": dict(global_analysis),
             "evidence": [{
                 "evidence_id": evidence_id, "kind": "frame", "time_seconds": None,
                 "bbox_normalized": [0.0, 0.0, 1.0, 1.0],
@@ -1154,7 +1353,7 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             }],
             "regions": [], "entities": entities, "relations": relations, "events": [],
             "technical": {
-                "media_type": "image", "analysis_pipeline": "relational_one_shot",
+                "media_type": "image", "analysis_pipeline": "image_single_pass",
                 "task_ids": [str(raw.get("_task_id", ""))],
             },
             "transcript": "", "uncertainties": list(raw.get("uncertainties", [])),
@@ -1165,20 +1364,33 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             "output_dir", "/home/mx/shenxing/minimax-H3-context-IR/outputs/qwen3-vl-32b",
         ))).expanduser().resolve()
         duration = _video_duration_seconds(source)
+        cut_candidates = _video_scene_cut_seconds(
+            source,
+            threshold=float(self.config.options.get("video_scene_cut_threshold", 0.32)),
+            max_cuts=int(self.config.options.get("video_scene_cut_max_candidates", 24)),
+        )
         duration_rule = ""
         if duration is not None:
             duration_rule = (
                 f" The source duration is {duration:.3f} seconds. All event times must be within "
                 f"0.0-{duration:.3f}, and the last event must reach the visible ending."
             )
+        if cut_candidates:
+            duration_rule += (
+                " An independent pixel-change detector found candidate visual cut boundaries at "
+                + ", ".join(f"{value:.3f}s" for value in cut_candidates)
+                + ". Treat them as measurement hints: verify them visually, keep real cuts, and "
+                  "ignore false positives caused by flashes or fast motion. Do not replace them "
+                  "with uniformly spaced timestamps."
+            )
         guard = ("\nIntent-derived inspection plan (not visual evidence): "
                  + json.dumps(plan or {}, ensure_ascii=False)
                  + "\nUse claimed categories only as hypotheses. Obey do_not_infer and report visible conflicts.")
         timeline_raw = self._run_task(
             source,
-            COMPACT_VIDEO_TIMELINE_PROMPT + duration_rule + guard,
-            output_root / "compact_video_timeline",
-            int(self.config.options.get("video_timeline_max_tokens", 1200)),
+            COMPACT_VIDEO_SINGLE_PASS_PROMPT + duration_rule + guard,
+            output_root / "compact_video_single_pass",
+            int(self.config.options.get("video_single_pass_max_tokens", 3200)),
             fps=float(self.config.options.get("video_fps", 2.0)),
             max_frames=int(self.config.options.get("video_max_frames", 256)),
         )
@@ -1196,35 +1408,7 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             )
         })
         profile = _analysis_profile(asset, plan)
-        if profile == "timeline_only":
-            if not timeline_entity_ids:
-                timeline_entity_ids = ["scene_1"]
-            entity_raw = {
-                "entities": [{
-                    "entity_id": entity_id,
-                    "category": entity_id.rsplit("_", 1)[0] or "visible_entity",
-                    "subcategory": entity_id.rsplit("_", 1)[0] or "visible_entity",
-                    "summary": "Timeline entity retained only for action and shot references.",
-                    "quantity": [1, 0.5], "features": [],
-                    "uncertainties": ["Detailed appearance analysis intentionally skipped for structural reference"],
-                } for entity_id in timeline_entity_ids],
-                "relations": [],
-            }
-        else:
-            entity_prompt = COMPACT_VIDEO_ENTITY_PROMPT + guard
-            if timeline_entity_ids:
-                entity_prompt += (
-                    " The timeline references these entity IDs: " + ", ".join(timeline_entity_ids)
-                    + ". You must declare each of them using exactly the same ID."
-                )
-            entity_raw = self._run_task(
-                source,
-                entity_prompt,
-                output_root / "compact_video_entities",
-                int(self.config.options.get("video_entity_max_tokens", 2200)),
-                fps=float(self.config.options.get("video_fps", 2.0)),
-                max_frames=int(self.config.options.get("video_max_frames", 256)),
-            )
+        entity_raw = timeline_raw
         raw = {
             "summary": timeline_raw.get("summary", ""),
             "events": timeline_raw.get("events", []),
@@ -1344,6 +1528,7 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             events[-1]["time_range"][1] = duration
 
         relations = []
+        relation_warnings: list[str] = []
         for index, value in enumerate(raw.get("relations", []), start=1):
             if not isinstance(value, list) or len(value) < 7:
                 continue
@@ -1351,9 +1536,11 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             subject_id = _canonical_entity_reference(subject_id, known_entity_ids)
             object_id = _canonical_entity_reference(object_id, known_entity_ids)
             if subject_id not in known_entity_ids or object_id not in known_entity_ids:
-                raise RuntimeError(
-                    f"Local Qwen3-VL relation references unknown entities: {subject_id}, {object_id}"
+                relation_warnings.append(
+                    f"Dropped relation {relation_id or index} with unknown endpoints: "
+                    f"{subject_id}, {object_id}"
                 )
+                continue
             related_evidence = sorted(set(
                 event_entity_ids.get(str(subject_id), []) + event_entity_ids.get(str(object_id), [])
             ))
@@ -1364,21 +1551,24 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
                 "confidence": float(confidence), "source": str(source_type),
             })
         technical = dict(raw.get("technical", {}))
+        task_ids = list(dict.fromkeys(
+            item for item in [str(timeline_raw.get("_task_id", "")), str(entity_raw.get("_task_id", ""))] if item
+        ))
         technical.update({
             "media_type": "video",
-            "analysis_pipeline": "compact_video_timeline_only" if profile == "timeline_only" else "compact_video_then_deterministic_expansion",
-            "task_ids": [item for item in [str(timeline_raw.get("_task_id", "")), str(entity_raw.get("_task_id", ""))] if item],
+            "analysis_pipeline": "compact_video_single_pass",
+            "task_ids": task_ids,
+            "scene_cut_candidates_seconds": cut_candidates,
         })
         if duration is not None:
             technical["duration_seconds"] = duration
         output_uncertainties = list(raw.get("uncertainties", []))
-        if profile == "timeline_only":
-            output_uncertainties.append("Detailed entity appearance pass intentionally skipped for structural reference")
         if unresolved_timeline_ids:
             output_uncertainties.append(
                 "Compact entity pass omitted details for timeline entities: "
                 + ", ".join(unresolved_timeline_ids)
             )
+        output_uncertainties.extend(relation_warnings)
         return {
             "asset_id": str(asset.get("asset_id", "")), "summary": str(raw.get("summary", "")),
             "evidence": evidence, "regions": [], "entities": entities,
@@ -1392,9 +1582,9 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
         source = Path(str(asset.get("uri", ""))).expanduser().resolve()
         if not source.is_file():
             raise FileNotFoundError(f"local Qwen3-VL media path does not exist: {source}")
+        if media_type == "image" and bool(self.config.options.get("single_pass_image_analysis", True)):
+            return self._analyze_image_relational(asset, source, plan)
         if media_type == "image" and bool(self.config.options.get("staged_image_analysis", True)):
-            if _analysis_profile(asset, plan) == "relational_one_shot":
-                return self._analyze_image_relational(asset, source, plan)
             return self._analyze_image_staged(asset, source, plan)
         if media_type == "video" and bool(self.config.options.get("compact_video_analysis", True)):
             return self._analyze_video_compact(asset, source, plan)
@@ -1441,7 +1631,7 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             plan = plans.get(str(asset.get("asset_id", "")))
             started = time.perf_counter()
             analysis, cache_hit, cache_key = self._analyze_visual_cached(asset, plan)
-            analysis = dict(analysis)
+            analysis = _sanitize_analysis_quality(analysis)
             analysis["asset_id"] = str(asset.get("asset_id", ""))
             coverage = _evidence_coverage(analysis, plan)
             supplemental_attempts: list[dict[str, Any]] = []
@@ -1585,6 +1775,7 @@ def normalize_media_analysis(
         normalized.append({
             "asset_id": asset_id,
             "summary": summary,
+            "global_analysis": dict(item.get("global_analysis", {})) if isinstance(item.get("global_analysis"), Mapping) else {},
             "evidence": list(item.get("evidence", [])),
             "regions": list(item.get("regions", [])),
             "entities": list(item.get("entities", [])),

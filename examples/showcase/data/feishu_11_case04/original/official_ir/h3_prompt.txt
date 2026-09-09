@@ -1,0 +1,35 @@
+subject_definitions:
+<Subject 1> is the woman defined in <Picture 2>, featuring pale skin, dark red lips, a messy updo hairstyle, and wearing a tight, long-sleeved, high-neck black crocodile-textured leather mini dress with black pump heels.
+<Subject 2> is the man defined in <Picture 2>, featuring short dark hair, a strong jawline, and wearing a tailored long black overcoat, black trousers, a black inner shirt, and black leather shoes.
+<Subject 3> is the handbag defined in <Picture 3>, which is a structured black crocodile-textured leather tote bag featuring two top handles and a prominent gold-tone central logo clasp shaped like a circle with a vertical line through it.
+<Subject 4> is the environment, visual style, and vintage car reference defined in the moodboard <Picture 1>, featuring a dark, moody desert highway under a twilight sky, a vintage car with glowing round red taillights, and a cinematic, high-contrast film texture with deep shadows and cool tones.
+<Picture 4> is the last frame of [Shot 5], showing a black background with the white serif text "NOCTURNE" and "LEATHER GOODS" below it.
+
+summary:
+[reference generation + keyframe completion] The target video is a premium fashion campaign set on a moody desert highway at dusk, drawn from <Subject 4>. <Subject 1> approaches a vintage car, opens the trunk, and retrieves <Subject 3>. She shares a fleeting, quiet glance with <Subject 2>, who stands by the car. <Subject 1> then walks away with <Subject 3>. The video features dynamic fashion editing and concludes with <Picture 4> as the ending logo frame.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4]): fully_preserved - the target video features the exact woman with her messy updo, dark red lips, and tight long-sleeved black crocodile-textured leather mini dress.
+<Subject 2> (appears in [Shot 3]): fully_preserved - the target video features the exact man with his short dark hair, long black overcoat, and black trousers.
+<Subject 3> (appears in [Shot 2], [Shot 3], [Shot 4]): fully_preserved - the black crocodile-textured leather handbag with two top handles and the gold-tone central logo clasp is featured prominently in the action.
+<Subject 4> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4]): fully_preserved - the dark twilight desert highway setting, the vintage car with glowing red taillights, and the cinematic, high-contrast film texture are fully realized in the video.
+<Picture 4> ([Shot 5] last frame): fully_preserved - the final shot displays the exact "NOCTURNE" and "LEATHER GOODS" typographic logo on a black background.
+
+detailed_description:
+The target video is in a premium cinematic photographic style with deep shadows, cool twilight tones, high-contrast lighting, and a distinct vintage film texture, matching the overall visual aesthetic of <Subject 4>.
+
+[Shot 1] A wide tracking shot glides over a desolate desert highway under a dark, dramatic twilight sky filled with heavy clouds. A classic vintage car sits parked on the shoulder, its round taillights glowing a deep, piercing red into the dusk. <Subject 1> enters the frame from the foreground. She is dressed in a tight, long-sleeved, high-neck black crocodile-textured leather mini dress, paired with black pump heels. Her messy updo catches the faint wind, and her dark red lips add to the cold, restrained atmosphere. She walks elegantly and purposefully toward the rear of the car. The camera pushes in slowly, highlighting the glossy, reptilian texture of her dress as it catches the ambient twilight.
+
+[Shot 2] At 00:03.500, the shot cuts to a dynamic medium close-up positioned just behind the vintage car. <Subject 1> arrives at the trunk, her pale skin contrasting sharply with her dark attire. With a fluid, confident motion, she unlatches the trunk and swings it open. The camera tilts down seamlessly, revealing the dimly lit interior where <Subject 3> rests. The structured black crocodile-textured leather handbag is showcased elegantly, its polished surface and prominent gold-tone central logo clasp catching a glint of light. <Subject 1> reaches down, her fingers wrapping firmly around the two top handles, and smoothly lifts <Subject 3> out of the trunk.
+
+[Shot 3] At 00:07.000, the shot cuts to an over-the-shoulder medium two-shot to introduce <Subject 2>. He stands near the side door of the vintage car, wearing a tailored long black overcoat, black trousers, and a black inner shirt. His short dark hair and strong facial features exude a calm, detached fashion demeanor. <Subject 1> turns to face him, holding <Subject 3> effortlessly at her side. The camera executes a slow, deliberate arc shot around the two figures, capturing a fleeting, silent exchange of glances. The cinematic lighting from the car's taillights paints subtle red highlights on the edge of <Subject 2>'s coat and the textured leather of <Subject 1>'s dress.
+
+[Shot 4] At 00:10.500, the shot cuts to a low-angle tracking shot from behind <Subject 1>. Breaking the momentary tension, she turns her back to <Subject 2> and begins walking away down the center of the dark, empty highway. The camera trucks backward, keeping her centered in the frame. The crocodile texture of her dress ripples slightly with her deliberate strides, while <Subject 3> sways rhythmically in her hand, serving as the focal point of her departure. The vintage car and the dark silhouette of <Subject 2> gradually blur into the shadowy, atmospheric background.
+
+[Shot 5] At 00:13.500, the shot cuts to a stark, minimalist brand slate. The cinematic environment instantly disappears, replaced by a pure, solid black background. Centered perfectly on the screen is the sharp, white serif typography reading "NOCTURNE". Just below the brand name, separated by a delicate, thin horizontal line, is the smaller subtitle "LEATHER GOODS". The shot holds steady and completely static, resolving elegantly to end on <Picture 4> as the absolute final frame of the campaign.
+
+overall_soundscape:
+The target video features a minimalist, atmospheric soundscape with the subtle crunch of footsteps on asphalt, the heavy metallic clank of a vintage car trunk opening, and the quiet rush of desert wind, culminating in absolute silence for the logo reveal.
+
+non_diegetic_music:
+A premium, restrained ambient electronic score plays in the background, featuring a slow, pulsating sub-bass and sparse, metallic synth accents that enhance the cold, high-fashion tension without overpowering the visuals.

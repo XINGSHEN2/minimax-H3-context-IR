@@ -1,0 +1,26 @@
+{
+  "task": "ref2va",
+  "target": {
+    "short_edge": 768,
+    "aspect_ratio": "16:9",
+    "duration_seconds": 15
+  },
+  "seed": 42,
+  "n": 1,
+  "num_inference_steps": 20,
+  "output_mode": "decoded_files",
+  "conditions": [
+    {
+      "type": "image",
+      "role": "reference"
+    },
+    {
+      "type": "image",
+      "role": "reference"
+    },
+    {
+      "type": "video",
+      "role": "reference"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+subject_definitions:
+<Picture 1> is the scene/mood/film-finish reference for the target video: it supplies the open-desert-road atmosphere, heavy twilight cloud, deep purple-slate palette, and restrained cinematic film grade that shape the desert-road/retro-car campaign world.
+<Subject 1> is the woman character whose appearance comes from the female model in <Picture 2>: dark hair in a messy updo, a black textured mini dress, and dark heeled shoes.
+<Subject 2> is the man character whose appearance comes from the male model in <Picture 2>: dark wavy hair, a long black coat, and black trousers.
+<Subject 3> is the black handbag product in <Picture 3>: a glossy black structured bag with a trapezoidal front, visible leather grain, one top handle, and a silver-tone logo clasp centered on the front flap.
+<Picture 4> is the final-frame logo lockup of the target video: solid black background with a white uppercase serif "NOCTURNE", a thin horizontal rule, and smaller "LEATHER GOODS" centered below.
+
+summary:
+[reference generation + keyframe completion] The target video is a 15-second, 16:9 fashion-brand campaign in a restrained cool tone. <Subject 1> returns to the rear of a retro car in the <Picture 1>-inspired desert-night scene, opens the trunk, lifts out <Subject 3>, shares one quiet look with <Subject 2> by the car, then leaves carrying the bag. The film finishes on <Picture 4> as the last-frame logo.
+
+retention_analysis:
+<Picture 1> (scene and finish across [Shot 1]-[Shot 5]): fully_preserved - the target keeps its open desert road, dark vintage sedan, deep twilight sky, and low-key cool film finish without copying the source grid layout or its incidental people/bag content.
+<Subject 1> ([Shot 1], [Shot 3], [Shot 4], [Shot 5]): fully_preserved - her dark messy updo, textured black mini dress, and dark heeled shoes are retained.
+<Subject 2> ([Shot 1], [Shot 4]): fully_preserved - his dark wavy hair, long black coat, and black trousers are retained.
+<Subject 3> ([Shot 2], [Shot 3], [Shot 4], [Shot 5]): fully_preserved - the glossy black trapezoidal bag, visible leather grain, top handle, and silver-tone logo clasp are retained while she handles it.
+<Picture 4> ([Shot 6] final frame): fully_preserved - the centered black-field NOCTURNE lockup is shown at the end.
+
+detailed_description:
+The target video is a 16:9 cinematic high-fashion campaign film in a cool, restrained register, with crisp fashion-magazine editing, soft low-key dusk light, and subtle film grain carried across the road and car footage. The live-action scenes keep the open desert road, the dark vintage car, and the deep purple-slate twilight texture of <Picture 1>.
+[Shot 1] A wide establishing shot frames the rear three-quarter view of a dark vintage sedan parked beside a straight desert highway at dusk. Heavy clouds carry a purple and slate-blue cast with the atmosphere of <Picture 1>. <Subject 2> stands by the rear fender, and <Subject 1> walks back toward the rear of the car along the roadside; her dark textured mini dress and his long black coat move in the wind. The camera trucks right with small amplitude at medium speed, keeping both figures in frame without dialogue.
+[Shot 2] At 00:02.700, the shot cuts to a close-up of <Subject 1>'s hand as she reaches the center rear latch, releases it, and raises the trunk lid. The metal release sounds and the interior light blooms; at the end of the movement <Subject 3> is visible in the dark cargo well. The camera holds on the opening without turning the bag into an isolated product shot.
+[Shot 3] At 00:05.200, the shot cuts to a profile medium shot of <Subject 1> beside the raised trunk. She reaches in, takes <Subject 3> by its top handle, and lifts it out, settling the bag against her hip. The trunk light grazes the glossy black leather, the visible grain, and the silver-tone logo clasp on the trapezoidal front. The bag remains part of her hand movement; the camera pushes in with small amplitude at slow speed.
+[Shot 4] At 00:07.400, the shot cuts to a medium two-shot. <Subject 1> stands near the rear of the car with <Subject 3> hanging naturally from her hand, while <Subject 2> stands at the rear fender, facing her. Their gazes meet and hold for one quiet, uneventful moment; no conversation begins. A breath of wind moves her hair and his coat. The camera pushes in with small amplitude at slow speed, then stops as she lowers her gaze.
+[Shot 5] At 00:09.400, the shot cuts to a medium-wide tracking shot. <Subject 1> turns and walks away along the highway shoulder, carrying <Subject 3> in the same natural grip; the bag swings in rhythm with her stride and the dress moves with her body. The camera tracks beside her at slow speed, letting the open desert take more of the frame. She moves toward the distance, and the shot remains on the empty road long enough to let her exit.
+[Shot 6] At 00:13.000, the road image dissolves to solid black and the end-logo lockup from <Picture 4> fades in: "NOCTURNE" in white uppercase serif, a thin horizontal rule, and smaller "LEATHER GOODS" centered below. The frame reaches the exact <Picture 4> composition and holds it until the end of the video.
+
+overall_soundscape:
+Low dry desert wind continues through all live-action shots, with sparse tire or vehicle idle texture from the vintage car, sharp footsteps as the woman moves to the rear, a trunk latch, soft leather handling, and a final footstep trail that fades as she exits. The background sound drops to near silence under the black logo frame.
+
+non_diegetic_music:
+A restrained minimal electronic score begins with a low pulsing drone, adds a thin high-register texture at the trunk reveal, then opens out slightly as she walks away; it fades across the dissolve into the logo frame and is silent for the remainder of the clip.

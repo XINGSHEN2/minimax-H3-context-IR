@@ -1,5 +1,4 @@
 {
-  "generated_from": "/home/mx/shenxing/context-ir-ab-tests-20260820",
   "cases": [
     {
       "id": "case_001_pump_multiref",
@@ -8,6 +7,10 @@
       "variants": {
         "vague": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -36,6 +39,10 @@
         },
         "detailed": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -62,7 +69,35 @@
             }
           }
         }
-      }
+      },
+      "category": "原始 A/B Test",
+      "assets": [
+        {
+          "src": "data/case_001_pump_multiref/assets/avatar.png",
+          "label": "avatar.png",
+          "type": "image"
+        },
+        {
+          "src": "data/case_001_pump_multiref/assets/method_reference.mp4",
+          "label": "method_reference.mp4",
+          "type": "video"
+        },
+        {
+          "src": "data/case_001_pump_multiref/assets/presenter_holding_pump.png",
+          "label": "presenter_holding_pump.png",
+          "type": "image"
+        },
+        {
+          "src": "data/case_001_pump_multiref/assets/pump.png",
+          "label": "pump.png",
+          "type": "image"
+        },
+        {
+          "src": "data/case_001_pump_multiref/assets/tire_usage.png",
+          "label": "tire_usage.png",
+          "type": "image"
+        }
+      ]
     },
     {
       "id": "case_002_nail_state_transition",
@@ -71,6 +106,10 @@
       "variants": {
         "vague": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -99,6 +138,10 @@
         },
         "detailed": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -125,7 +168,30 @@
             }
           }
         }
-      }
+      },
+      "category": "原始 A/B Test",
+      "assets": [
+        {
+          "src": "data/case_002_nail_state_transition/assets/before_after_method.mp4",
+          "label": "before_after_method.mp4",
+          "type": "video"
+        },
+        {
+          "src": "data/case_002_nail_state_transition/assets/before_after_method.official-14.9s.mp4",
+          "label": "before_after_method.official-14.9s.mp4",
+          "type": "video"
+        },
+        {
+          "src": "data/case_002_nail_state_transition/assets/nail_product.jpg",
+          "label": "nail_product.jpg",
+          "type": "image"
+        },
+        {
+          "src": "data/case_002_nail_state_transition/assets/worn_hand_anchor.png",
+          "label": "worn_hand_anchor.png",
+          "type": "image"
+        }
+      ]
     },
     {
       "id": "case_003_nail_product_replacement",
@@ -134,6 +200,10 @@
       "variants": {
         "vague": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -162,6 +232,10 @@
         },
         "detailed": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -188,7 +262,30 @@
             }
           }
         }
-      }
+      },
+      "category": "原始 A/B Test",
+      "assets": [
+        {
+          "src": "data/case_003_nail_product_replacement/assets/colorful_nail_product.jpg",
+          "label": "colorful_nail_product.jpg",
+          "type": "image"
+        },
+        {
+          "src": "data/case_003_nail_product_replacement/assets/colorful_worn_anchor.png",
+          "label": "colorful_worn_anchor.png",
+          "type": "image"
+        },
+        {
+          "src": "data/case_003_nail_product_replacement/assets/shop_source_video.mp4",
+          "label": "shop_source_video.mp4",
+          "type": "video"
+        },
+        {
+          "src": "data/case_003_nail_product_replacement/assets/shop_source_video.official-14.9s.mp4",
+          "label": "shop_source_video.official-14.9s.mp4",
+          "type": "video"
+        }
+      ]
     },
     {
       "id": "case_004_nail_reference_isolation",
@@ -197,6 +294,10 @@
       "variants": {
         "vague": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -225,6 +326,10 @@
         },
         "detailed": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -251,7 +356,25 @@
             }
           }
         }
-      }
+      },
+      "category": "原始 A/B Test",
+      "assets": [
+        {
+          "src": "data/case_004_nail_reference_isolation/assets/floral_nail_product.jpg",
+          "label": "floral_nail_product.jpg",
+          "type": "image"
+        },
+        {
+          "src": "data/case_004_nail_reference_isolation/assets/floral_worn_anchor.png",
+          "label": "floral_worn_anchor.png",
+          "type": "image"
+        },
+        {
+          "src": "data/case_004_nail_reference_isolation/assets/red_christmas_motion_reference.mp4",
+          "label": "red_christmas_motion_reference.mp4",
+          "type": "video"
+        }
+      ]
     },
     {
       "id": "case_005_jewelry_reference_isolation",
@@ -260,6 +383,10 @@
       "variants": {
         "vague": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -288,6 +415,10 @@
         },
         "detailed": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -314,7 +445,15 @@
             }
           }
         }
-      }
+      },
+      "category": "原始 A/B Test",
+      "assets": [
+        {
+          "src": "data/case_005_jewelry_reference_isolation/assets/jewelry_box.png",
+          "label": "jewelry_box.png",
+          "type": "image"
+        }
+      ]
     },
     {
       "id": "case_006_cleaning_image_only",
@@ -323,6 +462,10 @@
       "variants": {
         "vague": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -351,6 +494,10 @@
         },
         "detailed": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -377,7 +524,15 @@
             }
           }
         }
-      }
+      },
+      "category": "原始 A/B Test",
+      "assets": [
+        {
+          "src": "data/case_006_cleaning_image_only/assets/cleaning_brush.png",
+          "label": "cleaning_brush.png",
+          "type": "image"
+        }
+      ]
     },
     {
       "id": "case_007_perfume_image_only",
@@ -386,6 +541,10 @@
       "variants": {
         "vague": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -414,6 +573,10 @@
         },
         "detailed": {
           "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "missing"
+            },
             "raw": {
               "label": "Raw",
               "status": "ready",
@@ -440,7 +603,585 @@
             }
           }
         }
-      }
+      },
+      "category": "原始 A/B Test",
+      "assets": [
+        {
+          "src": "data/case_007_perfume_image_only/assets/perfume_lumen07.png",
+          "label": "perfume_lumen07.png",
+          "type": "image"
+        }
+      ]
+    },
+    {
+      "id": "feishu_11_case01",
+      "title": "Case 1 · 四图望远镜搜索",
+      "category": "1.1 品牌大片与影视内容",
+      "description": "本地结果：v19，Qwen3.8-27B 素材分析、单次 LLM 编译，768p、20步、15秒。Raw和官方复用原始结果；并非严格同参数评测。",
+      "variants": {
+        "original": {
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case01/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_11_case01/original/raw/result.mp4",
+              "prompt": "data/feishu_11_case01/original/raw/h3_prompt.txt",
+              "request": "data/feishu_11_case01/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · v19",
+              "status": "ready",
+              "video": "data/feishu_11_case01/original/local_ir_v19/result.mp4",
+              "prompt": "data/feishu_11_case01/original/local_ir_v19/h3_prompt.txt",
+              "request": "data/feishu_11_case01/original/local_ir_v19/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_11_case01/original/official_ir/result.mp4",
+              "prompt": "data/feishu_11_case01/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case01/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            }
+          }
+        }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_11_case01/assets/图1.png",
+          "label": "图1.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_11_case01/assets/图2.png",
+          "label": "图2.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_11_case01/assets/图3.png",
+          "label": "图3.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_11_case01/assets/图4.png",
+          "label": "图4.png",
+          "type": "image"
+        }
+      ]
+    },
+    {
+      "id": "feishu_11_case02",
+      "title": "Case 2 · 太空预告片",
+      "category": "1.1 品牌大片与影视内容",
+      "description": "本地结果：v19，Qwen3.8-27B 素材分析、单次 LLM 编译，768p、20步、15秒。Raw和官方复用原始结果；并非严格同参数评测。",
+      "variants": {
+        "original": {
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case02/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_11_case02/original/raw/result.mp4",
+              "prompt": "data/feishu_11_case02/original/raw/h3_prompt.txt",
+              "request": "data/feishu_11_case02/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · v19",
+              "status": "ready",
+              "video": "data/feishu_11_case02/original/local_ir_v19/result.mp4",
+              "prompt": "data/feishu_11_case02/original/local_ir_v19/h3_prompt.txt",
+              "request": "data/feishu_11_case02/original/local_ir_v19/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_11_case02/original/official_ir/result.mp4",
+              "prompt": "data/feishu_11_case02/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case02/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            }
+          }
+        }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_11_case02/assets/图1.png",
+          "label": "图1.png",
+          "type": "image"
+        }
+      ]
+    },
+    {
+      "id": "feishu_11_case03",
+      "title": "Case 3 · 宇宙门开场",
+      "category": "1.1 品牌大片与影视内容",
+      "description": "本地结果：v19，Qwen3.8-27B 素材分析、单次 LLM 编译，768p、20步、15秒。Raw和官方复用原始结果；并非严格同参数评测。",
+      "variants": {
+        "original": {
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case03/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_11_case03/original/raw/result.mp4",
+              "prompt": "data/feishu_11_case03/original/raw/h3_prompt.txt",
+              "request": "data/feishu_11_case03/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · v19",
+              "status": "ready",
+              "video": "data/feishu_11_case03/original/local_ir_v19/result.mp4",
+              "prompt": "data/feishu_11_case03/original/local_ir_v19/h3_prompt.txt",
+              "request": "data/feishu_11_case03/original/local_ir_v19/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_11_case03/original/official_ir/result.mp4",
+              "prompt": "data/feishu_11_case03/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case03/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            }
+          }
+        }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_11_case03/assets/图1.png",
+          "label": "图1.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_11_case03/assets/图2.png",
+          "label": "图2.png",
+          "type": "image"
+        }
+      ]
+    },
+    {
+      "id": "feishu_11_case04",
+      "title": "Case 4 · 衣服与包时尚广告",
+      "category": "1.1 品牌大片与影视内容",
+      "description": "本地结果：v19，Qwen3.8-27B 素材分析、单次 LLM 编译，768p、20步、15秒。Raw和官方复用原始结果；并非严格同参数评测。",
+      "variants": {
+        "original": {
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case04/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_11_case04/original/raw/result.mp4",
+              "prompt": "data/feishu_11_case04/original/raw/h3_prompt.txt",
+              "request": "data/feishu_11_case04/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · v19",
+              "status": "ready",
+              "video": "data/feishu_11_case04/original/local_ir_v19/result.mp4",
+              "prompt": "data/feishu_11_case04/original/local_ir_v19/h3_prompt.txt",
+              "request": "data/feishu_11_case04/original/local_ir_v19/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_11_case04/original/official_ir/result.mp4",
+              "prompt": "data/feishu_11_case04/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case04/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            }
+          }
+        }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_11_case04/assets/图1.png",
+          "label": "图1.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_11_case04/assets/图2.png",
+          "label": "图2.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_11_case04/assets/图3.png",
+          "label": "图3.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_11_case04/assets/图4.png",
+          "label": "图4.png",
+          "type": "image"
+        }
+      ]
+    },
+    {
+      "id": "feishu_11_case05",
+      "title": "Case 5 · 火焰时装广告",
+      "category": "1.1 品牌大片与影视内容",
+      "description": "本地结果：v19，Qwen3.8-27B 素材分析、单次 LLM 编译，768p、20步、15秒。Raw和官方复用原始结果；并非严格同参数评测。",
+      "variants": {
+        "original": {
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case05/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_11_case05/original/raw/result.mp4",
+              "prompt": "data/feishu_11_case05/original/raw/h3_prompt.txt",
+              "request": "data/feishu_11_case05/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · v19",
+              "status": "ready",
+              "video": "data/feishu_11_case05/original/local_ir_v19/result.mp4",
+              "prompt": "data/feishu_11_case05/original/local_ir_v19/h3_prompt.txt",
+              "request": "data/feishu_11_case05/original/local_ir_v19/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_11_case05/original/official_ir/result.mp4",
+              "prompt": "data/feishu_11_case05/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case05/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            }
+          }
+        }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_11_case05/assets/图1.png",
+          "label": "图1.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_11_case05/assets/图2.png",
+          "label": "图2.png",
+          "type": "image"
+        }
+      ]
+    },
+    {
+      "id": "feishu_22_case01",
+      "title": "Case 1 · 男女泡沫动作迁移",
+      "category": "2.2 角色、动作与镜头参考",
+      "description": "本地结果：08批次，768p、20步。Raw和官方复用历史原始结果，时长与生成参数可能不同；本页不代表严格同参数评测。",
+      "variants": {
+        "original": {
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_22_case01/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_22_case01/original/raw/result.mp4",
+              "prompt": "data/feishu_22_case01/original/raw/h3_prompt.txt",
+              "request": "data/feishu_22_case01/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · 08批次",
+              "status": "ready",
+              "video": "data/feishu_22_case01/original/local_ir/result.mp4",
+              "prompt": "data/feishu_22_case01/original/local_ir/h3_prompt.txt",
+              "request": "data/feishu_22_case01/original/local_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_22_case01/original/official_ir/result.mp4",
+              "prompt": "data/feishu_22_case01/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_22_case01/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            }
+          }
+        }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_22_case01/assets/图片1.png",
+          "label": "图片1.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_22_case01/assets/视频1.mp4",
+          "label": "视频1.mp4",
+          "type": "video"
+        }
+      ]
+    },
+    {
+      "id": "feishu_22_case02",
+      "title": "Case 2 · 街舞动作迁移",
+      "category": "2.2 角色、动作与镜头参考",
+      "description": "本地结果：08批次，768p、20步。Raw和官方复用历史原始结果，时长与生成参数可能不同；本页不代表严格同参数评测。",
+      "variants": {
+        "original": {
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_22_case02/reference.mp4",
+              "duration_seconds": 10.125,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_22_case02/original/raw/result.mp4",
+              "prompt": "data/feishu_22_case02/original/raw/h3_prompt.txt",
+              "request": "data/feishu_22_case02/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · 08批次",
+              "status": "ready",
+              "video": "data/feishu_22_case02/original/local_ir/result.mp4",
+              "prompt": "data/feishu_22_case02/original/local_ir/h3_prompt.txt",
+              "request": "data/feishu_22_case02/original/local_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 10.157,
+              "size": "768×1344"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_22_case02/original/official_ir/result.mp4",
+              "prompt": "data/feishu_22_case02/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_22_case02/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            }
+          }
+        }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_22_case02/assets/图片1.png",
+          "label": "图片1.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_22_case02/assets/图片2.png",
+          "label": "图片2.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_22_case02/assets/视频1.mp4",
+          "label": "视频1.mp4",
+          "type": "video"
+        }
+      ]
+    },
+    {
+      "id": "feishu_22_case03",
+      "title": "Case 3 · 希区柯克运镜与人物表演",
+      "category": "2.2 角色、动作与镜头参考",
+      "description": "本地结果：08批次，768p、20步。Raw和官方复用历史原始结果，时长与生成参数可能不同；本页不代表严格同参数评测。",
+      "variants": {
+        "original": {
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_22_case03/reference.mp4",
+              "duration_seconds": 6.584,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_22_case03/original/raw/result.mp4",
+              "prompt": "data/feishu_22_case03/original/raw/h3_prompt.txt",
+              "request": "data/feishu_22_case03/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · 08批次",
+              "status": "ready",
+              "video": "data/feishu_22_case03/original/local_ir/result.mp4",
+              "prompt": "data/feishu_22_case03/original/local_ir/h3_prompt.txt",
+              "request": "data/feishu_22_case03/original/local_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 5.207,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_22_case03/original/official_ir/result.mp4",
+              "prompt": "data/feishu_22_case03/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_22_case03/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            }
+          }
+        }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_22_case03/assets/视频1.mp4",
+          "label": "视频1.mp4",
+          "type": "video"
+        },
+        {
+          "src": "data/feishu_22_case03/assets/视频2.mp4",
+          "label": "视频2.mp4",
+          "type": "video"
+        },
+        {
+          "src": "data/feishu_22_case03/assets/视频3.mp4",
+          "label": "视频3.mp4",
+          "type": "video"
+        }
+      ]
+    },
+    {
+      "id": "feishu_22_case04",
+      "title": "Case 4 · 水豚动作替换",
+      "category": "2.2 角色、动作与镜头参考",
+      "description": "本地结果：08批次，768p、20步。Raw和官方复用历史原始结果，时长与生成参数可能不同；本页不代表严格同参数评测。",
+      "variants": {
+        "original": {
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_22_case04/reference.mp4",
+              "duration_seconds": 6.584,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_22_case04/original/raw/result.mp4",
+              "prompt": "data/feishu_22_case04/original/raw/h3_prompt.txt",
+              "request": "data/feishu_22_case04/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · 08批次",
+              "status": "ready",
+              "video": "data/feishu_22_case04/original/local_ir/result.mp4",
+              "prompt": "data/feishu_22_case04/original/local_ir/h3_prompt.txt",
+              "request": "data/feishu_22_case04/original/local_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 5.907,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_22_case04/original/official_ir/result.mp4",
+              "prompt": "data/feishu_22_case04/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_22_case04/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            }
+          }
+        }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_22_case04/assets/视频1.mp4",
+          "label": "视频1.mp4",
+          "type": "video"
+        }
+      ]
     }
-  ]
+  ],
+  "default_category": "1.1 品牌大片与影视内容"
 }

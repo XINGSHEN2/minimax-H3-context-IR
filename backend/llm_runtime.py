@@ -68,6 +68,13 @@ class DirectChatRuntime:
             "stream": False,
             "response_format": {"type": "json_object"},
         }
+        effort = os.environ.get("CONTEXT_IR_DEEPSEEK_REASONING_EFFORT", "").strip()
+        if effort and self.model.startswith("deepseek-v4-"):
+            if effort not in {"low", "high", "max"}:
+                raise ValueError("CONTEXT_IR_DEEPSEEK_REASONING_EFFORT must be low, high, or max")
+            payload["thinking"] = {"type": "enabled"}
+            payload["reasoning_effort"] = effort
+            payload.pop("temperature", None)
         endpoint = self.base_url.rstrip("/")
         if not endpoint.endswith("/chat/completions"):
             endpoint += "/chat/completions"
@@ -110,6 +117,19 @@ class DirectChatRuntime:
             raise RuntimeError("LLM Chat Completions returned no choices")
         message = choices[0].get("message") or {}
         raw = str(message.get("content") or "")
+        if choices[0].get("finish_reason") == "length":
+            if log_path is not None:
+                log_path.parent.mkdir(parents=True, exist_ok=True)
+                log_path.write_text(json.dumps({
+                    "runtime": "direct_chat", "endpoint": endpoint,
+                    "model": self.model, "response_model": response_payload.get("model"),
+                    "finish_reason": "length", "usage": response_payload.get("usage"),
+                    "json_repaired": False, "truncated": True,
+                    "reasoning_effort": payload.get("reasoning_effort", "provider_default"),
+                }, ensure_ascii=False) + "\n" + raw, encoding="utf-8")
+            # The caller can retry from the authoritative source. A syntax-only
+            # repair cannot safely reconstruct semantic content never returned.
+            raise ValueError("LLM output truncated by token limit (finish_reason=length); regenerate complete JSON from the original request, not by repairing the partial response")
         repaired_raw = ""
         try:
             result = _extract_json(raw)
@@ -147,7 +167,15 @@ class DirectChatRuntime:
             log_path.parent.mkdir(parents=True, exist_ok=True)
             log_path.write_text(
                 json.dumps(
-                    {"runtime": "direct_chat", "endpoint": endpoint, "model": self.model},
+                    {
+                        "runtime": "direct_chat", "endpoint": endpoint,
+                        "model": self.model,
+                        "response_model": response_payload.get("model"),
+                        "finish_reason": choices[0].get("finish_reason"),
+                        "usage": response_payload.get("usage"),
+                        "json_repaired": bool(repaired_raw),
+                        "reasoning_effort": payload.get("reasoning_effort", "provider_default"),
+                    },
                     ensure_ascii=False,
                 )
                 + "\n"

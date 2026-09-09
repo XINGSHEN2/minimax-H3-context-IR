@@ -1,0 +1,35 @@
+subject_definitions:
+<Subject 1> is the night-fire analog atmosphere and texture referenced from <Picture 1>: dense black smoke, deep shadows, orange-red flame glow, hot speculars on glossy surfaces, analog film grain, scanlines, chromatic fringing, and CCTV/VHS-style signal deterioration.
+<Subject 2> is the recurring model referenced from <Picture 2>: long white-gold hair, narrow black retro sunglasses, black high-gloss patent-leather trench coat with broad lapels and a waist belt, black high-heeled boots, and a cool confident fashion expression.
+
+summary:
+[reference generation] The target video is a 15-second, 16:9 analog-film fast-cut fashion commercial built around <Subject 2> inside the night-fire atmosphere and finish of <Subject 1>. <Subject 2>'s appearance stays consistent while she performs a fast fashion sequence through black smoke and orange-red flame light; white-flash cuts and VHS/CCTV interference are layered across the whole commercial.
+
+retention_analysis:
+<Subject 1> (global atmosphere and finish across [Shot 1]-[Shot 8]): fully_preserved - black smoke, orange-red fire glow, deep shadows, analog film grain, scanlines, chromatic fringing and CCTV/VHS interference sustain the source role throughout.
+<Subject 2> (appears in [Shot 1]-[Shot 8]): fully_preserved - the model retains her white-gold long hair, narrow black retro sunglasses, black high-gloss patent-leather coat, black boots and cool confident expression in every shot.
+
+detailed_description:
+The target video is rendered in a photorealistic 90s analog-film fast-cut fashion-commercial style in 16:9, set within the night fireground of <Subject 1>. Persistent fine analog film grain, scanlines, chromatic aberration, faint light leaks and slight handheld shake sit across every frame; cuts use brief white-flash transitions with occasional VHS-tile glitches and one CCTV-style broadcast-interruption flicker.
+
+[Shot 1] A medium shot opens in the night fireground. <Subject 2> stands slightly right of center before orange-red flames and black smoke, long white-gold hair lifting in the heat, narrow black retro sunglasses over the eyes, and the black high-gloss patent-leather trench coat belted at the waist. Orange firelight glides over the glossy coat as she turns her head from a three-quarter angle toward the lens. The camera pushes in with small amplitude at slow speed while embers drift through the frame.
+
+[Shot 2] At 00:02.000, the shot cuts to a lower-angle medium shot. She takes a half step toward the lens, chin lifted; black smoke rolls behind her and new orange reflections slide across the patent-leather surface as the coat brushes her boots.
+
+[Shot 3] At 00:04.000, the shot cuts to an extreme close-up of her face. Wind pulls white-gold strands across her cheek and back, the narrow black retro sunglasses mirror twin flame points, and she makes a small head tilt while holding the cool, confident expression. The camera is almost static under the imposed shake.
+
+[Shot 4] At 00:05.600, the shot cuts to a full-length side view. She pivots on her right heel and strides toward screen right; the glossy trench coat flares open from the waist belt, black high-heeled boots strike the ash and lift sparks, and black smoke streams behind her.
+
+[Shot 5] At 00:07.400, after a CCTV-style broadcast-interruption flicker, the shot cuts to a tracking shot alongside the model. She continues screen right and begins to slow while the camera trucks with her; flames and smoke race past, and orange light keeps running across the glossy coat.
+
+[Shot 6] At 00:09.000, the shot cuts to a medium shot as she stops and turns her body toward the lens. The coat swings and settles around her; flame light washes over the patent lapels, and her expression remains cool and confident.
+
+[Shot 7] At 00:10.800, after a quick VHS-tile stutter, the shot cuts to a medium close-up from the front. She lifts her chin and straightens one lapel with her hand as glossy highlights flare on the patent leather; the camera pushes in slowly.
+
+[Shot 8] At 00:12.800, after a white flash, the shot cuts to a medium-wide final view. She lowers her hand from the lapel, plants her stance and settles into a strong fashion pose as a gust of wind throws white-gold hair through the smoke. The shot holds this pose until 15.000 seconds.
+
+overall_soundscape:
+Low fire rumble and crackling pops continue beneath gusts of wind. Physical sounds include boot strikes on ash, the swish and snap of the patent-leather coat, and a short CCTV-style signal-dropout hiss at the interruption flicker.
+
+non_diegetic_music:
+A fast analog-synth and trap-influenced beat drives under the commercial, with sub-bass pulses and glitchy record-scratch accents; it stops abruptly with an analog tape-stop at the final frame.

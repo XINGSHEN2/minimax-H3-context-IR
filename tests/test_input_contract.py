@@ -1,23 +1,28 @@
 import copy
 import json
+import re
 import unittest
 from pathlib import Path
 
 try:
     from remote_source.backend.context_ir import (
+        ContextIRError,
         compile_context_ir,
         normalize_source_request,
         render_h3_prompt,
         audit_h3_prompt,
+        audit_h3_prompt_contract,
         validate_context_ir,
         validate_source_request,
     )
 except ModuleNotFoundError:
     from backend.context_ir import (
+        ContextIRError,
         compile_context_ir,
         normalize_source_request,
         render_h3_prompt,
         audit_h3_prompt,
+        audit_h3_prompt_contract,
         validate_context_ir,
         validate_source_request,
     )
@@ -44,6 +49,23 @@ class SourceContractTests(unittest.TestCase):
         supplements = _required_supplements(coverage)
         self.assertEqual([item["claim"] for item in supplements], ["label wording"])
 
+    def test_global_analysis_satisfies_structural_evidence_without_supplement(self):
+        analysis = {
+            "asset_id": "image_1",
+            "summary": "street scene",
+            "global_analysis": {
+                "composition": "centered subject within a fixed dual circular frame",
+                "framing_layers": [{"description": "binocular double-circle mask"}],
+            },
+            "entities": [],
+        }
+        plan = {"evidence_requirements": [
+            {"claim": "core composition elements and their positions", "priority": "required", "max_retries": 1},
+            {"claim": "fixed dual circular frame", "priority": "required", "max_retries": 1},
+        ]}
+        coverage = _evidence_coverage(analysis, plan)
+        self.assertEqual(_required_supplements(coverage), [])
+
     def test_required_evidence_has_at_most_one_attempt(self):
         coverage = [{"claim": "finger mapping", "priority": "required", "status": "missing", "attempts": 1, "max_retries": 3}]
         self.assertEqual(_required_supplements(coverage), [])
@@ -51,9 +73,9 @@ class SourceContractTests(unittest.TestCase):
     def test_perception_profiles_follow_asset_roles(self):
         image = {"media_type": "image", "user_role": "reference"}
         video = {"media_type": "video", "user_role": "reference"}
-        self.assertEqual(_analysis_profile(image, {"role": "authoritative_product_appearance"}), "staged_detail")
-        self.assertEqual(_analysis_profile(image, {"role": "connection_reference"}), "relational_one_shot")
-        self.assertEqual(_analysis_profile(image, {"role": "motion_reference"}), "relational_one_shot")
+        self.assertEqual(_analysis_profile(image, {"role": "authoritative_product_appearance"}), "single_pass")
+        self.assertEqual(_analysis_profile(image, {"role": "connection_reference"}), "single_pass")
+        self.assertEqual(_analysis_profile(image, {"role": "motion_reference"}), "single_pass")
         self.assertEqual(_analysis_profile(video, {
             "role": "motion_reference",
             "analyze": ["action sequence", "camera framing", "shot pacing", "scene transitions"],
@@ -254,15 +276,366 @@ class SourceContractTests(unittest.TestCase):
         ir = compile_context_ir(self._minimal_ir(source), source)
         prompt = render_h3_prompt(ir)
         self.assertIn("<Picture 1>", prompt.split("summary:", 1)[0])
-        self.assertIn("Production permissions:", prompt)
-        self.assertIn("text: mode=disabled", prompt)
+        self.assertIn("Scoped requirements:", prompt)
+        self.assertIn("For <Video 1>.performer.identity:", prompt)
+        self.assertNotIn("Production permissions:", prompt)
+        self.assertNotIn("mode=disabled", prompt)
         self.assertNotRegex(prompt.split("summary:", 1)[0], r"(?m)^<Picture 1> is ")
+        self.assertTrue(audit_h3_prompt(ir, prompt).passed)
+
+    def test_renderer_projects_internal_asset_ids_to_official_labels(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        model_ir = self._minimal_ir(source)
+        model_ir["subjects"][0]["retention_description"] = "Preserve image_1 and follow video_1 only for motion."
+        ir = compile_context_ir(model_ir, source)
+        prompt = render_h3_prompt(ir)
+        self.assertIn("Preserve <Picture 1> and follow <Video 1> only for motion.", prompt)
+        self.assertNotRegex(prompt, r"\b(?:image|video|audio)_\d+\b")
+        self.assertTrue(audit_h3_prompt(ir, prompt).passed)
+
+    def test_audit_rejects_raw_asset_id_leak(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        ir = compile_context_ir(self._minimal_ir(source), source)
+        prompt = render_h3_prompt(ir) + "\nInternal source image_1.\n"
+        report = audit_h3_prompt(ir, prompt)
+        self.assertIn("RAW_ASSET_ID_LEAK", {item.code for item in report.issues})
+
+    def test_contract_audit_rejects_nonofficial_heading_and_shot_label(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        ir = compile_context_ir(self._minimal_ir(source), source)
+        prompt = render_h3_prompt(ir)
+        broken = prompt.replace("subject_definitions:", "Subject Definitions:", 1)
+        broken = re.sub(r"(?m)^\[Shot 1\]", "[Shot 1, 0-15s]", broken, count=1)
+        report = audit_h3_prompt_contract(ir, broken)
+        codes = {item.code for item in report.issues}
+        self.assertIn("PROMPT_SECTION_MISSING", codes)
+        self.assertIn("PROMPT_SHOT_LABEL_INVALID", codes)
+
+    def test_contract_audit_warns_for_camera_contradiction(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        ir = compile_context_ir(self._minimal_ir(source), source)
+        prompt = re.sub(
+            r"(?m)^\[Shot 1\]",
+            "[Shot 1] Static camera while the camera pans left.",
+            render_h3_prompt(ir),
+            count=1,
+        )
+        report = audit_h3_prompt_contract(ir, prompt)
+        self.assertTrue(report.passed)
+        warning_codes = {item.code for item in report.issues if item.severity == "warning"}
+        self.assertIn("PROMPT_CAMERA_CONTRADICTION", warning_codes)
+
+    def test_context_ir_warns_for_camera_contradiction_and_internal_cut_before_lock(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        model_ir = self._minimal_ir(source)
+        model_ir["timeline"][0]["camera"] = "Static camera, then slowly pushes in"
+        model_ir["timeline"][0]["event"] = "Medium shot, quick cut to a close-up, then back to a two-shot"
+        ir = compile_context_ir(model_ir, source)
+        report = validate_context_ir(ir)
+        self.assertTrue(report.passed)
+        warning_codes = {item.code for item in report.issues if item.severity == "warning"}
+        self.assertIn("SHOT_CAMERA_CONTRADICTION", warning_codes)
+        self.assertIn("SHOT_INTERNAL_CUT", warning_codes)
+
+    def test_motion_only_camera_prohibition_is_not_a_blocking_violation(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        source["user_request"] = "Transfer only actions, expressions, and performance rhythm from Video 1."
+        source["resolved_request"] = source["user_request"]
+        source["directives"] = [item for item in source["directives"] if item["directive_id"] in {"d_product_replace", "d_motion_preserve"}]
+        model_ir = self._minimal_ir(source)
+        for binding in model_ir["asset_bindings"]:
+            if binding["asset_id"] == "video_1" and binding["role"] in {"identity", "scene"}:
+                binding["priority"] = "soft"
+                binding["source_directive_ids"] = []
+        model_ir["timeline"][0]["camera"] = "Static locked medium-wide shot; no camera movement, zoom, or cut."
+        model_ir["timeline"][0]["transition"] = "none"
+        ir = compile_context_ir(model_ir, source)
+        report = validate_context_ir(ir)
+        self.assertTrue(report.passed)
+        self.assertTrue(any(item.code == "MOTION_REFERENCE_CAMERA_SCOPE_VIOLATION" and item.severity == "warning" for item in report.issues))
+
+    def test_motion_only_reference_cannot_author_camera_cuts_or_transitions(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        source["user_request"] = "Use the people in Picture 1 and strictly transfer only their actions, expressions, and performance rhythm from Video 1."
+        source["resolved_request"] = source["user_request"]
+        source["directives"] = [
+            item for item in source["directives"]
+            if item["directive_id"] in {"d_product_replace", "d_motion_preserve"}
+        ]
+        model_ir = self._minimal_ir(source)
+        model_ir["semantic_plan"] = {
+            "completion_authority": {"story_continuation": True}
+        }
+        for binding in model_ir["asset_bindings"]:
+            if binding["asset_id"] == "video_1" and binding["role"] in {"identity", "scene"}:
+                binding["priority"] = "soft"
+                binding["source_directive_ids"] = []
+        first = copy.deepcopy(model_ir["timeline"][0])
+        first.update({
+            "shot_id": "01", "start_seconds": 0.0, "end_seconds": 7.0,
+            "camera": "Handheld medium shot following the action",
+            "transition": "Hard cut",
+        })
+        second = copy.deepcopy(first)
+        second.update({"shot_id": "02", "start_seconds": 7.0, "end_seconds": 15.0})
+        model_ir["timeline"] = [first, second]
+        model_ir["creative_focus"]["required_shot_ids"] = ["01", "02"]
+        with self.assertRaises(ContextIRError) as caught:
+            compile_context_ir(model_ir, source)
+        message = str(caught.exception)
+        self.assertIn("MOTION_REFERENCE_CUT_SCOPE_VIOLATION", message)
+        self.assertIn("MOTION_REFERENCE_CAMERA_SCOPE_VIOLATION", message)
+        self.assertIn("MOTION_REFERENCE_TRANSITION_SCOPE_VIOLATION", message)
+        self.assertIn("MOTION_REFERENCE_STORY_CONTINUATION_VIOLATION", message)
+
+    def test_performance_compiler_maps_observed_events_and_preserves_unresolved_tail(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        source["perception"] = {
+            "schema_version": "media_analysis.v2",
+            "assets": [{
+                "asset_id": "video_1",
+                "technical": {"media_type": "video", "analysis_status": "observed", "duration_seconds": 10.0},
+                "entities": [], "relations": [],
+                "events": [
+                    {"event_id": "event_1", "time_range": [0.0, 2.0], "action": "a hand lifts a sponge", "transition_type": "continuous"},
+                    {"event_id": "event_2", "time_range": [3.0, 8.0], "action": "the sponge is passed to another hand", "transition_type": "continuous"},
+                ],
+            }],
+        }
+        model_ir = self._minimal_ir(source)
+        model_ir["performance_plan"] = {
+            "source_asset_ids": ["video_1"],
+            "transfer_scope": ["action", "expression", "performance_rhythm"],
+            "excluded_scope": ["identity", "scene", "camera", "editing"],
+            "beats": [
+                {"source_asset_id": "video_1", "source_event_id": "event_1", "action": "a hand lifts a handful of foam", "action_source": "explicit_user", "subject_refs": ["subject_1"], "editorial_boundary": False},
+                {"source_asset_id": "video_1", "source_event_id": "event_2", "action": "the foam is tossed to the other performer", "action_source": "explicit_user", "subject_refs": ["subject_1"], "editorial_boundary": False},
+            ],
+        }
+        ir = compile_context_ir(model_ir, source)
+        beats = ir["performance_plan"]["beats"]
+        self.assertEqual([item["beat_id"] for item in beats], ["beat_01", "beat_02", "beat_03"])
+        self.assertEqual(beats[0]["source_action"], "a hand lifts a sponge")
+        self.assertEqual(beats[0]["action"], "a hand lifts a handful of foam")
+        self.assertEqual(beats[1]["target_range"], [4.5, 12.0])
+        self.assertEqual(beats[-1]["status"], "unresolved_tail")
+        self.assertEqual(beats[-1]["target_range"], [12.0, 15.0])
+        self.assertEqual(ir["timeline"][0]["beat_refs"], ["beat_01", "beat_02", "beat_03"])
+        self.assertTrue(validate_context_ir(ir).passed)
+        broken = copy.deepcopy(ir)
+        broken["performance_plan"]["beats"][0]["target_range"] = [0.0, 7.0]
+        self.assertIn(
+            "PERFORMANCE_BEAT_TIME_MAPPING_MISMATCH",
+            {item.code for item in validate_context_ir(broken).issues},
+        )
+
+    def test_action_keyframe_is_bound_to_a_performance_beat_and_rendered_as_pose(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        source["perception"] = {
+            "schema_version": "media_analysis.v2",
+            "assets": [{
+                "asset_id": "video_1",
+                "technical": {"media_type": "video", "analysis_status": "observed", "duration_seconds": 15.0},
+                "entities": [], "relations": [],
+                "events": [{"event_id": "event_1", "time_range": [2.0, 5.0], "action": "the performer presents both hands", "transition_type": "continuous"}],
+            }],
+        }
+        model_ir = self._minimal_ir(source)
+        model_ir["performance_plan"] = {
+            "source_asset_ids": ["video_1"], "beats": [{
+                "source_asset_id": "video_1", "source_event_id": "event_1",
+                "action": "the performer presents both hands", "action_source": "reference_evidence",
+                "subject_refs": ["subject_1"], "editorial_boundary": False,
+            }],
+        }
+        model_ir["keyframe_roles"] = [{
+            "asset_id": "image_1", "role": "action_keyframe",
+            "subject_refs": ["subject_1"], "shot_refs": ["01"], "beat_refs": ["beat_01"],
+            "controls": ["exact hand pose"], "excludes": ["motion", "camera", "editing"],
+            "description": "Exact pose anchor for the hand presentation.",
+            "source": "explicit_user", "evidence_refs": [], "confidence": 1.0,
+        }]
+        ir = compile_context_ir(model_ir, source)
+        self.assertEqual(ir["performance_plan"]["beats"][0]["keyframe_refs"], ["keyframe_role_001"])
+        prompt = render_h3_prompt(ir)
+        self.assertIn("anchors its exact action pose at 00:02.000", prompt)
+        self.assertIn("Performance sequence: At 00:02.000", prompt)
+        self.assertNotIn("beat_01", prompt)
+        self.assertTrue(audit_h3_prompt(ir, prompt).passed)
+
+    def test_action_keyframe_without_a_known_beat_is_rejected(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        model_ir = self._minimal_ir(source)
+        model_ir["keyframe_roles"] = [{
+            "asset_id": "image_1", "role": "action_keyframe",
+            "subject_refs": ["subject_1"], "shot_refs": ["01"], "beat_refs": [],
+            "controls": ["exact pose"], "excludes": ["motion", "camera", "editing"],
+            "description": "Pose anchor.", "source": "explicit_user", "confidence": 1.0,
+        }]
+        with self.assertRaises(ContextIRError) as caught:
+            compile_context_ir(model_ir, source)
+        self.assertIn("ACTION_KEYFRAME_BEAT_REQUIRED", str(caught.exception))
+
+    def test_context_ir_collapses_uniform_timing_claim_from_invalid_video_evidence(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        source["perception"] = {
+            "schema_version": "media_analysis.v2",
+            "assets": [{
+                "asset_id": "video_1",
+                "technical": {"media_type": "video", "analysis_status": "invalid_placeholder"},
+                "entities": [], "events": [], "relations": [],
+            }],
+        }
+        model_ir = self._minimal_ir(source)
+        model_ir["intent"]["uncertainties"] = ["Equal-duration shots are assumed because timing is unavailable."]
+        first = copy.deepcopy(model_ir["timeline"][0])
+        first.update({"shot_id": "01", "start_seconds": 0.0, "end_seconds": 7.5})
+        second = copy.deepcopy(first)
+        second.update({"shot_id": "02", "start_seconds": 7.5, "end_seconds": 15.0})
+        model_ir["timeline"] = [first, second]
+        model_ir["creative_focus"]["required_shot_ids"] = ["01", "02"]
+        ir = compile_context_ir(model_ir, source)
+        self.assertEqual(len(ir["timeline"]), 1)
+        self.assertEqual(ir["timeline"][0]["start_seconds"], 0.0)
+        self.assertEqual(ir["timeline"][0]["end_seconds"], 15.0)
+        self.assertIn("conditioned video", ir["timeline"][0]["camera"])
+        self.assertEqual(ir["creative_focus"]["required_shot_ids"], ["01"])
+
+    def test_transport_normalizer_repairs_heading_colon_and_timestamp_shot_order(self):
+        from backend.context_ir import normalize_h3_prompt_transport
+
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        ir = compile_context_ir(self._minimal_ir(source), source)
+        broken = render_h3_prompt(ir).replace("subject_definitions:", "Subject Definitions", 1)
+        broken = re.sub(r"(?m)^\[Shot 1\]", "At 00:00.000, [Shot 1]", broken, count=1)
+        repaired = normalize_h3_prompt_transport(ir, broken)
+        self.assertIn("subject_definitions:\n", repaired)
+        self.assertIn("[Shot 1]", repaired)
+        self.assertNotIn("[Shot 1] At 00:00.000", repaired)
+        self.assertTrue(audit_h3_prompt_contract(ir, repaired).passed)
+
+        embedded = re.sub(
+            r"(?m)^\[Shot 1\]",
+            "[Shot 1] <Subject 1> is visible. At 00:00.000,",
+            render_h3_prompt(ir),
+            count=1,
+        )
+        embedded_repaired = normalize_h3_prompt_transport(ir, embedded)
+        self.assertNotIn("00:00.000", embedded_repaired)
+        self.assertTrue(audit_h3_prompt_contract(ir, embedded_repaired).passed)
+
+    def test_transport_normalizer_restores_official_video_editing_summary_opening(self):
+        from backend.context_ir import normalize_h3_prompt_transport
+
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        model_ir = self._minimal_ir(source)
+        model_ir["reference_relationships"][1]["relationship"] = "source_video_edit"
+        model_ir["protocol"]["summary_task_types"] = ["reference generation", "video editing"]
+        ir = compile_context_ir(model_ir, source)
+        prompt = render_h3_prompt(ir).replace(
+            "[reference generation + video editing] The target video is an edited version of <Video 1>.",
+            "[video editing] This is a video editing task:",
+            1,
+        )
+        repaired = normalize_h3_prompt_transport(ir, prompt)
+        self.assertIn(
+            "summary:\n[reference generation + video editing] The target video is an edited version of <Video 1>.",
+            repaired,
+        )
+        self.assertTrue(audit_h3_prompt_contract(ir, repaired).passed)
+
+    def test_contract_audit_requires_each_subject_appearance_source_in_definition(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        ir = compile_context_ir(self._minimal_ir(source), source)
+        prompt = render_h3_prompt(ir)
+        definitions, remainder = prompt.split("summary:", 1)
+        definitions = definitions.replace("<Picture 1>", "the supplied product reference", 1)
+        report = audit_h3_prompt_contract(ir, definitions + "summary:" + remainder)
+        self.assertIn("SUBJECT_APPEARANCE_SOURCE_MISSING", {item.code for item in report.issues})
+
+    def test_contract_audit_rejects_multiple_exclusive_whole_appearance_sources(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        second = copy.deepcopy(source["assets"][0])
+        second.update({"asset_id": "image_2", "label": "图片2"})
+        source["assets"].append(second)
+        model_ir = self._minimal_ir(source)
+        model_ir["asset_bindings"].append({
+            "binding_id": "b_product_2",
+            "asset_id": "image_2",
+            "target": "product manicure detail",
+            "role": "product",
+            "priority": "hard",
+            "source_directive_ids": [],
+            "inherit": ["decoration"],
+            "exclude": ["background"],
+        })
+        model_ir["reference_relationships"].append({
+            "asset_id": "image_2",
+            "relationship": "reference_generation",
+            "subject_refs": ["subject_1"],
+            "definition": "secondary product detail reference",
+            "retention_mode": "attribute_transfer",
+            "retention_description": "decoration transfers to the product",
+        })
+        model_ir["subjects"][0]["source_asset_ids"] = ["image_1", "image_2"]
+        ir = compile_context_ir(model_ir, source)
+        prompt = render_h3_prompt(ir)
+        prompt = prompt.replace(
+            "<Subject 1> is ",
+            "<Subject 1> is its appearance comes exclusively from <Picture 1>; its appearance comes exclusively from <Picture 2>; ",
+            1,
+        )
+        report = audit_h3_prompt_contract(ir, prompt)
+        self.assertIn("SUBJECT_APPEARANCE_AUTHORITY_CONTRADICTION", {item.code for item in report.issues})
+
+    def test_coequal_audit_does_not_misread_shared_focus_grammar(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        ir = compile_context_ir(self._minimal_ir(source), source)
+        ir["semantic_plan"] = {
+            "subject_priority": {"mode": "co_equal", "subject_ids": ["subject_1", "subject_2"]}
+        }
+        prompt = render_h3_prompt(ir)
+        shared = "[reference generation] The interaction between <Subject 1> and <Subject 2> is the primary creative focus."
+        prompt = re.sub(r"(?ms)(^summary:\s*).*?(?=^retention_analysis:)", rf"\g<1>{shared}\n\n", prompt)
+        report = audit_h3_prompt_contract(ir, prompt)
+        self.assertNotIn("PROMPT_COEQUAL_PRIORITY_CONTRADICTION", {item.code for item in report.issues})
+
+    def test_renderer_keeps_policy_metadata_internal_and_deduplicates_prohibitions(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        model_ir = self._minimal_ir(source)
+        model_ir["constraints"]["prohibit"] = ["repeated flashing", "repeated flashing"]
+        model_ir["production_policies"]["effects"]["prohibit"] = ["repeated flashing"]
+        model_ir["production_policies"]["effects"]["events"] = [{
+            "event_id": "event_flash",
+            "type": "transition",
+            "description": "one brief transition fluctuation",
+            "source": "explicit_user",
+            "priority": "hard",
+            "shot_refs": ["01"],
+        }]
+        ir = compile_context_ir(model_ir, source)
+        prompt = render_h3_prompt(ir)
+        self.assertNotIn("repeated flashing", prompt)
+        self.assertNotIn("event_flash", prompt)
+        self.assertNotIn("one brief transition fluctuation", prompt)
+        self.assertNotIn("priority=hard", prompt)
         self.assertTrue(audit_h3_prompt(ir, prompt).passed)
 
     def test_renderer_guards_structural_subject_video_from_appearance(self):
         source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
         model_ir = self._minimal_ir(source)
         model_ir["subjects"][0]["binding_ids"] = ["b_product", "b_motion"]
+        ir = compile_context_ir(model_ir, source)
+        prompt = render_h3_prompt(ir)
+        definitions = prompt.split("summary:", 1)[0]
+        self.assertIn("<Video 1> is not an appearance source", definitions)
+        self.assertTrue(audit_h3_prompt(ir, prompt).passed)
+
+    def test_renderer_guards_structural_binding_omitted_from_subject_sources(self):
+        source = json.loads((ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8"))
+        model_ir = self._minimal_ir(source)
+        model_ir["subjects"][0]["binding_ids"] = ["b_product", "b_motion"]
+        model_ir["subjects"][0]["source_asset_ids"] = ["image_1"]
         ir = compile_context_ir(model_ir, source)
         prompt = render_h3_prompt(ir)
         definitions = prompt.split("summary:", 1)[0]
