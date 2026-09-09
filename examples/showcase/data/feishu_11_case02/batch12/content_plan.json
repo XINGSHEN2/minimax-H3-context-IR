@@ -1,0 +1,92 @@
+{
+  "task_mode": "reference_transfer",
+  "must_keep": [
+    "15 second target duration, 16:9, generated audio",
+    "rapid hard cuts and short black-field stings",
+    "bridge vibration / shake, strong bright flash / strobe, warp-impact shock",
+    "movie-trailer style title packaging with wide letter spacing",
+    "title surface not pure white: material/textured metallic fill, restrained glow, faint edge glow",
+    "title animation: fade-in from deep-space darkness, starlight sweep, letter-spacing expansion, residual afterimage, faint glow, black-field flash",
+    "source-exact title lines from image_1: \"THE LAST FLEET LEFT EARTH\" and \"SHE WAS NOT ON BOARD\"",
+    "opening visual context from image_1: silhouetted figure at the arched bridge window, starfield and spacecraft fleet"
+  ],
+  "bindings": [
+    {
+      "asset_id": "image_1",
+      "role": "source still for required visual opening and exact title wording (user role not explicitly stated)",
+      "retained_attributes": [
+        "arched three-pane bridge window with dark metallic frame and smooth sill",
+        "dark silhouetted figure seen from behind, long coat/uniform with belt and ponytail, hands on sill",
+        "dense luminous starfield with spacecraft fleet beyond the window",
+        "exact two-line title wording and stacked upper/lower layout"
+      ],
+      "excluded_attributes": [
+        "static still composition",
+        "plain pure-white title fill",
+        "unverified exact font family and color values"
+      ]
+    }
+  ],
+  "shots": [
+    {
+      "start_seconds": 0.0,
+      "end_seconds": 2.5,
+      "audience_gain": "source bridge, occupant, fleet, and latent title package are set up",
+      "cut_reason": "none",
+      "start_state": "Source-like bridge still at Picture 1 opening: figure by window, fleet and latent title.",
+      "action": "Camera pushes toward window; bridge hum begins; title copy remains a low-intensity shadow.",
+      "end_state": "Closer window/figure framing with title beginning to resolve.",
+      "sound_cues": "low pressurised interior hum, faint distant engine wash"
+    },
+    {
+      "start_seconds": 2.5,
+      "end_seconds": 4.6,
+      "audience_gain": "title fade-in from darkness is confirmed and bridge vibration is introduced",
+      "cut_reason": "new_information",
+      "start_state": "After hard cut: tighter window/figure view, title barely resolved.",
+      "action": "Bridge vibration starts; title lines fade up from the dark nebula as non-white brushed-metal forms.",
+      "end_state": "Title lines readable with wide spacing; glass trembles.",
+      "sound_cues": "metallic structural rumble, faint pane rattle"
+    },
+    {
+      "start_seconds": 4.6,
+      "end_seconds": 6.6,
+      "audience_gain": "readable title treatment and engine-warning starlight sweep are shown",
+      "cut_reason": "new_information",
+      "start_state": "Title lines visible; fleet outside remains at rest.",
+      "action": "Cut to a lower bridge angle; starlight sweep passes over the title and tracking expands to very wide; engines begin to heat.",
+      "end_state": "Title fully readable with material finish and wide tracking; engine cores glow.",
+      "sound_cues": "rising drive whine and soft warning chirps"
+    },
+    {
+      "start_seconds": 6.6,
+      "end_seconds": 8.6,
+      "audience_gain": "bright strobe pressure before warp and title afterimage behavior are shown",
+      "cut_reason": "state_change",
+      "start_state": "Engines warm; title visible over the lower pane.",
+      "action": "Bright engine flare and strobes; title casts low-opacity afterimages; a 0.10-second pure-black field closes the shot.",
+      "end_state": "Strobe intensity peaks; black-field cut at boundary; afterimages fade.",
+      "sound_cues": "hard flare whoosh, structural rattle, abrupt cutoff at black"
+    },
+    {
+      "start_seconds": 8.6,
+      "end_seconds": 11.6,
+      "audience_gain": "warp-impact shock transition is delivered through strong vibration, strobes, and black fields",
+      "cut_reason": "state_change",
+      "start_state": "After black-field flash, warp fire begins.",
+      "action": "Warp jump: fleet compresses to light streaks, bridge shakes, shockwave hits window, title flashes through burst; final 0.10-second black field closes the shot.",
+      "end_state": "Warp burst delivered; another black-field closes into the final shot.",
+      "sound_cues": "deep low-end impact, glass/console rattle, shrinking whine into black"
+    },
+    {
+      "start_seconds": 11.6,
+      "end_seconds": 15.0,
+      "audience_gain": "final clear title with material/non-white treatment is held",
+      "cut_reason": "none",
+      "start_state": "After black field; calm postwarp open space and title rematerializes.",
+      "action": "Static final hold; title re-materializes from the black-field flash, full source wording readable, non-white metallic with faint edge glow; residual afterimage fades.",
+      "end_state": "Final readable title and void beside the figure; visual and audio settle by the target duration.",
+      "sound_cues": "aft-drive hum decays and ends near 15.0s"
+    }
+  ]
+}

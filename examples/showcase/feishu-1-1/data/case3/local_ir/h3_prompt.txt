@@ -1,0 +1,37 @@
+subject_definitions:
+<Subject 1> is main character, A woman with dark wavy shoulder-length hair, brown eyes, light to medium skin with freckles, wearing a dark gray long single-breasted coat over a black top and dark pants; its woman with dark wavy shoulder-length hair, dark gray long coat over black top and pants, natural skin texture with freckles, brown eyes, identity comes exclusively from <Picture 2>.
+<Picture 1> is overall atmosphere and style reference. <Picture 1> is not an appearance source.
+
+summary:
+[reference generation] <Subject 1> is the primary creative focus: Create a realistic, high-contrast, ultra-wide establishing shot of a huge circular cosmic gate, with the main character as a small back view at the lower right, and the title 'THE STARS WERE LISTENING' fading in from the dark edge. Target style: cinematic premium brand campaign. Audio generation: True.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1]): fully_preserved - The character's identity, including facial features, hair, and outfit, is fully preserved from image_2.
+<Picture 1>: attribute_transfer - Transfers the dark, gritty, high-contrast cinematic atmosphere and style to the generated scene, without copying the poster's layout or text.
+<Picture 2>: fully_preserved - Provides the full identity and outfit of the main character, which is preserved in the generated video.
+
+detailed_description:
+Must not introduce: adding subtitle text, changing the main character's identity or outfit, adding new characters or objects not described, changing the title text or font style
+Presentation requirements: The main character must be visible as a small back view at the lower right of the frame, clearly identifiable by her dark wavy hair and dark gray coat.; The cosmic gate must nearly fill the frame, with a dark center and wet reflective ground.; The title must fade in from the dark edge, initially blurry then sharp, in extremely narrow, heavy, all-caps font, dark red mixed with rust red, with slight grain and fogged edges.
+Production permissions:
+camera: mode=strict; priority=hard; source=explicit_user; new events=not allowed; reference=scope only; constraints={"movement": "slow push forward", "shot_type": "ultra-wide establishing shot"}; prohibit=pan, tilt, zoom, reframing; events=Slow forward push-in throughout the shot. (shots 01)
+editing: mode=strict; priority=hard; source=explicit_user; new events=not allowed; reference=scope only; constraints={"transition": "hard cut at end"}; prohibit=fade, dissolve, wipe; events=Hard cut at the end of the shot. (shots 01)
+motion: mode=strict; priority=hard; source=explicit_user; new events=not allowed; reference=scope only; constraints={"character_motion": "static, standing still"}; prohibit=character movement
+performance: mode=auto; priority=soft; source=default_completion; new events=not allowed; reference=scope only
+composition: mode=strict; priority=hard; source=explicit_user; new events=not allowed; reference=scope only; constraints={"character_position": "lower right", "gate_position": "nearly fills frame"}; prohibit=centering the character, moving the character from lower right
+lighting: mode=strict; priority=hard; source=explicit_user; new events=not allowed; reference=scope only; constraints={"contrast": "high-contrast"}; prohibit=flat lighting
+audio: mode=strict; priority=hard; source=explicit_user; new events=not allowed; reference=scope only; constraints={"sound_effects": "deep low-frequency pulse, distant metal vibration, light hit when text clear"}; prohibit=voice, dialogue, music; events=Deep low-frequency pulse throughout, distant metal vibration, and a light hit when the title becomes clear. (shots 01)
+style: mode=reference; priority=hard; source=reference_evidence; new events=not allowed; reference=preserve; constraints={"atmosphere": "dark, gritty, cinematic", "texture": "grain and fogged edges on title"}; prohibit=bright, clean style
+effects: mode=disabled; priority=soft; source=default_completion; new events=not allowed; reference=scope only; prohibit=any visual effects not explicitly requested
+text: mode=strict; priority=hard; source=explicit_user; new events=not allowed; reference=scope only; constraints={"appearance": "fades in from dark edge, blurry to sharp, with grain and fogged edges", "color": "dark red mixed with rust red", "font": "extremely narrow, heavy, all caps", "text": "THE STARS WERE LISTENING"}; prohibit=adding subtitle text, changing the title text; events=The title fades in from the dark edge, initially blurry then sharp. (shots 01)
+identity: mode=strict; priority=hard; source=explicit_user; new events=not allowed; reference=preserve; constraints={"character": "woman with dark wavy shoulder-length hair, brown eyes, light to medium skin with freckles, wearing dark gray long coat over black top and pants"}; prohibit=changing the character's appearance
+product: mode=strict; priority=hard; source=derived_requirement; new events=not allowed; reference=preserve; constraints={"cosmic gate": "huge circular, nearly fills frame, dark center"}; prohibit=changing the gate's shape or size
+continuity: mode=strict; priority=hard; source=explicit_user; new events=not allowed; reference=preserve; constraints={"shot": "single continuous take with slow push-in, ending with hard cut"}; prohibit=cutting within the shot
+cinematography: Ultra-wide establishing shot with a slow push-in, maintaining the character as a small back view at the lower right.; lighting: High-contrast lighting with deep shadows and bright highlights on the wet reflective ground.
+[Shot 1] <Subject 1> is visible. An ultra-wide establishing shot of a huge circular cosmic gate nearly filling the frame. The main character stands as a small back view at the lower right. The ground is wet and reflective, the gate center is dark. The camera slowly pushes forward. The title 'THE STARS WERE LISTENING' fades in from the dark edge, initially blurry then sharp, in extremely narrow, heavy, all-caps font, dark red mixed with rust red, with slight grain and fogged edges.; camera: Slow push-in; the camera moves forward at a steady, gradual pace, increasing the gate's presence in the frame.; lighting: High-contrast lighting with deep shadows and bright highlights on the wet ground, creating a dramatic atmosphere.; transition: Hard cut at the end of the shot.; observable end state: The title is fully sharp and clear, the gate fills the frame, and the character remains a small silhouette at the lower right.
+
+overall_soundscape:
+sound_effects: Deep low-frequency pulse throughout, distant metal vibration, and a light hit when the title becomes clear.; ambient_sound: Subtle ambient hum of the cosmic gate, with faint echoes on the wet ground.; sync_rules: [{'rule_id': 'sync_1', 'description': 'The light hit sound effect occurs exactly when the title text becomes fully sharp.', 'shot_refs': ['01']}]
+
+non_diegetic_music:
+N/A

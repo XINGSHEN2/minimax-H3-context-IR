@@ -1,0 +1,27 @@
+subject_definitions:
+<Subject 1> is the woman in <Picture 1> and the three-view character sheet in <Picture 2>, featuring long wavy platinum blonde hair, narrow black retro sunglasses, a tightly belted black high-gloss patent leather trench coat, and black pointed-toe knee-high stiletto boots.
+<Subject 2> is the visual style and atmospheric environment defined by <Picture 1>, featuring a night fire scene with billowing black smoke and roaring orange-red flames, combined with a 90s analog film and VHS glitch aesthetic, scan lines, chromatic aberration, and flickering CCTV text overlays.
+
+summary:
+[reference generation] A fast-paced fashion advertisement featuring <Subject 1> modeling confidently amidst <Subject 2>, a fiery night scene with heavy VHS glitches. The video uses flash white transitions and slight camera shakes, highlighting the vibrant orange reflections of the flames on her glossy patent leather coat and retro sunglasses.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4]): fully_preserved - the target video features the exact same woman with long wavy platinum blonde hair, narrow black retro sunglasses, black high-gloss patent leather trench coat, and black knee-high stiletto boots, consistently maintaining her cold and confident fashion expression.
+<Subject 2> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4]): fully_preserved - the target video maintains the night fire scene with black smoke and orange-red flames, as well as the 90s analog film grain, VHS glitch effects, scan lines, chromatic aberration, and CCTV broadcast interruption elements.
+
+detailed_description:
+The target video is in a 90s analog film and VHS glitch style, featuring continuous scan lines, chromatic aberration, film grain, and slight camera shake throughout.
+
+[Shot 1] The video opens with a medium full shot of <Subject 1> standing confidently amidst the raging night fire environment of <Subject 2>. <Subject 1> features long, wavy platinum blonde hair blowing wildly in the wind, a pair of narrow black retro sunglasses, and a tightly belted black high-gloss patent leather trench coat that extends below her knees, paired with black pointed-toe knee-high stiletto boots. She holds a cold, confident fashion expression, staring directly at the lens. The background is a chaotic night scene filled with soaring orange-red flames and billowing black smoke. The intense orange firelight creates stark, glowing reflections on the wet-looking surface of her patent leather coat and the dark lenses of her sunglasses. In the upper left corner, faded CCTV text flickers dynamically. The camera executes a slow push in, accompanied by slight handheld shake and momentary VHS color bleeding.
+
+[Shot 2] At 00:04.000, the shot cuts to a tight close-up of <Subject 1>'s face and shoulders following a rapid flash white transition. Her platinum blonde hair whips across her cheeks. The camera captures the intricate details of the orange fire reflections dancing dynamically across the glossy collar of her trench coat and her narrow black sunglasses. <Subject 1> slowly and deliberately turns her head to the right, maintaining her icy, confident demeanor. As she moves, a heavy VHS tracking distortion rolls vertically down the screen, accompanied by a bright orange light leak that washes across the right edge of the frame. The background of <Subject 2> remains a blur of flickering heat and dark smoke.
+
+[Shot 3] At 00:08.500, the shot cuts to a low-angle tracking shot through another flash white transition. The camera tracks backward as <Subject 1> strides purposefully forward toward the viewer. The movement highlights the structured silhouette of her black high-gloss patent leather trench coat, its hem flaring slightly with each step, while her black knee-high stiletto boots click rhythmically against the unseen ground. The roaring flames of <Subject 2> rise high behind her, sending glowing embers floating through the thick black smoke. Chromatic aberration sharply separates the colors along her silhouette, enhancing the retro analog broadcast aesthetic.
+
+[Shot 4] At 00:12.000, the shot cuts to an extreme close-up of <Subject 1> via a final flash white transition. <Subject 1> elegantly raises one hand to adjust the rim of her narrow black retro sunglasses. The miniature reflection of the roaring fire is perfectly captured in the curved dark lenses. The overall scene experiences a severe CCTV broadcast interruption effect, with heavy scan line tearing, jittering pixels, and intense color distortion. The orange-red firelight illuminates her jawline one last time before a thick cloud of black smoke engulfs the background, and the frame glitches into a final momentary freeze before the video concludes.
+
+overall_soundscape:
+A gritty, atmospheric soundscape featuring the intense crackling and roaring of a large fire, overlaid with heavy analog VHS static, electronic buzzing, and synthetic glitch noises that synchronize with the visual distortion.
+
+non_diegetic_music:
+A driving, heavy synth-wave electronic beat with a fast, rhythmic tempo, enhancing the edgy, high-fashion advertising atmosphere.

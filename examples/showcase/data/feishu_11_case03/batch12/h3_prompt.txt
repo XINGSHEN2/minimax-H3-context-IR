@@ -1,0 +1,21 @@
+subject_definitions:
+<Subject 1> is the overall atmosphere and visual style taken from <Picture 1> for the whole clip: high-contrast cinematic light and shadow, a rust-dark palette, damp reflective ground, weathered industrial texture, fine grain, and fogged light falloff. It is used as a look-and-tone reference only, not as the scene layout.
+<Subject 2> is the protagonist, whose physical identity comes from <Picture 2>: a tall, slender, straight-postured figure with dark wavy shoulder-length hair, a long single-breasted black coat with a notched lapel and front flap pockets reaching about mid-calf, under which she wears black long-sleeved layers, black trousers, and black combat boots. In this clip she is seen only from behind.
+
+summary:
+[reference generation] The target video is a 15-second cinematic establishing sequence. <Subject 1> supplies the rust-dark atmosphere and high-contrast look, and <Subject 2> supplies the protagonist's back-view identity. Shot 1 is an ultra-wide shot of a huge dark circular cosmic gate with wet reflective ground and a tiny protagonist at lower right; the camera slowly pushes in while the title "THE STARS WERE LISTENING" fades from blurred to clear. A hard cut then moves to a short forward-motion shot that resolves the sequence.
+
+retention_analysis:
+<Subject 1> (atmosphere/style across [Shot 1] and [Shot 2]): fully_preserved - the target video follows the high-contrast cinematic tone, rust-dark palette, damp reflective floor, grain, and fogged edge light from <Picture 1>.
+<Subject 2> (appears in [Shot 1] and [Shot 2]): fully_preserved - the protagonist retains the dark wavy shoulder-length hair, long black single-breasted coat with notched lapel and flap pockets, black layered clothing, and black combat boots from <Picture 2>; she is shown from behind as requested.
+
+detailed_description:
+The target video uses a realistic cinematic style with high-contrast light-and-shadow treatment and the rust-dark, textured atmosphere of <Subject 1>.
+[Shot 1] An ultra-wide establishing composition frames a colossal circular cosmic gate whose dark center occupies most of the frame. Wet reflective ground mirrors faint highlights, and <Subject 2> stands as a very small back-facing figure on the lower-right side, dwarfed by the aperture. The camera pushes in slowly, so the gate gradually swells behind her. A low-frequency pulse begins with the camera move, while a faint distant metallic vibration hums underneath. From the darkness at the gate's edge, the title "THE STARS WERE LISTENING" fades into view, extremely narrow and heavy in all-capitals, dark red mixed with rust red, with fine grain and fogged soft outlines; the text first appears blurred and then resolves into clean clarity as the push continues. At the moment the text becomes clear, a single light hit accents the frame. The figure remains still throughout the shot.
+[Shot 2] At 00:08.000, the frame hard-cuts to a new back-tracking view of the same scene; the title is no longer present. <Subject 2>, still in the lower-right region in the same outfit seen from behind, begins walking slowly toward the dark center of the circular gate while the camera tracks forward behind her at a restrained speed, holding her small size against the expanding black disk. The faint metallic vibration from the earlier shot thins and fades, and she makes one or two soft damp steps on the wet ground. The deep low-frequency pulse softens as she nears the void, then fades out just before the end of the 15-second clip, leaving the final frame on the small dark silhouette approaching the gate.
+
+overall_soundscape:
+A remote metallic ringing and a very low empty-space tone establish the cold environment. After the hard cut, the metallic ringing thins out, and one or two soft damp footsteps accompany the slow walk before the ambient tone dies away within the duration.
+
+non_diegetic_music:
+A restrained deep low-frequency pulse underpins almost the entire video, joined by a single soft hit at the instant the title resolves to clear; after that hit the pulse gradually lowers and fades out before the final frame.

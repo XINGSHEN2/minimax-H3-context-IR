@@ -644,6 +644,7 @@
               "video": "data/feishu_11_case01/original/local_ir_v19/result.mp4",
               "prompt": "data/feishu_11_case01/original/local_ir_v19/h3_prompt.txt",
               "request": "data/feishu_11_case01/original/local_ir_v19/request.json",
+              "content_plan": "data/feishu_11_case01/batch12/content_plan.json",
               "context_ir": null,
               "duration_seconds": 15.107,
               "size": "1344×768"
@@ -658,7 +659,50 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             }
-          }
+          },
+          "label": "12 批次 · 简化版"
+        },
+        "batch08": {
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case01/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_11_case01/original/raw/result.mp4",
+              "prompt": "data/feishu_11_case01/original/raw/h3_prompt.txt",
+              "request": "data/feishu_11_case01/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · 08批次",
+              "status": "ready",
+              "video": "data/feishu_11_case01/original/local_ir/result.mp4",
+              "prompt": "data/feishu_11_case01/original/local_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case01/original/local_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_11_case01/original/official_ir/result.mp4",
+              "prompt": "data/feishu_11_case01/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case01/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            }
+          },
+          "label": "08 批次对照"
         }
       },
       "assets": [
@@ -715,6 +759,7 @@
               "video": "data/feishu_11_case02/original/local_ir_v19/result.mp4",
               "prompt": "data/feishu_11_case02/original/local_ir_v19/h3_prompt.txt",
               "request": "data/feishu_11_case02/original/local_ir_v19/request.json",
+              "content_plan": "data/feishu_11_case02/batch12/content_plan.json",
               "context_ir": null,
               "duration_seconds": 15.107,
               "size": "1344×768"
@@ -729,7 +774,50 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             }
-          }
+          },
+          "label": "12 批次 · 简化版"
+        },
+        "batch08": {
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case02/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_11_case02/original/raw/result.mp4",
+              "prompt": "data/feishu_11_case02/original/raw/h3_prompt.txt",
+              "request": "data/feishu_11_case02/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · 08批次",
+              "status": "ready",
+              "video": "data/feishu_11_case02/original/local_ir/result.mp4",
+              "prompt": "data/feishu_11_case02/original/local_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case02/original/local_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_11_case02/original/official_ir/result.mp4",
+              "prompt": "data/feishu_11_case02/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case02/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            }
+          },
+          "label": "08 批次对照"
         }
       },
       "assets": [
@@ -771,6 +859,7 @@
               "video": "data/feishu_11_case03/original/local_ir_v19/result.mp4",
               "prompt": "data/feishu_11_case03/original/local_ir_v19/h3_prompt.txt",
               "request": "data/feishu_11_case03/original/local_ir_v19/request.json",
+              "content_plan": "data/feishu_11_case03/batch12/content_plan.json",
               "context_ir": null,
               "duration_seconds": 15.107,
               "size": "1344×768"
@@ -785,7 +874,50 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             }
-          }
+          },
+          "label": "12 批次 · 简化版"
+        },
+        "batch08": {
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case03/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_11_case03/original/raw/result.mp4",
+              "prompt": "data/feishu_11_case03/original/raw/h3_prompt.txt",
+              "request": "data/feishu_11_case03/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · 08批次",
+              "status": "ready",
+              "video": "data/feishu_11_case03/original/local_ir/result.mp4",
+              "prompt": "data/feishu_11_case03/original/local_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case03/original/local_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_11_case03/original/official_ir/result.mp4",
+              "prompt": "data/feishu_11_case03/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case03/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            }
+          },
+          "label": "08 批次对照"
         }
       },
       "assets": [
@@ -832,6 +964,7 @@
               "video": "data/feishu_11_case04/original/local_ir_v19/result.mp4",
               "prompt": "data/feishu_11_case04/original/local_ir_v19/h3_prompt.txt",
               "request": "data/feishu_11_case04/original/local_ir_v19/request.json",
+              "content_plan": "data/feishu_11_case04/batch12/content_plan.json",
               "context_ir": null,
               "duration_seconds": 15.107,
               "size": "1344×768"
@@ -846,7 +979,50 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             }
-          }
+          },
+          "label": "12 批次 · 简化版"
+        },
+        "batch08": {
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case04/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_11_case04/original/raw/result.mp4",
+              "prompt": "data/feishu_11_case04/original/raw/h3_prompt.txt",
+              "request": "data/feishu_11_case04/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · 08批次",
+              "status": "ready",
+              "video": "data/feishu_11_case04/original/local_ir/result.mp4",
+              "prompt": "data/feishu_11_case04/original/local_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case04/original/local_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_11_case04/original/official_ir/result.mp4",
+              "prompt": "data/feishu_11_case04/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case04/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            }
+          },
+          "label": "08 批次对照"
         }
       },
       "assets": [
@@ -903,6 +1079,7 @@
               "video": "data/feishu_11_case05/original/local_ir_v19/result.mp4",
               "prompt": "data/feishu_11_case05/original/local_ir_v19/h3_prompt.txt",
               "request": "data/feishu_11_case05/original/local_ir_v19/request.json",
+              "content_plan": "data/feishu_11_case05/batch12/content_plan.json",
               "context_ir": null,
               "duration_seconds": 15.107,
               "size": "1344×768"
@@ -917,7 +1094,50 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             }
-          }
+          },
+          "label": "12 批次 · 简化版"
+        },
+        "batch08": {
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case05/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_11_case05/original/raw/result.mp4",
+              "prompt": "data/feishu_11_case05/original/raw/h3_prompt.txt",
+              "request": "data/feishu_11_case05/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · 08批次",
+              "status": "ready",
+              "video": "data/feishu_11_case05/original/local_ir/result.mp4",
+              "prompt": "data/feishu_11_case05/original/local_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case05/original/local_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_11_case05/original/official_ir/result.mp4",
+              "prompt": "data/feishu_11_case05/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case05/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            }
+          },
+          "label": "08 批次对照"
         }
       },
       "assets": [

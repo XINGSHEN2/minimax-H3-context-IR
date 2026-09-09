@@ -11,7 +11,7 @@ async function render(){
  for(const asset of item.assets||[]){const card=node('div');card.className='asset-card';const media=node(asset.type==='video'?'video':'img');media.src=asset.src;if(asset.type==='video'){media.controls=true;media.preload='metadata';media.muted=true;media.playsInline=true}else{media.alt=asset.label;media.loading='lazy'}const link=node('a',asset.label);link.href=asset.src;link.target='_blank';link.rel='noopener';card.append(media,link);gallery.append(card)}
  $('#assetSection').hidden=!gallery.children.length;
  const tabs=$('.tabs');tabs.replaceChildren();
- for(const key of Object.keys(item.variants)){const button=node('button',({vague:'模糊需求',detailed:'详细需求',original:'原始需求'})[key]||key);button.classList.toggle('active',key===state.variant);button.onclick=()=>{state.variant=key;render()};tabs.append(button)}
+ for(const key of Object.keys(item.variants)){const button=node('button',item.variants[key].label||({vague:'模糊需求',detailed:'详细需求',original:'原始需求'})[key]||key);button.classList.toggle('active',key===state.variant);button.onclick=()=>{state.variant=key;render()};tabs.append(button)}
  tabs.hidden=Object.keys(item.variants).length===1;
  const entries=Object.entries(variant.groups);$('#availability').textContent=`${entries.filter(([,g])=>g.status==='ready').length}/${entries.length} 个视频可用`;
  const grid=$('#comparison');grid.replaceChildren();
@@ -20,7 +20,7 @@ async function render(){
   if(group.video){const video=node('video');video.controls=true;video.muted=true;video.playsInline=true;video.preload='metadata';video.loop=$('#loopAll').checked;video.src=group.video;card.append(video)}else{const missing=node('div','未提供');missing.className='missing';card.append(missing)}
   if(group.duration_seconds){const info=node('p',`${group.size} · 实际 ${group.duration_seconds} 秒`);info.style.cssText='padding:8px 16px;color:#98a2b3';card.append(info)}
   const details=node('details'),pre=node('pre','加载中…');details.append(node('summary','查看 Prompt'),pre);if(group.prompt)card.append(details);else card.append(node('p','参考成片仅供效果对照；未提供独立 Prompt。'));
-  const links=node('div');links.className='links';for(const [path,label]of [[group.context_ir,'Context-IR'],[group.request,'请求参数'],[group.video,'打开视频']])if(path){const a=node('a',label);a.href=path;a.target='_blank';a.rel='noopener';links.append(a)}card.append(links);grid.append(card);
+  const links=node('div');links.className='links';for(const [path,label]of [[group.context_ir,'Context-IR'],[group.content_plan,'内容计划'],[group.request,'请求参数'],[group.video,'打开视频']])if(path){const a=node('a',label);a.href=path;a.target='_blank';a.rel='noopener';links.append(a)}card.append(links);grid.append(card);
   textFile(group.prompt).then(text=>{if(generation===state.generation)pre.textContent=text});
  }
 }

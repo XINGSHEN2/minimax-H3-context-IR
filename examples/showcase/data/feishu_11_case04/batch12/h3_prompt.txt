@@ -1,0 +1,33 @@
+subject_definitions:
+<Subject 1> is the desert-road environment from <Picture 1>, defined by flat dry earth, sparse scrub, distant low hills, and a dense twilight sky of purple and grey clouds.
+<Subject 2> is the vintage car from <Picture 1>, a rounded two-door sedan in dark metallic brown/maroon with a circular red taillight.
+<Subject 3> is the woman in <Picture 2>, with dark wavy hair pulled back into a bun, wearing a black high-neck, long-sleeved, form-fitting mini dress with a glossy crocodile-embossed texture, and black high-heeled pumps.
+<Subject 4> is the man in <Picture 2>, with short dark curly hair, wearing a long black high-collar coat, black trousers, and black dress shoes.
+<Subject 5> is the black handbag from <Picture 3>, a structured rectangular bag with two rounded top handles at the upper corners, black embossed/crocodile-like leather with a subtle glossy sheen, and a central metallic circular clasp with interlocking D-shaped elements.
+<Picture 4> is the final end-card frame: the white logo "NOCTURNE", a thin horizontal line, and "LEATHER GOODS" centered on a solid black background.
+
+summary:
+[reference generation + keyframe completion] The target video is a 16:9 luxury fashion campaign set on a dusk desert road. <Picture 1> supplies the dry desert atmosphere, the vintage car, and the analog film texture; <Picture 2> supplies the woman <Subject 3> and the man <Subject 4>; <Picture 3> supplies the black handbag <Subject 5>. The simple narrative is retained: the woman returns to the rear of the car, opens the trunk, removes the black bag, shares one quiet look with the man beside the car, and leaves carrying the bag. <Picture 4> closes the film as the brand end-card.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4], [Shot 5]): fully_preserved - the flat dry desert road, sparse scrub, low hills, and purple-grey twilight sky continue behind all live-action shots.
+<Subject 2> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4], [Shot 5]): fully_preserved - the rounded vintage two-door sedan with dark metallic brown/maroon body and circular red taillight remains the physical anchor of the scene.
+<Subject 3> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4], [Shot 5]): fully_preserved - the woman's dark wavy bun, black high-neck long-sleeve mini dress with glossy crocodile-embossed texture, and black high-heeled pumps remain consistent throughout her walking, trunk-opening, bag-carrying, and exit actions.
+<Subject 4> (appears in [Shot 1], [Shot 2], [Shot 4], [Shot 5]): fully_preserved - the man's short dark curly hair, long black high-collar coat, black trousers, and black dress shoes remain on the figure standing beside the car.
+<Subject 5> (appears in [Shot 2], [Shot 3], [Shot 4], [Shot 5]): fully_preserved - the structured rectangular black handbag with two rounded top handles, embossed crocodile leather, and central metallic D-shaped clasp is the bag the woman removes from the trunk and carries away.
+<Picture 4> ([Shot 6] final end card): fully_preserved - the exact centered white "NOCTURNE", thin horizontal line, "LEATHER GOODS", and solid black background remain unchanged.
+
+detailed_description:
+The target video is a 16:9 luxury fashion campaign with light analog film grain, a slightly desaturated cool twilight grade, and a high-end cold restraint. The cutting is lively and editorial, using hard cuts and scale jumps rather than continuous plot-like coverage, while the black dress and the handbag stay naturally functional within every action.
+[Shot 1] A medium-wide, oblique rear view shows <Subject 2> parked in <Subject 1>; the red circular taillight is a small warm point in the cool dusk and the purple-grey sky fills the upper frame. The man, <Subject 4>, stands near the rear side in his long black coat, watching quietly. The woman, <Subject 3>, enters from screen right in her black high-neck mini dress and black pumps, walking back toward the trunk. The camera trucks slowly with low amplitude as she reaches the tailgate and sets her fingers near the latch. The movement of her dress and her heels over the dry earth is clearly readable.
+[Shot 2] At 00:03.000, the camera cuts to a lower, closer setup beside the tailgate as her fingers close around the latch. She pulls the latch and the trunk lid opens with a firm metallic click and a contained movement, its silhouette cutting against the twilight. The camera tilts up with the lid and then levels to reveal the dark open trunk; <Subject 5> sits inside on the dark floor, its two upright handles and metallic clasp visible.
+[Shot 3] At 00:06.000, the shot cuts inside the trunk in a diagonal close-up of <Subject 5>. Her hands enter from the sides, close on the two curved top handles, and lift the bag clear. The embossed black leather shifts in the low light and the metallic central clasp catches a cool gleam. She brings the bag to her side, leaving the open trunk behind her.
+[Shot 4] At 00:08.000, the shot cuts to a medium framing of the two figures. The woman now holds the bag by its handle at her side; she looks directly at the man and he returns the gaze without moving. The camera pushes in with small amplitude at slow speed, while the wind moves the hem of her dress. The short stillness between them carries the quiet relationship beat.
+[Shot 5] At 00:10.000, the shot cuts to a wider side-on tracking view. She turns away and walks across the open desert, the black bag swinging lightly by its handle at her side. The camera tracks her movement at restrained speed; the car and the man fall behind at the edge of the frame.
+[Shot 6] At 00:13.000, the shot cuts to <Picture 4>, the black end-card filling the 16:9 frame. Centered white "NOCTURNE", a thin horizontal line, and "LEATHER GOODS" below remain stable until the end.
+
+overall_soundscape:
+Dry desert wind moves across the open road, with low distant air through sparse scrub. Heeled footsteps on compact earth pause at the trunk; the latch clicks once and the trunk lid rises with a contained sound. A soft leather and handle movement is heard as the bag is lifted, then heeled footsteps and faint fabric movement as the woman walks away. The end-card is silent.
+
+non_diegetic_music:
+A restrained minimal score at a moderate tempo, built from a low synthetic pulse and sustained sparse strings, with clean accents at editorial cuts. It thins as the woman carries the bag away and stops precisely at the final cut to the black end-card.
