@@ -1399,6 +1399,12 @@ def run_agent(
     if progress_callback:
         progress_callback("timeline")
 
+    # Production generation now uses the same v19 one-response compiler as the
+    # evaluated cases. Intent/perception above remain independently reusable.
+    from backend.single_call_service import finish_single_call
+    return finish_single_call(source, output_dir, reasoning, stage_timings,
+                              run_started, progress_callback)
+
     skill_names = list(CORE_SKILLS)
     stage_started = time.perf_counter()
     model_output = invoke_reasoning_json_with_retry(

@@ -40,6 +40,7 @@ ALLOWED_EXTENSIONS = {
     "audio": {".wav", ".mp3", ".m4a", ".aac", ".flac", ".ogg"},
 }
 RESULT_FILES = {
+    "content_plan.json", "compilation_result.json", "result_status.json", "writer_1.log",
     "input.json", "resolved_input.json", "intent_resolution.json", "perception_plan.json",
     "media_analysis.json", "context_ir_draft.json", "h3_prompt_draft.txt",
     "context_ir.json", "h3_prompt.txt", "llm_optimization.json",
@@ -133,7 +134,7 @@ def _run_job(job_id: str) -> None:
             result_files=available,
             progress_stage=len(PROGRESS_STAGES),
             progress_percent=100,
-            progress_label="H3 Prompt 已由最终导演模型优化生成",
+            progress_label="H3 Prompt 已生成（v19 单次编译）",
         )
     except Exception as exc:
         _update_job(
@@ -379,7 +380,9 @@ class StudioHandler(BaseHTTPRequestHandler):
     def do_GET(self) -> None:
         path = urlparse(self.path).path
         if path == "/api/health":
-            self._json(HTTPStatus.OK, {"ok": True, "services": _service_status()})
+            self._json(HTTPStatus.OK, {"ok": True, "services": _service_status(),
+                "prompt_compiler": "singlecall.v19.content_first",
+                "prompt_llm_calls": 1, "separate_intent_stage": True})
             return
         if path == "/api/capabilities":
             self._json(HTTPStatus.OK, {
