@@ -1,0 +1,212 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "15-second duration, 16:9 horizontal framing",
+      "image_1 = overall visual texture and atmosphere reference",
+      "image_2 = stable appearance reference for one recurring model",
+      "model consistency: white-gold long hair, narrow black retro sunglasses, black high-gloss patent-leather trench coat, cool confident fashion expression",
+      "orange firelight reflections visible on the high-gloss coat surface",
+      "night fireground environment with black smoke and orange-red flames",
+      "analog-film fast-cut fashion commercial feel",
+      "VHS glitch, CCTV broadcast interruption, 90s analog film grain, scanlines, chromatic aberration, light leaks, white-flash transitions, slight image shake"
+    ],
+    "reference_anchors": [
+      {
+        "asset_id": "image_1",
+        "official_label": "<Picture 1>",
+        "features": "high-contrast night fireground texture: black smoke, orange-red flames, warm rim light, vintage analog treatment with grain, scanlines, chromatic aberration, light leaks, VHS/CCTV dropout typography"
+      },
+      {
+        "asset_id": "image_2",
+        "official_label": "<Picture 2>",
+        "features": "one model shown in front/side/back views with white-gold long wavy hair, narrow black retro sunglasses, black high-gloss patent-leather trench coat with belt and lapels, black pointed high-heeled boots, cool confident editorial expression"
+      }
+    ],
+    "open_design": "Build the unspecified movement as a fast seven-beat commercial arc: firelit portrait, smoke-crossed stride, tight face beat with sunglass reflections, full-length walk toward camera, patent-coat material detail, CCTV dropout/re-sync, and a final wide fireground pose. Add no speech, brand, title, or plot."
+  },
+  "task_mode": "reference_transfer",
+  "must_keep": [
+    "15 seconds and 16:9 horizontal",
+    "one recurring model with white-gold long wavy hair",
+    "narrow black retro sunglasses",
+    "black high-gloss patent-leather trench coat",
+    "cool confident fashion expression",
+    "orange firelight reflections on the coat",
+    "night fireground, black smoke, orange-red flames",
+    "analog fast-cut fashion commercial rhythm",
+    "VHS glitch, CCTV interruption, film grain, scanlines, chromatic aberration, light leaks, white-flash transitions, slight shake"
+  ],
+  "bindings": [
+    {
+      "asset_id": "image_1",
+      "official_label": "<Picture 1>",
+      "role": "overall visual texture and atmosphere reference for the generated short",
+      "retained_attributes": [
+        "high-contrast night fireground color and lighting",
+        "black smoke and orange-red flame palette",
+        "warm rim/backlight on the model",
+        "90s analog film grain, scanlines, chromatic aberration, light leaks",
+        "slight image shake feel",
+        "VHS glitch and CCTV dropout effects",
+        "one transient broadcast-status typography used at the CCTV dropout beat"
+      ],
+      "optional_inherited_attributes": [
+        "white-flash or white-bloom punctuation at cut boundaries",
+        "signal dropout/re-sync pacing"
+      ],
+      "excluded_attributes": [
+        "the woman visible in image_1 as an identity source",
+        "the vehicle/roofline visible in the lower right",
+        "incidental small overlay marks and numbers"
+      ],
+      "exclusion_reasons": [
+        "image_2 is the specified appearance source for identity",
+        "image_1 role is limited to texture/atmosphere, so incidental scene objects are not carried into the target",
+        "minor decorative overlay text is not required by the user request"
+      ]
+    },
+    {
+      "asset_id": "image_2",
+      "official_label": "<Picture 2>",
+      "role": "appearance identity reference for the recurring model",
+      "retained_attributes": [
+        "one consistent model across all shots",
+        "white-gold long wavy hair",
+        "narrow black retro sunglasses",
+        "black high-gloss patent-leather trench coat with belt and lapels",
+        "black pointed high-heeled boots when visible",
+        "cool confident editorial expression"
+      ],
+      "optional_inherited_attributes": [
+        "windblown hair movement",
+        "fashion-model editorial gestures"
+      ],
+      "excluded_attributes": [
+        "white studio background",
+        "triptych layout and panel borders",
+        "three-view contact-sheet presentation"
+      ],
+      "exclusion_reasons": [
+        "user assigns image_2 as an appearance reference only",
+        "target setting is the requested fireground, not the studio backdrop",
+        "contact-sheet borders are presentation artifacts, not part of the model identity"
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_reveal",
+      "visible_change": "Model turns chin toward camera; firelight sweeps across the polished coat",
+      "outcome": "Identity and fireground atmosphere are established"
+    },
+    {
+      "id": "dev_stride",
+      "visible_change": "Model walks through billowing smoke in front of flames, coat moving and heels striking",
+      "outcome": "Confident editorial stride and silhouette are shown"
+    },
+    {
+      "id": "dev_face",
+      "visible_change": "Close shot tightens on the face; the retro sunglasses catch fire reflections",
+      "outcome": "Facial consistency and cool expression are confirmed"
+    },
+    {
+      "id": "dev_full_approach",
+      "visible_change": "Model walks full length toward camera through smoke and embers",
+      "outcome": "The full white-gold hair, coat, and boots are presented"
+    },
+    {
+      "id": "dev_material",
+      "visible_change": "A hand slides across the glossy lapel while the chin lifts",
+      "outcome": "Patent-leather texture and orange reflections are showcased"
+    },
+    {
+      "id": "dev_broadcast",
+      "visible_change": "Signal drops to CCTV static, broadcast text appears, then the feed re-locks on the model",
+      "outcome": "Broadcast interruption is realized without losing character presence"
+    },
+    {
+      "id": "dev_final",
+      "visible_change": "Wide composition holds the model against flame walls and smoke; final white bloom cuts to grain",
+      "outcome": "Commercial sequence resolves cleanly at 15 seconds"
+    }
+  ],
+  "shots": [
+    {
+      "development_ids": [
+        "dev_reveal"
+      ],
+      "start_seconds": 0,
+      "end_seconds": 2,
+      "start_state": "Medium close-up of the model against a high-contrast fireground",
+      "action": "The model turns her chin slowly toward the lens with a cool, confident look; orange firelight slides across the patent coat while smoke passes behind",
+      "end_state": "Front/quarter close-up established, ready for a white-flash cut",
+      "sound_cues": "Low fire roar and crackle; coat rustle; no speech"
+    },
+    {
+      "development_ids": [
+        "dev_stride"
+      ],
+      "start_seconds": 2,
+      "end_seconds": 4,
+      "start_state": "After the white-flash cut from the opening portrait",
+      "action": "The model walks left to right through black smoke in front of an orange flame bank; white-gold hair streams, coat flares, and firelight sweeps across the patent surface",
+      "end_state": "The stride is mid-frame as the shot moves to a face beat",
+      "sound_cues": "Heeled footsteps, fire crackle, moving smoke and fabric motion"
+    },
+    {
+      "development_ids": [
+        "dev_face"
+      ],
+      "start_seconds": 4,
+      "end_seconds": 5.8,
+      "start_state": "After a VHS-tear and white-flash cut from the profile stride",
+      "action": "The shot becomes a three-quarter close-up of the face; the narrow retro sunglasses catch twin orange fire reflections while the model stares calmly through flame-lit smoke",
+      "end_state": "Close face beat completed with the confident expression intact",
+      "sound_cues": "Low fire pop and faint hair/fabric rustle"
+    },
+    {
+      "development_ids": [
+        "dev_full_approach"
+      ],
+      "start_seconds": 5.8,
+      "end_seconds": 8,
+      "start_state": "After a white-flash cut from the face close-up",
+      "action": "Full-length shot shows the model walking toward the camera through drifting smoke and embers; coat, white-gold hair, and high-heeled boots remain visible as firelight ripples across the patent leather",
+      "end_state": "The model is centered in the frame with smoke passing around her",
+      "sound_cues": "Approaching footsteps; steady fire crackle and air movement"
+    },
+    {
+      "development_ids": [
+        "dev_material"
+      ],
+      "start_seconds": 8,
+      "end_seconds": 10.2,
+      "start_state": "After a short glitch cut from the full-length approach",
+      "action": "Medium detail shot follows one hand as it drags over the high-gloss lapel; orange reflections travel across the patent surface, and the model lifts her chin slightly above the collar",
+      "end_state": "Lapel detail and glossy surface are clearly presented",
+      "sound_cues": "Soft coat rustle follows the hand; fire continues underneath"
+    },
+    {
+      "development_ids": [
+        "dev_broadcast"
+      ],
+      "start_seconds": 10.2,
+      "end_seconds": 12.6,
+      "start_state": "After the frame breaks from material detail into CCTV-style dropout",
+      "action": "Rolling static, scanlines, and noise swallow the image; a white uppercase on-screen text reads \"BROADCAST: INTERRUPTION\" for a beat, then the signal re-locks on the model in the same firelit space",
+      "end_state": "The model reappears in a face-and-shoulders medium shot, unchanged in identity",
+      "sound_cues": "Electronic interference whine, static burst, then fire roar returns"
+    },
+    {
+      "development_ids": [
+        "dev_final"
+      ],
+      "start_seconds": 12.6,
+      "end_seconds": 15,
+      "start_state": "After a white-bloom cut from the re-locked CCTV frame",
+      "action": "Wide fireground composition shows the full model facing the camera with chin high, black smoke crossing between her and the flame walls; warm firelight continues to play across the patent coat",
+      "end_state": "Final pose is fully visible as a white bloom cuts to grain at 15 seconds",
+      "sound_cues": "Night fire roar and crackle until the final white bloom stops the sound"
+    }
+  ]
+}

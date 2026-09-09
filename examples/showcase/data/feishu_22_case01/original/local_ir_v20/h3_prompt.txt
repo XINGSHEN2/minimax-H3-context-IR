@@ -1,0 +1,24 @@
+subject_definitions:
+<Subject 1> is the man from <Picture 1>, with dark, wavy, medium-length hair and a short-sleeved white t-shirt. His body-action choreography, facial-expression sequence, and performance timing are transferred from <Video 1>.
+
+<Subject 2> is the woman from <Picture 1>, with dark, shoulder-length hair and a black top. Her body-action choreography, facial-expression sequence, and performance timing are transferred from <Video 1>.
+
+<Video 1> is the reference source for the continuous two-person interaction through plate handoff, the foam flick at the woman, and the reciprocal playful foam fight.
+
+summary:
+[reference generation] The 14.9-second target video shows <Subject 1> at a kitchen sink on the viewer's right handing a washed plate to <Subject 2>, who stands on the viewer's left. <Subject 1> then turns and suddenly flicks dish-soap foam from his right hand at <Subject 2> at the left frame edge. She gives a startled reaction and immediately retaliates, after which both happily throw foam at each other, dodge, and laugh. Their identities come from <Picture 1>, and their body actions, facial-expression changes, and performance rhythm follow <Video 1>.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1]): fully_preserved - The man keeps his dark, wavy, medium-length hair and short-sleeved white t-shirt from <Picture 1>.
+<Subject 2> (appears in [Shot 1]): fully_preserved - The woman keeps her dark, shoulder-length hair and black top from <Picture 1>.
+<Video 1> (body-action choreography, facial-expression sequence, and performance timing): attribute_transfer - The action sequence, reaction timing, gesture sizes, and playful fight rhythm are performed by <Subject 1> and <Subject 2> under the target staging; the source performers' hairstyles, clothing, accessories, and audio are not carried over.
+
+detailed_description:
+The target video is in a realistic live-action kitchen-comedy style with bright natural indoor light and a fixed, eye-level medium-wide view.
+[Shot 1] <Subject 1>, the man from <Picture 1> with dark wavy medium-length hair and a short-sleeved white t-shirt, stands on the viewer's right behind a stainless-steel sink and counter with white dish-soap foam in the basin. A washed oval white plate is in his right hand. <Subject 2>, the woman from <Picture 1> with dark shoulder-length hair and a black top, stands on the viewer's left, facing him close to the left frame edge. In the opening beat, timed to <Video 1>, <Subject 1> reaches across and passes the plate to <Subject 2>. She accepts it with both hands, slides it onto the counter to her left, and turns back toward him. Following <Video 1>'s pause-and-lunge rhythm, <Subject 1> pivots toward the sink, scoops a clump of white foam from the basin with his right hand, then swings back to the left and suddenly flicks the foam at <Subject 2>'s face and chest. The foam breaks apart in the air and spatters across her cheek and shoulder. Her eyes widen and her head jerks back in a startled flinch; she lets out a surprised laugh and, without hesitation, grabs a handful of foam from the sink's left corner and flings it straight back at him. He ducks with a quick sideways step, grinning, and both immediately enter <Video 1>'s accelerating playful exchange. They grab more foam, hurl it at each other, lean and sidestep to dodge the incoming clumps, and laugh loudly and freely as white suds cling to his t-shirt and hair and to her top and neck. The camera holds the framing while the pair keeps throwing and dodging, and the clip ends on their laughing, foam-covered standoff.
+
+overall_soundscape:
+Quiet kitchen room tone with a faint water drip remains under the scene; the plate clinks against the counter, wet foam slaps on skin and clothing with each throw, and the pair's laughter builds in overlapping waves and trails off as the clip ends.
+
+non_diegetic_music:
+N/A

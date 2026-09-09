@@ -1,0 +1,25 @@
+subject_definitions:
+<Subject 1> is the cinematic atmosphere and visual style referenced from <Picture 1>: a high-contrast, near-black environment around a huge weathered circular metal gate with concentric corroded rings, a dark center, wet reflective ground, faint haze, subtle film grain, and a restrained rust/brown/black palette.
+<Subject 2> is the protagonist from <Picture 2>: a slim young woman with dark brown wavy hair falling to mid-back, an oval face, dark arched eyebrows, brown eyes, and light freckles, wearing a long matte black wool coat with a center vent, black top and trousers, and black ankle-high lace-up combat boots.
+
+summary:
+[reference generation] The target video is a 15.00-second cinematic establishing sequence. Shot 1 uses <Subject 1>'s atmosphere to build the giant circular cosmic gate, with <Subject 2> as the very small back-facing figure in the lower-right. The main title "THE STARS WERE LISTENING" resolves before a hard cut; after the cut, the sequence stays with <Subject 2> from behind as she approaches the gate and stops at the threshold.
+
+retention_analysis:
+<Subject 1> (visual style and atmosphere throughout [Shot 1], [Shot 2], [Shot 3]): fully_preserved - the high-contrast metallic darkness, rust/black palette, haze, grain, dark gate center, and wet reflective ground are retained across the sequence.
+<Subject 2> (protagonist identity in [Shot 1], [Shot 2], [Shot 3]): fully_preserved - the slim build, dark wavy mid-back hair, long black wool coat, black trousers, and black combat boots remain consistent without carrying the reference board's studio background or panel layout into the scene.
+
+detailed_description:
+The target video is generated in a realistic cinematic style with high-contrast light and shadow. It follows <Subject 1>, the atmosphere and look referenced from <Picture 1>, while the recurring figure is <Subject 2>, whose identity is referenced from <Picture 2>; no reference-board layout is carried into the scene.
+
+[Shot 1] An ultra-wide establishing shot frames the huge circular cosmic gate so closely that its rusted metal perimeter almost fills the frame; the center remains near black. The wet floor mirrors faint white-grey highlights and the corroded underside of the ring. <Subject 2> stands in the lower-right as a very small figure seen from behind, with dark wavy hair, a long black coat, and black boots barely distinguishable in the low light. The camera pushes in slowly with small amplitude at slow speed toward the gate. From the darkness at the edge of the frame, the main title "THE STARS WERE LISTENING" fades in. The title is set in very narrow, heavy, all-capital lettering in dark red blended with rust red; the edges are slightly grainy and fogged, and the text is initially blurred before resolving to clear focus. A deep low-frequency pulse continues underneath while a faint metallic vibration sounds in the distance. As the title becomes fully clear, one soft low hit lands and the picture hard cuts.
+
+[Shot 2] At 00:07.300, the shot cuts to a medium-wide framing from behind and slightly to the right of <Subject 2>, preserving the gate in the background and keeping the same screen direction. Rim light from the gate picks out the back of her dark wavy hair, the center vent of her long black wool coat, her black trousers, and her black boots. She takes two slow steps forward across the wet floor toward the dark center. The camera tracks with her at slow speed with small amplitude; her footfalls are soft on the wet surface, and the low drone continues.
+
+[Shot 3] At 00:11.200, the shot cuts to a tighter back-tracking frame. <Subject 2> slows and comes to a stop just before the circular gate's threshold. A faint rust-red rim light outlines the shoulders of her coat and the shape of her hair against the near-black center. Her footsteps cease. The camera continues a very slow push-in with small amplitude at slow speed, holding her motionless silhouette at the threshold until the final frame at 15.00 seconds.
+
+overall_soundscape:
+A deep, distant metallic vibration and low room pressure continue through most of the sequence. Wet footsteps and faint coat rustle occur only while <Subject 2> walks; the footsteps stop when she stops. No dialogue or singing is present.
+
+non_diegetic_music:
+A minimal score made of a deep low-frequency pulse runs continuously at a very low level. When the title text reaches full clarity, one soft low hit lands immediately before the hard cut. After the cut, the pulse settles into a restrained drone that gradually lowers and ends by the final frame.

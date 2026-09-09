@@ -1,0 +1,210 @@
+{
+  "creative_brief": {
+    "user_locked": "15s, 16:9. Overall mood, scene and film texture from image_1; people and clothing from image_2; black handbag product from image_3; brand ending logo from image_4. Story sequence locked: desert road beside a retro car, woman returns to the car rear, opens the trunk, takes out the black bag, shares one quiet relationship beat with the man standing by the car, then leaves carrying the bag. Tone is high-fashion, cool, restrained and premium, with lively fashion-forward editorial editing; not ordinary narrative cinema and not e-commerce-advertisement staging. Clothing and bag must feel naturally integrated into the character action and temperament.",
+    "reference_anchors": [
+      {
+        "asset_id": "image_1",
+        "visible_features": "Open desert-road mood, deep purple-blue twilight sky, dark classic sedan with round red taillights, dry ground, film-like low-light stillness."
+      },
+      {
+        "asset_id": "image_2",
+        "visible_features": "Female model with dark loosely pinned-up hair, black textured mini dress, heeled shoes; male model with dark wavy hair, long black coat, black tailored trousers; full front/profile/back proportions."
+      },
+      {
+        "asset_id": "image_3",
+        "visible_features": "Black structured handbag, trapezoidal silhouette, glossy grained black leather, single top handle, silver-tone metal logo clasp on front flap."
+      },
+      {
+        "asset_id": "image_4",
+        "visible_features": "Solid black end card with centered white serif word NOCTURNE above a thin horizontal rule and smaller white serif words LEATHER GOODS."
+      }
+    ],
+    "open_design": "Chosen editorial staging: restrained camera movement with quick fashion cuts; no invented dialogue or added plot; the man remains by the driver side as a quiet presence; the woman exits right; final logo card is used as a precise ending punctuation."
+  },
+  "task_mode": "reference_transfer",
+  "must_keep": [
+    "16:9 high-fashion campaign, 15 seconds",
+    "Deep purple-blue desert-dusk atmosphere and film texture from image_1",
+    "Woman and man appearance and black wardrobe from image_2",
+    "Black structured handbag design from image_3",
+    "End logo NOCTURNE / LEATHER GOODS from image_4",
+    "Locked sequence: return to car rear, open trunk, take the bag, quiet moment with man, leave with the bag",
+    "No dialogue, no ordinary plot-film conventions, no catalogue/e-commerce inserts"
+  ],
+  "bindings": [
+    {
+      "asset_id": "image_1",
+      "role": "Overall mood, scene environment and film finish",
+      "retained_attributes": [
+        "open desert road and dry ground",
+        "dark purple-blue twilight sky with layered clouds",
+        "cold restrained dusk light",
+        "film grain and cinematic texture"
+      ],
+      "optional_inherited_attributes": [
+        "vintage car placement and silhouette in the scene"
+      ],
+      "excluded_attributes": [
+        "3x3 grid layout",
+        "source panel borders",
+        "other characters not needed for the target staging"
+      ],
+      "exclusion_reasons": [
+        "Contact-sheet borders are presentation artifacts, not scene content",
+        "Character appearance is explicitly scoped to image_2"
+      ]
+    },
+    {
+      "asset_id": "image_2",
+      "role": "Human character appearance and clothing source for woman and man",
+      "retained_attributes": [
+        "Female: dark loose updo, black textured mini dress, heeled shoes, long female silhouette",
+        "Male: dark wavy hair, long black coat, black tailored trousers, male silhouette"
+      ],
+      "optional_inherited_attributes": [
+        "Fashion-model poise and restrained body attitude"
+      ],
+      "excluded_attributes": [
+        "studio white background",
+        "six-figure contact sheet layout"
+      ],
+      "exclusion_reasons": [
+        "Reference scope is person appearance and clothing, not the studio backdrop",
+        "Sheet borders are reference presentation, not target scenery"
+      ]
+    },
+    {
+      "asset_id": "image_3",
+      "role": "Black handbag product design",
+      "retained_attributes": [
+        "black color",
+        "trapezoidal structured silhouette",
+        "glossy grained leather surface",
+        "single top handle",
+        "silver-tone metal logo clasp on front"
+      ],
+      "optional_inherited_attributes": [],
+      "excluded_attributes": [
+        "white studio background",
+        "three-view product-board layout"
+      ],
+      "exclusion_reasons": [
+        "Product reference scope is the bag itself, not the studio backdrop or layout"
+      ]
+    },
+    {
+      "asset_id": "image_4",
+      "role": "Final brand logo / ending frame",
+      "retained_attributes": [
+        "solid black background",
+        "centered white serif lockup",
+        "word NOCTURNE",
+        "thin centered horizontal rule",
+        "smaller word LEATHER GOODS below the rule"
+      ],
+      "optional_inherited_attributes": [],
+      "excluded_attributes": [],
+      "exclusion_reasons": []
+    }
+  ],
+  "developments": [
+    {
+      "id": "D1",
+      "visible_change": "Woman enters from the roadside, crosses gravel toward the closed rear of the vintage car while the man waits by the driver side.",
+      "outcome": "She reaches the car rear; car taillights glow in the dusk."
+    },
+    {
+      "id": "D2",
+      "visible_change": "Her hand reaches the rear release, the trunk unlocks, and the lid rises smoothly.",
+      "outcome": "Trunk is open and waiting."
+    },
+    {
+      "id": "D3",
+      "visible_change": "She leans into the opening and lifts the black bag out by its top handle, then straightens with it beside her.",
+      "outcome": "Bag is in her hand at hip height and naturally worn with her movement."
+    },
+    {
+      "id": "D4",
+      "visible_change": "Woman and man hold a composed, wordless gaze across the space near the car.",
+      "outcome": "A brief quiet relationship beat passes without any spoken line."
+    },
+    {
+      "id": "D5",
+      "visible_change": "She turns and walks away along the road carrying the bag; the man stays by the car and watches.",
+      "outcome": "The exit is established with the bag and dress in natural motion."
+    },
+    {
+      "id": "D6",
+      "visible_change": "The frame cuts to black, then the source logo lockup fades in and settles.",
+      "outcome": "Final frame corresponds to image_4 with exact NOCTURNE / LEATHER GOODS typography."
+    }
+  ],
+  "shots": [
+    {
+      "development_ids": [
+        "D1"
+      ],
+      "start_seconds": 0,
+      "end_seconds": 3.4,
+      "start_state": "Desert dusk, vintage sedan parked on gravel, man standing by driver door, woman entering from foreground right.",
+      "action": "Wide low tracking shot follows the woman’s confident walk to the car rear while the man’s head turns slightly to watch.",
+      "end_state": "Woman is at the rear of the car with the trunk still closed.",
+      "sound_cues": "Sparse desert wind with rising heel and gravel footsteps."
+    },
+    {
+      "development_ids": [
+        "D2"
+      ],
+      "start_seconds": 3.4,
+      "end_seconds": 5.3,
+      "start_state": "Woman directly behind the car, hand near the rear release.",
+      "action": "Close rear-quarter angle; she presses the release, the trunk unlocks and begins rising in a smooth mechanical motion.",
+      "end_state": "Trunk is opening, inviting the reveal of the interior.",
+      "sound_cues": "Sharp latch click and a composed hydraulic thrum as the lid moves."
+    },
+    {
+      "development_ids": [
+        "D3"
+      ],
+      "start_seconds": 5.3,
+      "end_seconds": 8.0,
+      "start_state": "Trunk has opened, revealing the internal compartment.",
+      "action": "She leans in, touches the grained leather bag, closes her hand around the top handle, lifts it clear, and straightens with the bag against her side.",
+      "end_state": "Woman is upright with the black bag in hand, trunk still open beside her.",
+      "sound_cues": "Fabric movement, leather brushing, and a light settling rustle."
+    },
+    {
+      "development_ids": [
+        "D4"
+      ],
+      "start_seconds": 8.0,
+      "end_seconds": 10.2,
+      "start_state": "Woman stands with bag at her side near the rear; man stands by the driver door facing her.",
+      "action": "Medium two-shot holds their wordless eye contact; neither acts dramatically, only a composed recognition passes between them.",
+      "end_state": "Quiet beat completed; she is ready to move off.",
+      "sound_cues": "Wind continues, with no other physical action sound."
+    },
+    {
+      "development_ids": [
+        "D5"
+      ],
+      "start_seconds": 10.2,
+      "end_seconds": 12.8,
+      "start_state": "Woman holds the bag at her side, still near the open rear.",
+      "action": "She turns, walks away along the road carrying the bag; the camera follows her movement while the man remains by the car.",
+      "end_state": "She is moving away with the dress hem and the bag in natural rhythm; car and man remain behind.",
+      "sound_cues": "Heel steps on gravel grow slightly distant as wind holds."
+    },
+    {
+      "development_ids": [
+        "D6"
+      ],
+      "start_seconds": 12.8,
+      "end_seconds": 15.0,
+      "start_state": "Frame cuts to true black from the departing road scene.",
+      "action": "The final brand logo lockup fades in and settles in a static centered composition matching image_4.",
+      "end_state": "Video ends exactly on the full NOCTURNE / LEATHER GOODS lockup.",
+      "sound_cues": "All ambience and music stop at the cut to black; the logo frame remains silent."
+    }
+  ]
+}

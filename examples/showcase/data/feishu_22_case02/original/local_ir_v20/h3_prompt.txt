@@ -1,0 +1,20 @@
+subject_definitions:
+<Subject 1> is the young male dancer whose identity and outfit are established by <Picture 1> and <Picture 2>: short dark hair visible at the forehead, a clearly visible young face, a loose cream hooded sweatshirt worn with the hood up, dark-brown shorts with a white drawstring, and white low-top sneakers.
+<Video 1> is the full-body street-dance motion reference for the target video, providing a continuous sequence that opens with weight bouncing and wide arm sweeps, continues through sharp arm gestures with quick footwork and body isolations, and finishes with a spin, fluid body waves, and a final pose with the arms extended and a slight forward lean.
+
+summary:
+[reference generation] The target video is a 9.474-second vertical live-action clip of <Subject 1> performing an unbroken hip-hop street-dance routine in an open-air stadium. The performer identity is carried from the two person-reference images, while the movement timing, sequence, and final action are transferred from <Video 1>. The clip is shown as one continuous full-body shot in front of red tiered stadium seating.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1]): fully_preserved - the young man's short dark hair, clearly visible face, cream hooded sweatshirt worn with the hood up, dark-brown shorts with white drawstring, and white low-top sneakers are retained as the target performer identity.
+<Video 1> (action reference for [Shot 1]): attribute_transfer - the dancer's continuous full-body hip-hop action, segment order, timing, and concluding pose are transferred to <Subject 1>; no cap, shirt, jeans, dancer identity, or studio background from <Video 1> is carried over.
+
+detailed_description:
+The target video is in a live-action, cinematic music-video style, composed vertically under soft overcast daylight in front of red tiered stadium seats.
+[Shot 1] <Subject 1> stands centered in a full-body locked shot on a clear concrete apron in front of the red seats. The young dancer has short dark hair visible under the cream hooded sweatshirt worn hood-up, dark-brown shorts, and white low-top sneakers. Following the timing and sequence from <Video 1>, he begins in a wide stance and sweeps both arms outward to shoulder height, then brings them inward while shifting his weight from side to side and bouncing on the balls of his feet. The loose hoodie moves with the action, but his face stays visible and the full body remains inside the frame. Without stopping, he carries the routine into the central phrase from <Video 1>: a series of sharp arm gestures, including quick pointing and chopping actions across his body, each one punctuated by fast foot steps and compact torso isolations. His sneaker squeaks and foot contacts stay tied to the actual steps and shifts. In the final phrase, he spins once, then lets the momentum travel through his chest and hips as a fluid body wave, with both arms following the wave outward. The routine resolves when he settles into the transferred final pose from <Video 1>, both arms extended and his upper body leaning slightly forward, and holds the pose for the last beat as the camera remains in the same full-body framing.
+
+overall_soundscape:
+Quiet open-air ambience and a faint wind around the stadium seating continue under the dance. Sneaker squeaks and low foot taps land on weight changes and steps, soft fabric rustle follows the spin and body waves, and the physical sounds settle as the performer holds the final pose.
+
+non_diegetic_music:
+A driving hip-hop instrumental with a steady kick, crisp snare, and rolling bass begins with the first movement and keeps a moderate tempo throughout the routine. The music accents the spin and body-wave phrase, then cuts off sharply on the held final pose as the clip ends.

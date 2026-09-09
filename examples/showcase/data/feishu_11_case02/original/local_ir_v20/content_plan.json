@@ -1,0 +1,210 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "15 seconds, 16:9, audio enabled",
+      "fast and grand edit rhythm; quick hard cuts; short black frames",
+      "bridge shaking/vibration during the warp-jump impact",
+      "intense light strobes/flashes",
+      "visible warp/jump impact beat",
+      "title typography in wide-tracked movie-trailer style, not pure white, with restrained glow, material texture, and faint edge halo",
+      "title animation path: fade-in from a dark deep-space region, starlight sweep, expanding letter spacing, afterimage/ghosting, faint glow, black-frame flash reveal"
+    ],
+    "reference_anchors": {
+      "image_1": "Dark-uniformed ponytailed woman seen from behind in silhouette; large beveled observation window; two dark capital ships with broad flat hulls and raised command towers against a blue-grey nebula; exact title copy THE LAST FLEET LEFT EARTH and SHE WAS NOT ON BOARD"
+    },
+    "open_design": "Added red-alert and jump-preparation staging, exterior fleet shots, a warp-impact blackout and strobe beat, and a post-jump empty starfield as the animated-title canvas. All camera moves, edit rhythm, audio, and title rendering are generated for the target video. The title color is designed as pearl metallic grey because pure white is explicitly prohibited."
+  },
+  "task_mode": "reference_transfer",
+  "must_keep": [
+    "exact two-line title wording: THE LAST FLEET LEFT EARTH and SHE WAS NOT ON BOARD",
+    "source silhouette: dark near-black uniform, shoulder epaulets, belt, ponytail, seen from behind",
+    "dark observation deck with large beveled window",
+    "two dark capital ships with broad flat hulls and raised central command towers over blue-grey nebula",
+    "fast hard cuts, bridge vibration, strobe/flash, short black frames, warp impact",
+    "wide-tracked title type with metallic non-white color, restrained glow and faint edge halo",
+    "title fade-in from dark deep-space area, starlight sweep, expanding letter spacing, afterimage, low glow, black-frame flash reveal"
+  ],
+  "bindings": [
+    {
+      "asset_id": "image_1",
+      "role": "visual reference for the opening observation-deck scene and the exact title copy",
+      "retained_attributes": [
+        "silhouetted female officer with ponytail in dark near-black uniform, seen from behind",
+        "large rectangular beveled observation window on a dark deck",
+        "two dark capital ships with broad flat hulls and raised central towers outside the window",
+        "blue-grey nebula and dense starfield backdrop",
+        "exact title wording and approximate source hierarchy, first line above second line"
+      ],
+      "optional_inherited_attributes": [
+        "low-key metallic observation-deck mood",
+        "cool blue-grey nebula light",
+        "deep starfield backdrop for the final title placement"
+      ],
+      "excluded_attributes": [
+        "pure-white flat rendering of the source-style title letters"
+      ],
+      "exclusion_reasons": [
+        "user explicitly requested the title color not be pure white and to have restrained glow and material texture"
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_1",
+      "visible_change": "Opening observation deck is established from the source visual: the dark uniformed woman, the window, the waiting capital ships and the nebula.",
+      "outcome": "The shot reaches a quiet, fast-cut-ready state of anticipation before any alarm or movement."
+    },
+    {
+      "id": "dev_2",
+      "visible_change": "An alert is triggered, the observation deck begins to vibrate, and the waiting fleet's engines flare as a warp jump is prepared.",
+      "outcome": "The trailer escalates through alarms, instrument strobes, exterior engine light and deck shake into an imminent-jump hit."
+    },
+    {
+      "id": "dev_3",
+      "visible_change": "An intense warp-impact flash floods the window, the frame shakes strongly and breaks through two short black frames, leaving the fleet gone.",
+      "outcome": "A hard impact lands on an empty deep-space view outside the same window, ready for the title reveal."
+    },
+    {
+      "id": "dev_4",
+      "visible_change": "The first title line begins as a faint presence in the dark upper region of the window, fades in, is swept by starlight, and expands its letter spacing.",
+      "outcome": "THE LAST FLEET LEFT EARTH is legible as a wide-tracked metallic-grey title line with restrained glow."
+    },
+    {
+      "id": "dev_5",
+      "visible_change": "The second title line appears below the first through a black-frame flash, the wide tracking ends, and a final black flash restores both lines with material texture and faint edge halo.",
+      "outcome": "The final frame holds both complete title lines over the void with a restrained bright edge."
+    }
+  ],
+  "shots": [
+    {
+      "development_ids": [
+        "dev_1"
+      ],
+      "start_seconds": 0.0,
+      "end_seconds": 1.4,
+      "start_state": "No motion yet; target begins on the observation deck with the dark-uniformed woman and the waiting fleet outside the window.",
+      "action": "The opening frame mirrors the source composition and stays nearly still; a subtle handheld tremor builds as the deck hum begins.",
+      "end_state": "The woman remains centered in silhouette with the fleet outside; alarm has not yet begun.",
+      "sound_cues": [
+        "low cold deck rumble",
+        "faint metal resonance"
+      ]
+    },
+    {
+      "development_ids": [
+        "dev_2"
+      ],
+      "start_seconds": 1.4,
+      "end_seconds": 2.7,
+      "start_state": "Observation deck before the alert; no active alarm or strobe.",
+      "action": "Hard cut to a tight console close-up; a gloved hand presses an amber switch, red alert panels strobe rapidly.",
+      "end_state": "Alarm state is active in the deck.",
+      "sound_cues": [
+        "clipped alarm horn",
+        "console blips"
+      ]
+    },
+    {
+      "development_ids": [
+        "dev_2"
+      ],
+      "start_seconds": 2.7,
+      "end_seconds": 4.0,
+      "start_state": "Alarm active; no bridge shake yet.",
+      "action": "Hard cut back to the woman from behind; the deck begins to shake harder and her ponytail shifts with the vibration.",
+      "end_state": "Bridge vibration visibly present while the fleet waits.",
+      "sound_cues": [
+        "deep metallic groan",
+        "continuing alarm",
+        "structure creak"
+      ]
+    },
+    {
+      "development_ids": [
+        "dev_2"
+      ],
+      "start_seconds": 4.0,
+      "end_seconds": 5.4,
+      "start_state": "Alarm and deck vibration continue; fleet is still waiting outside.",
+      "action": "Hard cut to an exterior view of the dark capital ships; engine pods flare with pale blue-white exhaust and the ships begin to move.",
+      "end_state": "The fleet is moving and charging toward a departure window.",
+      "sound_cues": [
+        "shockwave rumble carried through station structure",
+        "no direct vacuum sound"
+      ]
+    },
+    {
+      "development_ids": [
+        "dev_2"
+      ],
+      "start_seconds": 5.4,
+      "end_seconds": 6.8,
+      "start_state": "Fleet engines are lit and moving; alarm is still audible.",
+      "action": "Hard cut back inside near the window; lights strobe rapidly, dust shakes, and jump-charge reflections crawl across the metal frame.",
+      "end_state": "Jump energy is visually at maximum; ship is about to warp.",
+      "sound_cues": [
+        "rising energy whine",
+        "hard electrical crackle",
+        "deck vibration"
+      ]
+    },
+    {
+      "development_ids": [
+        "dev_3"
+      ],
+      "start_seconds": 6.8,
+      "end_seconds": 8.1,
+      "start_state": "Jump charge is at maximum; the woman is still on the observation deck.",
+      "action": "An intense blue-white warp flash floods the window, the whole deck shakes strongly, and the shot breaks through two short black frames before landing on empty star trails where the fleet used to be.",
+      "end_state": "The window now shows empty star trails and nebula; the fleet is gone.",
+      "sound_cues": [
+        "massive filtered impact",
+        "harsh shake thump",
+        "abrupt cut to low hover tone"
+      ]
+    },
+    {
+      "development_ids": [
+        "dev_4"
+      ],
+      "start_seconds": 8.1,
+      "end_seconds": 10.3,
+      "start_state": "After the fade from the black-frame impact, the same observation window is now empty of the fleet; the dark uniformed woman remains in silhouette.",
+      "action": "Hard cut to the window composition; the first title line fades up out of the darkest upper nebula area, is swept by a starlight band, and begins expanding its letter spacing.",
+      "end_state": "The first line THE LAST FLEET LEFT EARTH is clearly readable with a restrained metallic glow.",
+      "sound_cues": [
+        "near-silent cold deck tone",
+        "low musical shimmer"
+      ]
+    },
+    {
+      "development_ids": [
+        "dev_4",
+        "dev_5"
+      ],
+      "start_seconds": 10.3,
+      "end_seconds": 12.6,
+      "start_state": "First title line is visible in the upper window area; second line has not appeared yet.",
+      "action": "A tighter view holds the first title line while a two-frame black flash at the start of the beat ushers in the second title line below it; letter spacing continues widening and a faint afterimage trails the glyphs.",
+      "end_state": "Both title lines are visible and widely tracked over the dark empty window.",
+      "sound_cues": [
+        "soft whoosh during starlight sweep",
+        "low airy swell"
+      ]
+    },
+    {
+      "development_ids": [
+        "dev_5"
+      ],
+      "start_seconds": 12.6,
+      "end_seconds": 15.0,
+      "start_state": "Both lines are visible and wide-tracked, but not yet at full final spacing.",
+      "action": "Slow push-in continues; the letter spacing reaches its widest point, material texture and restrained edge halo become fully apparent, then a short black-frame flash restores both lines in the final frame.",
+      "end_state": "Final composition holds both exact title lines over deep space with pearl-grey metallic type, faint glow and edge halo.",
+      "sound_cues": [
+        "short low impact at the final black flash",
+        "silence after the final frame"
+      ]
+    }
+  ]
+}

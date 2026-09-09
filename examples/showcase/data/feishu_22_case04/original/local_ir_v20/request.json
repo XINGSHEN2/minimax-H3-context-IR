@@ -1,0 +1,21 @@
+{
+  "task": "ref2va",
+  "prompt_file": "/home/mx/shenxing/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case4-ref2va/output/local_ir_260909_20_prompts_65536/h3_prompt.txt",
+  "conditions": [
+    {
+      "type": "video",
+      "uri": "/home/mx/shenxing/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case4-ref2va/assets/视频1.mp4",
+      "role": "reference"
+    }
+  ],
+  "target": {
+    "short_edge": 768,
+    "aspect_ratio": "16:9",
+    "duration_seconds": 5.875
+  },
+  "seed": 0,
+  "n": 1,
+  "num_inference_steps": 20,
+  "output_mode": "decoded_files",
+  "output_path": "/home/mx/shenxing/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case4-ref2va/output/local_ir_260909_20_prompts_65536/h3_outputs"
+}

@@ -1,0 +1,101 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "Man and woman identities from image_1 only: man with dark wavy medium-length hair and white short-sleeved t-shirt; woman with dark shoulder-length hair and black top.",
+      "Strictly transfer from video_1: body-action choreography, facial-expression sequence, and performance timing/rhythm.",
+      "Target staging and action: man on viewer right by sink, woman on viewer left; man hands washed plate to woman; man turns and suddenly flicks dish-soap foam from his right hand at woman at left frame edge; woman is startled and immediately retaliates; both happily throw foam, dodge, and laugh.",
+      "Audible laughter is included; video_1 audio is not copied; duration 14.9s; 16:9."
+    ],
+    "reference_anchors": [
+      "image_1 (<Picture 1>): man and woman in a kitchen; man right behind sink, woman left; man has dark wavy medium-length hair and a white t-shirt; woman has dark shoulder-length hair and a black top.",
+      "video_1 (<Video 1>): continuous two-person kitchen performance; plate handoff beat around 0-3s, foam flick at woman around 3-7s, reciprocal foam fight with dodging and laughter around 7-14.9s."
+    ],
+    "open_design": [
+      "Implement as one continuous fixed eye-level medium-wide shot to support video_1's continuous performance flow.",
+      "Use the coherent kitchen setting from image_1 with sink, counter, foam, and natural daylight; woman sets the plate down after handoff so both hands are free.",
+      "End on a laughter-filled foam-covered playful standoff as the clip reaches 14.9s."
+    ]
+  },
+  "task_mode": "reference_transfer",
+  "must_keep": [
+    "image_1 identities of the man and woman",
+    "video_1 body actions, expression changes, and performance rhythm for both participants",
+    "Man on right at the sink; woman on left; washed plate handoff; sudden right-hand foam flick; woman's startled immediate reaction and counterattack; reciprocal foam throwing, dodging, laughing",
+    "Audible generated laughter; no video_1 audio copy; 14.9s; 16:9"
+  ],
+  "bindings": [
+    {
+      "asset_id": "image_1",
+      "role": "Identity and appearance source for <Subject 1> and <Subject 2>, plus coherent kitchen environment anchors.",
+      "retained_attributes": [
+        "Man: dark wavy medium-length hair, short-sleeved white t-shirt",
+        "Woman: dark shoulder-length hair, black top",
+        "Relationship: man right behind kitchen sink, woman on the left",
+        "Kitchen anchors: stainless-steel sink, faucet, counter"
+      ],
+      "optional_inherited_attributes": [
+        "Supporting kitchen details such as glass-front cabinets and simple dish/cleaning props where they fit the action",
+        "Bright daytime kitchen lighting consistent with the scene source"
+      ],
+      "excluded_attributes": [
+        "The still's frozen pose and ambiguous foam-covered held object",
+        "The image's exact frame composition as a target layout"
+      ],
+      "exclusion_reasons": [
+        "A still pose is observation, not a user motion lock",
+        "User-specified staging and action replace the static composition"
+      ]
+    },
+    {
+      "asset_id": "video_1",
+      "role": "Source for body-action choreography, facial-expression sequence, and performance timing/rhythm transferred to the target man and woman.",
+      "retained_attributes": [
+        "Action order and pacing: plate handoff, pause, foam scoop and flick, woman's flinch and laugh, accelerating reciprocal foam fight with dodges",
+        "Continuous locked-camera performance flow"
+      ],
+      "optional_inherited_attributes": [
+        "Static, eye-level medium-wide framing style from video_1"
+      ],
+      "excluded_attributes": [
+        "Video_1 performers' identities, hairstyles, and clothing such as ponytail, red/white striped shirt, dreadlocks, yellow shirt, and gold chain",
+        "Blue towel and source-audio copying or soundtrack reuse"
+      ],
+      "exclusion_reasons": [
+        "User authoritatively binds identity/appearance to image_1",
+        "Directive d_8 replaces the target audio and no source audio reuse is requested"
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_plate_handoff",
+      "visible_change": "Man hands the washed oval plate across to the woman; she receives it and sets it aside on the counter to her left.",
+      "outcome": "Plate handoff completed; both keep their initial right/left positions."
+    },
+    {
+      "id": "dev_surprise_foam",
+      "visible_change": "Man turns toward the sink, scoops foam in his right hand, swings back, and suddenly flicks it at the woman; her expression turns from calm to startled flinch before she laughs.",
+      "outcome": "Foam spatters on the woman and she begins an immediate counterattack."
+    },
+    {
+      "id": "dev_reciprocal_fight",
+      "visible_change": "Woman grabs foam and flings it back; both repeatedly throw foam, dodge, and laugh as suds cover their clothes.",
+      "outcome": "Playful mutual foam fight continues through the final beat."
+    }
+  ],
+  "shots": [
+    {
+      "development_ids": [
+        "dev_plate_handoff",
+        "dev_surprise_foam",
+        "dev_reciprocal_fight"
+      ],
+      "start_seconds": 0,
+      "end_seconds": 14.9,
+      "start_state": "Kitchen; man on viewer's right behind sink in white t-shirt, holding a washed plate; woman on viewer's left in black top facing him near the left frame edge.",
+      "action": "Man hands the plate to the woman; she sets it down; he turns, scoops foam with right hand, suddenly flicks it at her; she startles, laughs, and immediately retaliates; both throw foam, dodge, and laugh until the end.",
+      "end_state": "Plate is on the left counter; both are foam-splattered and laughing as a final clump lands and a playful standoff fills the last frame.",
+      "sound_cues": "Faint water drip and plate clink during handoff; wet foam slap and flick sounds; woman's startled gasp; escalating mutual laughter through the fight; room tone only underneath."
+    }
+  ]
+}

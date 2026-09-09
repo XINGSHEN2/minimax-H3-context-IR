@@ -1,0 +1,33 @@
+subject_definitions:
+<Subject 1> is the desert-road environment in <Picture 1>: an open asphalt ribbon crossing dry ground under a deep purple-blue twilight sky, with layered clouds and cold dusk light.
+<Subject 2> is the dark vintage sedan in <Picture 1>, keeping a classic mid-century profile, glossy dark paint, and round red taillights that glow in the half-light.
+<Subject 3> is the woman in <Picture 2>, with dark hair loosely pinned up, a black textured mini dress, and heeled shoes.
+<Subject 4> is the man in <Picture 2>, with dark wavy hair, a long black coat, and black tailored trousers.
+<Subject 5> is the black structured handbag in <Picture 3>, with a trapezoidal silhouette, glossy grained black leather, a single top handle, and a silver-tone metal logo clasp on its front flap.
+<Picture 4> is the final brand-logo frame of the target video: a solid black background with centered white serif text reading "NOCTURNE", a thin horizontal rule below it, and smaller centered white serif text reading "LEATHER GOODS" lower down.
+
+summary:
+[reference generation + keyframe completion] The target video is a 15-second, 16:9 high-fashion campaign in which <Subject 3> returns through <Subject 1> to <Subject 2>, opens the rear compartment, removes <Subject 5>, shares a single quiet beat with <Subject 4>, and then walks away carrying the bag at her side. <Picture 1> defines the overall mood, scene and film finish; <Picture 2> supplies the characters and wardrobe; <Picture 3> supplies the bag; <Picture 4> supplies the ending logo frame.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4], [Shot 5]): fully_preserved - the open desert road, dry ground, purple-blue twilight, and film-like atmosphere are retained while the source grid presentation is removed.
+<Subject 2> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4], [Shot 5]): fully_preserved - the classic dark sedan profile and its glowing round red taillights are retained.
+<Subject 3> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4], [Shot 5]): fully_preserved - the woman's dark updo, black textured mini dress, heeled shoes, and model proportions from <Picture 2> are retained.
+<Subject 4> (appears in [Shot 1], [Shot 4], [Shot 5]): fully_preserved - the man's dark wavy hair, long black coat, and black tailored trousers from <Picture 2> are retained.
+<Subject 5> (appears in [Shot 3], [Shot 4], [Shot 5]): fully_preserved - the black structured, trapezoidal bag with glossy grained leather, single top handle, and silver-tone clasp is reused as the product carried in the action.
+<Picture 4> ([Shot 6] final frame): fully_preserved - the brand lockup is reproduced exactly on solid black with the centered serif "NOCTURNE", the thin rule, and "LEATHER GOODS" below.
+
+detailed_description:
+The target video is in a cinematic high-fashion campaign style: 16:9, cool and restrained, lit as a deep purple-blue desert dusk with fine film grain inherited from <Picture 1>.
+[Shot 1] A wide, low tracking shot begins on the dry roadside where <Subject 2>, the dark vintage sedan, is parked against <Subject 1>, the open desert road under a layered purple-blue sky. <Subject 4>, the dark-haired man in a long black coat and black trousers, stands beside the driver door and turns his head slightly as <Subject 3>, the woman from <Picture 2> in her black textured mini dress and heeled shoes, enters from the right foreground. She walks along the gravel shoulder toward the car's rear with a long, confident stride; the camera tracks left with medium amplitude at a steady speed, keeping the moving hem of her dress, the dust at her heels, and the red taillight glow in frame.
+[Shot 2] At 00:03.400, the shot cuts to a closer rear-quarter angle. <Subject 3> reaches the back of <Subject 2>, stops on the gravel, and raises one hand to the rear release. Her fingers press the seam; the latch clicks, the lid unseals, and the trunk begins rising smoothly in a contained mechanical motion as she draws her hand back slightly.
+[Shot 3] At 00:05.300, the shot cuts to a side-front angle behind the raised trunk lid. The interior is now open before her. <Subject 3> leans forward into the opening, the textured black fabric of her dress gathering with the movement, and reaches for <Subject 5>, the polished black structured handbag lying inside. The camera pushes in with small amplitude at slow speed as her fingers touch the grained leather, close around the single top handle, and lift the bag clear. She straightens and brings it close beside her thigh, the silver clasp facing her hip.
+[Shot 4] At 00:08.000, the shot cuts to a composed medium two-shot. <Subject 3> stands upright by the open rear with <Subject 5> held naturally at her side; <Subject 4> remains by the driver door, facing her. They hold a calm, wordless exchange of looks for a beat, neither smiling and neither looking away; the wind moves a loose strand of her hair and the edge of his coat. The bag, her dress, and his coat all read as part of the same restrained fashion attitude.
+[Shot 5] At 00:10.200, the shot cuts wider and shifts to a tracking position as she begins to leave. <Subject 3> turns from <Subject 2>, walks right along the roadside, and disappears toward the empty distance carrying <Subject 5> by its handle; the bag swings slightly against her thigh with each step and the black dress moves cleanly with her stride. <Subject 4> stays beside the car, coat moving in the wind, watching her go; the red taillights and purple-blue sky remain behind her.
+[Shot 6] At 00:12.800, the frame cuts to true black. The final end-title from <Picture 4> fades in and settles in a static centered composition: the white serif word "NOCTURNE" above a thin horizontal rule and the smaller white serif words "LEATHER GOODS" beneath; the video ends at 15.00 on the exact brand-logo frame.
+
+overall_soundscape:
+Sparse desert wind runs through the opening half of the film with low gusts and a faint sense of open space. Heel strikes and gravel crunch change from approaching to stopping, then resume as she walks away, growing slightly distant before the final cut. A sharp latch click and a smooth mechanical note accompany the trunk opening, followed by brief leather and fabric rustle as the bag is lifted; all ambience and physical sound drop out at the cut to black.
+
+non_diegetic_music:
+A restrained electronic fashion score begins under the wide opening: a low sub drone with offbeat pulsed notes and a soft airy texture. A crisp percussive accent lands near the trunk release, the rhythm thins during the quiet eye-contact beat, then returns in a low pulse for her exit before cutting cleanly to silence as the brand logo appears.

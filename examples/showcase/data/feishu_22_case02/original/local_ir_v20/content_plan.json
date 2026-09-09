@@ -1,0 +1,111 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "The target video performs street dance / hip-hop.",
+      "video_1 supplies the full-body action and movement sequence for the output performer.",
+      "image_1 and image_2 supply the output performer identity and clothing.",
+      "Target is 9.474 seconds, vertical 9:16, with generated audio."
+    ],
+    "reference_anchors": [
+      "image_1: Full-body portrait of a young man in a cream hooded sweatshirt with the hood up, dark-brown shorts, white sneakers, standing in front of red tiered stadium seats.",
+      "image_2: Same cream-hooded young man seated on red stadium bleachers, dark-brown or black shorts with white drawstring, with red seats behind.",
+      "video_1: Continuous full shot of a male dancer performing a hip-hop routine: wide stance with arm sweeps and weight shifts, sharp arm gestures with quick footwork and isolations, then a spin, body waves, and a final arms-extended lean."
+    ],
+    "open_design": "Place the dance on a clear concrete apron in front of the red stadium seating inherited from the identity images. Use one continuous full-body shot and a newly composed hip-hop score for the 9.474-second duration."
+  },
+  "task_mode": "reference_transfer",
+  "must_keep": [
+    "Output performer appears with short dark hair, visible face, loose cream hooded sweatshirt worn hood up, dark-brown shorts with white drawstring, and white low-top sneakers.",
+    "The full-body street-dance action follows video_1 sequence: opening bounce and arm sweeps, sharp arm gestures and footwork, spin and body waves, final arms-extended lean.",
+    "One continuous subject performance in a full-body readable framing over the full duration."
+  ],
+  "bindings": [
+    {
+      "asset_id": "image_1",
+      "role": "Identity reference for the output performer",
+      "retained_attributes": [
+        "young male face",
+        "short dark hair visible at forehead",
+        "cream hooded pullover sweatshirt with hood worn up",
+        "dark-brown shorts",
+        "white low-top sneakers"
+      ],
+      "optional_inherited_attributes": [
+        "red tiered stadium seats",
+        "dark concrete apron foreground",
+        "soft overcast daylight"
+      ],
+      "excluded_attributes": [],
+      "exclusion_reasons": []
+    },
+    {
+      "asset_id": "image_2",
+      "role": "Identity reference for the output performer",
+      "retained_attributes": [
+        "clearly visible young male face",
+        "cream hooded sweatshirt with hood worn up",
+        "dark-brown shorts with white drawstring"
+      ],
+      "optional_inherited_attributes": [
+        "red stadium bleachers",
+        "overcast outdoor light"
+      ],
+      "excluded_attributes": [],
+      "exclusion_reasons": []
+    },
+    {
+      "asset_id": "video_1",
+      "role": "Motion and action reference for the dance",
+      "retained_attributes": [
+        "continuous full-body hip-hop dance sequence",
+        "rhythm and segment order of the three observed phases",
+        "final pose with arms extended and slight forward lean"
+      ],
+      "optional_inherited_attributes": [],
+      "excluded_attributes": [
+        "white cap",
+        "white long-sleeve shirt",
+        "black ripped jeans",
+        "white sneakers of the source dancer",
+        "indoor studio wall and wooden floor",
+        "SIEBE DA studio text or logo"
+      ],
+      "exclusion_reasons": [
+        "video_1 is assigned only as the motion reference; output identity and clothing come from image_1 and image_2.",
+        "The source studio setting and source dancer wardrobe are not part of the requested action transfer."
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_1",
+      "visible_change": "Output performer starts from a wide stance, sweeps arms out and in, and shifts weight side to side with bounces.",
+      "outcome": "Establishes the groove and opens the transferred dance phrase."
+    },
+    {
+      "id": "dev_2",
+      "visible_change": "Movement tightens into sharp points and chops, quick foot steps, and torso isolations.",
+      "outcome": "Carries the central choreographic phrase of the routine."
+    },
+    {
+      "id": "dev_3",
+      "visible_change": "The action resolves through a spin and fluid body waves into a final arms-extended lean.",
+      "outcome": "Ends the dance on the transferred final pose and leaves the performance complete."
+    }
+  ],
+  "shots": [
+    {
+      "development_ids": [
+        "dev_1",
+        "dev_2",
+        "dev_3"
+      ],
+      "start_seconds": 0.0,
+      "end_seconds": 9.474,
+      "start_state": "Output performer stands centered in a full-body vertical framing in front of the red stadium seats, wearing the identity clothing from image_1 and image_2; no motion yet.",
+      "action": "With one continuous camera hold, the performer completes the full video_1-inspired hip-hop sequence: bouncing arm sweeps and weight shifts, then sharp gestures with footwork and isolations, then a spin and body waves, before settling into the final arms-extended lean pose.",
+      "end_state": "Output performer holds the final pose with both arms extended and the upper body slightly forward-leaning until the clip ends.",
+      "sound_cues": "Sneaker squeaks and low foot taps on the concrete during weight shifts and steps; soft fabric rustle during the body waves; the final movement lands and the beat cuts off on the held pose."
+    }
+  ]
+}

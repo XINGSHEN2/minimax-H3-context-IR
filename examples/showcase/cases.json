@@ -617,7 +617,7 @@
       "id": "feishu_11_case01",
       "title": "Case 1 · 四图望远镜搜索",
       "category": "1.1 品牌大片与影视内容",
-      "description": "本地结果：v19，Qwen3.8-27B 素材分析、单次 LLM 编译，768p、20步、15秒。Raw和官方复用原始结果；并非严格同参数评测。",
+      "description": "默认页签：v20 参考属性继承优化；LLM 输出预算 65,536 token；H3 768p、20步，目标时长 15 秒。视频与下方 Prompt 同版。 其余页签为历史结果；Raw与官方保持原始结果，并非严格同参数评测。",
       "variants": {
         "original": {
           "groups": {
@@ -639,12 +639,12 @@
               "size": "1344×768"
             },
             "local_ir": {
-              "label": "本地 IR · v19",
+              "label": "本地 IR · v20 · 65,536 token预算",
               "status": "ready",
-              "video": "data/feishu_11_case01/original/local_ir_v19/result.mp4",
-              "prompt": "data/feishu_11_case01/original/local_ir_v19/h3_prompt.txt",
-              "request": "data/feishu_11_case01/original/local_ir_v19/request.json",
-              "content_plan": "data/feishu_11_case01/batch12/content_plan.json",
+              "video": "data/feishu_11_case01/original/local_ir_v20/result.mp4",
+              "prompt": "data/feishu_11_case01/original/local_ir_v20/h3_prompt.txt",
+              "request": "data/feishu_11_case01/original/local_ir_v20/request.json",
+              "content_plan": "data/feishu_11_case01/original/local_ir_v20/content_plan.json",
               "context_ir": null,
               "duration_seconds": 15.107,
               "size": "1344×768"
@@ -660,7 +660,7 @@
               "size": "1344×768"
             }
           },
-          "label": "12 批次 · 简化版"
+          "label": "v20 最新结果"
         },
         "batch08": {
           "groups": {
@@ -732,7 +732,7 @@
       "id": "feishu_11_case02",
       "title": "Case 2 · 太空预告片",
       "category": "1.1 品牌大片与影视内容",
-      "description": "本地结果：v19，Qwen3.8-27B 素材分析、单次 LLM 编译，768p、20步、15秒。Raw和官方复用原始结果；并非严格同参数评测。",
+      "description": "默认页签：v20 参考属性继承优化；LLM 输出预算 65,536 token；H3 768p、20步，目标时长 15 秒。视频与下方 Prompt 同版。 其余页签为历史结果；Raw与官方保持原始结果，并非严格同参数评测。",
       "variants": {
         "original": {
           "groups": {
@@ -754,12 +754,12 @@
               "size": "1344×768"
             },
             "local_ir": {
-              "label": "本地 IR · v19",
+              "label": "本地 IR · v20 · 65,536 token预算",
               "status": "ready",
-              "video": "data/feishu_11_case02/original/local_ir_v19/result.mp4",
-              "prompt": "data/feishu_11_case02/original/local_ir_v19/h3_prompt.txt",
-              "request": "data/feishu_11_case02/original/local_ir_v19/request.json",
-              "content_plan": "data/feishu_11_case02/batch12/content_plan.json",
+              "video": "data/feishu_11_case02/original/local_ir_v20/result.mp4",
+              "prompt": "data/feishu_11_case02/original/local_ir_v20/h3_prompt.txt",
+              "request": "data/feishu_11_case02/original/local_ir_v20/request.json",
+              "content_plan": "data/feishu_11_case02/original/local_ir_v20/content_plan.json",
               "context_ir": null,
               "duration_seconds": 15.107,
               "size": "1344×768"
@@ -775,7 +775,7 @@
               "size": "1344×768"
             }
           },
-          "label": "12 批次 · 简化版"
+          "label": "v20 最新结果"
         },
         "batch08": {
           "groups": {
@@ -832,7 +832,7 @@
       "id": "feishu_11_case03",
       "title": "Case 3 · 宇宙门开场",
       "category": "1.1 品牌大片与影视内容",
-      "description": "本地结果：v19，Qwen3.8-27B 素材分析、单次 LLM 编译，768p、20步、15秒。Raw和官方复用原始结果；并非严格同参数评测。",
+      "description": "默认页签：v20 参考属性继承优化；LLM 输出预算 65,536 token；H3 768p、20步，目标时长 15 秒。视频与下方 Prompt 同版。 其余页签为历史结果；Raw与官方保持原始结果，并非严格同参数评测。",
       "variants": {
         "original": {
           "groups": {
@@ -854,12 +854,12 @@
               "size": "1344×768"
             },
             "local_ir": {
-              "label": "本地 IR · v19",
+              "label": "本地 IR · v20 · 65,536 token预算",
               "status": "ready",
-              "video": "data/feishu_11_case03/original/local_ir_v19/result.mp4",
-              "prompt": "data/feishu_11_case03/original/local_ir_v19/h3_prompt.txt",
-              "request": "data/feishu_11_case03/original/local_ir_v19/request.json",
-              "content_plan": "data/feishu_11_case03/batch12/content_plan.json",
+              "video": "data/feishu_11_case03/original/local_ir_v20/result.mp4",
+              "prompt": "data/feishu_11_case03/original/local_ir_v20/h3_prompt.txt",
+              "request": "data/feishu_11_case03/original/local_ir_v20/request.json",
+              "content_plan": "data/feishu_11_case03/original/local_ir_v20/content_plan.json",
               "context_ir": null,
               "duration_seconds": 15.107,
               "size": "1344×768"
@@ -875,7 +875,7 @@
               "size": "1344×768"
             }
           },
-          "label": "12 批次 · 简化版"
+          "label": "v20 最新结果"
         },
         "batch08": {
           "groups": {
@@ -937,7 +937,7 @@
       "id": "feishu_11_case04",
       "title": "Case 4 · 衣服与包时尚广告",
       "category": "1.1 品牌大片与影视内容",
-      "description": "本地结果：v19，Qwen3.8-27B 素材分析、单次 LLM 编译，768p、20步、15秒。Raw和官方复用原始结果；并非严格同参数评测。",
+      "description": "默认页签：v20 参考属性继承优化；LLM 输出预算 65,536 token；H3 768p、20步，目标时长 15 秒。视频与下方 Prompt 同版。 其余页签为历史结果；Raw与官方保持原始结果，并非严格同参数评测。",
       "variants": {
         "original": {
           "groups": {
@@ -959,12 +959,12 @@
               "size": "1344×768"
             },
             "local_ir": {
-              "label": "本地 IR · v19",
+              "label": "本地 IR · v20 · 65,536 token预算",
               "status": "ready",
-              "video": "data/feishu_11_case04/original/local_ir_v19/result.mp4",
-              "prompt": "data/feishu_11_case04/original/local_ir_v19/h3_prompt.txt",
-              "request": "data/feishu_11_case04/original/local_ir_v19/request.json",
-              "content_plan": "data/feishu_11_case04/batch12/content_plan.json",
+              "video": "data/feishu_11_case04/original/local_ir_v20/result.mp4",
+              "prompt": "data/feishu_11_case04/original/local_ir_v20/h3_prompt.txt",
+              "request": "data/feishu_11_case04/original/local_ir_v20/request.json",
+              "content_plan": "data/feishu_11_case04/original/local_ir_v20/content_plan.json",
               "context_ir": null,
               "duration_seconds": 15.107,
               "size": "1344×768"
@@ -980,7 +980,7 @@
               "size": "1344×768"
             }
           },
-          "label": "12 批次 · 简化版"
+          "label": "v20 最新结果"
         },
         "batch08": {
           "groups": {
@@ -1052,7 +1052,7 @@
       "id": "feishu_11_case05",
       "title": "Case 5 · 火焰时装广告",
       "category": "1.1 品牌大片与影视内容",
-      "description": "本地结果：v19，Qwen3.8-27B 素材分析、单次 LLM 编译，768p、20步、15秒。Raw和官方复用原始结果；并非严格同参数评测。",
+      "description": "默认页签：v20 参考属性继承优化；LLM 输出预算 65,536 token；H3 768p、20步，目标时长 15 秒。视频与下方 Prompt 同版。 本例为失败后的重试结果。 其余页签为历史结果；Raw与官方保持原始结果，并非严格同参数评测。",
       "variants": {
         "original": {
           "groups": {
@@ -1074,12 +1074,12 @@
               "size": "1344×768"
             },
             "local_ir": {
-              "label": "本地 IR · v19",
+              "label": "本地 IR · v20 · 65,536 token预算",
               "status": "ready",
-              "video": "data/feishu_11_case05/original/local_ir_v19/result.mp4",
-              "prompt": "data/feishu_11_case05/original/local_ir_v19/h3_prompt.txt",
-              "request": "data/feishu_11_case05/original/local_ir_v19/request.json",
-              "content_plan": "data/feishu_11_case05/batch12/content_plan.json",
+              "video": "data/feishu_11_case05/original/local_ir_v20/result.mp4",
+              "prompt": "data/feishu_11_case05/original/local_ir_v20/h3_prompt.txt",
+              "request": "data/feishu_11_case05/original/local_ir_v20/request.json",
+              "content_plan": "data/feishu_11_case05/original/local_ir_v20/content_plan.json",
               "context_ir": null,
               "duration_seconds": 15.107,
               "size": "1344×768"
@@ -1095,7 +1095,7 @@
               "size": "1344×768"
             }
           },
-          "label": "12 批次 · 简化版"
+          "label": "v20 最新结果"
         },
         "batch08": {
           "groups": {
@@ -1157,7 +1157,7 @@
       "id": "feishu_22_case01",
       "title": "Case 1 · 男女泡沫动作迁移",
       "category": "2.2 角色、动作与镜头参考",
-      "description": "本地结果：08批次，768p、20步。Raw和官方复用历史原始结果，时长与生成参数可能不同；本页不代表严格同参数评测。",
+      "description": "默认页签：v20 参考属性继承优化；LLM 输出预算 65,536 token；H3 768p、20步，目标时长 14.9 秒。视频与下方 Prompt 同版。 本例为失败后的重试结果。 其余页签为历史结果；Raw与官方保持原始结果，并非严格同参数评测。",
       "variants": {
         "original": {
           "groups": {
@@ -1179,14 +1179,15 @@
               "size": "1344×768"
             },
             "local_ir": {
-              "label": "本地 IR · 08批次",
+              "label": "本地 IR · v20 · 65,536 token预算",
               "status": "ready",
-              "video": "data/feishu_22_case01/original/local_ir/result.mp4",
-              "prompt": "data/feishu_22_case01/original/local_ir/h3_prompt.txt",
-              "request": "data/feishu_22_case01/original/local_ir/request.json",
+              "video": "data/feishu_22_case01/original/local_ir_v20/result.mp4",
+              "prompt": "data/feishu_22_case01/original/local_ir_v20/h3_prompt.txt",
+              "request": "data/feishu_22_case01/original/local_ir_v20/request.json",
               "context_ir": null,
               "duration_seconds": 15.107,
-              "size": "1344×768"
+              "size": "1344×768",
+              "content_plan": "data/feishu_22_case01/original/local_ir_v20/content_plan.json"
             },
             "official_ir": {
               "label": "官方 IR · 原始结果",
@@ -1198,7 +1199,8 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             }
-          }
+          },
+          "label": "v20 最新结果"
         }
       },
       "assets": [
@@ -1218,7 +1220,7 @@
       "id": "feishu_22_case02",
       "title": "Case 2 · 街舞动作迁移",
       "category": "2.2 角色、动作与镜头参考",
-      "description": "本地结果：08批次，768p、20步。Raw和官方复用历史原始结果，时长与生成参数可能不同；本页不代表严格同参数评测。",
+      "description": "默认页签：v20 参考属性继承优化；LLM 输出预算 65,536 token；H3 768p、20步，目标时长 9.474 秒。视频与下方 Prompt 同版。 其余页签为历史结果；Raw与官方保持原始结果，并非严格同参数评测。",
       "variants": {
         "original": {
           "groups": {
@@ -1240,14 +1242,15 @@
               "size": "1344×768"
             },
             "local_ir": {
-              "label": "本地 IR · 08批次",
+              "label": "本地 IR · v20 · 65,536 token预算",
               "status": "ready",
-              "video": "data/feishu_22_case02/original/local_ir/result.mp4",
-              "prompt": "data/feishu_22_case02/original/local_ir/h3_prompt.txt",
-              "request": "data/feishu_22_case02/original/local_ir/request.json",
+              "video": "data/feishu_22_case02/original/local_ir_v20/result.mp4",
+              "prompt": "data/feishu_22_case02/original/local_ir_v20/h3_prompt.txt",
+              "request": "data/feishu_22_case02/original/local_ir_v20/request.json",
               "context_ir": null,
               "duration_seconds": 10.157,
-              "size": "768×1344"
+              "size": "768×1344",
+              "content_plan": "data/feishu_22_case02/original/local_ir_v20/content_plan.json"
             },
             "official_ir": {
               "label": "官方 IR · 原始结果",
@@ -1259,7 +1262,8 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             }
-          }
+          },
+          "label": "v20 最新结果"
         }
       },
       "assets": [
@@ -1284,7 +1288,7 @@
       "id": "feishu_22_case03",
       "title": "Case 3 · 希区柯克运镜与人物表演",
       "category": "2.2 角色、动作与镜头参考",
-      "description": "本地结果：08批次，768p、20步。Raw和官方复用历史原始结果，时长与生成参数可能不同；本页不代表严格同参数评测。",
+      "description": "默认页签：v20 参考属性继承优化；LLM 输出预算 65,536 token；H3 768p、20步，目标时长 5.0 秒。视频与下方 Prompt 同版。 其余页签为历史结果；Raw与官方保持原始结果，并非严格同参数评测。",
       "variants": {
         "original": {
           "groups": {
@@ -1306,14 +1310,15 @@
               "size": "1344×768"
             },
             "local_ir": {
-              "label": "本地 IR · 08批次",
+              "label": "本地 IR · v20 · 65,536 token预算",
               "status": "ready",
-              "video": "data/feishu_22_case03/original/local_ir/result.mp4",
-              "prompt": "data/feishu_22_case03/original/local_ir/h3_prompt.txt",
-              "request": "data/feishu_22_case03/original/local_ir/request.json",
+              "video": "data/feishu_22_case03/original/local_ir_v20/result.mp4",
+              "prompt": "data/feishu_22_case03/original/local_ir_v20/h3_prompt.txt",
+              "request": "data/feishu_22_case03/original/local_ir_v20/request.json",
               "context_ir": null,
               "duration_seconds": 5.207,
-              "size": "1344×768"
+              "size": "1344×768",
+              "content_plan": "data/feishu_22_case03/original/local_ir_v20/content_plan.json"
             },
             "official_ir": {
               "label": "官方 IR · 原始结果",
@@ -1325,7 +1330,8 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             }
-          }
+          },
+          "label": "v20 最新结果"
         }
       },
       "assets": [
@@ -1350,7 +1356,7 @@
       "id": "feishu_22_case04",
       "title": "Case 4 · 水豚动作替换",
       "category": "2.2 角色、动作与镜头参考",
-      "description": "本地结果：08批次，768p、20步。Raw和官方复用历史原始结果，时长与生成参数可能不同；本页不代表严格同参数评测。",
+      "description": "默认页签：v20 参考属性继承优化；LLM 输出预算 65,536 token；H3 768p、20步，目标时长 5.875 秒。视频与下方 Prompt 同版。 其余页签为历史结果；Raw与官方保持原始结果，并非严格同参数评测。",
       "variants": {
         "original": {
           "groups": {
@@ -1372,14 +1378,15 @@
               "size": "1344×768"
             },
             "local_ir": {
-              "label": "本地 IR · 08批次",
+              "label": "本地 IR · v20 · 65,536 token预算",
               "status": "ready",
-              "video": "data/feishu_22_case04/original/local_ir/result.mp4",
-              "prompt": "data/feishu_22_case04/original/local_ir/h3_prompt.txt",
-              "request": "data/feishu_22_case04/original/local_ir/request.json",
+              "video": "data/feishu_22_case04/original/local_ir_v20/result.mp4",
+              "prompt": "data/feishu_22_case04/original/local_ir_v20/h3_prompt.txt",
+              "request": "data/feishu_22_case04/original/local_ir_v20/request.json",
               "context_ir": null,
               "duration_seconds": 5.907,
-              "size": "1344×768"
+              "size": "1344×768",
+              "content_plan": "data/feishu_22_case04/original/local_ir_v20/content_plan.json"
             },
             "official_ir": {
               "label": "官方 IR · 原始结果",
@@ -1391,7 +1398,8 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             }
-          }
+          },
+          "label": "v20 最新结果"
         }
       },
       "assets": [

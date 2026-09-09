@@ -1,0 +1,24 @@
+subject_definitions:
+<Subject 1> is the woman seen in <Video 2>, with dark brown curly hair, prominent freckles across her nose and cheeks, a white t-shirt under light-blue denim overalls, and stacked colorful bracelets on her right wrist; her singing performance in the target follows <Video 3>.
+<Video 1> is the Hitchcock-style camera-movement reference, contributing a continuous forward dolly combined with a simultaneous zoom out around a centered seated subject.
+<Video 3> supplies the visible singing-performance reference for <Subject 1>, providing the closed-eye, open-mouth phrasing, slight head tilt, and the right-hand outward-to-chest gesture.
+<Audio 1> is the synchronized vocal track of <Video 3>; its audible singing line is used as the sung vocal accompanying <Subject 1>'s visible performance.
+
+summary:
+[reference generation + audio reuse] The target video is a single five-second live-action shot in which <Subject 1>, the woman seen in <Video 2>, sings at an outdoor cafe table. The camera performs a continuous dolly-zoom transferred from <Video 1>. <Subject 1> keeps her stable identity from <Video 2> and carries the visible singing performance and audible vocal line supplied by <Video 3> and <Audio 1>.
+
+retention_analysis:
+<Subject 1> (visible throughout [Shot 1]): fully_preserved - the woman's curly dark-brown hair, freckles, white t-shirt, light-blue denim overalls, and right-wrist bracelets remain unchanged.
+<Video 1> (camera path in [Shot 1]): attribute_transfer - the forward-dolly/zoom-out camera movement is applied continuously to the target shot.
+<Video 3> (visible singing performance transferred to <Subject 1>): attribute_transfer - the closed-eye onset, open-mouth sung phrasing, subtle head tilt, and outward-then-inward right-hand gesture are carried into <Subject 1>'s singing.
+<Audio 1> (vocal layer in [Shot 1]): partially_copy - the sung vocal from <Audio 1> is used as the audible lead vocal of the target and is mixed with newly designed cafe ambience.
+
+detailed_description:
+The target video is in a cinematic live-action style with natural daylight, a medium close-up framing, and a restrained outdoor-cafe palette.
+[Shot 1] The shot opens on <Subject 1>, the woman from <Video 2>, seated alone at a small outdoor cafe table in soft daylight. Her dark brown curls, freckled cheeks, white t-shirt, light-blue denim overalls, and colorful right-wrist bracelets establish her identity immediately, and she holds a plain white ceramic cup in her right hand. The camera begins at a medium close-up and immediately starts the dolly-zoom reference from <Video 1>: it dollies forward toward her while the lens zooms out, keeping her head nearly the same size in the frame while the cafe background visibly widens and shifts depth around her. As the action develops, she lowers the white cup to the tabletop, releases it with a soft ceramic clink, lifts her head, and lets her eyes close into the singing onset transferred from <Video 3>. When the audible sung vocal of <Audio 1> begins, her mouth opens and closes in the phrase shape of <Video 3>'s visible performance: her head tilts slightly, her lips articulate through the sung phrasing, and with the right hand now free her arm rises, extends outward to the right of frame, pauses at the top of the gesture, and then curves back toward her chest. The forward dolly and zoom-out continue without interruption through the sung section, so the background keeps its subtle Hitchcock-style expansion around her. As the sung phrase resolves near the end of the shot, her right hand decelerates and settles near her collarbone, her head returns toward center, and her eyes open slowly. The dolly-zoom completes its path on this settled framing, and the shot ends at the 5.00-second mark with no new gesture or exit; the final sung tone and cafe ambience fade out together at the end of the shot.
+
+overall_soundscape:
+Quiet outdoor-cafe room tone and a light breeze continue beneath the whole shot, with a soft ceramic tap at the cup's release. No traffic or crowd voices are introduced, and the ambience fades out with the final frame.
+
+non_diegetic_music:
+N/A

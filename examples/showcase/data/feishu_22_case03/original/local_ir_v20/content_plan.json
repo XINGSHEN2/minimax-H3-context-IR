@@ -1,0 +1,123 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "Make the person shown in video_2 appear singing in the target 5s video.",
+      "Transfer the Hitchcock-style camera movement from video_1 to the target camera work.",
+      "Preserve the stable identity of the video_2 person as the singer.",
+      "Base the singing voice and visible singing performance on video_3."
+    ],
+    "reference_anchors": [
+      {
+        "asset_id": "video_1",
+        "features": "Forward dolly combined with simultaneous zoom out around a centered seated subject."
+      },
+      {
+        "asset_id": "video_2",
+        "features": "Woman with dark brown curly hair, freckles on nose/cheeks, white t-shirt under light-blue denim overalls, stacked bracelets on right wrist; seated at an outdoor cafe table with a plain white cup."
+      },
+      {
+        "asset_id": "video_3",
+        "features": "Seated singer facing camera with closed eyes and open mouth, subtle head tilt, right hand extending outward then returning toward chest while singing."
+      }
+    ],
+    "open_design": [
+      "Keep the outdoor cafe table as the coherent setting for the singer.",
+      "Start the shot with the white cup being set down so the right hand is free to perform video_3's gesture.",
+      "Use one continuous 5s shot so the transferred dolly-zoom camera movement and the singing performance remain uninterrupted.",
+      "End with a settled resolve of the sung phrase; do not invent a title, caption, or new plot."
+    ]
+  },
+  "task_mode": "reference_transfer",
+  "must_keep": [
+    "Video_1 dolly-zoom: forward dolly with simultaneous zoom-out, sustained through the shot.",
+    "Video_2 identity: curly dark brown hair, freckles, white t-shirt + light-blue denim overalls, bracelets on right wrist.",
+    "Video_3 visible singing performance: closed eyes, open-mouth phrasing, head tilt, right-hand outward-to-chest gesture.",
+    "Singing voice based on video_3 without inventing lyrics or claiming exact lyric content.",
+    "Exact 5.0s target duration with contiguous shot coverage from 0 to 5 seconds."
+  ],
+  "bindings": [
+    {
+      "asset_id": "video_1",
+      "role": "Camera movement reference",
+      "retained_attributes": [
+        "Forward dolly path combined with simultaneous lens zoom-out."
+      ],
+      "optional_inherited_attributes": [
+        "Centered medium close-up framing."
+      ],
+      "excluded_attributes": [
+        "Beach setting",
+        "wheelchair",
+        "the two people shown in video_1"
+      ],
+      "exclusion_reasons": [
+        "The user requested only the Hitchcock-style camera movement, not video_1 content."
+      ]
+    },
+    {
+      "asset_id": "video_2",
+      "role": "Identity and location reference for the singer",
+      "retained_attributes": [
+        "Woman's appearance: curly dark brown hair, freckles, white t-shirt, light-blue denim overalls, right-wrist bracelets.",
+        "Outdoor cafe table with a plain white cup."
+      ],
+      "optional_inherited_attributes": [
+        "Soft outdoor daylight ambience."
+      ],
+      "excluded_attributes": [],
+      "exclusion_reasons": []
+    },
+    {
+      "asset_id": "video_3",
+      "role": "Singing voice and visible singing-performance reference",
+      "retained_attributes": [
+        "Closed-eye/open-mouth sung phrasing.",
+        "Subtle head tilt.",
+        "Right-hand outward-to-chest gesture.",
+        "Audible sung vocal source for the target."
+      ],
+      "optional_inherited_attributes": [],
+      "excluded_attributes": [
+        "video_3 performer's identity and appearance",
+        "black satin dress",
+        "gold hoop earrings",
+        "grey studio background"
+      ],
+      "exclusion_reasons": [
+        "The request transfers singing voice and visible performance only, not the source singer's identity or studio setting."
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_1",
+      "visible_change": "The singer sets the white cup down from her right hand, lifts her head, and begins closing her eyes while the dolly-zoom starts.",
+      "outcome": "The right hand is free and the performance posture is ready."
+    },
+    {
+      "id": "dev_2",
+      "visible_change": "She opens her mouth into a shaped sung phrase, tilts her head subtly, and moves her right hand outward then curves it back toward her chest while the camera dolly-zoom continues.",
+      "outcome": "The main sung vocal section is visibly performed with the source voice relationship intact."
+    },
+    {
+      "id": "dev_3",
+      "visible_change": "Her right hand settles near her collarbone, her head returns toward center, and her eyes open slowly as the sung vocal and camera move resolve.",
+      "outcome": "The clip ends on a settled singer with no new gesture or exit."
+    }
+  ],
+  "shots": [
+    {
+      "development_ids": [
+        "dev_1",
+        "dev_2",
+        "dev_3"
+      ],
+      "start_seconds": 0.0,
+      "end_seconds": 5.0,
+      "start_state": "Woman from video_2 sits at an outdoor cafe table with the white cup in her right hand; camera begins in medium close-up.",
+      "action": "Continuous forward-dolly/zoom-out camera move from video_1 lasts the whole shot. She sets the cup down, lifts her head, closes her eyes, opens into a sung phrase, tilts her head, extends her right hand outward, and returns it toward her chest; near the end she settles, opens her eyes, and resolves the phrase.",
+      "end_state": "Right hand rests near her collarbone, head centered with eyes open, camera at its final dolly-zoom framing; all audio resolves by 5.0s.",
+      "sound_cues": "Soft ceramic tap when the cup is set down; the audible sung vocal of the video_3 source begins as she starts the phrase and resolves before the final frame; quiet outdoor cafe room tone fades out with the shot."
+    }
+  ]
+}
