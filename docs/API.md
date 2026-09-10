@@ -1,5 +1,7 @@
 # Context-IR 对外 API 使用文档
 
+> v20 兼容说明：普通素材路径使用单次 LLM 联合输出 `content_plan` 和 H3 Prompt，不再固定执行旧版“草稿＋最终导演”。返回的 `context_ir` 是 `h3_compilation.light.v1` 轻量记录；下文涉及旧 canonical IR 的结构、锁定和优化字段仅适用于 `input_type=context_ir` 兼容路径，不能将轻量记录直接传给该入口。正常编译一次请求不包含前置意图解析，也不保证异常修复时无额外请求。当前执行及产物以 [工作流](CURRENT_CONTEXT_IR_WORKFLOW.md) 为准；运行版本通过 `/api/health` 核实。
+
 本文档是 MiniMax-H3 Context-IR 项目的统一对外接口说明。普通业务调用方优先使用稳定业务接口；图片、视频和音频理解接口仅供其他 Agent、Skill 或素材系统按需复用。
 
 ## 1. 服务地址与协议

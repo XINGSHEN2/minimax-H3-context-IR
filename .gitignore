@@ -46,3 +46,8 @@ backups/
 Thumbs.db
 .vscode/
 .idea/
+
+# Ad-hoc investigations and machine-local Feishu imports
+/scratch/
+/assets/feishu_1_1/
+/assets/feishu_eval_*/
