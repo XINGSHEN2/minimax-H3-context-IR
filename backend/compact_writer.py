@@ -15,7 +15,7 @@ These are brief decisions, not a chain of thought or a new validation gate.
 Then record task_mode
 (generate, reference_transfer, edit, or continuation), must_keep
 (short list of user requirements and identifying details), bindings (asset_id,
-role, retained_attributes, excluded_attributes), developments (id, visible_change, outcome), and shots (development_ids, start_seconds, end_seconds, start_state,
+role, retained_attributes, optional_inherited_attributes, excluded_attributes, exclusion_reasons), developments (id, visible_change, outcome), and shots (development_ids, start_seconds, end_seconds, start_state,
 action, end_state, sound_cues). Keep it small, then realize the same content in
 h3_prompt. This single call produces both; do not introduce an audit stage.
 Allocate time to the primary action and communication goal before secondary
@@ -43,6 +43,23 @@ during its readable beat with room at the edges; scale or wrap without changing
 the words. This does not override explicitly requested cropped typography or
 blurred/partial entrance effects before the readable beat.
 Scope each binding by the user's assigned role before choosing scene content.
+A primary reference role is not an exclusive whitelist. Distinguish required
+retention, optional inheritance and explicit exclusion. An attribute outside
+required retention does not automatically belong in excluded_attributes. Give
+each exclusion a reason: an explicit user restriction, an authoritative replacement,
+a concrete source conflict, or non-scene presentation such as a contact-sheet border.
+For an unspecified target scene, prefer a coherent, evidenced setting accompanying
+the target subject when it suits the requested action and conflicts with no instruction.
+Record this as optional inheritance and a design choice, not as a user must_keep.
+Do not replace a usable source setting with a generic wall or plaza merely because
+the images primarily identify a person. If candidate settings conflict, choose a
+supported fit and state the uncertainty; do not blend incompatible locations.
+Explicit new scenes, 'identity only', 'do not use the original background', and
+style-only reference scopes override this default. Never copy sheet borders,
+multi-view layouts or a plain identity-sheet backdrop as a literal scene by default.
+For person-image plus motion-video transfer, the motion source does not displace
+a usable target-image setting. Creative freedom develops the requested action
+within that setting before inventing a replacement world, unless the request calls for one.
 An atmosphere/style-only reference supplies light, palette, texture and requested
 effects, not incidental source objects, people or exact captions. Record those
 exclusions in its binding and keep them out of the target unless separately

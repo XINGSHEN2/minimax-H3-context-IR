@@ -2,7 +2,7 @@
 import copy,json,math,re
 from backend.compact_writer import build_compact_writing_prompt
 
-COMPILER_REVISION='singlecall.v19.content_first'
+COMPILER_REVISION='singlecall.v20.reference_inheritance'
 
 RULES='''\nCompile bindings, shot states and final wording in this ONE response. The
 content_plan is a short production record, not a legacy canonical Context-IR.
@@ -71,6 +71,16 @@ requested story. A complete locked storyboard or strictly transferred dimension
 retains its prescribed sequence and endpoint; other unspecified dimensions remain
 open within the request. Reference isolation limits what a source controls; it is
 not permission to delete bystanders or backgrounds from an edit base.
+Outside edits too, a primary asset role is not an automatic ban on its other
+attributes. Separate required retention, optional inheritance and justified
+exclusion. When target surroundings are unspecified, prefer a coherent supported
+setting accompanying the target subject over an invented generic replacement,
+provided it fits the action and no explicit restriction or scene authority conflicts.
+This choice remains inferred, not user-locked. Explicit identity-only/background
+exclusion, replacement scenes, style-only sources and reference-sheet layouts
+must retain their scoped limits. Record reasons for exclusions; absence from a
+must_keep list is not a reason. Preserve creative staging without gratuitous
+replacement of useful source context.
 Do not invent restrictions such
 as interior-only coverage or static-only cameras when not authorized by the user,
 edit base or reference role. Transitions belong at boundaries, not in extra shots.
