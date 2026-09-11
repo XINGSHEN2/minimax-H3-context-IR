@@ -18,7 +18,9 @@ def finish_single_call(source, output_dir, reasoning, timings, started, progress
     instruction = RULES + '\n' + build_compact_writing_prompt(evidence)
     (output_dir / 'compiler_instructions.txt').write_text(instruction, encoding='utf-8')
     tick = time.perf_counter()
-    result = invoke_reasoning_json(instruction, reasoning, output_dir / 'writer_1.log', list(CORE_SKILLS))
+    # Audio writing shares the existing compilation request; no extra director.
+    writing_skills = list(dict.fromkeys((*CORE_SKILLS, 'h3-audio-planning')))
+    result = invoke_reasoning_json(instruction, reasoning, output_dir / 'writer_1.log', writing_skills)
     timings['stages_seconds']['single_call_compile'] = round(time.perf_counter() - tick, 3)
     errors, warnings = transport_issues(result, evidence)
     save('compilation_result.json', result)
