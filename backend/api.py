@@ -22,6 +22,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import unquote, urlparse
 
+from backend.compiler import COMPILER_REVISION
 from backend.agent import perception_config, preflight_reasoning_provider, reasoning_provider_config, run_agent
 from backend.capabilities import (
     audio_understand, context_ir_generate, h3_prompt_generate, image_understand,
@@ -40,12 +41,13 @@ ALLOWED_EXTENSIONS = {
     "audio": {".wav", ".mp3", ".m4a", ".aac", ".flac", ".ogg"},
 }
 RESULT_FILES = {
+    "evidence_input.json", "compiler_instructions.txt",
     "content_plan.json", "compilation_result.json", "result_status.json", "writer_1.log",
     "input.json", "resolved_input.json", "intent_resolution.json", "perception_plan.json",
-    "media_analysis.json", "context_ir_draft.json", "h3_prompt_draft.txt",
-    "context_ir.json", "h3_prompt.txt", "llm_optimization.json",
+    "media_analysis.json",
+    "context_ir.json", "h3_prompt.txt",
     "h3_prompt_audit.json", "h3_request.json", "stage_timings.json",
-    "intent_resolver.log", "agent.log", "final_optimizer.log",
+    "intent_resolver.log",
 }
 CASE_PATTERN = re.compile(r"^case_(\d{3,})$")
 SAFE_NAME_PATTERN = re.compile(r"[^A-Za-z0-9._-]+")
@@ -57,9 +59,9 @@ EXECUTOR = ThreadPoolExecutor(max_workers=int(os.environ.get("CONTEXT_IR_JOB_WOR
 
 PROGRESS_STAGES = {
     "intent": (0, 18, "正在解析用户意图"),
-    "bindings": (1, 36, "正在分析素材绑定"),
-    "timeline": (2, 58, "正在编排时间线"),
-    "isolation": (3, 78, "最终导演正在优化镜头与引用关系"),
+    "perception": (1, 36, "正在理解素材"),
+    "compile": (2, 58, "正在编译内容计划与 H3 Prompt"),
+    "validation": (3, 78, "正在检查输出格式"),
     "prompt": (4, 90, "正在保存最终 H3 Prompt"),
 }
 
@@ -134,7 +136,7 @@ def _run_job(job_id: str) -> None:
             result_files=available,
             progress_stage=len(PROGRESS_STAGES),
             progress_percent=100,
-            progress_label="H3 Prompt 已生成（v19 单次编译）",
+            progress_label="H3 Prompt 已生成（v20 单次编译）",
         )
     except Exception as exc:
         _update_job(
@@ -381,7 +383,7 @@ class StudioHandler(BaseHTTPRequestHandler):
         path = urlparse(self.path).path
         if path == "/api/health":
             self._json(HTTPStatus.OK, {"ok": True, "services": _service_status(),
-                "prompt_compiler": "singlecall.v19.content_first",
+                "prompt_compiler": COMPILER_REVISION,
                 "prompt_llm_calls": 1, "separate_intent_stage": True})
             return
         if path == "/api/capabilities":
@@ -399,7 +401,7 @@ class StudioHandler(BaseHTTPRequestHandler):
                     "audio_understand": "/api/understand/audio",
                 },
                 "internal": ["media_evidence_normalize"],
-                "h3_prompt_input_types": ["assets", "asset_descriptions", "media_analysis", "context_ir"],
+                "h3_prompt_input_types": ["assets", "asset_descriptions", "media_analysis"],
             })
             return
         if path.startswith("/api/jobs/"):

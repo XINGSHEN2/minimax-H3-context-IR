@@ -1,1 +1,1 @@
-openai-codex==0.144.4
+# Python 3.10+ standard library runtime; curl and ffmpeg/ffprobe are system tools.

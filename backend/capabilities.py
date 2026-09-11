@@ -13,7 +13,6 @@ import tempfile
 from pathlib import Path
 from typing import Any, Mapping
 
-from backend.context_ir import build_h3_request
 from backend.perception import PERCEPTION_PROVIDERS, PerceptionProviderConfig, normalize_media_analysis, sanitize_media_analysis_quality
 from backend.video_generation import H3VideoClient, default_h3_client
 
@@ -188,74 +187,12 @@ def h3_prompt_generate(
     input_type=assets: full intent planning, perception, and compilation.
     input_type=asset_descriptions: normalize caller descriptions, then compile.
     input_type=media_analysis: reuse validated upstream perception.
-    input_type=context_ir: lock supplied semantics, compile the Prompt, and construct the request.
     """
     input_type = str(payload.get("input_type", "")).strip()
-    if input_type not in {"assets", "asset_descriptions", "media_analysis", "context_ir"}:
+    if input_type not in {"assets", "asset_descriptions", "media_analysis"}:
         raise ValueError(
-            "input_type must be assets, asset_descriptions, media_analysis, or context_ir"
+            "input_type must be assets, asset_descriptions, media_analysis"
         )
-    if input_type == "context_ir":
-        ir = payload.get("context_ir")
-        if not isinstance(ir, Mapping):
-            raise ValueError("input_type=context_ir requires context_ir object")
-        from backend.agent import optimize_existing_context_ir
-
-        managed_temp = output_dir is None
-        target = output_dir or (Path(tempfile.mkdtemp(prefix="context-ir-optimize-")) / "result")
-        target.mkdir(parents=True, exist_ok=False)
-        final_ir, prompt, optimization = optimize_existing_context_ir(
-            copy.deepcopy(dict(ir)), target / "final_optimizer.log"
-        )
-        context_path = target / "context_ir.json"
-        prompt_path = target / "h3_prompt.txt"
-        optimization_path = target / "llm_optimization.json"
-        context_path.write_text(json.dumps(final_ir, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        prompt_path.write_text(prompt, encoding="utf-8")
-        optimization_path.write_text(json.dumps(optimization, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        contract_validation = optimization.get("contract_validation", {"passed": True, "errors": [], "warnings": []})
-        audit_marker = {
-            "schema_version": "h3_prompt_contract.v1",
-            "enabled": True,
-            "scope": "deterministic_transport_contract_only",
-            "passed": bool(contract_validation.get("passed")),
-            "errors": contract_validation.get("errors", []),
-            "warnings": contract_validation.get("warnings", []),
-            "semantic_warnings_input": optimization.get("semantic_warnings_input", []),
-            "semantic_warning_resolutions": optimization.get("semantic_warning_resolutions", []),
-            "unresolved_semantic_warnings": optimization.get("unresolved_semantic_warnings", []),
-            "subjective_content_score_enabled": False,
-            "reason": "Caller semantics are locked; only official format, reference, timing, and deterministic conflicts are checked.",
-            "optimization_file": "llm_optimization.json",
-        }
-        (target / "h3_prompt_audit.json").write_text(
-            json.dumps(audit_marker, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-        )
-        prompt_file = str(payload.get("prompt_file") or prompt_path)
-        output_path = str(payload.get("output_path") or (target / "h3_outputs"))
-        request = build_h3_request(final_ir, prompt_file, output_path)
-        (target / "h3_request.json").write_text(json.dumps(request, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        result = {
-            "schema_version": H3_PROMPT_OUTPUT_VERSION,
-            "input_type": input_type,
-            "sources": {"context_ir": "caller_supplied_semantics_locked"},
-            "media_analysis": final_ir.get("perception"),
-            "context_ir": final_ir,
-            "h3_prompt": prompt,
-            "llm_optimization": optimization,
-            "h3_prompt_audit": audit_marker,
-            "h3_request": request,
-        }
-        result["artifacts"] = {
-            "context_ir": _artifact_meta(result["context_ir"], "semantic_locked"),
-            "h3_prompt": _artifact_meta(result["h3_prompt"], "generated"),
-            "llm_optimization": _artifact_meta(result["llm_optimization"], "generated"),
-            "h3_request": _artifact_meta(result["h3_request"], "generated"),
-        }
-        if not managed_temp:
-            result["output_dir"] = str(target)
-        return result
-
     source = payload.get("source")
     if not isinstance(source, Mapping):
         raise ValueError(f"input_type={input_type} requires source object")
@@ -328,7 +265,6 @@ def h3_prompt_generate(
         "media_analysis": _read_result(target, "media_analysis.json"),
         "context_ir": _read_result(target, "context_ir.json"),
         "h3_prompt": _read_result(target, "h3_prompt.txt"),
-        "llm_optimization": _read_result(target, "llm_optimization.json"),
         "h3_prompt_audit": _read_result(target, "h3_prompt_audit.json"),
         "h3_request": _read_result(target, "h3_request.json"),
         "stage_timings": _read_result(target, "stage_timings.json"),
@@ -337,7 +273,6 @@ def h3_prompt_generate(
         "media_analysis": _artifact_meta(result["media_analysis"], result["sources"]["media_analysis"]),
         "context_ir": _artifact_meta(result["context_ir"], "generated"),
         "h3_prompt": _artifact_meta(result["h3_prompt"], "generated"),
-        "llm_optimization": _artifact_meta(result["llm_optimization"], "generated"),
         "h3_request": _artifact_meta(result["h3_request"], "generated"),
     }
     if not managed_temp:

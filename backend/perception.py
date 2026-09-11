@@ -18,6 +18,7 @@ import os
 import re
 import subprocess
 import tempfile
+import threading
 import time
 import urllib.error
 import urllib.request
@@ -887,6 +888,43 @@ class GiteeQwen3VLProvider(PerceptionProvider):
 class LocalQwen3VL32BProvider(PerceptionProvider):
     """OpenAI Chat Completions adapter for the local FIFO Qwen3-VL services."""
 
+    def __init__(self, config: PerceptionProviderConfig) -> None:
+        super().__init__(config)
+        self._uploaded_media: dict[tuple[str, int, int], str] = {}
+        self._upload_lock = threading.Lock()
+
+    def _media_url(self, media_path: Path) -> str:
+        upload_base = str(self.config.options.get("asset_upload_base_url", "")).rstrip("/")
+        source = media_path.expanduser().resolve()
+        if not upload_base:
+            return source.as_uri()
+        stat = source.stat()
+        key = (str(source), stat.st_size, stat.st_mtime_ns)
+        with self._upload_lock:
+            if key in self._uploaded_media:
+                return self._uploaded_media[key]
+            # curl streams the multipart body, including large source videos.
+            escaped = str(source).replace(chr(92), chr(92) * 2).replace(chr(34), chr(92) + chr(34))
+            timeout = float(self.config.options.get("asset_upload_timeout_seconds", 600))
+            response = subprocess.run(
+                ["curl", "--silent", "--show-error", "--fail-with-body",
+                 "--connect-timeout", "15", "--max-time", str(timeout),
+                 "--request", "POST", upload_base + "/v1/assets",
+                 "--form", 'file=@"' + escaped + '"'],
+                capture_output=True, text=True, timeout=timeout + 5, check=False,
+            )
+            if response.returncode:
+                raise RuntimeError(f"Asset upload failed ({response.returncode}): {response.stderr[:500]} {response.stdout[:500]}")
+            try:
+                value = json.loads(response.stdout)
+                url = value.get("url", "") if isinstance(value, dict) else ""
+            except (ValueError, TypeError) as exc:
+                raise RuntimeError("Asset upload returned invalid JSON") from exc
+            if not isinstance(url, str) or not url.startswith(("http://", "https://")):
+                raise RuntimeError("Asset upload did not return an HTTP(S) url")
+            self._uploaded_media[key] = url
+            return url
+
     def _request_json(
         self,
         method: str,
@@ -947,6 +985,7 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
                 "image_attribute_batch_size", "relational_image_max_tokens",
                 "video_timeline_max_tokens", "video_entity_max_tokens",
                 "video_fps", "video_max_frames", "max_tokens",
+                "image_base_url", "video_base_url", "asset_upload_base_url",
             )
         }
         material = {
@@ -1011,10 +1050,11 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
                 "role": "user",
                 "content": [
                     {"type": "text", "text": prompt},
-                    {"type": content_type, content_type: {"url": media_path.resolve().as_uri()}},
+                    {"type": content_type, content_type: {"url": self._media_url(media_path)}},
                 ],
             }],
             "max_tokens": max_new_tokens,
+            "stream": False,
             "temperature": float(self.config.options.get("temperature", 0.0)),
             "top_p": float(self.config.options.get("top_p", 0.9)),
             **parameters,

@@ -2,7 +2,7 @@ import json
 import time
 from unittest.mock import patch
 
-from backend.single_call_service import finish_single_call
+from backend.compiler import compile_prompt
 
 
 def run(tmp_path, invalid=False):
@@ -11,10 +11,10 @@ def run(tmp_path, invalid=False):
     answer = {'content_plan': {'bindings': [{'asset_id': 'image_1'}],
               'shots': [{'start_seconds': 0, 'end_seconds': 6 if invalid else 5}]},
               'h3_prompt': '<Picture 1> A continuous product view.'}
-    with patch('backend.agent._compact_final_editor_source', return_value=source), \
+    with patch('backend.evidence.build_writer_evidence', return_value=source), \
          patch('backend.agent.invoke_reasoning_json', return_value=answer) as invoke:
         try:
-            finish_single_call(source, tmp_path, {}, {'stages_seconds': {}}, time.perf_counter())
+            compile_prompt(source, tmp_path, {}, {'stages_seconds': {}}, time.perf_counter())
         except ValueError:
             assert invalid
         assert invoke.call_count == 1
@@ -27,7 +27,7 @@ def test_single_call_and_request(tmp_path):
     assert request['target']['duration_seconds'] == 5
     assert request['conditions'][0]['uri'] == '/tmp/image.png'
     assert json.loads((tmp_path / 'context_ir.json').read_text())['schema_version'] == 'h3_compilation.light.v1'
-    assert json.loads((tmp_path / 'llm_optimization.json').read_text())['enabled'] is False
+    assert not (tmp_path / 'llm_optimization.json').exists()
 
 
 def test_no_hidden_retry_or_request_on_error(tmp_path):

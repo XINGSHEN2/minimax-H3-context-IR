@@ -1,33 +1,12 @@
-# Case结果组织约定
+# v20 案例输出约定
 
-用户要求：以后每次不同版本的本地IR提示词直接写入对应素材Case下，不再另建脱离Case的实验输出集合。
+每个案例保留原始需求和素材，在 `output/<版本目录>/` 下保存独立运行结果，不覆盖旧版本。
 
-```text
-caseN-ref2va/
-  assets/
-  output/
-    raw/                         # 保留已有原始对照
-    official_ir/                 # 唯一官方结果，只读复用
-    local_ir_260907_01/           # 每次生成新版本，禁止覆盖
-      h3_prompt.txt
-      context_ir.json
-      media_analysis.json
-      h3_request.json
-      stage_timings.json
-      result_manifest.json
-      h3_outputs/                # 可选；只放使用本版Prompt生成的视频
-```
+- `context_ir.json`：h3_compilation.light.v1 轻量生产记录。
+- `content_plan.json`：模型联合生成的内容计划。
+- `h3_prompt.txt`：同次调用生成的完整提示词。
+- `h3_request.json`：可显式提交给 H3 的请求，不代表已经生成视频。
+- `media_analysis.json`、`evidence_input.json`：素材分析及实际写作证据。
+- `h3_prompt_audit.json`、`result_status.json`、`stage_timings.json`：格式检查、状态和耗时。
 
-- 使用日期加序号区分同日版本；不把较晚Prompt覆盖进已生成视频的版本目录。
-- 从Prompt到视频全过程沿用同一版本目录；仅生成Prompt时不制造空视频或伪造完成状态。
-- result_manifest记录实际Prompt来源/哈希、代码版本或文件哈希、模型、是否复用分析、任务ID与状态。
-- 官方Prompt及视频只引用原始output/official_ir，不生成official_ir_新版本，也不重复调用官方。
-- 服务通用API仍接受调用方指定output_dir；本项目Case测试调用方必须明确传入对应Case版本路径。
-- 不把厨房动作迁移样本标成飞书1.1的Case2；编号必须按真实Case路径区分。
-- 旧版本保留，除非用户明确批准清理。各阶段文件可放版本目录的logs/或diagnostics/，不散落仓库根目录。
-
-## 本轮重复官方结果已清理
-
-aigc-2的三份重复官方运行目录和两份official_ir_260907归档已移出Case目录，原有official_ir共40个文件哈希未变。
-可恢复目录：`/mnt/customer-fs/shenxing/minimax-H3-data/.trash/duplicate-official-260907`。
-本地四个重复官方视频/联系表也移至本审阅目录的`.trash/duplicate-official-260907`。
+只有运行成功且 h3_prompt_audit.passed=true 才作为可审阅版本。semantic_quality_verified=false，仍需人工比较用户需求、素材及官方 IR。失败目录保留日志供排查，不当作完成版本。历史生成结果、对比页面和本地 work 实验数据不随代码清理删除。

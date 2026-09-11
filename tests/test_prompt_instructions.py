@@ -4,7 +4,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from backend.compact_writer import COMPACT_WRITING_INSTRUCTIONS, write_compact_prompt
+from backend.prompt_instructions import COMPACT_WRITING_INSTRUCTIONS, build_compact_writing_prompt
 
 
 def test_instructions_prioritize_content_and_evidence_over_specificity():
@@ -29,19 +29,6 @@ def test_one_call_preserves_input_constraints_and_authored_content():
         "assets": [{"asset_id": "video_1", "events": [{"time_range": [0, 9]}]}],
     }
     original = copy.deepcopy(evidence)
-    result = {"content_plan": {"task_mode": "edit"},
-              "h3_prompt": "Exact authored text\n<d>[Chinese] 别走了，好吗？</d>",
-              "uncertainties": ["unheard source soundtrack"]}
-    invoke = Mock(return_value=result)
-    assert write_compact_prompt(evidence, invoke) == result
-    invoke.assert_called_once()
-    sent = invoke.call_args.args[0]
+    sent = build_compact_writing_prompt(evidence)
     assert json.loads(sent[len(COMPACT_WRITING_INSTRUCTIONS):]) == original
     assert evidence == original
-
-
-@pytest.mark.parametrize("result", [[], {"content_plan": {}, "h3_prompt": ""},
-                                   {"h3_prompt": "text", "content_plan": []}])
-def test_incomplete_transport_result_is_not_returned_as_success(result):
-    with pytest.raises(ValueError):
-        write_compact_prompt({}, Mock(return_value=result))

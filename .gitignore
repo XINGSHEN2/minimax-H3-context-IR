@@ -51,3 +51,6 @@ Thumbs.db
 /scratch/
 /assets/feishu_1_1/
 /assets/feishu_eval_*/
+
+# Private refactor backups and experiment outputs
+/work/

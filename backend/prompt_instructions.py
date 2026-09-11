@@ -116,22 +116,3 @@ def build_compact_writing_prompt(evidence: Mapping[str, Any]) -> str:
     return COMPACT_WRITING_INSTRUCTIONS + json.dumps(
         evidence, ensure_ascii=False, separators=(",", ":")
     )
-
-
-def write_compact_prompt(
-    evidence: Mapping[str, Any],
-    invoke: Callable[[str], dict[str, Any]],
-) -> dict[str, Any]:
-    """One invocation; preserve authored content and return its planning record.
-
-    This does not claim to create the legacy canonical Context-IR or perform
-    semantic validation. The caller chooses providers, skills and logging.
-    """
-    result = invoke(build_compact_writing_prompt(evidence))
-    if not isinstance(result, dict):
-        raise ValueError("compact writer must return a JSON object")
-    if not isinstance(result.get("h3_prompt"), str) or not result["h3_prompt"].strip():
-        raise ValueError("compact writer requires a nonempty h3_prompt")
-    if not isinstance(result.get("content_plan"), dict):
-        raise ValueError("compact writer requires a content_plan object")
-    return result

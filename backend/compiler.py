@@ -1,6 +1,9 @@
-"""Opt-in one-call compiler. Does not change the public legacy IR protocol."""
-import copy,json,math,re
-from backend.compact_writer import build_compact_writing_prompt
+"""The v20 production compiler and deterministic output checks."""
+import copy
+import json
+import math
+import re
+import time
 
 COMPILER_REVISION='singlecall.v20.reference_inheritance'
 
@@ -222,14 +225,58 @@ def prepare_writer_evidence(evidence):
     if 'assets' in prepared:prepared['assets']=clean(prepared['assets'])
     return prepared
 
-def compile_once(evidence,invoke):
-    evidence=prepare_writer_evidence(evidence)
-    instruction=RULES+'\n'+build_compact_writing_prompt(evidence)
-    result=invoke(instruction)
-    errors,warnings=transport_issues(result,evidence)
-    attempts=1
+
+def compile_prompt(source, output_dir, reasoning, timings, started, progress=None):
+    from backend.agent import invoke_reasoning_json, CORE_SKILLS
+    from backend.evidence import build_writer_evidence
+    from backend.prompt_instructions import build_compact_writing_prompt
+    from backend.contracts import build_h3_request
+
+    def save(name, value):
+        (output_dir / name).write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+    evidence = prepare_writer_evidence(build_writer_evidence(source))
+    save('evidence_input.json', evidence)
+    instruction = RULES + '\n' + build_compact_writing_prompt(evidence)
+    (output_dir / 'compiler_instructions.txt').write_text(instruction, encoding='utf-8')
+    tick = time.perf_counter()
+    result = invoke_reasoning_json(instruction, reasoning, output_dir / 'writer_1.log', list(CORE_SKILLS))
+    timings['stages_seconds']['single_call_compile'] = round(time.perf_counter() - tick, 3)
+    if progress:
+        progress('validation')
+    errors, warnings = transport_issues(result, evidence)
+    save('compilation_result.json', result)
+    audit = {'schema_version': 'h3_prompt_contract.v1', 'passed': not errors,
+             'errors': errors, 'warnings': warnings, 'semantic_quality_verified': False,
+             'compiler_revision': COMPILER_REVISION, 'llm_calls': 1}
+    save('h3_prompt_audit.json', audit)
+    timings.update(compiler_revision=COMPILER_REVISION, prompt_llm_calls=1,
+                   total_seconds=round(time.perf_counter() - started, 3))
+    save('stage_timings.json', timings)
+    save('result_status.json', {'status': 'needs_review' if errors else 'ready_for_review', 'llm_calls': 1})
     if errors:
-        result=invoke(instruction+'\nRepair ONLY these transport errors, keeping semantic content unchanged:\n'+json.dumps(errors)+'\nPrevious response:\n'+json.dumps(result,ensure_ascii=False))
-        attempts+=1
-        errors,warnings=transport_issues(result,evidence)
-    return {'schema_version':'h3_compilation.light.v1',**result,'compiler_revision':COMPILER_REVISION,'transport_audit':{'errors':errors,'warnings':warnings,'semantic_quality_verified':False},'llm_calls':attempts,'status':'ready_for_review' if not errors else 'needs_review'}
+        # Retain diagnostic artifacts; never silently invoke another writer or
+        # issue a generation request for invalid output.
+        raise ValueError('v20 transport validation failed: ' + json.dumps(errors, ensure_ascii=False))
+    plan = result['content_plan']
+    save('content_plan.json', plan)
+    # Explicitly a lightweight record, NOT a fabricated canonical Context-IR.
+    record = {'schema_version': 'h3_compilation.light.v1', 'compiler_revision': COMPILER_REVISION,
+              'task': copy.deepcopy(source['task']), 'assets': copy.deepcopy(source['assets']),
+              'content_plan': plan, 'uncertainties': result.get('uncertainties', []),
+              'perception': source.get('perception')}
+    save('context_ir.json', record)
+    prompt_path = output_dir / 'h3_prompt.txt'
+    prompt_path.write_text(result['h3_prompt'], encoding='utf-8')
+    request_source = copy.deepcopy(source)
+    if source['task']['type'].lower() in {'i2va', 'fl2va', 'l2va'}:
+        # Frame position is an input contract, never inferred from writer prose.
+        for asset in source['assets']:
+            frame = asset.get('frame_index')
+            if frame not in (0, -1):
+                raise ValueError('Keyframe tasks require explicit asset.frame_index (0 or -1)')
+    request = build_h3_request(request_source, str(prompt_path), str(output_dir / 'h3_outputs'))
+    save('h3_request.json', request)
+    if progress:
+        progress('prompt')
+    return 0

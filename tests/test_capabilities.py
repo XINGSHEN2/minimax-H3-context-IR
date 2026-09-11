@@ -7,8 +7,6 @@ from unittest.mock import patch
 from backend.capabilities import _prepare_asset_descriptions, h3_prompt_generate, video_generate
 from backend.api import BUSINESS_API_ROUTES, OPTIONAL_GENERAL_API_ROUTES
 from backend.perception import PerceptionProviderConfig
-from backend.context_ir import audit_h3_prompt, compile_context_ir, render_h3_prompt
-import tests.test_input_contract as input_contract_fixtures
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -31,40 +29,11 @@ class CapabilityContractTests(unittest.TestCase):
         self.source = json.loads(
             (ROOT / "examples" / "resolved_request.case6.json").read_text(encoding="utf-8")
         )
-        self.ir = compile_context_ir(
-            input_contract_fixtures.SourceContractTests._minimal_ir(self.source),
-            self.source,
-        )
 
-    @patch("backend.agent.optimize_existing_context_ir")
-    def test_context_ir_start_uses_llm_final_optimizer(self, optimize):
-        optimized_ir = copy.deepcopy(self.ir)
-        optimized_ir["timeline"][0]["event"] = "LLM-optimized opening shot"
-        optimization = {
-            "schema_version": "h3_llm_optimization.v1",
-            "method": "llm_final_director",
-            "programmatic_content_audit": False,
-            "optimization_notes": [],
-        }
-        optimize.return_value = (
-            optimized_ir,
-            "subject_definitions:\n<Subject 1> is the primary product.",
-            optimization,
-        )
-        result = h3_prompt_generate({"input_type": "context_ir", "context_ir": self.ir})
-        self.assertEqual(result["schema_version"], "h3_prompt_generate.v1")
-        self.assertEqual(
-            result["sources"]["context_ir"], "caller_supplied_semantics_locked"
-        )
-        self.assertTrue(result["h3_prompt_audit"]["enabled"])
-        self.assertTrue(result["h3_prompt_audit"]["passed"])
-        self.assertFalse(result["h3_prompt_audit"]["subjective_content_score_enabled"])
-        self.assertFalse(result["llm_optimization"]["programmatic_content_audit"])
-        self.assertEqual(result["h3_request"]["num_inference_steps"], 20)
-        optimize.assert_called_once()
+
 
     def test_input_type_and_structure_must_match(self):
-        with self.assertRaisesRegex(ValueError, "requires context_ir"):
+        with self.assertRaisesRegex(ValueError, "input_type must be"):
             h3_prompt_generate({"input_type": "context_ir", "source": self.source})
         with self.assertRaisesRegex(ValueError, "requires media_analysis"):
             h3_prompt_generate({"input_type": "media_analysis", "source": self.source})
@@ -116,23 +85,6 @@ class CapabilityContractTests(unittest.TestCase):
                 PerceptionProviderConfig(provider="test", model="none", options={}),
             )
 
-    @patch("backend.agent.optimize_existing_context_ir")
-    def test_video_generation_is_a_separate_capability(self, optimize):
-        optimize.return_value = (
-            copy.deepcopy(self.ir),
-            "subject_definitions:\n<Subject 1> is the primary product.",
-            {
-                "schema_version": "h3_llm_optimization.v1",
-                "method": "llm_final_director",
-                "programmatic_content_audit": False,
-                "optimization_notes": [],
-            },
-        )
-        compiled = h3_prompt_generate({"input_type": "context_ir", "context_ir": self.ir})
-        client = _FakeH3Client()
-        result = video_generate(compiled, client=client, wait=True)
-        self.assertEqual(result["result"]["status"], "completed")
-        self.assertEqual(client.request["task"], self.ir["task"]["type"])
 
     def test_public_routes_separate_business_and_general_capabilities(self):
         self.assertEqual(BUSINESS_API_ROUTES["/api/h3/prompt"], "prompt")
@@ -142,22 +94,6 @@ class CapabilityContractTests(unittest.TestCase):
         self.assertNotIn("normalize", BUSINESS_API_ROUTES.values())
         self.assertNotIn("normalize", OPTIONAL_GENERAL_API_ROUTES.values())
 
-    def test_language_audit_allows_tagged_dialogue_but_rejects_cjk_prose(self):
-        prompt = render_h3_prompt(self.ir)
-        tagged = prompt.replace(
-            "[Shot 1]",
-            "[Shot 1] The presenter says <d>[Chinese] 给你们看新入的这双鞋</d>.",
-            1,
-        )
-        self.assertNotIn(
-            "PROMPT_REWRITE_LANGUAGE_VIOLATION",
-            {item["code"] for item in audit_h3_prompt(self.ir, tagged).to_dict()["errors"]},
-        )
-        untagged = prompt.replace("[Shot 1]", "[Shot 1] 中文制作说明。", 1)
-        self.assertIn(
-            "PROMPT_REWRITE_LANGUAGE_VIOLATION",
-            {item["code"] for item in audit_h3_prompt(self.ir, untagged).to_dict()["errors"]},
-        )
 
 
 if __name__ == "__main__":

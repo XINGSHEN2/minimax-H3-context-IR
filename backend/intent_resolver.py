@@ -10,7 +10,7 @@ import copy
 import json
 from typing import Any, Callable, Mapping
 
-from backend.context_ir import normalize_source_request, validate_source_request
+from backend.contracts import normalize_source_request, validate_source_request
 
 
 _DIMENSION_MARKERS = (

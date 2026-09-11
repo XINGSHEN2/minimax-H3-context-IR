@@ -1,4 +1,4 @@
-from backend.agent import _compact_final_editor_source
+from backend.evidence import build_writer_evidence
 
 
 def test_entity_order_does_not_drop_late_subject_or_break_relations():
@@ -8,7 +8,7 @@ def test_entity_order_does_not_drop_late_subject_or_break_relations():
     relations = [{'relation_id': f'r{i}', 'type': 'near', 'subject_id': 'e12',
                   'object_id': 'e0', 'confidence': .9, 'source': 'visible'}
                  for i in range(11)]
-    result = _compact_final_editor_source({
+    result = build_writer_evidence({
         'assets': [{'asset_id': 'image_1', 'media_type': 'image'}],
         'perception': {'assets': [{'asset_id': 'image_1', 'entities': entities,
                                     'relations': relations}]},
@@ -25,7 +25,7 @@ def test_longer_event_list_retains_actual_ending():
                'action': 'walk', 'entity_ids': ['e0'], 'confidence': .9}
               for i in range(15)]
     events[-1]['action'] = 'puts the item down before leaving'
-    result = _compact_final_editor_source({
+    result = build_writer_evidence({
         'assets': [{'asset_id': 'video_1', 'media_type': 'video'}],
         'perception': {'assets': [{'asset_id': 'video_1', 'events': events}]},
     })['assets'][0]['events']
