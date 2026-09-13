@@ -69,7 +69,8 @@ class DirectChatRuntime:
             "response_format": {"type": "json_object"},
         }
         effort = os.environ.get("CONTEXT_IR_DEEPSEEK_REASONING_EFFORT", "").strip()
-        if effort and self.model.startswith("deepseek-v4-"):
+        model_name = self.model.rsplit("/", 1)[-1]
+        if effort and (model_name == "deepseek-flash" or model_name.startswith("deepseek-v4-")):
             if effort not in {"low", "high", "max"}:
                 raise ValueError("CONTEXT_IR_DEEPSEEK_REASONING_EFFORT must be low, high, or max")
             payload["thinking"] = {"type": "enabled"}

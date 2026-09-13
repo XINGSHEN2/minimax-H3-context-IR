@@ -25,3 +25,11 @@
 `input.json`、`resolved_input.json`、`intent_resolution.json`、`perception_plan.json`、`media_analysis.json`、`evidence_input.json`、`compiler_instructions.txt`、`writer_1.log`、`compilation_result.json`、`content_plan.json`、`context_ir.json`、`h3_prompt.txt`、`h3_request.json`、`h3_prompt_audit.json`、`result_status.json`、`stage_timings.json`。
 
 `context_ir.json` schema 为 h3_compilation.light.v1，包含 task、assets、content_plan、uncertainties、perception。失败时保留诊断文件，不产生有效的 H3 提交请求；不要把不完整目录当作完成结果。
+
+## 2026-09-13 默认推理服务更新
+
+默认改为 DeepSeek 官方 V4.1 Flash：CONTEXT_IR_LLM_PROVIDER=deepseek，DEEPSEEK_MODEL=deepseek-flash，DEEPSEEK_CHAT_BASE_URL=https://api.deepseek.com，密钥为 DEEPSEEK_API_KEY。当前部署配置显式启用 thinking/high，max_tokens=65536，timeout=1800 秒。素材理解仍使用原 Qwen 服务。
+
+官方文档：https://api-docs.deepseek.com/quick_start/pricing 与 https://api-docs.deepseek.com/guides/thinking_mode 。deepseek-flash 是正式调用名，不是 deepseek-v4.1-flash。代码兼容带站点前缀的显式推理强度参数，但不据此保证第三方网关执行该参数。
+
+修改 env 对下一次启动的进程生效；已运行服务需另行重启。官方密钥必须由使用者填写，不复用内网网关密钥。

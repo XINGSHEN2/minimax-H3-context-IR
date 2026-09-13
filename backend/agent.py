@@ -21,7 +21,7 @@ CORE_SKILLS = ("h3-prompt-writing", "h3-shot-planning")
 OFFICIAL_SKILLS = set(CORE_SKILLS)
 
 def reasoning_provider_config() -> dict[str, str]:
-    selected = os.environ.get("CONTEXT_IR_LLM_PROVIDER", "deepseek_litellm").strip().lower()
+    selected = os.environ.get("CONTEXT_IR_LLM_PROVIDER", "deepseek").strip().lower()
     if selected in {"deepseek_litellm", "deepseek-litellm", "litellm"}:
         return {
             "selection": "deepseek_litellm",
@@ -50,7 +50,7 @@ def reasoning_provider_config() -> dict[str, str]:
             "selection": "deepseek",
             "name": "DeepSeek",
             "provider_id": os.environ.get("DEEPSEEK_PROVIDER_ID", "deepseek"),
-            "model": os.environ.get("DEEPSEEK_MODEL", "deepseek-v4-flash"),
+            "model": os.environ.get("DEEPSEEK_MODEL", "deepseek-flash"),
             "base_url": os.environ.get("DEEPSEEK_RESPONSES_BASE_URL", "https://api.deepseek.com"),
             "api_key_env": "DEEPSEEK_API_KEY",
             "http_host_env": "",

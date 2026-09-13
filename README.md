@@ -31,7 +31,7 @@
 
 ## 配置与验证
 
-图片／视频理解使用 Qwen3.8-27B，素材先上传至 asset 服务。推理模型可通过现有环境变量切换上海／宁夏 DeepSeek 或 GLM；模型可用性由网关决定。详见 [当前流程](docs/CURRENT_CONTEXT_IR_WORKFLOW.md)。
+图片／视频理解使用 Qwen3.8-27B，素材先上传至 asset 服务。推理模型默认使用官方 DeepSeek V4.1 Flash（deepseek-flash），也可通过环境变量切换上海／宁夏 DeepSeek 或 GLM；模型可用性由网关决定。详见 [当前流程](docs/CURRENT_CONTEXT_IR_WORKFLOW.md)。
 
 核心 Direct Chat 路径使用 Python 标准库；素材处理根据输入需要系统 curl、ffmpeg/ffprobe，以及可选的 Pillow、imageio-ffmpeg 或特定感知适配器依赖。Python 推荐 3.10–3.12（Web 上传目前使用 cgi）。
 

@@ -1,20 +1,13 @@
 from backend.agent import reasoning_provider_config
 
 
-def test_default_reasoning_provider_is_deepseek_litellm(monkeypatch):
+def test_default_reasoning_provider_is_official_deepseek(monkeypatch):
     monkeypatch.delenv("CONTEXT_IR_LLM_PROVIDER", raising=False)
-
     config = reasoning_provider_config()
-
-    assert config == {
-        "selection": "deepseek_litellm",
-        "name": "DeepSeek via LiteLLM",
-        "provider_id": "deepseek_litellm",
-        "model": "deepseek-v4-flash",
-        "base_url": "http://litellm-poc.pgw.metax-tech.com/v1",
-        "api_key_env": "LITELLM_API_KEY",
-        "http_host_env": "DEEPSEEK_LITELLM_HTTP_HOST",
-    }
+    assert config["selection"] == "deepseek"
+    assert config["model"] == "deepseek-flash"
+    assert config["base_url"] == "https://api.deepseek.com"
+    assert config["api_key_env"] == "DEEPSEEK_API_KEY"
 
 
 def test_official_deepseek_provider_is_preserved(monkeypatch):
@@ -25,7 +18,7 @@ def test_official_deepseek_provider_is_preserved(monkeypatch):
     assert config["selection"] == "deepseek"
     assert config["base_url"] == "https://api.deepseek.com"
     assert config["api_key_env"] == "DEEPSEEK_API_KEY"
-    assert config["model"] == "deepseek-v4-flash"
+    assert config["model"] == "deepseek-flash"
 
 
 def test_litellm_provider_can_be_overridden(monkeypatch):
