@@ -10,6 +10,8 @@ import copy
 import json
 from typing import Any, Callable, Mapping
 
+from backend.prompt_instructions import SHOT_SCOPE_RULES, COMPLETION_RULES
+
 from backend.contracts import normalize_source_request, validate_source_request
 
 
@@ -91,6 +93,9 @@ identify, or classify media contents. Convert explicit user requirements into
 locked directives, and write a targeted perception plan telling a VLM what
 visible evidence to inspect.
 
+{SHOT_SCOPE_RULES}
+{COMPLETION_RULES}
+
 Rules:
 - Preserve every supplied directive byte-for-byte; never rewrite or delete it.
 - Add directives only for explicit user requirements. Do not turn guesses into locks.
@@ -136,8 +141,19 @@ Rules:
 - role describes authority/use, not observed content. Prefer general values such
   as authoritative_product_appearance, identity_reference, motion_reference,
   camera_structure_reference, edit_base, scene_reference, or audio_reference.
+- Assign a definite reference role only when the user or supplied manifest states
+  it. When use is unspecified, set role="unspecified_reference"; do not guess
+  style-only, identity-only, or storyboard authority from filenames or task type.
+  One asset may contribute several dimensions; role is not an inspection whitelist.
+- For images, ask perception to inspect overall structure, distinct panels or
+  regions, their content/composition/visible states, and supported relationships
+  between regions, in addition to the requested focus. Do not assume panels exist.
+  Leave possible narrative sequence versus complementary views to visual analysis
+  as uncertain hypotheses, never as user requirements or confirmed chronology.
 - analyze contains concrete visible properties/questions relevant to the request.
-- do_not_infer blocks likely contamination and unsupported semantic conclusions.
+- do_not_infer blocks unsupported semantic assertions, not observation of content
+  outside a guessed role. Do not use it to suppress panel content or explicitly
+  uncertain structural hypotheses merely because the user did not specify use.
 - Distinguish unresolved meaning from unspecified creative content. Record an
   open question for conflicting requirements or ambiguous source identity; do not
   treat missing choreography or coverage as a prohibition on creative completion.

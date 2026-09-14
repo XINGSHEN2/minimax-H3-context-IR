@@ -14,6 +14,6 @@ def test_image_example_is_concrete_and_relations_resolve():
 
 def test_image_instruction_protects_content_without_more_calls():
     assert 'Analyze this image once' in RELATIONAL_IMAGE_PROMPT
-    assert "main entity's features" in RELATIONAL_IMAGE_PROMPT
-    assert 'independent requested role' in RELATIONAL_IMAGE_PROMPT
-    assert 'Replace every example value' in RELATIONAL_IMAGE_PROMPT
+    assert "There is no minimum feature count" in RELATIONAL_IMAGE_PROMPT
+    assert 'Do not merge different subjects' in RELATIONAL_IMAGE_PROMPT
+    assert 'replace its example values' in RELATIONAL_IMAGE_PROMPT

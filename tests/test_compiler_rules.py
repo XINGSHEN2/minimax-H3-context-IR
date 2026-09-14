@@ -42,9 +42,12 @@ class Tests(unittest.TestCase):
     def test_editorial_rules_and_revision(self):
         calls=[]
         result=invoke_compiler(self.e,lambda p:(calls.append(p) or copy.deepcopy(self.r)))
-        for heading in ['EDITORIAL CONSTRUCTION','INFORMATION PLACEMENT','EVIDENCE CALIBRATION','CAUSAL AND STATE CHECK','developments','development_ids','There is no target shot count']:
+        for heading in ['第三步：根据大纲安排 shots','subject_definitions：','同一分析中','检查即时因果反应','developments','development_ids','不套用固定走路动作、镜头数']:
             self.assertIn(heading,calls[0])
         self.assertEqual(result['compiler_revision'],COMPILER_REVISION)
+        from backend.prompt_instructions import COMPACT_WRITING_INSTRUCTIONS
+        self.assertTrue(calls[0].startswith(COMPACT_WRITING_INSTRUCTIONS))
+        self.assertEqual(calls[0].count(COMPACT_WRITING_INSTRUCTIONS),1)
         self.assertEqual(len(calls),1)
     def test_new_notes_are_not_validation_gates(self):
         self.assertFalse(transport_issues(self.r,self.e)[0])
@@ -75,18 +78,18 @@ class Tests(unittest.TestCase):
         calls=[]
         invoke_compiler(self.e,lambda p:(calls.append(p) or copy.deepcopy(self.r)))
         self.assertNotIn('"confidence":0.95',calls[0])
-        self.assertIn('Cross-check user-mentioned names and text against OCR',calls[0])
-        self.assertIn('casual',calls[0])
+        self.assertIn('其拼写与 OCR 冲突',calls[0])
+        self.assertIn('仅描述素材时',calls[0])
         self.assertEqual(len(calls),1)
     def test_continuity_and_foley_rules_in_same_call(self):
         calls=[]
         self.e['user_request']='Keep fast cuts, flash-white transitions and the original soundtrack.'
         result=invoke_compiler(self.e,lambda p:(calls.append(p) or copy.deepcopy(self.r)))
-        for phrase in ['SHOT-BOUNDARY CONTINUITY','EVENT-DRIVEN SOUND',
-                       'outgoing action phase','cease when walking stops',
-                       'continues off-screen','Natural decay may cross a',
-                       'Keep user-required fast cuts','locked source track',
-                       'Do not invent exact contact timestamps']:
+        for phrase in ['跨切镜续接动作阶段','同步声音的物理触发',
+                       '动作阶段、方向','停止走动即停止',
+                       '画外动作持续','自然余响可以跨切点',
+                       '保留快切','锁定音轨',
+                       '无据的精确接触时刻']:
             self.assertIn(phrase,calls[0])
         self.assertIn(self.e['user_request'],calls[0])
         self.assertEqual(result['llm_calls'],1)
@@ -95,12 +98,12 @@ class Tests(unittest.TestCase):
         calls=[]
         self.e['user_request']='Follow the reference action; keep its ending. Reference voice timbre only.'
         result=invoke_compiler(self.e,lambda p:(calls.append(p) or copy.deepcopy(self.r)))
-        for phrase in ['CONTENT AUTHORITY','CREATIVE COMPLETION',
-                       'A similar','necessary physical prerequisites',
-                       'Delete redundant phrasing, not the content',
-                       'Do not invent copy intervals',
-                       'do not invent a final pose',
-                       'critical reference evidence is missing']:
+        for phrase in ['以原始 user_request 为依据','补全原则：完成用户意图所需的最小充分补全',
+                       '不能以相似动作替代','只检查必要前提',
+                       '不以固定字符目标牺牲要求覆盖',
+                       '不得擅加复制区间',
+                       '不为收尾新增姿势或动作',
+                       '关键参考证据缺失']:
             self.assertIn(phrase,calls[0])
         self.assertIn(self.e['user_request'],calls[0])
         self.assertEqual(result['llm_calls'],1)
@@ -117,8 +120,8 @@ class Tests(unittest.TestCase):
                 result=invoke_compiler(evidence,lambda p:(calls.append(p) or copy.deepcopy(self.r)))
                 self.assertEqual(len(calls),1)
                 self.assertIn(request,calls[0])
-                self.assertIn('not unspecified creative choices',calls[0])
-                self.assertIn('not permission to delete bystanders',calls[0])
+                self.assertIn('派生的 creative:false 不自动禁止未指定的创作',calls[0])
+                self.assertIn('不授权删除编辑底片中的旁人',calls[0])
                 self.assertEqual(result['content_plan'],self.r['content_plan'])
                 self.assertFalse(result['transport_audit']['semantic_quality_verified'])
 if __name__=='__main__':unittest.main()
