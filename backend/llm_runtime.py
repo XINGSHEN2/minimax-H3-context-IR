@@ -68,6 +68,12 @@ class DirectChatRuntime:
             "stream": False,
             "response_format": {"type": "json_object"},
         }
+        stream_enabled = os.environ.get("CONTEXT_IR_LLM_STREAM", "").strip().lower() in {"1", "true", "yes"}
+        if stream_enabled:
+            payload["stream"] = True
+            payload["stream_options"] = {"include_usage": True}
+        if os.environ.get("CONTEXT_IR_LLM_JSON_MODE", "1").strip().lower() in {"0", "false", "no"}:
+            payload.pop("response_format", None)
         effort = os.environ.get("CONTEXT_IR_DEEPSEEK_REASONING_EFFORT", "").strip()
         model_name = self.model.rsplit("/", 1)[-1]
         if effort and (model_name == "deepseek-flash" or model_name.startswith("deepseek-v4-")):
@@ -76,6 +82,13 @@ class DirectChatRuntime:
             payload["thinking"] = {"type": "enabled"}
             payload["reasoning_effort"] = effort
             payload.pop("temperature", None)
+        thinking = os.environ.get("CONTEXT_IR_LLM_THINKING", "").strip().lower()
+        if thinking:
+            if thinking not in {"enabled", "disabled"}:
+                raise ValueError("CONTEXT_IR_LLM_THINKING must be enabled or disabled")
+            payload["thinking"] = {"type": thinking}
+            if thinking == "enabled":
+                payload.pop("temperature", None)
         endpoint = self.base_url.rstrip("/")
         if not endpoint.endswith("/chat/completions"):
             endpoint += "/chat/completions"
@@ -91,9 +104,42 @@ class DirectChatRuntime:
             headers=headers,
             method="POST",
         )
+
+        def read_response(response: Any) -> dict[str, Any]:
+            if not stream_enabled:
+                return json.loads(response.read().decode("utf-8"))
+            content_parts: list[str] = []
+            reasoning_parts: list[str] = []
+            finish_reason = None
+            usage = None
+            response_id = None
+            response_model = None
+            for raw_line in response:
+                line = raw_line.decode("utf-8", errors="replace").strip()
+                if not line.startswith("data:"):
+                    continue
+                data = line[5:].strip()
+                if data == "[DONE]":
+                    break
+                event = json.loads(data)
+                response_id = event.get("id") or response_id
+                response_model = event.get("model") or response_model
+                usage = event.get("usage") or usage
+                choices = event.get("choices") or []
+                if not choices:
+                    continue
+                choice = choices[0]
+                delta = choice.get("delta") or {}
+                content_parts.append(delta.get("content") or "")
+                reasoning_parts.append(delta.get("reasoning_content") or "")
+                finish_reason = choice.get("finish_reason") or finish_reason
+            return {"id": response_id, "model": response_model, "usage": usage,
+                    "choices": [{"finish_reason": finish_reason,
+                                 "message": {"content": "".join(content_parts),
+                                             "reasoning_content": "".join(reasoning_parts)}}]}
         try:
             with urllib.request.urlopen(request, timeout=self.timeout_seconds) as response:
-                response_payload = json.loads(response.read().decode("utf-8"))
+                response_payload = read_response(response)
         except urllib.error.HTTPError as exc:
             detail = exc.read().decode("utf-8", errors="replace")
             # Some compatible gateways do not implement response_format.
@@ -110,7 +156,7 @@ class DirectChatRuntime:
                     method="POST",
                 )
                 with urllib.request.urlopen(request, timeout=self.timeout_seconds) as response:
-                    response_payload = json.loads(response.read().decode("utf-8"))
+                    response_payload = read_response(response)
             else:
                 raise RuntimeError(f"LLM Chat Completions failed ({exc.code}): {detail}") from exc
         reasoning_records: list[dict[str, Any]] = []

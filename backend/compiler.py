@@ -6,7 +6,7 @@ import os
 import re
 import time
 
-COMPILER_REVISION='singlecall.v20.compact_continuous_action_compression'
+COMPILER_REVISION='twostage.glm53.v1.frozen_shot_plan'
 def configured_h3_text_max_chars():
     """Only report a deployment limit when explicitly configured."""
     value = os.environ.get('CONTEXT_IR_H3_TEXT_MAX_CHARS', '').strip()
@@ -73,7 +73,7 @@ def prepare_writer_evidence(evidence):
 def compile_prompt(source, output_dir, reasoning, timings, started, progress=None):
     from backend.agent import invoke_reasoning_json, CORE_SKILLS
     from backend.evidence import build_writer_evidence
-    from backend.prompt_instructions import build_compact_writing_prompt
+    from backend.prompt_instructions import build_shot_plan_prompt, build_h3_from_plan_prompt
     from backend.contracts import build_h3_request
 
     def save(name, value):
@@ -81,25 +81,36 @@ def compile_prompt(source, output_dir, reasoning, timings, started, progress=Non
 
     evidence = prepare_writer_evidence(build_writer_evidence(source))
     save('evidence_input.json', evidence)
-    instruction = build_compact_writing_prompt(evidence)
-    (output_dir / 'compiler_instructions.txt').write_text(instruction, encoding='utf-8')
+    plan_instruction = build_shot_plan_prompt(evidence)
+    (output_dir / 'shot_plan_instructions.txt').write_text(plan_instruction, encoding='utf-8')
     tick = time.perf_counter()
-    result = invoke_reasoning_json(instruction, reasoning, output_dir / 'writer_1.log', list(CORE_SKILLS))
-    timings['stages_seconds']['single_call_compile'] = round(time.perf_counter() - tick, 3)
+    planned = invoke_reasoning_json(plan_instruction, reasoning, output_dir / 'shot_planner.log', ['h3-shot-planning'])
+    plan = planned.get('content_plan')
+    if not isinstance(plan, dict):
+        raise ValueError('shot planner must return content_plan object')
+    save('frozen_content_plan.json', plan)
+    timings['stages_seconds']['shot_plan'] = round(time.perf_counter() - tick, 3)
+    h3_instruction = build_h3_from_plan_prompt(evidence, plan)
+    (output_dir / 'h3_compiler_instructions.txt').write_text(h3_instruction, encoding='utf-8')
+    tick = time.perf_counter()
+    compiled = invoke_reasoning_json(h3_instruction, reasoning, output_dir / 'h3_compiler.log', ['h3-prompt-writing'])
+    result = {'content_plan': plan, 'h3_prompt': compiled.get('h3_prompt'),
+              'uncertainties': planned.get('uncertainties', [])}
+    timings['stages_seconds']['h3_compile'] = round(time.perf_counter() - tick, 3)
     if progress:
         progress('validation')
     errors, warnings = transport_issues(result, evidence)
     save('compilation_result.json', result)
     audit = {'schema_version': 'h3_prompt_contract.v1', 'passed': not errors,
              'errors': errors, 'warnings': warnings, 'semantic_quality_verified': False,
-             'compiler_revision': COMPILER_REVISION, 'llm_calls': 1,
+             'compiler_revision': COMPILER_REVISION, 'llm_calls': 2,
              'h3_prompt_chars': len(result.get('h3_prompt', '')) if isinstance(result.get('h3_prompt'), str) else None,
              'h3_v2_endpoint_max_chars': configured_h3_text_max_chars()}
     save('h3_prompt_audit.json', audit)
-    timings.update(compiler_revision=COMPILER_REVISION, prompt_llm_calls=1,
+    timings.update(compiler_revision=COMPILER_REVISION, prompt_llm_calls=2,
                    total_seconds=round(time.perf_counter() - started, 3))
     save('stage_timings.json', timings)
-    save('result_status.json', {'status': 'needs_review' if errors else 'ready_for_review', 'llm_calls': 1})
+    save('result_status.json', {'status': 'needs_review' if errors else 'ready_for_review', 'llm_calls': 2})
     if errors:
         # Retain diagnostic artifacts; never silently invoke another writer or
         # issue a generation request for invalid output.

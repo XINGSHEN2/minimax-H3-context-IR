@@ -69,3 +69,35 @@ COMPACT_WRITING_INSTRUCTIONS = "\n\n".join((
 
 def build_compact_writing_prompt(evidence: Mapping[str, Any]) -> str:
     return COMPACT_WRITING_INSTRUCTIONS + json.dumps(evidence, ensure_ascii=False, separators=(",", ":"))
+
+
+PLAN_OUTPUT_RULES = """仅输出一个 JSON 对象，顶层严格为 content_plan、uncertainties，不得输出 h3_prompt。
+content_plan 必须包含 creative_brief、task_mode、must_keep、bindings、developments、shots。
+shots 中每镜必须包含 development_ids、start_seconds、end_seconds、start_state、action、end_state、sound_cues；时间连续覆盖 0 到目标时长。
+重点规划相邻镜头的动作阶段、运动方向、观察侧、空间位置、持物关系和主要连接依据。此方案将在下一次调用中冻结，不能依赖后续编译器重新设计。"""
+
+PLAN_WORKFLOW = """你是视频导演与分镜规划器。本次只完成范围、大纲和分镜，不写 MiniMax H3 Prompt。
+先形成单向发展的 developments，再根据每次观看目的变化安排 shots。每个切镜必须带来当前构图无法清楚提供的新内容、展示价值或用户指定的剪辑意义。
+同一时空、同一主体和同一动作目标下，能够通过主体运动、摄影机移动、构图调整或焦点变化呈现的内容应合并。跨切镜必须承接已达动作阶段，不能停住、重演或无依据反转方向。
+完成后检查用户覆盖、状态推进、镜头价值、连续压缩和执行连续性，只在最终 JSON 中保留结论。"""
+
+H3_COMPILE_RULES = """你是 MiniMax H3 提示词编译器。content_plan 是已经批准并冻结的导演方案。
+不得增加、删除、合并、拆分、重排或重新设计镜头；不得改变镜头时间、动作结果、素材绑定、事件顺序和转场依据。只把冻结方案忠实编译为完整 H3 文本。
+使用英文改写，画面文字、对白和歌词保留指定原文。固定身份、外观和持续场景锚点只在 subject_definitions 定义一次，镜头中不重复固定属性。
+h3_prompt 必须包含 subject_definitions、summary、retention_analysis、detailed_description、overall_soundscape、non_diegetic_music 六节。最终只输出 {\"h3_prompt\":\"...\"}，不重复输出 content_plan，不输出解释。"""
+
+
+def build_shot_plan_prompt(evidence: Mapping[str, Any]) -> str:
+    return "\n\n".join((
+        PLAN_WORKFLOW,
+        SHOT_SCOPE_RULES,
+        COMPLETION_RULES,
+        INPUT_RULES,
+        PLAN_OUTPUT_RULES,
+        "以下是本次任务和素材证据：\n" + json.dumps(evidence, ensure_ascii=False, separators=(",", ":")),
+    ))
+
+
+def build_h3_from_plan_prompt(evidence: Mapping[str, Any], content_plan: Mapping[str, Any]) -> str:
+    payload = {"evidence": evidence, "frozen_content_plan": content_plan}
+    return H3_COMPILE_RULES + "\n\nINPUT\n" + json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
