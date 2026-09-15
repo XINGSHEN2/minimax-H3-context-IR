@@ -34,6 +34,11 @@ def test_one_call_preserves_input_constraints_and_authored_content():
     assert evidence == original
 
 
+def test_h3_prompt_contract_requires_a_string():
+    assert 'h3_prompt 必须是一个包含完整六节 H3 文本的字符串' in COMPACT_WRITING_INSTRUCTIONS
+    assert '不能是对象、数组或分节字段' in COMPACT_WRITING_INSTRUCTIONS
+
+
 def test_shot_scope_policy_shared_by_both_stages():
     from backend.prompt_instructions import SHOT_SCOPE_RULES
     from backend.intent_resolver import build_intent_prompt
