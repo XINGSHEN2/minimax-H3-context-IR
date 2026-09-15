@@ -101,3 +101,33 @@ def build_shot_plan_prompt(evidence: Mapping[str, Any]) -> str:
 def build_h3_from_plan_prompt(evidence: Mapping[str, Any], content_plan: Mapping[str, Any]) -> str:
     payload = {"evidence": evidence, "frozen_content_plan": content_plan}
     return H3_COMPILE_RULES + "\n\nINPUT\n" + json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
+
+
+OUTLINE_RULES = """你是视频内容导演。本次只做内容决策，不设计镜头，不写 H3 Prompt，也不要逐条复述输入。
+立即输出紧凑 JSON，顶层严格为 outline、uncertainties。
+outline 包含 creative_brief、task_mode、must_keep、bindings、developments；developments 是简短、单向、可见的状态变化链，最多 8 项。
+保留用户锁定的内容、顺序、时间、素材用途和结局；仅为完成用户目标补齐必要因果。不得写 shots、景别、机位、运镜或转场。"""
+
+SHOTS_FROM_OUTLINE_RULES = """你是分镜导演。冻结大纲不可修改。本次只安排分镜，不写 H3 Prompt，也不要重新讨论创意选择。
+立即输出紧凑 JSON，顶层严格为 shots、uncertainties。
+每镜包含 development_ids、start_seconds、end_seconds、start_state、action、end_state、sound_cues。时间必须从 0 连续覆盖目标时长。
+只在观看目的改变、当前构图无法呈现必要结果或用户明确要求剪辑时切镜；能由连续动作、摄影机移动、构图或焦点变化完成时合并。
+跨切镜承接动作阶段、方向、观察侧、相对位置和持物关系；每个切点只使用一个主要依据：动作、视线、因果、构图、声音或明确的有意跳跃。最多 12 镜。"""
+
+
+def build_content_outline_prompt(evidence: Mapping[str, Any]) -> str:
+    return OUTLINE_RULES + "\n\nINPUT\n" + json.dumps(evidence, ensure_ascii=False, separators=(",", ":"))
+
+
+def build_shots_from_outline_prompt(evidence: Mapping[str, Any], outline: Mapping[str, Any]) -> str:
+    compact_evidence = {
+        "task": evidence.get("task"),
+        "user_request": evidence.get("user_request"),
+        "assets": [
+            {"asset_id": item.get("asset_id"), "media_type": item.get("media_type")}
+            for item in evidence.get("assets", []) if isinstance(item, Mapping)
+        ],
+        "reference_registry": evidence.get("reference_registry"),
+    }
+    payload = {"evidence": compact_evidence, "frozen_outline": outline}
+    return SHOTS_FROM_OUTLINE_RULES + "\n\nINPUT\n" + json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
