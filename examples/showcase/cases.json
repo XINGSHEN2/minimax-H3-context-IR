@@ -617,10 +617,10 @@
       "id": "feishu_11_case01",
       "title": "Case 1 · 四图望远镜搜索",
       "category": "1.1 品牌大片与影视内容",
-      "description": "默认页签：v20 参考属性继承优化；LLM 输出预算 65,536 token；H3 768p、20步，目标时长 15 秒。视频与下方 Prompt 同版。 其余页签为历史结果；Raw与官方保持原始结果，并非严格同参数评测。",
+      "description": "默认页签：v31 连续动作压缩与分镜衔接优化；H3 768p、20步，目标时长 15 秒。 其余页签为历史结果；Raw与官方保持原始结果，并非严格同参数评测。",
       "variants": {
-        "v27": {
-          "label": "v27 · 连续动作与镜头衔接",
+        "v31": {
+          "label": "v31 · 连续动作与镜头衔接",
           "groups": {
             "reference": {
               "label": "参考成片",
@@ -639,10 +639,10 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             },
-            "v27": {
-              "label": "本地 IR · v27",
+            "v31": {
+              "label": "本地 IR · v31",
               "status": "ready",
-              "video": "data/feishu_11_case01/v27/result.mp4",
+              "video": "data/feishu_11_case01/v31/result.mp4",
               "duration_seconds": 15.084,
               "size": "1344×768"
             },
@@ -771,10 +771,10 @@
       "id": "feishu_11_case02",
       "title": "Case 2 · 太空预告片",
       "category": "1.1 品牌大片与影视内容",
-      "description": "默认页签：v20 参考属性继承优化；LLM 输出预算 65,536 token；H3 768p、20步，目标时长 15 秒。视频与下方 Prompt 同版。 其余页签为历史结果；Raw与官方保持原始结果，并非严格同参数评测。",
+      "description": "默认页签：v31 连续动作压缩与分镜衔接优化；H3 768p、20步，目标时长 15 秒。 其余页签为历史结果；Raw与官方保持原始结果，并非严格同参数评测。",
       "variants": {
-        "v27": {
-          "label": "v27 · 连续动作与镜头衔接",
+        "v31": {
+          "label": "v31 · 连续动作与镜头衔接",
           "groups": {
             "reference": {
               "label": "参考成片",
@@ -793,10 +793,10 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             },
-            "v27": {
-              "label": "本地 IR · v27",
+            "v31": {
+              "label": "本地 IR · v31",
               "status": "ready",
-              "video": "data/feishu_11_case02/v27/result.mp4",
+              "video": "data/feishu_11_case02/v31/result.mp4",
               "duration_seconds": 15.084,
               "size": "1344×768"
             },
@@ -910,10 +910,10 @@
       "id": "feishu_11_case03",
       "title": "Case 3 · 宇宙门开场",
       "category": "1.1 品牌大片与影视内容",
-      "description": "默认页签：v20 参考属性继承优化；LLM 输出预算 65,536 token；H3 768p、20步，目标时长 15 秒。视频与下方 Prompt 同版。 其余页签为历史结果；Raw与官方保持原始结果，并非严格同参数评测。",
+      "description": "默认页签：v31 连续动作压缩与分镜衔接优化；H3 768p、20步，目标时长 15 秒。 其余页签为历史结果；Raw与官方保持原始结果，并非严格同参数评测。",
       "variants": {
-        "v27": {
-          "label": "v27 · 连续动作与镜头衔接",
+        "v31": {
+          "label": "v31 · 连续动作与镜头衔接",
           "groups": {
             "reference": {
               "label": "参考成片",
@@ -932,10 +932,10 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             },
-            "v27": {
-              "label": "本地 IR · v27",
+            "v31": {
+              "label": "本地 IR · v31",
               "status": "ready",
-              "video": "data/feishu_11_case03/v27/result.mp4",
+              "video": "data/feishu_11_case03/v31/result.mp4",
               "duration_seconds": 15.084,
               "size": "1344×768"
             },
@@ -1054,10 +1054,10 @@
       "id": "feishu_11_case04",
       "title": "Case 4 · 衣服与包时尚广告",
       "category": "1.1 品牌大片与影视内容",
-      "description": "默认页签：v20 参考属性继承优化；LLM 输出预算 65,536 token；H3 768p、20步，目标时长 15 秒。视频与下方 Prompt 同版。 其余页签为历史结果；Raw与官方保持原始结果，并非严格同参数评测。",
+      "description": "默认页签：v31 连续动作压缩与分镜衔接优化；H3 768p、20步，目标时长 15 秒。 其余页签为历史结果；Raw与官方保持原始结果，并非严格同参数评测。",
       "variants": {
-        "v27": {
-          "label": "v27 · 连续动作与镜头衔接",
+        "v31": {
+          "label": "v31 · 连续动作与镜头衔接",
           "groups": {
             "reference": {
               "label": "参考成片",
@@ -1076,10 +1076,10 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             },
-            "v27": {
-              "label": "本地 IR · v27",
+            "v31": {
+              "label": "本地 IR · v31",
               "status": "ready",
-              "video": "data/feishu_11_case04/v27/result.mp4",
+              "video": "data/feishu_11_case04/v31/result.mp4",
               "duration_seconds": 15.084,
               "size": "1344×768"
             },
@@ -1208,10 +1208,10 @@
       "id": "feishu_11_case05",
       "title": "Case 5 · 火焰时装广告",
       "category": "1.1 品牌大片与影视内容",
-      "description": "默认页签：v20 参考属性继承优化；LLM 输出预算 65,536 token；H3 768p、20步，目标时长 15 秒。视频与下方 Prompt 同版。 本例为失败后的重试结果。 其余页签为历史结果；Raw与官方保持原始结果，并非严格同参数评测。",
+      "description": "默认页签：v31 连续动作压缩与分镜衔接优化；H3 768p、20步，目标时长 15 秒。 本例为失败后的重试结果。 其余页签为历史结果；Raw与官方保持原始结果，并非严格同参数评测。",
       "variants": {
-        "v27": {
-          "label": "v27 · 连续动作与镜头衔接",
+        "v31": {
+          "label": "v31 · 连续动作与镜头衔接",
           "groups": {
             "reference": {
               "label": "参考成片",
@@ -1230,10 +1230,10 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             },
-            "v27": {
-              "label": "本地 IR · v27",
+            "v31": {
+              "label": "本地 IR · v31",
               "status": "ready",
-              "video": "data/feishu_11_case05/v27/result.mp4",
+              "video": "data/feishu_11_case05/v31/result.mp4",
               "duration_seconds": 15.084,
               "size": "1344×768"
             },
