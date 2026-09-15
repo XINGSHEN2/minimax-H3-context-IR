@@ -36,7 +36,8 @@ def test_no_hidden_retry_or_request_on_error(tmp_path):
     assert json.loads((tmp_path / 'result_status.json').read_text())['status'] == 'needs_review'
 
 
-def test_long_prompt_is_preserved_with_endpoint_warning(tmp_path):
+def test_long_prompt_is_preserved_without_assumed_endpoint_limit(tmp_path, monkeypatch):
+    monkeypatch.delenv("CONTEXT_IR_H3_TEXT_MAX_CHARS", raising=False)
     from backend.compiler import transport_issues
     source = {'task': {'type': 'ref2va', 'duration_seconds': 5, 'aspect_ratio': '16:9'}, 'assets': []}
     plan = {'bindings': [], 'shots': [{'start_seconds': 0, 'end_seconds': 5}]}
@@ -47,7 +48,7 @@ def test_long_prompt_is_preserved_with_endpoint_warning(tmp_path):
     answer['h3_prompt'] += ' '
     errors, warnings = transport_issues(answer, source)
     assert not errors
-    assert any('endpoint limit is 7000' in w for w in warnings)
+    assert not any('text limit' in w or 'endpoint limit' in w for w in warnings)
     with patch('backend.evidence.build_writer_evidence', return_value=source), patch('backend.agent.invoke_reasoning_json', return_value=answer) as invoke:
         compile_prompt(source, tmp_path, {}, {'stages_seconds': {}}, time.perf_counter())
     assert invoke.call_count == 1
@@ -55,4 +56,15 @@ def test_long_prompt_is_preserved_with_endpoint_warning(tmp_path):
     audit = json.loads((tmp_path / 'h3_prompt_audit.json').read_text())
     assert audit['passed']
     assert audit['h3_prompt_chars'] == 7001
-    assert audit['h3_v2_endpoint_max_chars'] == 7000
+    assert audit['h3_v2_endpoint_max_chars'] is None
+
+
+def test_explicit_deployment_limit_warns_without_rejecting_or_truncating(monkeypatch):
+    from backend.compiler import transport_issues
+    monkeypatch.setenv('CONTEXT_IR_H3_TEXT_MAX_CHARS', '7000')
+    source = {'task': {'duration_seconds': 5}, 'assets': []}
+    answer = {'content_plan': {'bindings': [], 'shots': [{'start_seconds': 0, 'end_seconds': 5}]}, 'h3_prompt': 'x' * 7001}
+    errors, warnings = transport_issues(answer, source)
+    assert not errors
+    assert any('configured H3 text limit is 7000' in w for w in warnings)
+    assert len(answer['h3_prompt']) == 7001

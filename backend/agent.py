@@ -140,7 +140,13 @@ def invoke_reasoning_json(
                 # Ref2VA also imports the base guide's speech/camera rules.
                 for reference_name in ("base-en.txt", "ref-en.txt"):
                     reference = path.parent / "references" / reference_name
-                    system_parts.append(reference.read_text(encoding="utf-8"))
+                    guide = reference.read_text(encoding="utf-8")
+                    if reference_name == "ref-en.txt":
+                        # The protocol rules are sufficient at runtime. The long
+                        # worked example repeats appearance in shots and can
+                        # override the project's single-definition convention.
+                        guide = guide.split("## 7. Complete Example", 1)[0].rstrip()
+                    system_parts.append(guide)
         return direct_runtime_from_config(reasoning).invoke_json(
             prompt,
             system_parts=system_parts,

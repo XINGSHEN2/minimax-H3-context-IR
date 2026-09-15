@@ -4,7 +4,7 @@ This guide explains how rewrite outputs are organized and written in full-refere
 
 Write all six rewrite sections in English. Preserve the original language only for dialogue and lyrics inside `<d>` and for text visibly present in the scene.
 
-**Description detail:** Make `detailed_description` as detailed and explicit as possible. For each shot, clearly establish the current composition, subject appearance and position, environment and lighting, actions and state changes, camera movement, current sound, and the points where referenced content actually appears or takes effect. Avoid reducing the description to a plot summary or a list of reference relationships.
+**Description detail:** Write the concrete detail needed to execute each shot: composition and subject position, visible action through its intended result, camera behavior, relevant changes in lighting or environment, timed sound, and reference application. Fixed appearance belongs in `subject_definitions`; shared style belongs in the global opening. Refer to those definitions instead of repeating them in each shot, unless the user explicitly requires repetition. Preserve every explicit user requirement without adding detail merely to lengthen the prose.
 
 > The basic formats for shots, camera movement, speakers, dialogue, and ordinary sound are shared with the Video Prompt Writing Guide (T2VA / I2VA / FL2VA / L2VA). This guide focuses on the reference labels, analysis sections, and format differences specific to full-reference mode.
 
@@ -243,7 +243,7 @@ For generation tasks, `detailed_description` is normally 350-500 English words. 
 
 ### 5.3 Using Reference Labels in Shots
 
-At the first clear appearance of an important `<Subject N>`, describe its referenced characteristics, position in the frame, and current action within what is actually visible in the shot. Continue using the same label in later shots without redefining what the label represents.
+Define fixed identity and appearance once in `subject_definitions`. At every appearance of an important `<Subject N>`, including its first, use its label and describe the visible action, spatial relationship, framing, and dynamic change without restating the definition. Name a body part or object when an action needs it, without repeating its fixed color, material, or styling. Preserve any explicit user requirement to repeat a description.
 
 Use natural phrasing for concrete frame anchors:
 

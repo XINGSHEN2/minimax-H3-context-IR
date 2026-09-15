@@ -42,7 +42,7 @@ class Tests(unittest.TestCase):
     def test_editorial_rules_and_revision(self):
         calls=[]
         result=invoke_compiler(self.e,lambda p:(calls.append(p) or copy.deepcopy(self.r)))
-        for heading in ['第三步：根据大纲安排 shots','subject_definitions：','同一分析中','检查即时因果反应','developments','development_ids','不套用固定走路动作、镜头数']:
+        for heading in ['第二阶段：根据大纲安排 shots','subject_definitions：','同一分析中','检查即时因果反应','developments','development_ids','不套用固定走路动作、镜头数']:
             self.assertIn(heading,calls[0])
         self.assertEqual(result['compiler_revision'],COMPILER_REVISION)
         from backend.prompt_instructions import COMPACT_WRITING_INSTRUCTIONS
@@ -98,7 +98,7 @@ class Tests(unittest.TestCase):
         calls=[]
         self.e['user_request']='Follow the reference action; keep its ending. Reference voice timbre only.'
         result=invoke_compiler(self.e,lambda p:(calls.append(p) or copy.deepcopy(self.r)))
-        for phrase in ['以原始 user_request 为依据','补全原则：完成用户意图所需的最小充分补全',
+        for phrase in ['以原始 user_request 为依据','补全原则：保留有作用的补全',
                        '不能以相似动作替代','只检查必要前提',
                        '不以固定字符目标牺牲要求覆盖',
                        '不得擅加复制区间',

@@ -2,11 +2,20 @@
 import copy
 import json
 import math
+import os
 import re
 import time
 
-COMPILER_REVISION='singlecall.v20.2.outline_first'
-H3_V2_TEXT_MAX_CHARS = 7000
+COMPILER_REVISION='singlecall.v20.task_adaptive_official_coverage'
+def configured_h3_text_max_chars():
+    """Only report a deployment limit when explicitly configured."""
+    value = os.environ.get('CONTEXT_IR_H3_TEXT_MAX_CHARS', '').strip()
+    if not value:
+        return None
+    limit = int(value)
+    if limit <= 0:
+        raise ValueError('CONTEXT_IR_H3_TEXT_MAX_CHARS must be positive')
+    return limit
 
 
 def transport_issues(result,evidence):
@@ -14,8 +23,8 @@ def transport_issues(result,evidence):
     if not isinstance(result,dict):return ['Response must be a JSON object'],[]
     prompt=result.get('h3_prompt')
     if not isinstance(prompt,str) or not prompt.strip():errors.append('h3_prompt must be nonempty')
-    elif len(prompt) > H3_V2_TEXT_MAX_CHARS:
-        warnings.append(f'h3_prompt has {len(prompt)} characters including whitespace; current H3 v2 endpoint limit is {H3_V2_TEXT_MAX_CHARS}. Preserve requirements; submission needs compatible capacity or explicit resolution, not automatic truncation.')
+    elif (limit := configured_h3_text_max_chars()) is not None and len(prompt) > limit:
+        warnings.append(f'h3_prompt has {len(prompt)} characters including whitespace; configured H3 text limit is {limit}. Preserve requirements; do not truncate automatically.')
     plan=result.get('content_plan')
     if not isinstance(plan,dict):return errors+['content_plan must be an object'],warnings
     ids={a['asset_id'] for a in evidence.get('assets',[])}
@@ -85,7 +94,7 @@ def compile_prompt(source, output_dir, reasoning, timings, started, progress=Non
              'errors': errors, 'warnings': warnings, 'semantic_quality_verified': False,
              'compiler_revision': COMPILER_REVISION, 'llm_calls': 1,
              'h3_prompt_chars': len(result.get('h3_prompt', '')) if isinstance(result.get('h3_prompt'), str) else None,
-             'h3_v2_endpoint_max_chars': H3_V2_TEXT_MAX_CHARS}
+             'h3_v2_endpoint_max_chars': configured_h3_text_max_chars()}
     save('h3_prompt_audit.json', audit)
     timings.update(compiler_revision=COMPILER_REVISION, prompt_llm_calls=1,
                    total_seconds=round(time.perf_counter() - started, 3))
