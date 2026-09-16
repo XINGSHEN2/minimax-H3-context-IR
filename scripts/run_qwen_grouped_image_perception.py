@@ -4,6 +4,7 @@ import argparse,json,os,time
 from pathlib import Path
 from backend.perception import RELATIONAL_IMAGE_PROMPT,PerceptionProviderConfig,_json_object
 from scripts.run_qwen_thinking_perception import RecordingThinkingProvider,media_type
+from scripts.convert_grouped_perception import convert_grouped_result
 
 GROUP_PROMPT='''
 
@@ -40,5 +41,6 @@ def main():
   plan={'mode':'qwen_thinking_direct','user_request':prompt,'assets':[{'asset_id':x['asset_id'],'role':'reference','analyze':['逐段分析该视频的可见主体、动作、场景、镜头与变化',f'用户原始需求：{prompt}'],'evidence_requirements':[],'do_not_infer':['不要把用户需求当成可见事实']} for x in assets]}
   result['video_analysis']=provider.analyze(assets,plan)
  (out/'grouped_media_analysis.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
+ (out/'media_analysis.json').write_text(json.dumps(convert_grouped_result(result),ensure_ascii=False,indent=2)+'\n')
  print(json.dumps({'output':str(out),'images':len(images),'videos':len(videos)},ensure_ascii=False))
 if __name__=='__main__': main()
