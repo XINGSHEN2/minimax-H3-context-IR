@@ -15,5 +15,7 @@ def test_image_example_is_concrete_and_relations_resolve():
 def test_image_instruction_protects_content_without_more_calls():
     assert '请一次性分析输入图片' in RELATIONAL_IMAGE_PROMPT
     assert '生成语义归并' in RELATIONAL_IMAGE_PROMPT
-    assert '服装、鞋、佩戴饰品和固定随身造型默认合并' in RELATIONAL_IMAGE_PROMPT
+    assert '独立控制测试' in RELATIONAL_IMAGE_PROMPT
+    assert '实体数量采用软预算' in RELATIONAL_IMAGE_PROMPT
+    assert '复杂素材可以超过 8 个' in RELATIONAL_IMAGE_PROMPT
     assert '优先更少但完整的生成单元' in RELATIONAL_IMAGE_PROMPT

@@ -95,6 +95,8 @@ class PerceptionPerformanceTests(unittest.TestCase):
         self.assertIn('"entities"', COMPACT_VIDEO_SINGLE_PASS_PROMPT)
         self.assertIn("按源视频时间覆盖从开头到结尾", COMPACT_VIDEO_SINGLE_PASS_PROMPT)
         self.assertIn("不得原样输出占位内容", COMPACT_VIDEO_SINGLE_PASS_PROMPT)
+        self.assertIn("独立控制测试", COMPACT_VIDEO_SINGLE_PASS_PROMPT)
+        self.assertIn("复杂素材可以超过 8 个", COMPACT_VIDEO_SINGLE_PASS_PROMPT)
 
     def test_placeholder_evidence_is_removed_before_reasoning(self):
         cleaned = _sanitize_analysis_quality({
