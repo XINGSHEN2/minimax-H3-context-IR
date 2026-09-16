@@ -13,7 +13,7 @@ def test_image_example_is_concrete_and_relations_resolve():
 
 
 def test_image_instruction_protects_content_without_more_calls():
-    assert 'Analyze this image once' in RELATIONAL_IMAGE_PROMPT
-    assert "There is no minimum feature count" in RELATIONAL_IMAGE_PROMPT
-    assert 'Do not merge different subjects' in RELATIONAL_IMAGE_PROMPT
-    assert 'replace its example values' in RELATIONAL_IMAGE_PROMPT
+    assert '请一次性分析输入图片' in RELATIONAL_IMAGE_PROMPT
+    assert '生成语义归并' in RELATIONAL_IMAGE_PROMPT
+    assert '服装、鞋、佩戴饰品和固定随身造型默认合并' in RELATIONAL_IMAGE_PROMPT
+    assert '优先更少但完整的生成单元' in RELATIONAL_IMAGE_PROMPT
