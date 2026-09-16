@@ -42,7 +42,7 @@ class Tests(unittest.TestCase):
     def test_editorial_rules_and_revision(self):
         calls=[]
         result=invoke_compiler(self.e,lambda p:(calls.append(p) or copy.deepcopy(self.r)))
-        for heading in ['第二阶段：根据大纲安排 shots','subject_definitions：','同一分析中','检查即时因果反应','developments','development_ids','不套用固定走路动作、镜头数']:
+        for heading in ['第二阶段：先建立连续动作单元，再安排 shots','subject_definitions：','同一分析中','检查即时因果反应','developments','development_ids','不套用固定走路动作、镜头数','action_units','shot_merge_audit','快速硬切','每个 Shot 默认只在开头写一个绝对起始时间','旧人物、物体、环境、文字和构图不得回闪']:
             self.assertIn(heading,calls[0])
         self.assertEqual(result['compiler_revision'],COMPILER_REVISION)
         from backend.prompt_instructions import COMPACT_WRITING_INSTRUCTIONS

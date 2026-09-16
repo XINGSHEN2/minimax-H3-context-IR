@@ -6,7 +6,7 @@ import os
 import re
 import time
 
-COMPILER_REVISION='singlecall.v20.compact_continuous_action_compression'
+COMPILER_REVISION='singlecall.v32.single_time_anchor'
 def configured_h3_text_max_chars():
     """Only report a deployment limit when explicitly configured."""
     value = os.environ.get('CONTEXT_IR_H3_TEXT_MAX_CHARS', '').strip()
