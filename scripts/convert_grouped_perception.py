@@ -55,7 +55,13 @@ def convert_grouped_result(source:Mapping[str,Any]) -> dict[str,Any]:
         uncertainties.extend(str(x) for x in grouped.get("uncertainties",[]))
         uncertainties.extend(str(x) for x in observation.get("uncertainties",[]))
         projected.append({"asset_id":asset_id,"summary":str(observation.get("summary") or grouped.get("summary","")),"global_analysis":global_analysis,"image_observation":deepcopy(observation),"evidence":evidence,"regions":[],"entities":entities,"relations":relations,"events":[],"technical":{"media_type":"image","analysis_pipeline":"grouped_image_projected","grouped_request_asset_ids":asset_ids},"transcript":"","uncertainties":list(dict.fromkeys(uncertainties))})
-    return {"schema_version":"media_analysis.v1","provider":{"name":"Qwen3.8-27B","mode":"grouped_images_projected"},"assets":projected,"missing_asset_ids":[],"perception_metrics":{"request_count":1},"experiment":{"mode":"qwen3.8_grouped_images_projected","user_request":source.get("user_request","")}}
+    video_analysis = source.get("video_analysis") if isinstance(source.get("video_analysis"), Mapping) else {}
+    video_assets = video_analysis.get("assets", []) if isinstance(video_analysis.get("assets", []), list) else []
+    projected.extend(deepcopy(item) for item in video_assets if isinstance(item, Mapping))
+    image_requests = 1 if asset_ids else 0
+    video_metrics = video_analysis.get("perception_metrics", {}) if isinstance(video_analysis.get("perception_metrics"), Mapping) else {}
+    video_requests = int(video_metrics.get("request_count", len(video_assets)) or len(video_assets))
+    return {"schema_version":"media_analysis.v1","provider":{"name":"Qwen3.8-27B","mode":"grouped_images_and_individual_videos"},"assets":projected,"missing_asset_ids":list(video_analysis.get("missing_asset_ids", [])),"perception_metrics":{"request_count":image_requests + video_requests},"experiment":{"mode":"qwen3.8_grouped_images_and_individual_videos","user_request":source.get("user_request","")}}
 
 def main()->int:
     p=argparse.ArgumentParser(); p.add_argument("input",type=Path); p.add_argument("output",type=Path); a=p.parse_args()
