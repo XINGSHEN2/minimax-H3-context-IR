@@ -42,7 +42,7 @@ class Tests(unittest.TestCase):
     def test_editorial_rules_and_revision(self):
         calls=[]
         result=invoke_compiler(self.e,lambda p:(calls.append(p) or copy.deepcopy(self.r)))
-        for heading in ['第二阶段：先建立连续动作单元，再安排 shots','subject_definitions：','同一分析中','检查即时因果反应','developments','development_ids','不套用固定走路动作、镜头数','action_units','shot_merge_audit','快速硬切','每个 Shot 默认只在开头写一个绝对起始时间','旧人物、物体、环境、文字和构图不得回闪']:
+        for heading in ['第二阶段：最终分镜','subject_definitions：','同一分析中','developments','development_ids','最小充分补全','每个 Shot 默认只在开头写一个绝对起始时间','不输出 action_units、shot_merge_audit','实际写入前镜结尾和后镜开头','每个 Shot 至少承载一个内容 development','不等于锁定独立 Shot']:
             self.assertIn(heading,calls[0])
         self.assertEqual(result['compiler_revision'],COMPILER_REVISION)
         from backend.prompt_instructions import COMPACT_WRITING_INSTRUCTIONS
@@ -86,9 +86,9 @@ class Tests(unittest.TestCase):
         self.e['user_request']='Keep fast cuts, flash-white transitions and the original soundtrack.'
         result=invoke_compiler(self.e,lambda p:(calls.append(p) or copy.deepcopy(self.r)))
         for phrase in ['跨切镜续接动作阶段','同步声音的物理触发',
-                       '动作阶段、方向','停止走动即停止',
+                       '动作、方向、空间、持物','停止走动即停止',
                        '画外动作持续','自然余响可以跨切点',
-                       '保留快切','锁定音轨',
+                       '快速、硬切、电影感','锁定音轨',
                        '无据的精确接触时刻']:
             self.assertIn(phrase,calls[0])
         self.assertIn(self.e['user_request'],calls[0])
@@ -99,10 +99,10 @@ class Tests(unittest.TestCase):
         self.e['user_request']='Follow the reference action; keep its ending. Reference voice timbre only.'
         result=invoke_compiler(self.e,lambda p:(calls.append(p) or copy.deepcopy(self.r)))
         for phrase in ['以原始 user_request 为依据','补全原则：保留有作用的补全',
-                       '不能以相似动作替代','只检查必要前提',
+                       '不能以相似动作替代','完整保留用户明确要求',
                        '不以固定字符目标牺牲要求覆盖',
                        '不得擅加复制区间',
-                       '不为收尾新增姿势或动作',
+                       '没有用户依据时不重复启动动作',
                        '关键参考证据缺失']:
             self.assertIn(phrase,calls[0])
         self.assertIn(self.e['user_request'],calls[0])
