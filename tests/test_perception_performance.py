@@ -130,6 +130,25 @@ class PerceptionPerformanceTests(unittest.TestCase):
         self.assertEqual(cleaned["technical"]["analysis_status"], "degraded")
         self.assertTrue(cleaned["technical"]["quality_warnings"])
 
+    def test_default_parallelism_submits_all_visual_assets(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            assets = []
+            for index in range(4):
+                image = root / f"image_{index}.jpg"
+                image.write_bytes(f"image-{index}".encode())
+                assets.append({"asset_id": f"image_{index}", "media_type": "image", "uri": str(image)})
+            provider = FakeLocalProvider(PerceptionProviderConfig(options={
+                "output_dir": str(root / "outputs"),
+                "cache_enabled": False,
+            }))
+
+            result = provider.analyze(assets)
+
+            self.assertEqual([item["asset_id"] for item in result["assets"]], [item["asset_id"] for item in assets])
+            self.assertEqual(provider.calls, 4)
+            self.assertEqual(provider.max_active, 4)
+
     def test_parallel_assets_preserve_order_and_use_cache(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

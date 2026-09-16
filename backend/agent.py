@@ -95,7 +95,7 @@ def perception_config(source: dict[str, Any]) -> PerceptionProviderConfig:
     options.setdefault("cache_dir", os.environ.get("CONTEXT_IR_VLM_CACHE_DIR", ""))
     if not options["cache_dir"]:
         options.pop("cache_dir")
-    options.setdefault("max_parallel_assets", int(os.environ.get("CONTEXT_IR_VLM_MAX_PARALLEL_ASSETS", "2")))
+    options.setdefault("max_parallel_assets", int(os.environ.get("CONTEXT_IR_VLM_MAX_PARALLEL_ASSETS", "0")))
     options.setdefault("max_parallel_attribute_batches", int(os.environ.get("CONTEXT_IR_VLM_MAX_PARALLEL_ATTRIBUTE_BATCHES", "2")))
     options.setdefault("image_attribute_batch_size", int(os.environ.get("CONTEXT_IR_VLM_IMAGE_ATTRIBUTE_BATCH_SIZE", "3")))
     options.setdefault("single_pass_image_analysis", os.environ.get("CONTEXT_IR_VLM_SINGLE_PASS_IMAGE", "1") not in {"0", "false", "False"})

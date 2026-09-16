@@ -1742,8 +1742,9 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
                 continue
             visual_items.append((index, asset))
 
-        max_workers = max(1, int(self.config.options.get("max_parallel_assets", 2)))
-        max_workers = min(max_workers, len(visual_items)) if visual_items else 1
+        configured_workers = int(self.config.options.get("max_parallel_assets", 0))
+        max_workers = len(visual_items) if configured_workers <= 0 else min(configured_workers, len(visual_items))
+        max_workers = max(1, max_workers)
         if max_workers == 1:
             for index, asset in visual_items:
                 result_index, analysis = analyze_one(index, asset)
