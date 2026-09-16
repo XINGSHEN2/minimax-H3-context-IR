@@ -31,7 +31,7 @@ def main():
   guide='\n图片编号与文件名：'+json.dumps({k:v.name for k,v in zip(ids,images)},ensure_ascii=False)+'\n用户原始需求：'+prompt
   content=[{'type':'text','text':RELATIONAL_IMAGE_PROMPT+GROUP_PROMPT+guide}]
   for path in images: content.append({'type':'image_url','image_url':{'url':provider._media_url(path)}})
-  payload={'model':cfg.model,'messages':[{'role':'user','content':content}],'max_tokens':8000,'stream':False,'temperature':0.0,'top_p':0.9,'chat_template_kwargs':{'enable_thinking':True}}
+  payload={'model':cfg.model,'messages':[{'role':'user','content':content}],'max_tokens':8000,'stream':False,'temperature':0.0,'top_p':0.9}
   response=provider._request_json('POST','/v1/chat/completions',payload,7200,cfg.options['image_base_url'])
   text=str(response['choices'][0]['message']['content']); final=text.split('</think>',1)[1].strip() if '</think>' in text else text
   result['grouped_image_analysis']=_json_object(final)
