@@ -213,7 +213,7 @@ async function pollJob() {
 
 async function showCompleted() {
   setRunning(false);
-  showProgress("H3 Prompt 已生成并通过审计", 100, 5);
+  showProgress("H3 Prompt 已生成并通过格式校验", 100, 5);
   elements.jobProgress.classList.add("hidden");
   elements.resultView.classList.remove("hidden");
   elements.audit.className = "audit-badge passed";

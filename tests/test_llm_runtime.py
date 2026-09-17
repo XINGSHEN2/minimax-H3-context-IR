@@ -47,6 +47,19 @@ class DirectChatRuntimeTests(unittest.TestCase):
         self.assertEqual(captured["thinking"], {"type": "enabled"})
         self.assertNotIn("temperature", captured)
 
+    def test_flash_alias_and_site_prefix_support_explicit_thinking(self):
+        for model in ("deepseek-flash", "sha/deepseek-v4-flash", "inc/deepseek-v4-flash"):
+            with self.subTest(model=model):
+                with patch.dict(os.environ, {"TEST_LLM_KEY": "secret", "CONTEXT_IR_DEEPSEEK_REASONING_EFFORT": "high"}), patch(
+                    "urllib.request.urlopen", return_value=_Response({"choices": [{"message": {"content": '{"ok":true}'}}]})
+                ) as request:
+                    DirectChatRuntime("https://api.deepseek.com", model, "TEST_LLM_KEY").invoke_json("Return JSON")
+                body = json.loads(request.call_args.args[0].data)
+                self.assertEqual(body["model"], model)
+                self.assertEqual(body["thinking"], {"type": "enabled"})
+                self.assertEqual(body["reasoning_effort"], "high")
+                self.assertNotIn("temperature", body)
+
     def test_invalid_v4_effort_fails_before_network(self):
         with patch.dict(os.environ, {"TEST_LLM_KEY": "secret",
                                     "CONTEXT_IR_DEEPSEEK_REASONING_EFFORT": "typo"}), patch(

@@ -1,4 +1,4 @@
-from backend.agent import _compact_entity
+from backend.evidence import _compact_entity
 
 
 def feature(name="closure"):

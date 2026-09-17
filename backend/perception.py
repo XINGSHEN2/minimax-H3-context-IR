@@ -18,6 +18,7 @@ import os
 import re
 import subprocess
 import tempfile
+import threading
 import time
 import urllib.error
 import urllib.request
@@ -63,7 +64,7 @@ class Qwen3OmniProvider(CallablePerceptionProvider):
 
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".bmp"}
 JSON_FENCE_PATTERN = re.compile(r"^```(?:json)?\s*|\s*```$", re.IGNORECASE)
-PERCEPTION_CACHE_SCHEMA_VERSION = "local-qwen3-vl-cache.v4"
+PERCEPTION_CACHE_SCHEMA_VERSION = "local-qwen3-vl-cache.v6"
 
 
 def _canonical_entity_reference(value: Any, known_ids: set[str]) -> str:
@@ -92,7 +93,7 @@ Give one tight box per distinct object. Do not group separable objects. Do not r
 ATTRIBUTE_CROP_PROMPT = """The image is a labeled crop sheet made from one source image.
 Each labeled cell contains exactly one primary object. Analyze cells independently and never merge content across cells.
 Return only compact valid JSON: {"items":[{"object_id":"object_1","category":"actual open-vocabulary category","summary":"visible facts","features":[["color","name","value",0.9,"visible"]],"uncertainties":[],"confidence":0.9}]}
-The first feature value must be exactly one of: geometry, color, material, surface, components, component_layout, orientation_cues, identity_markers, other. Never join group names with |. The fifth value must be exactly visible, inferred, or unresolved. The category must name the actual object type, never the literal phrase 'open vocabulary'. Each feature has exactly five values: group, name, value, confidence, source. Return 4-8 non-redundant reproduction-critical features per object and keep summaries under 18 words. Describe item-level differences. Identity markers are distinctive visible motifs, component arrangements, damage, text, or patterns, not a person's identity. Do not infer brand, price, user intent, audio, ownership, or use. Do not omit a label. Close the JSON before adding optional detail. Emit compact JSON without Markdown."""
+The first feature value must be exactly one of: geometry, color, material, surface, components, component_layout, orientation_cues, identity_markers, other. Never join group names with |. The fifth value must be exactly visible, inferred, or unresolved. The category must name the actual object type, never the literal phrase 'open vocabulary'. Each feature has exactly five values: group, name, value, confidence, source. Return only clearly supported distinguishing features per object, with no minimum count; prioritize the inspection focus and do not fill a checklist. Keep summaries under 18 words and avoid repeating the feature list. Describe item-level differences. Identity markers are distinctive visible motifs, component arrangements, damage, text, or patterns, not a person's identity. Do not infer brand, price, user intent, audio, ownership, or use. Do not omit a label. Close the JSON before adding optional detail. Emit compact JSON without Markdown."""
 
 COMPACT_VIDEO_TIMELINE_PROMPT = """Analyze this complete source video as provider-neutral visual evidence. Do not infer audio or user intent. Return only compact valid JSON:
 {"summary":"visible overview","events":[{"event_id":"event_1","start_seconds":0.0,"end_seconds":1.0,"entity_ids":["entity_1"],"action":"visible shot, action, outfit and scene","transition_type":"cut","confidence":0.9}],"technical":{"duration_seconds":0.0,"framing":"","camera":"","visible_text":[]},"uncertainties":[]}
@@ -101,18 +102,61 @@ Use elapsed source-video seconds. Create a separate event for every shot, cut, o
 COMPACT_VIDEO_ENTITY_PROMPT = """Analyze this complete source video as provider-neutral visual evidence. Do not infer audio, dialogue, identity, brand, price, ownership, intent, or user instructions. Return only compact valid JSON:
 {"entities":[{"entity_id":"entity_1","category":"actual generic category","subcategory":"actual open vocabulary type","summary":"visible facts","quantity":[1,0.9],"features":[["color","name","value",0.9,"visible"]],"uncertainties":[]}],"relations":[["relation_1","type","entity_1","entity_2","visible anchor",0.9,"visible"]]}
 The first feature value is exactly one of: geometry, color, material, surface, components, component_layout, orientation_cues, identity_markers, other. Never join group names with |. Return at most 8 high-value reusable entities, prioritizing people, the showcased product, outfit/garment variations, accessory groups, key props, environments, and visible text. Group related outfit changes or environments as variations/features when that avoids low-value entity proliferation. Do not enumerate incidental background objects.
-Every relation endpoint must exactly match a declared entity_id. Return 4-8 concise reproduction-critical features per entity. Estimate confidence from 0.5-1.0 for visible/inferred facts; use 0 only when unresolved. Emit compact JSON without indentation or Markdown."""
+Every relation endpoint must exactly match a declared entity_id. Return only supported distinguishing features needed for the inspection focus, with no minimum count. Avoid repeating feature lists in summaries. Estimate confidence from 0.5-1.0 for visible/inferred facts; use 0 only when unresolved. Emit compact JSON without indentation or Markdown."""
 
-COMPACT_VIDEO_SINGLE_PASS_PROMPT = """Analyze this complete source video once as provider-neutral visual evidence. Do not infer audio, dialogue, identity, brand, price, ownership, intent, or user instructions. Return only compact valid JSON using this concrete example shape:
-{"summary":"A woman turns toward a product display","events":[{"event_id":"event_1","start_seconds":0.0,"end_seconds":1.0,"entity_ids":["person_1","product_1"],"action":"The woman turns from the display toward the camera","transition_type":"cut","confidence":0.9}],"entities":[{"entity_id":"person_1","category":"person","subcategory":"adult woman","summary":"Woman standing beside the display","quantity":[1,0.9],"features":[["color","top color","white",0.9,"visible"]],"uncertainties":[]},{"entity_id":"product_1","category":"product","subcategory":"bottle","summary":"Bottle arranged on the display","quantity":[1,0.9],"features":[["geometry","container shape","rectangular bottle",0.9,"visible"]],"uncertainties":[]}],"relations":[["relation_1","positioned_relative_to","person_1","product_1","person stands left of product",0.9,"visible"]],"technical":{"duration_seconds":1.0,"framing":"medium shot","camera":"locked camera","visible_text":[]},"uncertainties":[]}
-Use elapsed source-video seconds and cover the visible beginning through ending. Create a separate event for each cut, scene, outfit, or distinct action. Reuse exactly the same declared entity IDs in events and relations. Replace every example value with an observation from the supplied video: never emit literal schema placeholders such as "generic visible category", "open vocabulary type", "visible facts", "visible shot", "name", or "value". Return at most 8 high-value entities and 4-8 concise reproduction-critical features per entity. Feature groups must be one of geometry, color, material, surface, components, component_layout, orientation_cues, identity_markers, other. Feature source must be visible, inferred, or unresolved. Never complete cropped, obscured, faint, or ambiguous text; mark it partial or uncertain. Emit compact JSON without Markdown."""
+COMPACT_VIDEO_SINGLE_PASS_PROMPT = """请完整分析输入视频，输出可复用的视觉证据和适合视频生成的语义分组。只返回一个紧凑、有效的 JSON 对象，不要使用 Markdown：
+{"summary":"画面概述","events":[{"event_id":"event_1","start_seconds":0.0,"end_seconds":1.0,"entity_ids":["person_1","environment_1"],"action":"这一时间段中可见的动作、主体状态与场景变化","transition_type":"cut","confidence":0.9}],"entities":[{"entity_id":"person_1","category":"person","subcategory":"adult woman","summary":"人物及其固定造型的可见概述","quantity":[1,0.9],"features":[["components","服装与随身造型","白色上衣和黑色长裤",0.9,"visible"]],"uncertainties":[]},{"entity_id":"environment_1","category":"environment","subcategory":"interior","summary":"场景及全局光照的可见概述","quantity":[1,0.9],"features":[["other","光照","冷色低调照明",0.9,"visible"]],"uncertainties":[]}],"relations":[["relation_1","positioned_relative_to","person_1","environment_1","人物位于场景中央",0.9,"visible"]],"technical":{"duration_seconds":1.0,"framing":"medium shot","camera":"locked camera","visible_text":[]},"uncertainties":[]}
+按源视频时间覆盖从开头到结尾。每次真实剪切、场景变化、服装变化或独立动作建立一个 event；不要把同一连续动作仅因景别或姿态微变拆成多个事件。events 和 relations 必须复用 entities 中已声明的 entity_id。
 
-RELATIONAL_IMAGE_PROMPT = """Analyze this image once as provider-neutral visual evidence. Return only compact valid JSON using this illustrative shape (its bottle and table are examples, not observations of the supplied image):
-{"summary":"A blue rectangular bottle rests on a white table","global_analysis":{"scene":"white tabletop against a grey wall","composition":"bottle centered in a close view","framing_layers":[],"visible_text":[],"uncertainties":[]},"entities":[{"entity_id":"bottle_1","category":"bottle","summary":"Blue rectangular bottle with a black round cap","quantity":[1,0.9],"features":[["geometry","body shape","rectangular with rounded shoulders",0.9,"visible"],["color","body color","blue",0.9,"visible"],["components","cap","round black cap",0.9,"visible"]],"uncertainties":[]},{"entity_id":"table_1","category":"table","summary":"White tabletop beneath bottle","quantity":[1,0.9],"features":[["color","top color","white",0.9,"visible"]],"uncertainties":[]}],"relations":[["relation_1","positioned_relative_to","bottle_1","table_1","bottle rests on tabletop",0.9,"visible"]],"uncertainties":[]}
-Replace every example value with actual visible evidence. Never return schema labels such as "whole-frame scene", "spatial arrangement", "name" or "value" as observations. Empty arrays are correct when a field has no visible evidence. For a framing layer provide description, coverage (whole_frame or partial_frame), and confidence. For visible text provide text, legibility (exact, partial, or uncertain), region, and confidence.
-Prioritize the user's requested understanding focus. Put distinguishing visible appearance in the main entity's features: silhouette, color, material cues, component arrangement, markings; for a person, visible hair, clothing, footwear and relevant facial appearance. Do not spend the entity budget listing each body part or garment separately unless it has an independent requested role. A multi-view reference board may show the same subject several times: record the layout separately and link views only when evidence supports sameness; do not assume every panel is a different target person. Do not infer a real-world name or identity from appearance.
-Describe global composition before local entities. Distinguish binocular double-circle masks, heart-shaped apertures, split screens, ordinary vignettes, and the scene visible inside them. Declare at most 8 task-relevant entities and at most 10 relations. Every relation endpoint must match a declared entity_id. Use 4-8 concise reproduction-critical features per important entity. Feature groups must be one of geometry, color, material, surface, components, component_layout, orientation_cues, identity_markers, other. Feature source must be visible, inferred, or unresolved. Never complete cropped, obscured, faint, or ambiguous text; mark it partial or uncertain. Do not infer function, performance, identity, brand claims, audio, ownership, intent, or hidden connections. Emit compact JSON without Markdown."""
+entities 表示后续生成过程中需要保持身份一致或独立控制的“生成语义单元”，不是素材物件清单。先忠实记录可见证据，再结合检查计划中的用户原始需求判断生成相关性；用户文字只能决定观察和组织重点，不能作为素材中的可见事实。
 
+对每个候选内容执行“独立控制测试”。满足以下任一条件时，倾向单列实体：
+1. 用户明确要求单独保留、展示、改变、替换或操作它。
+2. 它会相对所属主体或环境独立运动，或被拿取、穿戴、驾驶、打开、拆装等。
+3. 它会发生独立的外观、状态、位置、数量或形态变化。
+4. 它需要跨镜头保持独立身份一致，或必须与相似对象区分。
+5. 分镜必须无歧义地单独引用它，或它承担关键空间、交互、因果关系。
+6. 合并后会丢失用户明确要求或影响目标视频可执行性。
+
+如果以上条件全部不成立，则优先将它合并为所属主体的 feature、environment 的组成部分、global_style 的处理或 visible_text。以下只是可覆盖的默认行为，不是固定分类：
+- 人物与固定发型、服装、鞋、佩戴饰品和随身造型通常合并；换装对象、核心商品或需要独立变化的服饰可以单列。
+- 同一空间的建筑、家具、背景物、天气、光照和氛围通常合并为 environment；会运动、变形、被操作或承担叙事功能的元素应单列。
+- 扫描线、颗粒、暗角、色调等全片处理通常合并为 global_style；具有明确时间范围、局部作用对象或独立演变过程的效果可以单列。
+- 可见文字通常记录在 visible_text；需要生成、变化、持续保持、被操作或参与叙事时可以单列。
+- 多视角、分镜板或连续时间中有充分证据表明是同一对象的内容沿用同一 entity_id；不同真实个体或明确不同版本不得错误合并。
+
+实体数量采用软预算：简单素材通常使用 3–8 个高价值实体，复杂素材可以超过 8 个。不得为了满足数量而遗漏多面板内容、多个真实主体或用户要求；每个额外实体都应具有清楚的独立控制理由。优先最少但足够、边界明确且可执行的实体集合。
+
+把示例值全部替换为当前视频中的观察结果，不得原样输出占位内容。features 格式固定为 [group,name,value,confidence,source]；group 只能是 geometry、color、material、surface、components、component_layout、orientation_cues、identity_markers、other，source 只能是 visible、inferred、unresolved。只记录有区分度且有视觉依据的特征，不补全被遮挡、裁切、模糊或无法辨认的文字。不要推断音频、对白、真实身份、品牌结论、价格、所有权或未展示的动作。"""
+
+RELATIONAL_IMAGE_PROMPT = """请一次性分析输入图片，输出可复用的视觉证据和适合视频生成的语义分组。图片分析不是分镜设计。只返回一个紧凑 JSON 对象，不要使用 Markdown：
+{"summary":"图片整体可见内容","global_analysis":{"scene":"整体场景","composition":"空间关系与构图","framing_layers":[],"visible_text":[],"uncertainties":[]},"entities":[{"entity_id":"person_1","category":"person","summary":"人物及其固定造型的可见概述","quantity":[1,0.9],"features":[["components","服装与随身造型","黑色外套和黑色靴子",0.9,"visible"]],"uncertainties":[]},{"entity_id":"environment_1","category":"environment","summary":"场景、背景和光照的可见概述","quantity":[1,0.9],"features":[["other","光照","冷色低调照明",0.9,"visible"]],"uncertainties":[]}],"relations":[["relation_1","positioned_relative_to","person_1","environment_1","人物位于场景中央",0.9,"visible"]],"uncertainties":[]}
+
+按以下顺序分析：
+1. 整体结构：先判断单一画面、多面板、嵌套画面、遮罩、界面、拼图或分镜板。多面板图片必须在 global_analysis.framing_layers 中逐格记录位置、构图、主要主体和可见状态；不能因为实体数量限制而漏掉面板。面板顺序不等于播放顺序。
+2. 重要内容：结合检查计划中的用户原始需求确定观察重点，但用户文字只是关注线索，不能当成图片中的可见事实。
+3. 生成语义归并：
+entities 表示后续生成过程中需要保持身份一致或独立控制的“生成语义单元”，不是素材物件清单。先忠实记录可见证据，再结合检查计划中的用户原始需求判断生成相关性；用户文字只能决定观察和组织重点，不能作为素材中的可见事实。
+
+   对每个候选内容执行“独立控制测试”。满足以下任一条件时，倾向单列实体：
+   1. 用户明确要求单独保留、展示、改变、替换或操作它。
+   2. 它会相对所属主体或环境独立运动，或被拿取、穿戴、驾驶、打开、拆装等。
+   3. 它会发生独立的外观、状态、位置、数量或形态变化。
+   4. 它需要跨镜头保持独立身份一致，或必须与相似对象区分。
+   5. 分镜必须无歧义地单独引用它，或它承担关键空间、交互、因果关系。
+   6. 合并后会丢失用户明确要求或影响目标视频可执行性。
+
+   如果以上条件全部不成立，则优先将它合并为所属主体的 feature、environment 的组成部分、global_style 的处理或 visible_text。以下只是可覆盖的默认行为，不是固定分类：
+   - 人物与固定发型、服装、鞋、佩戴饰品和随身造型通常合并；换装对象、核心商品或需要独立变化的服饰可以单列。
+   - 同一空间的建筑、家具、背景物、天气、光照和氛围通常合并为 environment；会运动、变形、被操作或承担叙事功能的元素应单列。
+   - 扫描线、颗粒、暗角、色调等全片处理通常合并为 global_style；具有明确时间范围、局部作用对象或独立演变过程的效果可以单列。
+   - 可见文字通常记录在 visible_text；需要生成、变化、持续保持、被操作或参与叙事时可以单列。
+   - 多视角、分镜板或连续时间中有充分证据表明是同一对象的内容沿用同一 entity_id；不同真实个体或明确不同版本不得错误合并。
+
+   实体数量采用软预算：简单素材通常使用 3–8 个高价值实体，复杂素材可以超过 8 个。不得为了满足数量而遗漏多面板内容、多个真实主体或用户要求；每个额外实体都应具有清楚的独立控制理由。优先最少但足够、边界明确且可执行的实体集合。
+4. 不确定性：区分 visible、inferred 和 unresolved。静态图片只能证明可见状态，不能证明动作、持续时间、镜头运动、机构工作方式或面板播放顺序。
+
+只能使用既有字段。framing_layers 使用 description、coverage、confidence；visible_text 使用 text、legibility、region、confidence，禁止补全模糊、遮挡、裁切或无法确认的文字。features 使用 [group,name,value,confidence,source]，group 只能是 geometry、color、material、surface、components、component_layout、orientation_cues、identity_markers、other，source 只能是 visible、inferred、unresolved。每个 relation 的端点必须对应已声明的 entity_id。不要推断真实身份、品牌结论、价格、性能、隐藏连接、所有权、音频或用户意图。"""
 
 def _analysis_profile(asset: Mapping[str, Any], plan: Mapping[str, Any] | None) -> str:
     """Select the cheapest evidence pipeline that still satisfies the plan."""
@@ -887,6 +931,43 @@ class GiteeQwen3VLProvider(PerceptionProvider):
 class LocalQwen3VL32BProvider(PerceptionProvider):
     """OpenAI Chat Completions adapter for the local FIFO Qwen3-VL services."""
 
+    def __init__(self, config: PerceptionProviderConfig) -> None:
+        super().__init__(config)
+        self._uploaded_media: dict[tuple[str, int, int], str] = {}
+        self._upload_lock = threading.Lock()
+
+    def _media_url(self, media_path: Path) -> str:
+        upload_base = str(self.config.options.get("asset_upload_base_url", "")).rstrip("/")
+        source = media_path.expanduser().resolve()
+        if not upload_base:
+            return source.as_uri()
+        stat = source.stat()
+        key = (str(source), stat.st_size, stat.st_mtime_ns)
+        with self._upload_lock:
+            if key in self._uploaded_media:
+                return self._uploaded_media[key]
+            # curl streams the multipart body, including large source videos.
+            escaped = str(source).replace(chr(92), chr(92) * 2).replace(chr(34), chr(92) + chr(34))
+            timeout = float(self.config.options.get("asset_upload_timeout_seconds", 600))
+            response = subprocess.run(
+                ["curl", "--silent", "--show-error", "--fail-with-body",
+                 "--connect-timeout", "15", "--max-time", str(timeout),
+                 "--request", "POST", upload_base + "/v1/assets",
+                 "--form", 'file=@"' + escaped + '"'],
+                capture_output=True, text=True, timeout=timeout + 5, check=False,
+            )
+            if response.returncode:
+                raise RuntimeError(f"Asset upload failed ({response.returncode}): {response.stderr[:500]} {response.stdout[:500]}")
+            try:
+                value = json.loads(response.stdout)
+                url = value.get("url", "") if isinstance(value, dict) else ""
+            except (ValueError, TypeError) as exc:
+                raise RuntimeError("Asset upload returned invalid JSON") from exc
+            if not isinstance(url, str) or not url.startswith(("http://", "https://")):
+                raise RuntimeError("Asset upload did not return an HTTP(S) url")
+            self._uploaded_media[key] = url
+            return url
+
     def _request_json(
         self,
         method: str,
@@ -947,6 +1028,7 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
                 "image_attribute_batch_size", "relational_image_max_tokens",
                 "video_timeline_max_tokens", "video_entity_max_tokens",
                 "video_fps", "video_max_frames", "max_tokens",
+                "image_base_url", "video_base_url", "asset_upload_base_url",
             )
         }
         material = {
@@ -1011,10 +1093,11 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
                 "role": "user",
                 "content": [
                     {"type": "text", "text": prompt},
-                    {"type": content_type, content_type: {"url": media_path.resolve().as_uri()}},
+                    {"type": content_type, content_type: {"url": self._media_url(media_path)}},
                 ],
             }],
             "max_tokens": max_new_tokens,
+            "stream": False,
             "temperature": float(self.config.options.get("temperature", 0.0)),
             "top_p": float(self.config.options.get("top_p", 0.9)),
             **parameters,
@@ -1029,8 +1112,12 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             response_text = str(choices[0]["message"]["content"])
         except (IndexError, KeyError, TypeError) as exc:
             raise RuntimeError("Local Qwen3-VL returned an invalid Chat Completions response") from exc
+        # Thinking-enabled Qwen embeds private reasoning before </think>.
+        # Parse only the final answer so JSON-like fragments in the reasoning
+        # cannot be mistaken for the structured perception result.
+        parse_text = response_text.split("</think>", 1)[1].strip() if "</think>" in response_text else response_text
         try:
-            result = _json_object(response_text)
+            result = _json_object(parse_text)
         except (ValueError, json.JSONDecodeError) as exc:
             retry_limit = max(0, int(self.config.options.get("json_parse_retries", 2)))
             if _json_parse_attempt >= retry_limit:
@@ -1187,8 +1274,8 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
         run_dir = output_root / "staged" / f"{asset.get('asset_id', 'image')}-{time.time_ns()}"
         localization_image = self._localization_input(source, run_dir / "localization_input.jpg")
         plan_text = json.dumps(plan or {}, ensure_ascii=False)
-        guard = ("\nIntent-derived inspection plan (not visual evidence): " + plan_text
-                 + "\nUse claimed categories only as hypotheses. Obey do_not_infer and report visible conflicts.")
+        guard = ("\n以下是根据用户要求形成的检查计划，它只规定观察重点，不属于视觉证据：" + plan_text
+                 + "\n计划中的类别和用途只能作为待验证假设。遵守 do_not_infer；如果素材与用户描述冲突，明确记录可见冲突。")
         localized = self._run_task(localization_image, LOCALIZATION_PROMPT + guard, run_dir / "localization", 700)
         global_analysis = localized.get("global_analysis")
         if not isinstance(global_analysis, Mapping):
@@ -1301,9 +1388,9 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             "output_dir", "/home/mx/shenxing/minimax-H3-context-IR/outputs/qwen3-vl-32b",
         ))).expanduser().resolve()
         guard = (
-            "\nIntent-derived inspection plan (not visual evidence): "
+            "\n以下是根据用户要求形成的检查计划，它只规定观察重点，不属于视觉证据："
             + json.dumps(plan or {}, ensure_ascii=False)
-            + "\nUse claimed categories only as hypotheses. Obey do_not_infer and report visible conflicts."
+            + "\n计划中的类别和用途只能作为待验证假设。遵守 do_not_infer；如果素材与用户描述冲突，明确记录可见冲突。"
         )
         raw = self._run_task(
             source, RELATIONAL_IMAGE_PROMPT + guard,
@@ -1372,20 +1459,19 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
         duration_rule = ""
         if duration is not None:
             duration_rule = (
-                f" The source duration is {duration:.3f} seconds. All event times must be within "
-                f"0.0-{duration:.3f}, and the last event must reach the visible ending."
+                f" 源视频时长为 {duration:.3f} 秒。所有事件时间必须位于 "
+                f"0.0-{duration:.3f} 秒内，最后一个事件必须覆盖可见结尾。"
             )
         if cut_candidates:
             duration_rule += (
-                " An independent pixel-change detector found candidate visual cut boundaries at "
+                " 独立的像素变化检测器发现以下候选画面切点："
                 + ", ".join(f"{value:.3f}s" for value in cut_candidates)
-                + ". Treat them as measurement hints: verify them visually, keep real cuts, and "
-                  "ignore false positives caused by flashes or fast motion. Do not replace them "
-                  "with uniformly spaced timestamps."
+                + "。这些时间只是测量线索：请根据画面核实真实切点，忽略闪光或快速运动造成的误报，"
+                  "不得用均匀时间间隔替代实际观察。"
             )
-        guard = ("\nIntent-derived inspection plan (not visual evidence): "
+        guard = ("\n以下是根据用户要求形成的检查计划，它只规定观察重点，不属于视觉证据："
                  + json.dumps(plan or {}, ensure_ascii=False)
-                 + "\nUse claimed categories only as hypotheses. Obey do_not_infer and report visible conflicts.")
+                 + "\n计划中的类别和用途只能作为待验证假设。遵守 do_not_infer；如果素材与用户描述冲突，明确记录可见冲突。")
         timeline_raw = self._run_task(
             source,
             COMPACT_VIDEO_SINGLE_PASS_PROMPT + duration_rule + guard,
@@ -1699,8 +1785,9 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
                 continue
             visual_items.append((index, asset))
 
-        max_workers = max(1, int(self.config.options.get("max_parallel_assets", 2)))
-        max_workers = min(max_workers, len(visual_items)) if visual_items else 1
+        configured_workers = int(self.config.options.get("max_parallel_assets", 0))
+        max_workers = len(visual_items) if configured_workers <= 0 else min(configured_workers, len(visual_items))
+        max_workers = max(1, max_workers)
         if max_workers == 1:
             for index, asset in visual_items:
                 result_index, analysis = analyze_one(index, asset)

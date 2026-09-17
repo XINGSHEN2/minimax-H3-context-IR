@@ -69,7 +69,8 @@ class DirectChatRuntime:
             "response_format": {"type": "json_object"},
         }
         effort = os.environ.get("CONTEXT_IR_DEEPSEEK_REASONING_EFFORT", "").strip()
-        if effort and self.model.startswith("deepseek-v4-"):
+        model_name = self.model.rsplit("/", 1)[-1]
+        if effort and (model_name == "deepseek-flash" or model_name.startswith("deepseek-v4-")):
             if effort not in {"low", "high", "max"}:
                 raise ValueError("CONTEXT_IR_DEEPSEEK_REASONING_EFFORT must be low, high, or max")
             payload["thinking"] = {"type": "enabled"}
@@ -112,6 +113,34 @@ class DirectChatRuntime:
                     response_payload = json.loads(response.read().decode("utf-8"))
             else:
                 raise RuntimeError(f"LLM Chat Completions failed ({exc.code}): {detail}") from exc
+        reasoning_records: list[dict[str, Any]] = []
+
+        def save_reasoning(response_data: Mapping[str, Any], stage: str) -> None:
+            if log_path is None:
+                return
+            response_choices = response_data.get("choices") or []
+            choice = response_choices[0] if response_choices else {}
+            response_message = choice.get("message") or {}
+            usage = response_data.get("usage") or {}
+            details = usage.get("completion_tokens_details") or {}
+            reasoning_records.append({
+                "stage": stage,
+                "response_id": response_data.get("id"),
+                "model": response_data.get("model"),
+                "finish_reason": choice.get("finish_reason"),
+                "reasoning_effort": payload.get("reasoning_effort", "provider_default"),
+                "reasoning_content": response_message.get("reasoning_content"),
+                "reasoning_content_returned": response_message.get("reasoning_content") is not None,
+                "reasoning_tokens": details.get("reasoning_tokens"),
+                "usage": response_data.get("usage"),
+            })
+            log_path.parent.mkdir(parents=True, exist_ok=True)
+            log_path.with_suffix(".reasoning.json").write_text(
+                json.dumps({"schema_version": "llm_reasoning.v1", "responses": reasoning_records},
+                           ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+        # Persist before parsing so truncation and failed JSON repair retain evidence.
+        save_reasoning(response_payload, "generation")
         choices = response_payload.get("choices") or []
         if not choices:
             raise RuntimeError("LLM Chat Completions returned no choices")
@@ -156,6 +185,7 @@ class DirectChatRuntime:
             try:
                 with urllib.request.urlopen(repair_request, timeout=self.timeout_seconds) as response:
                     repaired_payload = json.loads(response.read().decode("utf-8"))
+                save_reasoning(repaired_payload, "json_repair")
                 repaired_choices = repaired_payload.get("choices") or []
                 repaired_raw = str((repaired_choices[0].get("message") or {}).get("content") or "")
                 result = _extract_json(repaired_raw)

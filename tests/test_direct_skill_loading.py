@@ -14,6 +14,13 @@ def test_direct_runtime_receives_referenced_official_guides():
     parts = runtime.invoke_json.call_args.kwargs["system_parts"]
     for name in ("base-en.txt", "ref-en.txt"):
         expected = (SKILLS_DIR / "h3-prompt-writing" / "references" / name).read_text(encoding="utf-8")
+        if name == "ref-en.txt":
+            expected = expected.split("## 7. Complete Example", 1)[0].rstrip()
+            assert "Define fixed identity and appearance once" in expected
+            assert "including its first" in expected
+            assert "describe its referenced characteristics" not in expected
+            assert "## 6. `overall_soundscape`" in expected
+            assert "## 7. Complete Example" not in expected
         assert parts.count(expected) == 1
 
 

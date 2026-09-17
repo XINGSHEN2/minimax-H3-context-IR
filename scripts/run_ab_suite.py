@@ -94,7 +94,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("base", type=Path)
     parser.add_argument("cases", nargs="+")
-    parser.add_argument("--revision", default="a4b925e")
+    parser.add_argument("--revision", default="v20")
     args = parser.parse_args()
 
     status_path = args.base / "local_ir_suite_status.json"

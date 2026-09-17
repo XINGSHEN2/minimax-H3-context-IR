@@ -14,8 +14,8 @@ class IntentResolverTests(unittest.TestCase):
             "completion_policy": {"technical": True, "conservative_semantic": True, "creative": False},
             "task": {"type": "ref2va", "duration_seconds": 15, "aspect_ratio": "9:16", "generate_audio": False},
             "assets": [
-                {"asset_id": "image_1", "media_type": "image", "label": "product"},
-                {"asset_id": "video_1", "media_type": "video", "label": "camera reference"},
+                {"asset_id": "image_1", "media_type": "image", "uri": "/tmp/image.png", "label": "product"},
+                {"asset_id": "video_1", "media_type": "video", "uri": "/tmp/video.mp4", "label": "camera reference"},
             ],
         }
 
@@ -119,7 +119,7 @@ class IntentResolverTests(unittest.TestCase):
 
     def test_ambiguous_mention_does_not_guess(self):
         source = copy.deepcopy(self.source)
-        source["assets"].append({"asset_id": "image_2", "media_type": "image", "label": "alternate product"})
+        source["assets"].append({"asset_id": "image_2", "media_type": "image", "uri": "/tmp/image.png", "label": "alternate product"})
         response = self.response()
         response["asset_mentions"][0] = {
             "source_text": "the product image", "resolved_asset_ids": [],
