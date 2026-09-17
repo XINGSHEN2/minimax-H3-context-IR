@@ -125,7 +125,7 @@ entities 表示后续生成过程中需要保持身份一致或独立控制的�
 - 可见文字通常记录在 visible_text；需要生成、变化、持续保持、被操作或参与叙事时可以单列。
 - 多视角、分镜板或连续时间中有充分证据表明是同一对象的内容沿用同一 entity_id；不同真实个体或明确不同版本不得错误合并。
 
-实体数量采用软预算：简单素材通常使用 3–8 个高价值实体，复杂素材可以超过 8 个。不得为了满足数量而遗漏多面板内容、多个真实主体或用户要求；每个额外实体都应具有清楚的独立控制理由。优先最少但足够、边界明确且可执行的实体集合。
+实体数量采用软预算：简单素材通常使用 3–8 个高价值实体，复杂素材可以超过 8 个。不得为了满足数量而遗漏多面板内容、多个真实主体或用户要求；每个额外实体都应具有清楚的独立控制理由。优先更少但完整的生成单元，保持边界明确且可执行。
 
 把示例值全部替换为当前视频中的观察结果，不得原样输出占位内容。features 格式固定为 [group,name,value,confidence,source]；group 只能是 geometry、color、material、surface、components、component_layout、orientation_cues、identity_markers、other，source 只能是 visible、inferred、unresolved。只记录有区分度且有视觉依据的特征，不补全被遮挡、裁切、模糊或无法辨认的文字。不要推断音频、对白、真实身份、品牌结论、价格、所有权或未展示的动作。"""
 
@@ -153,7 +153,7 @@ entities 表示后续生成过程中需要保持身份一致或独立控制的�
    - 可见文字通常记录在 visible_text；需要生成、变化、持续保持、被操作或参与叙事时可以单列。
    - 多视角、分镜板或连续时间中有充分证据表明是同一对象的内容沿用同一 entity_id；不同真实个体或明确不同版本不得错误合并。
 
-   实体数量采用软预算：简单素材通常使用 3–8 个高价值实体，复杂素材可以超过 8 个。不得为了满足数量而遗漏多面板内容、多个真实主体或用户要求；每个额外实体都应具有清楚的独立控制理由。优先最少但足够、边界明确且可执行的实体集合。
+   实体数量采用软预算：简单素材通常使用 3–8 个高价值实体，复杂素材可以超过 8 个。不得为了满足数量而遗漏多面板内容、多个真实主体或用户要求；每个额外实体都应具有清楚的独立控制理由。优先更少但完整的生成单元，保持边界明确且可执行。
 4. 不确定性：区分 visible、inferred 和 unresolved。静态图片只能证明可见状态，不能证明动作、持续时间、镜头运动、机构工作方式或面板播放顺序。
 
 只能使用既有字段。framing_layers 使用 description、coverage、confidence；visible_text 使用 text、legibility、region、confidence，禁止补全模糊、遮挡、裁切或无法确认的文字。features 使用 [group,name,value,confidence,source]，group 只能是 geometry、color、material、surface、components、component_layout、orientation_cues、identity_markers、other，source 只能是 visible、inferred、unresolved。每个 relation 的端点必须对应已声明的 entity_id。不要推断真实身份、品牌结论、价格、性能、隐藏连接、所有权、音频或用户意图。"""
