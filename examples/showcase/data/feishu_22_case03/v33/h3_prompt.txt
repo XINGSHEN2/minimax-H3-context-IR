@@ -1,0 +1,26 @@
+subject_definitions:
+<Subject 1> is the singer in the target video: the young woman whose face, hair and body appearance come from the person in <Video 2>, with dense black curly hair, freckles across her cheeks and nose bridge, a white short-sleeve T-shirt under light-blue denim overalls, and several orange, teal, red and yellow braided bracelets stacked on her right wrist.
+<Subject 2> is the outdoor street-café environment from <Video 2>: a rattan chair and café table on a sunlit European street, a wooden sign reading "CAFÉ", blurred pedestrians and a passing red bus behind her, palm trees and pale building façades under bright warm daylight.
+<Subject 3> is the white ceramic cup from <Video 2>, held with both hands and drunk from, its contents not visible.
+<Subject 4> is the visible singing performance from <Video 3>, transferred onto <Subject 1>'s body: closed eyes, open-mouthed singing, a light head sway, and a right-hand gesture that opens palm-up at chest height before the fingertips pinch together and travel up toward the shoulder.
+<Video 1> is the camera-movement reference for the target video, providing the slow, continuous Hitchcock-style push-in toward the seated subject; its beach setting, people and action are not used.
+<Audio 1> is the singing-voice reference for <Subject 1> (S1), taken from the singing in <Video 3>: its timbre, vibrato, phrasing and delivery are referenced without copying the source signal or its words.
+
+summary:
+[reference generation + audio reference] The target video keeps the young woman from <Video 2> in her outdoor café setting and makes her sing, applying <Subject 4>'s singing performance from <Video 3> to her face, posture and right hand, and using <Video 1>'s slow Hitchcock-style push-in as the camera behavior across the single uncut shot. <Audio 1> is referenced for the quality of her singing voice.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1]): fully_preserved - her face, freckles, curly hair, clothing, bracelets and seated position are unchanged; only her action becomes singing.
+<Subject 2> ([Shot 1] setting): fully_preserved - the rattan furniture, the "CAFÉ" sign, the blurred pedestrians, the passing red bus and the warm daylight remain as the background of the shot.
+<Subject 3> ([Shot 1]): partially_preserved - the cup keeps its white ceramic appearance and stays in frame, but its two-handed drinking hold ends when it is set down on the table before the singing.
+<Subject 4> ([Shot 1]): attribute_transfer - the singing performance's timing and motion are transferred onto <Subject 1>, whose own appearance, clothing and setting are unchanged.
+<Video 1> (camera movement): attribute_transfer - the slow continuous push-in observed in <Video 1> becomes the target video's camera behavior, while its beach setting, subjects and action are not used.
+<Audio 1>: reference - the target singer follows <Audio 1>'s voice timbre and phrasing without copying the source signal or its words.
+
+detailed_description:
+The target video is live-action and cinematic, preserving the bright, warm daylight, the shallow depth of field and the outdoor street-café setting of <Video 2>.
+[Shot 1] <Subject 1> sits at the rattan table of <Subject 2>, holding <Subject 3> in both hands just below her lips with her gaze lowered onto it, while pedestrians and a passing red bus stay soft and out of focus behind her. The camera begins the slow, continuous Hitchcock-style push-in transferred from <Video 1>, closing the distance toward her face at slow speed and small amplitude without a cut. She lowers <Subject 3> and sets it down on the table, and the moment her hands come free she lifts her head, letting the warm daylight cross her freckles and the stacked bracelets on her right wrist. Her eyes close, her lips part, and the freckled young woman with a warm, vibrato-rich voice (S1) begins to sing, following the voice referenced from <Audio 1>: <d>[English] Hold on to the light, I'll be here till the morning.</d> Her lips and jaw stay aligned with the sung phrase as the performance of <Subject 4> moves through her body: her head sways lightly on the longer notes, her shoulders rise and settle with the phrasing, and her right hand lifts away from the cup, opens palm-up at chest height, then closes to pinched fingertips that travel up toward her shoulder. Her left hand stays near the cup on the table while the camera keeps pushing in with small amplitude at slow speed, holding her centered as her face grows larger in the frame and the café furniture and blurred pedestrians remain out of focus behind her. Toward the end of the shot she holds the closed-eyed, open-mouthed singing and the pinched-fingertip gesture, and the push-in settles on her face.
+
+overall_soundscape: Warm street-café ambience continues throughout, with light traffic and indistinct pedestrian chatter behind her and the soft scrape of the rattan chair. A single ceramic click lands as the cup meets the table, followed by the quiet rustle of denim and cloth as she settles into the song.
+
+non_diegetic_music: N/A

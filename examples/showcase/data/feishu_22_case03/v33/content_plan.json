@@ -1,0 +1,130 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "The person appearing in video_2 must sing in the target video.",
+      "The target video's camera movement must transfer the Hitchcock-style movement of video_1.",
+      "The face, hair and body appearance of the person from video_2 are preserved.",
+      "The singing voice references video_3.",
+      "The visible singing performance (lip/mouth movement, facial expression, head/body posture, gestures, phrasing) transfers from video_3 onto the video_2 person."
+    ],
+    "reference_anchors": [
+      "<Video 1>: slow continuous push-in toward the seated subject in a sunny beach setting, no cuts; whether it is a plain dolly-in or a dolly-zoom with background compression is unresolved.",
+      "<Video 2>: young woman seated at an outdoor street café, dense black curly hair, freckles on cheeks and nose bridge, white short-sleeve T-shirt under light-blue denim overalls, orange/teal/red/yellow braided bracelets stacked on the right wrist; white ceramic cup held in both hands and drunk from with gaze lowered; rattan furniture, wooden CAFÉ sign, blurred pedestrians, passing red bus, palm trees, warm daylight.",
+      "<Video 3>: seated singer, eyes closed, mouth open, light head sway; right hand opens palm-up then pinches its fingertips while moving between chest and shoulder; locked camera and grey studio background (camera and background are not used)."
+    ],
+    "open_design": [
+      "The cup is lowered and set on the café table so the right hand is free for the referenced singing gesture; this is an unspecified completion.",
+      "No lyric content is present in the evidence, so the sung words are an unspecified completion while the voice timbre and phrasing reference video_3.",
+      "One continuous shot is used; no cut is invented, matching the uncut push-in of video_1."
+    ]
+  },
+  "task_mode": "ref2va",
+  "must_keep": [
+    "The person from video_2 is the singer and keeps her identity, hair, freckles, clothing and bracelets.",
+    "The camera performs a slow continuous Hitchcock-style push-in transferred from video_1, without a cut.",
+    "The singing voice references the voice of video_3 rather than the target's natural speaking voice.",
+    "The visible singing performance of video_3 (closed eyes, open mouth, head sway, phrasing, right-hand gesture) is applied to the video_2 person.",
+    "The café setting and the white ceramic cup remain in the target video.",
+    "Duration 5.0 seconds, 16:9, audio generated."
+  ],
+  "bindings": [
+    {
+      "asset_id": "video_1",
+      "role": "camera-movement reference",
+      "retained_attributes": [
+        "slow continuous push-in toward the seated subject",
+        "uncut single movement"
+      ],
+      "optional_inherited_attributes": [
+        "subtle tightening of the framing around the subject's face"
+      ],
+      "excluded_attributes": [
+        "beach setting and bright beach daylight",
+        "the seated man and the woman standing behind him",
+        "the shoulder-push action"
+      ],
+      "exclusion_reasons": [
+        "Not requested; the target video keeps the café setting and the person from video_2."
+      ]
+    },
+    {
+      "asset_id": "video_2",
+      "role": "identity and setting source for the singer",
+      "retained_attributes": [
+        "face, freckles, dense black curly hair",
+        "white T-shirt and light-blue denim overalls",
+        "colorful braided bracelets on the right wrist",
+        "seated position at the rattan café table",
+        "outdoor street-café environment with warm daylight",
+        "white ceramic cup"
+      ],
+      "optional_inherited_attributes": [
+        "soft out-of-focus background pedestrians and the passing red bus"
+      ],
+      "excluded_attributes": [
+        "the drinking action as the final action of the shot",
+        "the near-static handheld camera drift"
+      ],
+      "exclusion_reasons": [
+        "Replaced by the singing performance transferred from video_3.",
+        "Replaced by the push-in transferred from video_1."
+      ]
+    },
+    {
+      "asset_id": "video_3",
+      "role": "singing-performance and singing-voice reference",
+      "retained_attributes": [
+        "closed eyes and open-mouthed singing",
+        "light head sway and shoulder phrasing",
+        "right-hand gesture from open palm-up to pinched fingertips travelling between chest and shoulder",
+        "voice timbre, vibrato and delivery"
+      ],
+      "optional_inherited_attributes": [
+        "continuously sustained singing through the whole shot"
+      ],
+      "excluded_attributes": [
+        "grey seamless studio background, floor spotlight pool and white pedestal",
+        "black satin slip dress and gold hoop earrings",
+        "locked camera",
+        "any original lyric words"
+      ],
+      "exclusion_reasons": [
+        "Different person, wardrobe and location are not requested for the target video.",
+        "The target camera must follow video_1's push-in instead.",
+        "Only voice timbre and phrasing are referenced, and no lyric text is available in the evidence."
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_1",
+      "visible_change": "The young woman lowers the white ceramic cup from below her lips and sets it down on the rattan café table, then lifts her head from its downward gaze.",
+      "outcome": "The cup rests on the table, her hands come free, and her face is raised, level and centered in the frame."
+    },
+    {
+      "id": "dev_2",
+      "visible_change": "She closes her eyes, opens her mouth and sings with the referenced voice, her head swaying lightly and her shoulders moving with the phrasing while her right hand rises from her lap, opens palm-up at chest height and then closes to pinched fingertips that travel up toward her shoulder.",
+      "outcome": "A continuous singing performance is visible and audible to the end of the video while the camera push-in settles on her face."
+    }
+  ],
+  "shots": [
+    {
+      "id": "shot_1",
+      "development_ids": [
+        "dev_1",
+        "dev_2"
+      ],
+      "start_seconds": 0.0,
+      "end_seconds": 5.0,
+      "start_state": "The young woman from <Video 2> sits at the rattan café table holding the white ceramic cup in both hands just below her lips, gaze lowered onto it; blurred pedestrians and a passing red bus move behind her; the camera holds the widest framing of the shot.",
+      "action": "The camera begins a slow continuous Hitchcock-style push-in toward her face, transferred from <Video 1>. She lowers the cup and sets it on the table, lifts her head, closes her eyes and begins to sing with the voice referenced from <Audio 1>, while the singing performance from <Video 3> shapes her head sway, shoulder phrasing and a right-hand gesture that opens palm-up before the fingertips pinch together and travel toward her shoulder; the push-in continues uncut. Camera: continuous push-in, slow speed, small amplitude, subject kept centered.",
+      "end_state": "The cup rests on the table; she holds the closed-eyed, open-mouthed singing and the pinched-fingertip gesture as the push-in settles on her face in a tighter framing, with the café furniture and blurred pedestrians still out of focus behind her.",
+      "sound_cues": [
+        "warm street-café ambience with light traffic and indistinct pedestrian chatter",
+        "single ceramic click as the cup is set on the table",
+        "soft rustle of denim and cloth as she settles into the song",
+        "her singing voice (S1), continuous from the first sung phrase to the end of the shot"
+      ]
+    }
+  ]
+}
