@@ -1,0 +1,33 @@
+{
+  "model": "MiniMax-H3",
+  "content": [
+    {
+      "type": "text",
+      "text": "subject_definitions:\n<Subject 1> is the young man whose identity and appearance are taken from <Picture 1> and <Picture 2>: slim, tall build, short dark hair, dark brows and a neutral expression, wearing an off-white hooded sweatshirt with the hood pulled up over his head, brown drawstring shorts, white socks and white low-top sneakers. No brand marks are defined.\n\n<Subject 2> is the continuous full-body hip-hop street-dance choreography taken from <Video 1> and performed by <Subject 1> in the target video: an arms-spread opening accent that drives the right arm straight out to the side with the left leg lifted; a low crouch with both arms whipping fast in front of the chest over rolling low-center footwork; a rise out of the crouch with a lifted leg and overhead arm swings into a wide stance; and a wide-stance stepping finish that lands on both arms spread wide with one leg raised.\n\n<Subject 3> is the outdoor stadium-concourse setting visible in <Picture 1> and <Picture 2>: rows of red plastic seats rising out of focus behind the performer, metal railings and light poles, cool overcast diffuse daylight, and wet reflective concrete underfoot.\n\nsummary:\n[reference generation] The target video shows <Subject 1>, whose identity comes from <Picture 1> and <Picture 2>, performing the complete street-dance choreography of <Subject 2> transferred from <Video 1> in one continuous full-body shot on the wet concourse of <Subject 3>, ending on his wide open final accent.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - his identity, build, hair and the hood-up off-white sweatshirt, brown drawstring shorts, white socks and white low-top sneakers are kept as defined; only the pose changes from the standing and seated references to danced motion.\n<Subject 2> (performed in [Shot 1]): attribute_transfer - the full-body choreography and its cadence from <Video 1> are carried out by <Subject 1> instead of the original dancer, with no section dropped or repeated.\n<Subject 3> (visible in [Shot 1]): partially_preserved - the red seat rows, railings, overcast light and wet concrete anchor the staging, but the exact seat layout and framing of the reference pictures are not replicated.\n<Video 1> (source of <Subject 2>): partially_preserved - only the choreography and its pacing are transferred; <Video 1>'s dancer identity, white cap, white long-sleeve top, black trousers, dance-studio interior, wall signage and locked studio camera are not carried over.\n\ndetailed_description:\nThe target video is a live-action, cinematic street-dance performance piece in a natural, cool overcast register: soft diffuse daylight, a slightly desaturated palette, clean exposure, and no filter, grain, vignette or transition effect. The camera holds one continuous vertical full shot for the whole video so <Subject 1> stays readable head to toe.\n[Shot 1] A vertical full shot frames <Subject 1> from head to toe at the center of the wet concrete concourse of <Subject 3>, the red seat rows rising out of focus behind him. The camera begins as a stable full shot. He starts from a relaxed upright stance, hood up and weight even, then both arms sweep outward as the opening accent and his right arm drives straight out to the side while the left knee lifts, his body swinging over the beat as the wet floor catches a broken reflection of his shoes. He sinks into a low crouch with his weight dropped over deeply bent legs, both arms whipping fast in front of his chest and his torso rolling through low-center footwork; the camera eases in with small amplitude at slow speed to keep the low footwork readable, and his sneakers squeak and scrape against the wet concrete while the hoodie fabric shifts across his back. A light wind moves through the empty stands and pushes at the loose fabric of the hood. He rises out of the crouch, swings both arms overhead, lifts a leg and snaps into a wide stance with arm arcs fast enough to blur his sleeves slightly, the camera settling back to full-body framing as he opens up. He keeps stepping through the wide stance with continuing arm swings and lands on the finish with both arms spread wide and one leg raised, chest lifting as he holds that final accent until the video ends.\n\noverall_soundscape: Light wind moves through the empty stadium seating over a low distant city hum. Sneakers squeak, scuff and slap against the wet concrete in step with each brace and landing, the hoodie fabric rustles as his arms cross his chest, and his breathing becomes audible during the low crouch and again across the held final accent.\n\nnon_diegetic_music: A mid-tempo hip-hop score with a boom-bap drum pattern, a punchy kick and snare, a warm sub-bass line and a short repeating piano stab. It enters at the opening accent, thins to a bare kick through the low crouch, opens out with fuller drums, hats and bass as the routine reaches the wide stance, and stops on a clean final hit while he holds the ending pose."
+    },
+    {
+      "type": "image_url",
+      "image_url": {
+        "url": "http://10.0.96.114:30100/v1/assets/asset_767accfce1ca410d9aaed00f918e08a5/content"
+      },
+      "role": "reference_image"
+    },
+    {
+      "type": "image_url",
+      "image_url": {
+        "url": "http://10.0.96.114:30100/v1/assets/asset_9d220e7e3b334fabae8f171437e1710b/content"
+      },
+      "role": "reference_image"
+    },
+    {
+      "type": "video_url",
+      "video_url": {
+        "url": "http://10.0.96.114:30100/v1/assets/asset_5aafbd002c984ba394dc636250af641f/content"
+      },
+      "role": "reference_video"
+    }
+  ],
+  "resolution": "768P",
+  "duration": 9,
+  "ratio": "9:16"
+}

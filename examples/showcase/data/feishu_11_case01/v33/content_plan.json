@@ -1,0 +1,188 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "Four consecutive keyframes image_1–image_4 are the interior lens view, discovered in order 1→2→3→4.",
+      "Opening: out-of-focus handheld shake, then a quick rack focus pulling in to Picture 1.",
+      "Between pictures: telescope sweep transitions (whip, motion blur, optical ghosting, exposure flicker) that switch at the most blurred point and then quickly stabilize and re-focus.",
+      "Throughout: one fixed dual-circular lens mask (black feathered vignette, identical position, size and edge softness, absolutely no deformation or drift); only the interior image moves.",
+      "Picture 2: cloth flutters in restrained wind, MINIMAX lettering stays readable as it rides the fabric.",
+      "Picture 3: person walks, turns and swings her arms like a candid fashion passerby caught unawares.",
+      "Picture 4: person adjusts her glasses or lifts her chin slightly with a cool, relaxed fashion-campaign attitude.",
+      "Red captions load with focus: initially soft and low opacity, sharpening within 0.3–0.5 seconds, optionally with a slight vertical slide-in or letter-spacing breath; they fade out or are carried off by motion blur before a switch; no rotation, bouncing or large fly-ins.",
+      "Wes Anderson-flavoured voyeuristic 35mm film texture: light grain, soft highlight bloom, restrained colour, red accents; minimal and premium with a slightly quirky liveliness.",
+      "No new people, vehicles, buildings or logos; original core compositions and the MINIMAX installations stay unchanged.",
+      "15 seconds, 16:9, audio generated."
+    ],
+    "reference_anchors": [
+      "image_1 as the first interior lens keyframe (warm bus shelter, canopy and wall-shadow MINIMAX, green 5 AV sign), resolved by the opening rack focus.",
+      "image_2 as the second interior lens keyframe (beige high-rise, hanging white MINIMAX banner with red reverse), resolved by the first sweep.",
+      "image_3 as the third interior lens keyframe (rooftop woman with binoculars, facade lettering), resolved by the second sweep.",
+      "image_4 as the fourth interior lens keyframe (close-up face, red geometric glasses with reflected lettering), resolved by the third sweep and held to the end.",
+      "All four pictures also supply the invariant dual-circle mask framing and the red caption layer."
+    ],
+    "open_design": [
+      "Exact per-shot durations and sweep lengths (cuts placed at 04.000, 07.600 and 11.300 seconds with the blur peaking on each cut).",
+      "Faint interior drift and micro re-aiming that keeps each subject inside the apertures while the mask stays immovable.",
+      "Minimal sound bed and score: wind, binocular mechanism, cloth, footsteps, breath, plus restrained quirky non-diegetic music.",
+      "Final hold: the last shot settles on Picture 4 and remains until 15.000 with only a faint breathing drift, captions staying on screen."
+    ]
+  },
+  "task_mode": "ref2va",
+  "must_keep": [
+    "Four keyframes used as the ordered interior lens view (1→2→3→4), each matched as the sharp refocused state of its shot.",
+    "Opening defocus with handheld shake, then a quick rack focus landing on Picture 1.",
+    "Inter-picture sweeps with whip, motion blur, optical ghosting and exposure flicker, cut exactly at maximum blur, followed by rapid stabilization and re-focus.",
+    "Dual-circle mask: identical position, size, contour and edge feathering for the entire 15 seconds; no movement, drift, deformation or scaling; only interior motion.",
+    "Picture 2: restrained cloth flutter with the vertical MINIMAX lettering readable throughout.",
+    "Picture 3: natural walking, turning and loose arm swing.",
+    "Picture 4: glasses adjustment or slight chin lift with a cool, relaxed fashion-campaign attitude.",
+    "Red caption load behaviour: soft and low opacity first, sharpening within 0.3–0.5 seconds, small vertical settle or letter-spacing breath allowed, cleared before each switch, no rotation, bounce or large fly-in.",
+    "Wes Anderson voyeuristic 35mm texture, restrained palette, red accents, minimal premium tone.",
+    "No added people, vehicles, buildings or logos; original compositions and MINIMAX installations unchanged."
+  ],
+  "bindings": [
+    {
+      "asset_id": "image_1",
+      "role": "Interior lens keyframe for [Shot 1]: the first sighting resolved by the opening rack focus.",
+      "retained_attributes": [
+        "Warm low-sun bus shelter composition",
+        "MINIMAX lettering on the canopy",
+        "Long MINIMAX shadow on the concrete wall",
+        "Green 5 AV sign at frame left",
+        "Red caption blocks in the lower corners"
+      ],
+      "optional_inherited_attributes": [
+        "Soft highlight roll-off on the concrete and glass",
+        "Faint warm light drift across the shelter"
+      ],
+      "excluded_attributes": [],
+      "exclusion_reasons": []
+    },
+    {
+      "asset_id": "image_2",
+      "role": "Interior lens keyframe for [Shot 2]: the sighting resolved by the first sweep.",
+      "retained_attributes": [
+        "Beige high-rise with regular window and balcony grid",
+        "Pale-blue multi-cloud sky",
+        "Long white vertical banner with black MINIMAX lettering",
+        "Red reverse at the banner's lower end",
+        "Red caption blocks in the lower corners"
+      ],
+      "optional_inherited_attributes": [
+        "Slow cloud drift behind the facade"
+      ],
+      "excluded_attributes": [],
+      "exclusion_reasons": []
+    },
+    {
+      "asset_id": "image_3",
+      "role": "Interior lens keyframe for [Shot 3]: the sighting resolved by the second sweep.",
+      "retained_attributes": [
+        "Rooftop foreground wall and pale sky",
+        "Woman with brown wavy shoulder-length hair and blunt bangs",
+        "Beige suit over white top, red shoulder bag, black twin-barrel binoculars",
+        "Facade with vertical lettering behind her",
+        "Red caption blocks in the lower corners"
+      ],
+      "optional_inherited_attributes": [
+        "Loose arm swing and natural step cadence",
+        "Soft daylight on the concrete wall"
+      ],
+      "excluded_attributes": [],
+      "exclusion_reasons": []
+    },
+    {
+      "asset_id": "image_4",
+      "role": "Interior lens keyframe for [Shot 4]: the sighting resolved by the third sweep and held to the end.",
+      "retained_attributes": [
+        "Close-up facial composition offset to the right",
+        "Dark short hair with blunt bangs",
+        "Red geometric-frame glasses with small reflected lettering in the right lens",
+        "Large silver earrings and red high collar",
+        "Defocused beige facade with a red vertical element behind her",
+        "Red caption blocks in the lower corners"
+      ],
+      "optional_inherited_attributes": [
+        "Glasses adjustment hand movement",
+        "Slight chin lift and relaxed jaw"
+      ],
+      "excluded_attributes": [],
+      "exclusion_reasons": []
+    }
+  ],
+  "developments": [
+    {
+      "id": "D1",
+      "visible_change": "Inside the lenses the defocused warm blur clears into a sunlit bus shelter with MINIMAX lettering on its canopy and a long MINIMAX shadow on the wall beside a green 5 AV sign, and small red caption blocks appear at its lower corners before leaving again.",
+      "outcome": "The viewer holds one clear, steady look at the first MINIMAX installation."
+    },
+    {
+      "id": "D2",
+      "visible_change": "The view is next filled by a beige high-rise where a long white banner with vertical MINIMAX lettering hangs and flutters, its lower end turning to red.",
+      "outcome": "The lettering stays readable through the flutter and the second installation is fully seen."
+    },
+    {
+      "id": "D3",
+      "visible_change": "The view next holds a rooftop where a woman in a beige suit with binoculars and a red shoulder bag takes a few steps, turns and swings her arms loosely.",
+      "outcome": "She registers as a passerby caught unawares, fully readable inside the circular apertures."
+    },
+    {
+      "id": "D4",
+      "visible_change": "The view finally holds a close-up of a woman in a red collar and red geometric glasses who adjusts her glasses and lifts her chin.",
+      "outcome": "She ends on a cool, relaxed fashion-campaign attitude that is maintained to the last frame."
+    }
+  ],
+  "shots": [
+    {
+      "id": "S1",
+      "development_ids": [
+        "D1"
+      ],
+      "start_seconds": 0.0,
+      "end_seconds": 4.0,
+      "start_state": "Interior of the fixed dual-circle mask is far out of focus and shaking with handheld jitter; only soft warm shapes are readable.",
+      "action": "The interior shakes out of focus, then a quick rack focus pulls in and settles onto Picture 1 within about the first second, revealing the bus shelter, its MINIMAX canopy and wall shadow and the green 5 AV sign. The red caption blocks load with the focus, appearing soft and faint before sharpening within about half a second with a slight vertical settle. The interior drifts faintly as the barrels are steadied. Near the end the captions thin out and are carried away by movement, and the interior whips right and up with motion blur, optical ghosting and exposure flicker building to their peak exactly on the cut.",
+      "end_state": "Interior is an unreadable smear of blur and ghosting at maximum sweep; the mask itself has not moved at all.",
+      "sound_cues": "Handhold rustle and quiet breathing; faint creak of binocular barrels; a soft click as the focus snaps in; rising airy ambience as the blur builds."
+    },
+    {
+      "id": "S2",
+      "development_ids": [
+        "D2"
+      ],
+      "start_seconds": 4.0,
+      "end_seconds": 7.6,
+      "start_state": "Interior still at peak whip blur, ghosting and exposure flicker, carrying over from the previous shot; the outgoing shelter is completely unreadable.",
+      "action": "The whip continues in the same direction, then the ghosting and flicker die down as the interior decelerates, stabilizes and re-focuses onto Picture 2 in well under a second. The beige high-rise fills the apertures under a pale cloudy sky while the long white banner hangs down the facade and flutters in restrained wind, its lower end turning to the red reverse; the vertical MINIMAX lettering rides the undulation of the cloth and stays readable. The red captions load as before. Toward the end the captions fade and the interior whips up and left, blur, ghosting and flicker peaking on the cut.",
+      "end_state": "Interior is again a fully unreadable blurred smear with the high-rise gone; mask unchanged.",
+      "sound_cues": "Rising wind and crisp cloth flaps; a muffled barrel creak and a click as focus locks; blurred wash of ambience across the sweep.",
+      "continuity_bridge": "Same sweep direction and same blur/ghosting/flicker state continue across the cut from S1; the second sighting is only revealed after the first has gone completely unreadable."
+    },
+    {
+      "id": "S3",
+      "development_ids": [
+        "D3"
+      ],
+      "start_seconds": 7.6,
+      "end_seconds": 11.3,
+      "start_state": "Interior at peak whip blur and flicker carried over from S2, with the high-rise fully dissolved.",
+      "action": "The sweep carries over, decelerates and re-focuses onto Picture 3 in well under a second. On the rooftop the woman stands with the twin-barrel binoculars, then moves like a passerby caught unawares by the lens: she takes a few natural steps, turns and swings her arms loosely, the interior drifting slightly to keep her inside the apertures while the concrete wall, pale sky and the facade lettering behind her hold their composition. The red captions load as before, then fade and are carried off as the interior whips down and right, blur and flicker peaking on the cut.",
+      "end_state": "Interior is an unreadable blurred smear with the rooftop gone; mask unchanged.",
+      "sound_cues": "Firm footsteps on concrete; suit fabric and the swing of the bag strap; a click as focus locks; ambience rising into the sweep.",
+      "continuity_bridge": "The same whip continues across the cut from S2 in the same direction with ghosting and flicker unbroken; the rooftop is revealed only after the high-rise sighting has fully dissolved."
+    },
+    {
+      "id": "S4",
+      "development_ids": [
+        "D4"
+      ],
+      "start_seconds": 11.3,
+      "end_seconds": 15.0,
+      "start_state": "Interior at peak whip blur and flicker carried over from S3, with the rooftop fully dissolved.",
+      "action": "The sweep carries over, decelerates and settles into a re-focused close-up of Picture 4 in well under a second. The woman raises a hand to adjust her red glasses and lifts her chin slightly, holding a cool, relaxed fashion-campaign expression while the small reflected lettering stays legible in her right lens and the defocused beige facade with its red vertical element stays soft behind her. The red captions load and remain. The interior holds steady with only a faint breathing drift until the end of the video.",
+      "end_state": "Mask and captions unchanged; the final close-up composition of Picture 4 is held to the last frame.",
+      "sound_cues": "Small metallic click and light squeak as the glasses are adjusted; jingle of the earring; a soft click as focus locks; wind thinning under the final hold.",
+      "continuity_bridge": "The same whip continues across the cut from S3 with ghosting and flicker unbroken, resolving only after the rooftop sighting has fully dissolved."
+    }
+  ]
+}

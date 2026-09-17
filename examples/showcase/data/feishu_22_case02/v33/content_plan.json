@@ -1,0 +1,139 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "Output subject's stable identity comes from image_1 and image_2, read as the same young man: off-white hooded sweatshirt with the hood up, brown drawstring shorts, white socks, white low-top sneakers.",
+      "Full-body action and movement come from video_1 and are performed by the output subject as a hip-hop street dance.",
+      "The performed action is the street-dance routine itself; the still standing and seated poses of the reference pictures do not carry over.",
+      "Target format: 9:16 vertical, 9.474 seconds, audio generated."
+    ],
+    "reference_anchors": [
+      "image_1: identity authority for <Subject 1> (face, short dark hair, slim build, hood up, outfit, shoes) and visible source of the stadium-concourse setting.",
+      "image_2: second identity view of the same subject and outfitting; its seated pose is only a pose.",
+      "video_1: motion authority — full-body street-dance choreography and its cadence across 0-9.474 s; its dancer identity, studio interior and wall text are not identity sources."
+    ],
+    "open_design": [
+      "Staging: since the user named no location, the concourse visible in image_1/image_2 (red seat rows, railings and light poles, cool overcast light, wet reflective concrete) is inherited as the performance setting.",
+      "Coverage: one continuous full-body shot with a brief small push-in during the low crouch, because the source motion is continuous and the choreography must stay readable head to toe.",
+      "Performance detail beyond the transferred motion: beat-driven weight shifts and foot placement kept within one patch of concrete so the routine reads as a single take.",
+      "Sound: newly designed concourse ambience plus a non-diegetic hip-hop score; video_1's audio was not analyzed and is not reused."
+    ]
+  },
+  "task_mode": "reference_transfer",
+  "must_keep": [
+    "Identity, build, hair and outfit from image_1/image_2 stay stable for the whole video, hood kept up.",
+    "The complete full-body street-dance routine from video_1 is performed in order with no section dropped or repeated: arms-spread opening accent and side point with raised leg; low crouch with fast chest-level arm swings and rolling low-center footwork; rise into a wide stance with fast arm swings; wide-stance stepping finish.",
+    "The video ends on the closing accent of both arms spread wide with one leg raised.",
+    "Continuous single-take performance across the full 9.474 s.",
+    "Generated audio for the target video."
+  ],
+  "bindings": [
+    {
+      "asset_id": "image_1",
+      "role": "Identity reference for <Subject 1>; also supplies the visible setting.",
+      "retained_attributes": [
+        "young male, slim tall build",
+        "short dark hair, dark brows, neutral frontal expression",
+        "off-white hooded sweatshirt with the hood up",
+        "brown drawstring shorts",
+        "white socks and white low-top sneakers"
+      ],
+      "optional_inherited_attributes": [
+        "stadium concourse with rows of red plastic seats, railings and light poles",
+        "cool overcast diffuse daylight",
+        "wet reflective concrete underfoot"
+      ],
+      "excluded_attributes": [
+        "standing pose with both hands in the pockets"
+      ],
+      "exclusion_reasons": [
+        "the pose is replaced by the choreography transferred from video_1"
+      ]
+    },
+    {
+      "asset_id": "image_2",
+      "role": "Second identity reference for the same subject; seated framing is only a pose.",
+      "retained_attributes": [
+        "same young male identity, hair, build and outfit as image_1"
+      ],
+      "optional_inherited_attributes": [
+        "red seat rows behind the subject",
+        "overcast diffuse light"
+      ],
+      "excluded_attributes": [
+        "seated pose with hands resting on the knees",
+        "close seated framing"
+      ],
+      "exclusion_reasons": [
+        "the seated pose and framing are replaced by a standing full-body dance performance"
+      ]
+    },
+    {
+      "asset_id": "video_1",
+      "role": "Motion reference: full-body action and pacing for the output subject.",
+      "retained_attributes": [
+        "arms-spread opening accent into a straight side point of the right arm with the left leg lifted",
+        "low crouch with both arms whipping fast in front of the chest over rolling low-center footwork",
+        "rise out of the crouch with overhead arm swings into a wide stance at speed",
+        "wide-stance stepping with continuing arm swings, ending on both arms spread wide with one leg raised",
+        "continuous, even cadence across the full 9.474 s"
+      ],
+      "optional_inherited_attributes": [
+        "continuous full-body readability of the body",
+        "even pacing without pauses"
+      ],
+      "excluded_attributes": [
+        "the source dancer's identity and the white baseball cap, white long-sleeve top, black trousers and white sneakers",
+        "the dance-studio interior, the black S-shaped wall logo and the SIEBE DANCE STUDIO wall text",
+        "the source locked studio camera position and framing"
+      ],
+      "exclusion_reasons": [
+        "the user references video_1 for the action only; identity comes from image_1 and image_2",
+        "the studio wall text is not requested and its full spelling is only inferred"
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_1",
+      "visible_change": "The referenced subject leaves a relaxed upright stance as both arms sweep wide into the opening accent, then the right arm drives straight out to the side while the left knee lifts and the body swings over the beat.",
+      "outcome": "The performance is underway and the subject's identity and outfit read clearly at full body."
+    },
+    {
+      "id": "dev_2",
+      "visible_change": "The subject drops into a low crouch, weight over deeply bent legs, both arms whipping fast in front of the chest while the torso rolls through low-center footwork.",
+      "outcome": "The low percussive section of the routine is completed with his feet still planted on the same wet concrete."
+    },
+    {
+      "id": "dev_3",
+      "visible_change": "He rises out of the crouch, swings both arms overhead, lifts a leg and snaps into a wide stance with fast arm arcs.",
+      "outcome": "The routine reaches its widest, fastest phase with the body fully open."
+    },
+    {
+      "id": "dev_4",
+      "visible_change": "He keeps stepping through the wide stance with continuing arm swings and closes on both arms spread wide with one leg raised, holding that pose.",
+      "outcome": "The routine lands on a held final accent instead of stopping mid-motion before the video ends."
+    }
+  ],
+  "shots": [
+    {
+      "id": "shot_1",
+      "development_ids": [
+        "dev_1",
+        "dev_2",
+        "dev_3",
+        "dev_4"
+      ],
+      "start_seconds": 0.0,
+      "end_seconds": 9.474,
+      "start_state": "<Subject 1> stands relaxed and upright at the center of the wet concourse, hood up, weight even, framed head to toe against the red seat rows.",
+      "action": "He performs the transferred street-dance routine continuously: arms-spread opening accent and side point with a raised left leg; a drop into a low crouch with fast chest-level arm swings and rolling low-center footwork, the camera easing in with small amplitude at slow speed; a rise with overhead arm swings into a wide stance at speed as the camera settles back to full-body framing; wide-stance stepping with continuing arm swings.",
+      "end_state": "He holds the closing accent with both arms spread wide and one leg raised, without relaxing it, as the video ends.",
+      "sound_cues": [
+        "sneaker squeaks, scuffs and slaps on wet concrete synchronized with each brace, step and landing",
+        "hoodie fabric rustle with each arm swing",
+        "audible breathing during the crouch and across the held final accent",
+        "light wind across the empty stands as continuous ambience"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+subject_definitions:
+<Subject 1> is the woman whose appearance and wardrobe come from <Picture 2> and who also appears in <Picture 1>: wet-look hair lying flat against her face, deep red lips, black nails, a black high-gloss patent-leather high-neck long-sleeve mini dress and black pointed stiletto heels.
+<Subject 2> is the man whose appearance and wardrobe come from <Picture 2> and who also appears in <Picture 1>: tall, with short dark curly hair, a black stand-collar long coat, black trousers and black leather shoes.
+<Subject 3> is the black top-handle bag from <Picture 3>: a trapezoidal body with double arched handles, cracked croc-embossed leather and a small metal letter clasp at the centre of the front panel.
+<Subject 4> is the copper-bronze vintage two-door sedan from <Picture 1>, with round red taillights that are lit.
+<Subject 5> is the dusk desert-highway environment and cold film texture from <Picture 1>: an empty road with a low horizon, a heavy purple-grey cloud layer, and cool low-key light with visible grain.
+<Picture 4> is the final frame of the target video: a pure black field with the centred white serif uppercase wordmark "NOCTURNE", a thin rule beneath it and the smaller centred line "LEATHER GOODS".
+
+summary:
+[reference generation + keyframe completion] The target video is a 15-second 16:9 fashion-campaign film. <Subject 1> returns to the rear of <Subject 4> on the dusk desert highway of <Subject 5>, opens the trunk and lifts <Subject 3> out; she and <Subject 2>, standing beside the car, share one silent look before she walks away with the bag, and the film ends on <Picture 4>.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4]): fully_preserved - her <Picture 2> wardrobe, wet-look hair, red lips and black nails are kept through every appearance; only her pose and position change with the action.
+<Subject 2> (appears in [Shot 1], [Shot 3], [Shot 4]): partially_preserved - his build, short dark curly hair and the <Picture 2> black stand-collar coat, trousers and shoes are kept, while the brown overcoat version seen in <Picture 1> is not used.
+<Subject 3> (appears in [Shot 2], [Shot 3], [Shot 4]): fully_preserved - taken out of the trunk and carried by <Subject 1>, keeping its trapezoidal black body, double arched handles, cracked leather and front metal clasp.
+<Subject 4> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4]): fully_preserved - the copper-bronze vintage sedan and its lit round red taillights stay in place as the fixed anchor of the scene.
+<Subject 5> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4]): fully_preserved - the dusk desert highway, purple-grey cloud layer, cool low-key grade and film grain continue across all live-action shots.
+<Picture 4> (appears in [Shot 5] as the final frame): fully_preserved - the end card reproduces the black field, the centred white serif wordmark "NOCTURNE", the thin rule and the smaller centred line "LEATHER GOODS".
+
+detailed_description:
+The film is a cold, restrained high-fashion campaign piece in 16:9, graded in a desaturated dusk palette with soft low-key light and visible film grain, and cut with hard cuts at a short, rhythmic fashion cadence rather than a plot-driven one.
+[Shot 1] A wide shot from the highway opens on <Subject 5>: the open road, the low horizon and the heavy purple-grey cloud layer, with <Subject 4> parked on the shoulder and its round red taillights lit. <Subject 1> walks along the car's flank in her black high-gloss high-neck mini dress, heels pressing into the gravel, while <Subject 2> stands still beside the front of the car in his black long coat. The camera tracks right with small amplitude at slow speed, keeping her centred as she reaches the rear of the car and her hand lands on the trunk latch.
+[Shot 2] At 00:03.000, the shot cuts in on the same continuous movement: the trunk lid rises on its hinge, and <Subject 1> leans in and lifts <Subject 3> out by its double handles. The cracked leather and the small front metal clasp catch the low light as the bag clears the trunk edge, and the camera pushes in with small amplitude at slow speed, then holds as the bag settles from her hand with its clasp facing the lens for a beat.
+[Shot 3] At 00:06.200, the shot cuts to a two-shot from the car's flank that holds both <Subject 1> and <Subject 2> in frame. She straightens with the bag at her side and turns toward him; the wind moves her wet hair across her cheek. Their eyes meet and hold in silence, and neither speaks or steps forward. The camera arcs slowly around the pair with small amplitude at slow speed, and the shot ends as her gaze releases and she turns her body away from the car.
+[Shot 4] At 00:08.800, the shot cuts to a low wide from behind as she walks away from the car along the empty highway, <Subject 3> swinging at her side. The camera follows her in a tracking shot at slow speed, then holds still while her figure keeps walking away and the car and <Subject 2> stay behind on the shoulder.
+[Shot 5] At 00:12.300, the shot cuts to the end card of <Picture 4>: a pure black frame with the centred white serif wordmark "NOCTURNE", a thin rule beneath it and the smaller centred line "LEATHER GOODS", holding motionless to the end of the video.
+
+overall_soundscape:
+Dry wind moves across the open highway through every live-action shot, with fine gravel under the heels and the low tick of the cooling car body beside them. The trunk latch clicks, the hinge creaks, and the cracked leather handles creak as the bag's weight lifts; a single longer gust carries her departure before the ambience drops away at the end card.
+
+non_diegetic_music:
+A single low synth drone at a slow tempo with sparse deep pulses placed on the cuts, thinning under the silent look between the two characters, then reducing to one sustained low tone beneath the end card before fading out.

@@ -1,0 +1,140 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "15-second, 16:9, audio-on piece",
+      "faster pacing, grand but not dragging",
+      "fast hard cuts",
+      "bridge shudder",
+      "strong light flash",
+      "short black frame",
+      "hyperspace jump impact",
+      "cinematic trailer-style wide-letter-spaced title packaging, not pure white, restrained glow, material texture, faint edge halo",
+      "title animation: fade in from the deep-space dark, lit by a starlight sweep, letter-spacing expansion, afterimage, faint glow, black-frame flash"
+    ],
+    "reference_anchors": [
+      "<Picture 1> (image_1) supplies <Subject 1> the silhouetted figure at the rail, <Subject 2> the bridge observation deck, <Subject 3> the deep-space nebula and star field, <Subject 5> the fleet, <Subject 4> the two-line title typography, and the composition used at the title-reveal moment"
+    ],
+    "open_design": [
+      "the staging and trigger of the jump inside the 15 seconds",
+      "how the figure physically braces through the shudder",
+      "the aftermath state: fleet gone, emptied star field, lone figure still at the rail",
+      "shot count, cut times, camera behaviour and sound design"
+    ]
+  },
+  "task_mode": "reference_transfer",
+  "must_keep": [
+    "the 15-second duration, 16:9 framing and generated audio",
+    "fast hard cuts and a non-dragging, grand trailer rhythm",
+    "the bridge shudder before and during the jump",
+    "the strong light flash and the short black frame",
+    "the hyperspace jump impact and the fleet's departure",
+    "the title packaging: wide letter spacing, non-pure-white cool tone, restrained glow, material feel, faint edge halo",
+    "the title animation beats: fade-in from the deep-space dark, starlight sweep, letter-spacing expansion, afterimage, faint glow, black-frame flash",
+    "the two title lines kept verbatim in wording, spelling and order",
+    "the reference look of the figure, the observation deck, the deep-space background and the fleet"
+  ],
+  "bindings": [
+    {
+      "asset_id": "image_1",
+      "role": "reference image: source of the figure, the bridge observation deck, the deep-space background, the fleet and the title typography; composition anchor for the title-reveal moment",
+      "retained_attributes": [
+        "figure: back-facing silhouette, dark hair in a ponytail, long black uniform coat with shoulder panels and belt, both hands on the rail",
+        "deck: large rectangular viewport with heavy metal frame and sill rail, reflective metal floor with strip highlights, cold low-key lighting",
+        "space: deep blue-black nebula band with dense star points providing backlight and edge glow",
+        "fleet: two large capital ships balanced left and right with smaller craft scattered between them, dark hulls with faint window lights",
+        "title: two wide-letter-spaced uppercase lines, \"THE LAST FLEET LEFT EARTH\" above \"SHE WAS NOT ON BOARD\", cool gray-white, restrained glow, faint edge halo, subtle material texture",
+        "composition: centered figure inside the nested viewport frame with the title band across the upper middle"
+      ],
+      "optional_inherited_attributes": [
+        "the exact nebula cloud shapes and star positions",
+        "the exact number and spacing of the smaller craft"
+      ],
+      "excluded_attributes": [
+        "facial features, gender presentation and other identity detail of the figure",
+        "ship classes, hull markings and faction identity of the fleet"
+      ],
+      "exclusion_reasons": [
+        "the reference shows only a back-facing silhouette with no visible face, and gender is an inference rather than a confirmed attribute",
+        "the reference shows no legible hull markings or class data, so no ship identity can be asserted"
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_1",
+      "visible_change": "Over the deep-space dark behind the observation-deck glass, the wide-spaced title lettering separates from the nebula shadow; a band of starlight sweeps across the letterforms and lights their edges, the letter spacing widens to its final value, a faint afterimage trails each letter, and a restrained glow with a thin edge halo settles.",
+      "outcome": "The title is fully legible above the fleet-filled viewport with the silhouetted figure centered at the rail, reaching the composition of <Picture 1>."
+    },
+    {
+      "id": "dev_2",
+      "visible_change": "Drive light gathers along the fleet's hulls and swells, the viewport glass brightens, and the deck's shudder grows until the figure's hands tighten on the rail and her ponytail and coat hem shake.",
+      "outcome": "The jump energy reaches the bridge; the figure braces at the rail as the light in the glass peaks."
+    },
+    {
+      "id": "dev_3",
+      "visible_change": "The fleet's hulls stretch into bright jump streaks, the gathered light discharges through the glass in a hard flash that whites out the entire frame, and the picture drops into a brief black gap.",
+      "outcome": "The jump bursts out of the viewport and the frame is briefly black."
+    },
+    {
+      "id": "dev_4",
+      "visible_change": "Coming out of the black, the viewport holds no ships and only a few residual luminous streaks fade into the star field; the shudder dies away; the figure is still at the rail with her hands on it; the title returns as a cool afterimage and settles into its steady, faintly glowing lettering as the camera moves in and the glow dims.",
+      "outcome": "The fleet has jumped away; the lone figure and the settled title remain over the emptied star field."
+    }
+  ],
+  "shots": [
+    {
+      "id": "shot_1",
+      "development_ids": [
+        "dev_1"
+      ],
+      "start_seconds": 0.0,
+      "end_seconds": 4.0,
+      "start_state": "Near-dark interior of the bridge observation deck; the darkest region of the nebula centered in the viewport; the title lettering barely separable from that dark; the silhouetted figure centered at the rail with both hands on it, back to the camera; the fleet spread across the star field behind the glass.",
+      "action": "The title lettering separates out of the deep-space dark, a band of starlight sweeps across it from left to right, the letter spacing widens to its final value, a faint afterimage trails each letter and the restrained glow and edge halo settle; the camera pushes in with small amplitude at slow speed until the framing matches <Picture 1>; at the tail the fleet's hulls gather points of drive light, the glass brightens and the deck begins a fine low tremble.",
+      "end_state": "Title fully legible over the fleet-filled viewport in the composition of <Picture 1>; gathering light on the fleet hulls; the deck trembling faintly.",
+      "sound_cues": "Low deck hum deepening as the light gathers; faint metal ticking from the structures."
+    },
+    {
+      "id": "shot_2",
+      "development_ids": [
+        "dev_2"
+      ],
+      "start_seconds": 4.0,
+      "end_seconds": 7.2,
+      "start_state": "Same deck and same rail position, seen closer from behind and slightly to the side; the viewport light already rising; the fleet still intact beyond the glass.",
+      "action": "The shudder deepens and the frame trembles with it; the figure's hands tighten around the rail and her shoulders rise as her ponytail and coat hem shake; beyond the glass the fleet's hulls begin to stretch, the light at the formation core swells, and the glass floods until her silhouette thins to a bright outline.",
+      "end_state": "The glass is flooded with light, the silhouette reduced to an outline, the shudder at its peak.",
+      "sound_cues": "Rising low-frequency rumble and metallic groans synchronized to the growing light; a short tense breath from the figure.",
+      "cut_reason": "The same deck, time and subject continue, but the requested physical impact and the figure's bracing only read at body scale, which the wide title-bearing composition of [Shot 1] cannot carry.",
+      "continuity_bridge": "The light gathering on the fleet hulls and the first fine tremble that end [Shot 1] continue as the swelling glass and the growing shudder at the start of [Shot 2]; the figure keeps the same position, back to camera, hands on the rail."
+    },
+    {
+      "id": "shot_3",
+      "development_ids": [
+        "dev_3"
+      ],
+      "start_seconds": 7.2,
+      "end_seconds": 9.2,
+      "start_state": "Viewport glass filling the frame, the fleet's hulls beginning to stretch into bright lines, the dark edge of the figure's shoulder at the lower left, the interior still trembling.",
+      "action": "The two capital ships pull apart into streaks as the formation compresses and stretches away, the gathered light at the core discharges through the glass in a hard flash that whites out the whole frame with no interior detail left legible, and the picture drops into a brief black gap.",
+      "end_state": "The frame is black; nothing of the interior remains legible.",
+      "sound_cues": "A hard crack and a low impact landing on the flash and cutting the rumble off; near-silence held through the black beat.",
+      "cut_reason": "The jump streaks and the burst span the whole viewport, which the closer body framing of [Shot 2] cannot contain; the viewing object changes from the figure's reaction to the jump itself.",
+      "continuity_bridge": "The flooded glass and the peak shudder at the end of [Shot 2] carry into the streaking hulls at the start of [Shot 3]; the same deck vibration continues."
+    },
+    {
+      "id": "shot_4",
+      "development_ids": [
+        "dev_4"
+      ],
+      "start_seconds": 9.2,
+      "end_seconds": 15.0,
+      "start_state": "Resolving out of the black back onto the deck: the viewport holds only the nebula and star field with no ships, the deck still trembling faintly, the figure in the same place with her hands on the rail, the title absent.",
+      "action": "A few residual luminous streaks fade into the star field as the shudder dies away; the figure's ponytail and coat settle; the title returns as a cool afterimage that sharpens into the settled lettering at its final spacing with its restrained glow and thin edge halo; the camera pushes in slowly with small amplitude toward the lettering as the glow dims to a faint trace over the emptied star field, the figure small and still at the rail below.",
+      "end_state": "The title holds faintly luminous over the emptied star field, the figure small and still at the rail, all tremor stopped.",
+      "sound_cues": "A long low tone fading with the residual streaks; a few metal ticks as the structures settle; the low deck hum returning and holding under the ending.",
+      "cut_reason": "The requested short black frame separates the impact from the aftermath, so the fleet's departure is revealed as a new state instead of being shown continuously.",
+      "continuity_bridge": "The flash and the short black gap that end [Shot 3] conceal the change; [Shot 4] opens on the same deck, the same rail position and the same figure after the fleet has left the sky."
+    }
+  ]
+}
