@@ -101,8 +101,8 @@ Use elapsed source-video seconds. Create a separate event for every shot, cut, o
 
 COMPACT_VIDEO_ENTITY_PROMPT = """Analyze this complete source video as provider-neutral visual evidence. Do not infer audio, dialogue, identity, brand, price, ownership, intent, or user instructions. Return only compact valid JSON:
 {"entities":[{"entity_id":"entity_1","category":"actual generic category","subcategory":"actual open vocabulary type","summary":"visible facts","quantity":[1,0.9],"features":[["color","name","value",0.9,"visible"]],"uncertainties":[]}],"relations":[["relation_1","type","entity_1","entity_2","visible anchor",0.9,"visible"]]}
-The first feature value is exactly one of: geometry, color, material, surface, components, component_layout, orientation_cues, identity_markers, other. Never join group names with |. Return at most 8 high-value reusable entities, prioritizing people, the showcased product, outfit/garment variations, accessory groups, key props, environments, and visible text. Group related outfit changes or environments as variations/features when that avoids low-value entity proliferation. Do not enumerate incidental background objects.
-Every relation endpoint must exactly match a declared entity_id. Return only supported distinguishing features needed for the inspection focus, with no minimum count. Avoid repeating feature lists in summaries. Estimate confidence from 0.5-1.0 for visible/inferred facts; use 0 only when unresolved. Emit compact JSON without indentation or Markdown."""
+The first feature value is exactly one of: geometry, color, material, surface, components, component_layout, orientation_cues, identity_markers, other. Never join group names with |. Return normally 2-6 high-value reusable entities, exceeding 6 only for genuinely separate subjects or explicit user-requested content. Prioritize people, the showcased product, necessary outfit variations, key props, environments, and narratively required visible text. Group related outfit changes or environments as variations/features when that avoids low-value entity proliferation. Do not enumerate incidental background objects.
+Every relation endpoint must exactly match a declared entity_id. Return only 3-6 supported distinguishing features per ordinary entity, prioritizing user-requested details, identity anchors, core silhouette or structure, interaction-relevant components, and necessary material or dominant color. Explicitly requested details may exceed this default. Omit incidental decoration and repeated texture. Avoid repeating feature lists in summaries. A separate entity does not imply a separate shot or close-up. Estimate confidence from 0.5-1.0 for visible/inferred facts; use 0 only when unresolved. Emit compact JSON without indentation or Markdown."""
 
 COMPACT_VIDEO_SINGLE_PASS_PROMPT = """请完整分析输入视频，输出可复用的视觉证据和适合视频生成的语义分组。只返回一个紧凑、有效的 JSON 对象，不要使用 Markdown：
 {"summary":"画面概述","events":[{"event_id":"event_1","start_seconds":0.0,"end_seconds":1.0,"entity_ids":["person_1","environment_1"],"action":"这一时间段中可见的动作、主体状态与场景变化","transition_type":"cut","confidence":0.9}],"entities":[{"entity_id":"person_1","category":"person","subcategory":"adult woman","summary":"人物及其固定造型的可见概述","quantity":[1,0.9],"features":[["components","服装与随身造型","白色上衣和黑色长裤",0.9,"visible"]],"uncertainties":[]},{"entity_id":"environment_1","category":"environment","subcategory":"interior","summary":"场景及全局光照的可见概述","quantity":[1,0.9],"features":[["other","光照","冷色低调照明",0.9,"visible"]],"uncertainties":[]}],"relations":[["relation_1","positioned_relative_to","person_1","environment_1","人物位于场景中央",0.9,"visible"]],"technical":{"duration_seconds":1.0,"framing":"medium shot","camera":"locked camera","visible_text":[]},"uncertainties":[]}
@@ -125,7 +125,9 @@ entities 表示后续生成过程中需要保持身份一致或独立控制的�
 - 可见文字通常记录在 visible_text；需要生成、变化、持续保持、被操作或参与叙事时可以单列。
 - 多视角、分镜板或连续时间中有充分证据表明是同一对象的内容沿用同一 entity_id；不同真实个体或明确不同版本不得错误合并。
 
-实体数量采用软预算：简单素材通常使用 3–8 个高价值实体，复杂素材可以超过 8 个。不得为了满足数量而遗漏多面板内容、多个真实主体或用户要求；每个额外实体都应具有清楚的独立控制理由。优先更少但完整的生成单元，保持边界明确且可执行。
+特征采用生成相关性预算，而不是可见细节清单。普通实体默认只保留 3–6 个足以识别和稳定生成它的高价值特征，按以下顺序选择：用户明确要求检查或保留的特征；跨镜身份锚点；核心轮廓、服装或产品结构；会影响交互的部件；必要的材质或主色。不要记录对生成目标无影响的背景小物、轻微色差、通用装饰、重复纹理或被 summary 已经概括的内容。用户明确点名的细节不受默认数量限制。summary 只用一句话说明主体是什么以及它在素材中的作用，不重复 features。
+
+实体数量采用软预算：简单素材通常使用 2–6 个高价值实体，复杂素材可以超过 8 个。不得为了满足数量而遗漏多面板内容、多个真实主体或用户明确要求；每个额外实体都应具有清楚的独立控制理由。独立实体只表示可独立引用或保持，不自动要求独立镜头、特写或展示动作。优先更少但完整的生成单元，保持边界明确且可执行。
 
 把示例值全部替换为当前视频中的观察结果，不得原样输出占位内容。features 格式固定为 [group,name,value,confidence,source]；group 只能是 geometry、color、material、surface、components、component_layout、orientation_cues、identity_markers、other，source 只能是 visible、inferred、unresolved。只记录有区分度且有视觉依据的特征，不补全被遮挡、裁切、模糊或无法辨认的文字。不要推断音频、对白、真实身份、品牌结论、价格、所有权或未展示的动作。"""
 
@@ -153,7 +155,9 @@ entities 表示后续生成过程中需要保持身份一致或独立控制的�
    - 可见文字通常记录在 visible_text；需要生成、变化、持续保持、被操作或参与叙事时可以单列。
    - 多视角、分镜板或连续时间中有充分证据表明是同一对象的内容沿用同一 entity_id；不同真实个体或明确不同版本不得错误合并。
 
-   实体数量采用软预算：简单素材通常使用 3–8 个高价值实体，复杂素材可以超过 8 个。不得为了满足数量而遗漏多面板内容、多个真实主体或用户要求；每个额外实体都应具有清楚的独立控制理由。优先更少但完整的生成单元，保持边界明确且可执行。
+   特征采用生成相关性预算，而不是可见细节清单。普通实体默认只保留 3–6 个足以识别和稳定生成它的高价值特征，按以下顺序选择：用户明确要求检查或保留的特征；跨镜身份锚点；核心轮廓、服装或产品结构；会影响交互的部件；必要的材质或主色。不要记录对生成目标无影响的背景小物、轻微色差、通用装饰、重复纹理或被 summary 已经概括的内容。用户明确点名的细节不受默认数量限制。summary 只用一句话说明主体是什么以及它在素材中的作用，不重复 features。
+
+   实体数量采用软预算：简单素材通常使用 2–6 个高价值实体，复杂素材可以超过 8 个。不得为了满足数量而遗漏多面板内容、多个真实主体或用户明确要求；每个额外实体都应具有清楚的独立控制理由。独立实体只表示可独立引用或保持，不自动要求独立镜头、特写或展示动作。优先更少但完整的生成单元，保持边界明确且可执行。
 4. 不确定性：区分 visible、inferred 和 unresolved。静态图片只能证明可见状态，不能证明动作、持续时间、镜头运动、机构工作方式或面板播放顺序。
 
 只能使用既有字段。framing_layers 使用 description、coverage、confidence；visible_text 使用 text、legibility、region、confidence，禁止补全模糊、遮挡、裁切或无法确认的文字。features 使用 [group,name,value,confidence,source]，group 只能是 geometry、color、material、surface、components、component_layout、orientation_cues、identity_markers、other，source 只能是 visible、inferred、unresolved。每个 relation 的端点必须对应已声明的 entity_id。不要推断真实身份、品牌结论、价格、性能、隐藏连接、所有权、音频或用户意图。"""

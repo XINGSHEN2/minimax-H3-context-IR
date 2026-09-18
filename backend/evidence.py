@@ -41,7 +41,7 @@ def _reference_registry(source: dict[str, Any]) -> list[dict[str, Any]]:
 
 def _compact_entity(entity: dict[str, Any]) -> dict[str, Any]:
     attributes: dict[str, list[dict[str, Any]]] = {}
-    feature_budget = 16
+    feature_budget = 6
     for group, raw_features in (entity.get("attributes") or {}).items():
         if feature_budget <= 0:
             break
@@ -70,7 +70,7 @@ def _compact_entity(entity: dict[str, Any]) -> dict[str, Any]:
         "entity_id": entity.get("entity_id"),
         "category": _clip_text(entity.get("category"), 80),
         "subcategory": _clip_text(entity.get("subcategory"), 80),
-        "summary": _clip_text(entity.get("summary"), 260),
+        "summary": _clip_text(entity.get("summary"), 160),
         "quantity": entity.get("quantity", {}),
         "attributes": attributes,
         "uncertainties": [_clip_text(value, 180) for value in entity.get("uncertainties", [])[:4]],
@@ -125,7 +125,7 @@ def build_writer_evidence(source: dict[str, Any]) -> dict[str, Any]:
         assets.append({
             "asset_id": asset_id, "media_type": asset.get("media_type"),
             "label": asset.get("label"), "user_role": asset.get("user_role"),
-            "summary": _clip_text(analysis.get("summary", ""), 500),
+            "summary": _clip_text(analysis.get("summary", ""), 280),
             "global_analysis": {
                 "scene": _clip_text(global_analysis.get("scene"), 260),
                 "composition": _clip_text(global_analysis.get("composition"), 320),
