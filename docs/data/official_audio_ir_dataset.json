@@ -1,0 +1,1610 @@
+{
+  "schema_version": "official_audio_ir_dataset.v1",
+  "total_cases": 65,
+  "official_ir_cases": 57,
+  "missing_cases": [
+    "1.商用级多场景生成/1.2 视觉创意与内容包装/case2-t2va",
+    "1.商用级多场景生成/1.2 视觉创意与内容包装/case3-t2va",
+    "1.商用级多场景生成/1.2 视觉创意与内容包装/case7-t2va",
+    "1.商用级多场景生成/1.3 动态图形、MG动画、AE特效/case2-t2va",
+    "1.商用级多场景生成/1.3 动态图形、MG动画、AE特效/case3-t2va",
+    "1.商用级多场景生成/1.6 产品与电商营销/case3-t2va",
+    "1.商用级多场景生成/1.8 硬件、实体工业、具身智能演示/case1-t2va",
+    "1.商用级多场景生成/1.9 动画与风格化影像/case7-t2va"
+  ],
+  "cases": [
+    {
+      "case_id": "1.商用级多场景生成/1.1 品牌大片与影视内容/case1-ref2va",
+      "category": "1.1 品牌大片与影视内容",
+      "case_name": "case1-ref2va",
+      "user_prompt": "图1至图4连续关键帧，模拟老式望远镜寻MINIMAX装置。开头虚焦手持晃动后快速拉近rack focus至图1，图间望远镜扫视转场（甩动、运动模糊、光学拖影、曝光闪烁）在最模糊处切换并迅速稳定重新对焦。全程固定双圆镜片遮罩（黑色羽化暗角、位置大小边缘虚化绝对一致无变形漂移）仅内部画面运动。图2布料随风克制飘动MINIMAX文字随布面起伏保持可读；图3人物如无意捕捉的时尚路人自然走动转身摆臂；图4人物调整眼镜或微抬下巴展现冷感松弛fashion campaign态度。红字随对焦轻微加载，初现略虚焦低透明度0.3–0.5秒内淡入变清晰（可微小纵向滑入或字距呼吸）切换前淡出或被运动模糊带走，禁旋转弹跳或大幅飞入飞出。Wes Anderson式窥视35mm胶片质感（轻微颗粒、柔和高光晕染、克制色彩、红字点缀），极简高级微带搞怪灵动，严禁新增人物车辆建筑logo，保持原图核心构图与MINIMAX装置不变。",
+      "overall_soundscape": "The soundscape features the mechanical clicks and whirs of a vintage binocular focusing, accompanied by rhythmic whipping whooshes during transitions, and subtle outdoor ambience like gentle wind.",
+      "non_diegetic_music": "A quirky, minimalist, and rhythmic instrumental track featuring pizzicato strings and subtle percussion, driving the quick transitions and matching the Wes Anderson aesthetic.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "Behaving like a casually captured stylish pedestrian, <Subject 2> walks naturally, turns gracefully, and swings her arms with a relaxed rhythm."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "acoustic_instrumental",
+        "percussive_rhythmic"
+      ],
+      "soundscape_tags": [
+        "environment_ambience",
+        "action_foley",
+        "mechanical_material",
+        "impact_transition"
+      ],
+      "music_function_tags": [
+        "edit_sync",
+        "rhythm_pacing",
+        "brand_style"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.1 品牌大片与影视内容/case1-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.1 品牌大片与影视内容/case2-ref2va",
+      "category": "1.1 品牌大片与影视内容",
+      "case_name": "case2-ref2va",
+      "user_prompt": "节奏更快，宏大但不拖。快速硬切、舰桥震动、强光爆闪、短黑场、跃迁冲击。文字是电影预告片式宽字距标题包装，字体不要纯白，要有克制发光和材质感、微弱边缘辉光。文字动效包含从深空暗部渐入、被星光扫亮、字距展开、残影、微弱发光、黑场闪现。 （非完整Prompt，可自行补充细节）",
+      "overall_soundscape": "The soundscape features a deep, ominous cinematic drone that rapidly builds into a chaotic mix of heavy, low-frequency bridge rumbles, sharp metallic groans, and the explosive, booming impacts of a warp jump shockwave, punctuated by sharp digital swooshes during the black frame flashes.",
+      "non_diegetic_music": "An intense, fast-paced cinematic trailer score with aggressive percussion, sudden brass braams, and a driving, urgent rhythm that matches the hard cuts and visual flashes, peaking abruptly into silence at the final blackout.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "The entire dark fleet surges forward in terrifying unison, triggering a colossal, space-bending warp jump impact."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "cinematic_trailer",
+        "percussive_rhythmic"
+      ],
+      "soundscape_tags": [
+        "mechanical_material",
+        "impact_transition",
+        "digital_glitch"
+      ],
+      "music_function_tags": [
+        "edit_sync",
+        "rhythm_pacing",
+        "emotion_tone",
+        "build_climax",
+        "ending_resolution"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.1 品牌大片与影视内容/case2-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.1 品牌大片与影视内容/case3-ref2va",
+      "category": "1.1 品牌大片与影视内容",
+      "case_name": "case3-ref2va",
+      "user_prompt": "写实电影感，高反差光影，节奏紧凑。图1作为整体氛围、风格参考。图2作为主角人物参考。 Shot 1 — 超广角建立镜头。巨大圆形宇宙门几乎占满画面，人物只是门前一个很小的背影，站在画面下方偏右。地面潮湿反光，门中心一片黑暗。镜头慢慢向前推进。大标题从黑暗边缘渐入，先模糊后清晰：\"THE STARS WERE LISTENING\" 字体极窄、厚重、全大写，暗红混合铁锈红，带轻微颗粒和雾化边缘。 Audio: 深低频脉冲，远处金属轻震，文字清晰时一记轻 hit。 → Hard cut. （非完整Prompt，可自行补充细节）",
+      "overall_soundscape": "A tense, cinematic atmospheric soundscape dominated by a continuous deep low-frequency pulse, layered with distant metallic vibrations, a precise percussive hit for the title reveal, and echoing mechanical groans.",
+      "non_diegetic_music": "N/A",
+      "music_is_na": true,
+      "inline_audio_sentences": [
+        "A continuous deep low-frequency pulse rumbles underneath the scene, layered with distant, subtle metallic vibrations that suggest heavy machinery in the deep background.",
+        "Exactly as the blood-red text snaps into crisp focus, a distinct, light percussive hit echoes sharply through the cavernous space.",
+        "The deep low-frequency pulse from the previous shot continues seamlessly over the cut, steadily swelling in intensity and physical vibration.",
+        "As she firmly commits to entering the darkness, the pulsing ambient sound culminates in a haunting, resonant metallic groan that reverberates through the entire structure before the visual slowly fades to black."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [],
+      "soundscape_tags": [
+        "mechanical_material",
+        "impact_transition"
+      ],
+      "music_function_tags": [],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.1 品牌大片与影视内容/case3-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.1 品牌大片与影视内容/case4-ref2va",
+      "category": "1.1 品牌大片与影视内容",
+      "case_name": "case4-ref2va",
+      "user_prompt": "制作一支 16:9 横版高级时尚品牌视频。整体氛围、场景和胶片质感参考图1；包袋资产参考图3；人物资产参考图2；品牌 ending logo 参考图4。这是一支卖衣服和包的时尚 campaign，整体气质要高级、冷感、克制，但剪辑不能无聊，要更灵动、更有时尚节奏。不要像普通剧情片，也不要像电商广告。核心故事依然很简单：荒漠公路和复古车旁，女人回到车尾，打开后备箱，取出黑色包袋，和站在车边的男人有一瞬间的安静关系，然后她拿着包离开。包和服装要自然融入人物行动里，成为角色气质的一部分。",
+      "overall_soundscape": "The target video features a minimalist, atmospheric soundscape with the subtle crunch of footsteps on asphalt, the heavy metallic clank of a vintage car trunk opening, and the quiet rush of desert wind, culminating in absolute silence for the logo reveal.",
+      "non_diegetic_music": "A premium, restrained ambient electronic score plays in the background, featuring a slow, pulsating sub-bass and sparse, metallic synth accents that enhance the cold, high-fashion tension without overpowering the visuals.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "The camera executes a slow, deliberate arc shot around the two figures, capturing a fleeting, silent exchange of glances.",
+        "The crocodile texture of her dress ripples slightly with her deliberate strides, while <Subject 3> sways rhythmically in her hand, serving as the focal point of her departure.",
+        "The shot holds steady and completely static, resolving elegantly to end on <Picture 4> as the absolute final frame of the campaign."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "electronic_synth",
+        "ambient_drone"
+      ],
+      "soundscape_tags": [
+        "environment_ambience",
+        "action_foley",
+        "mechanical_material",
+        "silence_dynamic"
+      ],
+      "music_function_tags": [
+        "edit_sync",
+        "emotion_tone",
+        "brand_style"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.1 品牌大片与影视内容/case4-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.1 品牌大片与影视内容/case5-ref2va",
+      "category": "1.1 品牌大片与影视内容",
+      "case_name": "case5-ref2va",
+      "user_prompt": "图1是整体质感、氛围参考，图2是人物外表特征参考。生成一支 15 秒 16:9 横版潮流时装短片。保持人物一致：白金色长发、窄黑色复古墨镜、黑色高光漆皮风衣、冷酷自信的时尚表情、火光映在皮衣表面的橙色反射。整体风格是胶片快切时尚广告，融合夜晚火场、黑烟、橙红火焰、VHS 故障、CCTV 广播中断、90 年代模拟胶片颗粒、扫描线、色差、漏光、闪白转场、画面轻微抖动。",
+      "overall_soundscape": "A gritty, atmospheric soundscape featuring the intense crackling and roaring of a large fire, overlaid with heavy analog VHS static, electronic buzzing, and synthetic glitch noises that synchronize with the visual distortion.",
+      "non_diegetic_music": "A driving, heavy synth-wave electronic beat with a fast, rhythmic tempo, enhancing the edgy, high-fashion advertising atmosphere.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "The movement highlights the structured silhouette of her black high-gloss patent leather trench coat, its hem flaring slightly with each step, while her black knee-high stiletto boots click rhythmically against the unseen ground.",
+        "The roaring flames of <Subject 2> rise high behind her, sending glowing embers floating through the thick black smoke.",
+        "The miniature reflection of the roaring fire is perfectly captured in the curved dark lenses."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "electronic_synth",
+        "percussive_rhythmic",
+        "vocal_song"
+      ],
+      "soundscape_tags": [
+        "environment_ambience",
+        "digital_glitch"
+      ],
+      "music_function_tags": [
+        "rhythm_pacing",
+        "emotion_tone",
+        "brand_style"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.1 品牌大片与影视内容/case5-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.10 出海多语种场景/case1-ref2va",
+      "category": "1.10 出海多语种场景",
+      "case_name": "case1-ref2va",
+      "user_prompt": "0–4 秒\n女店主中近景，她双手温柔地捧着那个椭圆形深色雪松木小圆盒，铜色雕花盒盖已经掀开一半。她低头看了一眼盒内的琥珀色熏香块，然后抬起头看向画面右侧的顾客方向，露出温暖专业的微笑，用自然、低沉柔和的沙特阿拉伯口音说：\n\"هذا بخور مصنوع يدويًا من عود وورد الطايف.\"\n（这是手工制作的熏香，用沉香木和塔伊夫玫瑰制成。）\n4-9 秒\n硬切到女性顾客中近景，她好奇地微微前倾，接过木盒双手托着，低头凑近木盒轻轻嗅了一下，闭上眼睛陶醉一秒。镜头切回女店主中近景，店主一边用手比划“一小块”的手势，一边用自然的沙特阿拉伯口音说：\n\"قطعة صغيرة منه تكفي البيت كله لأسبوع كامل.\"\n（只要其中一小块，就够整个家用整整一周。）\n9-12 秒\n硬切回双人中景，与首帧参考图保持相同构图。顾客把木盒重新递回给店主，两人相视一笑。店主自然地把木盒放回桌面正中央，微微抬头看向镜头，用温暖坚定的语气说：\n\"أود لاب، مصنوع بحب في دبي.\"\n（OUD LAB，用爱在迪拜制作。）",
+      "overall_soundscape": "The video features a quiet, refined ambient soundscape with subtle fabric rustling and the clear, warm, spoken dialogue of the female shop owner.",
+      "non_diegetic_music": "N/A",
+      "music_is_na": true,
+      "inline_audio_sentences": [
+        "The female shop owner (S1) speaks with a low, gentle voice, <d>[Arabic] هذا بخور مصنوع يدويًا من عود وورد الطايف.</d> As she finishes her sentence, her lips close and she gently adjusts her grip on the edge of the wooden box.",
+        "The shop owner (S1) gestures with her hand to indicate a small size, and continues speaking in her professional tone, <d>[Arabic] قطعة صغيرة منه تكفي البيت كله لأسبوع كامل.</d> Following her words, she rests her gesturing hand on the counter edge, maintaining her attentive posture.",
+        "The shop owner (<Subject 1>) is on the left and the customer (<Subject 2>) is on the right, facing each other across the wooden counter with the burning brass incense burner and lattice windows (<Subject 4>) perfectly framed between them."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": true,
+      "music_tags": [],
+      "soundscape_tags": [
+        "environment_ambience",
+        "action_foley",
+        "voice_dialogue",
+        "silence_dynamic"
+      ],
+      "music_function_tags": [],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.10 出海多语种场景/case1-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.10 出海多语种场景/case2-ref2va",
+      "category": "1.10 出海多语种场景",
+      "case_name": "case2-ref2va",
+      "user_prompt": "0-5 秒：老友 A 中近景。老友 A 坐在藤编圆椅上一手轻轻扶着大理石桌沿另一只手食指指向桌面中央那把 MOKA CAPRESE 摩卡壶，头微微前倾看向对面的老友 B 脸上带着\"我跟你说这个真的绝\"的表情用带 Napoli 口音、语气热烈的意大利语说：\"Guagliò, ma tu l'hai vista chesta? MOKA CAPRESE, mio cognato me l'ha regalata.\"（老兄，你看到这个了吗？MOKA CAPRESE，我小舅子送我的。）\n5-10 秒：硬切到老友 B 中近景。老友 B 一手端着面前的白色 espresso 小杯（不入口只是稳稳端在胸前）另一只手手掌自然张开抬到肩膀高度做一个典型意大利南方\"我早就知道啊\"的大手势，脸上带着挑眉的得意表情用带 Napoli 口音、慢下来夸张的意大利语说：\"E che vuoi che te dico, neh? Chella è la moka vera, tutt'o riesto è fatica sprecata.\"（我还能跟你说啥呢？那才是真正的摩卡壶，别的都白费劲。）\n10-15 秒：硬切回双人对坐桌前中景。老友 A 一手依然扶着桌沿另一只手朝桌面 MOKA CAPRESE 摩卡壶方向抬了一下微微耸了耸肩，老友 B 端着 espresso 杯轻轻放回桌面碟子里发出一声瓷器轻响，两人对视一下都笑了。老友 A 用带 Napoli 口音、语气松弛得意的意大利语说：\"E allora domenica prossima a casa mia, te la faccio provare. Madonna mia, che roba.\"（那下周日来我家，我做给你尝尝。我的天，这玩意真绝。）画面自然定格，BGM 收束。",
+      "overall_soundscape": "A lively European atmosphere featuring spoken dialogue in Italian, the crisp clink of a porcelain espresso cup, and a steady, upbeat acoustic musical underscore.",
+      "non_diegetic_music": "Upbeat, acoustic Mediterranean-style guitar and mandolin music with a moderate tempo, maintaining a joyful and culturally authentic rhythm before cleanly ending on the final freeze-frame.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "The target audio features upbeat, acoustic Mediterranean-style guitar background music playing continuously underneath the voices.",
+        "Leaning slightly forward with a wide-eyed, enthusiastic expression, the older man (S1), his voice rich with a warm, passionate Napoli timbre, speaks rapidly, <d>[Italian] Guagliò, ma tu l'hai vista chesta?",
+        "With raised eyebrows and a smug, knowing expression, the second man (S2), his voice deep, slow, and thickly accented, replies, <d>[Italian] E che vuoi che te dico, neh?",
+        "Simultaneously, <Subject 2> smoothly lowers his right hand, placing the white espresso cup back onto its saucer with a crisp, audible porcelain clink.",
+        "With a relaxed and triumphant tone, the first man (S1) speaks again, <d>[Italian] E allora domenica prossima a casa mia, te la faccio provare.",
+        "Madonna mia, che roba.</d> Following his final word, the video naturally freeze-frames on their smiling faces, and the background music cleanly ends as the video finishes."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": true,
+      "music_tags": [
+        "acoustic_instrumental",
+        "percussive_rhythmic"
+      ],
+      "soundscape_tags": [
+        "voice_dialogue"
+      ],
+      "music_function_tags": [
+        "rhythm_pacing",
+        "brand_style",
+        "ending_resolution"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.10 出海多语种场景/case2-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.10 出海多语种场景/case3-ref2va",
+      "category": "1.10 出海多语种场景",
+      "case_name": "case3-ref2va",
+      "user_prompt": "0-5 秒\n奶奶中近景（他拍视角，镜头正对她的胸部以上）。她拿着黄铜色 GIARDINETTO 园艺剪的手从胸前的藤编收获篮里捏起一颗红透的圆润小番茄举到镜头前晃了晃。她眉毛挑得老高对镜头夸张地做了个意大利式经典的手指并拢往上一点的招牌手势用带真实罗马老城口音、语速快带戏剧感的意大利语说：\"Guarda che meraviglia! Questo pomodoro, tesoro mio, l'ho fatto crescere io stessa.\"（你看这个多美！这颗番茄，我的宝贝，是我自己种大的。）口型精确同步。\n5-11 秒\n镜头缓慢横向平移到阳台右侧扫过那几盆番茄藤蔓（画面能看到长势旺盛的整排番茄植物、翠绿罗勒叶、几串刚成熟的红彤彤圆番茄）约 1.5 秒然后镜头缓慢平移回奶奶脸上。奶奶举起手中的黄铜色 GIARDINETTO 园艺剪张开合拢咔哒了两下（能听到清脆的金属剪刀声），一边挥了挥剪刀一边用罗马老城口音的意大利语说：\"Con queste forbici, tutto un altro pianeta. Guarda che ottone, guarda che manico.\"（用这把剪刀，完全是另一个世界。你看这个黄铜，你看这个手柄。）口型精确同步。\n11-15 秒\n奶奶把 GIARDINETTO 园艺剪举到镜头前特写让镜头看清品牌 logo，然后凑近镜头（镜头微微前推）压低声音带着罗马奶奶特有的宠溺神情用意大利语说：\"Le compri online, tesoro. Nonna te lo dice: ne vale la pena.\"（网上买的，宝贝。奶奶告诉你：值这个钱。）",
+      "overall_soundscape": "The soundscape features the grandmother's expressive spoken Italian dialogue, punctuated by the crisp metallic clicking of the brass pruning shears, set against a quiet, warm outdoor ambient atmosphere with no distracting background noise.",
+      "non_diegetic_music": "N/A",
+      "music_is_na": true,
+      "inline_audio_sentences": [
+        "In her right hand, she also grasps <Subject 2>, the brass GIARDINETTO pruning shears.",
+        "With a fast, dramatic Roman accent, the grandmother (S1) says, <d>[Italian] Guarda che meraviglia!",
+        "Questo pomodoro, tesoro mio, l'ho fatto crescere io stessa.</d> As her voice stops, her lips meet in a relaxed closed smile, and her hand begins lowering the tomato back toward the basket.",
+        "She brings <Subject 2>, the brass pruning shears, up to her chest level.",
+        "With her fingers wrapped around the brass grip, she opens and closes the handles twice, producing a crisp, metallic clicking sound with each snap.",
+        "Flowing directly into the final action, she lifts <Subject 2>, the brass GIARDINETTO pruning shears, directly in front of the lens to create a tight close-up effect.",
+        "The framing clearly reveals the brand logo engraved on the brass surface.",
+        "Adopting a characteristic, doting expression typical of a Roman grandmother, she lowers her voice into a conspiratorial, affectionate whisper.",
+        "The grandmother (S1) says gently, <d>[Italian] Le compri online, tesoro."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": true,
+      "music_tags": [],
+      "soundscape_tags": [
+        "environment_ambience",
+        "action_foley",
+        "mechanical_material",
+        "voice_dialogue",
+        "silence_dynamic"
+      ],
+      "music_function_tags": [],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.10 出海多语种场景/case3-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.10 出海多语种场景/case4-ref2va",
+      "category": "1.10 出海多语种场景",
+      "case_name": "case4-ref2va",
+      "user_prompt": "0—4秒：女子迅速把手从嘴前移到下巴附近，确保嘴唇清楚可见。她身体微微前倾，神情是真诚的惊慌和内疚，绝不微笑，也不夸张表演。她用自然的西班牙本土口音说道：“¡Ay, Dios mío! Perdona, perdona… ¿Se ha roto?”\n“¡Ay, Dios mío!”短促而吃惊；“Perdona, perdona”语速稍快，带有真诚、急切的歉意；“¿Se ha roto?”音量稍低，担心地询问。整个句子像事故发生后的本能反应，不要朗诵腔或轻佻、撒娇的语气。男子在她说完前保持安静，只低头检查水瓶。\n4—4.5秒：短暂停顿。男子确认水瓶没有损坏，抬头看向女子。\n4.5—8秒：镜头自然切到男子中近景。男子举起完好无损的水瓶，露出轻松、友善的笑容，用平静而带一点幽默的西班牙本土口音朝着她说：“Qué va, tranquila. Este cacharro es indestructible, mira.” 语气是在安慰她，不是炫耀，也不是嘲笑。女子保持安静，不做说话口型。\n8—12秒：回到双人中景。男子把水瓶展示给女子看，女子确认没有损坏后松一口气，表情从担心自然转为释然。画面下方简洁出现：“AGUA MAX · Indestructible”。只有自然公园环境声、瓶子落地声和两人的对白，无旁白、无额外台词、无对白字幕。",
+      "overall_soundscape": "The soundscape begins with a sharp metallic clatter of a dropping bottle, followed by natural diegetic dialogue, all set over a continuous, realistic ambient layer of a quiet sunny park with faint distant runners and light wind.",
+      "non_diegetic_music": "N/A",
+      "music_is_na": true,
+      "inline_audio_sentences": [
+        "She looks down at the man and speaks rapidly in a natural Spanish accent, her voice (S1) filled with urgent apology: <d>[Spanish] ¡Ay, Dios mío!</d> She pauses for a fraction of a second, breathing anxiously over the ambient background, then continues with a slightly lower, worried volume, <d>[Spanish] Perdona, perdona, ¿se ha roto?</d> As she speaks, her lips form the exact words.",
+        "After she finishes her sentence, her lips close tightly into a nervous line as she holds her concerned posture, and only the park ambience is heard.",
+        "He looks up toward the off-screen woman and speaks in a calm, slightly humorous Spanish tone, his voice (S2) comforting and reassuring: <d>[Spanish] Qué va, tranquila.</d> He shifts the bottle slightly to show its pristine condition as the faint rustling of trees persists, then continues smoothly, <d>[Spanish] Este cacharro es indestructible, mira.</d> His lips close naturally into a warm smile after the final word as he gestures playfully with the bottle.",
+        "<Subject 1> remains quiet off-screen, leaving the park sounds to fill the brief quiet.",
+        "[Shot 3] At 00:08.000, the shot cuts back to the two-person medium view from the first shot, maintaining the same continuous park environment sounds.",
+        "The camera holds steady on their relieved, silent interaction, accompanied only by the natural sounds of the sunny park, as the text remains visible until the video ends."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": true,
+      "music_tags": [],
+      "soundscape_tags": [
+        "environment_ambience",
+        "mechanical_material",
+        "voice_dialogue",
+        "silence_dynamic"
+      ],
+      "music_function_tags": [],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.10 出海多语种场景/case4-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.10 出海多语种场景/case5-ref2va",
+      "category": "1.10 出海多语种场景",
+      "case_name": "case5-ref2va",
+      "user_prompt": "0-4 秒\n同事 A 中近景（画面右侧虚化能看到同事 B 的深墨绿开衫肩膀）。她一手从便利店透明塑料购物袋里刚拿出一小罐 HOKU 焦糖布丁举到胸前对着身旁的同事 B 晃了晃，眼睛微微弯起用带东京口音、清亮温和的日语说：\"あ、これ知ってる？ローソンの新作、めっちゃおいしいよ。\"（啊，你知道这个吗？Lawson 新出的，超好吃哦。）口型精确同步。\n4-8 秒\n硬切到同事 B 中近景（画面左侧虚化能看到同事 A 手里的布丁罐）。同事 B 好奇地凑近看了一眼罐身然后抬头看向同事 A 方向，脸上一副\"哦真的吗\"的表情用带东京口音、温和的日语说：\"へえ、知らなかった。プリン？お高いんじゃないの？\"（诶，我不知道呢。是布丁吗？不是挺贵的吗？）口型精确同步。\n8-12 秒\n硬切回双人中景（首帧构图）。同事 A 一手把布丁小罐又晃了一下另一只手指了指便利店的门方向，笑着用日语说：\"三百円くらい。がんばった自分にごほうび、ってやつ。\"（三百日元左右。就是那种\"辛苦一天奖励自己\"的感觉。）同事 B 听完笑了一下点点头",
+      "overall_soundscape": "The target video features continuous soft nighttime street ambience, the faint hum of a convenience store, and clear, front-and-center dialogue in Japanese.",
+      "non_diegetic_music": "N/A",
+      "music_is_na": true,
+      "inline_audio_sentences": [
+        "Soft nighttime street ambience and the faint hum of the store are audible.",
+        "With her eyes crinkling into a smile, <Subject 1> (S1), speaking in a clear, mild Tokyo-accented voice, says, <d>[Japanese] あ、これ知ってる？ローソンの新作、めっちゃおいしいよ。</d> As her voice stops, her lips close into a warm smile, and she lowers the jar slightly while maintaining eye contact.",
+        "<Subject 2> (S2), her voice mild and inquisitive, replies, <d>[Japanese] へえ、知らなかった。プリン？お高いんじゃないの？</d> After her final word, her mouth closes naturally, and she tilts her head slightly backward, waiting.",
+        "The quiet background noise remains audible.",
+        "The ambient street sounds continue seamlessly over the cut.",
+        "The same woman, <Subject 1> (S1), smiling cheerfully, says, <d>[Japanese] 三百円くらい。がんばった自分にごほうび、ってやつ。</d> Once she finishes speaking, her lips meet in a contented smile, and she begins adjusting her grip on the plastic bag, while <Subject 2> smiles warmly and nods her head in agreement.",
+        "Following her words, only the rustle of the plastic bag and the faint street ambience are heard until the end of the video."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": true,
+      "music_tags": [],
+      "soundscape_tags": [
+        "environment_ambience",
+        "voice_dialogue"
+      ],
+      "music_function_tags": [],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.10 出海多语种场景/case5-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.10 出海多语种场景/case6-ref2va",
+      "category": "1.10 出海多语种场景",
+      "case_name": "case6-ref2va",
+      "user_prompt": "0-5 秒：室友 A 中近景。室友 A 盘腿坐在沙发左半边膝盖上摊着一个刚拆开的浅棕色快递纸盒，双手轻轻捧起一个刚从盒里拿出来的 FUKA 白色石膏六边形扩香器举到自己胸前，头侧过去看向沙发另一头的室友 B 脸上带着又期待又有点心虚的表情用东京 20 代女生日常口语说：\"てかさ、これ届いた。最近まじで眠れなくてさ、これいいらしいよ。\"（诶跟你说，这个到货了。最近真的睡不着，说这个特别好。）\n5-10 秒：硬切到室友 B 中近景。室友 B 侧躺瘫在沙发扶手上一手握着 iPhone 屏幕对着自己另一只手抱着米色抱枕，抬起头看了一眼，嘴角微微上扬用东京 20 代女生慵懒吐槽的日常口语说：\"え、それ先週も届いてなかった？あんた同じの二個持ってんじゃん。\"（诶，那个上周不是也到过吗？你不是同款两个了嘛。）\n10-15 秒：硬切回双人沙发中景。室友 A 一手依然捧着白色石膏扩香器另一只手把扩香器的木塞那头轻轻举到自己鼻子下方闻了一下没真的靠上去，闻完把扩香器放到大腿上的快递纸盒旁边，嘴角上扬带着\"被抓包了嘿嘿\"的表情看向室友 B 说：\"だってさ、香り違うんだって。ってゆうか、うちの子にもいいらしいよ。\"（嗯——好闻。因为香味不一样嘛。而且啊，说对咱家猫也好。）室友 B 终于把手机放到抱枕上抬头看了一眼，笑了一下没说话，画面自然定格，BGM 收束。",
+      "overall_soundscape": "A quiet, natural living room atmosphere featuring casual, clear conversational dialogue between two young women.",
+      "non_diegetic_music": "A subtle, lighthearted acoustic background track plays quietly underneath the conversation, fading out gently at the end of the video.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "Only quiet room ambience is heard.",
+        "<Subject 1> (S1), a young Tokyo woman speaking with a casual and slightly defensive tone, says, <d>[Japanese] てかさ、これ届いた。最近まじで眠れなくてさ、これいいらしいよ。</d> After she finishes speaking, her lips close into a hopeful smile while her fingers visibly adjust their grip on the diffuser.",
+        "<Subject 2> (S2), a young Tokyo woman speaking with a lazy, teasing drawl, replies, <d>[Japanese] え、それ先週も届いてなかった？あんた同じの二個持ってんじゃん。</d> Once she finishes the line, her lips close as she tilts her head slightly, maintaining her skeptical gaze toward her roommate.",
+        "The women settle into their relaxed poses as the video naturally concludes, and the underlying background music fades out."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": true,
+      "music_tags": [
+        "acoustic_instrumental"
+      ],
+      "soundscape_tags": [
+        "voice_dialogue",
+        "silence_dynamic"
+      ],
+      "music_function_tags": [
+        "ending_resolution"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.10 出海多语种场景/case6-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.10 出海多语种场景/case7-ref2va",
+      "category": "1.10 出海多语种场景",
+      "case_name": "case7-ref2va",
+      "user_prompt": "0-5 秒\n小女孩中近景（画面左侧虚化能看到妈妈整理裙摆的手和半蹲的身影）。小女孩双手撑起裙摆两侧微微转了半圈让妈妈看清楚，然后抬头看向妈妈眼睛闪闪发光带着期待用带雅加达口音、清亮活力的小孩印尼语说：\"Mama, cantik nggak? Aku suka banget yang ini!\"（妈妈，好看吗？我超喜欢这件！）口型精确同步。\n5-10 秒\n硬切到妈妈中近景（画面右侧虚化能看到小女儿转身的白裙摆一角）。妈妈温柔地伸手整理了一下女儿肩膀上的连衣裙布料，然后抬起头看向女儿方向，脸上带着满意欣赏的温柔微笑用带雅加达受教育中产妈妈口音、柔和温暖的印尼语说：\"Cantik sekali, sayang. Bahannya adem, cocok buat sekolah.\"（好看极了，宝贝。面料很凉爽，适合上学穿。）口型精确同步。\n10-15 秒\n硬切回双人试衣镜中景（首帧构图）。妈妈站起身来一手轻轻握住女儿的小手另一只手指了指画面深处衣架方向，笑着对女儿用印尼语说：\"Kita ambil satu lagi warna biru ya? Buat hari Minggu.\"（我们再拿一件蓝色的好不好？周日穿。）小女孩使劲点头露出灿烂的笑容用小小的手扶着裙摆自己转了一圈。画面自然定格，BGM 收束。",
+      "overall_soundscape": "The soundscape features clear, prominent dialogue synchronized perfectly to the characters' lip movements, backed by subtle retail store ambience such as the faint rustling of fabric and gentle footsteps.",
+      "non_diegetic_music": "A gentle, upbeat acoustic background score plays warmly throughout the sequence, adding a lively and affectionate tone before naturally resolving and ending at the final frozen frame.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "The lively child (S1) speaks with a bright, energetic voice, <d>[Indonesian] Mama, cantik nggak?",
+        "Aku suka banget yang ini!</d> As her voice stops, her lips close tightly into a beaming smile while she holds her proud pose.",
+        "Gentle acoustic background music plays underneath the store ambience.",
+        "The mother (S2) replies with a gentle, warm, educated adult female voice, <d>[Indonesian] Cantik sekali, sayang.",
+        "Bahannya adem, cocok buat sekolah.</d> After speaking, her lips close smoothly as her hand rests gently on the girl's shoulder, settling into a fond gaze.",
+        "Buat hari Minggu.</d> Once she finishes speaking, <Subject 2> nods vigorously with a brilliant smile, grabs the sides of her dress, and spins entirely around on her own.",
+        "The screen freezes naturally on her joyful spin as the background music neatly resolves."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": true,
+      "music_tags": [
+        "acoustic_instrumental",
+        "percussive_rhythmic"
+      ],
+      "soundscape_tags": [
+        "environment_ambience",
+        "action_foley",
+        "voice_dialogue"
+      ],
+      "music_function_tags": [
+        "rhythm_pacing",
+        "ending_resolution"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.10 出海多语种场景/case7-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.10 出海多语种场景/case8-ref2va",
+      "category": "1.10 出海多语种场景",
+      "case_name": "case8-ref2va",
+      "user_prompt": "0-3.5 秒\n闺蜜 A 中近景（画面右侧虚化能看到闺蜜 B 举着冰美式咖啡）。她双手捧着奶白色 LUMI POP 拍立得相机举到面前对着闺蜜 B 方向，用食指\"咔嚓\"按下快门（画面闪一下白色补光模拟拍立得闪光灯），相机前端立刻缓缓吐出一张白色空白相纸。她一边接住相纸一边转头看向镜头方向，用带撒娇尾音、活力清亮的韩语说：\"야, 이거 진짜 미쳤어. 요즘 카페 갈 때마다 필수템.\"（喂，这个真的疯了。最近每次去咖啡店都是必备神器。）口型精确同步。\n3.5-7 秒\n硬切到闺蜜 B 中近景（画面左侧虚化能看到闺蜜 A 手中的相纸）。闺蜜 B 好奇地凑过来伸手接过闺蜜 A 递来的那张刚拍好的拍立得相纸，她低头看了两秒之后眼睛闪闪发光抬头用韩语说：\"헐 대박, 색감 미쳤네. 나도 하나 살래.\"（诶绝了，色调太绝了。我也要买一个。）口型精确同步。\n7-10 秒\n硬切回双人中景（首帧构图）。闺蜜 A 得意地笑着把 LUMI POP 相机的深棕色皮质相机带套到自己脖子上，另一只手拿起冰美式喝了一口，微微歪头对闺蜜 B 用韩语说：\"구만 원. 필름 값이 좀 있긴 한데 그만한 값어치 해.\"（九万韩币。相纸有点贵但值这个价。）说完两人相视一笑同时端起冰美式碰杯。画面自然定格，BGM 收束配一声轻快的冰块碰撞声。",
+      "overall_soundscape": "The overall soundscape features a warm cafe ambience with light background chatter, the mechanical click and whir of the instant camera, the crisp sounds of iced drinks, and the clear dialogue of the two friends.",
+      "non_diegetic_music": "A light, rhythmic acoustic guitar and percussion track plays warmly in the background, eventually ending on a synchronized beat with the glass clink.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "<Subject 1> catches the photo with one hand, turns her head to look directly at the lens, and speaks.",
+        "The young woman (S1), her voice bright and clear with a playful, slightly whining tone, says, <d>[Korean] 야, 이거 진짜 미쳤어. 요즘 카페 갈 때마다 필수템.</d> After she finishes speaking, her lips close into a satisfied smile as she begins lowering the camera to her chest.",
+        "The cafe ambience and a mechanical camera whir are heard in the background.",
+        "She looks up toward <Subject 1> and speaks.",
+        "<Subject 2> (S2), her voice enthusiastic and impressed, says, <d>[Korean] 헐 대박, 색감 미쳤네. 나도 하나 살래.</d> After speaking, her lips close into an admiring smile as she tilts her head and continues examining the photo.",
+        "The background music concludes precisely with a crisp clinking sound of ice and glass."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": true,
+      "music_tags": [
+        "acoustic_instrumental",
+        "percussive_rhythmic"
+      ],
+      "soundscape_tags": [
+        "environment_ambience",
+        "mechanical_material",
+        "voice_dialogue"
+      ],
+      "music_function_tags": [
+        "edit_sync",
+        "rhythm_pacing",
+        "ending_resolution"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.10 出海多语种场景/case8-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.2 视觉创意与内容包装/case1-ref2va",
+      "category": "1.2 视觉创意与内容包装",
+      "case_name": "case1-ref2va",
+      "user_prompt": "生成一支15秒16:9横版轻悬疑犯罪电影片头。整体风格参考这些图的视觉语言：复古日系动画片头、硬边剪影、漫画拼贴、非对称分屏、强烈几何色块、英文片头署名、少量日文片假名装饰、爵士犯罪气质。氛围是60%悬疑、40%爵士：神秘、酷、灵动、有都市犯罪感，不恐怖、不沉重，也不要变成欢乐爵士MV。片头动效要像动态图形拼贴：黑底线框先出现，分屏边界快速划出，色块和画格逐块贴入；人物剪影、道具特写、英文署名跟随鼓点依次滑入、弹出、遮罩揭示。不要普通写实剧情动画，要片头包装感。英文署名要清晰可读，允许有动效：细线框先画出，名字从框内滑入，字母逐个出现，被色块遮罩揭示，最后短暂停住。不要新增中文，不要乱码，不要让英文错拼。全片规则：所有英文署名和职位只出现一次。不要重复同一个职位，不要重复同一个人名，不要让同一个人担任多个职位。转场形式要丰富：圆形黑胶遮罩、车门竖切、人物长影擦屏、红线切割、巨大英文字母遮罩、分屏边框重组、色块硬切、画格逐块贴入。所有转场跟随鼓点，干脆、悬疑、灵动、有漫画拼贴感。不要柔和溶解，不要流体转场。BGM：原创15秒片头音乐，60%悬疑、40%爵士。以低音持续音、紧张弦乐拨奏、冷感合成器脉冲、低音鼓、稀疏爵士鼓刷、walking bass片段、低音萨克斯短句和短促铜管点缀组成。前2秒神秘低频和踩镲建立悬疑，第3秒进入低沉鼓点，第6秒加入爵士贝斯律动，第10秒出现短促萨克斯/铜管riff，最后2秒用紧张和弦加鼓点定格。整体神秘、酷、带犯罪感，爵士只占40%，不要太欢快，不模仿任何现有旋律。",
+      "overall_soundscape": "An original 15-second suspenseful jazz instrumental track, starting with a mysterious low-frequency drone and sparse hi-hats, building with deep drum beats, a walking bass line, and sharp saxophone and brass riffs, before concluding with a tense, dramatic chord and final drum hit.",
+      "non_diegetic_music": "A custom jazz-crime score featuring a 60% suspense and 40% jazz blend; instrumentation includes low synth pulses, a walking acoustic bass, deep kick drums, sparse jazz brushes, and staccato brass accents, playing continuously to drive the motion graphics with cool, metropolitan energy.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "A mysterious, low-frequency drone and sparse jazz hi-hat taps establish a suspenseful tone.",
+        "A hard-edged silhouette of a classic revolver and a close-up of an ice-filled glass slide in following the rhythm.",
+        "The English text \"MUSIC BY ELLIOT BLUE\" emerges dynamically: a thin white box draws itself, the name slides from within the frame, and the letters appear sequentially, revealed by a passing orange color block.",
+        "Deep, resonant drum beats kick in, driving a faster pace.",
+        "A rhythmic, walking jazz bass line joins the track, adding a groovy, metropolitan crime vibe.",
+        "A short, sharp saxophone and brass riff punctuates the soundtrack, perfectly synchronized with a rapid split-screen border reorganization.",
+        "The credit \"CASTING BY LENA WARD\" dynamically slides out of a freshly drawn box, the letters masking and unmasking as they lock into position amidst the energetic brass notes.",
+        "For the final two seconds, a tense jazz chord strikes alongside a heavy, conclusive drum beat.",
+        "The suspenseful chord and drum sustain slightly before fading into silence, completing the sequence."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "electronic_synth",
+        "cinematic_trailer",
+        "acoustic_instrumental",
+        "percussive_rhythmic"
+      ],
+      "soundscape_tags": [
+        "impact_transition"
+      ],
+      "music_function_tags": [
+        "rhythm_pacing",
+        "ending_resolution"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.2 视觉创意与内容包装/case1-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.2 视觉创意与内容包装/case4-ref2va",
+      "category": "1.2 视觉创意与内容包装",
+      "case_name": "case4-ref2va",
+      "user_prompt": "风格：dark-pop / cyber-grunge / rap 音乐视频，写实高时装质感，胶片杂志质感，高反差但不廉价。整体参考 90 年代末到 00 年代初独立杂志、复印纸、胶片扫描、地下音乐海报和 zine 拼贴美学。画面有粗颗粒、轻微胶片抖动、半色调网点、印刷毛边和扫描错位。剪辑节奏快，只使用硬切，不使用淡入淡出或柔和转场。 文字包装样式和质感参考图片。",
+      "overall_soundscape": "The soundscape features a heavy, pulsating dark-pop and cyber-grunge rap instrumental with distorted 808 bass, aggressive synth stabs, and gritty sound effects matching the fast cuts and visual noise.",
+      "non_diegetic_music": "A high-energy, dark cyber-grunge rap beat plays throughout, characterized by a fast tempo, distorted bass drops, and sharp percussion that synchronizes with the hard cuts and flashing typography.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "The target video is in a dark-pop, cyber-grunge rap music video style.",
+        "[Shot 1] The video opens with a static wide shot of <Subject 1>, <Subject 2>, and <Subject 3> posed together in a stark, high-contrast studio environment.",
+        "<Subject 1>, <Subject 2>, and <Subject 3> move aggressively, their fur-trimmed boots stomping to a heavy, distorted bass beat."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "percussive_rhythmic"
+      ],
+      "soundscape_tags": [
+        "impact_transition"
+      ],
+      "music_function_tags": [
+        "edit_sync",
+        "rhythm_pacing"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.2 视觉创意与内容包装/case4-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.2 视觉创意与内容包装/case5-ref2va",
+      "category": "1.2 视觉创意与内容包装",
+      "case_name": "case5-ref2va",
+      "user_prompt": "将视频1绿幕背景去除，变成类似视频2的童话感背景，背景元素需要完全匹配视频1的人物动作。修改视频1的人物光线，使之完全匹配背景。",
+      "overall_soundscape": "The soundscape features the gentle ambient sounds of a magical breeze and soft, twinkling chimes that react to the girl's movements, creating an immersive fairy-tale atmosphere.",
+      "non_diegetic_music": "A whimsical, orchestral fantasy score inspired by <Audio 1> plays throughout, featuring sweeping strings and magical glockenspiel flourishes that enhance the sense of wonder.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "At 10.042 seconds, the video extends into new temporal continuation footage.",
+        "The ambient sounds of a gentle magical breeze and soft, twinkling chimes blend seamlessly with a whimsical, orchestral score inspired by <Audio 1>, creating a fully immersive and enchanting atmosphere as she continues to marvel at her surroundings until the video concludes."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": true,
+      "music_tags": [
+        "cinematic_trailer",
+        "acoustic_instrumental"
+      ],
+      "soundscape_tags": [
+        "environment_ambience",
+        "action_foley"
+      ],
+      "music_function_tags": [],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.2 视觉创意与内容包装/case5-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.2 视觉创意与内容包装/case6-ref2va",
+      "category": "1.2 视觉创意与内容包装",
+      "case_name": "case6-ref2va",
+      "user_prompt": "制作一段 动态海报视频，整体保持原图的画廊白框、内框、红白黑配色、3D 手办感和排版结构不变，文字出来时配上灵动文字出场的音效。",
+      "overall_soundscape": "The soundscape starts with a quiet, airy ambience that transitions into a sequence of lively, playful popping, swooshing, and clicking sound effects perfectly synchronized with the on-screen animation of the poster's text elements.",
+      "non_diegetic_music": "An upbeat, quirky electronic background track with a bouncy rhythm plays subtly underneath, complementing the energetic 3D designer-toy aesthetic.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "As the video progresses, the static poster transforms into a dynamic 3D space.",
+        "Simultaneously, a series of lively, digital popping and rhythmic swooshing sound effects trigger in perfect synchronization with the visual animation.",
+        "SERIES\" fades in with a quick mechanical click.",
+        "Along the bottom edge, \"P/001\", \"MADE WITH FUN\", and small copyright icons snap into their respective grid positions in a rapid cascade, each synchronized with a distinct, playful percussive beat.",
+        "The audio timeline carefully isolates these lively text-entrance sound effects over the continuous background atmosphere.",
+        "Once the entire gallery frame is fully assembled, the text-entrance sound effects gracefully cease, leaving a smooth electronic rhythm playing underneath.",
+        "The camera holds a steady, static framing on the fully constructed dynamic poster, with the boy hovering softly in the center, as the video reaches its vibrant conclusion."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "electronic_synth",
+        "percussive_rhythmic"
+      ],
+      "soundscape_tags": [
+        "environment_ambience",
+        "mechanical_material",
+        "impact_transition",
+        "silence_dynamic"
+      ],
+      "music_function_tags": [
+        "rhythm_pacing",
+        "brand_style"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.2 视觉创意与内容包装/case6-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.3 动态图形、MG动画、AE特效/case1-ref2va",
+      "category": "1.3 动态图形、MG动画、AE特效",
+      "case_name": "case1-ref2va",
+      "user_prompt": "短片的准确开场画面。完整保留电光蓝背景、左侧白色“MiniMax”、中央浅蓝章鱼Logo和右侧白色“H3”。 图片2:章鱼Logo完成线性形变后的目标波形Logo参考，也是后半段贯穿画面的核心图形。严格保持波形Logo的路径结构、弯曲数量、圆角端点和整体比例。生成一支严格15秒、16:9、4K、60fps的MiniMax H3抽象科技MG品牌短片。短片表达H3从专用任务走向通用多模态模型的设计理念：语言、图片、视频和音频不再彼此隔离，而是被同一个上下文、同一套架构和同一根连续线连接起来。整体风格高级、简洁、灵动、有艺术感。采用大面积电光蓝、深黑蓝、浅青色和少量紫色色块，搭配干净的白色粗体文字。画面具有大量负空间，避免复杂图标和信息堆叠。全片的核心运动元素是一根浅蓝色连续线，以及位于线条前端的白色发光节点。",
+      "overall_soundscape": "The video features a sleek, futuristic soundscape with smooth, sweeping digital whooshes tracking the line's motion, gentle glassy chimes as the line connects the multimodal elements, and a soft energetic hum that resolves into a clean synthetic chord upon the final logo formation.",
+      "non_diegetic_music": "A premium, ambient electronic track with a steady, pulsating tempo, utilizing deep bass pads, crisp modern synthesizers, and a minimalistic, airy arrangement that builds to a subtle, uplifting climax.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "Finally, it spirals through expanding circular ripples representing audio.",
+        "Upon contact, a subtle pulse of purple and cyan light ripples through the structures, linking them seamlessly together.",
+        "The camera remains static as the glowing node draws a rapid, precise path in the center of the frame."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "electronic_synth",
+        "ambient_drone"
+      ],
+      "soundscape_tags": [
+        "impact_transition",
+        "digital_glitch"
+      ],
+      "music_function_tags": [
+        "rhythm_pacing",
+        "brand_style",
+        "build_climax"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.3 动态图形、MG动画、AE特效/case1-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.3 动态图形、MG动画、AE特效/case4-ref2va",
+      "category": "1.3 动态图形、MG动画、AE特效",
+      "case_name": "case4-ref2va",
+      "user_prompt": "@视频1为唯一基础素材。严格保持原视频的人物、五官、服装、动作、场景、综合色、镜头运动、时长与帧率完全不变。只在原画面上增加TouchDesigner式动态追踪图形。\n1. 所有矩形框的彩色填充透明度必须为0%。\n2. 框内不得出现红色、青色或任何彩色蒙版。\n3. 框内只能处理原视频相同位置的亮度、灰度、曝光和明暗关系。\n4. 所有框只能是红色或者青色的完整、简单、连续的闭合矩形，四个顶点没有任何装饰或节点。                                               5. 不允许一个框完整包含另一个框。",
+      "overall_soundscape": "The target video's audio is fully reused from <Audio 1>, establishing a continuous, heavy electronic soundscape that drives the momentum of the modern dance.",
+      "non_diegetic_music": "<Audio 1> serves as the uninterrupted background score, featuring a prominent, driving electronic beat with deep bass, sharp percussion, and industrial synthesizer textures.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "As the heavy, rhythmic electronic beat of <Audio 1> plays, <Subject 1> begins a fluid, expressive modern dance.",
+        "The video ends on this gracefully held backbend, accompanied by the fading rhythmic soundscape of <Audio 1>."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "electronic_synth",
+        "percussive_rhythmic"
+      ],
+      "soundscape_tags": [],
+      "music_function_tags": [
+        "rhythm_pacing"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.3 动态图形、MG动画、AE特效/case4-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.4 AR现实增强创意视频/case1-ref2va",
+      "category": "1.4 AR现实增强创意视频",
+      "case_name": "case1-ref2va",
+      "user_prompt": "使用上传的原视频作为唯一视频基础，严格按照原视频的真实镜头、真实手部动作、真实鼠标位置、真实城市十字路口、道路透视、斑马线、建筑、车辆、树木、红绿灯和自然日光来制作。不要重新生成一个新场景，而是在原视频上做 AR 实景合成与世界编辑效果。",
+      "overall_soundscape": "The soundscape features a continuous, realistic city traffic ambience with passing vehicles and background noise, overlaid with a casual male voiceover giving brief vocal cues.",
+      "non_diegetic_music": "N/A",
+      "music_is_na": true,
+      "inline_audio_sentences": [
+        "City traffic and subtle movement sounds are audible.",
+        "The off-screen male videographer (S1), with a casual, directive tone and a natural speaking pace, speaks, <d>[Chinese] 来，出来，先出来。</d> As he delivers the line, a right hand enters the foreground from the bottom right, holding a black wireless computer mouse and sliding it gently across the real pavement tiles.",
+        "As the voice stops, the hand firmly clicks the mouse and pushes it forward.",
+        "As the hand continues to hold the mouse in mid-air, another click triggers a sweeping AR world-editing effect that transforms the environment into <Subject 2>.",
+        "The same off-screen male videographer (S1) continues, <d>[Chinese] 好。</d> As he speaks, the hand clicks the mouse's left button again.",
+        "As the voice stops, the hand slightly rotates the mouse to the left, initiating the next AR transition.",
+        "Giant floating eyeballs with green tentacles, retro TVs displaying static, and glowing stars materialize throughout the scene, perfectly tracked to the real-world road perspective and depth layers.",
+        "The continuous city traffic ambience remains audible through the video's ending."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": true,
+      "music_tags": [],
+      "soundscape_tags": [
+        "environment_ambience",
+        "voice_dialogue"
+      ],
+      "music_function_tags": [],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.4 AR现实增强创意视频/case1-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.4 AR现实增强创意视频/case2-ref2va",
+      "category": "1.4 AR现实增强创意视频",
+      "case_name": "case2-ref2va",
+      "user_prompt": "基于原视频1进行视频增强与特效编辑，保留原始构图、镜头角度、小猫的位置、动作节奏、电钻和电脑的位置关系。整体风格是搞笑短视频、夸张但真实感的生活场景，不要改变小猫的外形，不要替换主体，不要让小猫受伤。",
+      "overall_soundscape": "The overall soundscape is dominated by the loud, mechanical whirring of an electric drill and subsequent sharp clattering noises, directly reused from the source audio to match the kitten's funny drilling action.",
+      "non_diegetic_music": "N/A",
+      "music_is_na": true,
+      "inline_audio_sentences": [
+        "[Shot 1] The static shot preserves the exact original composition and camera angle of the desk setup, featuring a modern laptop in the left foreground, its screen displaying an AI interface, and a dark monitor in the background.",
+        "As <Audio 1> plays the intense, high-pitched whirring sound of the electric drill, <Subject 1> rapidly vibrates and pushes the drill forward in a rhythmic action, simulating a heavy drilling motion aimed at the space beside the laptop screen.",
+        "As the drill whirring in <Audio 1> stops and transitions into sharp clattering noises, <Subject 1>'s drilling motion seamlessly reflects the change in rhythm, adjusting its vibrating movement to the new clattering beats."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [],
+      "soundscape_tags": [
+        "mechanical_material"
+      ],
+      "music_function_tags": [],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.4 AR现实增强创意视频/case2-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.5 AI 剧情内容创作/case1-ref2va",
+      "category": "1.5 AI 剧情内容创作",
+      "case_name": "case1-ref2va",
+      "user_prompt": "古装武侠悬疑短剧场景，16:9 横向电影画幅，夜晚竹林，冷蓝、墨绿、灰黑低饱和色调，薄雾弥漫，细雪在空气中飘落。整体氛围清冷、肃杀、克制，有江湖门派办案、秘密情报交接的紧张感。画面真实古装剧质感，浅景深，电影级光影，不要现代元素，不要字幕，不要文字，不要水印。场景：夜晚竹林深处，背景是密集竖向竹竿，远处有冷白雾光透出。前景有虚化竹叶遮挡，形成“林中窥视”的空间层次。冷白侧前方柔光照亮人物面部，背景逆光营造前暗后亮的电影感，浅景深，竹叶、雪花和背景竹林虚化成柔和散景。画面风格：古装武侠电影感，冷蓝墨绿雪夜竹林，浅景深，前景竹叶遮挡，人物面部特写为主，正反打剪辑，节奏克制但紧张。不要字幕、不要平台水印、不要现代服装、不要现代建筑、不要动画感、不要过度磨皮、不要明亮白天、不要喜剧表演。",
+      "overall_soundscape": "The soundscape is dominated by cold, desolate natural ambience, featuring the continuous low howl of winter wind, the crisp rustling of bamboo leaves, and the occasional distant cracking of freezing bamboo stalks, emphasizing the silent, suspenseful tension.",
+      "non_diegetic_music": "A minimalist, suspenseful martial arts ambient score plays quietly underneath, using a sustained, low-pitched string drone and sparse traditional percussion hits to build a restrained, murderous atmosphere.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "[Shot 1] The video opens with a Static Shot of <Subject 1> standing in the dense night environment of <Subject 3>.",
+        "The audio begins with the continuous, soft howl of the winter wind and the faint rustling of bamboo leaves.",
+        "The ambient wind continues to howl softly, accompanied by the gentle sound of snowflakes hitting the dry bamboo.",
+        "The camera shakes slightly, adding a raw, suspenseful edge to the restrained rhythm.",
+        "The sound of a distant, isolated bamboo stalk cracking in the freezing air pierces the quiet atmosphere, while the wind persists underneath.",
+        "He gives a nearly imperceptible nod, a silent acknowledgment or intelligence confirmation in the freezing night."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "ambient_drone",
+        "acoustic_instrumental",
+        "percussive_rhythmic",
+        "vocal_song"
+      ],
+      "soundscape_tags": [
+        "environment_ambience",
+        "silence_dynamic"
+      ],
+      "music_function_tags": [
+        "emotion_tone",
+        "build_climax"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.5 AI 剧情内容创作/case1-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.5 AI 剧情内容创作/case2-ref2va",
+      "category": "1.5 AI 剧情内容创作",
+      "case_name": "case2-ref2va",
+      "user_prompt": "室内家庭争吵短剧场景，竖屏短剧质感，真实真人表演，中式家庭/小饭馆室内环境，暖色灯光，背景有红色装饰和书法字幅，浅景深，情绪强烈，剪辑节奏紧凑。表演要求：真实短剧表演风格，不要夸张舞台腔。秦皓瑄的语气是愤怒、委屈、急切的反驳；中老年女性的语气是尖锐、强势、咄咄逼人的质问。两人之间有强烈对峙感，节奏逐步升级。画面风格：竖屏9:16，手机短剧质感，真人实拍感，浅景深，室内暖光，中近景为主，频繁正反打剪辑，背景保持生活化，不要科幻、不要古装、不要动画感。画面中不要出现任何字幕、文字、平台水印或贴片。",
+      "overall_soundscape": "The target video features the raw, tense diegetic sounds of a fierce verbal argument, accompanied by faint indoor room ambience, heavy breathing, and rustling clothing during physical movements.",
+      "non_diegetic_music": "N/A",
+      "music_is_na": true,
+      "inline_audio_sentences": [
+        "The middle-aged woman (S1) speaks with a sharp, domineering, and aggressive tone, her face contorted in anger.",
+        "The middle-aged woman (S1) sharply questions, <d>[Chinese] 你今天必须把话给我说清楚！</d> After she speaks, her mouth closes into a tight, grim line while her eyes remain fixed on her target, her chest rising visibly with indignation.",
+        "The young man (S2) speaks with an angry, urgent, and defensive tone.",
+        "The middle-aged woman (S1) immediately fires back, <d>[Chinese] 解释？你那叫解释吗？你就是在推卸责任！</d> As her voice stops, she crosses her arms defensively across her chest, tilting her chin up to look down at him with an unyielding, dismissive glare.",
+        "The young man (S2) shouts defensively, <d>[Chinese] 我没有推卸责任！我明明为了这个家付出了那么多！</d> Once the sentence concludes, his mouth shuts tight, and he clenches his fists at his sides, his chest rising and falling rapidly as he struggles to control his breathing.",
+        "She holds the rigid, pointing pose with an unwavering, intimidating stare, while the heavy silence of the room carries the scene through the shot's conclusion."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": true,
+      "music_tags": [],
+      "soundscape_tags": [
+        "environment_ambience",
+        "action_foley"
+      ],
+      "music_function_tags": [],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.5 AI 剧情内容创作/case2-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.5 AI 剧情内容创作/case3-ref2va",
+      "category": "1.5 AI 剧情内容创作",
+      "case_name": "case3-ref2va",
+      "user_prompt": "生成一支 15 秒、9:16 竖屏海外真人吸血鬼爱情短剧预告片段。男女主外形参考图1，场景参考图2。保持男女主身份一致，真人质感，高级短剧质感。整体故事：小白花人类女主误入古堡禁区，意外唤醒沉睡的吸血鬼贵族男主。男主发现她身上带着某种与古老战争有关的气息，因此对她产生强烈的控制欲和危险兴趣。女主害怕他，却没有彻底屈服，反抗他的压迫。整体风格：海外 ReelShort / DramaBox 吸血鬼爱情短剧预告感。暗黑浪漫、危险吸引力、宿命感、强控制感、阴郁压迫、高光反转。画面高级、克制、紧凑，像爆款短剧的前 15 秒钩子。不要血腥，不要廉价恐怖，不要万圣节感，不要现代街头感。画幅：9:16 竖屏构图，适合 TikTok / ReelShort / DramaBox。人物以中近景、近景、特写为主，竖屏里要突出脸、眼神、压迫感和关系张力。",
+      "overall_soundscape": "A tense, cinematic soundscape featuring heavy, echoing footsteps on stone, the deep creaking of heavy wood doors, atmospheric wind, and low-frequency rumbles that build dramatic tension.",
+      "non_diegetic_music": "A dark, romantic orchestral trailer score with slow, brooding cello notes, ticking percussion elements to build anticipation, and sudden dramatic swells that emphasize the tension.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "The heavy door creaks loudly, echoing through the empty hall.",
+        "A dark, brooding orchestral score begins to play, setting a fatalistic tone.",
+        "The music introduces a rhythmic, ticking percussion that accelerates the tension.",
+        "She gasps and instinctively takes a step back, her cream low-heeled shoes clicking against the stone floor.",
+        "<Subject 1> (S1), possessing a deep, magnetic, and commanding voice, speaks with dangerous curiosity.",
+        "The ash of the old war.</d> The music swells with a low, menacing cello note underneath his words.",
+        "The orchestral music drops out entirely, leaving only a low-frequency ambient rumble and the sound of her ragged breathing.",
+        "<Subject 2> (S2), her voice trembling but firm, whispers fiercely, <d>[English] I will never belong to you.</d> She sharply turns her head away, physically breaking the contact of his hand.",
+        "A final, heavy musical impact hits, and the audio fades out into silence as the shot holds on her face until the video ends."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": true,
+      "music_tags": [
+        "cinematic_trailer",
+        "percussive_rhythmic"
+      ],
+      "soundscape_tags": [
+        "environment_ambience",
+        "action_foley",
+        "mechanical_material"
+      ],
+      "music_function_tags": [
+        "emotion_tone",
+        "build_climax"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.5 AI 剧情内容创作/case3-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.6 产品与电商营销/case1-ref2va",
+      "category": "1.6 产品与电商营销",
+      "case_name": "case1-ref2va",
+      "user_prompt": "生成一支 竖屏 9:16 高级时尚眼镜广告片，整体参考所给视频的分镜节奏、剪辑速度、白棚质感和冷峻时尚氛围。画面是极简白棚，无缝白色背景，强烈的高定广告感，干净、简约、帅气、先锋、国际一线时装大片质感。主视觉人物参考 图片1，两位全身女模特，一个黑人女模特，一个欧美女模特，保持她们的服装高级感、身体姿态、白棚光影、时装秀场气质和整体冷峻态度。两人都佩戴未来感高级眼镜，眼镜设计参考图3，强调包覆式弧面、锐利几何猫眼/护目镜混合轮廓、镜面反射、流线型镜腿、高级时尚配饰质感。两个人物的外貌细节参考图2。",
+      "overall_soundscape": "The video features a sleek, pulsating electronic atmosphere with subtle synth drones and crisp, rhythmic swooshes that match the dynamic camera movements.",
+      "non_diegetic_music": "A minimalist, cutting-edge electronic fashion beat, featuring a driving bassline, metallic percussion, and a cold, stylish tempo that emphasizes the high-end runway vibe.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "[Shot 1] The video opens with a wide static shot establishing the stark white studio setting."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "electronic_synth",
+        "percussive_rhythmic"
+      ],
+      "soundscape_tags": [
+        "action_foley",
+        "impact_transition"
+      ],
+      "music_function_tags": [
+        "edit_sync",
+        "rhythm_pacing",
+        "brand_style",
+        "ending_resolution"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.6 产品与电商营销/case1-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.6 产品与电商营销/case2-ref2va",
+      "category": "1.6 产品与电商营销",
+      "case_name": "case2-ref2va",
+      "user_prompt": "高级办公室Herman Miller黑色人体工学椅360度展示。透气网背特写空气流动可视化。腰部支撑+人体工学曲线工程动画。多维度调节扶手/座椅高度演示。设计师/程序员/创意人员长时间办公场景,姿态舒展自如。久坐不累3D骨骼支撑示意图。空间美学室内陈列。结尾\"灵感与舒适同时在线\"字样浮现。高端简约、冷色调、专业未来感、慢节奏运镜。产品详情参考图1，产品图参考图2。",
+      "overall_soundscape": "A clean, futuristic, and slow-paced electronic ambient track with deep, resonant bass and subtle digital chimes, complemented by sleek mechanical whooshes for the chair adjustments and gentle synthesized airflow sounds.",
+      "non_diegetic_music": "Slow-tempo, high-end electronic ambient music featuring a deep sub-bass foundation, ethereal synthesizer pads, and crisp, rhythmic digital textures.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "The multi-dimensional adjustable armrest glides smoothly upward and clicks into place, followed by the seat pan shifting slightly to demonstrate height and depth adjustment."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "electronic_synth",
+        "ambient_drone",
+        "percussive_rhythmic"
+      ],
+      "soundscape_tags": [
+        "environment_ambience",
+        "mechanical_material",
+        "impact_transition",
+        "digital_glitch"
+      ],
+      "music_function_tags": [
+        "rhythm_pacing",
+        "ending_resolution"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.6 产品与电商营销/case2-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.7 数字体验与游戏创意/case1-ref2va",
+      "category": "1.7 数字体验与游戏创意",
+      "case_name": "case1-ref2va",
+      "user_prompt": "角色参考图1，UI风格参考图2。 [0 秒-2 秒] 高角度俯拍。角色坐在高饱和度的亮紫色地面上，参考为图1，抬头看向摄像机。右侧显示游戏菜单 UI：开始新游戏 (START NEW GAME)、继续游戏 (CONTINUE, 高亮显示)、设置 (SETTINGS)、退出游戏 (EXIT GAME)。左上角显示玩家资料 MINIMAX。光标点击“继续游戏”。 [2 秒-4 秒] 平滑变焦至她的右臂。UI 面板从右侧滑入，“右臂装备 (RIGHT ARM EQUIPMENT)” 面板出现。选中高亮显示 “幻影之握 (PHANTOM GRIP)”，随后滑动至 “时空之爪 (CHRONOS CLAW)”。她的右手机械地重新配置，手指分开，新的爪状指节锁定到位，青色 LED 灯闪烁得更亮。 [4 秒-7 秒] 摄像机平滑地绕到她的左侧。新的 UI 滑入 “武器定制 (ARMAMENT CUSTOMIZATION)” 网格，显示手部、前臂、肘部、上臂组件。选区快速循环切换部件。她的左臂逐段拆解：前臂板脱落，新装甲滑入，肘关节更换，手部重新配置，更换过程中可见暴露的线路和活塞。 [7 秒-8.5 秒] 摄像机拉回至中景。确认配置 (CONFIRM CONFIG) 按钮闪烁。点击。所有 UI 面板向内收缩消失。角色双腿解开，调整姿势，现在放松地坐着，单膝立起，义肢手自然抬起并完成配置后的轻微动作展示。 [8.5 秒-10 秒] 底部出现加载 (LOADING) 条。从 0% 快速填充至 100%。高饱和度的亮紫色环境开始变暗，阴影从边缘蔓延，温暖的金色光芒渗入。 [10 秒-15 秒] 当她起身时，完整的环境在她周围加载。密集的赛博朋克贫民窟显现，霓虹灯闪烁，潮湿的街道反射着光芒，人群涌动，摩托车穿梭，错综复杂的电线，堆叠的建筑向远处的未来派摩天大楼延伸。摄像机稳定在第三人称视角，位于她身后，展示她的背部。HUD 元素淡入，右上角显示小地图，左下角显示生命值和弹药计数器。任务标记出现。她迈步走进街道。",
+      "overall_soundscape": "The soundscape features crisp, high-tech interface sound effects for UI interactions and mechanical whirring, clicking, and locking sounds for the robotic arm configurations. As the environment transitions, a rich atmospheric layer of cyberpunk city noise emerges, including distant crowds, revving motorcycles, and buzzing neon lights.",
+      "non_diegetic_music": "An upbeat, synthesizer-driven cyberpunk electronic track plays in the background, starting with an energetic menu loop and seamlessly transitioning into an immersive, pulsing gameplay score as the city environment loads.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "An on-screen cursor moves and clicks CONTINUE, which is brightly highlighted.",
+        "A CONFIRM CONFIG button flashes on the UI and is clicked."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "electronic_synth",
+        "percussive_rhythmic",
+        "vocal_song"
+      ],
+      "soundscape_tags": [
+        "environment_ambience",
+        "mechanical_material",
+        "impact_transition"
+      ],
+      "music_function_tags": [
+        "edit_sync",
+        "rhythm_pacing"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.7 数字体验与游戏创意/case1-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.7 数字体验与游戏创意/case2-ref2va",
+      "category": "1.7 数字体验与游戏创意",
+      "case_name": "case2-ref2va",
+      "user_prompt": "一个网站页面，网站页面UI设计，网站动效，视频展示了流畅的网页向下滚动效果。一个极具爆发力与动感的产品官网风格产品落地页 UI/UX 演示视频，核心展示主体是该产品图片1。页面采用粗犷有力、倾斜的超大号无衬线字体进行张扬的排版。背景有极具速度感的动态光影、暗色碳纤维或运动透气网眼纹理在交织变换。视频展示了节奏紧凑、充满力量感的网页向下滚动效果，以及鼠标悬停时强烈的视觉放大与颜色反转等 UI 交互动作。",
+      "overall_soundscape": "An energetic, fast-paced electronic soundscape featuring heavy digital swooshes for the scrolling motions and crisp, high-tech interface sound effects for the hover interactions and color inversions.",
+      "non_diegetic_music": "High-bpm cyber-athletic electronic music, driving tempo, heavy synth basslines, and punchy drum beats.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "The running shoe is visible in sharp, high-resolution detail, clearly displaying its light blue upper, crisp black laces, the prominent black swoosh bordered by a bright neon green line, and the thick sculpted midsole with its pale green front, pale pinkish heel, black \"ZOOMX\" text, bright pink heel tip, and the distinctive bright green cutout on the side.",
+        "The UI layout responds with tight, rhythmic parallax movements, causing the typography and <Subject 1> to shift at different speeds.",
+        "The scroll then resumes smoothly, revealing additional bold typographic elements, technical specifications blocks, and smaller gallery thumbnails, maintaining the high-energy, sporty aesthetic until the scroll comes to a decisive, crisp stop, leaving the dynamic light shadows continuing to pulse rhythmically across the dark background."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "electronic_synth",
+        "percussive_rhythmic"
+      ],
+      "soundscape_tags": [
+        "impact_transition",
+        "digital_glitch"
+      ],
+      "music_function_tags": [
+        "rhythm_pacing"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.7 数字体验与游戏创意/case2-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.7 数字体验与游戏创意/case3-ref2va",
+      "category": "1.7 数字体验与游戏创意",
+      "case_name": "case3-ref2va",
+      "user_prompt": "模拟网站UI设计，先是上面的标题向下滑动出现，然后是下面的文字栏向上划出，汽车灯由暗变红",
+      "overall_soundscape": "Subtle, futuristic digital interface sound effects accompany the sliding UI elements, followed by a low, powerful electronic hum as the taillights illuminate, all set against a quiet, atmospheric studio background.",
+      "non_diegetic_music": "Minimalist, ambient electronic music with a slow tempo and deep bass, creating a premium and futuristic technological atmosphere.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "The camera maintains a completely static shot throughout the entire process, holding steadily on this fully illuminated final layout to exactly match the composition and aesthetic of <Picture 1> by the shot's ending."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "electronic_synth",
+        "ambient_drone"
+      ],
+      "soundscape_tags": [
+        "digital_glitch",
+        "silence_dynamic"
+      ],
+      "music_function_tags": [
+        "rhythm_pacing",
+        "emotion_tone",
+        "brand_style"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.7 数字体验与游戏创意/case3-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.7 数字体验与游戏创意/case4-ref2va",
+      "category": "1.7 数字体验与游戏创意",
+      "case_name": "case4-ref2va",
+      "user_prompt": "生成一段10秒、4:3 横向构图的游戏视频，整体像一个极简可爱的 2D 手绘反应游戏界面。画面保持固定镜头，不要运镜，不要缩放，背景干净，保留温暖纸张质感和蜡笔 / 彩铅手绘线条。主角始终是同一只皮皮的小比格犬：圆润 Q 版身体、短腿、大耷拉耳、圆润长吻部、短翘尾巴、半眯慵懒又欠揍的表情。小比格身体可以像橡皮筋一样被夸张拉伸、压扁、拱起和侧闪，但身份和画风始终一致。\n视频是一个“按方向键躲手掌”的快节奏小游戏操作流程。画面底部始终有一排手绘方向箭头 UI，箭头包含上、下、左、右四种方向。每个操作节拍开始时，对应方向箭头迅速变成实心高亮，并出现手绘圆圈涟漪、短促放射线、小星星或爪印反馈。顶部保留轻量手绘 HUD：左上角三个小爱心，顶部中间一条细细的手绘进度条，右上角一个小骨头图标和少量涂鸦装饰。装饰要稀疏可爱，不要遮挡主角、手掌或方向箭头。不要出现任何可读文字，不要现代电子 UI，不要真实摄影效果。\n核心玩法规则：\n图1，当底部“上”箭头高亮时，手掌从画面下方向上伸出，小比格必须向上拱起身体躲开，身体形成夸张半圆桥。\n图2，当底部“下”箭头高亮时，手掌从画面上方向下压来，小比格必须压低身体贴地躲开，前半身扁平，后半身翘起。\n图3，当底部“右”箭头高亮时，手掌从画面右侧水平伸入，小比格必须向左拉长身体躲开，耳朵甩飞，前爪抓地。\n图4，当底部“左”箭头高亮时，手掌从画面左侧水平伸入，小比格必须向右滑行躲开，身体像弹簧一样压缩侧闪。\n所有手掌方向、箭头高亮方向、小比格躲闪动作必须一一对应，不能错位。",
+      "overall_soundscape": "A fast-paced, cheerful 2D arcade soundscape featuring playful pop sound effects, rapid swooshes for the hand movements, and bouncy, elastic spring sounds for the dog's exaggerated dodges.",
+      "non_diegetic_music": "Upbeat, quirky 8-bit or chiptune-inspired background music played with a cheerful tempo and light percussion, maintaining a playful and energetic rhythm.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "The camera maintains a perfectly Static Shot throughout the entire gameplay sequence, with a clean background free of modern electronic UI elements or realistic photography.",
+        "The rhythm continues as the \"right\" arrow illuminates with a swift pencil-sketched flash."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "percussive_rhythmic"
+      ],
+      "soundscape_tags": [
+        "action_foley",
+        "impact_transition"
+      ],
+      "music_function_tags": [
+        "rhythm_pacing",
+        "emotion_tone"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.7 数字体验与游戏创意/case4-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.7 数字体验与游戏创意/case5-ref2va",
+      "category": "1.7 数字体验与游戏创意",
+      "case_name": "case5-ref2va",
+      "user_prompt": "使用 Image 1 作为精确的 UI / 布局 / 界面风格参考。\nImage 1 中的鼠标光标也作为精确的鼠标样式参考：鼠标光标必须保持 Image 1 里的大小、形状、比例、半透明质感、柔和发光边缘和精致高级感。不要生成过大的系统默认鼠标，不要生成粗糙黑白箭头，不要生成多个鼠标。\n使用 Images 2–5 作为精确的灵宠参考，并按以下方式映射：\nImage 2 = card A = MIRRA POD\nImage 3 = card E = LANTERN\nImage 4 = card F = MOSS MITE\nImage 5 = card C = VELI KIT\n生成一个 15 秒、16:9 横版视频。\n镜头完全固定，不要推拉、摇移或切镜头。\n保持 Image 1 的界面结构、排版、面板、字体层级、图标、圆角、卡片网格和整体构图稳定、优雅、清晰可读。\n界面气质是高级、极简、梦幻的数字灵宠图鉴。\n不要新增无关文字，不要乱码，不要 UI 扭曲，不要界面漂移。\n整体风格：\n梦雾、柔焦、微绒、半透明、轻发光、高级极简。\n四只灵宠都要非常可爱、灵动、软萌、有灵气。\n动作要干净、精致、有互动感。\n界面本身保持稳定，只动画化鼠标、选中态、主标题、当前主展示灵宠和少量技能特效。",
+      "overall_soundscape": "The video features a serene, magical soundscape with soft, chiming UI sound effects for cursor movements and clicks, accompanied by gentle whooshes, magical sparkles, and soft popping bubbles corresponding to the pets' lively animations and materialization effects.",
+      "non_diegetic_music": "Soft, ambient, and ethereal background music playing at a slow tempo, featuring gentle synthesizer pads, light harp glissandos, and a dreamy, calming melody that enhances the premium digital archive aesthetic.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "The camera is a perfectly static shot, holding the composition without any pan, tilt, or zoom.",
+        "<Subject 2> clicks the card, triggering a clean, exquisite transition.",
+        "Its neon rim lighting pulses softly against the misty background, giving it a spirited, lifelike presence.",
+        "Next, <Subject 2> glides downwards to card E and clicks it.",
+        "Finally, <Subject 2> moves to card F and executes a click.",
+        "Throughout the entire continuous sequence, the background layout, typography, UI panels, and grid structure of <Subject 1> remain completely static, entirely undistorted, and free of any drift, successfully isolating all clean, sophisticated animation strictly to <Subject 2>, the changing text titles, the selection borders, and the lively spiritual pets."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "electronic_synth",
+        "ambient_drone"
+      ],
+      "soundscape_tags": [
+        "action_foley",
+        "mechanical_material",
+        "impact_transition"
+      ],
+      "music_function_tags": [
+        "rhythm_pacing",
+        "brand_style"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.7 数字体验与游戏创意/case5-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.8 硬件、实体工业、具身智能演示/case2-ref2va",
+      "category": "1.8 硬件、实体工业、具身智能演示",
+      "case_name": "case2-ref2va",
+      "user_prompt": "将原视频中的桌面替换为标准办公室工位办公桌，背景整体替换为带有百叶窗与金属文件柜的办公环境。新办公桌的透视比例需与原镜头完全匹配，桌面材质需自然承接原视频的光影投射，边缘阴影与高光方向必须与原场景光源严格一致。背景百叶窗与文件柜的景深虚化程度需与原视频焦点对齐，保持原有空间纵深感。在此过程中，原视频的镜头运动轨迹、机械臂的完整运动时序与速度、画面中其他物品的相对位置与空间遮挡关系、以及整体光照氛围必须保持 100% 不变，确保替换元素与原画面无缝融合。",
+      "overall_soundscape": "The soundscape features the synchronized mechanical whirring, clicking, and clunking of the robotic arm reused from <Audio 1>, transitioning into a quiet, continuous ambient office room tone for the extended remainder of the video.",
+      "non_diegetic_music": "N/A",
+      "music_is_na": true,
+      "inline_audio_sentences": [
+        "[Shot 1] The video begins with the original static camera framing, focused on a standard office cubicle desk, which replaces the original white surface while maintaining the exact perspective of the original lens.",
+        "As the video starts, the ambient office tone is audible.",
+        "The robotic arm descends toward the desk, its precise movements accompanied by synchronized mechanical whirring from <Audio 1>.",
+        "The gripper jaws close around the red block with a sharp click from <Audio 1>.",
+        "A solid clunk from <Audio 1> is heard as the block contacts the desk.",
+        "The target audio seamlessly transitions to a quiet, continuous office ambience that plays through the remainder of the video's extended duration."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [],
+      "soundscape_tags": [
+        "environment_ambience",
+        "mechanical_material",
+        "impact_transition",
+        "silence_dynamic"
+      ],
+      "music_function_tags": [],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.8 硬件、实体工业、具身智能演示/case2-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.9 动画与风格化影像/case1-ref2va",
+      "category": "1.9 动画与风格化影像",
+      "case_name": "case1-ref2va",
+      "user_prompt": "黏土动画风格。 狂奔的狐狸冲到了悬崖边缘，毫不犹豫地腾空而起，在巨大的熔岩峡谷上方完成了一个极具张力的、慢动作的英雄式飞跃。镜头在半空中从狐狸的腹部下方极速掠过（大动态运镜），完美展现出深渊的恐怖深度，以及狐狸黏土身体在空中极致舒展的动态瞬间。",
+      "overall_soundscape": "The soundscape features the rapid, muted patter of clay paws hitting dirt and rock, followed by the scattering of small pebbles, and transitions into a dramatic, sweeping whoosh of wind as the fox leaps, all set against the deep, resonant, bubbling rumble of the massive lava canyon below.",
+      "non_diegetic_music": "An epic, heroic orchestral score that builds with fast-paced, driving percussion during the sprint and hits a suspended, majestic crescendo during the slow-motion leap, featuring swelling brass and soaring strings.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "The camera tracks alongside it at a blistering speed, blurring the background as the dense green forest environment quickly falls away, seamlessly replaced by the rocky, barren, and cracked terrain of a high cliff edge."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "cinematic_trailer",
+        "acoustic_instrumental",
+        "percussive_rhythmic"
+      ],
+      "soundscape_tags": [
+        "environment_ambience",
+        "impact_transition"
+      ],
+      "music_function_tags": [
+        "rhythm_pacing",
+        "build_climax",
+        "ending_resolution"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.9 动画与风格化影像/case1-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.9 动画与风格化影像/case2-ref2va",
+      "category": "1.9 动画与风格化影像",
+      "case_name": "case2-ref2va",
+      "user_prompt": "使用 图2作为固定人物参考，保持黑色半扎长发、银色镂空发冠、黛蓝发带、浅色层叠汉服、半透明蓝色外袍、深蓝腰封、银色花形扣饰和长流苏一致。使用 图1作为镜头分镜、节奏参考。画面为高质量 4K 16:9 国风 3D，电影级仙侠质感，热血、庄严、宿命感强。镜头依次表现分镜中的内容，确保每个分镜之间运镜、切换自然，不能像ppt一样。人物露脸只能是近景或特写，远景只能是背影、侧背或环境空镜，不要正脸远景。",
+      "overall_soundscape": "The soundscape features sweeping celestial winds, the hum of spiritual energy during hand seals, and the powerful crackle and boom of radiant energy erupting, all blending into an epic Xianxia atmosphere.",
+      "non_diegetic_music": "A passionate, solemn orchestral and traditional Chinese instrumental score with heavy drums, sweeping strings, and a driving rhythm that highlights the strong sense of destiny and syncs with the fast-paced shot cuts.",
+      "music_is_na": false,
+      "inline_audio_sentences": [],
+      "has_inline_audio": false,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "cinematic_trailer",
+        "acoustic_instrumental",
+        "percussive_rhythmic"
+      ],
+      "soundscape_tags": [
+        "environment_ambience",
+        "impact_transition"
+      ],
+      "music_function_tags": [
+        "edit_sync",
+        "rhythm_pacing"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.9 动画与风格化影像/case2-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.9 动画与风格化影像/case3-ref2va",
+      "category": "1.9 动画与风格化影像",
+      "case_name": "case3-ref2va",
+      "user_prompt": "生成一支 乙游男主角色 PV。 角色参考图： 使用图2作为严格的角色身份参考。请保持同一个角色脸、发型、体型比例、服装设计、材质细节和乙游 CG 质感一致。",
+      "overall_soundscape": "The overall soundscape features the continuous atmospheric sounds of heavy rain falling on wet pavement, distant urban industrial drones, and subtle Foley sounds like clothing rustling, heavy footsteps, and a drawn breath, creating a moody, immersive environment.",
+      "non_diegetic_music": "A slow, cinematic, brooding electronic instrumental track with a pulsing bassline and subtle strings plays in the background, enhancing the dramatic and alluring otome game PV atmosphere without overpowering the ambient sounds.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "[Shot 1] The video opens with a wide establishing static shot of a desolate, rain-soaked industrial street at night."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "electronic_synth",
+        "cinematic_trailer",
+        "ambient_drone",
+        "acoustic_instrumental",
+        "vocal_song"
+      ],
+      "soundscape_tags": [
+        "environment_ambience",
+        "action_foley"
+      ],
+      "music_function_tags": [
+        "emotion_tone"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.9 动画与风格化影像/case3-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.9 动画与风格化影像/case4-ref2va",
+      "category": "1.9 动画与风格化影像",
+      "case_name": "case4-ref2va",
+      "user_prompt": "镜头：第一人称视角 · 眼平高度 · 手持游戏镜头 画面： 画面模拟玩家正在操作一款现代战争 FPS 游戏，双手持突击步枪在军事基地外围缓慢推进。 玩家沿着掩体旁的道路向前移动，准星扫过前方通道，短暂停顿后向远处目标点开火几发，随后继续向前压进，像普通玩家实机操作画面。 光线： 现代军事基地的冷色自然光与烟雾火光交织，画面写实清晰，金属枪械和战场尘雾有 3A 游戏质感。 运镜： 镜头随玩家移动产生轻微手持晃动，先缓慢前进，再小幅左右观察，开火时有轻微后坐力抖动，最后继续稳定向前推进。",
+      "overall_soundscape": "The soundscape features the immersive, heavy ambiance of a nighttime battlefield, with crackling fires, distant explosions, the continuous low thrum of a helicopter rotor, the heavy, rhythmic footsteps of the player sloshing through the mud, and the sharp, deafening percussive cracks of the assault rifle firing.",
+      "non_diegetic_music": "N/A",
+      "music_is_na": true,
+      "inline_audio_sentences": [
+        "The action commences with the camera executing a slow, steady forward push, accompanied by a subtle, rhythmic bobbing motion that simulates heavy footsteps in the mud."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [],
+      "soundscape_tags": [
+        "environment_ambience",
+        "action_foley"
+      ],
+      "music_function_tags": [],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.9 动画与风格化影像/case4-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.9 动画与风格化影像/case5-ref2va",
+      "category": "1.9 动画与风格化影像",
+      "case_name": "case5-ref2va",
+      "user_prompt": "使用第一张图作为首帧，第二张图作为严格尾帧，生成一段乙游视觉小说界面转场视频。  整体感觉：高端中文乙游恋爱互动界面，演出前后台的暧昧瞬间，从“选择来看他的演出”自然过渡到“韩序被女主的话吸引，露出饶有兴趣的反应”。UI 文字、选项、对话框都以乙游式精致方式出现，转场丝滑，情绪暧昧但克制。",
+      "overall_soundscape": "A quiet, intimate backstage atmosphere layered with subtle, high-quality UI interaction sound effects like a soft chime for the choice selection, anchoring the low, magnetic voice acting of the male lead.",
+      "non_diegetic_music": "Elegant, slow-paced piano and string background music that enhances the romantic, ambiguous, and high-end visual novel atmosphere without overpowering the dialogue.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "At the bottom, a stylized, translucent dark brown dialogue box shows the name \"韩序\" and the text \"这不是观众席，你来这里做什么？\".",
+        "The visible <Subject 1> (S1) speaks with a cool, low, and slightly questioning tone, <d>[Chinese] 这不是观众席，你来这里做什么？</d>",
+        "He gently tilts his head a fraction of an inch, his breathing rhythm shifts, and his lips slowly part into a faint, highly intrigued smile.",
+        "Simultaneously, the old text within the bottom dialogue box of <Subject 2> elegantly dissolves, and new text fades in seamlessly to match his reaction."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": true,
+      "music_tags": [
+        "acoustic_instrumental"
+      ],
+      "soundscape_tags": [
+        "voice_dialogue",
+        "silence_dynamic"
+      ],
+      "music_function_tags": [
+        "edit_sync",
+        "rhythm_pacing",
+        "emotion_tone",
+        "ending_resolution"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.9 动画与风格化影像/case5-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "1.商用级多场景生成/1.9 动画与风格化影像/case6-ref2va",
+      "category": "1.9 动画与风格化影像",
+      "case_name": "case6-ref2va",
+      "user_prompt": "主角是图1，电影级、写实画风，实拍现实画风。 正面近景拍摄视角，画面只聚焦于男主与女主的上半身。女主面部视频中基本不露出，她身穿露腰露背的红色连衣裙，只偶尔出现肩颈、手臂、腰线、裙摆和手部细节；男主身穿剪裁极佳的黑色高级定制衬衣。场景是在图2暧昧氛围的红黑色调室内，整体光线昏暗、低饱和、奢华、克制，后景微微虚化，红丝绒沙发、黑金大理石边几、暖色低光源共同营造成熟暧昧的约会氛围。 画面发生在图2的红丝绒沙发前。男主坐在红丝绒沙发上，姿态慵懒而从容，身体微微后靠，衣料质感高级、细腻。沙发旁是一张奢华的黑金大理石边几，上面放着一个精美的水晶玻璃杯，杯内盛着琥珀色威士忌和几块正在慢慢融化的冰块，杯身隐约可见细腻水珠。画面中能听到冰块轻轻碰撞玻璃杯的声音、雪茄燃烧的细微声、室内轻微空气流动声、衣料摩擦声与克制的呼吸声。",
+      "overall_soundscape": "A highly detailed, intimate ambient soundscape featuring the crisp clinking of melting ice inside a glass, the faint dry crackle of a burning cigar, subtle fabric rustling, quiet and restrained breathing, and the gentle ambient flow of air in a quiet room.",
+      "non_diegetic_music": "N/A",
+      "music_is_na": true,
+      "inline_audio_sentences": [
+        "<Subject 1> maintains his steady, restrained breathing, his chest rising and falling rhythmically in the dim light.",
+        "The soundscape synchronizes intimately with these micro-actions: the crisp clinking of ice against the crystal glass rings out softly, layering over the faint, dry crackle of the burning cigar.",
+        "The subtle rustle of expensive clothing and the quiet, measured breathing of the characters fill the heavy, atmospheric silence."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [],
+      "soundscape_tags": [
+        "environment_ambience",
+        "action_foley",
+        "silence_dynamic"
+      ],
+      "music_function_tags": [],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.9 动画与风格化影像/case6-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "2. 原生多模态理解与生成/2.1 多素材联合参考/case1-ref2va",
+      "category": "2.1 多素材联合参考",
+      "case_name": "case1-ref2va",
+      "user_prompt": "图1图2图3图4图5图6，严格参考示例视频视频1的镜头节奏、转场风格及音乐。",
+      "overall_soundscape": "The soundscape is driven entirely by the energetic, rhythmic beat and vocal layers reused from <Audio 1>, matching the fast-paced visual editing without additional environmental noise.",
+      "non_diegetic_music": "The reused track from <Audio 1> serves as the continuous non-diegetic background music, featuring an upbeat tempo and vocal snippets that synchronize with the rapid shot transitions.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "<Audio 1> begins to play, setting a fast, rhythmic beat.",
+        "When <Audio 1> plays the phrase <d>[English] You just need to know, I love you.</d>, the scene holds its energetic momentum before abruptly transitioning.",
+        "The rhythmic music of <Audio 1> continues, driving the fast pacing as the shot reaches its peak intensity.",
+        "The looped, energetic beat of <Audio 1> continues underneath, seamlessly matching the rapid visual editing style of <Video 1>.",
+        "The rhythmic soundtrack continues to dictate the fast-paced energy.",
+        "The upbeat music continues to pulse, maintaining the high-energy flow.",
+        "The music from <Audio 1> carries through to the end, completing the rapid, rhythmic montage inspired by <Video 1>."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "percussive_rhythmic",
+        "vocal_song"
+      ],
+      "soundscape_tags": [],
+      "music_function_tags": [
+        "edit_sync",
+        "rhythm_pacing"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.1 多素材联合参考/case1-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "2. 原生多模态理解与生成/2.1 多素材联合参考/case2-ref2va",
+      "category": "2.1 多素材联合参考",
+      "case_name": "case2-ref2va",
+      "user_prompt": "保持视频1中的建筑、行人和整体环境为真实世界风格不变。仅将视频1画面中的树木、轿车转化为 3D 像素或体素积木风格 (Minecraft style)，风格参考图1。像素化物体的运动轨迹需正常，且保留真实环境的阴影和透射光。整体效果参考视频2。",
+      "overall_soundscape": "A bustling real-world street environment featuring rhythmic footsteps, passing vehicle sounds, and ambient city noise, extended from the source audio and enhanced with urban sound effects like vehicle horns.",
+      "non_diegetic_music": "N/A",
+      "music_is_na": true,
+      "inline_audio_sentences": [
+        "The baseline street ambience from <Audio 1> plays clearly, with <Subject 2>'s footsteps syncing perfectly to the visual rhythm of his walk.",
+        "The ambient soundscape expands, incorporating distant city murmurs and a sharp vehicle horn referenced from <Audio 2>."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [],
+      "soundscape_tags": [
+        "environment_ambience",
+        "action_foley"
+      ],
+      "music_function_tags": [],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.1 多素材联合参考/case2-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "2. 原生多模态理解与生成/2.1 多素材联合参考/case3-ref2va",
+      "category": "2.1 多素材联合参考",
+      "case_name": "case3-ref2va",
+      "user_prompt": "@图片1 镜头先快速推进到咖啡表面的奶泡、可可粉颗粒和深色咖啡液体纹理细节，让咖啡表面的颗粒、泡沫和液体涟漪逐渐覆盖全屏，遮挡住其他东西。镜头保持真实微距质感，极浅景深，细小粉末在逆光中缓慢飘落，表面纹理像细沙与流体之间的过渡。避免画面开裂，在咖啡粉颗粒、奶泡起伏、液体旋涡与@图片2 中沙丘沙脊、风蚀纹理、扬沙颗粒高度相似的瞬间，自然无痕转化为沙漠地貌，然后镜头继续向前推进，展示出@图片2 的沙丘全貌。严格避免画面开裂，不要黑屏，不要硬切，不要明显特效，不要拼接感，整体真实、安静、克制，像同一种颗粒材质从咖啡微观表面自然变成宏观沙漠世界。一镜到底，中间不要出现拼接。",
+      "overall_soundscape": "A quiet, restrained ambient soundscape that begins with the intimate, microscopic rustling of fine powder dusting onto a liquid surface, gradually dissolving into the vast, hollow whispering of dry wind sweeping across a vast desert landscape.",
+      "non_diegetic_music": "N/A",
+      "music_is_na": true,
+      "inline_audio_sentences": [
+        "Gentle winds whip fine, dry sand off the peaks of the dunes, visually echoing the earlier falling cocoa powder."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": true,
+      "music_tags": [],
+      "soundscape_tags": [
+        "environment_ambience",
+        "voice_dialogue",
+        "silence_dynamic"
+      ],
+      "music_function_tags": [],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.1 多素材联合参考/case3-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case1-ref2va",
+      "category": "2.2 角色、动作与镜头参考",
+      "case_name": "case1-ref2va",
+      "user_prompt": "图1的人物动作、表情与表演节奏严格参考输入视频1\n男生站在画面中右侧的水槽前把洗好的盘子递给画面左侧的女生，随后转身突然用右手向画面左侧边缘的女生甩出洗洁精泡沫。女生受到惊吓后立刻反击，两人开始开心地互相向对方泼洒泡沫并闪躲，伴随着大笑",
+      "overall_soundscape": "The soundscape features continuous ambient running water and clinking dishes, transitioning into crisp, wet splashes and loud, joyful laughter that reference the chaotic energy of <Audio 1>.",
+      "non_diegetic_music": "N/A",
+      "music_is_na": true,
+      "inline_audio_sentences": [
+        "Following the exact action sequence and rhythm of <Video 1>, the interaction begins with <Subject 1> finishing washing a white ceramic plate under the faucet.",
+        "The continuous sound of running water and the subtle clinking of dishes set a domestic audio atmosphere, referencing the ambient sounds in <Audio 1>.",
+        "A crisp, wet splashing sound marks the impact.",
+        "Their bright, loud laughter rings out continuously, synchronizing with the chaotic energy and fast-paced performance rhythm dictated by <Video 1>.",
+        "The camera is a Static Shot throughout, maintaining a stable medium composition that clearly captures the physical depth between the characters, the flying droplets of water, and the escalating, lighthearted foam battle until the sequence concludes."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [],
+      "soundscape_tags": [
+        "environment_ambience",
+        "impact_transition"
+      ],
+      "music_function_tags": [],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case1-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case2-ref2va",
+      "category": "2.2 角色、动作与镜头参考",
+      "case_name": "case2-ref2va",
+      "user_prompt": "人物参考视频1的动作，表演街舞，人物参考图1 图2",
+      "overall_soundscape": "An upbeat, energetic hip-hop track plays continuously, complemented by the ambient sounds of sneakers scuffing on wet pavement and the natural rustling of thick cotton clothing during the dance.",
+      "non_diegetic_music": "A rhythmic, driving hip-hop beat with a heavy bassline and fast tempo, providing a steady groove for the dance performance.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "An upbeat, driving hip-hop track begins, drawing its rhythmic energy from <Audio 1>.",
+        "Synchronized with the first heavy beat, <Subject 1> launches into a dynamic street dance, precisely executing the choreography transferred from <Video 1>.",
+        "He starts with a light, rhythmic bounce on his feet, quickly extending both arms wide before snapping them back inward with sharp, controlled precision.",
+        "The camera remains in a fixed, static position, maintaining a wide frame that captures his entire body and the surrounding stadium environment.",
+        "He smoothly transitions into a series of lateral steps, moving his legs with agility while his upper body performs rhythmic chest pops and fluid isolations.",
+        "His white sneakers step, slide, and stomp firmly against the wet pavement, landing perfectly in sync with the driving beat of the music.",
+        "The ambient sounds of his heavy footsteps and the rustling of his thick cotton hoodie blend seamlessly into the energetic background music.",
+        "The continuous, high-energy performance dominates the frame, with the contrasting red stadium seats providing a steady, geometric backdrop to his fluid and dynamic motion, carrying the rhythmic action flawlessly through to the end of the video."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "percussive_rhythmic"
+      ],
+      "soundscape_tags": [
+        "environment_ambience",
+        "action_foley"
+      ],
+      "music_function_tags": [
+        "rhythm_pacing"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case2-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case3-ref2va",
+      "category": "2.2 角色、动作与镜头参考",
+      "case_name": "case3-ref2va",
+      "user_prompt": "参考视频1的希区柯克镜头运动，让视频2中的人物唱歌，歌声和唱歌表演参考视频3",
+      "overall_soundscape": "The overall soundscape begins with gentle, realistic outdoor cafe ambience, transitions to feature a powerful, emotive singing vocal track for the performance, and then returns to the quiet, natural cafe atmosphere.",
+      "non_diegetic_music": "N/A",
+      "music_is_na": true,
+      "inline_audio_sentences": [
+        "Before the vocal performance begins, only gentle outdoor cafe ambience—including distant footsteps and faint rustling—is audible.",
+        "Her lip movements perfectly synchronize with the copied vocal track from <Audio 3>, seamlessly blending the powerful voice with her vivid physical performance.",
+        "After the exact vocal phrase concludes, the singing voice stops, and she gracefully closes her lips into a gentle, melancholic smile.",
+        "The natural cafe ambience remains clearly audible as the camera movement settles into a steady, static hold, leaving her resting in quiet, emotional contemplation as the warm sunlight fades slightly through the final frames of the shot."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": true,
+      "music_tags": [],
+      "soundscape_tags": [
+        "environment_ambience",
+        "action_foley",
+        "impact_transition",
+        "silence_dynamic"
+      ],
+      "music_function_tags": [],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case3-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case4-ref2va",
+      "category": "2.2 角色、动作与镜头参考",
+      "case_name": "case4-ref2va",
+      "user_prompt": "参考视频1进行动作模仿。固定机位全景镜头，正视频中三个穿西装的男人替换为三只高度写实的水豚。水豚必须严格遵循原视频的运动轨迹：依次迅速趴到地板上，然后最左边的水豚跳到中间位置，中间位置的水豚翻滚到最左边，接着中间的水豚翻滚到最右边，最右边的水豚跳跃到中间，最后中间水豚跳跃到另外两只背上，堆叠成金字塔形状。保持原有的固定机位不变。确保水豚的毛发质感和光影与环境融合",
+      "overall_soundscape": "The soundscape features the copied music and energetic sound effects from <Audio 1> synchronized to the capybaras' acrobatics, transitioning to quiet office ambience once the pyramid is formed.",
+      "non_diegetic_music": "Background music from <Audio 1> plays during the main acrobatic sequence, stopping after the final pyramid pose is achieved.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "[Shot 1] The target video is in a realistic style, maintaining the exact indoor office environment, polished wooden floor, warm lighting, and static wide-shot camera angle of <Video 1>.",
+        "Before the action starts, brief quiet office ambience is heard.",
+        "The sequence then begins as the three capybaras quickly drop to the floor one by one, landing heavily on their bellies, accompanied by the copied energetic music and sound effects from <Audio 1>.",
+        "Maintaining the rhythmic momentum, the capybara currently in the middle rolls over to the far-right position.",
+        "The bottom two capybaras brace their legs to support the weight, their fur compressing slightly under the impact.",
+        "The copied audio from <Audio 1> ends after the pyramid is formed, leaving the ambient quiet of the office to play out through the remaining duration as the capybaras statically hold their stacked pose."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [],
+      "soundscape_tags": [
+        "environment_ambience",
+        "impact_transition",
+        "silence_dynamic"
+      ],
+      "music_function_tags": [
+        "ending_resolution"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case4-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "2. 原生多模态理解与生成/2.3 音色克隆与迁移/case1-ref2va",
+      "category": "2.3 音色克隆与迁移",
+      "case_name": "case1-ref2va",
+      "user_prompt": "角色说话：Follow the wind, live free.Leave worries behind, enjoy the moment，音色参考音频1",
+      "overall_soundscape": "The soundscape consists of soft, natural ambient wind rustling through the grass, accompanied by the man's clear, gentle voice.",
+      "non_diegetic_music": "N/A",
+      "music_is_na": true,
+      "inline_audio_sentences": [
+        "As he prepares to speak, his voice has a gentle, reflective timbre, and he speaks with a slow, deliberate pace.",
+        "He gazes briefly at the camera, then turns slightly to look into the distance, <Subject 1> (S1) speaks, <d>[English] Follow the wind, live free.</d> He maintains his soft grip on the lamb, which stays quiet in his arms.",
+        "He continues with a smile, <Subject 1> (S1) speaks, <d>[English] Leave worries behind, enjoy the moment.</d> After the words end, he slowly shifts his gaze back towards the horizon, a subtle, content smile resting on his face as he gently strokes the lamb's woolly back with one hand, the movement continuing until the end of the shot.",
+        "The gentle breeze rustles the green grass in the background, which is the only ambient sound.",
+        "The camera remains in a static, steady medium shot throughout."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": true,
+      "music_tags": [],
+      "soundscape_tags": [
+        "environment_ambience",
+        "voice_dialogue"
+      ],
+      "music_function_tags": [],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.3 音色克隆与迁移/case1-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "3. 全能精准编辑与修改/3.1 角色与物体编辑/case1-ref2va",
+      "category": "3.1 角色与物体编辑",
+      "case_name": "case1-ref2va",
+      "user_prompt": "把视频中的猫换成狗",
+      "overall_soundscape": "A quiet, moody atmosphere characterized by a continuous, soft ambient drone and gentle wind-like sounds, creating a chilly but peaceful winter feel.",
+      "non_diegetic_music": "N/A",
+      "music_is_na": true,
+      "inline_audio_sentences": [
+        "The soft, moody ambient drone and subtle wind-like textures from <Audio 1> play continuously underneath, their atmospheric chill contrasting with the visual warmth of the interaction.",
+        "The camera holds this tight framing as the man keeps his face resting lovingly against the dog's head, the gentle ambient soundscape carrying the shot to its peaceful conclusion."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [],
+      "soundscape_tags": [
+        "environment_ambience",
+        "silence_dynamic"
+      ],
+      "music_function_tags": [],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.1 角色与物体编辑/case1-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "3. 全能精准编辑与修改/3.1 角色与物体编辑/case2-ref2va",
+      "category": "3.1 角色与物体编辑",
+      "case_name": "case2-ref2va",
+      "user_prompt": "画面左边增加一个穿着相同团队制服的人，动作与旁人保持一致",
+      "overall_soundscape": "The overall soundscape features an atmospheric, slow-paced electronic synth drone that creates a mysterious, desolate, and exploratory sci-fi atmosphere.",
+      "non_diegetic_music": "An ambient, slow-tempo electronic synth track plays continuously in the background, featuring sustained, ethereal chords without any percussion.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "The atmospheric, ambient electronic synth music from <Audio 1> plays continuously throughout the shot, enhancing the mysterious and exploratory mood of the scene."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "electronic_synth",
+        "ambient_drone",
+        "percussive_rhythmic"
+      ],
+      "soundscape_tags": [],
+      "music_function_tags": [
+        "rhythm_pacing"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.1 角色与物体编辑/case2-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "3. 全能精准编辑与修改/3.1 角色与物体编辑/case3-ref2va",
+      "category": "3.1 角色与物体编辑",
+      "case_name": "case3-ref2va",
+      "user_prompt": "视频1中最后面的小孩换成 图1中的金毛狗， 视频1中最左边小孩穿的卡其色外套改成图2中的牛仔外套",
+      "overall_soundscape": "The overall soundscape is bright and joyful, driven entirely by an upbeat acoustic instrumental track that establishes a carefree, energetic atmosphere as the subjects run through the field.",
+      "non_diegetic_music": "An upbeat, fast-paced acoustic guitar instrumental track from <Audio 1> plays continuously, providing a cheerful and dynamic audience-only score that perfectly matches the running action.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "The Golden Retriever keeps pace with the children, its thick golden-blonde coat catching the golden hour highlights, its ears flopping rhythmically, and its pink tongue hanging out in a happy pant.",
+        "The upbeat acoustic instrumental music from <Audio 1> plays continuously throughout the scene, driving the carefree and joyful atmosphere until the video gracefully concludes."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "acoustic_instrumental",
+        "percussive_rhythmic"
+      ],
+      "soundscape_tags": [],
+      "music_function_tags": [
+        "edit_sync",
+        "rhythm_pacing"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.1 角色与物体编辑/case3-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "3. 全能精准编辑与修改/3.2 场景与视觉效果编辑/case1-ref2va",
+      "category": "3.2 场景与视觉效果编辑",
+      "case_name": "case1-ref2va",
+      "user_prompt": "将视频1绿幕背景去除，变成类似视频2的童话感背景，背景元素需要完全匹配视频1的人物动作。修改视频1的人物光线，使之完全匹配背景。",
+      "overall_soundscape": "Gentle rustling of magical plants, soft footsteps on the grassy terrain, and a faint, sparkling chiming ambience that swells as the flora reacts to the girl's movement.",
+      "non_diegetic_music": "An orchestral fantasy score with a sense of wonder, featuring soaring strings and a delicate, magical choir that builds gently toward the end of the video.",
+      "music_is_na": false,
+      "inline_audio_sentences": [],
+      "has_inline_audio": false,
+      "has_voice_or_dialogue": true,
+      "music_tags": [
+        "cinematic_trailer",
+        "acoustic_instrumental",
+        "vocal_song"
+      ],
+      "soundscape_tags": [
+        "environment_ambience",
+        "action_foley"
+      ],
+      "music_function_tags": [
+        "build_climax",
+        "ending_resolution"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.2 场景与视觉效果编辑/case1-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "3. 全能精准编辑与修改/3.2 场景与视觉效果编辑/case2-ref2va",
+      "category": "3.2 场景与视觉效果编辑",
+      "case_name": "case2-ref2va",
+      "user_prompt": "参考视频，改变光照，改成夜晚",
+      "overall_soundscape": "The soundscape features ambient street noise, breathing, sipping, a soft vocalization, and the clink of a cup directly reused from <Audio 1>, accompanied by continuous quiet nighttime street ambience to fit the extended duration.",
+      "non_diegetic_music": "N/A",
+      "music_is_na": true,
+      "inline_audio_sentences": [
+        "As the scene begins, the nighttime street ambience from <Audio 1> is heard.",
+        "<Subject 1> holds a small white cup near her chin, exhaling softly with an audible breath.",
+        "As she drinks, a distinct sipping sound from the copied portion of <Audio 1> plays.",
+        "She closes her eyes momentarily, savoring the beverage, and murmurs a soft, contented vocalization matching the audio track.",
+        "She then lowers her right hand, bringing the cup down and placing it onto the table with a soft clink, perfectly synchronized with the Foley from <Audio 1>.",
+        "The copied audio segment concludes, and a quiet, continuous nighttime street ambience remains audible through the rest of the target video's duration, while she maintains her relaxed, contemplative pose in the evening light."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [],
+      "soundscape_tags": [
+        "environment_ambience",
+        "action_foley",
+        "silence_dynamic"
+      ],
+      "music_function_tags": [],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.2 场景与视觉效果编辑/case2-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "3. 全能精准编辑与修改/3.2 场景与视觉效果编辑/case3-ref2va",
+      "category": "3.2 场景与视觉效果编辑",
+      "case_name": "case3-ref2va",
+      "user_prompt": "视频1窗外的场景改成图1",
+      "overall_soundscape": "The soundscape starts with the subtle sounds of a person stirring, followed by the loud, physical rustle of heavy fabric being pulled apart, and smoothly transitions into a peaceful, airy morning city ambience.",
+      "non_diegetic_music": "N/A",
+      "music_is_na": true,
+      "inline_audio_sentences": [
+        "The quiet room is briefly filled with the subtle sound of a person stirring and breathing.",
+        "The loud, heavy rustle of the thick fabric is heard as bright natural daylight suddenly floods the room, completely transforming the indoor lighting from dark to a vibrant, warm glow.",
+        "The ambient city atmosphere takes over the soundscape, replacing the initial quietness."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [],
+      "soundscape_tags": [
+        "environment_ambience",
+        "action_foley",
+        "impact_transition"
+      ],
+      "music_function_tags": [],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.2 场景与视觉效果编辑/case3-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "3. 全能精准编辑与修改/3.3 声音、台词与音色修改/case1-ref2va",
+      "category": "3.3 声音、台词与音色修改",
+      "case_name": "case1-ref2va",
+      "user_prompt": "将视频1女生说的话：“我们之间不可能在一起的，不是不爱，是我们真的走不到最后的”。改成音频1的台词：“别走了，好吗？这一次，我们不要放开彼此”，并略微调整对应的表演",
+      "overall_soundscape": "The soundscape features the new dialogue track with a trembling, emotional female voice, supported by quiet, natural evening cityscape ambience in the background.",
+      "non_diegetic_music": "N/A",
+      "music_is_na": true,
+      "inline_audio_sentences": [
+        "Initially, only a quiet, natural evening cityscape ambience is audible.",
+        "The young woman (S1) then speaks with a trembling, pleading voice, <d>[Chinese] 别走了，好吗？</d> As she delivers the line, her expression becomes more desperate, her brows furrowing slightly together.",
+        "After she finishes speaking, the dialogue audio from <Audio 2> ends.",
+        "Her lips close into a tense, natural line, and her face transitions from active speaking into a sustained expression of vulnerable, anxious anticipation.",
+        "The quiet, ambient atmosphere of the city evening remains audible through the end of the shot as she maintains her pleading, heartbroken posture until the extended video concludes."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": true,
+      "music_tags": [],
+      "soundscape_tags": [
+        "environment_ambience",
+        "voice_dialogue",
+        "silence_dynamic"
+      ],
+      "music_function_tags": [],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.3 声音、台词与音色修改/case1-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "3. 全能精准编辑与修改/3.4 高精度的指令遵循/case1-ref2va",
+      "category": "3.4 高精度的指令遵循",
+      "case_name": "case1-ref2va",
+      "user_prompt": "将参考视频中的报纸替换为一本绿色封皮的书；人物所坐的椅子改为红色沙发；去掉人物佩戴的墨镜，保留清晰面部；移除汽车燃烧效果，使车辆保持正常状态；人物从怀里拿出的照片改为一个黑色小本子；同时在画面左侧增加一棵树",
+      "overall_soundscape": "The soundscape consists of a continuous low rumbling drone and subtle ambient crackling that establish a quiet, atmospheric tone in the desert setting.",
+      "non_diegetic_music": "N/A",
+      "music_is_na": true,
+      "inline_audio_sentences": [
+        "[Shot 1] The video begins with a wide, static shot of a barren desert landscape under a hazy, pale sky.",
+        "The camera remains a perfectly static shot throughout the entire sequence, maintaining a steady, wide framing that captures the newly added tree, the intact, unburned <Subject 2>, and <Subject 1>'s quiet reading activity.",
+        "The audio track features a low rumbling drone and subtle ambient crackling sound from <Audio 1>, which plays continuously to support the atmospheric desert scene."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [],
+      "soundscape_tags": [
+        "environment_ambience",
+        "silence_dynamic"
+      ],
+      "music_function_tags": [],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.4 高精度的指令遵循/case1-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "3. 全能精准编辑与修改/3.4 高精度的指令遵循/case2-ref2va",
+      "category": "3.4 高精度的指令遵循",
+      "case_name": "case2-ref2va",
+      "user_prompt": "参考视频，将视频开头出现的易拉罐饮料替换为可口可乐；背景中原本发光的“全家”便利店招牌修改为“互惠”招牌；视频结尾塑料袋中的所有零食也统一替换为可口可乐易拉罐，最后结尾人物的台词从“买了一些小零食”变成了“买了一堆可乐”",
+      "overall_soundscape": "The video features an upbeat electronic background music track playing continuously, accompanied by the clear, natural voice of the young woman speaking to the camera and subtle Foley sounds of her movements and rustling the plastic bag.",
+      "non_diegetic_music": "An energetic, upbeat electronic pop instrumental from <Audio 1> plays constantly in the background, featuring a driving beat and synth melodies that maintain a lively tone.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "The young woman (S1), speaking in a casual and enthusiastic young female voice, says, <d>[Chinese] 这个是我最近发现的一个特别好喝的饮料，</d> while gesturing slightly with the can.",
+        "She then turns back to face the camera, drops her arm, and adds, <d>[Chinese] 是我经常来的一家店。</d> After speaking, she raises her left hand to lightly cover her mouth, smiles, drops her hand, and gives a confident thumbs-up to the camera.",
+        "As she holds the bag open with both hands to show its contents, the young woman (S1) says her final modified line, <d>[Chinese] 然后今天买了一堆可乐。</d> The camera pushes in slightly on the plastic bag full of Coca-Cola cans as she speaks.",
+        "After she finishes her sentence, she continues to hold the heavy bag open toward the lens, looking down at the cans as the upbeat background music from <Audio 1> continues playing through the end of the video."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": true,
+      "music_tags": [
+        "electronic_synth",
+        "percussive_rhythmic"
+      ],
+      "soundscape_tags": [
+        "action_foley",
+        "voice_dialogue"
+      ],
+      "music_function_tags": [
+        "rhythm_pacing"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.4 高精度的指令遵循/case2-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "3. 全能精准编辑与修改/3.4 高精度的指令遵循/case3-ref2va",
+      "category": "3.4 高精度的指令遵循",
+      "case_name": "case3-ref2va",
+      "user_prompt": "两位魔术师站在舞台上面向观众表演\"互换\"魔术： 两人同时挥动魔杖，一阵烟雾升起。烟雾散去后，两人的西装颜色互换——左边的人穿白色西装，右边的人现在穿黑色西装，但两人手套颜色不变。 两人鞠躬致谢，身后的红色幕布拉上，从深红色渐变为深蓝色",
+      "overall_soundscape": "A whimsical, theatrical soundscape featuring a dramatic \"poof\" sound effect for the smoke, followed by enthusiastic applause from the audience and the heavy, continuous swoosh of the stage curtains sliding shut.",
+      "non_diegetic_music": "A lively, magical orchestral track featuring light pizzicato strings and playful woodwinds, maintaining a steady, upbeat tempo that swells excitedly during the magic trick and concludes with a definitive, theatrical final chord.",
+      "music_is_na": false,
+      "inline_audio_sentences": [],
+      "has_inline_audio": false,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "cinematic_trailer",
+        "acoustic_instrumental",
+        "percussive_rhythmic"
+      ],
+      "soundscape_tags": [
+        "impact_transition"
+      ],
+      "music_function_tags": [
+        "rhythm_pacing",
+        "emotion_tone",
+        "build_climax",
+        "ending_resolution"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.4 高精度的指令遵循/case3-ref2va/output/official_ir/official_ir_prompt.txt"
+    },
+    {
+      "case_id": "3. 全能精准编辑与修改/3.4 高精度的指令遵循/case4-ref2va",
+      "category": "3.4 高精度的指令遵循",
+      "case_name": "case4-ref2va",
+      "user_prompt": "在视频1中两个人周围加上图片1 这种橙黄色的手绘涂鸦，随着视频1中两人靠近，手绘涂鸦越来越多，从小的火花变成很明亮的光芒，在视频1中两个人亲吻时，手绘涂鸦出现粉红色的笔触",
+      "overall_soundscape": "A romantic and magical soundscape featuring gentle, heartwarming background music, accompanied by subtle, sparkling, magical sound effects that synchronize with the appearance, glowing, and swirling of the animated hand-drawn doodles.",
+      "non_diegetic_music": "Soft, romantic acoustic guitar or piano music with a slow, tender tempo, building slightly in warmth and magical resonance during the kiss.",
+      "music_is_na": false,
+      "inline_audio_sentences": [
+        "The pink and orange strokes flicker, pulse, and swirl in a joyful, radiant display over the live-action embrace.",
+        "The camera remains a static close-up throughout the entire sequence, maintaining a steady composition on their upper bodies and faces while the hand-drawn overlay provides all the dynamic kinetic energy."
+      ],
+      "has_inline_audio": true,
+      "has_voice_or_dialogue": false,
+      "music_tags": [
+        "acoustic_instrumental"
+      ],
+      "soundscape_tags": [],
+      "music_function_tags": [
+        "rhythm_pacing",
+        "build_climax",
+        "ending_resolution"
+      ],
+      "source_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.4 高精度的指令遵循/case4-ref2va/output/official_ir/official_ir_prompt.txt"
+    }
+  ]
+}
