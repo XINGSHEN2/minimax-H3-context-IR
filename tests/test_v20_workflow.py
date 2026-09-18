@@ -21,7 +21,7 @@ def test_public_inputs_use_v20_and_preserve_evidence(tmp_path, monkeypatch, inpu
     before = copy.deepcopy(payload)
     answer = {"content_plan": {"bindings": [{"asset_id": "image_1"}],
               "shots": [{"start_seconds": 0, "end_seconds": 5}]},
-              "h3_prompt": "<Picture 1> Reveal the label on the red bottle.", "uncertainties": []}
+              "h3_prompt": "subject_definitions:\n<Picture 1> is the reference.\nsummary:\nReveal the product.\nretention_analysis:\n<Picture 1> is preserved.\ndetailed_description:\n[Shot 1] Reveal the label on the red bottle.\noverall_soundscape:\nQuiet room tone.\nnon_diegetic_music:\nN/A", "uncertainties": []}
     def resolve(source, invoke):
         resolved = copy.deepcopy(source)
         resolved["resolved_request"] = resolved["user_request"]

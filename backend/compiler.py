@@ -7,6 +7,10 @@ import re
 import time
 
 COMPILER_REVISION='singlecall.v37.compact_evidence'
+REQUIRED_H3_SECTIONS = (
+    'subject_definitions', 'summary', 'retention_analysis',
+    'detailed_description', 'overall_soundscape', 'non_diegetic_music',
+)
 def configured_h3_text_max_chars():
     """Only report a deployment limit when explicitly configured."""
     value = os.environ.get('CONTEXT_IR_H3_TEXT_MAX_CHARS', '').strip()
@@ -50,7 +54,26 @@ def transport_issues(result,evidence):
         for label,kind in [('Picture','image'),('Video','video')]:
             count=sum(a.get('media_type')==kind for a in evidence.get('assets',[]))
             if any(int(n)<1 or int(n)>count for n in re.findall(r'<'+label+r'\s+(\d+)>',prompt)):errors.append('Prompt references nonexistent '+label)
-        if any(h not in prompt for h in ['subject_definitions','summary','retention_analysis','detailed_description','overall_soundscape','non_diegetic_music']):warnings.append('Some official section labels are absent; inspect wording, no automatic rewrite')
+        section_matches = {
+            name: list(re.finditer(r'(?mi)^\s*' + re.escape(name) + r'\s*:', prompt))
+            for name in REQUIRED_H3_SECTIONS
+        }
+        missing = [name for name, matches in section_matches.items() if not matches]
+        duplicate = [name for name, matches in section_matches.items() if len(matches) > 1]
+        if missing:
+            errors.append('h3_prompt missing required sections: ' + ', '.join(missing))
+        if duplicate:
+            errors.append('h3_prompt has duplicate required sections: ' + ', '.join(duplicate))
+        if not missing and not duplicate:
+            ordered = [section_matches[name][0] for name in REQUIRED_H3_SECTIONS]
+            if [match.start() for match in ordered] != sorted(match.start() for match in ordered):
+                errors.append('h3_prompt required sections must appear in official order')
+            else:
+                for index, name in enumerate(REQUIRED_H3_SECTIONS):
+                    start = ordered[index].end()
+                    end = ordered[index + 1].start() if index + 1 < len(ordered) else len(prompt)
+                    if not prompt[start:end].strip():
+                        errors.append('h3_prompt required section is empty: ' + name)
     return errors,warnings
 
 def prepare_writer_evidence(evidence):

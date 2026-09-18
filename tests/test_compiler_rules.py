@@ -21,10 +21,23 @@ def invoke_compiler(evidence, invoke):
         result['compiler_revision']=result['transport_audit']['compiler_revision']
         return result
 
+VALID_H3 = '''subject_definitions:
+<Picture 1> is the reference.
+summary:
+A concise target video.
+retention_analysis:
+<Picture 1> is preserved.
+detailed_description:
+[Shot 1] A continuous view.
+overall_soundscape:
+Quiet room tone.
+non_diegetic_music:
+N/A'''
+
 class Tests(unittest.TestCase):
     def setUp(self):
         self.e={'task':{'duration_seconds':5},'assets':[{'asset_id':'image_1','media_type':'image'}]}
-        self.r={'content_plan':{'bindings':[{'asset_id':'image_1'}],'shots':[{'start_seconds':0,'end_seconds':5}]},'h3_prompt':'<Picture 1> valid body'}
+        self.r={'content_plan':{'bindings':[{'asset_id':'image_1'}],'shots':[{'start_seconds':0,'end_seconds':5}]},'h3_prompt':VALID_H3}
     def test_once_and_warning(self):
         calls=[];before=copy.deepcopy(self.e)
         result=invoke_compiler(self.e,lambda p:(calls.append(p) or copy.deepcopy(self.r)))
@@ -49,7 +62,13 @@ class Tests(unittest.TestCase):
         self.assertTrue(calls[0].startswith(COMPACT_WRITING_INSTRUCTIONS))
         self.assertEqual(calls[0].count(COMPACT_WRITING_INSTRUCTIONS),1)
         self.assertEqual(len(calls),1)
-    def test_new_notes_are_not_validation_gates(self):
+    def test_six_sections_are_required(self):
+        self.r['h3_prompt'] = '<Picture 1> incomplete body'
+        errors, warnings = transport_issues(self.r, self.e)
+        self.assertTrue(any('missing required sections' in error for error in errors))
+        self.assertFalse(warnings)
+
+    def test_complete_six_section_prompt_passes(self):
         self.assertFalse(transport_issues(self.r,self.e)[0])
     def test_user_constraints_preserved_in_model_input(self):
         self.e['user_request']='保留八个镜头，文字 ABC 原样保留'
