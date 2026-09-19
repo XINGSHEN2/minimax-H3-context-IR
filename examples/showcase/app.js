@@ -1,4 +1,4 @@
-const state={data:null,caseIndex:0,variant:'v31',generation:0},$=s=>document.querySelector(s),videos=()=>[...document.querySelectorAll('#comparison video')];
+const state={data:null,caseIndex:0,variant:'v43',generation:0},$=s=>document.querySelector(s),videos=()=>[...document.querySelectorAll('#comparison video')];
 async function textFile(path){if(!path)return '暂无 Prompt';try{const r=await fetch(path);if(!r.ok)throw Error();return await r.text()}catch{return '读取失败'}}
 function node(tag,text){const n=document.createElement(tag);if(text!==undefined)n.textContent=text;return n}
 async function render(){

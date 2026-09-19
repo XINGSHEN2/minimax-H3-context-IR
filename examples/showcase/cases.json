@@ -617,8 +617,51 @@
       "id": "feishu_11_case01",
       "title": "Case 1 · 四图望远镜搜索",
       "category": "1.1 品牌大片与影视内容",
-      "description": "默认页签：v33 精简分镜工作流；每镜单时间锚点，效果不单独授权切镜。其余页签为历史结果；Raw 与官方保持原始结果，并非严格同参数评测。",
+      "description": "默认页签：v43 连续转场运动弧线；有方向的甩镜以同一次运动跨越边界，在峰值换景后同方向减速落位，并禁止旧画面回闪。v33 为历史结果；Raw 与官方保持原始结果，并非严格同参数评测。",
       "variants": {
+        "v43": {
+          "label": "v43 · 连续转场运动弧线",
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case01/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_11_case01/original/raw/result.mp4",
+              "prompt": "data/feishu_11_case01/original/raw/h3_prompt.txt",
+              "request": "data/feishu_11_case01/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_11_case01/original/official_ir/result.mp4",
+              "prompt": "data/feishu_11_case01/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case01/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "v43": {
+              "label": "本地 IR · v43 连续转场运动弧线",
+              "status": "ready",
+              "video": "data/feishu_11_case01/v43/result.mp4",
+              "prompt": "data/feishu_11_case01/v43/h3_prompt.txt",
+              "request": "data/feishu_11_case01/v43/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.084,
+              "size": "1344×768",
+              "content_plan": "data/feishu_11_case01/v43/content_plan.json"
+            }
+          }
+        },
         "v33": {
           "label": "v33 · 精简分镜工作流",
           "groups": {
