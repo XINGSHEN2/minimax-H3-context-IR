@@ -733,8 +733,51 @@
       "id": "feishu_11_case02",
       "title": "Case 2 · 太空预告片",
       "category": "1.1 品牌大片与影视内容",
-      "description": "默认页签：v33 精简分镜工作流；每镜单时间锚点，效果不单独授权切镜。其余页签为历史结果；Raw 与官方保持原始结果，并非严格同参数评测。",
+      "description": "默认页签：v43 连续转场运动弧线；有方向和速度轨迹的转场以同一次运动跨越边界，瞬时遮蔽只定义一次，普通切镜不额外添加光学效果。v33 为历史结果；Raw 与官方保持原始结果，并非严格同参数评测。",
       "variants": {
+        "v43": {
+          "label": "v43 · 连续转场运动弧线",
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case02/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_11_case02/original/raw/result.mp4",
+              "prompt": "data/feishu_11_case02/original/raw/h3_prompt.txt",
+              "request": "data/feishu_11_case02/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_11_case02/original/official_ir/result.mp4",
+              "prompt": "data/feishu_11_case02/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case02/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "v43": {
+              "label": "本地 IR · v43 连续转场运动弧线",
+              "status": "ready",
+              "video": "data/feishu_11_case02/v43/result.mp4",
+              "prompt": null,
+              "request": null,
+              "context_ir": null,
+              "duration_seconds": 15.084,
+              "size": "1344×768",
+              "content_plan": null
+            }
+          }
+        },
         "v33": {
           "label": "v33 · 精简分镜工作流",
           "groups": {
@@ -791,8 +834,51 @@
       "id": "feishu_11_case03",
       "title": "Case 3 · 宇宙门开场",
       "category": "1.1 品牌大片与影视内容",
-      "description": "默认页签：v33 精简分镜工作流；每镜单时间锚点，效果不单独授权切镜。其余页签为历史结果；Raw 与官方保持原始结果，并非严格同参数评测。",
+      "description": "默认页签：v43 连续转场运动弧线；有方向和速度轨迹的转场以同一次运动跨越边界，瞬时遮蔽只定义一次，普通切镜不额外添加光学效果。v33 为历史结果；Raw 与官方保持原始结果，并非严格同参数评测。",
       "variants": {
+        "v43": {
+          "label": "v43 · 连续转场运动弧线",
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case03/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_11_case03/original/raw/result.mp4",
+              "prompt": "data/feishu_11_case03/original/raw/h3_prompt.txt",
+              "request": "data/feishu_11_case03/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_11_case03/original/official_ir/result.mp4",
+              "prompt": "data/feishu_11_case03/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case03/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "v43": {
+              "label": "本地 IR · v43 连续转场运动弧线",
+              "status": "ready",
+              "video": "data/feishu_11_case03/v43/result.mp4",
+              "prompt": null,
+              "request": null,
+              "context_ir": null,
+              "duration_seconds": 15.084,
+              "size": "1344×768",
+              "content_plan": null
+            }
+          }
+        },
         "v33": {
           "label": "v33 · 精简分镜工作流",
           "groups": {
@@ -854,8 +940,51 @@
       "id": "feishu_11_case04",
       "title": "Case 4 · 衣服与包时尚广告",
       "category": "1.1 品牌大片与影视内容",
-      "description": "默认页签：v33 精简分镜工作流；每镜单时间锚点，效果不单独授权切镜。其余页签为历史结果；Raw 与官方保持原始结果，并非严格同参数评测。",
+      "description": "默认页签：v43 连续转场运动弧线；有方向和速度轨迹的转场以同一次运动跨越边界，瞬时遮蔽只定义一次，普通切镜不额外添加光学效果。v33 为历史结果；Raw 与官方保持原始结果，并非严格同参数评测。",
       "variants": {
+        "v43": {
+          "label": "v43 · 连续转场运动弧线",
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case04/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_11_case04/original/raw/result.mp4",
+              "prompt": "data/feishu_11_case04/original/raw/h3_prompt.txt",
+              "request": "data/feishu_11_case04/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_11_case04/original/official_ir/result.mp4",
+              "prompt": "data/feishu_11_case04/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case04/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "v43": {
+              "label": "本地 IR · v43 连续转场运动弧线",
+              "status": "ready",
+              "video": "data/feishu_11_case04/v43/result.mp4",
+              "prompt": null,
+              "request": null,
+              "context_ir": null,
+              "duration_seconds": 15.084,
+              "size": "1344×768",
+              "content_plan": null
+            }
+          }
+        },
         "v33": {
           "label": "v33 · 精简分镜工作流",
           "groups": {
@@ -927,8 +1056,51 @@
       "id": "feishu_11_case05",
       "title": "Case 5 · 火焰时装广告",
       "category": "1.1 品牌大片与影视内容",
-      "description": "默认页签：v33 精简分镜工作流；每镜单时间锚点，效果不单独授权切镜。其余页签为历史结果；Raw 与官方保持原始结果，并非严格同参数评测。",
+      "description": "默认页签：v43 连续转场运动弧线；有方向和速度轨迹的转场以同一次运动跨越边界，瞬时遮蔽只定义一次，普通切镜不额外添加光学效果。v33 为历史结果；Raw 与官方保持原始结果，并非严格同参数评测。",
       "variants": {
+        "v43": {
+          "label": "v43 · 连续转场运动弧线",
+          "groups": {
+            "reference": {
+              "label": "参考成片",
+              "status": "ready",
+              "video": "data/feishu_11_case05/reference.mp4",
+              "duration_seconds": 15.084,
+              "size": "2560×1440"
+            },
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_11_case05/original/raw/result.mp4",
+              "prompt": "data/feishu_11_case05/original/raw/h3_prompt.txt",
+              "request": "data/feishu_11_case05/original/raw/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR · 原始结果",
+              "status": "ready",
+              "video": "data/feishu_11_case05/original/official_ir/result.mp4",
+              "prompt": "data/feishu_11_case05/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_11_case05/original/official_ir/request.json",
+              "context_ir": null,
+              "duration_seconds": 15.107,
+              "size": "1344×768"
+            },
+            "v43": {
+              "label": "本地 IR · v43 连续转场运动弧线",
+              "status": "ready",
+              "video": "data/feishu_11_case05/v43/result.mp4",
+              "prompt": null,
+              "request": null,
+              "context_ir": null,
+              "duration_seconds": 15.084,
+              "size": "1344×768",
+              "content_plan": null
+            }
+          }
+        },
         "v33": {
           "label": "v33 · 精简分镜工作流",
           "groups": {
