@@ -6,7 +6,7 @@ Write all six rewrite sections in English. Preserve the original language only f
 
 **Description detail:** Write the concrete detail needed to execute each shot: composition and subject position, visible action through its intended result, camera behavior, relevant changes in lighting or environment, timed sound, and reference application. Fixed appearance belongs in `subject_definitions`; shared style belongs in the global opening. Refer to those definitions instead of repeating them in each shot, unless the user explicitly requires repetition. Preserve every explicit user requirement without adding detail merely to lengthen the prose.
 
-> The basic formats for shots, camera movement, speakers, dialogue, and ordinary sound are shared with the Video Prompt Writing Guide (T2VA / I2VA / FL2VA / L2VA). This guide focuses on the reference labels, analysis sections, and format differences specific to full-reference mode.
+> The basic formats for shots, camera movement, speakers, dialogue, and ordinary sound are shared with the Shared H3 Prompt Protocol. This guide focuses on the reference labels, analysis sections, and format differences specific to full-reference mode.
 
 ## 1. Overall Structure
 
@@ -212,7 +212,7 @@ This is the main body of a full-reference rewrite. It describes visuals, actions
 
 ### 5.1 Basic Format
 
-The basic format follows the Video Prompt Writing Guide (T2VA / I2VA / FL2VA / L2VA):
+The basic format follows the Shared H3 Prompt Protocol:
 
 - Write the body in English. Preserve the original language of dialogue, lyrics, and visible text.
 - `[Shot 1]` marks the opening shot and has no timestamp. Later shots use `[Shot N] At MM:SS.mmm, ...` to mark cut times.
@@ -220,7 +220,7 @@ The basic format follows the Video Prompt Writing Guide (T2VA / I2VA / FL2VA / L
 - Give vocal sources stable `(S1)`, `(S2)`, and subsequent IDs. Write dialogue and lyrics as `<d>[Language] ...</d>`.
 - Use `<scenetrans>`, `<cutoff>`, and the corresponding continuity descriptions for dialogue crossing a cut, speech truncated by the video ending, and continuous audio across shots.
 
-For complete rules and examples covering camera vocabulary, group speech, voice-over, dialogue across cuts, and visible text, see the Video Prompt Writing Guide (T2VA / I2VA / FL2VA / L2VA).
+For complete rules and examples covering camera vocabulary, group speech, voice-over, dialogue across cuts, and visible text, see the Shared H3 Prompt Protocol.
 
 ### 5.2 Full-Reference Mode Differences
 
@@ -279,7 +279,7 @@ Assign `(Sx)` once according to the order of actual vocal events in the target v
 
 ## 6. `overall_soundscape` and `non_diegetic_music`
 
-The definitions of these two sound categories follow the Video Prompt Writing Guide (T2VA / I2VA / FL2VA / L2VA).
+The definitions of these two sound categories follow the Shared H3 Prompt Protocol.
 
 `overall_soundscape` summarizes ambience and physical sounds across the full video. Dialogue, singing, and sound events synchronized to a particular shot remain in `detailed_description`:
 

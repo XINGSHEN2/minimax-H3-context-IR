@@ -6,7 +6,7 @@ import os
 import re
 import time
 
-COMPILER_REVISION='singlecall.v44.official_audio_structure'
+COMPILER_REVISION='singlecall.v45.profiled_skill_guides'
 REQUIRED_H3_SECTIONS = (
     'subject_definitions', 'summary', 'retention_analysis',
     'detailed_description', 'overall_soundscape', 'non_diegetic_music',
@@ -94,7 +94,7 @@ def prepare_writer_evidence(evidence):
 
 
 def compile_prompt(source, output_dir, reasoning, timings, started, progress=None):
-    from backend.agent import invoke_reasoning_json, CORE_SKILLS
+    from backend.agent import invoke_reasoning_json, CORE_SKILLS, prompt_profile_for_source
     from backend.evidence import build_writer_evidence
     from backend.prompt_instructions import build_compact_writing_prompt
     from backend.contracts import build_h3_request
@@ -107,7 +107,12 @@ def compile_prompt(source, output_dir, reasoning, timings, started, progress=Non
     instruction = build_compact_writing_prompt(evidence)
     (output_dir / 'compiler_instructions.txt').write_text(instruction, encoding='utf-8')
     tick = time.perf_counter()
-    result = invoke_reasoning_json(instruction, reasoning, output_dir / 'writer_1.log', list(CORE_SKILLS))
+    prompt_profile = prompt_profile_for_source(source)
+    result = invoke_reasoning_json(
+        instruction, reasoning, output_dir / 'writer_1.log', list(CORE_SKILLS),
+        prompt_profile=prompt_profile,
+    )
+    timings['prompt_profile'] = prompt_profile
     timings['stages_seconds']['single_call_compile'] = round(time.perf_counter() - tick, 3)
     if progress:
         progress('validation')

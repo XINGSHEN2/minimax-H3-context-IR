@@ -7,6 +7,7 @@ from dataclasses import asdict, dataclass, field
 from typing import Any, Mapping
 SOURCE_SCHEMA_VERSION = "context_request.v1"
 SUPPORTED_TASKS = {"t2va", "i2va", "fl2va", "l2va", "ref2va"}
+SUPPORTED_PROMPT_PROFILES = {"auto", "ref2va", "base"}
 SUPPORTED_MEDIA_TYPES = {"image", "video", "audio"}
 SUPPORTED_PRIORITIES = {"hard", "soft"}
 DIRECTIVE_OPERATIONS = {"preserve", "replace", "transfer", "may_change", "exclude"}
@@ -68,6 +69,7 @@ def normalize_source_request(source: Mapping[str, Any]) -> dict[str, Any]:
         # explicitly set false keep that decision, while omitted audio intent
         # receives the same complete sound-design default as the official IR.
         task.setdefault("generate_audio", True)
+        task.setdefault("prompt_profile", "auto")
     return payload
 
 def validate_source_request(source: Mapping[str, Any]) -> ValidationReport:
@@ -90,6 +92,13 @@ def validate_source_request(source: Mapping[str, Any]) -> ValidationReport:
         task = {}
     if task.get("type") not in SUPPORTED_TASKS:
         report.add("SOURCE_TASK_TYPE_INVALID", "unsupported task type", "$.task.type")
+    profile = task.get("prompt_profile", "auto")
+    if profile not in SUPPORTED_PROMPT_PROFILES:
+        report.add("SOURCE_PROMPT_PROFILE_INVALID", "prompt_profile must be auto, ref2va, or base", "$.task.prompt_profile")
+    elif profile == "ref2va" and task.get("type") != "ref2va":
+        report.add("SOURCE_PROMPT_PROFILE_MISMATCH", "ref2va prompt profile requires task.type ref2va", "$.task.prompt_profile")
+    elif profile == "base" and task.get("type") == "ref2va":
+        report.add("SOURCE_PROMPT_PROFILE_MISMATCH", "base prompt profile cannot be used with task.type ref2va", "$.task.prompt_profile")
     duration = task.get("duration_seconds")
     if type(duration) not in (int, float) or not math.isfinite(duration) or duration <= 0:
         report.add("SOURCE_DURATION_INVALID", "duration_seconds must be finite and positive", "$.task.duration_seconds")

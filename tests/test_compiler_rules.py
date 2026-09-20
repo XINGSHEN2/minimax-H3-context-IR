@@ -12,7 +12,7 @@ def invoke_compiler(evidence, invoke):
     for asset in source['assets']: asset.setdefault('uri','/tmp/reference.png')
     with tempfile.TemporaryDirectory() as directory:
         out=Path(directory)
-        with patch('backend.evidence.build_writer_evidence',return_value=source), patch('backend.agent.invoke_reasoning_json',side_effect=lambda prompt,*args:invoke(prompt)):
+        with patch('backend.evidence.build_writer_evidence',return_value=source), patch('backend.agent.invoke_reasoning_json',side_effect=lambda prompt,*args,**kwargs:invoke(prompt)):
             try: compile_prompt(source,out,{}, {'stages_seconds':{}},time.perf_counter())
             except ValueError: pass
         result=json.loads((out/'compilation_result.json').read_text())
@@ -55,7 +55,7 @@ class Tests(unittest.TestCase):
     def test_editorial_rules_and_revision(self):
         calls=[]
         result=invoke_compiler(self.e,lambda p:(calls.append(p) or copy.deepcopy(self.r)))
-        for heading in ['第二阶段：最终分镜','subject_definitions：','同一分析中','developments','development_ids','最小充分补全','每个 Shot 默认只在开头写一个绝对起始时间','不输出 action_units、shot_merge_audit','实际写入前镜结尾和后镜开头','每个 Shot 至少承载一个内容 development','不等于锁定独立 Shot']:
+        for heading in ['第二阶段：最终分镜','subject_definitions：','同一分析中','developments','development_ids','最小充分补全','每个 Shot 默认只在开头写一个绝对起始时间','不输出 action_units、shot_merge_audit','实际写入前镜结尾和后镜开头','每个 Shot 至少承载一个内容 development','叠加在画面上的标题默认不独立成镜']:
             self.assertIn(heading,calls[0])
         self.assertEqual(result['compiler_revision'],COMPILER_REVISION)
         from backend.prompt_instructions import COMPACT_WRITING_INSTRUCTIONS
@@ -104,11 +104,11 @@ class Tests(unittest.TestCase):
         calls=[]
         self.e['user_request']='Keep fast cuts, flash-white transitions and the original soundtrack.'
         result=invoke_compiler(self.e,lambda p:(calls.append(p) or copy.deepcopy(self.r)))
-        for phrase in ['跨切镜续接动作阶段','同步声音的物理触发',
-                       '动作、方向、空间、持物','停止走动即停止',
-                       '画外动作持续','自然余响可以跨切点',
-                       '快速、硬切、电影感','锁定音轨',
-                       '无据的精确接触时刻']:
+        for phrase in ['跨切镜续接动作阶段','声音必须有明确物理触发',
+                       '动作、方向、空间、持物','精确同步、传递因果或跨镜延续',
+                       '持续环境底层','前景声音只保留承担同步',
+                       'editing_treatments','用户指定参考音轨时优先说明复用范围',
+                       '不可辨接触']:
             self.assertIn(phrase,calls[0])
         self.assertIn(self.e['user_request'],calls[0])
         self.assertEqual(result['llm_calls'],1)
@@ -118,9 +118,9 @@ class Tests(unittest.TestCase):
         self.e['user_request']='Follow the reference action; keep its ending. Reference voice timbre only.'
         result=invoke_compiler(self.e,lambda p:(calls.append(p) or copy.deepcopy(self.r)))
         for phrase in ['以原始 user_request 为依据','补全原则：保留有作用的补全',
-                       '不能以相似动作替代','完整保留用户明确要求',
-                       '不以固定字符目标牺牲要求覆盖',
-                       '不得擅加复制区间',
+                       '不能以相似动作替代','用户明确的内容、动作、顺序、时间、镜头、素材用途和结局必须保留',
+                       '不以字数目标牺牲要求覆盖',
+                       '用户指定参考音轨时优先说明复用范围',
                        '没有用户依据时不重复启动动作',
                        '关键参考证据缺失']:
             self.assertIn(phrase,calls[0])

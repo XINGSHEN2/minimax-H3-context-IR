@@ -81,89 +81,9 @@ At the beginning of `[Shot 1]`, state the overall style and initial composition.
 [Shot 1] Live-action, cinematic, a medium-wide shot frames...
 ```
 
-### 4.2 Shots and Cuts
+### 4.2 Shared Shot, Camera, Speech, Text, and Audio Rules
 
-Do not add a timestamp to the first shot. Use sequential shot numbers for later shots, and begin each one with a strictly increasing cut time that falls within the video duration:
-
-```text
-[Shot 2] At 00:03.500, the camera cuts to...
-```
-
-For ordinary cuts, use `the camera cuts to`, `the shot cuts to`, `the shot transitions to`, `the shot changes to`, or `the shot switches to`. When explicitly requested by the user, cross-dissolve, fade, or wipe may also be used. A cut should introduce new information about the subject, space, state, viewpoint, or time. If only the distance or a slight angle needs to change, prefer camera motion.
-
-### 4.3 Camera Motion: Motion Type + Amplitude + Speed
-
-A complete camera-motion expression has three dimensions: the **motion type** defines how the camera moves, **amplitude** defines the range of compositional change, and **speed** defines the pacing of that change. Add amplitude and speed only when they are meaningful; medium amplitude and normal speed are usually omitted.
-
-| Dimension | Available Expression | Description |
-|-|-|-|
-| Motion type | `Zoom In / Zoom Out` | The focal length changes while the camera body remains stationary |
-| Motion type | `Push In / Pull Out` | The camera moves forward / backward |
-| Motion type | `Pan Left / Pan Right` | The camera remains in place while the lens pivots horizontally |
-| Motion type | `Truck Left / Truck Right` | The camera translates horizontally |
-| Motion type | `Tilt Up / Tilt Down` | The camera remains in place while the lens pivots vertically |
-| Motion type | `Pedestal Up / Pedestal Down` | The entire camera moves upward / downward |
-| Motion type | `Arc Shot` | The camera moves in an arc around the subject |
-| Motion type | `Tracking Shot` | The camera follows a moving subject |
-| Motion type | `Static Shot` | The camera position and lens remain still |
-| Motion type | `Shake Slightly / Shake Strongly` | Slight / strong camera shake |
-| Motion type | `POV` | The subject's point of view |
-| Motion type | `Roll Clockwise / Roll Counterclockwise` | The camera rolls clockwise / counterclockwise around the lens axis |
-| Amplitude | `with small amplitude` | Small-range change |
-| Amplitude | `with large amplitude` | Large-range change |
-| Speed | `at slow speed` | Slow movement |
-| Speed | `at fast speed` | Fast movement |
-
-Camera motion should be written as a natural English action within the shot, rather than stacked as separate labels at the end of a sentence:
-
-```text
-The camera pushes in with small amplitude at slow speed toward the folded letter in her hands.
-The camera pans right with large amplitude at fast speed, revealing the open doorway.
-The camera holds a static shot as the runner exits the frame.
-```
-
-### 4.4 Speakers, Dialogue, and Singing
-
-Subjects who speak, sing, or produce an off-screen human voice use stable IDs such as `(S1)` and `(S2)`. When multiple already-numbered speakers speak or sing together, use a compound ID such as `(S1,S2)`. A speaker keeps the same ID across shots; characters who never vocalize receive no speaker ID.
-
-When a speaker first appears, provide enough information from the visual and audio context to establish a stable identity, such as character type, age, gender, whether the person is on-screen, pitch, timbre, speaking rate, or accent. Place the speaker's identifying phrase, ID, action, and delivery outside `<d>`. Inside `<d>`, include only the language tag and the actual user-provided spoken content. Preserve every original word and punctuation mark verbatim; do not translate or rewrite them.
-
-```text
-The young woman with a quiet, breathy voice (S1) says: <d>[English] I get off at the next station.</d>
-The two children (S1,S2) shout together, <d>[English] Wait for us!</d>
-```
-
-For voiceover, use the exact phrase `says in an off-screen voiceover`. Immediately after every voiceover `<d>` block, state that the corresponding on-screen character's lips remain closed:
-
-```text
-The man (S1) says in an off-screen voiceover: <d>[English] I still remember that road.</d> while his lips remain completely closed.
-```
-
-When the same line of dialogue or lyrics crosses a cut, use `<scenetrans>` at the connecting points in both parts and explicitly state that the audio continues across the cut. Use `<cutoff>` when speech is truncated by the end of the video. Continuity may be expressed with `continues seamlessly across the cut`, `continues uninterrupted into the next shot`, `carries over from the previous shot`, or `remains audible across the transition`.
-
-### 4.5 On-Screen Text
-
-Place any banner, sign, label, subtitle, or neon text that is actually visible on screen in English double quotation marks. Preserve the original text and punctuation verbatim, without translation.
-
-```text
-A red neon sign reading "营业中" glows above the doorway.
-```
-
-### 4.6 overall_soundscape
-
-Use 1–3 English sentences in one continuous paragraph. Select only the elements the video needs: a continuous environmental bed, a few prominent foreground sounds with visible physical causes, any necessary spatial or dynamic relationship, and the ending sound state. Establish location and continuity before naming action, human, mechanical, or material sounds. Describe distance, interior/exterior separation, masking, cross-shot continuation, a transition into quiet, or final silence only when it matters. Do not inventory every visible object's Foley or repeat dialogue, singing, diegetic music, and precisely synchronized cues already stated in the shot descriptions. Use `N/A` only when the user explicitly requests complete silence throughout the video.
-
-```text
-overall_soundscape: Steady rain taps against the café windows while low room ambience continues underneath. The entrance bell rings once, followed by wet footsteps and the soft scrape of a chair.
-```
-
-### 4.7 non_diegetic_music
-
-First decide whether audience-only music provides a function that ambience, dialogue, and action sound cannot replace: cross-shot rhythm, emotional unity, climax shaping, genre identity, or brand texture. Use `N/A` when it does not. When music is useful, write 1–2 English sentences in this preferred order: primary tonal character and musical style; rhythm and energy; defining instruments or timbres; primary narrative function; and any necessary mix or ending relationship. Use clear, executable style and mood terms. Name no more than three principal instruments or timbres. State one primary function and add a secondary function only when necessary. When dialogue is present, keep the music quietly underneath it or explicitly prevent it from overpowering speech. When environmental sound carries narrative information, preserve its audibility. When an action sound or impact is the focus, leave transient and dynamic space for it. Mention a rise, fade, abrupt stop, or final chord only when needed. Do not score every shot or repeat effects already specified in `overall_soundscape` or the shot descriptions. When the user specifies a reference track, prioritize its reuse span, synchronization relationship, and stopping point. Music audible to characters remains diegetic and belongs in the shot description.
-
-```text
-non_diegetic_music: Sparse piano notes at a slow tempo, joined by sustained low strings that gradually increase in volume before fading out.
-```
+Follow `references/shared-en.txt`. It is injected before this mode-specific guide.
 
 ## 5. Cases
 
