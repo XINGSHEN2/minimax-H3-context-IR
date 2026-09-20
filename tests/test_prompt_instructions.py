@@ -62,6 +62,7 @@ def test_scene_and_shot_decisions_live_in_shot_planning_skill():
         "把“允许补全”和“允许扩写故事”分开判断",
         "默认只建立一条主要动作弧",
         "不要把造型手势、火焰突然升级",
+        "对参与揭示、取得、交接、穿戴、启用或损坏的连续性关键物体维护状态",
         "同一现象从微弱、增强到峰值",
         "快节奏表示有效信息推进更紧凑",
         "同一时间、空间、主体和动作目标默认放在一个连续镜头内",
@@ -98,6 +99,18 @@ def test_h3_execution_rules_live_in_system_skill():
         "完整运动弧线压成单个模糊帧",
         "旧内容不得重新清晰、混合或恢复",
         "人物停止行走时脚步声停止",
+    ):
+        assert phrase in SHARED_GUIDE
+        assert phrase not in COMPACT_WRITING_INSTRUCTIONS
+
+
+def test_audio_energy_and_prop_state_live_in_shared_writing_guide():
+    for phrase in (
+        "后续才被揭示、取得、交接、穿戴或启用的物体必须保持阶段状态",
+        "不能让该物体提前出现在人物手中",
+        "不能仅靠“不提及”表达缺席",
+        "配乐的速度、能量和动态弧必须从已经锁定的视觉节奏推导",
+        "不要让音乐能量与画面能量相反",
     ):
         assert phrase in SHARED_GUIDE
         assert phrase not in COMPACT_WRITING_INSTRUCTIONS
