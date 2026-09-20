@@ -4,9 +4,9 @@
 2. `resolve_intent` 调用推理模型解析用户需求、素材引用、directives 和 perception_plan。原始 user_request 保持最高优先级。调用方提供已解析需求并显式设置 intent_resolved 时可跳过此调用。
 3. `ensure_perception` 使用 Qwen 分析素材，或复用调用方／文件提供的 media_analysis.v2。调用方描述会标记为未独立验证的证据。
 4. `build_writer_evidence` 整理证据；`prepare_writer_evidence` 仅移除观察置信分数，不删除用户约束。
-5. `compile_prompt` 拼接 v20 RULES 与 `build_compact_writing_prompt`；`invoke_reasoning_json` 注入 AGENTS.md、h3-prompt-writing、shared-zh-en.txt，以及按 Profile 选择的 base-zh-en.txt 或 ref2va-zh-en.txt。h3-shot-planning 保留在仓库中但当前不注入模型。
+5. `compile_prompt` 将内容规划工作流、素材证据和最终 JSON 响应契约组成 user prompt；响应契约放在素材证据之后。`invoke_reasoning_json` 将 AGENTS.md、h3-prompt-writing、shared-zh-en.txt，以及按 Profile 选择的 base-zh-en.txt 或 ref2va-zh-en.txt 注入 system prompt。H3 格式、镜头执行和音频写法以 system Skill 为唯一来源；h3-shot-planning 保留在仓库中但当前不注入模型。
 6. `DirectChatRuntime.invoke_json` 发送 `/chat/completions`。模型联合输出 content_plan、h3_prompt、uncertainties。没有独立导演或语义修复阶段。
-7. `transport_issues` 检查结果字段、素材编号、镜头时间连续性及目标时长；官方章节缺失只提示警告。程序不验证语义完整性。
+7. `transport_issues` 检查结果字段、六个 H3 板块、素材编号、镜头时间连续性及目标时长。程序不验证语义完整性。
 8. 保存轻量 IR、原样 Prompt、H3 请求和诊断文件。视频生成由单独能力显式触发。
 
 正常路径包含一次意图调用及一次编译调用，另有素材理解调用。复用分析不会自动跳过意图解析。底层 Direct Chat 仍保留网关不支持 response_format 时的兼容重发，以及 JSON 语法修复调用；因此 llm_calls=1 表示编译器调用次数，并非所有情况下的 HTTP 请求总数。输出截断会报错，不拼接缺失内容。

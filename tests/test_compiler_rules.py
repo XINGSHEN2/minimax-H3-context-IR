@@ -55,7 +55,7 @@ class Tests(unittest.TestCase):
     def test_editorial_rules_and_revision(self):
         calls=[]
         result=invoke_compiler(self.e,lambda p:(calls.append(p) or copy.deepcopy(self.r)))
-        for heading in ['第二阶段：最终分镜','subject_definitions：','同一分析中','developments','development_ids','最小充分补全','每个 Shot 默认只在开头写一个绝对起始时间','不输出 action_units、shot_merge_audit','实际写入前镜结尾和后镜开头','每个 Shot 至少承载一个内容 development','叠加在画面上的标题默认不独立成镜']:
+        for heading in ['第二阶段：最终分镜','第三阶段：锁定计划并交接 H3','同一分析中','developments','development_ids','最小充分补全','不得借写作过程新增、删除、合并或重新拆分','最终响应契约','不输出 action_units 或 shot_merge_audit','每个 Shot 至少承载一个内容 development','叠加在画面上的标题默认不独立成镜']:
             self.assertIn(heading,calls[0])
         self.assertEqual(result['compiler_revision'],COMPILER_REVISION)
         from backend.prompt_instructions import COMPACT_WRITING_INSTRUCTIONS
@@ -100,16 +100,19 @@ class Tests(unittest.TestCase):
         self.assertIn('其拼写与 OCR 冲突',calls[0])
         self.assertIn('仅描述素材时',calls[0])
         self.assertEqual(len(calls),1)
-    def test_continuity_and_foley_rules_in_same_call(self):
+    def test_execution_rules_are_delegated_to_system_skill(self):
         calls=[]
         self.e['user_request']='Keep fast cuts, flash-white transitions and the original soundtrack.'
         result=invoke_compiler(self.e,lambda p:(calls.append(p) or copy.deepcopy(self.r)))
-        for phrase in ['跨切镜续接动作阶段','声音必须有明确物理触发',
-                       '动作、方向、空间、持物','精确同步、传递因果或跨镜延续',
-                       '持续环境底层','前景声音只保留承担同步',
-                       'editing_treatments','用户指定参考音轨时优先说明复用范围',
-                       '不可辨接触']:
+        for phrase in ['第三阶段：锁定计划并交接 H3',
+                       '按照 system prompt 中的 H3 Prompt Writing Skill',
+                       '音频不得新增或改变视觉事件',
+                       'editing_treatments','最终响应契约']:
             self.assertIn(phrase,calls[0])
+        for moved_phrase in ['每个边界只允许一个转场事件',
+                             '同一次、同方向、尚未结束',
+                             '声音必须有明确物理触发']:
+            self.assertNotIn(moved_phrase,calls[0])
         self.assertIn(self.e['user_request'],calls[0])
         self.assertEqual(result['llm_calls'],1)
         self.assertFalse(result['transport_audit']['semantic_quality_verified'])
@@ -119,8 +122,8 @@ class Tests(unittest.TestCase):
         result=invoke_compiler(self.e,lambda p:(calls.append(p) or copy.deepcopy(self.r)))
         for phrase in ['以原始 user_request 为依据','补全原则：保留有作用的补全',
                        '不能以相似动作替代','用户明确的内容、动作、顺序、时间、镜头、素材用途和结局必须保留',
-                       '不以字数目标牺牲要求覆盖',
-                       '用户指定参考音轨时优先说明复用范围',
+                       '按照 system prompt 中的 H3 Prompt Writing Skill',
+                       '音频不得新增或改变视觉事件',
                        '没有用户依据时不重复启动动作',
                        '关键参考证据缺失']:
             self.assertIn(phrase,calls[0])

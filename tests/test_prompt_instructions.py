@@ -1,27 +1,27 @@
 import copy
 import json
-from unittest.mock import Mock
+from pathlib import Path
 
-import pytest
+from backend.prompt_instructions import (
+    COMPACT_WRITING_INSTRUCTIONS,
+    RESPONSE_CONTRACT,
+    build_compact_writing_prompt,
+)
 
-from backend.prompt_instructions import COMPACT_WRITING_INSTRUCTIONS, build_compact_writing_prompt
-
-
-def test_instructions_prioritize_content_and_evidence_over_specificity():
-    assert '即使标为 visible' in COMPACT_WRITING_INSTRUCTIONS
-    assert '有证据支持的共同外观' in COMPACT_WRITING_INSTRUCTIONS
-    assert '完整处于画面内并留边距' in COMPACT_WRITING_INSTRUCTIONS
-    assert '用户明确要求裁切字形' in COMPACT_WRITING_INSTRUCTIONS
-
-
-def test_multiview_details_include_people_not_only_products():
-    assert '同一对象的互补视图' in COMPACT_WRITING_INSTRUCTIONS
-    assert '服装领口/版型/长度' in COMPACT_WRITING_INSTRUCTIONS
-    assert '不同人物或产品' in COMPACT_WRITING_INSTRUCTIONS
-    assert '实际落实到 h3_prompt' in COMPACT_WRITING_INSTRUCTIONS
+ROOT = Path(__file__).resolve().parents[1]
+SHARED_GUIDE = (ROOT / "skills/h3-prompt-writing/references/shared-zh-en.txt").read_text(encoding="utf-8")
+REF2VA_GUIDE = (ROOT / "skills/h3-prompt-writing/references/ref2va-zh-en.txt").read_text(encoding="utf-8")
 
 
-def test_one_call_preserves_input_constraints_and_authored_content():
+def test_instructions_prioritize_content_and_evidence():
+    assert "即使标为 visible" in COMPACT_WRITING_INSTRUCTIONS
+    assert "有证据支持的共同外观" in COMPACT_WRITING_INSTRUCTIONS
+    assert "同一对象的互补视图" in COMPACT_WRITING_INSTRUCTIONS
+    assert "不同人物或产品" in COMPACT_WRITING_INSTRUCTIONS
+    assert "不要把素材分析逐项搬入" in COMPACT_WRITING_INSTRUCTIONS
+
+
+def test_evidence_precedes_response_contract_without_mutation():
     evidence = {
         "user_request": "只替换台词：别走了，好吗？",
         "completion_policy": {"creative": False},
@@ -30,46 +30,77 @@ def test_one_call_preserves_input_constraints_and_authored_content():
     }
     original = copy.deepcopy(evidence)
     sent = build_compact_writing_prompt(evidence)
-    assert json.loads(sent[len(COMPACT_WRITING_INSTRUCTIONS):]) == original
+    suffix = "\n\n" + RESPONSE_CONTRACT
+    assert sent.startswith(COMPACT_WRITING_INSTRUCTIONS)
+    assert sent.endswith(suffix)
+    encoded = sent[len(COMPACT_WRITING_INSTRUCTIONS):-len(suffix)]
+    assert json.loads(encoded) == original
+    assert sent.index('"user_request"') < sent.index("最终响应契约")
     assert evidence == original
 
 
-def test_h3_prompt_contract_requires_a_string():
-    assert 'h3_prompt 必须是一个包含完整六节 H3 文本的字符串' in COMPACT_WRITING_INSTRUCTIONS
-    assert '不能是对象、数组或分节字段' in COMPACT_WRITING_INSTRUCTIONS
+def test_response_contract_only_defines_outer_payload():
+    assert "顶层严格为 content_plan、h3_prompt、uncertainties" in RESPONSE_CONTRACT
+    assert "h3_prompt 必须是一个字符串" in RESPONSE_CONTRACT
+    assert "不能是对象、数组或分节字段" in RESPONSE_CONTRACT
+    assert "subject_definitions：" not in RESPONSE_CONTRACT
+    assert "non_diegetic_music：" not in RESPONSE_CONTRACT
+
+
+def test_third_stage_locks_plan_and_delegates_writing():
+    assert "第三阶段：锁定计划并交接 H3" in COMPACT_WRITING_INSTRUCTIONS
+    assert "按照 system prompt 中的 H3 Prompt Writing Skill" in COMPACT_WRITING_INSTRUCTIONS
+    assert "不得借写作过程新增、删除、合并或重新拆分" in COMPACT_WRITING_INSTRUCTIONS
+    assert "每个事件、动作阶段、结果和切点都必须映射" in COMPACT_WRITING_INSTRUCTIONS
+
+
+def test_h3_execution_rules_live_in_system_skill():
+    for phrase in (
+        "每个 Shot 默认只在开头写一个绝对起始时间",
+        "同一次、同方向、尚未结束",
+        "完整运动弧线压成单个模糊帧",
+        "旧内容不得重新清晰、混合或恢复",
+        "人物停止行走时脚步声停止",
+    ):
+        assert phrase in SHARED_GUIDE
+        assert phrase not in COMPACT_WRITING_INSTRUCTIONS
+
+
+def test_ref2va_information_assignment_lives_in_profile_guide():
+    for phrase in (
+        "高价值锚点写法",
+        "默认使用两到三个英文句子",
+        "哪些锚点必须跨镜保留",
+        "前三个板块的信息边界与去重",
+    ):
+        assert phrase in REF2VA_GUIDE
+        assert phrase not in COMPACT_WRITING_INSTRUCTIONS
 
 
 def test_shot_scope_policy_shared_by_both_stages():
     from backend.prompt_instructions import SHOT_SCOPE_RULES
     from backend.intent_resolver import build_intent_prompt
     for request in (
-        'Shot 1 人物背对镜头。→ Hard cut。非完整Prompt，可自行补充',
-        '全程一镜到底，不要增加镜头',
-        '片尾硬切结束，不要后续画面',
+        "Shot 1 人物背对镜头。→ Hard cut。非完整Prompt，可自行补充",
+        "全程一镜到底，不要增加镜头",
+        "片尾硬切结束，不要后续画面",
     ):
-        source = {'user_request': request, 'assets': []}
+        source = {"user_request": request, "assets": []}
         for prompt in (build_intent_prompt(source), build_compact_writing_prompt(source)):
             assert prompt.count(SHOT_SCOPE_RULES) == 1
             assert request in prompt
-            assert '未描述后续' in prompt
-            assert '片尾硬切' in prompt
-            assert '不能以派生指令自身作证' in prompt
+            assert "未描述后续" in prompt
+            assert "片尾硬切" in prompt
+            assert "不能以派生指令自身作证" in prompt
 
 
 def test_minimum_completion_reaches_both_stages_without_changing_request():
     from backend.prompt_instructions import COMPLETION_RULES
     from backend.intent_resolver import build_intent_prompt
-    for request in ('仅提供开场，可补充细节', '大胆发挥，设计完整故事和高潮', '严格复刻，一镜到底'):
-        source = {'user_request': request, 'assets': []}
+    for request in ("仅提供开场，可补充细节", "大胆发挥，设计完整故事和高潮", "严格复刻，一镜到底"):
+        source = {"user_request": request, "assets": []}
         before = copy.deepcopy(source)
         for prompt in (build_intent_prompt(source), build_compact_writing_prompt(source)):
             assert prompt.count(COMPLETION_RULES) == 1
             assert request in prompt
         assert source == before
-
-def test_transition_policy_keeps_one_event_and_complete_motion_arc():
-    assert '每个边界只允许一个转场事件' in COMPACT_WRITING_INSTRUCTIONS
-    assert '同一次、同方向、尚未结束' in COMPACT_WRITING_INSTRUCTIONS
-    assert '启动—峰值换景—落位' in COMPACT_WRITING_INSTRUCTIONS
-    assert '完整运动弧线压成单帧模糊' in COMPACT_WRITING_INSTRUCTIONS
-    assert '被替换的旧内容不回闪、混合或恢复' in COMPACT_WRITING_INSTRUCTIONS

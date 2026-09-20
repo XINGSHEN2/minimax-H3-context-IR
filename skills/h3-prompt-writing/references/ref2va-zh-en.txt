@@ -36,6 +36,8 @@
 
 `subject_definitions` 定义后续必须独立追踪的参考内容，例如人物、环境、源视频结构或音轨。每项单独一行，说明标签所指内容、参考用途和需要遵循的主要特征；需要明确来源时，写出对应素材。如果 `<Picture N>` 或 `<Video N>` 只用于说明另一项参考内容的来源，后续不会单独分析或使用，就在该项定义中引用它，不另建一行。`retention_analysis` 再记录每项参考内容出现在哪里，以及是完整保留、部分保留、属性迁移还是复用。
 
+采用高价值锚点写法。每个 Subject 默认用一个英文句子，只回答“它是谁／是什么、来自哪个素材、依靠哪些少量特征识别”。保留身份、核心轮廓、缺失会改变身份的必要材质或部件，以及用户明确指定的特征；不要罗列素材中的全部可见细节。同一主体来自多个素材时合并定义，不按图片重复描述。场景只写决定空间身份的结构，风格只写决定目标画面的基调。姿态、站位、持物手、动作、运镜、时间和声音写入镜头，不写进 Subject 定义。标题原文只定义一次，镜头中使用标签指代。
+
 ### 2.1 `<Subject N>`
 
 `<Subject N>` 用于可复用的可见内容，包括：
@@ -120,7 +122,7 @@
 
 ## 3. `summary`
 
-本板块使用一个简短英文段落概括目标视频及其参考关系，并以方括号包裹的任务类型开头：
+本板块默认使用两到三个英文句子，只回答“要生成什么视频”：概括任务模式与素材分工、事件主线、主要视觉基调和结局。不逐镜复述，不列举 Subject 外观、产品材质、场景小物、镜头时间、转场参数或音频细节。段落以方括号包裹的任务类型开头：
 
 ```text
 [reference generation] ...
@@ -154,7 +156,7 @@ The target video is an edited version of <Video 1>.
 
 ## 4. `retention_analysis`
 
-本板块说明每项参考内容在目标视频中如何保留、迁移、复制或参考。每个参考标签占一行，并保持 `subject_definitions` 中已经确定的含义。
+本板块只回答“哪些锚点必须跨镜保留，哪些状态允许改变”。每个真正需要独立约束的参考标签默认占一行，并保持 `subject_definitions` 中已经确定的含义；按“出现范围 + 保留级别 + 少量锚点或允许变化”表达。已经定义的固定外观不完整复述，可简写为保持上述身份锚点；只有局部保留、替换、排除、允许变化或素材用途冲突时才展开。不描述目标动作和分镜内容。用户未指定时，不把素材分析中的所有颜色、部件、纹理、背景物和姿态都变成保留义务。
 
 ### 4.1 可见内容
 
@@ -206,6 +208,10 @@ Video 结构条目：
 
 关系标记只能在 `subject_definitions` 已经确定的参考用途范围内选择。目标视频新增的动作、背景或剧情事件，不应被误判为参考保真度损失。
 
+### 4.3 前三个板块的信息边界与去重
+
+身份与识别锚点只在 `subject_definitions` 中完整定义；目标、素材分工与事件主线归 `summary`；跨镜范围、保留级别和允许变化归 `retention_analysis`。写完后执行语义去重：如果 `summary` 或 `retention_analysis` 中的句子只重复前文，且没有新增范围、约束或变化信息，就删除或改为简短引用。
+
 ## 5. `detailed_description`
 
 这是全参考改写的主体部分。它按目标视频播放顺序逐镜描述画面、动作、声音和对白，并在相应位置插入参考标签。
@@ -239,7 +245,7 @@ The target video is in a cinematic, literary music-video style with soft lightin
 [Shot 2] At 00:09.000, the shot cuts to an extreme close-up...
 ```
 
-生成类任务的 `detailed_description` 通常为 350–500 个英文单词。对白密集内容优先容纳完整对白时间线，不要机械追求字数。视频编辑任务根据源视频复杂度调整长度，不必遵循生成类任务的范围。单镜头不自动意味着描述必须更短；根据每个镜头的信息量分配细节。
+`detailed_description` 不设固定字数目标。长度由用户要求、镜头数量、动作复杂度、对白时间线和参考关系决定；完整覆盖要求后，通过信息归属和语义去重控制长度。单镜头不自动意味着描述必须更短，也不要为了达到篇幅而增加动作、镜头或重复外观。
 
 ### 5.3 在镜头中使用参考标签
 
@@ -319,17 +325,17 @@ summary:
 [reference generation + audio reference] The target video shows <Subject 3> eating a cookie in <Subject 1>. <Subject 4> enters with <Subject 2>, which lunges toward the cookie. The three-shot exchange uses <Audio 1> as the voice-timbre reference for <Subject 3> and ends with a canned audience laugh.
 
 retention_analysis:
-<Subject 1> (appears in [Shot 1], [Shot 2], [Shot 3]): fully_preserved - the exposed brick wall, orange tufted sofa, patterned pillows, neon sign, and wooden coffee table are retained.
-<Subject 2> (appears in [Shot 1], [Shot 2]): fully_preserved - the Samoyed's thick white fur, pointed ears, dark nose, and curved tail are retained.
-<Subject 3> (appears in [Shot 1], [Shot 2], [Shot 3]): fully_preserved - the blonde woman's identity, long hair, and light-pink shirt are retained.
-<Subject 4> (appears in [Shot 1], [Shot 2]): fully_preserved - the young man's short wavy brown hair and dark-grey hoodie are retained.
+<Subject 1> (appears in [Shot 1], [Shot 2], [Shot 3]): fully_preserved - the environment identity anchors defined above remain consistent.
+<Subject 2> (appears in [Shot 1], [Shot 2]): fully_preserved - the Samoyed's identity anchors defined above remain consistent.
+<Subject 3> (appears in [Shot 1], [Shot 2], [Shot 3]): fully_preserved - the woman's identity anchors defined above remain consistent.
+<Subject 4> (appears in [Shot 1], [Shot 2]): fully_preserved - the man's identity anchors defined above remain consistent.
 <Audio 1>: reference - its vocal timbre guides the dialogue delivery of <Subject 3> without copying the original signal.
 
 detailed_description:
 The target video uses a realistic multi-camera sitcom style with warm indoor lighting.
-[Shot 1] A medium shot establishes <Subject 1>, the coffee shop with its exposed brick wall, orange tufted sofa, patterned pillows, neon sign, and wooden coffee table. <Subject 3> (S1), the young woman with long blonde hair and a light-pink button-down shirt with rolled-up sleeves, sits on the sofa holding a chocolate-chip cookie. From the left, <Subject 4>, the young man with short wavy brown hair and a dark-grey hoodie with drawstrings, enters holding the leash of <Subject 2>, the thick-furred white Samoyed with pointed ears, a dark nose, and a curved tail. The dog lunges toward the cookie and pulls the leash taut. <Subject 3> (S1) jerks her hand back and, using the clear youthful voice timbre referenced from <Audio 1>, exclaims with light annoyance, <d>[English] Hey! Watch your dog!</d> She closes her lips and guards the cookie while <Subject 4> pulls the dog back.
-[Shot 2] At 00:03.000, the shot cuts to a close-up of <Subject 4> (S2), the young man in the dark-grey hoodie from Shot 1, sitting beside <Subject 3> on the sofa and holding <Subject 2> securely in his arms. <Subject 4> (S2) says in a casual young male voice with a playful tone and an easy conversational pace, <d>[English] He just likes cookies more than me.</d> He closes his mouth into an apologetic smile and strokes the dog's thick white fur.
-[Shot 3] At 00:05.000, the shot cuts to a close-up of <Subject 3> (S1), the blonde woman in the light-pink shirt from Shot 1. Her annoyance softens as she looks toward the Samoyed. <Subject 3> (S1) replies in the same clear youthful voice referenced from <Audio 1> with an amused cadence, <d>[English] Well, he has good taste at least.</d> She smiles and raises the cookie in a small toast-like gesture. A classic canned audience laugh begins immediately after the line and continues through the final frame.
+[Shot 1] A medium shot establishes <Subject 1>. <Subject 3> (S1) sits on the sofa holding a chocolate-chip cookie. From the left, <Subject 4> enters holding the leash of <Subject 2>. <Subject 2> lunges toward the cookie and pulls the leash taut. <Subject 3> (S1) jerks her hand back and, using the clear youthful voice timbre referenced from <Audio 1>, exclaims with light annoyance, <d>[English] Hey! Watch your dog!</d> She closes her lips and guards the cookie while <Subject 4> pulls <Subject 2> back.
+[Shot 2] At 00:03.000, the shot cuts to a close-up of <Subject 4> (S2) sitting beside <Subject 3> and holding <Subject 2> securely in his arms. <Subject 4> (S2) says in a casual young male voice with a playful tone and an easy conversational pace, <d>[English] He just likes cookies more than me.</d> He closes his mouth into an apologetic smile and strokes <Subject 2>.
+[Shot 3] At 00:05.000, the shot cuts to a close-up of <Subject 3> (S1). Her annoyance softens as she looks toward <Subject 2>. <Subject 3> (S1) replies in the same clear youthful voice referenced from <Audio 1> with an amused cadence, <d>[English] Well, he has good taste at least.</d> She smiles and raises the cookie in a small toast-like gesture. A classic canned audience laugh begins immediately after the line and continues through the final frame.
 
 overall_soundscape:
 Soft indoor coffee-shop room tone continues throughout the scene.
