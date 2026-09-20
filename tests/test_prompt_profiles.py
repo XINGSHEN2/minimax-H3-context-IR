@@ -48,7 +48,7 @@ class PromptProfileTests(unittest.TestCase):
         self.assertIn("# Shared H3 Prompt Protocol", system)
         self.assertIn("# Full-Reference Mode Rewrite Output Format Guide", system)
         self.assertNotIn("# Video Prompt Writing Guide (T2VA / I2VA / FL2VA / L2VA)", system)
-        self.assertNotIn("## 7. Complete Example", system)
+        self.assertIn("## 7. Complete Example", system)
 
     def test_base_loads_shared_and_base_only(self):
         system = self.injected_system("base")
