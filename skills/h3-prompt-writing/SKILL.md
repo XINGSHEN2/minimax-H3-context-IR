@@ -11,7 +11,7 @@ compatibility: Portable to any agent that can read local files — no external A
 1. Identify the input mode: T2VA, I2VA, FL2VA, L2VA, or full-reference Ref2VA.
 2. Read `references/shared-en.txt` for the shot, camera, speech, visible-text, and audio rules shared by every mode.
 3. For base text/keyframe modes, read `references/base-en.txt` and follow its final prompt structure.
-4. For full-reference mode, read `references/ref2va-en.txt` and follow its six-section rewrite format.
+4. For full-reference mode, read `references/ref2va-zh-en.txt` and follow its six-section rewrite format.
 5. Preserve the exact field names, section order, labels, and timing notation from the selected guide.
 
 ## Base Modes
@@ -27,7 +27,7 @@ Use `integrated_multimodal_description`, `overall_soundscape`, and `non_diegetic
 
 Ref2VA rewrites use `subject_definitions`, `summary`, `retention_analysis`, `detailed_description`, `overall_soundscape`, and `non_diegetic_music` in that order. Reference labels stay consistent across all sections.
 
-Read `references/ref2va-en.txt` for label rules, retention analysis, and complete examples.
+Read `references/ref2va-zh-en.txt` for label rules, retention analysis, and complete examples.
 
 ## Output Rules
 

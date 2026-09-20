@@ -6,7 +6,7 @@ import os
 import re
 import time
 
-COMPILER_REVISION='singlecall.v45.profiled_skill_guides'
+COMPILER_REVISION='singlecall.v45.bilingual_ref2va_guide'
 REQUIRED_H3_SECTIONS = (
     'subject_definitions', 'summary', 'retention_analysis',
     'detailed_description', 'overall_soundscape', 'non_diegetic_music',

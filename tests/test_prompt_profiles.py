@@ -46,7 +46,7 @@ class PromptProfileTests(unittest.TestCase):
     def test_ref2va_loads_shared_and_ref_only(self):
         system = self.injected_system("ref2va")
         self.assertIn("# Shared H3 Prompt Protocol", system)
-        self.assertIn("# Full-Reference Mode Rewrite Output Format Guide", system)
+        self.assertIn("# 全参考模式改写输出格式指南", system)
         self.assertNotIn("# Video Prompt Writing Guide (T2VA / I2VA / FL2VA / L2VA)", system)
         self.assertIn("## 7. Complete Example", system)
 
