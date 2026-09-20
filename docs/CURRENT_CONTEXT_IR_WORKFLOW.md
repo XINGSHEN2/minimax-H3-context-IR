@@ -4,7 +4,7 @@
 2. `resolve_intent` 调用推理模型解析用户需求、素材引用、directives 和 perception_plan。原始 user_request 保持最高优先级。调用方提供已解析需求并显式设置 intent_resolved 时可跳过此调用。
 3. `ensure_perception` 使用 Qwen 分析素材，或复用调用方／文件提供的 media_analysis.v2。调用方描述会标记为未独立验证的证据。
 4. `build_writer_evidence` 整理证据；`prepare_writer_evidence` 仅移除观察置信分数，不删除用户约束。
-5. `compile_prompt` 将内容规划工作流、素材证据和最终 JSON 响应契约组成 user prompt；响应契约放在素材证据之后。`invoke_reasoning_json` 将 AGENTS.md、h3-prompt-writing、h3-shot-planning、shared-zh-en.txt，以及按 Profile 选择的 base-zh-en.txt 或 ref2va-zh-en.txt 注入 system prompt。内容大纲和切镜决策由 user prompt 规划；H3 格式、分镜执行、连续性、转场和音频写法由 system Skill 约束。
+5. `compile_prompt` 将阶段顺序、规划字段、素材证据和最终 JSON 响应契约组成 user prompt；响应契约放在素材证据之后。`invoke_reasoning_json` 将 AGENTS.md、h3-prompt-writing、h3-shot-planning、shared-zh-en.txt，以及按 Profile 选择的 base-zh-en.txt 或 ref2va-zh-en.txt 注入 system prompt。`h3-shot-planning` 统一负责内容发展取舍、创作幅度、镜头合并／拆分、连续性和转场判断；user prompt 只负责要求分层、阶段锁定、字段及交接。H3 格式和音频写法由 h3-prompt-writing 约束。
 6. `DirectChatRuntime.invoke_json` 发送 `/chat/completions`。模型联合输出 content_plan、h3_prompt、uncertainties。没有独立导演或语义修复阶段。
 7. `transport_issues` 检查结果字段、六个 H3 板块、素材编号、镜头时间连续性及目标时长。程序不验证语义完整性。
 8. 保存轻量 IR、原样 Prompt、H3 请求和诊断文件。视频生成由单独能力显式触发。
