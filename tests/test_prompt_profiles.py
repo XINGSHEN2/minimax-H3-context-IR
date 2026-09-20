@@ -39,13 +39,14 @@ class PromptProfileTests(unittest.TestCase):
         with patch("backend.llm_runtime.direct_runtime_from_config", return_value=runtime):
             invoke_reasoning_json(
                 "prompt", {"selection":"test"}, Mock(),
-                ["h3-prompt-writing"], prompt_profile=profile,
+                ["h3-prompt-writing", "h3-shot-planning"], prompt_profile=profile,
             )
         return "\n".join(runtime.invoke_json.call_args.kwargs["system_parts"])
 
     def test_ref2va_loads_shared_and_ref_only(self):
         system = self.injected_system("ref2va")
         self.assertIn("# H3 共用提示词协议", system)
+        self.assertIn("# H3 镜头执行", system)
         self.assertIn("# 全参考模式改写输出格式指南", system)
         self.assertNotIn("# 视频提示词编写指南（T2VA / I2VA / FL2VA / L2VA）", system)
         self.assertIn("## 7. Complete Example", system)

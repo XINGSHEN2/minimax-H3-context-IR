@@ -1,40 +1,50 @@
 ---
 name: h3-shot-planning
-description: Execute camera movement, shot continuity and editorial boundaries for MiniMax H3 prompts from an existing content plan.
+description: 根据已经确定的内容规划，为 MiniMax H3 提示词落实运镜、镜头连续性和剪辑边界。
 ---
 
-# H3 Shot Planning
+# H3 镜头执行
 
-The caller owns user authority, completion scope, content developments and cut decisions. Apply those decisions without adding a second planning framework, model call, review gate or default shot count.
+调用方负责解释用户要求、确定补全范围、锁定内容 developments，并决定切镜。按照这些既定决策执行，不要增加第二套规划框架、额外模型调用、审查关卡或默认镜头数量。
 
-## References
+## 参考素材
 
-Use each reference only in its assigned role. Identity sheets, scene boards, style references, action phases and chronological storyboards are different inputs. Picture count does not determine shot count. Place a keyframe at its evidenced action state: first frame, intermediate beat, last frame or composition reference. Do not begin from a completed result when its arrival must be shown.
+只按照已经分配的用途使用每项参考素材。身份设定图、场景板、风格参考、动作阶段图和按时间排列的故事板属于不同类型的输入。图片数量不决定镜头数量。
 
-For video references, transfer only requested dimensions such as choreography, performance rhythm, camera path, edit structure or environment. Preserve a requested storyboard sequence and reference cadence. Do not fabricate unseen action or prolong the source merely to fill time.
+将关键帧放在证据所支持的动作状态：首帧、中间动作节点、尾帧或构图参考。如果视频需要呈现某个结果的形成过程，不要直接从已经完成的结果开始。
 
-## Camera execution
+对于视频参考，只迁移用户要求的维度，例如动作编排、表演节奏、摄影机路径、剪辑结构或环境。用户要求保留故事板顺序和参考节奏时，应原样遵守。不要虚构素材中不可见的动作，也不要仅为了填满时长而延长参考内容。
 
-Choose framing that makes the planned purpose readable: full bodies and floor contact for choreography, both sides of a relationship when required, or the relevant product surface during use. Stable observation is valid. When the camera moves, describe one coherent path, its speed/amplitude and the reveal it enables. A focus change is not camera translation. Avoid contradictory fixed/moving instructions and decorative movement with no viewing purpose.
+## 摄影机执行
 
-A shot may contain ordered action stages and gradual reframing. Keep connected preparation, action, reaction and visible consequence physically continuous when the plan has merged them. Integrate product detail into handling, use, rotation or material response when specified. Do not silently split a merged phrase back into coverage shots.
+选择能够清楚呈现既定镜头用途的构图：舞蹈需要看清全身和脚部接触；关系场面需要时应同时呈现关系双方；产品使用过程应看清相关表面。稳定观察本身是有效选择，不必为了“更电影化”强行运镜。
 
-## Cuts and transitions
+摄影机需要运动时，只描述一条连贯路径，并说明必要的速度、幅度以及该运动实现的揭示效果。焦点变化不等于摄影机位移。避免同时给出互相冲突的固定机位和移动指令，也不要加入没有观看目的的装饰性运镜。
 
-At a cut, preserve the planned action phase, screen direction, camera side, eyeline, relative position, wardrobe and object ownership. An outgoing end state may be mid-action; the incoming view resumes that unfinished phase. Do not restart completed action or skip a required transformation. Intentional ellipsis and discontinuity remain valid when specified.
+一个镜头可以包含多个按顺序发生的动作阶段和渐进式构图变化。如果内容计划已经将准备、动作、反应和可见结果合并，应使它们保持物理连续。产品细节应在指定的拿取、使用、转动或材质响应过程中呈现。不要把已经合并的动作短语暗中重新拆成多个覆盖镜头。
 
-Give a boundary one concrete connection: action match, eyeline, cause/reaction, composition, sound bridge or intentional time/place jump. An ordinary cut needs no optical effect. Preserve requested hard cuts, black frames, flashes and discontinuity instead of smoothing them away.
+## 切镜与转场
 
-Use one transition event per boundary, then choose its execution from its motion. An ordinary cut needs no optical effect. A flash, black frame or glitch interruption is an instantaneous concealment and normally appears once at one side of the cut. A directional transition with a visible speed arc—such as a whip pan, rapid pan or tracked foreground wipe—may cross the shot boundary as one continuous movement: start and accelerate at the outgoing end, swap only at peak blur or full occlusion, then explicitly continue the same unfinished movement in the same direction as it decelerates, stabilizes and refocuses on incoming content. Do not restart it, name it as another transition or compress its whole motion into a single blurred frame merely to keep ownership unique.
+切镜时保持已经规划好的动作阶段、屏幕运动方向、摄影机观察侧、视线、相对位置、服装和物品归属。前一镜可以在动作尚未完成时结束；后一镜必须从这个未完成阶段继续。不要重新启动已经完成的动作，也不要跳过必须呈现的转变过程。用户明确要求的省略、跳切或不连续仍然有效。
 
-Every concealed source or scene replacement remains atomic and irreversible: fully conceal outgoing content, swap at peak concealment, then reveal only incoming content. The outgoing scene must not regain clarity after the swap unless the user explicitly requests a return, overlay or flashback.
+每个边界只选择一个具体的主要连接依据：动作匹配、视线连接、因果关系、构图匹配、声音桥接，或有意的时间／地点跳跃。普通切镜不需要附加光学效果。用户要求的硬切、黑场、闪白和有意不连续不能被擅自平滑掉。
 
-## Timing and sound
+每个边界只允许一个转场事件，再根据它的运动属性选择执行方式。普通切镜不需要光学效果。闪白、黑场或故障闪断属于瞬时遮蔽，通常只写在切点的一侧一次。
 
-Honor explicit timing and reference cadence. Allocate enough time for the principal action and readable outcome before secondary display or ending. Do not create pauses merely to close a shot.
+甩镜（`whip pan`）、快速摇移（`rapid pan`）或跟随前景遮挡（`tracked foreground wipe`）等具有可见速度弧线和明确方向的转场，可以作为同一次连续运动跨越镜头边界：在前镜结尾启动并加速；只在运动模糊峰值或完全遮挡时替换内容；在后镜开头明确续接同一次、同方向、尚未结束的运动，让它减速、稳定并重新对焦到新内容。
 
-Synchronize physical sound with visible triggers and stops. Footsteps stop when walking stops; off-screen sound continues only when its source action continues. Natural reverberation may cross a cut, while a new impact requires a new visible cause. Preserve audio-copy and silence scopes exactly as assigned.
+不要在后镜重新启动这次运动，不要把它命名为第二次转场，也不要为了让转场只归属于一个位置，就把完整运动压缩成单个模糊帧。
 
-## H3 prose
+任何被遮蔽的主体或场景替换都必须保持原子性和不可逆：完全遮蔽旧内容，在遮蔽峰值完成替换，随后只显露新内容。除非用户明确要求返回、叠加或闪回，否则被替换的旧场景不能重新清晰。
 
-Keep stable identity, source bindings, global style and persistent effects in their existing global sections. In each shot, write only its action phrase, necessary framing/camera behavior, continuity-critical state and boundary execution. Do not repeat fixed appearance or explain editorial reasoning in executable prose.
+## 时间与声音
+
+遵守用户明确给出的时间和参考节奏。为主要动作和可辨识结果分配足够时间，再安排次要展示或收尾。不要仅为了结束一个镜头而制造停顿。
+
+物理声音必须与可见触发动作及停止时刻同步。人物停止行走时，脚步声也应停止；只有声源动作仍在持续时，画外声音才能继续。自然混响可以跨越切点；新的撞击声必须有新的可见原因。严格遵守已经分配的音频复制范围和静音范围。
+
+## H3 文本
+
+稳定身份、素材绑定、全局风格和持续效果保留在它们各自的全局板块中。每个镜头只写本镜动作、必要的构图或摄影机行为、影响连续性的关键状态，以及镜头边界的具体执行方式。
+
+不要重复固定外观，也不要在可执行的 H3 文本中解释剪辑理由。
