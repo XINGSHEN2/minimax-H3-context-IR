@@ -35,7 +35,7 @@ def test_public_inputs_use_v20_and_preserve_evidence(tmp_path, monkeypatch, inpu
         intent.assert_called_once()
         assert provider.return_value.analyze.call_count == (1 if input_type == "assets" else 0)
         writer.assert_called_once()
-        assert writer.call_args.args[3] == ["h3-prompt-writing", "h3-shot-planning"]
+        assert writer.call_args.args[3] == ["h3-prompt-writing"]
         assert "red bottle" in writer.call_args.args[0]
     assert payload == before
     assert result["context_ir"]["schema_version"] == "h3_compilation.light.v1"

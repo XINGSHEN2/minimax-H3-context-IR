@@ -17,7 +17,7 @@ from backend.perception import PERCEPTION_PROVIDERS, PerceptionProviderConfig, s
 from backend.intent_resolver import resolve_intent
 ROOT = Path(__file__).resolve().parent.parent
 SKILLS_DIR = ROOT / "skills"
-CORE_SKILLS = ("h3-prompt-writing", "h3-shot-planning")
+CORE_SKILLS = ("h3-prompt-writing",)
 OFFICIAL_SKILLS = set(CORE_SKILLS)
 
 def prompt_profile_for_source(source: Mapping[str, Any]) -> str:
@@ -179,8 +179,8 @@ def run_agent(
 ) -> int:
     if style_skill:
         raise ValueError(
-            "style_skill has been retired; h3-shot-planning is now always enabled "
-            "and creative style stays governed by the user request and production policies"
+            "style_skill has been retired; prompt behavior is governed by the user request, "
+            "production instructions, and the active h3-prompt-writing skill"
         )
     run_started = time.perf_counter()
     stage_timings: dict[str, Any] = {
