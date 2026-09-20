@@ -6,7 +6,7 @@
 
 **描述详细度：** 写出执行每个镜头所需的具体信息：构图与主体位置、从动作发生到预期结果的可见过程、摄影机行为、相关的光线或环境变化、需要同步的声音，以及参考素材的使用方式。固定外观放在 `subject_definitions`；共享风格放在全局开场描述。镜头中引用这些定义，不重复完整描述，除非用户明确要求重复。完整保留用户的每一项明确要求，不要为了增加篇幅而添加细节。
 
-> 镜头、运镜、说话者、对白和普通声音的基础格式遵循 Shared H3 Prompt Protocol。本指南只说明全参考模式特有的参考标签、分析板块与格式差异。
+> 镜头、运镜、说话者、对白和普通声音的基础格式遵循 H3 共用提示词协议（Shared H3 Prompt Protocol）。本指南只说明全参考模式特有的参考标签、分析板块与格式差异。
 
 ## 1. 总体结构
 
@@ -212,7 +212,7 @@ Video 结构条目：
 
 ### 5.1 基础格式
 
-基础格式遵循 Shared H3 Prompt Protocol：
+基础格式遵循 H3 共用提示词协议（Shared H3 Prompt Protocol）：
 
 - 正文使用英文；对白、歌词和可见文字保留原始语言；
 - `[Shot 1]` 表示开场镜头，不写时间戳；后续镜头以 `[Shot N] At MM:SS.mmm, ...` 标记切点；
@@ -220,7 +220,7 @@ Video 结构条目：
 - 发声来源使用稳定的 `(S1)`、`(S2)` 等 ID；对白和歌词写作 `<d>[Language] ...</d>`；
 - 对白跨镜、结尾截断和音频跨镜连续时，使用 `<scenetrans>`、`<cutoff>` 及对应的连续性描述。
 
-关于运镜词汇、多人对白、画外音、跨镜对白和可见文字的完整规则与示例，参见 Shared H3 Prompt Protocol。
+关于运镜词汇、多人对白、画外音、跨镜对白和可见文字的完整规则与示例，参见 H3 共用提示词协议（Shared H3 Prompt Protocol）。
 
 ### 5.2 全参考模式的差异
 
@@ -279,7 +279,7 @@ When <Audio 1> reaches the phrase <d>[English] I'm lonely lonely lonely lonely l
 
 ## 6. `overall_soundscape` 与 `non_diegetic_music`
 
-这两类声音的定义遵循 Shared H3 Prompt Protocol。
+这两类声音的定义遵循 H3 共用提示词协议（Shared H3 Prompt Protocol）。
 
 `overall_soundscape` 概括全片环境声和物理声音。对白、歌唱以及与特定镜头精确同步的声音事件仍写在 `detailed_description` 中：
 

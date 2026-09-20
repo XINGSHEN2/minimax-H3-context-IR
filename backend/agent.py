@@ -151,8 +151,8 @@ def invoke_reasoning_json(
                 # protocol plus exactly one mode-specific guide.
                 if prompt_profile not in {"ref2va", "base"}:
                     raise ValueError("prompt_profile must be ref2va or base")
-                profile_reference = "ref2va-zh-en.txt" if prompt_profile == "ref2va" else "base-en.txt"
-                for reference_name in ("shared-en.txt", profile_reference):
+                profile_reference = "ref2va-zh-en.txt" if prompt_profile == "ref2va" else "base-zh-en.txt"
+                for reference_name in ("shared-zh-en.txt", profile_reference):
                     reference = path.parent / "references" / reference_name
                     guide = reference.read_text(encoding="utf-8")
                     system_parts.append(guide)

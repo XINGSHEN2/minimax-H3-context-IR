@@ -1,0 +1,91 @@
+# H3 共用提示词协议
+
+以下规则同时适用于基础 Profile 和全参考 Profile。
+
+### 4.2 镜头与切镜
+
+第一个镜头不写时间戳。后续镜头使用连续递增的镜头编号，并以严格递增且位于视频时长范围内的切点时间开头：
+
+```text
+[Shot 2] At 00:03.500, the camera cuts to...
+```
+
+普通切镜使用 `the camera cuts to`、`the shot cuts to`、`the shot transitions to`、`the shot changes to` 或 `the shot switches to`。只有用户明确要求时，才使用 cross-dissolve、fade 或 wipe。切镜应带来关于主体、空间、状态、观察角度或时间的新信息。如果只需改变拍摄距离或轻微角度，优先使用镜内运镜。
+
+### 4.3 运镜：运动类型 + 幅度 + 速度
+
+完整运镜表达包含三个维度：**运动类型**说明摄影机如何运动，**幅度**说明构图变化范围，**速度**说明变化节奏。只有确有意义时才写幅度和速度；中等幅度与正常速度通常省略。
+
+| 维度 | 可用英文表达 | 含义 |
+|-|-|-|
+| 运动类型 | `Zoom In / Zoom Out` | 摄影机机身不动，只改变焦距 |
+| 运动类型 | `Push In / Pull Out` | 摄影机向前／向后移动 |
+| 运动类型 | `Pan Left / Pan Right` | 摄影机位置不动，镜头水平转动 |
+| 运动类型 | `Truck Left / Truck Right` | 摄影机水平平移 |
+| 运动类型 | `Tilt Up / Tilt Down` | 摄影机位置不动，镜头垂直转动 |
+| 运动类型 | `Pedestal Up / Pedestal Down` | 整台摄影机向上／向下移动 |
+| 运动类型 | `Arc Shot` | 摄影机围绕主体做弧线运动 |
+| 运动类型 | `Tracking Shot` | 摄影机跟随移动主体 |
+| 运动类型 | `Static Shot` | 摄影机位置和镜头保持不动 |
+| 运动类型 | `Shake Slightly / Shake Strongly` | 轻微／强烈抖动 |
+| 运动类型 | `POV` | 主体的主观视角 |
+| 运动类型 | `Roll Clockwise / Roll Counterclockwise` | 摄影机绕镜头轴顺时针／逆时针旋转 |
+| 幅度 | `with small amplitude` | 小范围变化 |
+| 幅度 | `with large amplitude` | 大范围变化 |
+| 速度 | `at slow speed` | 缓慢运动 |
+| 速度 | `at fast speed` | 快速运动 |
+
+运镜应作为自然英文动作写在对应镜头内部，不要在句末堆叠独立标签：
+
+```text
+The camera pushes in with small amplitude at slow speed toward the folded letter in her hands.
+The camera pans right with large amplitude at fast speed, revealing the open doorway.
+The camera holds a static shot as the runner exits the frame.
+```
+
+### 4.4 说话者、对白与歌唱
+
+说话、歌唱或发出画外人声的主体使用稳定 ID，例如 `(S1)`、`(S2)`。多个已经编号的说话者共同说话或歌唱时，使用 `(S1,S2)` 这样的复合 ID。一个说话者在不同镜头中保持同一 ID；从不发声的角色不分配说话者 ID。
+
+说话者首次出现时，根据画面和音频上下文提供足以建立稳定身份的信息，例如角色类型、年龄、性别、是否在画面内、音高、音色、语速或口音。说话者身份描述、ID、动作和表达方式写在 `<d>` 外；`<d>` 内只写语言标签和用户提供的实际台词。每个原词和标点都应原样保留，不翻译、不改写。
+
+```text
+The young woman with a quiet, breathy voice (S1) says: <d>[English] I get off at the next station.</d>
+The two children (S1,S2) shout together, <d>[English] Wait for us!</d>
+```
+
+画外旁白必须使用准确英文短语 `says in an off-screen voiceover`。每个画外旁白 `<d>` 块之后，立即说明对应画面中人物的嘴唇保持闭合：
+
+```text
+The man (S1) says in an off-screen voiceover: <d>[English] I still remember that road.</d> while his lips remain completely closed.
+```
+
+同一句对白或歌词跨越切点时，在前后两段连接位置都使用 `<scenetrans>`，并明确说明音频跨镜连续。视频结束导致语言被截断时使用 `<cutoff>`。连续性可使用 `continues seamlessly across the cut`、`continues uninterrupted into the next shot`、`carries over from the previous shot` 或 `remains audible across the transition` 等英文表达。
+
+### 4.5 画面文字
+
+画面中实际可见的横幅、招牌、标签、字幕或霓虹文字使用英文双引号包裹。原始文字和标点必须逐字保留，不翻译。
+
+```text
+A red neon sign reading "营业中" glows above the doorway.
+```
+
+### 4.6 `overall_soundscape`
+
+使用 1–3 个英文句子组成一个连续短段。只选择视频真正需要的内容：持续环境底层、少量具有可见物理原因的突出前景声音、必要的空间或动态关系，以及结尾声音状态。先建立地点与连续性，再说明动作、人声、机械声或材质声。只有确有意义时才描述远近、室内外分隔、遮蔽、跨镜延续、逐渐安静或最终静默。不要罗列每个可见物体的拟音，也不要重复镜头描述中已经写明的对白、歌唱、剧情内音乐和精确同步声音。只有用户明确要求全片完全静音时才使用 `N/A`。
+
+```text
+overall_soundscape: Steady rain taps against the café windows while low room ambience continues underneath. The entrance bell rings once, followed by wet footsteps and the soft scrape of a chair.
+```
+
+### 4.7 `non_diegetic_music`
+
+先判断只有观众能听见的配乐是否承担环境声、对白和动作声无法替代的功能：跨镜节奏、情绪统一、高潮组织、类型识别或品牌质感。如果没有这种功能，写 `N/A`。
+
+需要配乐时，用 1–2 个英文句子，推荐按以下顺序写：主要气质和音乐风格；节奏与能量；关键乐器或音色；主要叙事功能；必要的混音或结束关系。风格和情绪使用清楚、可执行的词语。最多列出三种主要乐器或音色。只写一个主要功能，确有必要时再增加一个次要功能。
+
+存在对白时，让配乐安静铺底，或明确不得压过对白。环境声承担叙事信息时，保留其可听性。动作声或冲击声是重点时，为其保留瞬态和动态空间。只有必要时才说明渐强、淡出、骤停或最终和弦。不要逐镜编排配乐，不要重复 `overall_soundscape` 或镜头描述中已经写明的音效。用户指定参考音轨时，优先说明复用范围、同步关系和停止位置。角色能够听见的音乐属于剧情内音乐，应写入镜头描述。
+
+```text
+non_diegetic_music: Sparse piano notes at a slow tempo, joined by sustained low strings that gradually increase in volume before fading out.
+```

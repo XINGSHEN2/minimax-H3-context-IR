@@ -4,7 +4,7 @@
 2. `resolve_intent` 调用推理模型解析用户需求、素材引用、directives 和 perception_plan。原始 user_request 保持最高优先级。调用方提供已解析需求并显式设置 intent_resolved 时可跳过此调用。
 3. `ensure_perception` 使用 Qwen 分析素材，或复用调用方／文件提供的 media_analysis.v2。调用方描述会标记为未独立验证的证据。
 4. `build_writer_evidence` 整理证据；`prepare_writer_evidence` 仅移除观察置信分数，不删除用户约束。
-5. `compile_prompt` 拼接 v20 RULES 与 `build_compact_writing_prompt`；`invoke_reasoning_json` 注入 AGENTS.md、h3-prompt-writing、base-en.txt、ref-en.txt、h3-shot-planning。
+5. `compile_prompt` 拼接 v20 RULES 与 `build_compact_writing_prompt`；`invoke_reasoning_json` 注入 AGENTS.md、h3-prompt-writing、shared-zh-en.txt、按 Profile 选择的 base-zh-en.txt 或 ref2va-zh-en.txt，以及 h3-shot-planning。
 6. `DirectChatRuntime.invoke_json` 发送 `/chat/completions`。模型联合输出 content_plan、h3_prompt、uncertainties。没有独立导演或语义修复阶段。
 7. `transport_issues` 检查结果字段、素材编号、镜头时间连续性及目标时长；官方章节缺失只提示警告。程序不验证语义完整性。
 8. 保存轻量 IR、原样 Prompt、H3 请求和诊断文件。视频生成由单独能力显式触发。

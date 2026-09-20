@@ -45,15 +45,15 @@ class PromptProfileTests(unittest.TestCase):
 
     def test_ref2va_loads_shared_and_ref_only(self):
         system = self.injected_system("ref2va")
-        self.assertIn("# Shared H3 Prompt Protocol", system)
+        self.assertIn("# H3 共用提示词协议", system)
         self.assertIn("# 全参考模式改写输出格式指南", system)
-        self.assertNotIn("# Video Prompt Writing Guide (T2VA / I2VA / FL2VA / L2VA)", system)
+        self.assertNotIn("# 视频提示词编写指南（T2VA / I2VA / FL2VA / L2VA）", system)
         self.assertIn("## 7. Complete Example", system)
 
     def test_base_loads_shared_and_base_only(self):
         system = self.injected_system("base")
-        self.assertIn("# Shared H3 Prompt Protocol", system)
-        self.assertIn("# Video Prompt Writing Guide (T2VA / I2VA / FL2VA / L2VA)", system)
+        self.assertIn("# H3 共用提示词协议", system)
+        self.assertIn("# 视频提示词编写指南（T2VA / I2VA / FL2VA / L2VA）", system)
         self.assertNotIn("# Full-Reference Mode Rewrite Output Format Guide", system)
 
 

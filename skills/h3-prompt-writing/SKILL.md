@@ -1,36 +1,36 @@
 ---
 name: h3-prompt-writing
-description: Write MiniMax H3 video generation prompts for T2VA, I2VA, FL2VA, L2VA, and Ref2VA. Use when rewriting multimodal requests into H3 prompt structures, composing integrated_multimodal_description, overall_soundscape, and non_diegetic_music, aligning keyframes, or defining reference labels for images, videos, and audio.
-compatibility: Portable to any agent that can read local files — no external API calls, MiniMax Hub tools, or proprietary runtime required. The agents/openai.yaml file only adds optional ChatGPT/Codex UI metadata; it does not restrict the skill to OpenAI agents.
+description: 为 T2VA、I2VA、FL2VA、L2VA 和 Ref2VA 编写 MiniMax H3 视频生成提示词。用于把多模态请求改写成 H3 提示词结构、编写 integrated_multimodal_description、overall_soundscape 和 non_diegetic_music、对齐关键帧，以及为图片、视频和音频定义参考标签。
+compatibility: 可移植到任何能够读取本地文件的 Agent；无需外部 API、MiniMax Hub 工具或专有运行时。agents/openai.yaml 只提供可选的 ChatGPT/Codex 界面元数据，不限制本 Skill 只能供 OpenAI Agent 使用。
 ---
 
-# H3 Prompt Writing
+# H3 提示词编写
 
-## Workflow
+## 工作流程
 
-1. Identify the input mode: T2VA, I2VA, FL2VA, L2VA, or full-reference Ref2VA.
-2. Read `references/shared-en.txt` for the shot, camera, speech, visible-text, and audio rules shared by every mode.
-3. For base text/keyframe modes, read `references/base-en.txt` and follow its final prompt structure.
-4. For full-reference mode, read `references/ref2va-zh-en.txt` and follow its six-section rewrite format.
-5. Preserve the exact field names, section order, labels, and timing notation from the selected guide.
+1. 判断输入模式：T2VA、I2VA、FL2VA、L2VA 或全参考 Ref2VA。
+2. 阅读 `references/shared-zh-en.txt`，应用所有模式共用的镜头、运镜、对白、可见文字和音频规则。
+3. 对于基础文本／关键帧模式，阅读 `references/base-zh-en.txt`，遵循其中的最终提示词结构。
+4. 对于全参考模式，阅读 `references/ref2va-zh-en.txt`，遵循其中的六板块改写格式。
+5. 保持所选指南规定的字段名称、板块顺序、标签和时间格式完全一致。
 
-## Base Modes
+## 基础模式
 
-- T2VA: build the full audiovisual timeline from text.
-- I2VA: start from the first frame and develop forward from it.
-- FL2VA: describe the continuous path between the first and last frames.
-- L2VA: infer a plausible opening and converge to the supplied last frame.
+- T2VA：根据文本构建完整视听时间线。
+- I2VA：从给定首帧出发，向后连续发展。
+- FL2VA：描述从首帧到尾帧的连续路径。
+- L2VA：推断合理的前置状态，并最终收敛到给定尾帧。
 
-Use `integrated_multimodal_description`, `overall_soundscape`, and `non_diegetic_music` in the order shown in `references/base-en.txt`.
+按照 `references/base-zh-en.txt` 的顺序输出 `integrated_multimodal_description`、`overall_soundscape` 和 `non_diegetic_music`。
 
-## Full-Reference Mode
+## 全参考模式
 
-Ref2VA rewrites use `subject_definitions`, `summary`, `retention_analysis`, `detailed_description`, `overall_soundscape`, and `non_diegetic_music` in that order. Reference labels stay consistent across all sections.
+Ref2VA 改写按以下顺序使用：`subject_definitions`、`summary`、`retention_analysis`、`detailed_description`、`overall_soundscape`、`non_diegetic_music`。所有板块中的参考标签必须保持一致。
 
-Read `references/ref2va-zh-en.txt` for label rules, retention analysis, and complete examples.
+阅读 `references/ref2va-zh-en.txt`，获取标签规则、保留度分析和完整示例。
 
-## Output Rules
+## 输出规则
 
-- Write rewrite sections in English; preserve dialogue, lyrics, and visible scene text in their original language.
-- Describe each shot by composition, subjects, environment, actions, camera, sound, and the exact point where referenced content appears.
-- Avoid plot summaries, unresolved reference labels, and timing that does not match the requested duration.
+- 改写板块使用英文；对白、歌词和画面中可见文字保留原始语言。
+- 每个镜头写明构图、主体、环境、动作、摄影机、声音，以及参考内容出现的准确位置。
+- 避免使用剧情摘要代替可执行描述，避免未定义的参考标签，以及与目标时长不一致的时间标记。
