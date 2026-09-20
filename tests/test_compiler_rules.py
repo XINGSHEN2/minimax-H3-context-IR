@@ -106,6 +106,7 @@ class Tests(unittest.TestCase):
         result=invoke_compiler(self.e,lambda p:(calls.append(p) or copy.deepcopy(self.r)))
         for phrase in ['第三阶段：锁定计划并交接 H3',
                        '按照 system prompt 中的 H3 Prompt Writing Skill',
+                       '按照 system prompt 中的 H3 Sound Planning Skill',
                        '音频不得新增或改变视觉事件',
                        'editing_treatments','最终响应契约']:
             self.assertIn(phrase,calls[0])

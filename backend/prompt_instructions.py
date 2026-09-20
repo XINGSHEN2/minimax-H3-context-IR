@@ -30,13 +30,13 @@ WORKFLOW = """在一次 API 请求的一次响应中，按顺序完成“要求�
 第三阶段：锁定计划并交接 H3
 7. 锁定 requirement_map、developments 和 shots，再按照 system prompt 中的 H3 Prompt Writing Skill 生成 h3_prompt。Skill 负责 H3 的字段、英文格式、镜头表达、转场执行和音频写法；不得借写作过程新增、删除、合并或重新拆分 development 和 Shot。
 8. 最终 H3 中的每个事件、动作阶段、结果和切点都必须映射到锁定的 content_plan。content_plan 中的 start_seconds 和 end_seconds 连续覆盖目标时长；H3 只把既定时间和 continuity_bridge 编译成可执行文本，不得改写规划。
-9. 视觉分镜锁定后再完成音频表达。音频不得新增或改变视觉事件、镜头、动作、时间、运镜和高潮；用户明确的音乐、静音、原声、音轨、对白和歌词要求必须保留。
+9. 视觉分镜锁定后，按照 system prompt 中的 H3 Sound Planning Skill 形成 audio_plan，再完成音频表达。音频不得新增或改变视觉事件、镜头、动作、时间、运镜、视觉高潮和结尾画面；用户明确的音乐、静音、原声、音轨、对白和歌词要求必须保留。shots.sound_cues 只记录需要精确同步、跨镜连续或影响动作理解的声音；持续声场和画外配乐分别交给最终 H3 的对应板块。
 10. 最终检查要求是否全部落实，developments 是否单向推进，每镜是否有 content_purpose，每个 Shot 是否映射到 development，所有素材绑定是否使用真实 asset_id。发现问题时按 H3 Shot Planning Skill 修正并重新锁定，再编译 H3；content_plan 只保存最终版。"""
 
 RESPONSE_CONTRACT = """最终响应契约
 最终只输出一个 JSON 对象，顶层严格为 content_plan、h3_prompt、uncertainties，不输出思考过程、草稿或其他顶层字段。
 h3_prompt 必须是一个字符串，按照 system prompt 中当前 Profile 的 H3 Prompt Writing Skill 包含完整最终 H3，不能是对象、数组或分节字段。
-content_plan 包含：creative_brief（user_locked、reference_anchors、open_design）；requirement_map（content_events、editing_treatments、global_style、audio_requirements，每项含稳定 id 与要求文本）；task_mode；must_keep；bindings（asset_id、role、retained_attributes、optional_inherited_attributes、excluded_attributes、exclusion_reasons）；developments（id、source_content_event_ids、visible_change、outcome）；shots（id、development_ids、content_purpose、treatment_ids、start_seconds、end_seconds、start_state、action、end_state、sound_cues；只有拆分同一连续动作时才增加 cut_reason 和 continuity_bridge）。不输出 action_units 或 shot_merge_audit。
+content_plan 包含：creative_brief（user_locked、reference_anchors、open_design）；requirement_map（content_events、editing_treatments、global_style、audio_requirements，每项含稳定 id 与要求文本）；task_mode；must_keep；bindings（asset_id、role、retained_attributes、optional_inherited_attributes、excluded_attributes、exclusion_reasons）；developments（id、source_content_event_ids、visible_change、outcome）；shots（id、development_ids、content_purpose、treatment_ids、start_seconds、end_seconds、start_state、action、end_state、sound_cues；只有拆分同一连续动作时才增加 cut_reason 和 continuity_bridge）；audio_plan，其中 constraints 为字符串数组，auditory_focus、continuous_bed、mix_priority、ending_state 为字符串，key_sound_events 为对象数组且每项严格含已有 shot_id、trigger、sound、sync，music_decision 严格为包含 decision（use 或 N/A）、function、tempo_energy_basis、timbres（字符串数组）、dynamic_arc 的对象。不输出 action_units 或 shot_merge_audit。
 使用真实 asset_id 和 reference_registry 编号；时间连续覆盖 0 到目标时长。uncertainties 只记录影响使用的具体问题。"""
 
 COMPACT_WRITING_INSTRUCTIONS = "\n\n".join((

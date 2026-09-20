@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SHARED_GUIDE = (ROOT / "skills/h3-prompt-writing/references/shared-zh-en.txt").read_text(encoding="utf-8")
 REF2VA_GUIDE = (ROOT / "skills/h3-prompt-writing/references/ref2va-zh-en.txt").read_text(encoding="utf-8")
 SHOT_SKILL = (ROOT / "skills/h3-shot-planning/SKILL.md").read_text(encoding="utf-8")
+SOUND_SKILL = (ROOT / "skills/h3-sound-planning/SKILL.md").read_text(encoding="utf-8")
 
 
 def test_instructions_prioritize_content_and_evidence():
@@ -53,6 +54,11 @@ def test_third_stage_locks_plan_and_delegates_writing():
     assert "按照 system prompt 中的 H3 Prompt Writing Skill" in COMPACT_WRITING_INSTRUCTIONS
     assert "不得借写作过程新增、删除、合并或重新拆分" in COMPACT_WRITING_INSTRUCTIONS
     assert "每个事件、动作阶段、结果和切点都必须映射" in COMPACT_WRITING_INSTRUCTIONS
+    assert "按照 system prompt 中的 H3 Sound Planning Skill" in COMPACT_WRITING_INSTRUCTIONS
+    assert "audio_plan" in RESPONSE_CONTRACT
+    assert "key_sound_events 为对象数组" in RESPONSE_CONTRACT
+    assert "decision（use 或 N/A）" in RESPONSE_CONTRACT
+    assert "tempo_energy_basis" in RESPONSE_CONTRACT
 
 
 def test_scene_and_shot_decisions_live_in_shot_planning_skill():
@@ -65,6 +71,9 @@ def test_scene_and_shot_decisions_live_in_shot_planning_skill():
         "对参与揭示、取得、交接、穿戴、启用或损坏的连续性关键物体维护状态",
         "同一现象从微弱、增强到峰值",
         "快节奏表示有效信息推进更紧凑",
+        "不包括叠加标题、字幕、品牌字样或包装文字开始可读",
+        "不得先虚构更多 beat",
+        "每个 development 必须在移除标题文字",
         "同一时间、空间、主体和动作目标默认放在一个连续镜头内",
         "全局风格只决定已有必要切点怎样发生",
         "应在实质性里程碑之间跳切",
@@ -98,22 +107,51 @@ def test_h3_execution_rules_live_in_system_skill():
         "同一次、同方向、尚未结束",
         "完整运动弧线压成单个模糊帧",
         "旧内容不得重新清晰、混合或恢复",
-        "人物停止行走时脚步声停止",
     ):
         assert phrase in SHARED_GUIDE
         assert phrase not in COMPACT_WRITING_INSTRUCTIONS
 
 
-def test_audio_energy_and_prop_state_live_in_shared_writing_guide():
+def test_prop_state_lives_in_shared_writing_guide():
     for phrase in (
         "后续才被揭示、取得、交接、穿戴或启用的物体必须保持阶段状态",
         "不能让该物体提前出现在人物手中",
         "不能仅靠“不提及”表达缺席",
-        "配乐的速度、能量和动态弧必须从已经锁定的视觉节奏推导",
-        "不要让音乐能量与画面能量相反",
     ):
         assert phrase in SHARED_GUIDE
         assert phrase not in COMPACT_WRITING_INSTRUCTIONS
+
+
+def test_audio_decisions_live_in_sound_planning_skill():
+    for phrase in (
+        "音频规划必须在 developments、Shot、动作、时间、运镜、视觉高潮和结尾画面锁定后进行",
+        "不得为了配合音乐增加切点、动作、闪光、撞击或标题动画",
+        "auditory_focus",
+        "continuous_bed",
+        "key_sound_events",
+        "music_decision",
+        "未指定配乐属于开放判断，不等于必须添加",
+        "摄影机运动本身通常没有声音",
+        "最多三个重要声音事件",
+        "最高优先项必须与 `auditory_focus` 一致",
+        "配乐在对白下方铺底",
+        "删除全部音频计划后，锁定的视觉内容必须完全不变",
+    ):
+        assert phrase in SOUND_SKILL
+        assert phrase not in COMPACT_WRITING_INSTRUCTIONS
+
+    for moved_phrase in (
+        "配乐的速度、能量和动态弧必须从已经锁定的视觉节奏推导",
+        "不要让音乐能量与画面能量相反",
+        "人物停止行走时脚步声停止",
+    ):
+        assert moved_phrase not in SHARED_GUIDE
+
+
+def test_writing_guide_only_formats_locked_audio_plan():
+    assert "按照已经锁定的 `audio_plan`" in SHARED_GUIDE
+    assert "严格执行已经锁定的 `audio_plan.music_decision`" in SHARED_GUIDE
+    assert "不要在写作阶段新增声音" in SHARED_GUIDE
 
 
 def test_ref2va_information_assignment_lives_in_profile_guide():

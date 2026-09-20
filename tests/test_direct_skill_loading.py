@@ -1,7 +1,7 @@
 from pathlib import Path
 from unittest.mock import Mock, patch
 
-from backend.agent import invoke_reasoning_json, SKILLS_DIR
+from backend.agent import CORE_SKILLS, invoke_reasoning_json, SKILLS_DIR
 
 
 def test_direct_runtime_receives_selected_bilingual_guides():
@@ -11,7 +11,7 @@ def test_direct_runtime_receives_selected_bilingual_guides():
         "backend.llm_runtime.direct_runtime_from_config", return_value=runtime
     ):
         invoke_reasoning_json(
-            "test", {}, Path("unused.log"), ["h3-prompt-writing"],
+            "test", {}, Path("unused.log"), list(CORE_SKILLS),
             prompt_profile="ref2va",
         )
     parts = runtime.invoke_json.call_args.kwargs["system_parts"]
@@ -20,6 +20,9 @@ def test_direct_runtime_receives_selected_bilingual_guides():
         assert parts.count(expected) == 1
     base_guide = (SKILLS_DIR / "h3-prompt-writing" / "references" / "base-zh-en.txt").read_text(encoding="utf-8")
     assert base_guide not in parts
+    for skill_name in CORE_SKILLS:
+        expected = (SKILLS_DIR / skill_name / "SKILL.md").read_text(encoding="utf-8")
+        assert parts.count(expected) == 1
 
 
 def test_intent_only_call_does_not_load_h3_guides():
