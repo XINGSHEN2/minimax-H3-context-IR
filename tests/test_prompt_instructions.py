@@ -66,3 +66,10 @@ def test_minimum_completion_reaches_both_stages_without_changing_request():
             assert prompt.count(COMPLETION_RULES) == 1
             assert request in prompt
         assert source == before
+
+def test_transition_policy_keeps_one_event_and_complete_motion_arc():
+    assert '每个边界只允许一个转场事件' in COMPACT_WRITING_INSTRUCTIONS
+    assert '同一次、同方向、尚未结束' in COMPACT_WRITING_INSTRUCTIONS
+    assert '启动—峰值换景—落位' in COMPACT_WRITING_INSTRUCTIONS
+    assert '完整运动弧线压成单帧模糊' in COMPACT_WRITING_INSTRUCTIONS
+    assert '被替换的旧内容不回闪、混合或恢复' in COMPACT_WRITING_INSTRUCTIONS

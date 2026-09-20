@@ -25,7 +25,9 @@ At a cut, preserve the planned action phase, screen direction, camera side, eyel
 
 Give a boundary one concrete connection: action match, eyeline, cause/reaction, composition, sound bridge or intentional time/place jump. An ordinary cut needs no optical effect. Preserve requested hard cuts, black frames, flashes and discontinuity instead of smoothing them away.
 
-For blur, flash, smoke, darkness, occlusion or a foreground wipe that conceals a source/scene replacement, execute one atomic irreversible boundary: fully conceal outgoing content, swap at peak concealment, then reveal only incoming content. The outgoing scene must not regain clarity after the swap. Describe the boundary once rather than spreading it across both shots.
+Use one transition event per boundary, then choose its execution from its motion. An ordinary cut needs no optical effect. A flash, black frame or glitch interruption is an instantaneous concealment and normally appears once at one side of the cut. A directional transition with a visible speed arc—such as a whip pan, rapid pan or tracked foreground wipe—may cross the shot boundary as one continuous movement: start and accelerate at the outgoing end, swap only at peak blur or full occlusion, then explicitly continue the same unfinished movement in the same direction as it decelerates, stabilizes and refocuses on incoming content. Do not restart it, name it as another transition or compress its whole motion into a single blurred frame merely to keep ownership unique.
+
+Every concealed source or scene replacement remains atomic and irreversible: fully conceal outgoing content, swap at peak concealment, then reveal only incoming content. The outgoing scene must not regain clarity after the swap unless the user explicitly requests a return, overlay or flashback.
 
 ## Timing and sound
 
