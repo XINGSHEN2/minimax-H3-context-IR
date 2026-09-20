@@ -9,9 +9,8 @@ def test_only_active_and_optional_skills_are_packaged():
         for path in Path(SKILLS_DIR).iterdir()
         if path.is_dir() and (path / 'SKILL.md').is_file()
     }
-    # Retained research skill is available for explicit experiments, not loaded
-    # by default. The v20 compiler uses only the two CORE_SKILLS.
-    assert packaged == set(CORE_SKILLS) | {'h3-video-experience'}
+    # Production packages only the two skills loaded by the compiler.
+    assert packaged == set(CORE_SKILLS)
 
 
 def test_shot_planning_skill_is_always_loaded():
