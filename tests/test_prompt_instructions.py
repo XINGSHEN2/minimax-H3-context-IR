@@ -11,6 +11,7 @@ from backend.prompt_instructions import (
 ROOT = Path(__file__).resolve().parents[1]
 SHARED_GUIDE = (ROOT / "skills/h3-prompt-writing/references/shared-zh-en.txt").read_text(encoding="utf-8")
 REF2VA_GUIDE = (ROOT / "skills/h3-prompt-writing/references/ref2va-zh-en.txt").read_text(encoding="utf-8")
+SHOT_SKILL = (ROOT / "skills/h3-shot-planning/SKILL.md").read_text(encoding="utf-8")
 
 
 def test_instructions_prioritize_content_and_evidence():
@@ -52,6 +53,42 @@ def test_third_stage_locks_plan_and_delegates_writing():
     assert "按照 system prompt 中的 H3 Prompt Writing Skill" in COMPACT_WRITING_INSTRUCTIONS
     assert "不得借写作过程新增、删除、合并或重新拆分" in COMPACT_WRITING_INSTRUCTIONS
     assert "每个事件、动作阶段、结果和切点都必须映射" in COMPACT_WRITING_INSTRUCTIONS
+
+
+def test_scene_and_shot_decisions_live_in_shot_planning_skill():
+    for phrase in (
+        "一个 development 必须带来可见的动作",
+        "删除某个新增事件后目标仍完整时",
+        "把“允许补全”和“允许扩写故事”分开判断",
+        "默认只建立一条主要动作弧",
+        "不要把造型手势、火焰突然升级",
+        "同一现象从微弱、增强到峰值",
+        "快节奏表示有效信息推进更紧凑",
+        "同一时间、空间、主体和动作目标默认放在一个连续镜头内",
+        "全局风格只决定已有必要切点怎样发生",
+        "应在实质性里程碑之间跳切",
+        "不得把“用户要求了这种效果”改写成“用户锁定了这个切点”",
+        "先检查同一镜头能否通过主体靠近",
+        "同一动作自然到达其直接结果",
+        "同一 development 跨越多个镜头时",
+        "需要更持续地观看",
+        "执行去表现层检查",
+    ):
+        assert phrase in SHOT_SKILL
+        assert phrase not in COMPACT_WRITING_INSTRUCTIONS
+
+
+def test_user_prompt_keeps_stage_order_and_schema_handoff():
+    for phrase in (
+        "最小事件大纲",
+        "内容镜头骨架",
+        "表现层分配",
+        "H3 Shot Planning Skill",
+        "development_ids 和 content_purpose",
+        "cut_reason 和 continuity_bridge",
+        "锁定 shots",
+    ):
+        assert phrase in COMPACT_WRITING_INSTRUCTIONS
 
 
 def test_h3_execution_rules_live_in_system_skill():

@@ -55,7 +55,7 @@ class Tests(unittest.TestCase):
     def test_editorial_rules_and_revision(self):
         calls=[]
         result=invoke_compiler(self.e,lambda p:(calls.append(p) or copy.deepcopy(self.r)))
-        for heading in ['第二阶段：最终分镜','第三阶段：锁定计划并交接 H3','同一分析中','developments','development_ids','最小充分补全','不得借写作过程新增、删除、合并或重新拆分','最终响应契约','不输出 action_units 或 shot_merge_audit','每个 Shot 至少承载一个内容 development','叠加在画面上的标题默认不独立成镜']:
+        for heading in ['第二阶段：最终分镜','第三阶段：锁定计划并交接 H3','同一分析中','developments','development_ids','最小充分补全','不得借写作过程新增、删除、合并或重新拆分','最终响应契约','不输出 action_units 或 shot_merge_audit','每个 Shot 至少承载一个 development','H3 Shot Planning Skill']:
             self.assertIn(heading,calls[0])
         self.assertEqual(result['compiler_revision'],COMPILER_REVISION)
         from backend.prompt_instructions import COMPACT_WRITING_INSTRUCTIONS
@@ -124,7 +124,7 @@ class Tests(unittest.TestCase):
                        '不能以相似动作替代','用户明确的内容、动作、顺序、时间、镜头、素材用途和结局必须保留',
                        '按照 system prompt 中的 H3 Prompt Writing Skill',
                        '音频不得新增或改变视觉事件',
-                       '没有用户依据时不重复启动动作',
+                       '非用户明示的内容必须具有必要的因果或展示依据',
                        '关键参考证据缺失']:
             self.assertIn(phrase,calls[0])
         self.assertIn(self.e['user_request'],calls[0])
