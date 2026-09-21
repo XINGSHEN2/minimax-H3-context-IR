@@ -17,7 +17,12 @@ from backend.perception import PERCEPTION_PROVIDERS, PerceptionProviderConfig, s
 from backend.intent_resolver import resolve_intent
 ROOT = Path(__file__).resolve().parent.parent
 SKILLS_DIR = ROOT / "skills"
-CORE_SKILLS = ("h3-prompt-writing", "h3-shot-planning", "h3-sound-planning")
+CORE_SKILLS = (
+    "h3-outline-planning",
+    "h3-shot-planning",
+    "h3-sound-planning",
+    "h3-prompt-writing",
+)
 OFFICIAL_SKILLS = set(CORE_SKILLS)
 
 def prompt_profile_for_source(source: Mapping[str, Any]) -> str:

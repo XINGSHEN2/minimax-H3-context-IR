@@ -11,6 +11,7 @@ from backend.prompt_instructions import (
 ROOT = Path(__file__).resolve().parents[1]
 SHARED_GUIDE = (ROOT / "skills/h3-prompt-writing/references/shared-zh-en.txt").read_text(encoding="utf-8")
 REF2VA_GUIDE = (ROOT / "skills/h3-prompt-writing/references/ref2va-zh-en.txt").read_text(encoding="utf-8")
+OUTLINE_SKILL = (ROOT / "skills/h3-outline-planning/SKILL.md").read_text(encoding="utf-8")
 SHOT_SKILL = (ROOT / "skills/h3-shot-planning/SKILL.md").read_text(encoding="utf-8")
 SOUND_SKILL = (ROOT / "skills/h3-sound-planning/SKILL.md").read_text(encoding="utf-8")
 
@@ -69,17 +70,27 @@ def test_sound_plan_is_locked_before_h3_writing():
     assert "发现声音问题时只修正 audio_plan，不能改动视觉计划" in COMPACT_WRITING_INSTRUCTIONS
 
 
-def test_scene_and_shot_decisions_live_in_shot_planning_skill():
+def test_outline_decisions_live_in_outline_planning_skill():
     for phrase in (
         "一个 development 必须带来可见的动作",
         "删除某个新增事件后目标仍完整时",
         "把“允许补全”和“允许扩写故事”分开判断",
         "默认只建立一条主要动作弧",
         "不要把造型手势、火焰突然升级",
-        "对参与揭示、取得、交接、穿戴、启用或损坏的连续性关键物体维护状态",
         "同一现象从微弱、增强到峰值",
-        "快节奏表示有效信息推进更紧凑",
         "不包括叠加标题、字幕、品牌字样或包装文字开始可读",
+        "不得决定镜头数量、景别、机位、运镜、切点、转场、声音或视觉包装",
+        "大纲必须单向推进",
+        "分镜阶段只能具体化怎样拍摄",
+    ):
+        assert phrase in OUTLINE_SKILL
+        assert phrase not in SHOT_SKILL
+        assert phrase not in COMPACT_WRITING_INSTRUCTIONS
+
+
+def test_scene_and_shot_decisions_live_in_shot_planning_skill():
+    for phrase in (
+        "对参与揭示、取得、交接、穿戴、启用或损坏的连续性关键物体维护状态",
         "不得先虚构更多 beat",
         "每个 development 必须在移除标题文字",
         "同一时间、空间、主体和动作目标默认放在一个连续镜头内",
@@ -91,8 +102,10 @@ def test_scene_and_shot_decisions_live_in_shot_planning_skill():
         "同一 development 跨越多个镜头时",
         "需要更持续地观看",
         "执行去表现层检查",
+        "不能在分镜阶段悄悄补写故事",
     ):
         assert phrase in SHOT_SKILL
+        assert phrase not in OUTLINE_SKILL
         assert phrase not in COMPACT_WRITING_INSTRUCTIONS
 
 
@@ -101,12 +114,23 @@ def test_user_prompt_keeps_stage_order_and_schema_handoff():
         "最小事件大纲",
         "内容镜头骨架",
         "表现层分配",
+        "H3 Outline Planning Skill",
         "H3 Shot Planning Skill",
         "development_ids 和 content_purpose",
         "cut_reason 和 continuity_bridge",
         "锁定 shots",
     ):
         assert phrase in COMPACT_WRITING_INSTRUCTIONS
+
+
+def test_outline_is_locked_before_shot_planning():
+    outline = COMPACT_WRITING_INSTRUCTIONS.index("H3 Outline Planning Skill")
+    shot = COMPACT_WRITING_INSTRUCTIONS.index("H3 Shot Planning Skill")
+    sound = COMPACT_WRITING_INSTRUCTIONS.index("H3 Sound Planning Skill")
+    writing = COMPACT_WRITING_INSTRUCTIONS.index("H3 Prompt Writing Skill")
+    assert outline < shot < sound < writing
+    assert "分镜只能决定怎样拍摄，不能修订大纲" in COMPACT_WRITING_INSTRUCTIONS
+    assert "不能新增、删除、合并、拆分、替换或改写事件" in COMPACT_WRITING_INSTRUCTIONS
 
 
 def test_h3_execution_rules_live_in_system_skill():

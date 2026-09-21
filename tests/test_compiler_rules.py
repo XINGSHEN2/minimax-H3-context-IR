@@ -55,7 +55,7 @@ class Tests(unittest.TestCase):
     def test_editorial_rules_and_revision(self):
         calls=[]
         result=invoke_compiler(self.e,lambda p:(calls.append(p) or copy.deepcopy(self.r)))
-        for heading in ['第二阶段：最终分镜','第三阶段：锁定计划并交接 H3','同一分析中','developments','development_ids','最小充分补全','不得借写作过程新增、删除、合并或重新拆分','最终响应契约','不输出 action_units 或 shot_merge_audit','每个 Shot 至少承载一个 development','H3 Shot Planning Skill']:
+        for heading in ['第二阶段：最终分镜','第三阶段：锁定计划并交接 H3','同一分析中','developments','development_ids','最小充分补全','不得借写作过程新增、删除、合并或重新拆分','最终响应契约','不输出 action_units 或 shot_merge_audit','每个 Shot 至少承载一个 development','H3 Outline Planning Skill','H3 Shot Planning Skill']:
             self.assertIn(heading,calls[0])
         self.assertEqual(result['compiler_revision'],COMPILER_REVISION)
         from backend.prompt_instructions import COMPACT_WRITING_INSTRUCTIONS
