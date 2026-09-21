@@ -1,0 +1,985 @@
+{
+  "schema_version": "h3_compilation.light.v1",
+  "compiler_revision": "singlecall.v46.layered_prompt_contract.sound_planning",
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 15,
+    "aspect_ratio": "16:9",
+    "generate_audio": true,
+    "style": "",
+    "prompt_profile": "auto"
+  },
+  "assets": [
+    {
+      "asset_id": "image_1",
+      "media_type": "image",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.1 品牌大片与影视内容/case2-ref2va/assets/图1.png",
+      "label": "图1",
+      "user_role": null
+    }
+  ],
+  "content_plan": {
+    "creative_brief": {
+      "user_locked": [
+        "Faster overall pacing: epic scale but no drag.",
+        "Fast hard cuts as the editing rhythm between beats.",
+        "Bridge interior shakes / vibrates at the impact moments.",
+        "Strong light burst / strobe flash beat.",
+        "Brief black-frame inserts.",
+        "Hyperspace jump impact event.",
+        "Trailer-style wide-letter-spaced title packaging.",
+        "Title type in a cool non-pure-white colour with restrained glow, material surface texture and a faint rim glow.",
+        "Title animation set: fade-in from deep-space shadow, starlight sweep, letter-spacing expansion, afterimage, faint glow modulation, black-frame flash.",
+        "The reference image's bridge observation deck, back-facing woman silhouette, deep-space fleet and the two verbatim title lines."
+      ],
+      "reference_anchors": [
+        "<Picture 1> (image_1): cold low-key bridge observation deck with a large rectangular viewport in a thick frame, a sill railing, a ribbed reflective metal floor.",
+        "<Picture 1>: the woman seen from behind as a dark silhouette with a tied-back ponytail and a long black uniform coat with shoulder tabs and a belt.",
+        "<Picture 1>: deep blue-black nebula band with a dense star field and a sci-fi fleet whose two large capital ships flank the centre with smaller craft scattered around them.",
+        "<Picture 1>: two verbatim title lines in wide letter spacing, uppercase, cool grey-white with restrained glow and faint rim glow."
+      ],
+      "open_design": [
+        "The fleet's slide from drifting scatter into one aligned formation and the kindling jump-charge core that raises the light on the deck.",
+        "The post-jump state: the nebula and fleet replaced by a blue-white light corridor, and the woman pushing up from the railing to stand at the window.",
+        "Shot count, shot lengths, camera behaviour and the starlight sweep that motivates the title's illumination.",
+        "The whole soundtrack: charge whine, burst crack, sub-bass impact boom, deck ambience, corridor roar and the trailer score."
+      ]
+    },
+    "requirement_map": {
+      "content_events": [
+        {
+          "id": "ce_1",
+          "text": "Reference state from <Picture 1>: the woman stands at the bridge observation window with her back to the camera, watching the fleet in deep space."
+        },
+        {
+          "id": "ce_2",
+          "text": "The bridge interior shakes and vibrates at the impact moments."
+        },
+        {
+          "id": "ce_3",
+          "text": "A strong light burst / strobe flash at the flash beat."
+        },
+        {
+          "id": "ce_4",
+          "text": "A hyperspace jump impact event."
+        }
+      ],
+      "editing_treatments": [
+        {
+          "id": "et_1",
+          "text": "Faster overall pacing across the whole piece: epic but not draggy."
+        },
+        {
+          "id": "et_2",
+          "text": "Fast hard cuts between shots."
+        },
+        {
+          "id": "et_3",
+          "text": "Brief black-frame inserts at insert points between beats."
+        },
+        {
+          "id": "et_4",
+          "text": "A black-frame flash intercut with the title presentation."
+        }
+      ],
+      "global_style": [
+        {
+          "id": "gs_1",
+          "text": "On-screen title typography: cinematic-trailer wide letter spacing."
+        },
+        {
+          "id": "gs_2",
+          "text": "Title text colour: not pure white."
+        },
+        {
+          "id": "gs_3",
+          "text": "Title text material / surface texture."
+        },
+        {
+          "id": "gs_4",
+          "text": "Title text restrained glow."
+        },
+        {
+          "id": "gs_5",
+          "text": "Title text faint edge / rim glow."
+        },
+        {
+          "id": "gs_6",
+          "text": "Title entry animation: fade-in from the deep-space shadow."
+        },
+        {
+          "id": "gs_7",
+          "text": "Title reveal animation: illuminated by a starlight sweep."
+        },
+        {
+          "id": "gs_8",
+          "text": "Title animation: letter-spacing expansion."
+        },
+        {
+          "id": "gs_9",
+          "text": "Title animation: afterimage / echo ghosting."
+        },
+        {
+          "id": "gs_10",
+          "text": "Title animation: faint glow modulation over the reveal."
+        }
+      ],
+      "audio_requirements": [
+        {
+          "id": "ar_1",
+          "text": "Audio is generated for the piece (generate_audio = true); the user specifies no music, silence, source audio, dialogue or lyrics, so the soundtrack is open design that must support the locked visual beats and must not add visual events."
+        }
+      ]
+    },
+    "task_mode": "ref2va",
+    "must_keep": [
+      "Faster pacing that stays epic without dragging.",
+      "Fast hard cuts at every shot boundary.",
+      "Bridge interior shake at the impact.",
+      "Strong light burst flooding the deck.",
+      "Brief black-frame occlusion at the burst-to-impact beat.",
+      "Hyperspace jump impact and its outcome.",
+      "Wide-letter-spaced trailer title typography in a cool, non-pure-white colour with material texture, restrained glow and faint rim glow.",
+      "The full title animation set: deep-space-shadow fade-in, starlight sweep, letter-spacing expansion, afterimage, faint glow modulation, black-frame flash.",
+      "The two verbatim title lines and the reference deck, woman silhouette and fleet identities."
+    ],
+    "bindings": [
+      {
+        "asset_id": "image_1",
+        "role": "Reference-generation source (not a target frame): it defines the bridge observation deck, the back-facing woman silhouette, the deep-space fleet and the title typography used across the target video.",
+        "retained_attributes": [
+          "Bridge observation deck: large rectangular metal viewport in a thick frame, waist-high sill railing, ribbed reflective metal floor, cold low-key lighting with the interior in shadow.",
+          "Woman read from behind as a dark silhouette, dark hair in a tied-back ponytail, long black uniform coat with shoulder tabs and a belt.",
+          "Deep-space view: deep blue-black nebula band, dense star field, fleet with two large capital ships flanking the centre and smaller craft scattered around them.",
+          "Title packaging: two verbatim uppercase lines in wide letter spacing, cool grey-white that never reaches pure white, subtle surface texture, restrained halo and faint rim glow."
+        ],
+        "optional_inherited_attributes": [
+          "Centre-symmetric composition with the woman centred at the sill railing and the window forming a nested frame around the void.",
+          "Low camera height at the sill level and the two-line title placed across the upper and centre parts of the frame."
+        ],
+        "excluded_attributes": [
+          "The still frame reproduced as a fixed, unchanging anchor across the video.",
+          "Both title lines displayed simultaneously over the same moment."
+        ],
+        "exclusion_reasons": [
+          "The user asked for a fast-cut trailer with jump, shake, flash and black-frame beats, so the reference is used as a generation reference rather than a locked frame.",
+          "The title lines are staggered so each can carry its own entry and reveal animation; both lines remain verbatim in the target video."
+        ]
+      }
+    ],
+    "developments": [
+      {
+        "id": "dev_1",
+        "source_content_event_ids": [
+          "ce_1"
+        ],
+        "visible_change": "Outside the viewport the fleet slides out of its drifting scatter into one aligned formation and a small cold jump-charge point of light kindles ahead of it, lifting the light across the deck until the woman's silhouette sharpens; her hands tighten on the sill railing.",
+        "outcome": "The jump is visibly imminent and the deck is lit for it."
+      },
+      {
+        "id": "dev_2",
+        "source_content_event_ids": [
+          "ce_3",
+          "ce_4",
+          "ce_2"
+        ],
+        "visible_change": "The charge core collapses into a strong light burst that floods the whole frame white; the jump impact then slams the bridge, shuddering the structure and the viewport frame, vibrating the floor panels, and throwing the woman forward against the railing where she braces with both arms.",
+        "outcome": "The jump has fired and the deck is rocked by the impact."
+      },
+      {
+        "id": "dev_3",
+        "source_content_event_ids": [
+          "ce_4"
+        ],
+        "visible_change": "Beyond the viewport the nebula and the fleet have been replaced by a corridor of blue-white light rushing past, and the woman pushes herself up off the railing and stands upright at the window, her silhouette rimmed by the streaming light.",
+        "outcome": "The ship has jumped: the old void is gone, the corridor is the new state, and she has recovered her footing."
+      }
+    ],
+    "shots": [
+      {
+        "id": "shot_1",
+        "development_ids": [
+          "dev_1"
+        ],
+        "content_purpose": "Establish the observation deck, the woman at the railing and the fleet in the void, and open the title with its fade-in from the deep-space shadow.",
+        "treatment_ids": [
+          "et_1",
+          "gs_1",
+          "gs_2",
+          "gs_3",
+          "gs_4",
+          "gs_5",
+          "gs_6",
+          "gs_10"
+        ],
+        "start_seconds": 0.0,
+        "end_seconds": 2.8,
+        "start_state": "The woman stands centred at the sill railing with both hands on it and her back to camera; the fleet drifts in a scattered formation inside the nebula band; the first title line is still invisible against the dark part of the nebula.",
+        "action": "The fleet slides from scatter into one aligned formation and a cold jump-charge point of light kindles ahead of it, raising the light across the deck on her silhouette; her hands tighten on the railing; the first title line fades in out of the deep-space shadow in wide letter spacing with a restrained halo and a faint rim glow.",
+        "end_state": "The formation is aligned with a small cold charge core ahead of it, the deck light has risen, and the first title line is readable in wide letter spacing.",
+        "sound_cues": [
+          "A faint rising charge whine starts under the fleet's alignment and carries into [Shot 2]."
+        ]
+      },
+      {
+        "id": "shot_2",
+        "development_ids": [
+          "dev_1"
+        ],
+        "content_purpose": "Show the fleet holding in its aligned formation while the charge core swells to its peak, and run the starlight sweep, letter-spacing expansion and afterimage over the title.",
+        "treatment_ids": [
+          "et_1",
+          "et_2",
+          "gs_1",
+          "gs_2",
+          "gs_3",
+          "gs_4",
+          "gs_5",
+          "gs_7",
+          "gs_8",
+          "gs_9",
+          "gs_10"
+        ],
+        "start_seconds": 2.8,
+        "end_seconds": 4.6,
+        "cut_reason": "The charge that lifts the deck light exists outside the viewport and cannot be seen from the deck-side view; the cut is needed to show where the growing light comes from.",
+        "continuity_bridge": "The charge core and the raised deck light are already growing at the end of [Shot 1]; [Shot 2] continues the same charge at the same point in its build rather than restarting it.",
+        "start_state": "The fleet is already in its aligned formation with a small cold core of light burning ahead of it, brighter than at the start of [Shot 1]; the first title line is lit on the frame.",
+        "action": "The core swells and begins to drag the surrounding stars sideways; a sweep of starlight crosses the title letters from left to right and illuminates them as it passes; the letter spacing expands and a faint afterimage trails behind the letters.",
+        "end_state": "The core is at its brightest, the stars are lengthening into the first streaks, and the title letters are fully lit with expanded spacing and a trailing afterimage.",
+        "sound_cues": [
+          "The charge whine keeps climbing with the swelling core and runs into [Shot 3]."
+        ]
+      },
+      {
+        "id": "shot_3",
+        "development_ids": [
+          "dev_2"
+        ],
+        "content_purpose": "Trigger the jump: the charged core's light spikes through the viewport into a strong light burst that floods the deck and the title.",
+        "treatment_ids": [
+          "et_1",
+          "et_2",
+          "gs_1",
+          "gs_2",
+          "gs_3",
+          "gs_4",
+          "gs_5"
+        ],
+        "start_seconds": 4.6,
+        "end_seconds": 6.0,
+        "start_state": "The core is at peak brightness outside; the interior is still lit only by it; the first title line is lit on the frame.",
+        "action": "The core's light spikes through the viewport into a strong light burst that floods the whole frame white; the deck is blown out, the woman's silhouette is swallowed by the white, and the halos and rim glow on the letters flare and blow out with it.",
+        "end_state": "The frame is entirely white, with the deck, the woman and the title all lost inside the burst.",
+        "sound_cues": [
+          "One sharp high crack cuts through the rising whine on the first pure-white frame of the burst."
+        ]
+      },
+      {
+        "id": "shot_4",
+        "development_ids": [
+          "dev_2"
+        ],
+        "content_purpose": "Land the jump impact on the bridge: the black-frame occlusion clears onto a violently shaking deck with the woman thrown against the railing.",
+        "treatment_ids": [
+          "et_1",
+          "et_2",
+          "et_3",
+          "et_4"
+        ],
+        "start_seconds": 6.0,
+        "end_seconds": 8.8,
+        "cut_reason": "The burst and its impact are one continuous event, but the impact cannot be read while the frame is still flooded white; the locked black-frame beat is the point where the white peak can be replaced by the shaken deck.",
+        "continuity_bridge": "The burst's white peak is fully occluded by the black frame and the deck's jolt begins under the lifted black as the direct result of that same burst, so the impact continues the same jump event instead of starting a new one.",
+        "start_state": "The frame is black; behind it the burst has just peaked and the deck has just been struck, not yet visible.",
+        "action": "The black frame holds briefly, then lifts onto the deck as the jump impact lands: the whole structure shudders violently, the viewport frame and the sill railing shake, the ribbed floor panels vibrate, and the woman is thrown forward against the railing and braces there with both arms while her body jolts with the deck; outside, the nebula band and the ships smear into long streaks.",
+        "end_state": "The deck is still trembling, the woman is braced low against the railing, and the void outside has smeared into long streaks.",
+        "sound_cues": [
+          "A deep sub-bass boom lands with the deck's first visible jolt, followed by a low-frequency rattle of the frame and floor panels, with the deck hum running underneath."
+        ]
+      },
+      {
+        "id": "shot_5",
+        "development_ids": [
+          "dev_3"
+        ],
+        "content_purpose": "Complete the jump: the aligned fleet is drawn into a single point of light that stretches into the corridor of light.",
+        "treatment_ids": [
+          "et_1",
+          "et_2"
+        ],
+        "start_seconds": 8.8,
+        "end_seconds": 11.6,
+        "start_state": "The ships of the formation are still streaking sideways in the void.",
+        "action": "The ships are drawn together into one point of light that stretches into a blue-white corridor rushing toward the camera; the ship shapes and the nebula band elongate into streaks before the corridor light fills the frame.",
+        "end_state": "The blue-white corridor fills the frame; the nebula and the fleet are gone.",
+        "sound_cues": [
+          "The wide rushing roar of the corridor begins here and continues across the cut into [Shot 6]."
+        ]
+      },
+      {
+        "id": "shot_6",
+        "development_ids": [
+          "dev_3"
+        ],
+        "content_purpose": "Show the new state after the jump, with the corridor outside and the woman standing, and reveal the second title line.",
+        "treatment_ids": [
+          "et_1",
+          "et_2",
+          "et_3",
+          "et_4",
+          "gs_1",
+          "gs_2",
+          "gs_3",
+          "gs_4",
+          "gs_5",
+          "gs_6",
+          "gs_8",
+          "gs_9",
+          "gs_10"
+        ],
+        "start_seconds": 11.6,
+        "end_seconds": 15.0,
+        "cut_reason": "The rush of the corridor cannot be shown at the same time as the woman's recovery from the jolt taken in [Shot 4]; the black frame separates the exterior jump from the deck's new state and carries the second title reveal.",
+        "continuity_bridge": "The corridor roar is already running at the end of [Shot 5] and continues under the lifted black; the same rushing light is now seen from the deck side as she rises from the brace she took in [Shot 4].",
+        "start_state": "The frame is black over the ongoing corridor roar; the woman is still braced low against the railing from the impact.",
+        "action": "The black lifts onto the deck: the shaking has stopped and the viewport is filled by the rushing blue-white corridor streaming past; the woman pushes herself up off the railing and stands upright at the window, still facing it, her silhouette rimmed by the streaming light; the second title line reveals itself out of the dark of the frame while its letter spacing expands, with a soft afterimage behind the letters and a faint glow modulating across them.",
+        "end_state": "The woman stands upright at the window against the streaming corridor light, and the second title line is fully readable in wide letter spacing.",
+        "sound_cues": [
+          "The corridor roar stays level under the whole shot and the final score chord decays across the last frame."
+        ]
+      }
+    ],
+    "audio_plan": {
+      "constraints": [
+        "generate_audio is enabled, so the piece needs a generated soundtrack.",
+        "No dialogue, narration or lyrics are specified and none are added.",
+        "No source audio exists in the reference set, so no audio is copied or referenced.",
+        "The score must serve the faster trailer pacing and must never lengthen a shot."
+      ],
+      "auditory_focus": "The jump itself: the rising charge whine and the single deep boom of the impact, set against the hard-cut rhythm.",
+      "continuous_bed": "A low bridge-deck hum with a faint ventilation undertone that deepens into a sub-bass shudder while the deck is struck, then gives way to the wide rushing roar of the jump corridor from [Shot 5] onward.",
+      "key_sound_events": [
+        {
+          "shot_id": "shot_2",
+          "trigger": "The jump-charge core swelling to its brightest ahead of the aligned formation.",
+          "sound": "A thin rising charge whine that climbs with the core.",
+          "sync": "The whine keeps climbing through the cut into [Shot 3] and is cut off by the burst's crack on its first pure-white frame."
+        },
+        {
+          "shot_id": "shot_3",
+          "trigger": "The charge core's light spiking through the viewport into the strong light burst.",
+          "sound": "One sharp high crack.",
+          "sync": "The crack lands exactly on the first pure-white frame of the burst."
+        },
+        {
+          "shot_id": "shot_4",
+          "trigger": "The jump impact slamming the bridge after the black frame.",
+          "sound": "A deep sub-bass boom with a low-frequency rattle of the viewport frame and floor panels.",
+          "sync": "The boom lands on the first visible frame after the black frame, together with the deck's first jolt."
+        }
+      ],
+      "music_decision": {
+        "decision": "use",
+        "function": "Unify the fast hard-cut trailer pacing and carry the epic scale across the cuts without slowing the piece.",
+        "tempo_energy_basis": "A moderate-fast steady pulse with one accent per hard cut, matching the roughly 1.4 to 3.4 second shot spacing and the single large impact at the jump.",
+        "timbres": [
+          "low brass",
+          "sub-bass drone",
+          "sustained high string line"
+        ],
+        "dynamic_arc": "Sparse and low under the title's fade-in, adding density as the charge builds, peaking at the burst and the impact, then holding one wide sustained chord through the corridor and decaying at the end."
+      },
+      "mix_priority": "The jump impact and the charge build stay on top; the score sits under them and accents the hard cuts; the deck ambience and the corridor roar stay lowest so they never mask the impacts.",
+      "ending_state": "The corridor roar and one wide sustained score chord hold level as the final image holds, and the chord decays across the last frame so the ending reads as arrived rather than fading out early."
+    }
+  },
+  "uncertainties": [
+    {
+      "issue": "The reference set contains a single still image, so it cannot evidence the bridge shake, the light burst, the black frames, the jump impact or any text animation.",
+      "impact": "Those beats are treated as user-locked additions and are never claimed as observed source behaviour."
+    },
+    {
+      "issue": "Title glow strength, surface texture and animation timing cannot be verified from a static frame; only the wide letter spacing and general cold tone are visible.",
+      "impact": "The prompt keeps the glow restrained and the colour cool grey-white, following the user's wording rather than the still image."
+    },
+    {
+      "issue": "It is unresolved whether the fleet jumps away and leaves the woman's deck behind, or whether her ship jumps together with the formation.",
+      "impact": "The plan treats the deck's shake as her ship jumping with the fleet, so the corridor appears both from the exterior side in [Shot 5] and through the viewport in [Shot 6]."
+    },
+    {
+      "issue": "A brief black frame is listed once as a beat and once as a title effect, so the intended number of black frames is unspecified.",
+      "impact": "The plan uses two brief black frames, one as the burst-to-impact insert in [Shot 4] and one over the second title reveal in [Shot 6]; if only one is wanted, the [Shot 6] black frame should be removed."
+    },
+    {
+      "issue": "No audio direction and no audio asset were supplied.",
+      "impact": "The score, impacts and ambience are open design; no audio copying or referencing is claimed anywhere in the plan."
+    }
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v1",
+    "provider": {
+      "name": "Qwen3.8-27B",
+      "mode": "grouped_images_projected"
+    },
+    "assets": [
+      {
+        "asset_id": "image_1",
+        "summary": "单一画面：舰桥观察舱内，一名女性剪影背对镜头撑在舷窗栏杆上，透过巨大矩形舷窗望见深空银河与一支科幻舰队；画面上方叠加宽字距电影预告片式标题文字。",
+        "global_analysis": {
+          "scene": "冷色调科幻舰桥内部，透过舷窗呈现深空星云与舰队，整体低调照明、人物呈剪影",
+          "composition": "中心对称构图，人物居中位于窗台，舷窗形成嵌套框架，标题文字横贯中上部，舰队左右分布形成平衡",
+          "framing_layers": [
+            {
+              "description": "整体为单一画面，内部存在嵌套框架：前景金属舷窗与舱内结构框住窗外的深空舰队场景",
+              "coverage": "full_frame",
+              "confidence": 0.9,
+              "source_asset_ids": [
+                "image_1"
+              ]
+            },
+            {
+              "description": "舷窗内的嵌套视图：深空银河星云背景与散布的科幻舰队",
+              "coverage": "central_window",
+              "confidence": 0.85,
+              "source_asset_ids": [
+                "image_1"
+              ]
+            }
+          ],
+          "visible_text": [
+            {
+              "text": "THE LAST FLEET LEFT EARTH",
+              "legibility": "clear",
+              "region": "upper_center",
+              "confidence": 0.95,
+              "source_asset_ids": [
+                "image_1"
+              ]
+            },
+            {
+              "text": "SHE WAS NOT ON BOARD",
+              "legibility": "clear",
+              "region": "center_below_title",
+              "confidence": 0.9,
+              "source_asset_ids": [
+                "image_1"
+              ]
+            }
+          ],
+          "uncertainties": [
+            "人物面部被剪影遮挡，无法确认五官与表情",
+            "人物性别依据马尾与身形推断，非直接可见",
+            "飞船具体型号与阵营无法确认"
+          ]
+        },
+        "image_observation": {},
+        "evidence": [
+          {
+            "evidence_id": "image_1_whole_frame",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "单一画面：舰桥观察舱内，一名女性剪影背对镜头撑在舷窗栏杆上，透过巨大矩形舷窗望见深空银河与一支科幻舰队；画面上方叠加宽字距电影预告片式标题文字。"
+          },
+          {
+            "evidence_id": "image_1_person_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "背对镜头的女性剪影，深色马尾，穿黑色长款制服，双手撑在窗台栏杆上"
+          },
+          {
+            "evidence_id": "image_1_environment_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "舰桥观察舱内部，大型矩形金属舷窗、窗台栏杆与反光金属地板，冷色低调照明"
+          },
+          {
+            "evidence_id": "image_1_space_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "舷窗外的深空背景，银河星云与散布星点，提供背光与微弱辉光"
+          },
+          {
+            "evidence_id": "image_1_fleet_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "深空中的一支科幻舰队，两艘大型主力舰居中左右，多艘小型飞船散布"
+          },
+          {
+            "evidence_id": "image_1_text_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "电影预告片式宽字距大写标题包装，灰白偏冷非纯白，带克制发光与微弱边缘辉光"
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "source_asset_ids": [
+              "image_1"
+            ],
+            "evidence_ids": [
+              "image_1_person_1"
+            ],
+            "category": "person",
+            "subcategory": "person",
+            "summary": "背对镜头的女性剪影，深色马尾，穿黑色长款制服，双手撑在窗台栏杆上",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "服装",
+                  "value": "黑色长款制服外套，带肩章与腰带",
+                  "evidence_ids": [
+                    "image_1_person_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "发型",
+                  "value": "深色束起的马尾辫",
+                  "evidence_ids": [
+                    "image_1_person_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [
+                {
+                  "name": "朝向",
+                  "value": "背对镜头，面向舷窗与太空",
+                  "evidence_ids": [
+                    "image_1_person_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "姿态",
+                  "value": "站立，双手撑在窗台栏杆上",
+                  "evidence_ids": [
+                    "image_1_person_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": [
+              "面部不可见",
+              "性别为推断"
+            ]
+          },
+          {
+            "entity_id": "environment_1",
+            "source_asset_ids": [
+              "image_1"
+            ],
+            "evidence_ids": [
+              "image_1_environment_1"
+            ],
+            "category": "environment",
+            "subcategory": "environment",
+            "summary": "舰桥观察舱内部，大型矩形金属舷窗、窗台栏杆与反光金属地板，冷色低调照明",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "结构",
+                  "value": "大型矩形舷窗与厚重金属窗框",
+                  "evidence_ids": [
+                    "image_1_environment_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [],
+              "material": [
+                {
+                  "name": "表面",
+                  "value": "金属地板带条状反光",
+                  "evidence_ids": [
+                    "image_1_environment_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "光照",
+                  "value": "冷色低调照明，人物呈剪影，窗台有高光",
+                  "evidence_ids": [
+                    "image_1_environment_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "space_1",
+            "source_asset_ids": [
+              "image_1"
+            ],
+            "evidence_ids": [
+              "image_1_space_1"
+            ],
+            "category": "environment",
+            "subcategory": "environment",
+            "summary": "舷窗外的深空背景，银河星云与散布星点，提供背光与微弱辉光",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "色调",
+                  "value": "深蓝黑冷色调星云",
+                  "evidence_ids": [
+                    "image_1_space_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "内容",
+                  "value": "银河星云带与密集星点",
+                  "evidence_ids": [
+                    "image_1_space_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "光照",
+                  "value": "星云自发光形成背光与边缘辉光",
+                  "evidence_ids": [
+                    "image_1_space_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "fleet_1",
+            "source_asset_ids": [
+              "image_1"
+            ],
+            "evidence_ids": [
+              "image_1_fleet_1"
+            ],
+            "category": "object",
+            "subcategory": "object",
+            "summary": "深空中的一支科幻舰队，两艘大型主力舰居中左右，多艘小型飞船散布",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.85
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "形态",
+                  "value": "多艘科幻战舰，两艘大型主力舰对称分布",
+                  "evidence_ids": [
+                    "image_1_fleet_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "色调",
+                  "value": "暗色舰体带微弱舷窗灯光",
+                  "evidence_ids": [
+                    "image_1_fleet_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "数量",
+                  "value": "多艘大小飞船散布于星云中",
+                  "evidence_ids": [
+                    "image_1_fleet_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": [
+              "舰船型号与阵营不可确认"
+            ]
+          },
+          {
+            "entity_id": "text_1",
+            "source_asset_ids": [
+              "image_1"
+            ],
+            "evidence_ids": [
+              "image_1_text_1"
+            ],
+            "category": "text",
+            "subcategory": "text",
+            "summary": "电影预告片式宽字距大写标题包装，灰白偏冷非纯白，带克制发光与微弱边缘辉光",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "颜色",
+                  "value": "灰白偏冷，非纯白，带克制发光",
+                  "evidence_ids": [
+                    "image_1_text_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "排版",
+                  "value": "宽字距大写无衬线标题与副标题",
+                  "evidence_ids": [
+                    "image_1_text_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "材质",
+                  "value": "微弱边缘辉光与材质感",
+                  "evidence_ids": [
+                    "image_1_text_1"
+                  ],
+                  "confidence": 0.7,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": [
+              "发光强度与动效为静态图无法确认"
+            ]
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_relative_to",
+            "subject_id": "person_1",
+            "object_id": "environment_1",
+            "anchor": "人物站立于舱内窗台中央",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "image_1_whole_frame"
+            ],
+            "confidence": 0.9,
+            "source": "visible",
+            "source_asset_ids": [
+              "image_1"
+            ]
+          },
+          {
+            "relation_id": "relation_2",
+            "type": "facing",
+            "subject_id": "person_1",
+            "object_id": "space_1",
+            "anchor": "人物面向舷窗外的深空",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "image_1_whole_frame"
+            ],
+            "confidence": 0.9,
+            "source": "visible",
+            "source_asset_ids": [
+              "image_1"
+            ]
+          },
+          {
+            "relation_id": "relation_3",
+            "type": "located_in",
+            "subject_id": "fleet_1",
+            "object_id": "space_1",
+            "anchor": "舰队散布于深空星云中",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "image_1_whole_frame"
+            ],
+            "confidence": 0.9,
+            "source": "visible",
+            "source_asset_ids": [
+              "image_1"
+            ]
+          },
+          {
+            "relation_id": "relation_4",
+            "type": "visible_through",
+            "subject_id": "space_1",
+            "object_id": "environment_1",
+            "anchor": "深空透过舷窗可见",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "image_1_whole_frame"
+            ],
+            "confidence": 0.9,
+            "source": "visible",
+            "source_asset_ids": [
+              "image_1"
+            ]
+          },
+          {
+            "relation_id": "relation_5",
+            "type": "overlaid_on",
+            "subject_id": "text_1",
+            "object_id": "space_1",
+            "anchor": "标题文字叠加在深空背景上",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "image_1_whole_frame"
+            ],
+            "confidence": 0.9,
+            "source": "visible",
+            "source_asset_ids": [
+              "image_1"
+            ]
+          }
+        ],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "grouped_image_projected",
+          "grouped_request_asset_ids": [
+            "image_1"
+          ]
+        },
+        "transcript": "",
+        "uncertainties": [
+          "静态图无法证明舰桥震动、跃迁、爆闪等动效",
+          "文字动效（渐入、扫亮、字距展开、残影）在静态图中不可见"
+        ]
+      }
+    ],
+    "missing_asset_ids": [],
+    "perception_metrics": {
+      "request_count": 1
+    },
+    "experiment": {
+      "mode": "qwen3.8_grouped_images_projected",
+      "user_request": "节奏更快，宏大但不拖。快速硬切、舰桥震动、强光爆闪、短黑场、跃迁冲击。文字是电影预告片式宽字距标题包装，字体不要纯白，要有克制发光和材质感、微弱边缘辉光。文字动效包含从深空暗部渐入、被星光扫亮、字距展开、残影、微弱发光、黑场闪现。 （非完整Prompt，可自行补充细节）"
+    }
+  }
+}

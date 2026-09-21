@@ -1,0 +1,36 @@
+{
+  "task": "ref2va",
+  "prompt_file": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.1 品牌大片与影视内容/case1-ref2va/output/v46.2-sound-planning/h3_prompt.txt",
+  "conditions": [
+    {
+      "type": "image",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.1 品牌大片与影视内容/case1-ref2va/assets/图1.png",
+      "role": "reference"
+    },
+    {
+      "type": "image",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.1 品牌大片与影视内容/case1-ref2va/assets/图2.png",
+      "role": "reference"
+    },
+    {
+      "type": "image",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.1 品牌大片与影视内容/case1-ref2va/assets/图3.png",
+      "role": "reference"
+    },
+    {
+      "type": "image",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.1 品牌大片与影视内容/case1-ref2va/assets/图4.png",
+      "role": "reference"
+    }
+  ],
+  "target": {
+    "short_edge": 768,
+    "aspect_ratio": "16:9",
+    "duration_seconds": 15
+  },
+  "seed": 0,
+  "n": 1,
+  "num_inference_steps": 20,
+  "output_mode": "decoded_files",
+  "output_path": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.1 品牌大片与影视内容/case1-ref2va/output/v46.2-sound-planning/h3_outputs"
+}

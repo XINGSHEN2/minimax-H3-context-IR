@@ -1,0 +1,261 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "Photorealistic cinematic rendering with high-contrast lighting and tight, compact pacing across the whole video.",
+      "图1/image_1 supplies the overall atmosphere and visual style only; 图2/image_2 supplies the protagonist's identity (face, hair, body appearance).",
+      "[Shot 1] is an ultra-wide establishing shot: a giant circular cosmic gate nearly fills the frame, the centre of the gate is absolute darkness, the ground is wet and reflective, and the camera slowly pushes in.",
+      "The protagonist appears only as a very small back-view figure standing in the lower part of the frame, offset to the right.",
+      "The main title fades in from the edge of the darkness, blurred first and then sharp, reading verbatim \"THE STARS WERE LISTENING\" in a very narrow, heavy, all-caps face in dark red mixed with rust red with slight grain and fogged edges.",
+      "[Shot 1] audio: a deep low-frequency pulse, a distant metallic vibration, and one soft hit at the moment the title becomes sharp.",
+      "[Shot 1] ends on a hard cut, which must cut into further content.",
+      "The user states the prompt is incomplete and details may be added."
+    ],
+    "reference_anchors": [
+      "<Picture 1> (image_1): atmosphere and visual style — colossal circular concentric-ring metal gate around a field of absolute black, cold desaturated green-grey high-contrast light, wet reflective floor, sparse dim metal frames, crates and hazy depth at the sides.",
+      "<Picture 2> (image_2): protagonist identity — face, dark mid-length hair, slender build, long black over-knee tailored coat, black top and trousers, black lace-up platform boots."
+    ],
+    "open_design": [
+      "[Shot 2]: what the gate's answer looks like — thin cold light waking along the innermost ring and sweeping around it, cold reflections rising across the wet floor, the listener's readable back view lifting its head, the gate's centre staying black.",
+      "[Shot 3]: the listener's profile reaction in close-up, the first and only moment where the face carried by <Picture 2> is exposed.",
+      "The 15-second split (7.2 / 5.2 / 2.6 s), the framing of the two added shots, and all audio design after the locked [Shot 1] audio."
+    ]
+  },
+  "requirement_map": {
+    "content_events": [
+      {
+        "id": "ce_1",
+        "text": "A colossal circular cosmic gate built of concentric metal rings nearly fills the frame, with a centre of absolute darkness."
+      },
+      {
+        "id": "ce_2",
+        "text": "The ground beneath the gate is wet and reflective, holding dim cold light and reflections of the gate."
+      },
+      {
+        "id": "ce_3",
+        "text": "The protagonist stands before the gate as a very small back-view figure in the lower part of the frame, offset to the right."
+      }
+    ],
+    "editing_treatments": [
+      {
+        "id": "et_1",
+        "text": "[Shot 1] is an ultra-wide establishing shot with a slow forward push-in (dolly in) that keeps the gate as the dominant centred mass while the protagonist remains very small and off-centre right in the lower frame."
+      },
+      {
+        "id": "et_2",
+        "text": "The on-screen main title fades in from the edge of the darkness, blurred and barely legible at first and resolving to full sharpness."
+      },
+      {
+        "id": "et_3",
+        "text": "[Shot 1] ends on a hard cut with no fade or dissolve, and that boundary cuts into a new event state rather than ending the video."
+      }
+    ],
+    "global_style": [
+      {
+        "id": "gs_1",
+        "text": "Photorealistic cinematic rendering with high-contrast lighting, a cold desaturated green-grey palette, thin atmospheric haze and fine film grain; the overall atmosphere and visual style follow 图1/image_1."
+      },
+      {
+        "id": "gs_2",
+        "text": "On-screen packaging: the main title in [Shot 1] reads \"THE STARS WERE LISTENING\" in a very narrow, heavy, all-caps typeface in dark red mixed with rust red, with slight grain and fogged, blurred edges."
+      }
+    ],
+    "audio_requirements": [
+      {
+        "id": "ar_1",
+        "text": "A deep low-frequency pulse is present under [Shot 1] and continues as the video's base layer."
+      },
+      {
+        "id": "ar_2",
+        "text": "A distant metallic vibration is present under [Shot 1]."
+      },
+      {
+        "id": "ar_3",
+        "text": "One soft hit is synchronized exactly with the moment the title becomes fully sharp."
+      }
+    ]
+  },
+  "task_mode": "ref2va",
+  "must_keep": [
+    "Photorealistic cinematic rendering with high-contrast lighting throughout.",
+    "Tight, compact pacing.",
+    "image_1 used only for overall atmosphere and visual style; its poster layout and other text are not transferred.",
+    "image_2 used for the protagonist's identity: face, hair, body appearance and the black outfit.",
+    "[Shot 1] ultra-wide establishing framing with a slow forward push-in.",
+    "In [Shot 1]: the giant circular gate nearly filling the frame, its centre in absolute darkness, and a wet reflective ground.",
+    "In [Shot 1]: the protagonist as a very small back-view figure in the lower part of the frame, offset to the right.",
+    "The title fades in from the edge of the darkness, blurred then sharp, reading verbatim \"THE STARS WERE LISTENING\" in a very narrow heavy all-caps face, dark red mixed with rust red, with slight grain and fogged edges.",
+    "Deep low-frequency pulse, distant metallic vibration, and one soft hit at the instant the title becomes sharp.",
+    "A hard cut at the end of [Shot 1], cutting into subsequent content."
+  ],
+  "bindings": [
+    {
+      "asset_id": "image_1",
+      "role": "atmosphere and visual style reference for the whole video, and the visual source of the cosmic-gate environment's look",
+      "retained_attributes": [
+        "colossal circular concentric-ring metal gate around a field of absolute black at its centre",
+        "cold desaturated green-grey high-contrast lighting with deep shadow and hard highlights",
+        "wet reflective ground",
+        "sparse dim metal frames, stacked crates and hazy depth far at the sides",
+        "thin atmospheric haze and fine photographic grain"
+      ],
+      "optional_inherited_attributes": [
+        "the gate's symmetry and its dominance as a centred circular mass in frame"
+      ],
+      "excluded_attributes": [
+        "the poster's smaller white line \"SOMETHING ANSWERED BELOW\"",
+        "the poster's figure placement at frame centre",
+        "the flat 2D poster layout, borders and any other poster lettering"
+      ],
+      "exclusion_reasons": [
+        "image_1 was locked to atmosphere and visual style only, and only the main title was requested as on-screen text",
+        "the user placed the protagonist in the lower right rather than at frame centre"
+      ]
+    },
+    {
+      "asset_id": "image_2",
+      "role": "protagonist identity reference (face, hair, body appearance, wardrobe)",
+      "retained_attributes": [
+        "face and facial structure",
+        "dark mid-length hair",
+        "slender build",
+        "long black over-knee tailored coat",
+        "black top and black trousers",
+        "black lace-up platform boots"
+      ],
+      "optional_inherited_attributes": [
+        "the coat's fabric texture and the boots' lacing detail, visible only where the light picks them out"
+      ],
+      "excluded_attributes": [
+        "the white studio background",
+        "the multi-panel reference-sheet grid layout and its neutral poses"
+      ],
+      "exclusion_reasons": [
+        "image_2 is a character reference board, not a narrative environment or a storyboard; only the character's identity and wardrobe carry into the target video"
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_1",
+      "source_content_event_ids": [
+        "ce_1",
+        "ce_2",
+        "ce_3"
+      ],
+      "visible_change": "The frame settles from near-black immensity into a legible relationship: a lone back-view figure standing small at the base of the sealed gate on wet reflective ground, while the gate's centre holds absolute darkness and nothing answers.",
+      "outcome": "The standoff is established — the gate is sealed and silent and the listener is waiting alone; the hard cut leaves the answer ungiven."
+    },
+    {
+      "id": "dev_2",
+      "source_content_event_ids": [
+        "ce_1"
+      ],
+      "visible_change": "A thin line of cold light wakes along the gate's innermost ring and sweeps around it, the wet floor lifts that light into cold reflections, the listener's head rises toward the light while the gate's centre stays absolute black, and the listener's profile opens into the rising light.",
+      "outcome": "The sealed gate is no longer silent: the listener is answered, and the video's final image is the listener's lit profile facing the unanswered darkness at the gate's centre."
+    }
+  ],
+  "shots": [
+    {
+      "id": "shot_1",
+      "development_ids": [
+        "dev_1"
+      ],
+      "content_purpose": "Establish the sealed circular gate and the lone listener at the gate's own immense scale on wet reflective ground, and land the main title over the darkness before a hard cut.",
+      "treatment_ids": [
+        "gs_1",
+        "gs_2",
+        "et_1",
+        "et_2",
+        "et_3"
+      ],
+      "start_seconds": 0.0,
+      "end_seconds": 7.2,
+      "start_state": "Untouched dark: the gate's concentric rings occupy almost the whole frame with absolute black at the centre; the wet floor holds dim cold reflections; the protagonist is a very small back-view figure in the lower frame, offset right, facing the gate; no title is visible yet; the deep low-frequency pulse and distant metallic vibration are already running.",
+      "action": "The camera pushes in slowly with small amplitude toward the black centre of the gate while the figure stays small and off-centre right; the protagonist holds still with their back to the camera; the ground's reflections stretch toward the bottom edge; the main title fades in from the edge of the darkness, blurred and barely legible, then resolves to full sharpness; one soft hit lands as the title turns sharp; the shot ends on a hard cut.",
+      "end_state": "The gate is exactly as sealed as before with its centre still absolutely black; the listener still stands small in the lower right, back to camera; the title is fully sharp over the darkness; nothing has answered.",
+      "sound_cues": [
+        "One soft hit lands on the exact frame where the title reaches full sharpness; no other sound is accented at that frame."
+      ]
+    },
+    {
+      "id": "shot_2",
+      "development_ids": [
+        "dev_2"
+      ],
+      "content_purpose": "Show the gate answering the listener: cold light wakes in the innermost ring and spreads around it, mirrored in the wet floor, while the listener's now-readable back view lifts its head and the gate's centre stays black.",
+      "treatment_ids": [
+        "gs_1"
+      ],
+      "start_seconds": 7.2,
+      "end_seconds": 12.4,
+      "start_state": "Same location and moment at a closer scale directly after the hard cut: the protagonist is seen from behind, with the long black over-knee coat, black trousers, black lace-up platform boots and dark mid-length hair now readable against the wet floor; the gate's rings are still dark and its centre is still absolute black; the wet floor reflects only dim cold light.",
+      "action": "A thin line of cold light wakes along the gate's innermost ring and sweeps around it, and the wet floor lifts that light into cold reflections; the protagonist holds still and then slowly lifts their head toward the light while still turned away from the camera; the gate's centre stays absolute black; the camera continues a slow forward creep at a smaller amplitude and settles into a near-static hold as the lit line closes the ring.",
+      "end_state": "The innermost ring is fully lit and cold light climbs the structure and the listener's silhouette while the gate's centre remains absolute darkness; the listener stands facing it with head lifted.",
+      "sound_cues": [
+        "As the light line closes the ring, the deep pulse swells and a thin metallic ring resonance peaks with it."
+      ],
+      "cut_reason": "This boundary is the user-locked hard cut at the end of [Shot 1]; the answering light is a new event state that the locked ultra-wide framing and slow push-in cannot carry.",
+      "continuity_bridge": "Same location and moment: the gate stays the dominant centred circular mass, the protagonist keeps the same silhouette, coat, boots and back-to-camera orientation, the wet floor continues to reflect, and the centre of the gate stays absolute black across the transition."
+    },
+    {
+      "id": "shot_3",
+      "development_ids": [
+        "dev_2"
+      ],
+      "content_purpose": "Land the answer on the listener: a close profile of the protagonist as the cold light rises, exposing for the first and only time the face carried by <Picture 2>.",
+      "treatment_ids": [
+        "gs_1"
+      ],
+      "start_seconds": 12.4,
+      "end_seconds": 15.0,
+      "start_state": "The ring light is already bright ahead of the listener; the protagonist's profile is still unlit and unreadable in the dark, the head only partly lifted, still facing the gate; the sustained low tone is running.",
+      "action": "A tight three-quarter close-up from behind and beside the listener's shoulder: dark mid-length hair falls past the jaw, the cold ring light falls on the profile from ahead and draws a hard rim along the brow, cheek, lips and jaw while the gate's black centre sits behind; the eyes open into the light with the ring's cold line glinting in the eye, and the head lifts a little further toward the gate; the final frame holds on the lit profile with no release.",
+      "end_state": "The listener's profile is visible in cold rim light with the ring's line glinting in the eye, still facing the gate; the answer is still rising and nothing is resolved.",
+      "sound_cues": [
+        "A single soft breath is audible as the eyes open; the sustained low tone continues underneath and is still sounding at the final frame."
+      ],
+      "cut_reason": "The facial response, and the identity anchor carried by <Picture 2>, cannot be observed at the ultra-wide and wide scales of the previous shots without breaking their locked staging.",
+      "continuity_bridge": "Same continuous moment: the cold ring light ahead of the listener keeps brightening, the palette, haze and grain match the previous shot, and the head continues the same upward lift that began in [Shot 2]."
+    }
+  ],
+  "audio_plan": {
+    "constraints": [
+      "Deep low-frequency pulse under [Shot 1] and continuing as the base layer (user-locked).",
+      "Distant metallic vibration under [Shot 1] (user-locked).",
+      "One soft hit synchronized exactly with the moment the title becomes fully sharp (user-locked).",
+      "No dialogue, lyrics or voice-over anywhere in the video.",
+      "No audio asset was supplied, so no existing audio signal may be copied or referenced."
+    ],
+    "auditory_focus": "The deep low-frequency pulse and its single swell into the gate's sustained answering tone; it remains the lead layer from the first frame to the last.",
+    "continuous_bed": "Cold, vast wet-space ambience: the low-frequency pulse bed with a faint distant metallic vibration, thin air and faint dripping echoes off the reflective floor, running under all three shots.",
+    "key_sound_events": [
+      {
+        "shot_id": "shot_1",
+        "trigger": "The main title resolves from blurred to fully sharp over the darkness.",
+        "sound": "One soft hit — a single low-mid impact with a short decay.",
+        "sync": "The hit lands on the same frame the title reaches full sharpness; nothing else is accented at that frame."
+      },
+      {
+        "shot_id": "shot_2",
+        "trigger": "The thin light line wakes on the innermost ring and sweeps around it until it closes the ring.",
+        "sound": "The deep pulse swells into a sustained low tone with a thin metallic ring resonance on top.",
+        "sync": "The swell begins on the first lit frame and the resonance peaks as the lit line closes the ring."
+      },
+      {
+        "shot_id": "shot_3",
+        "trigger": "The listener's eyes open into the rising light.",
+        "sound": "A single soft breath.",
+        "sync": "The breath coincides with the eyes opening; the sustained low tone continues underneath and is still sounding at the last frame."
+      }
+    ],
+    "music_decision": {
+      "decision": "N/A",
+      "function": "The user-locked low-frequency pulse bed and metallic resonance already carry continuity, tension and pacing, so no audience-only score is added.",
+      "tempo_energy_basis": "The tight, compact pacing is carried by the pulse's slow swell and the hard cuts rather than by musical tempo.",
+      "timbres": [],
+      "dynamic_arc": "No score; the sound-design pulse rises once through [Shot 2] and stays unresolved at the end."
+    },
+    "mix_priority": "The low-frequency pulse and its answering swell lead; the title hit and the ring resonance are single clear accents; the wet-space ambience and dripping echoes sit underneath; no dialogue or music competes.",
+    "ending_state": "The sustained low tone is still sounding as the final frame holds on the listener's lit profile — continuing and unresolved, with no final impact."
+  }
+}

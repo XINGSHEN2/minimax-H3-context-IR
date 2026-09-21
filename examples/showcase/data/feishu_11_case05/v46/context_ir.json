@@ -1,0 +1,950 @@
+{
+  "schema_version": "h3_compilation.light.v1",
+  "compiler_revision": "singlecall.v46.layered_prompt_contract.sound_planning",
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 15,
+    "aspect_ratio": "16:9",
+    "generate_audio": true,
+    "style": "",
+    "prompt_profile": "auto"
+  },
+  "assets": [
+    {
+      "asset_id": "image_1",
+      "media_type": "image",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.1 品牌大片与影视内容/case5-ref2va/assets/图1.png",
+      "label": "图1",
+      "user_role": null
+    },
+    {
+      "asset_id": "image_2",
+      "media_type": "image",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.1 品牌大片与影视内容/case5-ref2va/assets/图2.png",
+      "label": "图2",
+      "user_role": null
+    }
+  ],
+  "content_plan": {
+    "creative_brief": {
+      "user_locked": [
+        "One consistent performer across the whole 15-second film: long platinum-blonde hair, narrow black retro sunglasses, black high-gloss patent-leather trench coat, cold confident fashion expression.",
+        "Orange firelight reflected on the glossy patent-leather surface in the fire-lit shots.",
+        "Night fire-ground setting with black smoke and orange-red flames.",
+        "Film-look fast-cut fashion-advert treatment with VHS glitch, CCTV broadcast interruption, 1990s analog film grain, scan lines, chromatic aberration, light leaks, white-flash transitions and slight camera shake.",
+        "15 seconds, 16:9 landscape, 图1 (<Picture 1>) as overall texture and mood authority, 图2 (<Picture 2>) as performer appearance authority."
+      ],
+      "reference_anchors": [
+        "image_1 (<Picture 1>): authority for the film's overall visual texture and mood - night fire ground, orange-red flames, black smoke, warm orange firelight with right-side bloom, VHS/CCTV damage, analog grain, scan lines, chromatic aberration, light leaks.",
+        "image_2 (<Picture 2>): authority for the single performer's outward appearance - long platinum-blonde hair, narrow black retro sunglasses, black high-gloss patent-leather belted trench coat, black pointed stiletto boots, cold confident expression."
+      ],
+      "open_design": [
+        "Performance arc: cold upturned establish, turn away and walk off through the smoke, turn back and walk toward the lens, halt and hold the direct stare as the ending image.",
+        "Camera design: slow push-in on the establish, static shot during the turn-and-walk, slow pull-back during the approach, static hold with a very slow push-in on the final stare; slight shake throughout, no complex camera movement during the turn.",
+        "Transition placement: white flash at 00:03.500 and 00:11.200, CCTV broadcast interruption at 00:07.000, VHS glitch as running picture damage plus the manifestation of the interruption.",
+        "Sound design: continuous night fire-ground bed with tape hiss, three precisely synchronized sound events, and a non-diegetic analog-electronic score that carries the cut rhythm and drops out for one beat at the interruption.",
+        "No dialogue, lyrics or voiceover are written anywhere in the film."
+      ]
+    },
+    "requirement_map": {
+      "content_events": [
+        {
+          "id": "ce_1",
+          "text": "A single consistent performer - long platinum-blonde hair, narrow black retro sunglasses, black high-gloss patent-leather trench coat, black pointed stiletto boots - presents the look with a cold, confident fashion expression in every shot."
+        },
+        {
+          "id": "ce_2",
+          "text": "The performer moves through the fire ground: she turns away from the camera and walks off through the drifting black smoke, then turns back and walks toward the lens, so the coat, hair and boots are exhibited in motion."
+        },
+        {
+          "id": "ce_3",
+          "text": "The performer plants her boots, stops, and holds a cold, confident stare directly into the camera to end the film."
+        },
+        {
+          "id": "ce_4",
+          "text": "The setting is a night fire ground with orange-red flames and black smoke present throughout, and the firelight produces orange reflections on the patent-leather surface."
+        }
+      ],
+      "editing_treatments": [
+        {
+          "id": "et_1",
+          "text": "Fast-cut fashion-advert pacing: every boundary is a hard cut that lands on a new action stage."
+        },
+        {
+          "id": "et_2",
+          "text": "White-flash transitions: a brief white flash conceals the frame and the new content appears as it clears."
+        },
+        {
+          "id": "et_3",
+          "text": "VHS glitch picture damage: horizontal tearing and dropout running through the damaged broadcast moment and across the cut boundaries."
+        },
+        {
+          "id": "et_4",
+          "text": "CCTV broadcast interruption: the feed breaks, is replaced by a damaged broadcast slate, and the picture restores before the film resumes."
+        }
+      ],
+      "global_style": [
+        {
+          "id": "gs_1",
+          "text": "1990s analog film treatment throughout: heavy film grain, scan lines, chromatic aberration and light leaks."
+        },
+        {
+          "id": "gs_2",
+          "text": "Film-look firelight palette: warm orange flames and black smoke against the dark night, sharp specular highlights and orange reflections on the high-gloss patent leather."
+        },
+        {
+          "id": "gs_3",
+          "text": "Slight camera shake throughout the film."
+        },
+        {
+          "id": "gs_4",
+          "text": "15-second duration in 16:9 landscape framing."
+        }
+      ],
+      "audio_requirements": [
+        {
+          "id": "ar_1",
+          "text": "Audio is generated for the film (generate_audio: true), with a full soundtrack from the first to the last frame."
+        },
+        {
+          "id": "ar_2",
+          "text": "No dialogue, lyrics or voiceover was requested for the film, and none is invented."
+        }
+      ]
+    },
+    "task_mode": "ref2va",
+    "must_keep": [
+      "One single on-screen performer, consistent in all four shots: long platinum-blonde hair, narrow black retro sunglasses, black high-gloss patent-leather trench coat, cold confident fashion expression.",
+      "Orange firelight reflected on the glossy patent-leather surface in the fire-lit shots.",
+      "Night fire ground with orange-red flames and black smoke as the environment of every shot.",
+      "1990s analog film grain, scan lines, chromatic aberration and light leaks across the whole film.",
+      "White-flash cuts, VHS glitch and a CCTV broadcast interruption in the cut treatment.",
+      "Fast-cut fashion-advert pacing at the 00:03.500, 00:07.000 and 00:11.200 boundaries.",
+      "Slight camera shake.",
+      "15-second duration, 16:9 landscape, audio generated."
+    ],
+    "bindings": [
+      {
+        "asset_id": "image_1",
+        "role": "authority for the film's overall visual texture and mood",
+        "retained_attributes": [
+          "night fire-ground environment with orange-red flames",
+          "drifting black smoke",
+          "warm orange firelight with a bright bloom on the right side of the frame",
+          "1990s analog film grain, scan lines, chromatic aberration and light leaks",
+          "VHS/CCTV picture damage"
+        ],
+        "optional_inherited_attributes": [
+          "the damaged broadcast slate carrying the on-screen text \"BROADCAST: INTERRUPTION\", used once at the CCTV interruption",
+          "VHS glitch as a cut-boundary treatment"
+        ],
+        "excluded_attributes": [
+          "the graphic marks \"V\" and \"27\"",
+          "the reference still's exact frozen pose reproduced as a static image"
+        ],
+        "exclusion_reasons": [
+          "The \"V\" and \"27\" graphic marks are decorative marks of the reference still; the user did not request them and the film does not need them for the look.",
+          "The reference still is a mood and texture authority, not a locked frame; the film presents the same look through a moving performance instead of a frozen pose."
+        ]
+      },
+      {
+        "asset_id": "image_2",
+        "role": "authority for the single on-screen performer's outward appearance",
+        "retained_attributes": [
+          "long, voluminous platinum-blonde hair",
+          "narrow black retro sunglasses",
+          "black high-gloss patent-leather belted trench coat with a deep V front and over-knee length",
+          "black pointed stiletto boots with a stacked shaft",
+          "cold, confident fashion expression"
+        ],
+        "optional_inherited_attributes": [
+          "the closed-coat, hands-in-pockets stance",
+          "the coat's side and back panel details, revealed through the turn and the walk"
+        ],
+        "excluded_attributes": [
+          "the white seamless studio background",
+          "the even studio key light of the three-view sheet"
+        ],
+        "exclusion_reasons": [
+          "The user locked a night fire ground with flames and smoke as the environment, so the white studio backdrop is not carried over.",
+          "The lighting authority for the film is the warm orange firelight of 图1, so the studio lighting of 图2 is not carried over."
+        ]
+      }
+    ],
+    "developments": [
+      {
+        "id": "dev_1",
+        "source_content_event_ids": [
+          "ce_1",
+          "ce_4"
+        ],
+        "visible_change": "The performer stands inside the burning night fire ground with her chin lifted and a cold, confident expression; she lowers her chin slightly and shifts her weight so the coat hem swings open over the boots while the moving firelight slides orange reflections along the glossy patent leather.",
+        "outcome": "The performer, the look and the night fire-ground setting are established."
+      },
+      {
+        "id": "dev_2",
+        "source_content_event_ids": [
+          "ce_2"
+        ],
+        "visible_change": "She pivots her right shoulder away from the camera and strides off through the drifting black smoke, hair and coat hem swinging, so the belted coat back, the boot heels and the moving glossy leather become readable.",
+        "outcome": "The look is exhibited in motion from behind and in profile, with the smoke closing between her and the lens."
+      },
+      {
+        "id": "dev_3",
+        "source_content_event_ids": [
+          "ce_2"
+        ],
+        "visible_change": "She turns back toward the camera mid-stride and walks toward the lens through the parting smoke with the burning fire wall behind her, the orange firelight sweeping the patent leather and flickering in the narrow black lenses as she closes the distance.",
+        "outcome": "The front of the look approaches the camera with the fire ground burning behind her."
+      },
+      {
+        "id": "dev_4",
+        "source_content_event_ids": [
+          "ce_3"
+        ],
+        "visible_change": "She takes her final stride, plants both boots, stops, and lifts her chin to hold a cold, confident stare straight into the lens while firelight flickers in the lenses and slides across the leather.",
+        "outcome": "The film resolves on a held, direct-address final pose inside the still-burning fire ground."
+      }
+    ],
+    "shots": [
+      {
+        "id": "shot_1",
+        "development_ids": [
+          "dev_1"
+        ],
+        "content_purpose": "Establish the performer, the look and the night fire-ground setting with the cold, confident upturned pose and the firelight on the patent leather.",
+        "treatment_ids": [
+          "gs_1",
+          "gs_2",
+          "gs_3",
+          "gs_4"
+        ],
+        "start_seconds": 0.0,
+        "end_seconds": 3.5,
+        "start_state": "Night fire ground: orange-red flames burning across the background, black smoke drifting, warm orange firelight blooming from the right. The performer stands centre-right in a three-quarter front view, chin lifted, hands in the coat pockets, the patent-leather coat closed and glossy, the narrow sunglasses on, cold and confident; no smoke covers her face.",
+        "action": "The camera pushes in with small amplitude at slow speed and a slight shake. The performer holds the upturned cold pose, then lowers her chin a few degrees and shifts her weight so the coat hem swings open slightly over the boots; the moving firelight rakes across the glossy patent leather and slides orange reflections along its surface; thin smoke curls past her shoulder.",
+        "end_state": "The performer still faces the camera in a settled, closed-mouth cold pose, the patent leather carrying orange firelight, the fire ground still burning behind her, no smoke covering her face."
+      },
+      {
+        "id": "shot_2",
+        "development_ids": [
+          "dev_2"
+        ],
+        "content_purpose": "Show the look in motion as she turns away and walks off, revealing the coat's back, the boot heels and the moving glossy leather.",
+        "treatment_ids": [
+          "et_1",
+          "et_2",
+          "et_3",
+          "gs_1",
+          "gs_2",
+          "gs_3",
+          "gs_4"
+        ],
+        "cut_reason": "Only a vantage behind and beside her can read the belted coat back, the hair in motion and the boot heels, and the camera cannot arc around her while she pivots without breaking the pose continuity that the turn depends on.",
+        "continuity_bridge": "Shot 1 ends with her weight already shifting out of the front-facing hold; Shot 2 opens on that same pivot already in progress, continuing in the same direction, never restarting or resetting the pose.",
+        "start_seconds": 3.5,
+        "end_seconds": 7.0,
+        "start_state": "A brief white flash conceals the frame; when it clears the vantage is wider and slightly lower, and the performer is already mid-pivot, turning her right shoulder away from the camera, still on her feet, the coat still closed and glossy, the flames now visible as a wider burning wall with smoke drifting low.",
+        "action": "She completes the turn away from the camera and strides away through the drifting black smoke; her long platinum-blonde hair and the coat hem swing with the movement; the belted coat back, the boot heels and the moving glossy surface become readable as orange firelight slides across the leather. The camera holds a static shot with a slight shake and keeps her full length in frame while she gains a few strides of distance; smoke crosses between the lens and her back.",
+        "end_state": "The performer is several strides away and still walking away, the smoke between her back and the lens, the fire wall burning beyond her; she has not stopped.",
+        "sound_cues": [
+          "At the start of the pivot, one creak of the patent leather and a single snap of the swinging coat fabric, synchronized with the turn."
+        ]
+      },
+      {
+        "id": "shot_3",
+        "development_ids": [
+          "dev_3"
+        ],
+        "content_purpose": "Bring the look back toward the lens with the fire wall behind her, so the front silhouette, the sunglasses and the orange reflections on the leather read against the flames.",
+        "treatment_ids": [
+          "et_1",
+          "et_3",
+          "et_4",
+          "gs_1",
+          "gs_2",
+          "gs_3",
+          "gs_4"
+        ],
+        "cut_reason": "The same walking action continues, but only after she turns back can the front of the coat, the narrow black sunglasses and the approaching orange firelight on the leather read against the burning wall, which the away-facing observation path cannot show.",
+        "continuity_bridge": "She is still walking at the end of Shot 2 and is still walking when the picture restores in Shot 3, now already partway through the turn back toward the camera; the walk is never restarted or reset.",
+        "start_seconds": 7.0,
+        "end_seconds": 11.2,
+        "start_state": "The picture tears into VHS glitch over a burst of static and is replaced by a damaged broadcast slate reading \"BROADCAST: INTERRUPTION\". When the picture restores, the performer is mid-stride and already partway through turning back toward the camera, still walking, the smoke parting around her and the burning fire wall now behind her.",
+        "action": "She finishes the turn back toward the camera and keeps walking toward the lens through the drifting smoke, coat swinging and boots striking the ground, the fire wall burning behind her; the orange firelight sweeps across the glossy patent leather and flickers in the narrow black lenses. The camera pulls back with small amplitude at slow speed and a slight shake to hold her full length as she closes the distance.",
+        "end_state": "She is close to the camera and still mid-stride, still moving toward the lens, her chin beginning to lift, the smoke trailing behind her; she has not stopped.",
+        "sound_cues": [
+          "A sharp burst of broadcast static swamps the fire ambience exactly at the 00:07.000 picture tear, then the ambience restores as the picture returns."
+        ]
+      },
+      {
+        "id": "shot_4",
+        "development_ids": [
+          "dev_4"
+        ],
+        "content_purpose": "Resolve the film on the halt and the held, direct-address cold stare with the firelight on the leather and in the lenses.",
+        "treatment_ids": [
+          "et_1",
+          "et_2",
+          "gs_1",
+          "gs_2",
+          "gs_3",
+          "gs_4"
+        ],
+        "cut_reason": "Her halt and the held direct stare are a new action stage that the moving full-length shot cannot hold, and the locked fast-cut pacing places the boundary on that halt.",
+        "continuity_bridge": "Shot 3 ends with her still mid-stride and still approaching; Shot 4 opens on the next stride of the same approach and closes into the halt without restarting the walk.",
+        "start_seconds": 11.2,
+        "end_seconds": 15.0,
+        "start_state": "A brief white flash conceals the frame; when it clears the performer is one stride from her halt, still finishing the same approach, the fire wall and smoke behind her, the patent leather glossy with moving orange firelight.",
+        "action": "She plants both boots, stops, and lifts her chin to hold a cold, confident stare directly into the lens; the firelight flickers in the narrow black lenses and slides across the patent leather while smoke drifts across the frame. The camera holds a static shot with a slight shake and a very slow push-in, and the stare holds to the final frame.",
+        "end_state": "The performer is stopped, feet planted, facing the camera with the cold stare held; the fire ground still burns behind her as the film ends.",
+        "sound_cues": [
+          "One hard heel strike lands as her boots plant, then the fire roar and the smoke hiss carry to the final frame."
+        ]
+      }
+    ],
+    "audio_plan": {
+      "constraints": [
+        "Audio is generated for the whole film, from the first frame to the last.",
+        "No dialogue, lyrics or voiceover is written; the performer never speaks.",
+        "The night fire ground stays audible throughout: orange-red flames, black smoke and a light wind.",
+        "The 1990s analog/broadcast character is audible at the CCTV interruption and as a thin tape hiss under the whole film.",
+        "No sound may add, move or replace a visual event, cut or action stage."
+      ],
+      "auditory_focus": "The driving analog-electronic score that carries the fast-cut rhythm, riding over a continuous night fire-ground bed; nothing vocal competes for attention.",
+      "continuous_bed": "Night fire ground: a low roar of burning flames with dry crackle, a light wind pushing the smoke, and a thin analog tape hiss underneath everything.",
+      "key_sound_events": [
+        {
+          "shot_id": "shot_2",
+          "trigger": "the performer pivots away from the camera right after the white flash",
+          "sound": "one creak of the patent leather and a single snap of the swinging coat fabric",
+          "sync": "synchronized with the start of the pivot"
+        },
+        {
+          "shot_id": "shot_3",
+          "trigger": "the picture tears into VHS glitch at 00:07.000",
+          "sound": "a sharp burst of broadcast static that swamps the ambience while the score drops out for one beat",
+          "sync": "exactly on the interruption peak, with the ambience restoring as the picture returns"
+        },
+        {
+          "shot_id": "shot_4",
+          "trigger": "her boots plant as she halts",
+          "sound": "a single hard heel strike",
+          "sync": "synchronized with the halt, after which the fire roar and smoke hiss carry to the final frame"
+        }
+      ],
+      "music_decision": {
+        "decision": "use",
+        "function": "unifies the fast cuts, carries the cut rhythm that the fire ambience cannot, and gives the piece its trend-advert identity",
+        "tempo_energy_basis": "the three hard boundaries at 3.5s, 7.0s and 11.2s plus the forward-driving walk set a mid-to-fast tempo with steady energy",
+        "timbres": [
+          "distorted sub-bass",
+          "dry industrial percussion",
+          "tape-saturated analog synth drone"
+        ],
+        "dynamic_arc": "enters low under the establishing shot, drives through the first cut and the away-walk, drops out for one beat exactly at the broadcast interruption, returns heavier for the approach, then narrows to a sustained low drone under the final stare and stops with the last frame"
+      },
+      "mix_priority": "The score leads and the fire-ground bed sits under it; the leather creak, the static burst and the single heel strike stay forward and unburied, and the bed returns to full level after each cut.",
+      "ending_state": "The final stare holds under a sustained low drone while the fire bed continues, and both stop on the last frame; no new sound arrives at the end."
+    }
+  },
+  "uncertainties": [
+    "The two reference images cannot be confirmed to show the same real person; the plan treats the single performer as one unit defined by the appearance anchors of <Picture 2>, per the user's instruction to keep the character consistent.",
+    "The performer's black pointed stiletto boots are visible only in 图2, since the 图1 frame crops the lower body; the plan carries the boots from <Picture 2> into the fire-ground shots without claiming they were observed in <Picture 1>.",
+    "The user did not specify which transition lands at which cut; the plan places the white flash at 00:03.500 and 00:11.200 and the CCTV broadcast interruption at 00:07.000, with VHS glitch running as picture damage and as the manifestation of the interruption.",
+    "It is not stated whether the reference still's on-screen graphic text should appear in the film; the plan carries only the \"BROADCAST: INTERRUPTION\" slate once, at the interruption, and drops the reference's \"V\" and \"27\" marks.",
+    "No music instruction was given by the user; a non-diegetic analog-electronic score is used as an open design choice to carry the locked fast-cut fashion-advert pacing, and can be replaced if the user prefers ambience only."
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v1",
+    "provider": {
+      "name": "Qwen3.8-27B",
+      "mode": "grouped_images_projected"
+    },
+    "assets": [
+      {
+        "asset_id": "image_1",
+        "summary": "夜晚火场单帧广告：白金色长发女性戴窄黑墨镜、穿黑色漆皮系带风衣，仰头冷酷表情，背景橙红火焰与黑烟，右侧强橙光晕，叠加 VHS 故障与 BROADCAST: INTERRUPTION、V、27 等文字。",
+        "global_analysis": {
+          "scene": "图1为夜晚火场氛围的潮流时装广告画面，暖橙火光、黑烟、强漏光，叠加模拟胶片与 VHS 故障质感；图2为纯白棚拍背景下的服装三视图参考。",
+          "composition": "图1人物居中偏右、仰头，火焰与光晕分布于左右两侧，文字元素贴边；图2为等距三栏并排，同一人物正面、侧面、背面各占一栏，全身入镜。",
+          "framing_layers": [
+            {
+              "description": "单一画面：火场中仰头的漆皮风衣女性，左右火焰与右侧强橙光晕，左上广播中断文字、左侧红色V、右下27",
+              "coverage": "full_frame",
+              "confidence": 0.95,
+              "source_asset_ids": [
+                "image_1"
+              ]
+            }
+          ],
+          "visible_text": [
+            {
+              "text": "BROADCAST: INTERRUPTION",
+              "legibility": "clear",
+              "region": "top_left",
+              "confidence": 0.9,
+              "source_asset_ids": [
+                "image_1"
+              ]
+            },
+            {
+              "text": "V",
+              "legibility": "clear",
+              "region": "mid_left",
+              "confidence": 0.85,
+              "source_asset_ids": [
+                "image_1"
+              ]
+            },
+            {
+              "text": "27",
+              "legibility": "clear",
+              "region": "bottom_right",
+              "confidence": 0.8,
+              "source_asset_ids": [
+                "image_1"
+              ]
+            }
+          ],
+          "uncertainties": [
+            "图1中靴子被裁切不可见，仅图2可见",
+            "红色V与数字27的具体含义无法确认",
+            "图1与图2是否为同一真实个体无法确认，仅外观造型一致"
+          ]
+        },
+        "image_observation": {
+          "source_asset_id": "image_1",
+          "summary": "夜晚火场单帧广告：白金色长发女性戴窄黑墨镜、穿黑色漆皮系带风衣，仰头冷酷表情，背景橙红火焰与黑烟，右侧强橙光晕，叠加 VHS 故障与 BROADCAST: INTERRUPTION、V、27 等文字。",
+          "entity_ids": [
+            "person_1",
+            "environment_1"
+          ],
+          "uncertainties": [
+            "靴子被裁切不可见"
+          ]
+        },
+        "evidence": [
+          {
+            "evidence_id": "image_1_whole_frame",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "夜晚火场单帧广告：白金色长发女性戴窄黑墨镜、穿黑色漆皮系带风衣，仰头冷酷表情，背景橙红火焰与黑烟，右侧强橙光晕，叠加 VHS 故障与 BROADCAST: INTERRUPTION、V、27 等文字。"
+          },
+          {
+            "evidence_id": "image_1_person_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "白金色蓬松长卷发女性，戴窄黑色复古墨镜，穿黑色高光漆皮翻领系带风衣，配黑色尖头细高跟长靴，表情冷酷自信，图1中皮衣表面有橙色火光反射。"
+          },
+          {
+            "evidence_id": "image_1_environment_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "夜晚火场场景：橙红火焰、黑烟、右侧强橙色漏光光晕，叠加 VHS/CCTV 故障、扫描线、胶片颗粒与暗角。"
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "source_asset_ids": [
+              "image_1",
+              "image_2"
+            ],
+            "evidence_ids": [
+              "image_1_person_1"
+            ],
+            "category": "person",
+            "subcategory": "person",
+            "summary": "白金色蓬松长卷发女性，戴窄黑色复古墨镜，穿黑色高光漆皮翻领系带风衣，配黑色尖头细高跟长靴，表情冷酷自信，图1中皮衣表面有橙色火光反射。",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "火光反射",
+                  "value": "皮衣表面橙色暖光反射",
+                  "evidence_ids": [
+                    "image_1_person_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "发型",
+                  "value": "白金色长卷发，蓬松外翻",
+                  "evidence_ids": [
+                    "image_1_person_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "配饰",
+                  "value": "窄黑色复古墨镜",
+                  "evidence_ids": [
+                    "image_1_person_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "服装",
+                  "value": "黑色高光漆皮风衣，翻领、深V、腰部系带、过膝长度",
+                  "evidence_ids": [
+                    "image_1_person_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "鞋",
+                  "value": "黑色尖头细高跟长靴，靴筒褶皱堆叠",
+                  "evidence_ids": [
+                    "image_1_person_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "表情姿态",
+                  "value": "冷酷自信，仰头/侧脸，双手插袋",
+                  "evidence_ids": [
+                    "image_1_person_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": [
+              "靴子仅在图2可见，图1被裁切"
+            ]
+          },
+          {
+            "entity_id": "environment_1",
+            "source_asset_ids": [
+              "image_1"
+            ],
+            "evidence_ids": [
+              "image_1_environment_1"
+            ],
+            "category": "environment",
+            "subcategory": "environment",
+            "summary": "夜晚火场场景：橙红火焰、黑烟、右侧强橙色漏光光晕，叠加 VHS/CCTV 故障、扫描线、胶片颗粒与暗角。",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "光照",
+                  "value": "暖橙火光，右侧强漏光光晕",
+                  "evidence_ids": [
+                    "image_1_environment_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "氛围",
+                  "value": "黑烟与橙红火焰，夜晚",
+                  "evidence_ids": [
+                    "image_1_environment_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "画面处理",
+                  "value": "VHS/CCTV 故障、扫描线、模拟胶片颗粒、暗角",
+                  "evidence_ids": [
+                    "image_1_environment_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_relative_to",
+            "subject_id": "person_1",
+            "object_id": "environment_1",
+            "anchor": "人物位于火场画面中央偏右，仰头",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "image_1_whole_frame"
+            ],
+            "confidence": 0.9,
+            "source": "visible",
+            "source_asset_ids": [
+              "image_1"
+            ]
+          },
+          {
+            "relation_id": "relation_3",
+            "type": "illuminated_by",
+            "subject_id": "person_1",
+            "object_id": "environment_1",
+            "anchor": "火光在漆皮风衣表面形成橙色反射",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "image_1_whole_frame"
+            ],
+            "confidence": 0.85,
+            "source": "visible",
+            "source_asset_ids": [
+              "image_1"
+            ]
+          }
+        ],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "grouped_image_projected",
+          "grouped_request_asset_ids": [
+            "image_1",
+            "image_2"
+          ]
+        },
+        "transcript": "",
+        "uncertainties": [
+          "图1与图2人物真实身份是否同一无法确认，按外观一致归为同一生成单元",
+          "图1靴子不可见，依赖图2补全造型",
+          "靴子被裁切不可见"
+        ]
+      },
+      {
+        "asset_id": "image_2",
+        "summary": "白底三视图：同一造型人物正面、侧面、背面全身，展示黑色漆皮风衣全貌与黑色尖头细高跟长靴，均匀棚拍光。",
+        "global_analysis": {
+          "scene": "图1为夜晚火场氛围的潮流时装广告画面，暖橙火光、黑烟、强漏光，叠加模拟胶片与 VHS 故障质感；图2为纯白棚拍背景下的服装三视图参考。",
+          "composition": "图1人物居中偏右、仰头，火焰与光晕分布于左右两侧，文字元素贴边；图2为等距三栏并排，同一人物正面、侧面、背面各占一栏，全身入镜。",
+          "framing_layers": [
+            {
+              "description": "左栏：正面全身，双手插袋，仰头，黑墨镜与漆皮风衣、长靴",
+              "coverage": "left_third",
+              "confidence": 0.92,
+              "source_asset_ids": [
+                "image_2"
+              ]
+            },
+            {
+              "description": "中栏：侧面全身，侧脸仰头，展示风衣侧缝与靴跟",
+              "coverage": "center_third",
+              "confidence": 0.92,
+              "source_asset_ids": [
+                "image_2"
+              ]
+            },
+            {
+              "description": "右栏：背面全身，长发垂背，展示风衣后背与靴后跟",
+              "coverage": "right_third",
+              "confidence": 0.92,
+              "source_asset_ids": [
+                "image_2"
+              ]
+            }
+          ],
+          "visible_text": [],
+          "uncertainties": [
+            "图1中靴子被裁切不可见，仅图2可见",
+            "红色V与数字27的具体含义无法确认",
+            "图1与图2是否为同一真实个体无法确认，仅外观造型一致"
+          ]
+        },
+        "image_observation": {
+          "source_asset_id": "image_2",
+          "summary": "白底三视图：同一造型人物正面、侧面、背面全身，展示黑色漆皮风衣全貌与黑色尖头细高跟长靴，均匀棚拍光。",
+          "entity_ids": [
+            "person_1",
+            "environment_2"
+          ],
+          "uncertainties": []
+        },
+        "evidence": [
+          {
+            "evidence_id": "image_2_whole_frame",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "白底三视图：同一造型人物正面、侧面、背面全身，展示黑色漆皮风衣全貌与黑色尖头细高跟长靴，均匀棚拍光。"
+          },
+          {
+            "evidence_id": "image_2_person_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "白金色蓬松长卷发女性，戴窄黑色复古墨镜，穿黑色高光漆皮翻领系带风衣，配黑色尖头细高跟长靴，表情冷酷自信，图1中皮衣表面有橙色火光反射。"
+          },
+          {
+            "evidence_id": "image_2_environment_2",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "纯白棚拍背景，均匀照明，用于展示服装三视图，无叙事元素。"
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "source_asset_ids": [
+              "image_1",
+              "image_2"
+            ],
+            "evidence_ids": [
+              "image_2_person_1"
+            ],
+            "category": "person",
+            "subcategory": "person",
+            "summary": "白金色蓬松长卷发女性，戴窄黑色复古墨镜，穿黑色高光漆皮翻领系带风衣，配黑色尖头细高跟长靴，表情冷酷自信，图1中皮衣表面有橙色火光反射。",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "火光反射",
+                  "value": "皮衣表面橙色暖光反射",
+                  "evidence_ids": [
+                    "image_2_person_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "发型",
+                  "value": "白金色长卷发，蓬松外翻",
+                  "evidence_ids": [
+                    "image_2_person_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "配饰",
+                  "value": "窄黑色复古墨镜",
+                  "evidence_ids": [
+                    "image_2_person_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "服装",
+                  "value": "黑色高光漆皮风衣，翻领、深V、腰部系带、过膝长度",
+                  "evidence_ids": [
+                    "image_2_person_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "鞋",
+                  "value": "黑色尖头细高跟长靴，靴筒褶皱堆叠",
+                  "evidence_ids": [
+                    "image_2_person_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "表情姿态",
+                  "value": "冷酷自信，仰头/侧脸，双手插袋",
+                  "evidence_ids": [
+                    "image_2_person_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": [
+              "靴子仅在图2可见，图1被裁切"
+            ]
+          },
+          {
+            "entity_id": "environment_2",
+            "source_asset_ids": [
+              "image_2"
+            ],
+            "evidence_ids": [
+              "image_2_environment_2"
+            ],
+            "category": "environment",
+            "subcategory": "environment",
+            "summary": "纯白棚拍背景，均匀照明，用于展示服装三视图，无叙事元素。",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "背景",
+                  "value": "纯白无缝棚拍背景",
+                  "evidence_ids": [
+                    "image_2_environment_2"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "光照",
+                  "value": "均匀柔和棚拍光",
+                  "evidence_ids": [
+                    "image_2_environment_2"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_2",
+            "type": "positioned_relative_to",
+            "subject_id": "person_1",
+            "object_id": "environment_2",
+            "anchor": "人物在白底中以正面/侧面/背面三栏并排展示",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "image_2_whole_frame"
+            ],
+            "confidence": 0.9,
+            "source": "visible",
+            "source_asset_ids": [
+              "image_2"
+            ]
+          }
+        ],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "grouped_image_projected",
+          "grouped_request_asset_ids": [
+            "image_1",
+            "image_2"
+          ]
+        },
+        "transcript": "",
+        "uncertainties": [
+          "图1与图2人物真实身份是否同一无法确认，按外观一致归为同一生成单元",
+          "图1靴子不可见，依赖图2补全造型"
+        ]
+      }
+    ],
+    "missing_asset_ids": [],
+    "perception_metrics": {
+      "request_count": 1
+    },
+    "experiment": {
+      "mode": "qwen3.8_grouped_images_projected",
+      "user_request": "图1是整体质感、氛围参考，图2是人物外表特征参考。生成一支 15 秒 16:9 横版潮流时装短片。保持人物一致：白金色长发、窄黑色复古墨镜、黑色高光漆皮风衣、冷酷自信的时尚表情、火光映在皮衣表面的橙色反射。整体风格是胶片快切时尚广告，融合夜晚火场、黑烟、橙红火焰、VHS 故障、CCTV 广播中断、90 年代模拟胶片颗粒、扫描线、色差、漏光、闪白转场、画面轻微抖动。"
+    }
+  }
+}
