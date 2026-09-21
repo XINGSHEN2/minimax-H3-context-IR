@@ -13,7 +13,7 @@ INPUT_RULES = """输入与证据
 先看整体结构、区域、可见状态和关系；证据充分才整合同一对象的互补视图，不合并不同人物或产品。人物和产品只选择足以建立身份、一致性、核心轮廓及用户指定用途的高价值锚点；用户明确点名的细节必须落实，未点名的可见细节只有在缺失会改变主体身份、核心外观、交互或素材用途时才进入 h3_prompt。不要把素材分析逐项搬入 Subject、Summary 或 Retention。静态姿态不证明动作、时序或隐藏机制，布局不自动等于分镜。
 素材用途按用户范围决定；未指定时区分必须保留、可选继承和有理由排除，不把主要用途变成排他白名单。关键参考证据缺失时记录具体不确定项。"""
 
-WORKFLOW = """在一次 API 请求的一次响应中，按顺序完成“要求分层 → 最小事件大纲 → 内容镜头骨架 → 表现层分配 → H3”。这是组织顺序，不是多次请求；不输出推理过程，不调用工具。内容大纲、镜头取舍、摄影和剪辑判断统一遵循 system prompt 中的 H3 Shot Planning Skill。
+WORKFLOW = """在一次 API 请求的一次响应中，按顺序完成“要求分层 → 最小事件大纲 → 内容镜头骨架 → 表现层分配 → 音频规划 → H3”。这是组织顺序，不是多次请求；不输出推理过程，不调用工具。内容大纲、镜头取舍、摄影和剪辑判断统一遵循 system prompt 中的 H3 Shot Planning Skill。
 
 第零阶段：要求分层
 1. 先输出 requirement_map，把用户和素材要求分为四类：content_events 记录人物、物体、关系、信息或空间的动作与结果；editing_treatments 记录切法、转场及剪辑处理；global_style 记录贯穿画面的媒介、类型、质感、色彩、摄影和包装风格；audio_requirements 记录音乐、环境声、同步声音、静音、对白和歌词。分类只决定作用层级，不得删除或弱化要求。未标为片尾的转场仍要求有切入内容，但自身不是内容事件。
@@ -28,10 +28,10 @@ WORKFLOW = """在一次 API 请求的一次响应中，按顺序完成“要求�
 6. 按照 Skill 的去表现层检查复核相邻镜头，只保留具有新事件状态、不可替代观察价值或用户／参考锁定依据的切点。完成后锁定 shots。
 
 第三阶段：锁定计划并交接 H3
-7. 锁定 requirement_map、developments 和 shots，再按照 system prompt 中的 H3 Prompt Writing Skill 生成 h3_prompt。Skill 负责 H3 的字段、英文格式、镜头表达、转场执行和音频写法；不得借写作过程新增、删除、合并或重新拆分 development 和 Shot。
-8. 最终 H3 中的每个事件、动作阶段、结果和切点都必须映射到锁定的 content_plan。content_plan 中的 start_seconds 和 end_seconds 连续覆盖目标时长；H3 只把既定时间和 continuity_bridge 编译成可执行文本，不得改写规划。
-9. 视觉分镜锁定后，按照 system prompt 中的 H3 Sound Planning Skill 形成 audio_plan，再完成音频表达。音频不得新增或改变视觉事件、镜头、动作、时间、运镜、视觉高潮和结尾画面；用户明确的音乐、静音、原声、音轨、对白和歌词要求必须保留。shots.sound_cues 只记录需要精确同步、跨镜连续或影响动作理解的声音；持续声场和画外配乐分别交给最终 H3 的对应板块。
-10. 最终检查要求是否全部落实，developments 是否单向推进，每镜是否有 content_purpose，每个 Shot 是否映射到 development，所有素材绑定是否使用真实 asset_id。发现问题时按 H3 Shot Planning Skill 修正并重新锁定，再编译 H3；content_plan 只保存最终版。"""
+7. 锁定 requirement_map、developments、shots、视觉高潮和结尾画面。锁定后不得为了声音或写作新增、删除、合并或重新拆分 development 和 Shot。
+8. 视觉计划锁定后，按照 system prompt 中的 H3 Sound Planning Skill 形成并锁定 audio_plan。音频不得新增或改变视觉事件、镜头、动作、时间、运镜、视觉高潮和结尾画面；用户明确的音乐、静音、原声、音轨、对白和歌词要求必须保留。shots.sound_cues 只记录需要精确同步、跨镜连续或影响动作理解的声音；持续声场和画外配乐分别交给最终 H3 的对应板块。
+9. 按照 system prompt 中的 H3 Prompt Writing Skill，把锁定的视觉计划和 audio_plan 一次性编译为 h3_prompt。Skill 负责 H3 的字段、英文格式、镜头表达、转场执行和音频写法；不得借写作过程新增、删除、合并或重新拆分 development 和 Shot，也不得改写已经锁定的 audio_plan。最终 H3 中的每个事件、动作阶段、结果和切点都必须映射到锁定的 content_plan；start_seconds 和 end_seconds 连续覆盖目标时长，H3 只把既定时间和 continuity_bridge 编译成可执行文本。
+10. 最终检查要求是否全部落实，developments 是否单向推进，每镜是否有 content_purpose，每个 Shot 是否映射到 development，audio_plan 是否只引用既有 Shot，所有素材绑定是否使用真实 asset_id。发现视觉问题时按 H3 Shot Planning Skill 修正并重新锁定，再重新形成 audio_plan；发现声音问题时只修正 audio_plan，不能改动视觉计划；最后重新编译 H3，content_plan 只保存最终版。"""
 
 RESPONSE_CONTRACT = """最终响应契约
 最终只输出一个 JSON 对象，顶层严格为 content_plan、h3_prompt、uncertainties，不输出思考过程、草稿或其他顶层字段。

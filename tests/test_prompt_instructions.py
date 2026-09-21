@@ -61,6 +61,14 @@ def test_third_stage_locks_plan_and_delegates_writing():
     assert "tempo_energy_basis" in RESPONSE_CONTRACT
 
 
+def test_sound_plan_is_locked_before_h3_writing():
+    sound = COMPACT_WRITING_INSTRUCTIONS.index("H3 Sound Planning Skill")
+    writing = COMPACT_WRITING_INSTRUCTIONS.index("H3 Prompt Writing Skill")
+    assert sound < writing
+    assert "把锁定的视觉计划和 audio_plan 一次性编译为 h3_prompt" in COMPACT_WRITING_INSTRUCTIONS
+    assert "发现声音问题时只修正 audio_plan，不能改动视觉计划" in COMPACT_WRITING_INSTRUCTIONS
+
+
 def test_scene_and_shot_decisions_live_in_shot_planning_skill():
     for phrase in (
         "一个 development 必须带来可见的动作",
@@ -136,6 +144,11 @@ def test_audio_decisions_live_in_sound_planning_skill():
         "最高优先项必须与 `auditory_focus` 一致",
         "配乐在对白下方铺底",
         "删除全部音频计划后，锁定的视觉内容必须完全不变",
+        "基线 → 积累 → 主要峰值 → 释放或结尾",
+        "主要峰值之后不要默认让环境底层、声音设计和配乐同时保持峰值强度",
+        "为主要瞬态保留动态空间",
+        "配乐不得用同一频段和同一功能再次堆叠",
+        "闪白、黑场、故障、遮挡和硬切不会自动获得呼啸、爆裂或静默",
     ):
         assert phrase in SOUND_SKILL
         assert phrase not in COMPACT_WRITING_INSTRUCTIONS
