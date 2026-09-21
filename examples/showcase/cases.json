@@ -617,7 +617,7 @@
       "id": "feishu_11_case01",
       "title": "Case 1 · 四图望远镜搜索",
       "category": "1.1 品牌大片与影视内容",
-      "description": "默认页签：v46 Sound Planning；视觉大纲与分镜锁定后再规划听觉重心、环境底层、关键同步声、配乐取舍和混音关系，声音不得反向修改视觉内容。v43 与 v33 为历史结果；Raw 与官方保持原始结果，并非严格同参数评测。",
+      "description": "默认页签：v46 Sound Planning；视觉大纲与分镜锁定后再规划听觉重心、环境底层、关键同步声、配乐取舍和混音关系，声音不得反向修改视觉内容。v33 为历史结果；Raw 与官方保持原始结果，并非严格同参数评测。",
       "variants": {
         "v46": {
           "label": "v46 · Sound Planning",
@@ -659,49 +659,6 @@
               "duration_seconds": 15.084,
               "size": "1344×768",
               "content_plan": "data/feishu_11_case01/v46/content_plan.json"
-            }
-          }
-        },
-        "v43": {
-          "label": "v43 · 连续转场运动弧线",
-          "groups": {
-            "reference": {
-              "label": "参考成片",
-              "status": "ready",
-              "video": "data/feishu_11_case01/reference.mp4",
-              "duration_seconds": 15.084,
-              "size": "2560×1440"
-            },
-            "raw": {
-              "label": "Raw",
-              "status": "ready",
-              "video": "data/feishu_11_case01/original/raw/result.mp4",
-              "prompt": "data/feishu_11_case01/original/raw/h3_prompt.txt",
-              "request": "data/feishu_11_case01/original/raw/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "official_ir": {
-              "label": "官方 IR · 原始结果",
-              "status": "ready",
-              "video": "data/feishu_11_case01/original/official_ir/result.mp4",
-              "prompt": "data/feishu_11_case01/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_11_case01/original/official_ir/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "v43": {
-              "label": "本地 IR · v43 连续转场运动弧线",
-              "status": "ready",
-              "video": "data/feishu_11_case01/v43/result.mp4",
-              "prompt": "data/feishu_11_case01/v43/h3_prompt.txt",
-              "request": "data/feishu_11_case01/v43/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.084,
-              "size": "1344×768",
-              "content_plan": "data/feishu_11_case01/v43/content_plan.json"
             }
           }
         },
@@ -776,7 +733,7 @@
       "id": "feishu_11_case02",
       "title": "Case 2 · 太空预告片",
       "category": "1.1 品牌大片与影视内容",
-      "description": "默认页签：v46 Sound Planning；视觉大纲与分镜锁定后再规划听觉重心、环境底层、关键同步声、配乐取舍和混音关系，声音不得反向修改视觉内容。v43 与 v33 为历史结果；Raw 与官方保持原始结果，并非严格同参数评测。",
+      "description": "默认页签：v46 Sound Planning；视觉大纲与分镜锁定后再规划听觉重心、环境底层、关键同步声、配乐取舍和混音关系，声音不得反向修改视觉内容。v33 为历史结果；Raw 与官方保持原始结果，并非严格同参数评测。",
       "variants": {
         "v46": {
           "label": "v46 · Sound Planning",
@@ -818,49 +775,6 @@
               "duration_seconds": 15.084,
               "size": "1344×768",
               "content_plan": "data/feishu_11_case02/v46/content_plan.json"
-            }
-          }
-        },
-        "v43": {
-          "label": "v43 · 连续转场运动弧线",
-          "groups": {
-            "reference": {
-              "label": "参考成片",
-              "status": "ready",
-              "video": "data/feishu_11_case02/reference.mp4",
-              "duration_seconds": 15.084,
-              "size": "2560×1440"
-            },
-            "raw": {
-              "label": "Raw",
-              "status": "ready",
-              "video": "data/feishu_11_case02/original/raw/result.mp4",
-              "prompt": "data/feishu_11_case02/original/raw/h3_prompt.txt",
-              "request": "data/feishu_11_case02/original/raw/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "official_ir": {
-              "label": "官方 IR · 原始结果",
-              "status": "ready",
-              "video": "data/feishu_11_case02/original/official_ir/result.mp4",
-              "prompt": "data/feishu_11_case02/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_11_case02/original/official_ir/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "v43": {
-              "label": "本地 IR · v43 连续转场运动弧线",
-              "status": "ready",
-              "video": "data/feishu_11_case02/v43/result.mp4",
-              "prompt": null,
-              "request": null,
-              "context_ir": null,
-              "duration_seconds": 15.084,
-              "size": "1344×768",
-              "content_plan": null
             }
           }
         },
@@ -920,7 +834,7 @@
       "id": "feishu_11_case03",
       "title": "Case 3 · 宇宙门开场",
       "category": "1.1 品牌大片与影视内容",
-      "description": "默认页签：v46 Sound Planning；视觉大纲与分镜锁定后再规划听觉重心、环境底层、关键同步声、配乐取舍和混音关系，声音不得反向修改视觉内容。v43 与 v33 为历史结果；Raw 与官方保持原始结果，并非严格同参数评测。",
+      "description": "默认页签：v46 Sound Planning；视觉大纲与分镜锁定后再规划听觉重心、环境底层、关键同步声、配乐取舍和混音关系，声音不得反向修改视觉内容。v33 为历史结果；Raw 与官方保持原始结果，并非严格同参数评测。",
       "variants": {
         "v46": {
           "label": "v46 · Sound Planning",
@@ -962,49 +876,6 @@
               "duration_seconds": 15.084,
               "size": "1344×768",
               "content_plan": "data/feishu_11_case03/v46/content_plan.json"
-            }
-          }
-        },
-        "v43": {
-          "label": "v43 · 连续转场运动弧线",
-          "groups": {
-            "reference": {
-              "label": "参考成片",
-              "status": "ready",
-              "video": "data/feishu_11_case03/reference.mp4",
-              "duration_seconds": 15.084,
-              "size": "2560×1440"
-            },
-            "raw": {
-              "label": "Raw",
-              "status": "ready",
-              "video": "data/feishu_11_case03/original/raw/result.mp4",
-              "prompt": "data/feishu_11_case03/original/raw/h3_prompt.txt",
-              "request": "data/feishu_11_case03/original/raw/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "official_ir": {
-              "label": "官方 IR · 原始结果",
-              "status": "ready",
-              "video": "data/feishu_11_case03/original/official_ir/result.mp4",
-              "prompt": "data/feishu_11_case03/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_11_case03/original/official_ir/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "v43": {
-              "label": "本地 IR · v43 连续转场运动弧线",
-              "status": "ready",
-              "video": "data/feishu_11_case03/v43/result.mp4",
-              "prompt": null,
-              "request": null,
-              "context_ir": null,
-              "duration_seconds": 15.084,
-              "size": "1344×768",
-              "content_plan": null
             }
           }
         },
@@ -1069,7 +940,7 @@
       "id": "feishu_11_case04",
       "title": "Case 4 · 衣服与包时尚广告",
       "category": "1.1 品牌大片与影视内容",
-      "description": "默认页签：v46 Sound Planning；视觉大纲与分镜锁定后再规划听觉重心、环境底层、关键同步声、配乐取舍和混音关系，声音不得反向修改视觉内容。v43 与 v33 为历史结果；Raw 与官方保持原始结果，并非严格同参数评测。",
+      "description": "默认页签：v46 Sound Planning；视觉大纲与分镜锁定后再规划听觉重心、环境底层、关键同步声、配乐取舍和混音关系，声音不得反向修改视觉内容。v33 为历史结果；Raw 与官方保持原始结果，并非严格同参数评测。",
       "variants": {
         "v46": {
           "label": "v46 · Sound Planning",
@@ -1111,49 +982,6 @@
               "duration_seconds": 15.084,
               "size": "1344×768",
               "content_plan": "data/feishu_11_case04/v46/content_plan.json"
-            }
-          }
-        },
-        "v43": {
-          "label": "v43 · 连续转场运动弧线",
-          "groups": {
-            "reference": {
-              "label": "参考成片",
-              "status": "ready",
-              "video": "data/feishu_11_case04/reference.mp4",
-              "duration_seconds": 15.084,
-              "size": "2560×1440"
-            },
-            "raw": {
-              "label": "Raw",
-              "status": "ready",
-              "video": "data/feishu_11_case04/original/raw/result.mp4",
-              "prompt": "data/feishu_11_case04/original/raw/h3_prompt.txt",
-              "request": "data/feishu_11_case04/original/raw/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "official_ir": {
-              "label": "官方 IR · 原始结果",
-              "status": "ready",
-              "video": "data/feishu_11_case04/original/official_ir/result.mp4",
-              "prompt": "data/feishu_11_case04/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_11_case04/original/official_ir/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "v43": {
-              "label": "本地 IR · v43 连续转场运动弧线",
-              "status": "ready",
-              "video": "data/feishu_11_case04/v43/result.mp4",
-              "prompt": null,
-              "request": null,
-              "context_ir": null,
-              "duration_seconds": 15.084,
-              "size": "1344×768",
-              "content_plan": null
             }
           }
         },
@@ -1228,7 +1056,7 @@
       "id": "feishu_11_case05",
       "title": "Case 5 · 火焰时装广告",
       "category": "1.1 品牌大片与影视内容",
-      "description": "默认页签：v46 Sound Planning；视觉大纲与分镜锁定后再规划听觉重心、环境底层、关键同步声、配乐取舍和混音关系，声音不得反向修改视觉内容。v43 与 v33 为历史结果；Raw 与官方保持原始结果，并非严格同参数评测。",
+      "description": "默认页签：v46 Sound Planning；视觉大纲与分镜锁定后再规划听觉重心、环境底层、关键同步声、配乐取舍和混音关系，声音不得反向修改视觉内容。v33 为历史结果；Raw 与官方保持原始结果，并非严格同参数评测。",
       "variants": {
         "v46": {
           "label": "v46 · Sound Planning",
@@ -1270,49 +1098,6 @@
               "duration_seconds": 15.084,
               "size": "1344×768",
               "content_plan": "data/feishu_11_case05/v46/content_plan.json"
-            }
-          }
-        },
-        "v43": {
-          "label": "v43 · 连续转场运动弧线",
-          "groups": {
-            "reference": {
-              "label": "参考成片",
-              "status": "ready",
-              "video": "data/feishu_11_case05/reference.mp4",
-              "duration_seconds": 15.084,
-              "size": "2560×1440"
-            },
-            "raw": {
-              "label": "Raw",
-              "status": "ready",
-              "video": "data/feishu_11_case05/original/raw/result.mp4",
-              "prompt": "data/feishu_11_case05/original/raw/h3_prompt.txt",
-              "request": "data/feishu_11_case05/original/raw/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "official_ir": {
-              "label": "官方 IR · 原始结果",
-              "status": "ready",
-              "video": "data/feishu_11_case05/original/official_ir/result.mp4",
-              "prompt": "data/feishu_11_case05/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_11_case05/original/official_ir/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "v43": {
-              "label": "本地 IR · v43 连续转场运动弧线",
-              "status": "ready",
-              "video": "data/feishu_11_case05/v43/result.mp4",
-              "prompt": null,
-              "request": null,
-              "context_ir": null,
-              "duration_seconds": 15.084,
-              "size": "1344×768",
-              "content_plan": null
             }
           }
         },
