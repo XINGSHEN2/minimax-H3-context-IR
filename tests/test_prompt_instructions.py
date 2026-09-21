@@ -197,6 +197,38 @@ def test_target_keyframe_is_locked_at_first_identifiable_frame():
         assert moved_phrase not in SHARED_GUIDE
 
 
+def test_reference_keyframe_has_one_contiguous_visible_interval():
+    for phrase in (
+        "每个参考关键帧默认只有一个连续的可辨展示区间",
+        "同一个关键帧 ID 若出现两个彼此分离的可辨区间",
+        "不得再次清晰呈现同一关键帧或重复完成同一锁定构图",
+    ):
+        assert phrase in SHOT_SKILL or phrase in SHARED_GUIDE
+        assert phrase not in COMPACT_WRITING_INSTRUCTIONS
+
+
+def test_title_group_defaults_to_one_shot_and_one_reveal():
+    for phrase in (
+        "默认是一个不可拆的文字组",
+        "默认作为同一个文字组分配到同一 Shot",
+        "主标题和副标题拆到不同镜头",
+        "同一次进入中共同建立和保持",
+    ):
+        assert phrase in OUTLINE_SKILL or phrase in SHOT_SKILL or phrase in SHARED_GUIDE
+        assert phrase not in COMPACT_WRITING_INSTRUCTIONS
+
+
+def test_optical_transition_has_single_owner():
+    for phrase in (
+        "必须指定唯一的执行归属",
+        "前镜停在自己的最后清晰状态",
+        "只归属于一个 Shot",
+        "不能在两侧各写一次起步、峰值或落定",
+    ):
+        assert phrase in SHOT_SKILL or phrase in SHARED_GUIDE
+        assert phrase not in COMPACT_WRITING_INSTRUCTIONS
+
+
 def test_writing_guide_only_formats_locked_audio_plan():
     assert "按照已经锁定的 `audio_plan`" in SHARED_GUIDE
     assert "严格执行已经锁定的 `audio_plan.music_decision`" in SHARED_GUIDE
