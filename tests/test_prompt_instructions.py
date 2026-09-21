@@ -149,8 +149,20 @@ def test_audio_decisions_live_in_sound_planning_skill():
         "为主要瞬态保留动态空间",
         "配乐不得用同一频段和同一功能再次堆叠",
         "闪白、黑场、故障、遮挡和硬切不会自动获得呼啸、爆裂或静默",
+        "每条配乐先选择一种主要音乐语言",
+        "不得为了“更丰富”“更宏大”混入会把配乐带向第二种类型",
     ):
         assert phrase in SOUND_SKILL
+        assert phrase not in COMPACT_WRITING_INSTRUCTIONS
+
+
+def test_target_keyframe_is_locked_at_first_identifiable_frame():
+    for phrase in (
+        "目标场景的第一帧可辨内容必须已经处于计划锁定的主体位置、景别和构图",
+        "跨边界的摄影机余速只能存在于内容仍不可辨识的阶段",
+        "主体不得因转场余速从画外滑入、横穿画面或被摄影机重新寻找",
+    ):
+        assert phrase in SHOT_SKILL
         assert phrase not in COMPACT_WRITING_INSTRUCTIONS
 
     for moved_phrase in (
