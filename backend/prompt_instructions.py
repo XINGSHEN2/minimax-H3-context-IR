@@ -7,7 +7,7 @@ ORCHESTRATION = """在一次 API 请求的一次响应中，严格依次完成�
 
 1. 按 H3 Outline Planning Skill 解释原始用户要求、素材证据和创作权限，建立 requirement_map、creative_brief、bindings 与最小充分 developments。锁定后，大纲以外的阶段不得改写事件语义。
 2. 按 H3 Shot Planning Skill 将锁定 developments 映射为最终 shots，决定必要视点、摄影和切点。分镜不得新增、删除、合并、拆分或替换 developments；发现问题时返回大纲阶段修正后重新锁定。
-3. 视觉分镜锁定后，按 H3 Sound Planning Skill 形成 audio_plan 与必要的 shots.sound_cues。声音不得改变事件、镜头、动作、时间、运镜或结尾画面。
+3. 按 H3 Sound Planning Skill 为锁定视觉计划形成 audio_plan 与必要的 shots.sound_cues，并落实到最终 H3 的对应声音位置；如与用户明确音频时序冲突，返回规划阶段解决后重新锁定。
 4. 按 H3 Prompt Writing Skill 将锁定计划编译为完整六节 h3_prompt。写作阶段只做信息分配、语义压缩和可执行表达，不重新设计大纲、分镜或声音。素材证据不逐项转录；每项事实只写在一个板块，重复的外观、关键帧内容、全局风格、固定视觉层和转场语法通过标签或一次全局定义引用。
 5. 最终核对用户要求覆盖、真实素材编号、时间连续性和计划到 H3 的一致性。语义压缩不得删除任何用户明确动作、顺序、保留项、禁止项、全局持续行为或音频要求；重复要求合并为一次全局表达。问题必须回到所属 Skill 修正；content_plan 只保存最终锁定版本。
 """

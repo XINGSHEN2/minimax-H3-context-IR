@@ -90,18 +90,16 @@ The man (S1) says in an off-screen voiceover: <d>[English] I still remember that
 A red neon sign reading "营业中" glows above the doorway.
 ```
 
-### 4.7 `overall_soundscape`
+### 4.7 音频交接与 `overall_soundscape`
 
-按照已经锁定的 `audio_plan`，用 1–3 个英文句子组成一个连续短段，依次表达需要保留的持续底层、突出声音、必要关系和结尾状态。不要在写作阶段新增声音，也不要重复镜头中已经写明的对白、歌唱、剧情内音乐和精确同步声音。只有用户明确要求全片完全静音时才使用 `N/A`。
+将锁定的 `audio_plan` 写成 H3 执行文本。精确触发、启停或跨镜同步在对应 Shot 写清；`overall_soundscape` 用一个短段突出主要声源和声音质感，再补必要环境、空间、动态及结束关系。它不能只剩环境底噪而丢失听觉重点。同类声音主题用一次全局定义说明适用范围和触发；Shot 只补局部同步，不重抄整段。可以概括镜头中已落实的主要声源，但不重复完整执行描述。
 
-```text
-overall_soundscape: Steady rain taps against the café windows while low room ambience continues underneath. The entrance bell rings once, followed by wet footsteps and the soft scrape of a chair.
-```
+按计划区分物理拟音和服务剪辑、光学或文字的设计音效；保留计划选定的节奏、力度、重复范围和有意静音，不自行弱化。没有环境底层也可以由关键声音建立声景；全片无此类声音时写 `N/A`，是否有画外配乐由下一栏独立决定。
+
+完成后逐项核对 `key_sound_events`：每项的声音及必要触发、同步或重复范围必须在最终 Shot 或声景中找得到，不能只出现在计划里。不得用删除计划项的方式消除遗漏。
 
 ### 4.8 `non_diegetic_music`
 
-严格执行已经锁定的 `audio_plan.music_decision`。决定为 `N/A` 时只写 `N/A`；使用配乐时，用 1–2 个英文句子依次表达主要气质与风格、节奏与能量、关键音色、主要功能，以及计划中确有必要的混音或结束关系。不要在写作阶段改变配乐判断、逐镜重新编曲，或重复 `overall_soundscape` 和镜头内音效。
+执行 `audio_plan.music_decision`。`N/A` 时只写 `N/A`；使用配乐时用一至两句依次表达气质与风格、节奏与能量、核心音色、主要功能，以及必要的混音或结束关系。保持计划中的动力和音乐语言，不把“克制”擅自改成慢速或低能量，不逐镜重新编曲，不重复音效描述。
 
-```text
-non_diegetic_music: Sparse piano notes at a slow tempo, joined by sustained low strings that gradually increase in volume before fading out.
-```
+最后检查两项音频栏和 Shot 的结束状态一致：有意全声场静音不能同时伴有环境声、配乐延续或自然余响；局部静音则明确对象。H3 压缩完成后，主要听觉重心、关键同步声音、配乐方向和结束状态仍须完整存在。
