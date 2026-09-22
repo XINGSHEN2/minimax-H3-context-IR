@@ -1,194 +1,49 @@
-import copy
-import json
+import copy, json
 from pathlib import Path
 
-from backend.prompt_instructions import (
-    COMPACT_WRITING_INSTRUCTIONS,
-    RESPONSE_CONTRACT,
-    build_compact_writing_prompt,
-)
+from backend.agent import CORE_SKILLS
+from backend.prompt_instructions import COMPACT_WRITING_INSTRUCTIONS, RESPONSE_CONTRACT, build_compact_writing_prompt
 
-ROOT = Path(__file__).resolve().parents[1]
-SHARED_GUIDE = (ROOT / "skills/h3-prompt-writing/references/shared-zh-en.txt").read_text(encoding="utf-8")
-REF2VA_GUIDE = (ROOT / "skills/h3-prompt-writing/references/ref2va-zh-en.txt").read_text(encoding="utf-8")
-SHOT_SKILL = (ROOT / "skills/h3-shot-planning/SKILL.md").read_text(encoding="utf-8")
-SOUND_SKILL = (ROOT / "skills/h3-sound-planning/SKILL.md").read_text(encoding="utf-8")
+ROOT=Path(__file__).resolve().parents[1]
+OUTLINE=(ROOT/'skills/h3-outline-planning/SKILL.md').read_text('utf-8')
+SHOT=(ROOT/'skills/h3-shot-planning/SKILL.md').read_text('utf-8')
+SOUND=(ROOT/'skills/h3-sound-planning/SKILL.md').read_text('utf-8')
+WRITING=(ROOT/'skills/h3-prompt-writing/SKILL.md').read_text('utf-8')
 
+def test_four_skills_loaded_in_dependency_order():
+    assert CORE_SKILLS == ('h3-outline-planning','h3-shot-planning','h3-sound-planning','h3-prompt-writing')
 
-def test_instructions_prioritize_content_and_evidence():
-    assert "即使标为 visible" in COMPACT_WRITING_INSTRUCTIONS
-    assert "有证据支持的共同外观" in COMPACT_WRITING_INSTRUCTIONS
-    assert "同一对象的互补视图" in COMPACT_WRITING_INSTRUCTIONS
-    assert "不同人物或产品" in COMPACT_WRITING_INSTRUCTIONS
-    assert "不要把素材分析逐项搬入" in COMPACT_WRITING_INSTRUCTIONS
+def test_evidence_and_response_contract_round_trip():
+    evidence={'user_request':'保持结尾','assets':[{'asset_id':'image_1'}]};before=copy.deepcopy(evidence)
+    sent=build_compact_writing_prompt(evidence);suffix='\n\n'+RESPONSE_CONTRACT
+    assert sent.startswith(COMPACT_WRITING_INSTRUCTIONS) and sent.endswith(suffix)
+    assert json.loads(sent[len(COMPACT_WRITING_INSTRUCTIONS):-len(suffix)]) == evidence
+    assert evidence == before
 
-
-def test_evidence_precedes_response_contract_without_mutation():
-    evidence = {
-        "user_request": "只替换台词：别走了，好吗？",
-        "completion_policy": {"creative": False},
-        "directives": [{"operation": "exclude", "scope": ["music"]}],
-        "assets": [{"asset_id": "video_1", "events": [{"time_range": [0, 9]}]}],
-    }
-    original = copy.deepcopy(evidence)
-    sent = build_compact_writing_prompt(evidence)
-    suffix = "\n\n" + RESPONSE_CONTRACT
-    assert sent.startswith(COMPACT_WRITING_INSTRUCTIONS)
-    assert sent.endswith(suffix)
-    encoded = sent[len(COMPACT_WRITING_INSTRUCTIONS):-len(suffix)]
-    assert json.loads(encoded) == original
-    assert sent.index('"user_request"') < sent.index("最终响应契约")
-    assert evidence == original
-
-
-def test_response_contract_only_defines_outer_payload():
-    assert "顶层严格为 content_plan、h3_prompt、uncertainties" in RESPONSE_CONTRACT
-    assert "h3_prompt 必须是一个字符串" in RESPONSE_CONTRACT
-    assert "不能是对象、数组或分节字段" in RESPONSE_CONTRACT
-    assert "subject_definitions：" not in RESPONSE_CONTRACT
-    assert "non_diegetic_music：" not in RESPONSE_CONTRACT
-
-
-def test_third_stage_locks_plan_and_delegates_writing():
-    assert "第三阶段：锁定计划并交接 H3" in COMPACT_WRITING_INSTRUCTIONS
-    assert "按照 system prompt 中的 H3 Prompt Writing Skill" in COMPACT_WRITING_INSTRUCTIONS
-    assert "不得借写作过程新增、删除、合并或重新拆分" in COMPACT_WRITING_INSTRUCTIONS
-    assert "每个事件、动作阶段、结果和切点都必须映射" in COMPACT_WRITING_INSTRUCTIONS
-    assert "按照 system prompt 中的 H3 Sound Planning Skill" in COMPACT_WRITING_INSTRUCTIONS
-    assert "audio_plan" in RESPONSE_CONTRACT
-    assert "key_sound_events 为对象数组" in RESPONSE_CONTRACT
-    assert "decision（use 或 N/A）" in RESPONSE_CONTRACT
-    assert "tempo_energy_basis" in RESPONSE_CONTRACT
-
-
-def test_scene_and_shot_decisions_live_in_shot_planning_skill():
-    for phrase in (
-        "一个 development 必须带来可见的动作",
-        "删除某个新增事件后目标仍完整时",
-        "把“允许补全”和“允许扩写故事”分开判断",
-        "默认只建立一条主要动作弧",
-        "不要把造型手势、火焰突然升级",
-        "对参与揭示、取得、交接、穿戴、启用或损坏的连续性关键物体维护状态",
-        "同一现象从微弱、增强到峰值",
-        "快节奏表示有效信息推进更紧凑",
-        "不包括叠加标题、字幕、品牌字样或包装文字开始可读",
-        "不得先虚构更多 beat",
-        "每个 development 必须在移除标题文字",
-        "同一时间、空间、主体和动作目标默认放在一个连续镜头内",
-        "全局风格只决定已有必要切点怎样发生",
-        "应在实质性里程碑之间跳切",
-        "不得把“用户要求了这种效果”改写成“用户锁定了这个切点”",
-        "先检查同一镜头能否通过主体靠近",
-        "同一动作自然到达其直接结果",
-        "同一 development 跨越多个镜头时",
-        "需要更持续地观看",
-        "执行去表现层检查",
-    ):
-        assert phrase in SHOT_SKILL
-        assert phrase not in COMPACT_WRITING_INSTRUCTIONS
-
-
-def test_user_prompt_keeps_stage_order_and_schema_handoff():
-    for phrase in (
-        "最小事件大纲",
-        "内容镜头骨架",
-        "表现层分配",
-        "H3 Shot Planning Skill",
-        "development_ids 和 content_purpose",
-        "cut_reason 和 continuity_bridge",
-        "锁定 shots",
-    ):
+def test_user_prompt_is_orchestration_not_domain_policy():
+    for phrase in ('H3 Outline Planning Skill','H3 Shot Planning Skill','H3 Sound Planning Skill','H3 Prompt Writing Skill'):
         assert phrase in COMPACT_WRITING_INSTRUCTIONS
-
-
-def test_h3_execution_rules_live_in_system_skill():
-    for phrase in (
-        "每个 Shot 默认只在开头写一个绝对起始时间",
-        "同一次、同方向、尚未结束",
-        "完整运动弧线压成单个模糊帧",
-        "旧内容不得重新清晰、混合或恢复",
-    ):
-        assert phrase in SHARED_GUIDE
+    for phrase in ('视点剥离','强度剥离','摄影机运动本身通常没有声音','望远镜'):
         assert phrase not in COMPACT_WRITING_INSTRUCTIONS
 
-
-def test_prop_state_lives_in_shared_writing_guide():
-    for phrase in (
-        "后续才被揭示、取得、交接、穿戴或启用的物体必须保持阶段状态",
-        "不能让该物体提前出现在人物手中",
-        "不能仅靠“不提及”表达缺席",
-    ):
-        assert phrase in SHARED_GUIDE
+def test_outline_owns_v33_semantic_compression():
+    for phrase in ('Development 不表示观察角度','连续目标合并','表现层剥离','视点剥离','强度剥离',
+                   '不同空间中的观察与反应','默认采用“完成用户意图所需的最小充分补全”'):
+        assert phrase in OUTLINE
         assert phrase not in COMPACT_WRITING_INSTRUCTIONS
 
+def test_shot_skill_preserves_v33_camera_and_continuity_core():
+    for phrase in ('A shot may contain ordered action stages','Do not silently split a merged phrase back into coverage shots',
+                   'Give a boundary one concrete connection','one atomic irreversible boundary'):
+        assert phrase in SHOT
 
-def test_audio_decisions_live_in_sound_planning_skill():
-    for phrase in (
-        "音频规划必须在 developments、Shot、动作、时间、运镜、视觉高潮和结尾画面锁定后进行",
-        "不得为了配合音乐增加切点、动作、闪光、撞击或标题动画",
-        "auditory_focus",
-        "continuous_bed",
-        "key_sound_events",
-        "music_decision",
-        "未指定配乐属于开放判断，不等于必须添加",
-        "摄影机运动本身通常没有声音",
-        "最多三个重要声音事件",
-        "最高优先项必须与 `auditory_focus` 一致",
-        "配乐在对白下方铺底",
-        "删除全部音频计划后，锁定的视觉内容必须完全不变",
-    ):
-        assert phrase in SOUND_SKILL
-        assert phrase not in COMPACT_WRITING_INSTRUCTIONS
+def test_sound_and_writing_remain_separate():
+    assert 'auditory_focus' in SOUND and 'music_decision' in SOUND
+    assert '不得为了配合音乐增加切点' in SOUND
+    assert '编译成 H3' in WRITING
+    assert '声音不得改变事件、镜头、动作、时间、运镜或结尾画面' in COMPACT_WRITING_INSTRUCTIONS
 
-    for moved_phrase in (
-        "配乐的速度、能量和动态弧必须从已经锁定的视觉节奏推导",
-        "不要让音乐能量与画面能量相反",
-        "人物停止行走时脚步声停止",
-    ):
-        assert moved_phrase not in SHARED_GUIDE
-
-
-def test_writing_guide_only_formats_locked_audio_plan():
-    assert "按照已经锁定的 `audio_plan`" in SHARED_GUIDE
-    assert "严格执行已经锁定的 `audio_plan.music_decision`" in SHARED_GUIDE
-    assert "不要在写作阶段新增声音" in SHARED_GUIDE
-
-
-def test_ref2va_information_assignment_lives_in_profile_guide():
-    for phrase in (
-        "高价值锚点写法",
-        "默认使用两到三个英文句子",
-        "哪些锚点必须跨镜保留",
-        "前三个板块的信息边界与去重",
-    ):
-        assert phrase in REF2VA_GUIDE
-        assert phrase not in COMPACT_WRITING_INSTRUCTIONS
-
-
-def test_shot_scope_policy_shared_by_both_stages():
-    from backend.prompt_instructions import SHOT_SCOPE_RULES
-    from backend.intent_resolver import build_intent_prompt
-    for request in (
-        "Shot 1 人物背对镜头。→ Hard cut。非完整Prompt，可自行补充",
-        "全程一镜到底，不要增加镜头",
-        "片尾硬切结束，不要后续画面",
-    ):
-        source = {"user_request": request, "assets": []}
-        for prompt in (build_intent_prompt(source), build_compact_writing_prompt(source)):
-            assert prompt.count(SHOT_SCOPE_RULES) == 1
-            assert request in prompt
-            assert "未描述后续" in prompt
-            assert "片尾硬切" in prompt
-            assert "不能以派生指令自身作证" in prompt
-
-
-def test_minimum_completion_reaches_both_stages_without_changing_request():
-    from backend.prompt_instructions import COMPLETION_RULES
-    from backend.intent_resolver import build_intent_prompt
-    for request in ("仅提供开场，可补充细节", "大胆发挥，设计完整故事和高潮", "严格复刻，一镜到底"):
-        source = {"user_request": request, "assets": []}
-        before = copy.deepcopy(source)
-        for prompt in (build_intent_prompt(source), build_compact_writing_prompt(source)):
-            assert prompt.count(COMPLETION_RULES) == 1
-            assert request in prompt
-        assert source == before
+def test_response_contract_only_defines_payload():
+    assert '顶层严格为 content_plan、h3_prompt、uncertainties' in RESPONSE_CONTRACT
+    assert 'h3_prompt 必须是包含完整六节最终 H3 的字符串' in RESPONSE_CONTRACT
+    assert '视点剥离' not in RESPONSE_CONTRACT
