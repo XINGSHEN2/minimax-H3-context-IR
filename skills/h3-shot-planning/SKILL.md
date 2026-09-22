@@ -1,98 +1,38 @@
 ---
 name: h3-shot-planning
-description: 为 MiniMax H3 规划最小充分的内容发展、镜头结构、运镜、连续性与剪辑边界。
+description: Execute camera movement, shot continuity and editorial boundaries for MiniMax H3 prompts from an existing content plan.
 ---
 
-# H3 大纲与分镜规划
+# H3 Shot Planning
 
-调用方负责解释用户要求、提供素材证据、规定输出字段和阶段顺序。本 Skill 负责从允许补全的范围内选择内容发展，判断镜头应合并或拆分，并把锁定的计划落实为可执行镜头。不要增加额外模型调用、审查关卡或默认镜头数量。视觉计划锁定后由 H3 Sound Planning Skill 规划声音；声音不得反向改变 development、Shot、动作、时间、运镜或视觉结局。
+The caller owns user authority, completion scope, content developments and cut decisions. Apply those decisions without adding a second planning framework, model call, review gate or default shot count.
 
-## 内容发展
+## References
 
-一个 development 必须带来可见的动作、关系、空间、故事内信息或结果变化。这里的“信息”指主体、关系或环境状态在故事世界中被发现或改变，不包括叠加标题、字幕、品牌字样或包装文字开始可读。标题动画、角度、景别、显示介质、运镜、转场、特效、声音和风格只属于表现层，不能单独充当主要事件；文字出现、扫亮、字距变化、发光、残影或消失即使传达语言信息，仍不得被提升为 development，除非用户明确把独立文字卡本身指定为主要生成内容。
+Use each reference only in its assigned role. Identity sheets, scene boards, style references, action phases and chronological storyboards are different inputs. Picture count does not determine shot count. Place a keyframe at its evidenced action state: first frame, intermediate beat, last frame or composition reference. Do not begin from a completed result when its arrival must be shown.
 
-先保留用户明确事件和参考结构，再补足使目标成立所必需的因果连接与结局。开放创作可以设计表演、摄影、光线、节奏和连接；新增物理事件必须能填补因果缺口、完成指定展示或使要求的结果成立。删除某个新增事件后目标仍完整时，删除该事件。不要仅为了更震撼或更电影化增加支线、障碍、损坏、反复高潮、重复姿势、离开后返回或恢复起始状态。
+For video references, transfer only requested dimensions such as choreography, performance rhythm, camera path, edit structure or environment. Preserve a requested storyboard sequence and reference cadence. Do not fabricate unseen action or prolong the source merely to fill time.
 
-将同一目标下连续的预兆、触发、动作、即时反应和直接结果视为一个发展过程，不因为它们可以被拍成多个角度就拆成多个 developments。最小充分补全仍要呈现清楚的因果响应和可辨识的最终状态，不能因为克制创作而留下只有铺垫、没有结果的空洞结尾。
+## Camera execution
 
-同一现象从微弱、增强到峰值的连续强度变化，默认属于一个发展过程，例如震动逐渐加剧、光线逐渐增强、烟雾逐渐变浓、机械逐渐加速。强度更大、效果更多或景别更近都不自动产生新的事件状态。只有跨过不可逆阈值、触发新的因果结果或用户明确锁定阶段时，才把它列为新的 development。
+Choose framing that makes the planned purpose readable: full bodies and floor contact for choreography, both sides of a relationship when required, or the relevant product surface during use. Stable observation is valid. When the camera moves, describe one coherent path, its speed/amplitude and the reveal it enables. A focus change is not camera translation. Avoid contradictory fixed/moving instructions and decorative movement with no viewing purpose.
 
-## 创作幅度
+A shot may contain ordered action stages and gradual reframing. Keep connected preparation, action, reaction and visible consequence physically continuous when the plan has merged them. Integrate product detail into handling, use, rotation or material response when specified. Do not silently split a merged phrase back into coverage shots.
 
-把“允许补全”和“允许扩写故事”分开判断。`creative:false`、`conservative_semantic:true`、局部补充或“可补充细节”仍允许补足动作连接与可辨识结局，但默认只建立一条主要动作弧。新增动作应是从已知起始状态到目标结果的最短连贯路径，不要再叠加第二条表演弧、环境升级、额外交互、转身返回、离场后空镜或另一次收束。
+## Cuts and transitions
 
-在保守补全中，丰富画面优先使用不改变事件链的手段：动作过程中的姿态和衣物响应、连续摄影、构图变化、光线移动、已有环境的持续运动，以及与动作同步的声音。不要把造型手势、火焰突然升级、物体额外响应、人物离场或信号崩溃等新事件伪装成“细节”；只有用户要求、参考结构明确支持，或缺少它就无法完成目标时才保留。
+At a cut, preserve the planned action phase, screen direction, camera side, eyeline, relative position, wardrobe and object ownership. An outgoing end state may be mid-action; the incoming view resumes that unfinished phase. Do not restart completed action or skip a required transformation. Intentional ellipsis and discontinuity remain valid when specified.
 
-只有用户明确要求自由创作完整故事、增加剧情转折、设计多段表演或大胆扩写时，才可以建立多条动作弧。即使创作幅度较大，每条新增事件也必须推动目标，不能用重复状态填时长。
+Give a boundary one concrete connection: action match, eyeline, cause/reaction, composition, sound bridge or intentional time/place jump. An ordinary cut needs no optical effect. Preserve requested hard cuts, black frames, flashes and discontinuity instead of smoothing them away.
 
-在锁定 developments 前，逐项检查所有非用户明示的物理事件：说明它连接了哪两个必要状态；若它仅改变气氛、强度、姿势、观看角度或提供第二种结束方式，应降为已有事件内的表现细节或删除。
+For blur, flash, smoke, darkness, occlusion or a foreground wipe that conceals a source/scene replacement, execute one atomic irreversible boundary: fully conceal outgoing content, swap at peak concealment, then reveal only incoming content. The outgoing scene must not regain clarity after the swap. Describe the boundary once rather than spreading it across both shots.
 
-对参与揭示、取得、交接、穿戴、启用或损坏的连续性关键物体维护状态：当前所在位置、是否可见、容器是否关闭、当前持有者或使用者。每镜的 `start_state` 和 `end_state` 必须延续并只在可见事件发生时更新这些状态。物体在后续才被取得时，前序镜头不能只靠省略表达未持有；应明确物体仍在原位置或遮蔽状态、人物尚未持有它，防止参考素材中的后续状态提前泄漏。
+## Timing and sound
 
-先给主要动作和结果分配足够时间，再安排包装、标题和收尾。快节奏表示有效信息推进更紧凑，不等于增加更多短镜头。
+Honor explicit timing and reference cadence. Allocate enough time for the principal action and readable outcome before secondary display or ending. Do not create pauses merely to close a shot.
 
-## 镜头取舍
+Synchronize physical sound with visible triggers and stops. Footsteps stop when walking stops; off-screen sound continues only when its source action continues. Natural reverberation may cross a cut, while a new impact requires a new visible cause. Preserve audio-copy and silence scopes exactly as assigned.
 
-同一时间、空间、主体和动作目标默认放在一个连续镜头内。一个镜头可以包含多个有序动作阶段，并通过主体运动、摄影机移动、重新构图、景别渐变或焦点变化揭示信息。产品细节优先在拿取、使用、转动或移动过程中显露；人物反应优先与触发动作留在同一连续段中。
+## H3 prose
 
-只有下列情况值得切镜：时间或空间改变；叙事主体改变；出现当前镜头无法清楚呈现的必要信息或结果；用户或参考明确锁定了某个具体切点；某个具体切点本身承担用户指定的叙事意义。同一动作换角度、换景别、改用 CCTV／监视器／取景器／屏幕、显示材质高光、加入标题或视觉效果，都不自动构成切镜理由。
-
-“快切、快速硬切、蒙太奇、紧凑剪辑、广告节奏”等全局风格只决定已有必要切点怎样发生，不能自行决定镜头数量或创建切点。即使用户明确使用这些风格词，只要没有给出切换前后的具体内容、位置或参考时间，它仍是全局 treatment；不得先虚构更多 beat，再用这些词为新增切点作证。只有用户给出具体镜头序列、明确要求某处切换，或参考结构被要求严格迁移时，剪辑风格才锁定对应切点。
-
-用户明确要求快速硬切时，应在实质性里程碑之间跳切：每次切入必须已经推进到新的动作阶段、因果结果、叙事主体或不可替代信息。不要用多个相邻镜头分别拍同一现象的“刚开始、稍增强、更强”，也不要只通过更近景别或更多效果制造推进感。
-
-用户提到 CCTV、监视器、VHS、闪白、黑场、故障、漏光或其他表现形式，只说明这些处理需要出现，不等于要求建立独立插片、切换观看介质或在处理前后各切一次。未指定具体位置时，优先让处理短暂覆盖、干扰或转换一个已有镜头或必要边界；不得把“用户要求了这种效果”改写成“用户锁定了这个切点”。
-
-每个切点必须增加新的事件状态或真正不可替代的观察维度。准备写“当前景别无法看清”之前，先检查同一镜头能否通过主体靠近、摄影机跟随或推进、连续重新构图、景别渐变、绕行或焦点变化来显露该信息；能够显露就不得切镜。材质细节、表情、动作结果和环境反应通常可以在连续运动末段直接呈现，“需要近景”“需要更持续地观看”本身不是有效理由。
-
-同一动作自然到达其直接结果，例如行走后停住、拿起后展示、转身后看向目标、开门后显露内部，默认仍属于同一连续镜头。动作状态发生变化本身不是切镜理由；摄影机应随动作减速、稳定、推进或重新构图。只有结果与动作无法在同一观察路径中清楚呈现时才拆分。
-
-若连续动作确实必须拆开，应明确当前镜头即使使用上述镜内手段仍无法承担的 `cut_reason`，并用 `continuity_bridge` 续接未完成的动作阶段、方向或因果。仅写“增强节奏、展示细节、提升电影感、换成监视视角”不是有效理由。
-
-同一 development 跨越多个镜头时，除第一个镜头外，每个后续镜头都必须给出具体 `cut_reason`；无法说明不可替代价值时，将它合并回前镜。不能因为 schema 允许一个 development 对应多镜，就把连续发展平均分段。
-
-完成初步分镜后执行去表现层检查：暂时移除运镜、角度、景别、转场、特效、标题、声音、风格、材质展示和显示介质。若相邻镜头剩余的主体、动作阶段和结果相同，或后一镜只重复已经到达的状态，就合并。删除切点后仍能自然连续，且不会遮蔽关键信息、破坏空间方向或违反用户与参考锁定结构时，也应合并。
-
-锁定前再次核对：每个 development 必须在移除标题文字、发光、闪白、黑场、残影、强度阶段、声音和镜头语言后仍保留故事内变化；每个切点必须在移除“快切／硬切／蒙太奇”等风格词后仍有具体依据。未通过者降回 treatment 并合并相关镜头。通过后才允许进入 H3 Sound Planning Skill，后续音频计划只能引用这些锁定 Shot ID。
-
-镜头数量由事件、观看需要和时长共同决定。不要追求固定数量，也不要把总时长平均切成相近长度的短镜头；不同镜头可按事件需要占用不同时间。不要为了减少镜头，把不同时间、空间或不能通过连续摄影清楚呈现的关键事件硬塞进一个镜头。
-
-## 参考素材
-
-只按照已经分配的用途使用每项参考素材。身份设定图、场景板、风格参考、动作阶段图和按时间排列的故事板属于不同类型的输入。图片数量不决定镜头数量。
-
-将关键帧放在证据所支持的动作状态：首帧、中间动作节点、尾帧或构图参考。如果视频需要呈现某个结果的形成过程，不要直接从已经完成的结果开始。
-
-对于视频参考，只迁移用户要求的维度，例如动作编排、表演节奏、摄影机路径、剪辑结构或环境。用户要求保留故事板顺序和参考节奏时，应原样遵守。不要虚构素材中不可见的动作，也不要仅为了填满时长而延长参考内容。
-
-## 摄影机执行
-
-选择能够清楚呈现镜头用途的构图：舞蹈需要看清全身和脚部接触；关系场面需要时应同时呈现关系双方；产品使用过程应看清相关表面。稳定观察本身是有效选择，不必为了“更电影化”强行运镜。
-
-摄影机需要运动时，只描述一条连贯路径，并说明必要的速度、幅度以及该运动实现的揭示效果。焦点变化不等于摄影机位移。避免同时给出互相冲突的固定机位和移动指令，也不要加入没有观看目的的装饰性运镜。
-
-一个镜头可以包含多个按顺序发生的动作阶段和渐进式构图变化。如果内容计划已经将准备、动作、反应和可见结果合并，应使它们保持物理连续。不要把已经合并的动作短语暗中重新拆成多个覆盖镜头。
-
-## 切镜与转场
-
-切镜时保持动作阶段、屏幕运动方向、摄影机观察侧、视线、相对位置、服装和物品归属。前一镜可以在动作尚未完成时结束；后一镜必须从这个未完成阶段继续。不要重新启动已经完成的动作，也不要跳过必须呈现的转变过程。用户明确要求的省略、跳切或不连续仍然有效。
-
-每个边界只选择一个主要连接依据：动作匹配、视线连接、因果关系、构图匹配、声音桥接，或有意的时间／地点跳跃。普通切镜不需要附加光学效果。用户要求的硬切、黑场、闪白和有意不连续不能被擅自平滑掉。
-
-每个边界只允许一个转场事件。闪白、黑场或故障闪断属于瞬时遮蔽，通常只写在切点的一侧一次。
-
-甩镜（`whip pan`）、快速摇移（`rapid pan`）或跟随前景遮挡（`tracked foreground wipe`）等具有可见速度弧线和明确方向的转场，可以作为同一次连续运动跨越镜头边界：在前镜结尾启动并加速；只在运动模糊峰值或完全遮挡时替换内容；在后镜开头明确续接同一次、同方向、尚未结束的运动，让它减速、稳定并重新对焦到新内容。
-
-不要在后镜重新启动这次运动，不要把它命名为第二次转场，也不要为了让转场只归属于一个位置，就把完整运动压缩成单个模糊帧。
-
-任何被遮蔽的主体或场景替换都必须保持原子性和不可逆：完全遮蔽旧内容，在遮蔽峰值完成替换，随后只显露新内容。除非用户明确要求返回、叠加或闪回，否则被替换的旧场景不能重新清晰。
-
-## 时间
-
-遵守用户明确给出的时间和参考节奏。不要仅为了结束一个镜头而制造停顿。
-
-## H3 文本
-
-稳定身份、素材绑定、全局风格和持续效果保留在它们各自的全局板块中。每个镜头只写本镜动作、必要的构图或摄影机行为、影响连续性的关键状态，以及镜头边界的具体执行方式。
-
-不要重复固定外观，也不要在可执行的 H3 文本中解释剪辑理由。
+Keep stable identity, source bindings, global style and persistent effects in their existing global sections. In each shot, write only its action phrase, necessary framing/camera behavior, continuity-critical state and boundary execution. Do not repeat fixed appearance or explain editorial reasoning in executable prose.

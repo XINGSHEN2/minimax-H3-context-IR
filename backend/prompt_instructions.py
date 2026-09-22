@@ -19,7 +19,7 @@ WORKFLOW = """在一次 API 请求的一次响应中，按顺序完成“要求�
 1. 先输出 requirement_map，把用户和素材要求分为四类：content_events 记录人物、物体、关系、信息或空间的动作与结果；editing_treatments 记录切法、转场及剪辑处理；global_style 记录贯穿画面的媒介、类型、质感、色彩、摄影和包装风格；audio_requirements 记录音乐、环境声、同步声音、静音、对白和歌词。分类只决定作用层级，不得删除或弱化要求。未标为片尾的转场仍要求有切入内容，但自身不是内容事件。
 
 第一阶段：最小事件大纲
-2. 识别 generate、reference_transfer、edit 或 continuation，把用户锁定内容、参考依据和开放部分记录在 creative_brief 与 bindings。按照 H3 Shot Planning Skill 生成完成目标所需的最小充分 developments。每条 development 记录来源 content_event、visible_change 和 outcome；非用户明示的内容必须具有必要的因果或展示依据。大纲完成后锁定事件集，后续只能具体化，不能新增、删除或替换事件。
+2. 识别 generate、reference_transfer、edit 或 continuation，把用户锁定内容、参考依据和开放部分记录在 creative_brief 与 bindings。生成完成目标所需的最小充分 developments。每条 development 记录来源 content_event、visible_change 和 outcome；非用户明示的内容必须具有必要的因果或展示依据。大纲只决定发生什么，不按景别、机位、转场、反应或声音拆分事件。保留核心事件的实际执行主体、群体范围、动作顺序和用户要求的可见结果；观察者反应、爆闪、震动或标题不能替代核心行动。连续的触发、执行与直接结果可属于同一 development，不要求逐阶段单独成镜。大纲完成后锁定事件集，后续只能具体化，不能新增、删除或替换事件。
 
 第二阶段：最终分镜
 3. 按照 H3 Shot Planning Skill，把锁定的 developments 组织为不含表现层的内容镜头骨架。每个 Shot 写 development_ids 和 content_purpose；一个 Shot 可承载多个 developments，一个 development 也可跨越必要镜头。用户锁定的镜头和独立标题卡原样执行。
