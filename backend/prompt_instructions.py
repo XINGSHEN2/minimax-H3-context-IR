@@ -3,13 +3,14 @@ from __future__ import annotations
 import json
 from typing import Any, Mapping
 
-ORCHESTRATION = """在一次 API 请求的一次响应中，严格依次完成以下阶段；这是内部组织顺序，不是多次请求，不输出推理过程，也不调用工具。
+ORCHESTRATION = """在一次 API 请求的一次响应中，严格依次完成四个阶段。这是内部工作顺序，不是四次请求；不要输出推理过程，也不要调用工具。
 
-1. 按 H3 Outline Planning Skill 解释原始用户要求、素材证据和创作权限，建立 requirement_map、creative_brief、bindings 与最小充分 developments。锁定后，大纲以外的阶段不得改写事件语义。
-2. 按 H3 Shot Planning Skill 将锁定 developments 映射为最终 shots，决定必要视点、摄影和切点。分镜不得新增、删除、合并、拆分或替换 developments；发现问题时返回大纲阶段修正后重新锁定。
-3. 按 H3 Sound Planning Skill 为锁定视觉计划选择最少充分的声音，形成 audio_plan，并将精确同步、整体声场和配乐分别交给对应 H3 位置；如与用户明确音频时序冲突，返回规划阶段解决。
-4. 按 H3 Prompt Writing Skill 将锁定计划编译为完整六节 h3_prompt。写作阶段只做信息分配、语义压缩和可执行表达，不重新设计大纲、分镜或声音。素材证据不逐项转录；每项事实只写在一个板块，重复的外观、关键帧内容、全局风格、固定视觉层和转场语法通过标签或一次全局定义引用。
-5. 最终核对用户要求覆盖、真实素材编号、时间连续性和计划到 H3 的一致性。用户明确要求不得因压缩丢失；同一事实只保留一处清楚表达。问题回到所属 Skill 修正，content_plan 只保存最终锁定版本。
+1. 使用 H3 Outline Planning Skill 确定“发生什么”：整理要求与素材用途，明确创作范围，建立并锁定最小充分 developments。不要设计镜头和声音。
+2. 使用 H3 Shot Planning Skill 确定“怎样看见”：把每条 development 映射到 shots，决定观看任务、镜头边界、摄影机路径、连续性、转场和时间。不要改写大纲。
+3. 使用 H3 Sound Planning Skill 确定“需要听见什么”：在锁定画面上规划 audio_plan 和必要的 shots.sound_cues。不要为了声音增加动作、切点或视觉结果。
+4. 使用 H3 Prompt Writing Skill 确定“怎样交付给 H3”：根据任务 profile 阅读对应官方 reference，把锁定计划编译为完整 h3_prompt。只做信息分配、压缩和可执行表达，不重新规划。
+
+最后核对用户要求覆盖、真实素材编号、时间连续性，以及 developments、shots、audio_plan 与 h3_prompt 的一致性。问题必须回到所属阶段修正；content_plan 只保存最终锁定版本。
 """
 
 RESPONSE_CONTRACT = """最终只输出一个 JSON 对象，顶层严格为 content_plan、h3_prompt、uncertainties，不输出分析、草稿或其他顶层字段。
