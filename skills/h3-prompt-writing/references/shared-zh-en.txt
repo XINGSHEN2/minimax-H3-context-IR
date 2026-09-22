@@ -47,6 +47,8 @@ The camera holds a static shot as the runner exits the frame.
 
 `content_plan` 决定镜头数量、切点和每镜内容；本协议只负责将已经锁定的分镜写成可执行 H3。不得在写作阶段新增、删除、合并或重新拆分 Shot 和内容事件。
 
+最终 H3 按信息归属写成最短充分版本：同一全局风格、固定视觉层、持续状态或重复转场家族只定义一次；逐镜只补充本镜与其他镜头不同的执行信息。已由 Picture/Video 标签锁定的完整画面不在镜头内重新枚举；重复转场已全局定义后，逐镜只说明启动或承接以及落点。不要把 content plan 的 `content_purpose`、`cut_reason`、证据说明或内部检查理由抄进最终提示词，也不要逐镜复述 Subject 定义、素材中未参与事件的背景小物或全局禁令。
+
 每个 Shot 默认只在开头写一个绝对起始时间。除非用户明确指定镜内时刻，不写第二个绝对时间，也不写微时间表。镜内多个阶段使用 `then`、`as the action continues`、`the camera follows`、`when the action completes`、`finally` 等自然顺序表达。
 
 跨切镜延续已经规划的动作阶段、运动方向、摄影机观察侧、视线、相对位置和物品归属。需要流动感时，在动作尚未完成时切出，并从同一未完成阶段切入；不得停住、重演或重新启动已经完成的动作。将必要的 continuity bridge 实际写入前镜结尾和后镜开头。

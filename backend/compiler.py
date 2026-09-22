@@ -6,7 +6,7 @@ import os
 import re
 import time
 
-COMPILER_REVISION='singlecall.v51.3.coverage_value_balance'
+COMPILER_REVISION='singlecall.v52.3.compact_complete'
 REQUIRED_H3_SECTIONS = (
     'subject_definitions', 'summary', 'retention_analysis',
     'detailed_description', 'overall_soundscape', 'non_diegetic_music',
@@ -102,6 +102,9 @@ def compile_prompt(source, output_dir, reasoning, timings, started, progress=Non
     def save(name, value):
         (output_dir / name).write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
+    raw_perception = source.get('perception')
+    if isinstance(raw_perception, dict):
+        save('media_analysis_raw.json', raw_perception)
     evidence = prepare_writer_evidence(build_writer_evidence(source))
     save('evidence_input.json', evidence)
     instruction = build_compact_writing_prompt(evidence)
@@ -118,9 +121,14 @@ def compile_prompt(source, output_dir, reasoning, timings, started, progress=Non
         progress('validation')
     errors, warnings = transport_issues(result, evidence)
     save('compilation_result.json', result)
+    compact_evidence_chars = len(json.dumps(evidence, ensure_ascii=False, separators=(',', ':')))
+    raw_analysis_chars = (len(json.dumps(raw_perception, ensure_ascii=False, separators=(',', ':')))
+                          if isinstance(raw_perception, dict) else None)
     audit = {'schema_version': 'h3_prompt_contract.v1', 'passed': not errors,
              'errors': errors, 'warnings': warnings, 'semantic_quality_verified': False,
              'compiler_revision': COMPILER_REVISION, 'llm_calls': 1,
+             'raw_media_analysis_chars': raw_analysis_chars,
+             'writer_evidence_chars': compact_evidence_chars,
              'h3_prompt_chars': len(result.get('h3_prompt', '')) if isinstance(result.get('h3_prompt'), str) else None,
              'h3_v2_endpoint_max_chars': configured_h3_text_max_chars()}
     save('h3_prompt_audit.json', audit)
