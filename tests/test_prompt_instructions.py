@@ -32,9 +32,10 @@ def test_outline_owns_v33_semantic_compression():
         assert phrase in OUTLINE
         assert phrase not in COMPACT_WRITING_INSTRUCTIONS
 
-def test_shot_skill_preserves_v33_camera_and_continuity_core():
-    for phrase in ('A shot may contain ordered action stages','Do not silently split a merged phrase back into coverage shots',
-                   'Give a boundary one concrete connection','one atomic irreversible boundary'):
+def test_shot_skill_preserves_v33_camera_and_fast_cut_core():
+    for phrase in ('一个镜头可以包含多个有序动作阶段','不能自行决定镜头数量或创建切点',
+                   '应在实质性里程碑之间跳切','不得先虚构更多 beat',
+                   '同一 development 跨越多个镜头时','完成初步分镜后执行去表现层检查'):
         assert phrase in SHOT
 
 def test_sound_and_writing_remain_separate():
