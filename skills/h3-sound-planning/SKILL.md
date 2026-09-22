@@ -33,12 +33,16 @@ description: 为 MiniMax H3 规划环境声、动作反馈、设计音效、音�
 
 ## 计划与交接
 
+按声音层和主题组织计划，不按镜头数填满事件表。continuous_bed 承担环境，music_decision 承担配乐，key_sound_events 只记录上述层次不能表达、需要独立执行的关键同步或主题。不为每个 Shot 安排拟音，也不把同一环境、同一主题或音乐收尾再作为独立事件重复登记；不需要独有同步时，key_sound_events 或 sound_cues 可以为空。
+
+人物不说话、动作停顿、视觉硬切和全声场静音是不同要求，不能相互推导。只有明确音频要求或经选择确有叙事作用的声音断点，才改变既有声场的连续性；这些自主设计不能写进 constraints 冒充用户限制。
+
 保留现有字段，紧凑记录最终选择：
 
 - `constraints`：用户音频要求和参考复用边界；不把自主设计伪装成用户要求。
 - `auditory_focus`：主要驱动力、听觉重点及其作用。
 - `continuous_bed`：需要的环境连续层及范围；不需要时为空。
-- `key_sound_events`：每项含已有 `shot_id`、`trigger`、`sound`、`sync`。声音主题可用首个 Shot ID，并在 sync 中明确其他适用 Shot ID 和触发范围；不为重复边界复制整项。
+- `key_sound_events`：每项含已有 `shot_id`、`trigger`、`sound`、`sync`。声音主题可用首个 Shot ID，在 sync 中用自然语言说明适用范围；只有存在范围歧义时才列其他 Shot ID，不重复列已有切点时间。
 - `music_decision`：`decision` 为 `use` 或 `N/A`，以及 `function`、`tempo_energy_basis`、`timbres`、`dynamic_arc`。
 - `mix_priority`：真实存在的前景、背景及让位关系。
 - `ending_state`：声景与音乐最后如何结束、作用于哪些层及段落依据。
