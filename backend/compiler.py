@@ -34,8 +34,8 @@ def extract_shot_descriptions(prompt):
         return [], ['detailed_description has no line-start [Shot N] labels']
     descriptions = []
     errors = []
-    if body[:markers[0].start()].strip():
-        errors.append('detailed_description has text before [Shot 1]')
+    # A global visual setup may precede the first shot in the official format.
+    # Keep it in h3_prompt; shot records contain only their own bodies.
     for index, match in enumerate(markers):
         if int(match.group(1)) != index + 1:
             errors.append('Shot labels must be consecutive from 1')
