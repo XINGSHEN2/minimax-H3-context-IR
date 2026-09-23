@@ -5,7 +5,7 @@ from typing import Any, Mapping
 
 ORCHESTRATION = """在一次 API 请求的一次响应中，严格依次完成四个阶段。这是内部工作顺序，不是四次请求；不要输出推理过程，也不要调用工具。
 
-1. 使用 H3 Outline Planning Skill 确定“发生什么”：整理要求与素材用途，明确创作范围，建立并锁定最小充分 developments。不要设计镜头和声音。
+1. 使用 H3 Outline Planning Skill 确定“发生什么”：先整理用户要求和素材可见事实，按目标时长建立并锁定最小充分 developments，再据此确定素材用途与 bindings。不要设计镜头和声音。
 2. 使用 H3 Shot Planning Skill 确定“怎样看见”：把每条 development 映射到 shots，决定观看任务、镜头边界、摄影机路径、连续性、转场和时间，并在最终 h3_prompt 的 detailed_description 中写出完整逐镜正文。不要改写大纲。
 3. 使用 H3 Sound Planning Skill 确定“需要听见什么”：结合逐镜同步声音和用户要求，写出整体声景与画外配乐。不要为了声音增加动作、切点或视觉结果。
 4. 使用 H3 Prompt Writing Skill 确定“怎样交付给 H3”：根据任务 profile 阅读对应官方 reference，完成六板块信息分配和可执行表达；镜头正文只写一次，不另输出副本。
