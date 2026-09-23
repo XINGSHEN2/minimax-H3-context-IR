@@ -1,7 +1,29 @@
+import copy
+import json
 from pathlib import Path
 from unittest.mock import Mock, patch
 
 from backend.agent import CORE_SKILLS, invoke_reasoning_json, SKILLS_DIR
+from backend.prompt_instructions import COMPACT_WRITING_INSTRUCTIONS, RESPONSE_CONTRACT, build_compact_writing_prompt
+
+
+def test_four_skills_loaded_in_dependency_order():
+    assert CORE_SKILLS == (
+        "h3-outline-planning",
+        "h3-shot-planning",
+        "h3-sound-planning",
+        "h3-prompt-writing",
+    )
+
+
+def test_evidence_and_response_contract_round_trip():
+    evidence = {"user_request": "保持结尾", "assets": [{"asset_id": "image_1"}]}
+    before = copy.deepcopy(evidence)
+    sent = build_compact_writing_prompt(evidence)
+    suffix = "\n\n" + RESPONSE_CONTRACT
+    assert sent.startswith(COMPACT_WRITING_INSTRUCTIONS) and sent.endswith(suffix)
+    assert json.loads(sent[len(COMPACT_WRITING_INSTRUCTIONS):-len(suffix)]) == evidence
+    assert evidence == before
 
 
 def test_direct_runtime_receives_selected_bilingual_guides():
