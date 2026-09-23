@@ -6,7 +6,7 @@ import os
 import re
 import time
 
-COMPILER_REVISION='singlecall.v56.detailed_execution_compact_anchors'
+COMPILER_REVISION='singlecall.v57.canonical_shot_text'
 REQUIRED_H3_SECTIONS = (
     'subject_definitions', 'summary', 'retention_analysis',
     'detailed_description', 'overall_soundscape', 'non_diegetic_music',
@@ -20,6 +20,31 @@ def configured_h3_text_max_chars():
     if limit <= 0:
         raise ValueError('CONTEXT_IR_H3_TEXT_MAX_CHARS must be positive')
     return limit
+
+
+def extract_shot_descriptions(prompt):
+    """Read canonical Shot bodies from the model's final H3 text, unchanged."""
+    section = re.search(r'(?mi)^\s*detailed_description\s*:', prompt)
+    ending = re.search(r'(?mi)^\s*overall_soundscape\s*:', prompt)
+    if not section or not ending or ending.start() <= section.end():
+        return [], ['Cannot locate detailed_description shot boundaries']
+    body = prompt[section.end():ending.start()]
+    markers = list(re.finditer(r'(?mi)^\s*\[Shot\s+(\d+)\]', body))
+    if not markers:
+        return [], ['detailed_description has no line-start [Shot N] labels']
+    descriptions = []
+    errors = []
+    if body[:markers[0].start()].strip():
+        errors.append('detailed_description has text before [Shot 1]')
+    for index, match in enumerate(markers):
+        if int(match.group(1)) != index + 1:
+            errors.append('Shot labels must be consecutive from 1')
+        end = markers[index + 1].start() if index + 1 < len(markers) else len(body)
+        description = body[match.end():end].strip()
+        if not description:
+            errors.append(f'Shot {index + 1} description is empty')
+        descriptions.append(description)
+    return descriptions, errors
 
 
 def transport_issues(result,evidence):
@@ -74,6 +99,11 @@ def transport_issues(result,evidence):
                     end = ordered[index + 1].start() if index + 1 < len(ordered) else len(prompt)
                     if not prompt[start:end].strip():
                         errors.append('h3_prompt required section is empty: ' + name)
+        if not missing and not duplicate:
+            descriptions, shot_errors = extract_shot_descriptions(prompt)
+            errors.extend(shot_errors)
+            if isinstance(shots,list) and len(descriptions) != len(shots):
+                errors.append(f'detailed_description has {len(descriptions)} Shots but content_plan has {len(shots)}')
     return errors,warnings
 
 def prepare_writer_evidence(evidence):
@@ -141,6 +171,10 @@ def compile_prompt(source, output_dir, reasoning, timings, started, progress=Non
         # issue a generation request for invalid output.
         raise ValueError('v20 transport validation failed: ' + json.dumps(errors, ensure_ascii=False))
     plan = result['content_plan']
+    descriptions, _ = extract_shot_descriptions(result['h3_prompt'])
+    plan = copy.deepcopy(plan)
+    for shot, description in zip(plan['shots'], descriptions):
+        shot['description'] = description
     save('content_plan.json', plan)
     save('story_outline.json', plan.get('developments', []))
     # Explicitly a lightweight record, NOT a fabricated canonical Context-IR.

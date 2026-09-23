@@ -2,7 +2,7 @@ import copy, json, tempfile, time, unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from backend.compiler import COMPILER_REVISION, compile_prompt, prepare_writer_evidence, transport_issues
+from backend.compiler import COMPILER_REVISION, compile_prompt, extract_shot_descriptions, prepare_writer_evidence, transport_issues
 
 VALID_H3 = '''subject_definitions:
 <Picture 1> is the reference.
@@ -84,7 +84,14 @@ class Tests(unittest.TestCase):
 
     def test_many_locked_shots_not_rejected(self):
         self.r['content_plan']['shots']=[{'start_seconds':i*.5,'end_seconds':(i+1)*.5} for i in range(10)]
+        self.r['h3_prompt']=VALID_H3.replace('[Shot 1] A continuous view.', '\n'.join(f'[Shot {i}] A distinct view.' for i in range(1,11)))
         self.assertFalse(transport_issues(self.r,self.e)[0])
+
+    def test_shot_extraction_preserves_final_text(self):
+        prompt=VALID_H3.replace('[Shot 1] A continuous view.', '[Shot 1] First action.\n[Shot 2] Second action mentions Shot 1 without a label.')
+        descriptions, errors=extract_shot_descriptions(prompt)
+        self.assertEqual(errors, [])
+        self.assertEqual(descriptions, ['First action.', 'Second action mentions Shot 1 without a label.'])
 
     def test_projection_does_not_mutate(self):
         self.e['assets'][0]['confidence']=.95
