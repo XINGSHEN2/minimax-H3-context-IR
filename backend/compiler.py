@@ -6,7 +6,7 @@ import os
 import re
 import time
 
-COMPILER_REVISION='singlecall.v62.duration_bound_outline'
+COMPILER_REVISION='singlecall.v62.1.state_continuity'
 REQUIRED_H3_SECTIONS = (
     'subject_definitions', 'summary', 'retention_analysis',
     'detailed_description', 'overall_soundscape', 'non_diegetic_music',
