@@ -51,7 +51,9 @@ class PromptProfileTests(unittest.TestCase):
         self.assertIn("## 7. Complete Example", system)
         self.assertIn("第一个镜头不写时间戳", system)
         self.assertNotIn("H3 镜头时间、连续性与转场执行", system)
-        self.assertIn("前三个板块的信息边界与去重", system)
+        self.assertIn("## 3. `summary`", system)
+        self.assertIn("## 4. `retention_analysis`", system)
+        self.assertNotIn("前三个板块的信息边界与去重", system)
         self.assertIn("the environment identity anchors defined above remain consistent", system)
         self.assertNotIn("the coffee shop with its exposed brick wall", system)
 
