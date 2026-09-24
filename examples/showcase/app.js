@@ -27,7 +27,7 @@ async function render(){
 function selectCategory(){const select=$('#caseSelect');select.replaceChildren();state.data.cases.forEach((c,i)=>{if(c.category===$('#categorySelect').value)select.add(new Option(c.title,i))});state.caseIndex=Number(select.value);render()}
 async function init(){
  const response=await fetch('cases.json');if(!response.ok)throw Error('案例清单读取失败');state.data=await response.json();
- for(const c of state.data.cases)c.category=c.category||'原有 A/B 测试案例';
+ for(const c of state.data.cases)c.category=c.category||'其他案例';
  const categories=[...new Set(state.data.cases.map(c=>c.category))];categories.sort((a,b)=>a.localeCompare(b,'zh-CN'));
  categories.forEach(c=>$('#categorySelect').add(new Option(c,c)));$('#categorySelect').value=state.data.default_category||categories[0];
  $('#categorySelect').onchange=selectCategory;$('#caseSelect').onchange=()=>{state.caseIndex=Number($('#caseSelect').value);render()};
