@@ -1174,16 +1174,14 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             },
-            "v33": {
-              "label": "本地 IR · v33 精简分镜",
+            "v62": {
+              "label": "本地 IR · v62",
               "status": "ready",
-              "video": "data/feishu_22_case01/v33/result.mp4",
-              "prompt": "data/feishu_22_case01/v33/h3_prompt.txt",
-              "request": "data/feishu_22_case01/v33/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.084,
-              "size": "1344×768",
-              "content_plan": "data/feishu_22_case01/v33/content_plan.json"
+              "video": "data/feishu_22_case01/v62/result.mp4",
+              "prompt": "data/feishu_22_case01/v62/h3_prompt.txt",
+              "request": "data/feishu_22_case01/v62/request.json",
+              "context_ir": "data/feishu_22_case01/v62/context_ir.json",
+              "content_plan": "data/feishu_22_case01/v62/content_plan.json"
             },
             "official_ir": {
               "label": "官方 IR · 原始结果",
@@ -1194,15 +1192,6 @@
               "context_ir": null,
               "duration_seconds": 15.107,
               "size": "1344×768"
-            },
-            "v62": {
-              "label": "本地 IR · v62",
-              "status": "ready",
-              "video": "data/feishu_22_case01/v62/result.mp4",
-              "prompt": "data/feishu_22_case01/v62/h3_prompt.txt",
-              "request": "data/feishu_22_case01/v62/request.json",
-              "context_ir": "data/feishu_22_case01/v62/context_ir.json",
-              "content_plan": "data/feishu_22_case01/v62/content_plan.json"
             }
           }
         },
@@ -1248,49 +1237,6 @@
               "size": "1344×768"
             }
           }
-        },
-        "original": {
-          "groups": {
-            "reference": {
-              "label": "参考成片",
-              "status": "ready",
-              "video": "data/feishu_22_case01/reference.mp4",
-              "duration_seconds": 15.084,
-              "size": "2560×1440"
-            },
-            "raw": {
-              "label": "Raw",
-              "status": "ready",
-              "video": "data/feishu_22_case01/original/raw/result.mp4",
-              "prompt": "data/feishu_22_case01/original/raw/h3_prompt.txt",
-              "request": "data/feishu_22_case01/original/raw/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "local_ir": {
-              "label": "本地 IR · v20 · 65,536 token预算",
-              "status": "ready",
-              "video": "data/feishu_22_case01/original/local_ir_v20/result.mp4",
-              "prompt": "data/feishu_22_case01/original/local_ir_v20/h3_prompt.txt",
-              "request": "data/feishu_22_case01/original/local_ir_v20/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768",
-              "content_plan": "data/feishu_22_case01/original/local_ir_v20/content_plan.json"
-            },
-            "official_ir": {
-              "label": "官方 IR · 原始结果",
-              "status": "ready",
-              "video": "data/feishu_22_case01/original/official_ir/result.mp4",
-              "prompt": "data/feishu_22_case01/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_22_case01/original/official_ir/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            }
-          },
-          "label": "v20 最新结果"
         }
       },
       "assets": [
@@ -1332,16 +1278,14 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             },
-            "v33": {
-              "label": "本地 IR · v33 精简分镜",
+            "v62": {
+              "label": "本地 IR · v62",
               "status": "ready",
-              "video": "data/feishu_22_case02/v33/result.mp4",
-              "prompt": "data/feishu_22_case02/v33/h3_prompt.txt",
-              "request": "data/feishu_22_case02/v33/request.json",
-              "context_ir": null,
-              "duration_seconds": 9.425,
-              "size": "768×1344",
-              "content_plan": "data/feishu_22_case02/v33/content_plan.json"
+              "video": "data/feishu_22_case02/v62/result.mp4",
+              "prompt": "data/feishu_22_case02/v62/h3_prompt.txt",
+              "request": "data/feishu_22_case02/v62/request.json",
+              "context_ir": "data/feishu_22_case02/v62/context_ir.json",
+              "content_plan": "data/feishu_22_case02/v62/content_plan.json"
             },
             "official_ir": {
               "label": "官方 IR · 原始结果",
@@ -1352,15 +1296,6 @@
               "context_ir": null,
               "duration_seconds": 15.107,
               "size": "1344×768"
-            },
-            "v62": {
-              "label": "本地 IR · v62",
-              "status": "ready",
-              "video": "data/feishu_22_case02/v62/result.mp4",
-              "prompt": "data/feishu_22_case02/v62/h3_prompt.txt",
-              "request": "data/feishu_22_case02/v62/request.json",
-              "context_ir": "data/feishu_22_case02/v62/context_ir.json",
-              "content_plan": "data/feishu_22_case02/v62/content_plan.json"
             }
           }
         },
@@ -1406,49 +1341,6 @@
               "size": "1344×768"
             }
           }
-        },
-        "original": {
-          "groups": {
-            "reference": {
-              "label": "参考成片",
-              "status": "ready",
-              "video": "data/feishu_22_case02/reference.mp4",
-              "duration_seconds": 10.125,
-              "size": "2560×1440"
-            },
-            "raw": {
-              "label": "Raw",
-              "status": "ready",
-              "video": "data/feishu_22_case02/original/raw/result.mp4",
-              "prompt": "data/feishu_22_case02/original/raw/h3_prompt.txt",
-              "request": "data/feishu_22_case02/original/raw/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "local_ir": {
-              "label": "本地 IR · v20 · 65,536 token预算",
-              "status": "ready",
-              "video": "data/feishu_22_case02/original/local_ir_v20/result.mp4",
-              "prompt": "data/feishu_22_case02/original/local_ir_v20/h3_prompt.txt",
-              "request": "data/feishu_22_case02/original/local_ir_v20/request.json",
-              "context_ir": null,
-              "duration_seconds": 10.157,
-              "size": "768×1344",
-              "content_plan": "data/feishu_22_case02/original/local_ir_v20/content_plan.json"
-            },
-            "official_ir": {
-              "label": "官方 IR · 原始结果",
-              "status": "ready",
-              "video": "data/feishu_22_case02/original/official_ir/result.mp4",
-              "prompt": "data/feishu_22_case02/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_22_case02/original/official_ir/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            }
-          },
-          "label": "v20 最新结果"
         }
       },
       "assets": [
@@ -1495,16 +1387,14 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             },
-            "v33": {
-              "label": "本地 IR · v33 精简分镜",
+            "v62": {
+              "label": "本地 IR · v62",
               "status": "ready",
-              "video": "data/feishu_22_case03/v33/result.mp4",
-              "prompt": "data/feishu_22_case03/v33/h3_prompt.txt",
-              "request": "data/feishu_22_case03/v33/request.json",
-              "context_ir": null,
-              "duration_seconds": 5.175,
-              "size": "1344×768",
-              "content_plan": "data/feishu_22_case03/v33/content_plan.json"
+              "video": "data/feishu_22_case03/v62/result.mp4",
+              "prompt": "data/feishu_22_case03/v62/h3_prompt.txt",
+              "request": "data/feishu_22_case03/v62/request.json",
+              "context_ir": "data/feishu_22_case03/v62/context_ir.json",
+              "content_plan": "data/feishu_22_case03/v62/content_plan.json"
             },
             "official_ir": {
               "label": "官方 IR · 原始结果",
@@ -1515,15 +1405,6 @@
               "context_ir": null,
               "duration_seconds": 15.107,
               "size": "1344×768"
-            },
-            "v62": {
-              "label": "本地 IR · v62",
-              "status": "ready",
-              "video": "data/feishu_22_case03/v62/result.mp4",
-              "prompt": "data/feishu_22_case03/v62/h3_prompt.txt",
-              "request": "data/feishu_22_case03/v62/request.json",
-              "context_ir": "data/feishu_22_case03/v62/context_ir.json",
-              "content_plan": "data/feishu_22_case03/v62/content_plan.json"
             }
           }
         },
@@ -1569,49 +1450,6 @@
               "size": "1344×768"
             }
           }
-        },
-        "original": {
-          "groups": {
-            "reference": {
-              "label": "参考成片",
-              "status": "ready",
-              "video": "data/feishu_22_case03/reference.mp4",
-              "duration_seconds": 6.584,
-              "size": "2560×1440"
-            },
-            "raw": {
-              "label": "Raw",
-              "status": "ready",
-              "video": "data/feishu_22_case03/original/raw/result.mp4",
-              "prompt": "data/feishu_22_case03/original/raw/h3_prompt.txt",
-              "request": "data/feishu_22_case03/original/raw/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "local_ir": {
-              "label": "本地 IR · v20 · 65,536 token预算",
-              "status": "ready",
-              "video": "data/feishu_22_case03/original/local_ir_v20/result.mp4",
-              "prompt": "data/feishu_22_case03/original/local_ir_v20/h3_prompt.txt",
-              "request": "data/feishu_22_case03/original/local_ir_v20/request.json",
-              "context_ir": null,
-              "duration_seconds": 5.207,
-              "size": "1344×768",
-              "content_plan": "data/feishu_22_case03/original/local_ir_v20/content_plan.json"
-            },
-            "official_ir": {
-              "label": "官方 IR · 原始结果",
-              "status": "ready",
-              "video": "data/feishu_22_case03/original/official_ir/result.mp4",
-              "prompt": "data/feishu_22_case03/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_22_case03/original/official_ir/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            }
-          },
-          "label": "v20 最新结果"
         }
       },
       "assets": [
@@ -1658,16 +1496,14 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             },
-            "v33": {
-              "label": "本地 IR · v33 精简分镜",
+            "v62": {
+              "label": "本地 IR · v62",
               "status": "ready",
-              "video": "data/feishu_22_case04/v33/result.mp4",
-              "prompt": "data/feishu_22_case04/v33/h3_prompt.txt",
-              "request": "data/feishu_22_case04/v33/request.json",
-              "context_ir": null,
-              "duration_seconds": 6.584,
-              "size": "1344×768",
-              "content_plan": "data/feishu_22_case04/v33/content_plan.json"
+              "video": "data/feishu_22_case04/v62/result.mp4",
+              "prompt": "data/feishu_22_case04/v62/h3_prompt.txt",
+              "request": "data/feishu_22_case04/v62/request.json",
+              "context_ir": "data/feishu_22_case04/v62/context_ir.json",
+              "content_plan": "data/feishu_22_case04/v62/content_plan.json"
             },
             "official_ir": {
               "label": "官方 IR · 原始结果",
@@ -1678,15 +1514,6 @@
               "context_ir": null,
               "duration_seconds": 15.107,
               "size": "1344×768"
-            },
-            "v62": {
-              "label": "本地 IR · v62",
-              "status": "ready",
-              "video": "data/feishu_22_case04/v62/result.mp4",
-              "prompt": "data/feishu_22_case04/v62/h3_prompt.txt",
-              "request": "data/feishu_22_case04/v62/request.json",
-              "context_ir": "data/feishu_22_case04/v62/context_ir.json",
-              "content_plan": "data/feishu_22_case04/v62/content_plan.json"
             }
           }
         },
@@ -1732,49 +1559,6 @@
               "size": "1344×768"
             }
           }
-        },
-        "original": {
-          "groups": {
-            "reference": {
-              "label": "参考成片",
-              "status": "ready",
-              "video": "data/feishu_22_case04/reference.mp4",
-              "duration_seconds": 6.584,
-              "size": "2560×1440"
-            },
-            "raw": {
-              "label": "Raw",
-              "status": "ready",
-              "video": "data/feishu_22_case04/original/raw/result.mp4",
-              "prompt": "data/feishu_22_case04/original/raw/h3_prompt.txt",
-              "request": "data/feishu_22_case04/original/raw/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "local_ir": {
-              "label": "本地 IR · v20 · 65,536 token预算",
-              "status": "ready",
-              "video": "data/feishu_22_case04/original/local_ir_v20/result.mp4",
-              "prompt": "data/feishu_22_case04/original/local_ir_v20/h3_prompt.txt",
-              "request": "data/feishu_22_case04/original/local_ir_v20/request.json",
-              "context_ir": null,
-              "duration_seconds": 5.907,
-              "size": "1344×768",
-              "content_plan": "data/feishu_22_case04/original/local_ir_v20/content_plan.json"
-            },
-            "official_ir": {
-              "label": "官方 IR · 原始结果",
-              "status": "ready",
-              "video": "data/feishu_22_case04/original/official_ir/result.mp4",
-              "prompt": "data/feishu_22_case04/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_22_case04/original/official_ir/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            }
-          },
-          "label": "v20 最新结果"
         }
       },
       "assets": [
