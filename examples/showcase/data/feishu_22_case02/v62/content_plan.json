@@ -1,0 +1,162 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "目标人物的身份以图1和图2为参考，需保留稳定的脸、发型和身体外观。",
+      "人物参考视频1的街舞动作，需迁移身体动作、四肢轨迹和动作节奏。",
+      "整段表演保持为街舞（嘻哈风格的舞蹈表演）。",
+      "视频时长9.474秒，9:16竖构图，带音频。"
+    ],
+    "reference_anchors": [
+      "<Picture 1>/<Picture 2>：表演者稳定的面部、短黑发、瘦削运动型身型，以及奶油色连帽衫、棕色抽绳短裤、白色低帮运动鞋和白袜。",
+      "<Video 1>：街舞动作语汇及其顺序和9.474秒的节奏。"
+    ],
+    "open_design": [
+      "以图1和图2中的体育场环境作为表演舞台。",
+      "镜头拍摄方式、取景和构图（目标视频内不做切镜）。",
+      "整体声景和画外配乐，因为用户没有提供音频参考。"
+    ]
+  },
+  "requirement_map": {
+    "content_events": [
+      {
+        "id": "ce_1",
+        "text": "将<Video 1>的街舞动作迁移到目标视频的表演者身上：身体动作、四肢轨迹和动作节奏。"
+      },
+      {
+        "id": "ce_2",
+        "text": "整段表演保持为街舞（嘻哈风格的舞蹈表演）。"
+      },
+      {
+        "id": "ce_3",
+        "text": "完整连续地完成整段动作，并在面向镜头的收尾姿态中结束。"
+      }
+    ],
+    "editing_treatments": [],
+    "global_style": [],
+    "audio_requirements": [
+      {
+        "id": "ar_1",
+        "text": "生成音频；用户未指定音乐、对白、歌词或音轨复用的内容。"
+      }
+    ]
+  },
+  "task_mode": "ref2va",
+  "must_keep": [
+    "<Subject 1> 稳定的面部、发型和身体外观来自<Picture 1>和<Picture 2>。",
+    "街舞（嘻哈）表演，不得替换为其他活动。",
+    "<Video 1> 的动作顺序和节奏：手臂外展再收拢、重心转移与踏步、身体律动与手臂波浪、滑步、快速转身、快步收尾、面向镜头的定格。",
+    "连续覆盖0.000–9.474秒，结尾保持静止。"
+  ],
+  "bindings": [
+    {
+      "asset_id": "image_1",
+      "role": "<Subject 1> 的面部、头发、身体和服装的身份参考。",
+      "retained_attributes": [
+        "短黑发",
+        "椭圆脸，深色眉毛",
+        "瘦削运动型身型",
+        "奶油色套头连帽衫",
+        "棕色抽绳短裤",
+        "白色低帮运动鞋和白袜"
+      ],
+      "optional_inherited_attributes": [
+        "体育场看台和潮湿混凝土环境作为舞台",
+        "阴天平光"
+      ],
+      "excluded_attributes": [
+        "双手插兜的静态站姿"
+      ],
+      "exclusion_reasons": [
+        "舞蹈要求手臂和腿自由活动，不能保持静态站姿。"
+      ]
+    },
+    {
+      "asset_id": "image_2",
+      "role": "<Subject 1> 的第二个身份参考，确认同一面部、头发和身体外观。",
+      "retained_attributes": [
+        "相同的面部结构和短黑发",
+        "瘦削运动型体格",
+        "相同的奶油色连帽衫和棕色短裤"
+      ],
+      "optional_inherited_attributes": [
+        "阴天竞技场光照"
+      ],
+      "excluded_attributes": [
+        "坐在看台座位上、双肘撑膝的坐姿"
+      ],
+      "exclusion_reasons": [
+        "坐姿会限制舞蹈所需的腿部和手臂动作。"
+      ]
+    },
+    {
+      "asset_id": "video_1",
+      "role": "目标视频的动作与编舞参考。",
+      "retained_attributes": [
+        "双臂外展再收拢",
+        "重心转移与两次受控踏步",
+        "身体律动与手臂波浪",
+        "滑步侧移",
+        "快速转身",
+        "快速脚步收尾",
+        "面向镜头的定格",
+        "0.000–9.474秒的动作时序"
+      ],
+      "optional_inherited_attributes": [
+        "连续单镜覆盖",
+        "固定全景取景"
+      ],
+      "excluded_attributes": [
+        "源舞者的身份（白色长袖衬衫、黑色裤子、白色帽子）",
+        "工作室环境和墙上的“SIEBE DA... STUBIO”标志"
+      ],
+      "exclusion_reasons": [
+        "目标表演者是 <Subject 1>，且用户只选择了 <Video 1> 的动作，因此源舞者的外观和环境不进入目标视频。"
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_1",
+      "source_content_event_ids": [
+        "ce_1",
+        "ce_2"
+      ],
+      "visible_change": "表演者从宽站姿开始，双臂向外大幅伸展，再收回到躯干前方，同时将重心在两脚间转移并完成两次有控制的迈步。",
+      "outcome": "双臂弯曲收在身前，双脚落到新位置，身体已经进入街舞动作节奏。"
+    },
+    {
+      "id": "dev_2",
+      "source_content_event_ids": [
+        "ce_1",
+        "ce_2",
+        "ce_3"
+      ],
+      "visible_change": "身体律动从胸口传向髋部，接着从一侧肩经过手臂传到手部做手臂波浪，同时用小步侧滑移动。",
+      "outcome": "身体律动和手臂波浪完成，表演者已经横向移动了几步。"
+    },
+    {
+      "id": "dev_3",
+      "source_content_event_ids": [
+        "ce_1",
+        "ce_3"
+      ],
+      "visible_change": "肩膀带动一个干脆的转身，随后是密集的快速脚下动作，每个快步都踩在湿混凝土上，最后收成面向镜头的静止姿态。",
+      "outcome": "表演者面向镜头，双脚分开，保持静止的收尾姿态直到视频结束。"
+    }
+  ],
+  "shots": [
+    {
+      "id": "shot_1",
+      "development_ids": [
+        "dev_1",
+        "dev_2",
+        "dev_3"
+      ],
+      "content_purpose": "在一个连续镜头中呈现由<Subject 1>表演的整段街舞，让手臂外展收拢、身体律动与手臂波浪、滑步、转身、快步和最终定格全部清晰可见。",
+      "treatment_ids": [],
+      "start_seconds": 0.0,
+      "end_seconds": 9.474,
+      "description": "A static full shot frames <Subject 1> from the front, centered on the wet concrete with the red seating behind him. He starts in a wide stance and swings both arms out wide, then draws them back in across his torso while shifting his weight between his feet and taking two controlled steps, the hoodie fabric moving with each arm swing. His chest opens back as a body roll travels from his torso to his hips and then runs along one shoulder through both arms into his hands while he slides sideways in small steps, his sneakers mirrored in the wet concrete. His shoulder initiates a sharp turn that carries him into a burst of fast footwork, each quick step landing with a crisp slap on the wet concrete. The footwork resolves into a still finishing pose facing the camera, the arms and feet settling, and he holds that pose without moving until the final frame while the camera stays fixed."
+    }
+  ]
+}

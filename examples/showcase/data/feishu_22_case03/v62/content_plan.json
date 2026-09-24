@@ -1,0 +1,162 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "The target video's camera movement is the Hitchcock-style camera movement seen in 视频1 (<Video 1>).",
+      "The person from 视频2 (<Video 2>) appears in the target video and must actually sing on camera (visible vocal performance), with her identity preserved.",
+      "The singing voice is the sung vocal audio of 视频3 (<Video 3>).",
+      "The singing performance — facial performance, mouth movement, phrasing and body-motion timing — follows 视频3 (<Video 3>), as performance control only with no identity transfer.",
+      "Target duration 5.0 seconds, 16:9, audio generated."
+    ],
+    "reference_anchors": [
+      "video_1: a continuous forward push toward a foreground subject together with a measurable foreground/background scale relationship; no person, object or location from video_1 is used.",
+      "video_2: the seated woman's identity — dark curly hair, freckled skin, white t-shirt, blue denim overalls, colorful woven bracelets — and the outdoor cafe setting with a wicker table surface and a white ceramic cup.",
+      "video_3: the three-segment expressive performance pattern with phrase-level timing (right hand extended forward palm-up and drawn inward toward the chest while the head tilts back; hand raised to the cheek and hair while the head tilts to the side; hand lowered and extended outward again while the head tilts further back, eyes closed and mouth open throughout) and the sung vocal layer."
+    ],
+    "open_design": [
+      "Starting pose is completed minimally from video_2 evidence: she is seated at the wicker table, gaze lowered, right hand free with the white cup resting on the table in front of her.",
+      "Her lip, jaw and breath timing is aligned to the audible vocal of <Audio 1>; if the vocal ends before the 5-second target, the last moment holds the open-mouthed, head-tilted-back pose without adding new action.",
+      "The cafe space behind the table is completed generically (nearby tables, receding street depth) so the transferred push-in has visible depth; the unresolved blurred background figures are not reproduced.",
+      "No additional events, characters, locations or cutaways are added."
+    ]
+  },
+  "requirement_map": {
+    "content_events": [
+      {
+        "id": "ce_1",
+        "requirement": "The woman from 视频2 sings on camera — a visible vocal performance with matching mouth and jaw movement, not merely an appearance (d_3, d_2)."
+      },
+      {
+        "id": "ce_2",
+        "requirement": "Her singing performance copies the performance pattern and phrase-level timing of 视频3: right hand extended forward palm-up and drawn inward to the chest as the head tilts back, then raised to the cheek and hair as the head tilts to the side, then lowered and extended outward again as the head tilts further back, eyes closed and mouth open (d_5)."
+      }
+    ],
+    "editing_treatments": [
+      {
+        "id": "et_1",
+        "requirement": "The Hitchcock-style camera movement of 视频1 is applied to the target video's camera movement (d_1)."
+      }
+    ],
+    "global_style": [
+      {
+        "id": "gs_1",
+        "requirement": "No style was specified; the target video keeps the realistic live-action outdoor-daylight look of 视频2's cafe setting with no added stylization (inherited from the preserved reference, open design)."
+      }
+    ],
+    "audio_requirements": [
+      {
+        "id": "au_1",
+        "requirement": "The sung vocal audio of 视频3 is used as the target video's singing voice (d_4)."
+      },
+      {
+        "id": "au_2",
+        "requirement": "Audio is generated for the target video, with outdoor cafe ambience accompanying the singing (task.generate_audio = true)."
+      },
+      {
+        "id": "au_3",
+        "requirement": "No music was requested, so no non-diegetic score is added and the copied vocal is never masked."
+      }
+    ]
+  },
+  "task_mode": "ref2va",
+  "must_keep": [
+    "The person from video_2 keeps a stable identity throughout: face, dark curly hair, freckled skin, white t-shirt, blue denim overalls, colorful woven bracelets.",
+    "She is visibly singing on camera for the whole take, with lip and jaw movement synchronized to the audible vocal.",
+    "The transferred performance keeps 视频3's gesture and head-motion order and phrase-level timing.",
+    "The camera movement is one continuous Hitchcock-style forward push as in video_1, with the background changing scale while she stays at a nearly constant size in frame.",
+    "The singing voice is the unaltered sung vocal from video_3, with its original lyrics and language unchanged.",
+    "5.0 seconds, 16:9, audio generated."
+  ],
+  "bindings": [
+    {
+      "asset_id": "video_1",
+      "role": "camera-movement reference (transfer of camera movement only)",
+      "retained_attributes": [
+        "continuous forward push toward the foreground subject",
+        "measurable foreground/background scale relationship during the move"
+      ],
+      "optional_inherited_attributes": [
+        "even push speed sustained across the whole take"
+      ],
+      "excluded_attributes": [
+        "the man in the wheelchair",
+        "the woman pushing the wheelchair",
+        "the wheelchair",
+        "the sandy beach location",
+        "video_1's own medium framing and shot content"
+      ],
+      "exclusion_reasons": [
+        "d_1 transfers only the camera movement; no person, object or location from video_1 was requested"
+      ]
+    },
+    {
+      "asset_id": "video_2",
+      "role": "person identity and setting reference (preserve)",
+      "retained_attributes": [
+        "the seated woman's identity: face, dark curly hair, freckled skin, white t-shirt, blue denim overalls, colorful woven bracelets",
+        "outdoor cafe setting with a wicker table surface and a white ceramic cup",
+        "seated-at-table spatial relationship"
+      ],
+      "optional_inherited_attributes": [
+        "gaze lowered toward the cup before she lifts her chin",
+        "out-of-focus cafe backdrop with receding depth"
+      ],
+      "excluded_attributes": [
+        "holding the white cup in her right hand",
+        "video_2's locked camera and its medium framing",
+        "the blurred background figures (grey-top man, pink-top woman, black-top man)"
+      ],
+      "exclusion_reasons": [
+        "the transferred performance needs the right hand free for the gesture sequence, so the cup stays on the table",
+        "the camera movement comes from <Video 1>, so video_2's locked camera is not carried over",
+        "the background figures are out of focus and unresolved, so they are not reproduced"
+      ]
+    },
+    {
+      "asset_id": "video_3",
+      "role": "singing-performance reference (transfer, performance only) and sung-vocal source (reuse)",
+      "retained_attributes": [
+        "three-segment gesture and head-motion pattern with phrase-level timing",
+        "eyes-closed, open-mouthed expressive delivery",
+        "the sung vocal audio layer"
+      ],
+      "optional_inherited_attributes": [
+        "slight forward lean of the source delivery"
+      ],
+      "excluded_attributes": [
+        "the performer's identity: face, long dark wavy hair, gold hoop earrings, black satin dress",
+        "the plain grey studio background",
+        "video_3's locked camera and its medium framing"
+      ],
+      "exclusion_reasons": [
+        "d_5 transfers performance only and explicitly excludes identity control",
+        "the target video uses video_2's person and cafe location together with video_1's camera movement"
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_1",
+      "source_content_event_ids": [
+        "ce_1",
+        "ce_2"
+      ],
+      "visible_change": "From her seated, gaze-lowered pose at the cafe table with her right hand free, the woman lifts her chin, opens her mouth and sings on camera; her right hand extends forward palm-up and draws inward toward her chest while her head tilts back, then rises to touch her cheek and hair as her head tilts to the side, then lowers and extends outward again as her head tilts further back, her eyes staying closed and her mouth open.",
+      "outcome": "She remains at the cafe table still singing on camera — eyes closed, mouth open, right hand extended outward and head tilted back — with her identity unchanged."
+    }
+  ],
+  "shots": [
+    {
+      "id": "shot_1",
+      "development_ids": [
+        "dev_1"
+      ],
+      "content_purpose": "Show the woman from <Video 2> singing on camera at the cafe table with the performance pattern and phrasing of <Video 3>, while <Video 1>'s Hitchcock-style forward push runs as one unbroken take from her lowered gaze to her final head-tilted-back hold.",
+      "treatment_ids": [
+        "et_1"
+      ],
+      "start_seconds": 0.0,
+      "end_seconds": 5.0,
+      "description": "<Subject 1> is seated at <Subject 2>, her gaze lowered, her right hand free on the table and the white cup resting in front of her. She lifts her chin, opens her mouth and sings on camera; <Subject 1> (S1) sings with the vocal reused from <Audio 1>, and her lips, jaw and breath move locked to that audible vocal, whose original lyrics and language are preserved unchanged. Through the singing she performs the pattern of <Subject 3>: her right hand rises from the table and reaches forward at chest height with the palm up, then draws inward toward her chest as her head tilts back; the same hand then rises to touch her cheek and hair while her head tilts to the side and her eyes stay closed; finally she lowers the hand, extends it outward with the palm open and tilts her head further back. Her dark curly hair shifts at the sides of her face with every head tilt, and her freckles and white t-shirt stay clearly readable in the daylight. For the whole take the camera performs the movement transferred from <Video 1>: it pushes continuously forward toward her along a single unbroken path at an even speed, keeping her at a nearly constant size in frame while the cafe space behind her changes scale, so the background tables and the street depth visibly recede as the push goes on. The take ends on her still singing with her eyes closed, her mouth open, her right hand extended outward and her head tilted back."
+    }
+  ]
+}

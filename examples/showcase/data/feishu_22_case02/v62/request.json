@@ -1,0 +1,33 @@
+{
+  "model": "MiniMax-H3",
+  "content": [
+    {
+      "type": "text",
+      "text": "subject_definitions:\n<Subject 1> is the young male performer whose identity comes from <Picture 1> and <Picture 2>: short black hair, an oval face with dark eyebrows, a lean athletic build, dressed in a cream pullover hoodie, brown drawstring shorts with white drawstrings, white low-top sneakers and white socks.\n<Video 1> is the dance-movement reference for the target video, supplying the body motion, limb trajectories and action timing of a continuous street-dance sequence performed by a single dancer.\n\nsummary:\n[reference generation] The target video shows <Subject 1> performing a short street-dance routine whose movement is transferred from <Video 1> and whose identity comes from <Picture 1> and <Picture 2>. The routine follows <Video 1>'s order and rhythm: the arms open outward and draw back in with weight shifts and controlled steps, then a body roll and arm wave over sliding side steps, then a sharp turn into fast footwork, ending on a still pose facing the camera.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): partially_preserved - the face, hair, build and the cream hoodie, brown shorts and white sneakers stay stable through the performance, with the hood worn down so the face and hair stay visible while dancing.\n<Video 1> (movement and timing): fully_preserved - the arm extension and pull-in, the weight shifts and controlled steps, the body roll and arm wave, the sliding side steps, the sharp turn, the fast footwork and the final front-facing freeze all carry over on <Video 1>'s timing across the 9.474-second timeline.\n\ndetailed_description:\nThe target video is a vertical 9:16 street-dance performance staged on the wet concrete field of a stadium, with tiered red seating behind the performer under an overcast sky and flat daylight.\n[Shot 1] A static full shot frames <Subject 1> from the front, centered on the wet concrete with the red seating behind him. He starts in a wide stance and swings both arms out wide, then draws them back in across his torso while shifting his weight between his feet and taking two controlled steps, the hoodie fabric moving with each arm swing. His chest opens back as a body roll travels from his torso to his hips and then runs along one shoulder through both arms into his hands while he slides sideways in small steps, his sneakers mirrored in the wet concrete. His shoulder initiates a sharp turn that carries him into a burst of fast footwork, each quick step landing with a crisp slap on the wet concrete. The footwork resolves into a still finishing pose facing the camera, the arms and feet settling, and he holds that pose without moving until the final frame while the camera stays fixed.\n\noverall_soundscape:\nEmpty outdoor stadium ambience with light wind and a faint distant city hum runs underneath the whole video. The dancer's sneakers scrape and land on the wet concrete, and steady fabric rustle from the hoodie continues as he moves.\n\nnon_diegetic_music:\nA mid-tempo hip-hop beat: crisp breakbeat drums with a steady kick, a low bass line and a single warm synth pad, driving the routine without masking the footwork. The beat keeps its energy through the last fast step and cuts out exactly on the freeze, leaving only the stadium ambience under the final still pose."
+    },
+    {
+      "type": "image_url",
+      "image_url": {
+        "url": "http://10.0.96.114:30100/v1/assets/asset_767accfce1ca410d9aaed00f918e08a5/content"
+      },
+      "role": "reference_image"
+    },
+    {
+      "type": "image_url",
+      "image_url": {
+        "url": "http://10.0.96.114:30100/v1/assets/asset_9d220e7e3b334fabae8f171437e1710b/content"
+      },
+      "role": "reference_image"
+    },
+    {
+      "type": "video_url",
+      "video_url": {
+        "url": "http://10.0.96.114:30100/v1/assets/asset_5aafbd002c984ba394dc636250af641f/content"
+      },
+      "role": "reference_video"
+    }
+  ],
+  "resolution": "768P",
+  "duration": 9,
+  "ratio": "9:16"
+}

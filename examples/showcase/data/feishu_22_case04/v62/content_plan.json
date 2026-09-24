@@ -1,0 +1,190 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "Reference video 1 is used for motion imitation; the three suit-wearing men in it are replaced by three highly realistic capybaras.",
+      "Camera stays fixed: the original position, angle and wide full-shot framing are kept unchanged for the whole clip, with no cuts.",
+      "Capybara motion must strictly follow the source trajectory: all three drop prone to the floor in rapid succession; the leftmost capybara jumps to the middle position; the capybara in the middle rolls to the leftmost; the capybara in the middle then rolls to the rightmost; the rightmost capybara jumps to the middle; finally the middle capybara jumps onto the backs of the other two and they stack into a pyramid.",
+      "Photorealistic capybara fur texture, with lighting that merges the animals into the source environment.",
+      "Target duration 5.875 s, 16:9, audio generated."
+    ],
+    "reference_anchors": [
+      "video_1 supplies the locked-off camera position, angle, height and wide full-shot framing.",
+      "video_1 supplies the ground plane: light-brown polished wooden floor with white circular markings.",
+      "video_1 supplies the ambient lighting direction, colour and shadow behaviour that must be applied to the capybaras.",
+      "video_1 supplies the three central figures' body paths, action ordering and performance timing, and the final stacked-pyramid formation.",
+      "video_1 contains a woman in white standing to the left of the three figures, kept as a stationary bystander."
+    ],
+    "open_design": [
+      "Sub-beat timing inside the 5.875 s window (when each exchange starts, how long each roll lasts) is not specified; pacing follows the source routine.",
+      "The order of the initial prone drops is written as a rapid left-to-right cascade.",
+      "How a prone capybara physically hops and rolls while staying low to the floor, and the exact paw placement during the two exchanges.",
+      "Shared photorealistic species detail for all three capybaras: barrel body, short sturdy legs, blunt squarish muzzle, small rounded ears, dense coarse brown fur.",
+      "No new beats, characters, cuts, camera moves or added events are introduced."
+    ]
+  },
+  "requirement_map": {
+    "content_events": [
+      {
+        "id": "ce_1",
+        "text": "Replace the three suit-wearing men in video_1 with three highly realistic capybaras occupying the same positions and roles.",
+        "source": "d_3 / user_request"
+      },
+      {
+        "id": "ce_2",
+        "text": "The three capybaras drop prone onto the floor in rapid succession until all three lie flat.",
+        "source": "user_request"
+      },
+      {
+        "id": "ce_3",
+        "text": "The leftmost capybara jumps to the middle position while the capybara in the middle rolls to the leftmost position.",
+        "source": "user_request"
+      },
+      {
+        "id": "ce_4",
+        "text": "The capybara now in the middle rolls to the rightmost position while the rightmost capybara jumps to the middle.",
+        "source": "user_request"
+      },
+      {
+        "id": "ce_5",
+        "text": "The middle capybara jumps onto the backs of the other two and the three stack into a pyramid that holds to the end.",
+        "source": "user_request"
+      },
+      {
+        "id": "ce_6",
+        "text": "The capybaras reproduce video_1's full-body motion trajectory, action ordering and performance timing, including the final stacked-pyramid end state.",
+        "source": "d_1"
+      }
+    ],
+    "editing_treatments": [
+      {
+        "id": "et_1",
+        "text": "One continuous take with the original fixed camera and wide full-shot framing; no cuts, no transitions, no zoom and no speed change.",
+        "source": "user_request / d_2"
+      }
+    ],
+    "global_style": [
+      {
+        "id": "gs_1",
+        "text": "Photorealistic live-action look matching the source scene, 16:9, no stylization and no added text.",
+        "source": "user_request"
+      },
+      {
+        "id": "gs_2",
+        "text": "Photorealistic capybara surface: dense fur with individually readable hairs, natural specular sheen, correct occlusion and a contact shadow where the body meets the floor.",
+        "source": "d_4"
+      },
+      {
+        "id": "gs_3",
+        "text": "Capybaras are lit by, and visually merged with, the source environment's lighting: same direction, intensity, colour temperature, shadow direction and floor response as video_1.",
+        "source": "d_5"
+      }
+    ],
+    "audio_requirements": [
+      {
+        "id": "au_1",
+        "text": "Audio is generated for the clip; no dialogue, no music and no source-audio reuse are requested. Sounds must match the visible action: wooden-floor impacts for each prone landing, fur-and-paw scrapes as the bodies move across the boards, and one heavier impact for the final stack.",
+        "source": "task.generate_audio / user_request"
+      }
+    ]
+  },
+  "task_mode": "ref2va",
+  "must_keep": [
+    "Exactly three capybaras replacing the three suited men, occupying the same left, middle and right floor positions.",
+    "The motion order: successive prone drops, then the left-to-middle jump with the middle rolling left, then the middle rolling right with the right jumping to the middle, then the middle capybara jumping onto the backs of the other two.",
+    "The final stacked pyramid (two prone bodies as the base, one balanced on top) held until the last frame.",
+    "Fixed camera: same position, angle and wide full-shot framing from first frame to last, with no cuts and no camera movement.",
+    "Photorealistic capybara fur and lighting integrated with the wooden-floor environment and its shadow direction.",
+    "Duration 5.875 s, 16:9."
+  ],
+  "bindings": [
+    {
+      "asset_id": "video_1",
+      "role": "Source video providing the fixed camera and environment, the three central figures' full-body motion trajectory, action ordering and performance timing, and the final stacked-pyramid end state; its three suited men are the targets of substitution.",
+      "retained_attributes": [
+        "camera position, angle, height and wide full-shot framing, unchanged across the whole 5.875 s",
+        "light-brown polished wooden floor with white circular markings as the ground plane",
+        "ambient lighting direction, colour temperature and shadow direction of the source scene, applied to the capybaras",
+        "the three central figures' full-body motion trajectory, action ordering and performance timing",
+        "the final stacked-pyramid formation as the ending state",
+        "the woman in white standing to the left of the three figures, kept stationary"
+      ],
+      "optional_inherited_attributes": [
+        "the exact per-beat timing of each position exchange inside the routine",
+        "the source footage's lens character, depth of field and grain",
+        "contact-shadow and floor-response behaviour where bodies meet the wood"
+      ],
+      "excluded_attributes": [
+        "human identity of the three men: faces, skin, hair and body proportions",
+        "their suits (dark blue, black and grey) and any clothing",
+        "bipedal human locomotion and human limb articulation",
+        "the source video's original audio track"
+      ],
+      "exclusion_reasons": [
+        "the three men are replaced by capybaras by explicit user direction",
+        "capybaras cannot wear or carry the suits, and photorealistic capybara fur is required in their place",
+        "the routine must be re-performed as a low quadrupedal motion, not as human walking",
+        "no audio evidence was supplied and no audio reuse was requested, so no source audio is copied"
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_1",
+      "source_content_event_ids": [
+        "ce_1",
+        "ce_2",
+        "ce_6"
+      ],
+      "visible_change": "The three suited men of the wide shot are replaced by three photorealistic capybaras standing in the same left, middle and right positions; all three then drop prone onto the wooden floor one after another in rapid succession, each flopping flat on its belly with legs tucked under and fur compressing against the boards.",
+      "outcome": "Three capybaras lie low and flat on the floor in their original left, middle and right positions, all facing the camera, with the floor around them clear."
+    },
+    {
+      "id": "dev_2",
+      "source_content_event_ids": [
+        "ce_3",
+        "ce_6"
+      ],
+      "visible_change": "Still prone, the left capybara hops sideways into the middle position while the capybara in the middle rolls leftward along the floor into the emptied left position.",
+      "outcome": "The left and middle capybaras have exchanged places: the capybara that began on the left now lies in the middle, the capybara that began in the middle now lies on the left, and the right position is unchanged."
+    },
+    {
+      "id": "dev_3",
+      "source_content_event_ids": [
+        "ce_4",
+        "ce_6"
+      ],
+      "visible_change": "The prone capybara now in the middle rolls rightward across the floor into the right position while the capybara in the right position jumps into the middle.",
+      "outcome": "The middle and right capybaras have exchanged places: the capybara that began in the middle now lies on the right, the capybara that began on the right now lies in the middle, and the capybara that began on the left still lies on the left."
+    },
+    {
+      "id": "dev_4",
+      "source_content_event_ids": [
+        "ce_5",
+        "ce_6"
+      ],
+      "visible_change": "The capybara lying in the middle springs up from the floor and lands across the backs of the two prone capybaras flanking it.",
+      "outcome": "Two capybaras lie flat as the base with the third balanced on top of both, forming the stacked pyramid of the source ending, and the formation holds until the final frame."
+    }
+  ],
+  "shots": [
+    {
+      "id": "shot_1",
+      "development_ids": [
+        "dev_1",
+        "dev_2",
+        "dev_3",
+        "dev_4"
+      ],
+      "content_purpose": "Single locked-off wide take showing the whole capybara routine in the unchanged framing and lighting of <Video 1>: the standing line, the rapid prone drops, the two left/middle/right position exchanges and the final stacked pyramid held to the last frame.",
+      "treatment_ids": [
+        "et_1",
+        "gs_1",
+        "gs_2",
+        "gs_3"
+      ],
+      "start_seconds": 0.0,
+      "end_seconds": 5.875,
+      "description": "The camera holds the same fixed wide full shot as <Video 1>, its position, angle, height and framing identical from the first frame to the last; it never pans, tilts, zooms, pushes or shakes. The light-brown polished wooden floor with white circular markings and the unchanged ambient lighting of the source fill the frame, and the whole routine follows <Video 1>'s performance timing across the 5.875 seconds, the prone drops, the two position exchanges and the final stack succeeding one another at the source's pace. In place of the three suited men, <Subject 1>, <Subject 2> and <Subject 3> stand on the floor in the same left, middle and right positions and at the same distance from the camera as the source figures, all three fully inside the frame; their brown fur, its density and its specular sheen respond to the same overhead light that falls on the source figures, and each body casts a soft contact shadow onto the wood. The woman in white standing at the left of the frame stays in place, motionless and clear of the animals.\nThe three capybaras then drop prone onto the floor in rapid succession, starting from the left: <Subject 1> flops flat on its belly first, immediately followed by <Subject 2> and then <Subject 3>, each landing with its short legs tucked under its barrel body and its fur compressing against the polished wood, a dull wooden thud and a short fur-and-paw scrape sounding at each landing. All three end lying low and flat in their original left, middle and right positions, facing the camera.\nWithout standing up, <Subject 1> hops sideways across the floor into the middle position while <Subject 2> rolls left along the boards into the emptied left position, both bodies staying low through the exchange. Then the capybara now in the middle, <Subject 1>, rolls rightward over the wood into the right position while <Subject 3> jumps from the right into the middle, leaving <Subject 2> prone on the left, <Subject 3> prone in the middle and <Subject 1> prone on the right.\nIn the final part of the shot, <Subject 3> springs up from the middle and lands across the backs of the two prone capybaras flanking it, <Subject 2> on the left and <Subject 1> on the right, so the three animals form the stacked pyramid that ends <Video 1>: two flat bodies as the base with the third balanced on top of both. A heavier, softer impact marks the landing, the top capybara settles with its fur still moving from the impact, and the pyramid holds inside the unchanged frame until the last frame."
+    }
+  ]
+}

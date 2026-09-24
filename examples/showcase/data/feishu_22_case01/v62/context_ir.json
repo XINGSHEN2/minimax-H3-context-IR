@@ -1,0 +1,1220 @@
+{
+  "schema_version": "h3_compilation.light.v1",
+  "compiler_revision": "singlecall.v62.duration_bound_outline",
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 14.9,
+    "aspect_ratio": "16:9",
+    "generate_audio": true,
+    "style": "",
+    "prompt_profile": "auto"
+  },
+  "assets": [
+    {
+      "asset_id": "image_1",
+      "media_type": "image",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case1-ref2va/assets/图片1.png",
+      "label": "图片1"
+    },
+    {
+      "asset_id": "video_1",
+      "media_type": "video",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case1-ref2va/assets/视频1.mov",
+      "label": "视频1"
+    }
+  ],
+  "content_plan": {
+    "creative_brief": {
+      "user_locked": [
+        "Only two participants: one man and one woman, both taken from image_1, with stable identity preserved (face, hair, body appearance).",
+        "The characters' action and body movement, facial performance, and performance rhythm and timing strictly follow video_1.",
+        "Setting is the sink area where the plate is washed, with the sink visible in frame.",
+        "Opening staging: the man stands in front of the sink at frame center-right, the woman is positioned at frame-left.",
+        "Action beats in this order: (1) the man hands a washed plate to the woman; (2) he turns and suddenly flicks dish soap foam with his right hand toward the woman at the left edge of frame; (3) she is startled and immediately retaliates; (4) the two happily splash foam at each other and dodge.",
+        "Non-verbal vocal laughter from both characters during the foam fight.",
+        "Target deliverable: 14.9 s, 16:9, audio generated, ref2va."
+      ],
+      "reference_anchors": [
+        "image_1 provides the identity of the man (dark, wavy, medium-length hair; white short-sleeved t-shirt) and of the woman (dark shoulder-length hair; black top), plus the kitchen setting: counter with a stainless-steel sink and curved faucet, glass-fronted cabinets, a dark glass bottle and a brush on the counter.",
+        "video_1 provides the action beat order and coarse beat timing (handoff roughly 0-3 s, sudden foam flick and flinch roughly 3-7 s, reciprocal foam fight roughly 7 s to the end), the body-motion choreography, the facial-expression states, and the performance tempo."
+      ],
+      "open_design": [
+        "Camera coverage and the exact cut points; the reference's beat boundary after the handoff is expressed as a cut in the target video.",
+        "Exact foam trajectories, which body parts each clump lands on, and the micro-actions of the throw-and-dodge exchange.",
+        "The sustained laughter performance and the final frame, which stays mid-fight with no resolution.",
+        "A light non-diegetic comedic score and all non-diegetic sound design, since no audio material was supplied or analyzed."
+      ]
+    },
+    "requirement_map": {
+      "content_events": [
+        {
+          "id": "ce_1",
+          "requirement": "The characters of image_1 appear in the target video with stable identity preserved: face, hair, and body appearance (d_1)."
+        },
+        {
+          "id": "ce_2",
+          "requirement": "Only two participants: one man and one woman (d_2)."
+        },
+        {
+          "id": "ce_3",
+          "requirement": "Setting is the sink area where the plate is washed, with a sink visible in frame (d_6)."
+        },
+        {
+          "id": "ce_4",
+          "requirement": "Opening staging: the man stands in front of the sink at frame center-right, the woman is positioned at frame-left (d_7)."
+        },
+        {
+          "id": "ce_5",
+          "requirement": "First action beat: the man hands a washed plate to the woman (d_8)."
+        },
+        {
+          "id": "ce_6",
+          "requirement": "Second action beat: the man turns and suddenly flicks dish soap foam with his right hand toward the woman at the left edge of frame (d_9)."
+        },
+        {
+          "id": "ce_7",
+          "requirement": "Third action beat: the woman is startled and immediately retaliates (d_10)."
+        },
+        {
+          "id": "ce_8",
+          "requirement": "Fourth action beat: the two happily splash foam at each other and dodge (d_11)."
+        },
+        {
+          "id": "ce_9",
+          "requirement": "The characters' actions and body movement follow video_1's choreography (d_3)."
+        },
+        {
+          "id": "ce_10",
+          "requirement": "The characters' facial performance follows video_1 (d_4)."
+        },
+        {
+          "id": "ce_11",
+          "requirement": "The characters' performance rhythm and timing follow video_1 (d_5)."
+        }
+      ],
+      "editing_treatments": [],
+      "global_style": [],
+      "audio_requirements": [
+        {
+          "id": "ar_1",
+          "requirement": "Non-verbal vocal laughter from both characters during the foam fight (d_12)."
+        }
+      ]
+    },
+    "task_mode": "ref2va",
+    "must_keep": [
+      "The two characters of image_1, with their stable identity, as the only two participants in the video.",
+      "The sink-area setting with the sink clearly visible in frame.",
+      "The opening staging: man in front of the sink at frame center-right, woman at frame-left.",
+      "The four action beats in the given order, with video_1's body movement, facial performance, and performance timing transferred onto both characters.",
+      "Non-verbal vocal laughter from both characters during the foam fight."
+    ],
+    "bindings": [
+      {
+        "asset_id": "image_1",
+        "role": "Identity reference for the two target characters and reference for the kitchen sink setting.",
+        "retained_attributes": [
+          "Man: dark, wavy, medium-length hair; white short-sleeved t-shirt; adult male build.",
+          "Woman: dark shoulder-length hair; black top; adult female build.",
+          "Kitchen setting: domestic counter with a stainless-steel sink and curved faucet, glass-fronted cabinets, a dark glass bottle and a brush standing beside the basin."
+        ],
+        "optional_inherited_attributes": [
+          "Opening arrangement of the two-shot with the woman at frame-left and the man at frame center-right in front of the sink, which matches the user-specified staging.",
+          "The foam-covered white object in the man's hands may be read as the foam-covered plate continuing in the woman's hand during the fight."
+        ],
+        "excluded_attributes": [
+          "Any single pose, hand position, or held-object state from the image as a fixed first frame.",
+          "The exact foam coating visible on the object in the man's hands as the video's opening state."
+        ],
+        "exclusion_reasons": "image_1 is used for character identity and setting only, not as an opening keyframe; the video opens on a plate handoff performed according to video_1's choreography, so locking a first frame would conflict with the first action beat."
+      },
+      {
+        "asset_id": "video_1",
+        "role": "Reference for action and body-motion choreography, facial performance, and performance rhythm and timing of the two target characters.",
+        "retained_attributes": [
+          "Action beat order: plate handoff, then a sudden thrown-foam prank, then a startle and immediate counter-throw, then a sustained reciprocal foam fight.",
+          "Coarse beat timing: calm handoff roughly 0-3 s, sudden foam attack and flinch roughly 3-7 s, sustained exchange roughly 7 s to the end.",
+          "Body-motion choreography and facial-expression states: turning away from the sink, the wrist flick of the throw, the recoiling flinch, the lean-away dodge, the duck, and open-mouthed laughter."
+        ],
+        "optional_inherited_attributes": [
+          "The beat boundary at the end of the handoff, expressed as a cut in the target video.",
+          "A largely locked camera on the sink area for the first two beats."
+        ],
+        "excluded_attributes": [
+          "The reference performers' identities, hair, wardrobe, and accessories.",
+          "The reference video's own props and its exact framing as a fixed requirement."
+        ],
+        "exclusion_reasons": "The target cast is only the two characters of image_1 (d_1, d_2), and only choreography, facial performance, and timing are transferred (d_3, d_4, d_5); the reference performers' appearance, wardrobe, and props must not carry over."
+      }
+    ],
+    "developments": [
+      {
+        "id": "dev_1",
+        "source_content_event_ids": [
+          "ce_1",
+          "ce_2",
+          "ce_3",
+          "ce_4",
+          "ce_5"
+        ],
+        "visible_change": "In the sink area with only the two of them present, the man at frame center-right lifts the washed plate out of the rinse water and passes it across the frame to the woman at frame-left, who takes it and holds it low in her left hand; the ordinary kitchen calm of the setup is established.",
+        "outcome": "The woman holds the plate at frame-left; the man stands at the sink at frame center-right with his right hand free at the basin; both are calm immediately before the prank."
+      },
+      {
+        "id": "dev_2",
+        "source_content_event_ids": [
+          "ce_6",
+          "ce_7",
+          "ce_9",
+          "ce_10",
+          "ce_11"
+        ],
+        "visible_change": "The man turns toward frame-left and flicks a clump of dish soap foam with his right hand across the frame at the woman at the left edge; the foam lands on her face, shoulder, and hair, she flinches hard for a split second, then immediately scrapes the foam off herself and throws it back, hitting his chest and shoulder; both begin laughing.",
+        "outcome": "Foam is now on both characters; the calm is broken, the woman's fright has turned into amused counterattack, and the plate is still held in her left hand."
+      },
+      {
+        "id": "dev_3",
+        "source_content_event_ids": [
+          "ce_8",
+          "ce_9",
+          "ce_10",
+          "ce_11"
+        ],
+        "visible_change": "Around the counter and the sink the two keep scooping foam and throwing it at each other while dodging: she leans aside out of his throws, he ducks behind the sink edge, clumps land on faces, hair, and torsos, and their laughter grows through the exchange.",
+        "outcome": "At the end of the video both are still in the sink area, faces and torsos streaked with white foam, the plate still in the woman's left hand with foam specks on it, both laughing mid-exchange, with the fight unresolved."
+      }
+    ],
+    "shots": [
+      {
+        "id": "shot_1",
+        "development_ids": [
+          "dev_1"
+        ],
+        "content_purpose": "Establish the two-person sink-area setting and complete the calm plate handoff that sets up the prank.",
+        "treatment_ids": [],
+        "start_seconds": 0.0,
+        "end_seconds": 3.2,
+        "description": "A static medium shot frames the sink area of <Subject 3>, the counter and stainless-steel sink with its curved faucet at frame center-right in front of the glass-fronted cabinets, with the dark bottle and the brush beside the basin. <Subject 1> stands in front of the sink at frame center-right, lifting a washed white plate out of the rinse water while the faucet still runs; <Subject 2> stands at frame-left in profile facing him. <Subject 1> turns his upper body toward her and passes the plate across the frame with his left hand; <Subject 2> takes it in both hands, then holds it low in her left hand. The two exchange a brief easy look, the plate clinking softly as it changes hands, and <Subject 1>'s right hand settles back down toward the foam at the sink. The camera stays static and lets the calm of the beat read."
+      },
+      {
+        "id": "shot_2",
+        "development_ids": [
+          "dev_2"
+        ],
+        "content_purpose": "Show the sudden right-hand foam flick, the woman's split-second startle and her immediate retaliation, turning the calm scene into a foam fight.",
+        "treatment_ids": [],
+        "start_seconds": 3.2,
+        "end_seconds": 7.0,
+        "cut_reason": "The handoff reads at the opening medium two-shot distance, but the sudden right-hand flick, the short foam arc, and the woman's split-second facial startle are too small and too fast at that distance, and a continuous push-in would telegraph the surprise before it happens; the cut lands exactly on the beat boundary so the prank stays sudden.",
+        "continuity_bridge": "Shot 2 starts at the instant after the plate has changed hands: the man's left hand has just released it and his right hand is still at the sink, and the woman holds the plate low in her left hand at the left edge of frame; the flick begins from that position with no repeat of the handoff.",
+        "description": "At 00:03.200, the shot cuts to a slightly tighter medium shot of the same setup, <Subject 1> at frame center-right and <Subject 2> at the left edge of frame. <Subject 1> turns his chest and head toward frame-left and, in one sudden movement, scoops a clump of white dish soap foam from the sink with his right hand and flicks it off his fingers; the wet foam arcs left across the frame and lands on <Subject 2>'s cheek, shoulder, and hair with a soft wet splat. Her head snaps back, her eyes go wide and her mouth opens in a split-second flinch, the plate still held low in her left hand. Without any pause she scrapes the foam off her own cheek with her right hand and hurls it straight back at him; it splatters across <Subject 1>'s chest and shoulder, and both of them break into loud, open-mouthed laughter while he recoils wiping at his shoulder. The camera holds this tighter framing without moving."
+      },
+      {
+        "id": "shot_3",
+        "development_ids": [
+          "dev_3"
+        ],
+        "content_purpose": "Show the sustained reciprocal foam throwing and dodging with both characters laughing, ending still mid-fight.",
+        "treatment_ids": [],
+        "start_seconds": 7.0,
+        "end_seconds": 14.9,
+        "cut_reason": "The fight is one continuous action, but from the tighter framing of the flick the two range further apart along the counter and the basin edge, and their throws, dodges, and laughing faces cannot all be held in that framing; the wider two-shot keeps the whole exchange visible.",
+        "continuity_bridge": "Shot 3 picks up from the woman's throw that has just splattered on the man's chest: the foam still clings to his chest and shoulder, the plate is still in her left hand, and the laughter continues uninterrupted across the cut with no reset of the action.",
+        "description": "At 00:07.000, the shot cuts to a wider two-shot as the same laughter carries over from the previous shot, the foam from her last throw still clinging to <Subject 1>'s chest and shoulder and the plate still in <Subject 2>'s left hand. The camera pulls out with small amplitude at slow speed and then holds both of them in frame while they range along the counter around the sink. <Subject 1> grabs a fresh handful of foam from the basin and lobs it at her; she leans aside out of its path, still laughing, and her return throw catches him on the side of the face, her right hand throwing while the left keeps the plate. He ducks down behind the sink edge with foam dripping off his jaw and comes up with another fistful, throwing it into her hair as she straightens; she scrapes foam off her own face and throws it back at his chest, and he staggers a step back with foam on his nose and mouth. Foam clumps drop from the counter edge and speck the plate in her hand, water keeps running, and the shot ends on the two of them still in the sink area, faces and torsos streaked with white foam, breathing hard and still laughing mid-throw."
+      }
+    ]
+  },
+  "uncertainties": [
+    "video_1 has no registered audio asset and no audio analysis was supplied, so no sound from the reference video can be reused or matched; all sound, including the required non-verbal laughter, is newly designed.",
+    "The dark glass bottle in image_1 is not confirmed to be dish soap, and no foam source outside the sink basin is verified; the foam is assumed to come from the basin and the surrounding counter.",
+    "The white rounded foam-covered object in the man's hands in image_1 is not confirmed to be a plate; the plate in the target video is realized from the user's description and video_1's action beat rather than from image evidence.",
+    "video_1's analysis provides only three coarse beats (about 0-3 s, 3-7 s, 7-14.9 s) with no frame-accurate micro-timing, so the cut points at 3.2 s and 7.0 s approximate the reference's beat boundaries.",
+    "No user-specified style, aspect-ratio treatment, or camera instruction was given beyond the staging and transfer directives, so the camera coverage and the non-diegetic score were completed freely under the creative policy."
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v2",
+    "provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3.8-27B",
+      "options": {
+        "cache_enabled": false,
+        "single_pass_image_analysis": true,
+        "max_parallel_assets": 1,
+        "image_base_url": "http://127.0.0.1:9012",
+        "video_base_url": "http://127.0.0.1:9012",
+        "single_pass_video_analysis": true,
+        "video_fps": 2,
+        "video_max_frames": 256,
+        "output_dir": "/home/mx/shenxing/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case1-ref2va/output/local_ir_260909_19_service_fresh_qwen38/perception_tasks",
+        "base_url": "http://127.0.0.1:9012",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000,
+        "max_parallel_attribute_batches": 2,
+        "image_attribute_batch_size": 3
+      }
+    },
+    "assets": [
+      {
+        "asset_id": "image_1",
+        "summary": "A man in a white t-shirt stands in a kitchen holding a white, foam-covered object, while a woman in a black top stands in the foreground facing him.",
+        "global_analysis": {
+          "scene": "Indoor kitchen setting with a sink, counter, and glass-fronted cabinets",
+          "composition": "Two-shot with a woman in the left foreground and a man in the right mid-ground",
+          "framing_layers": [],
+          "visible_text": [],
+          "uncertainties": []
+        },
+        "evidence": [
+          {
+            "evidence_id": "evidence_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "A man in a white t-shirt stands in a kitchen holding a white, foam-covered object, while a woman in a black top stands in the foreground facing him."
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "man_1",
+            "category": "person",
+            "subcategory": "person",
+            "summary": "Man with dark wavy hair wearing a white t-shirt, holding a white object",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "hair",
+                  "value": "dark, wavy, medium length",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "clothing",
+                  "value": "white short-sleeved t-shirt",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "held object",
+                  "value": "white, rounded object covered in foam or powder",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [
+                {
+                  "name": "pose",
+                  "value": "standing, body angled left, head turned toward the woman",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "woman_1",
+            "category": "person",
+            "subcategory": "person",
+            "summary": "Woman with dark hair wearing a black top, seen in profile",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "hair",
+                  "value": "dark, shoulder-length",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "clothing",
+                  "value": "black top",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [
+                {
+                  "name": "pose",
+                  "value": "standing in profile facing right",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "sink_1",
+            "category": "sink",
+            "subcategory": "sink",
+            "summary": "Metal sink basin with a curved faucet",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [
+                {
+                  "name": "basin",
+                  "value": "metallic, likely stainless steel",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [
+                {
+                  "name": "faucet",
+                  "value": "curved metal spout",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "bottle_1",
+            "category": "bottle",
+            "subcategory": "bottle",
+            "summary": "Dark glass bottle standing on the counter",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "shape",
+                  "value": "cylindrical with a narrow neck",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "body",
+                  "value": "dark, likely black or dark green",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "brush_1",
+            "category": "brush",
+            "subcategory": "brush",
+            "summary": "Cylindrical brush with white bristles and a blue base",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "bristles",
+                  "value": "white",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "base",
+                  "value": "blue",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_relative_to",
+            "subject_id": "woman_1",
+            "object_id": "man_1",
+            "anchor": "woman is in the foreground left, man is in the mid-ground right",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_2",
+            "type": "positioned_relative_to",
+            "subject_id": "man_1",
+            "object_id": "sink_1",
+            "anchor": "man stands behind the sink",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_3",
+            "type": "positioned_relative_to",
+            "subject_id": "bottle_1",
+            "object_id": "sink_1",
+            "anchor": "bottle sits on the counter next to the sink",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_4",
+            "type": "positioned_relative_to",
+            "subject_id": "brush_1",
+            "object_id": "sink_1",
+            "anchor": "brush sits on the counter near the faucet",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "image_single_pass",
+          "task_ids": [
+            "20260909_085028_553504_a29aa36c-94dd-48e2-80ae-e8240094f88e"
+          ],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "single_pass",
+          "elapsed_seconds": 99.101,
+          "cache_hit": false,
+          "cache_key": "5cc22ee9321468019b60ea0857b4288a73e8b2c21eea1c3a9d6d2090cd63a955",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 99.101
+          }
+        },
+        "transcript": "",
+        "uncertainties": [],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "image_1 contains visible people whose identity/appearance can be preserved for the generated target",
+            "priority": "required",
+            "source_asset_id": "image_1",
+            "region_or_time": "whole image",
+            "status": "covered",
+            "matched_terms": [
+              "be",
+              "for",
+              "identity"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "number of visible people and their spatial positions relative to the frame, for comparison with the user-described male-on-right/female-on-left staging",
+            "priority": "useful",
+            "source_asset_id": "image_1",
+            "region_or_time": "whole image; check person/face/body regions",
+            "status": "covered",
+            "matched_terms": [
+              "for",
+              "frame",
+              "left",
+              "of",
+              "on",
+              "relative",
+              "right",
+              "spatial",
+              "to"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "whether sink, plate, and foam-related props are visible in image_1 for consistency with the user-described action",
+            "priority": "useful",
+            "source_asset_id": "image_1",
+            "region_or_time": "whole image, especially sink and hand regions",
+            "status": "covered",
+            "matched_terms": [
+              "foam",
+              "for",
+              "in",
+              "sink"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      },
+      {
+        "asset_id": "video_1",
+        "summary": "A man and a woman stand in a kitchen; the man hands a plate to the woman, then initiates a playful foam fight, splashing white foam at her face and body while both react with laughter.",
+        "global_analysis": {},
+        "evidence": [
+          {
+            "evidence_id": "evidence_event_1",
+            "kind": "frame",
+            "time_seconds": 1.5,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "The man stands at the sink holding a white plate and hands it to the woman standing to his left."
+          },
+          {
+            "evidence_id": "evidence_event_2",
+            "kind": "frame",
+            "time_seconds": 5.0,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "The man dips his hand into the sink, grabs a clump of white foam, and throws it at the woman's face, causing her to flinch and laugh."
+          },
+          {
+            "evidence_id": "evidence_event_3",
+            "kind": "frame",
+            "time_seconds": 10.95,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "The two engage in a reciprocal foam fight, repeatedly throwing clumps of foam at each other's faces and torsos while laughing and moving around the sink area."
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "category": "person",
+            "subcategory": "adult woman",
+            "summary": "Woman with dark hair in a ponytail wearing a red and white striped t-shirt, holding a blue towel and a plate.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "hair style",
+                  "value": "ponytail",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "top pattern",
+                  "value": "red and white horizontal stripes",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "held object",
+                  "value": "blue towel",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "person_2",
+            "category": "person",
+            "subcategory": "adult man",
+            "summary": "Man with dreadlocks wearing a yellow t-shirt and a gold chain, standing at the kitchen sink.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "hair style",
+                  "value": "dreadlocks",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "top color",
+                  "value": "yellow",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "accessory",
+                  "value": "gold chain necklace",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "plate_1",
+            "category": "object",
+            "subcategory": "dishware",
+            "summary": "A white, oval-shaped plate transferred from the man to the woman.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "shape",
+                  "value": "oval",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "surface color",
+                  "value": "white",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "foam_1",
+            "category": "substance",
+            "subcategory": "soap foam",
+            "summary": "White, bubbly foam originating from the sink, used as a projectile in the interaction.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "color",
+                  "value": "white",
+                  "evidence_ids": [
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "texture",
+                  "value": "bubbly and wet",
+                  "evidence_ids": [
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "sink_1",
+            "category": "object",
+            "subcategory": "fixture",
+            "summary": "A stainless steel kitchen sink with a faucet, located in the center of the action.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [
+                {
+                  "name": "surface material",
+                  "value": "stainless steel",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [
+                {
+                  "name": "fixture parts",
+                  "value": "faucet and basin",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_relative_to",
+            "subject_id": "person_1",
+            "object_id": "person_2",
+            "anchor": "person_1 stands to the left of person_2",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2",
+              "evidence_event_3"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_2",
+            "type": "positioned_relative_to",
+            "subject_id": "person_2",
+            "object_id": "sink_1",
+            "anchor": "person_2 stands directly in front of sink_1",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2",
+              "evidence_event_3"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_3",
+            "type": "interacting_with",
+            "subject_id": "person_2",
+            "object_id": "foam_1",
+            "anchor": "person_2 grabs and throws foam_1",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2",
+              "evidence_event_3"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_4",
+            "type": "interacting_with",
+            "subject_id": "person_1",
+            "object_id": "plate_1",
+            "anchor": "person_1 receives and holds plate_1",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2",
+              "evidence_event_3"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          }
+        ],
+        "events": [
+          {
+            "event_id": "event_1",
+            "time_range": [
+              0.0,
+              3.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "person_2",
+              "plate_1"
+            ],
+            "action": "The man stands at the sink holding a white plate and hands it to the woman standing to his left.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "cut",
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.95
+          },
+          {
+            "event_id": "event_2",
+            "time_range": [
+              3.0,
+              7.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "person_2",
+              "foam_1"
+            ],
+            "action": "The man dips his hand into the sink, grabs a clump of white foam, and throws it at the woman's face, causing her to flinch and laugh.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "continuous",
+            "evidence_ids": [
+              "evidence_event_2"
+            ],
+            "confidence": 0.95
+          },
+          {
+            "event_id": "event_3",
+            "time_range": [
+              7.0,
+              14.9
+            ],
+            "entity_ids": [
+              "person_1",
+              "person_2",
+              "foam_1"
+            ],
+            "action": "The two engage in a reciprocal foam fight, repeatedly throwing clumps of foam at each other's faces and torsos while laughing and moving around the sink area.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "continuous",
+            "evidence_ids": [
+              "evidence_event_3"
+            ],
+            "confidence": 0.95
+          }
+        ],
+        "technical": {
+          "duration_seconds": 14.9,
+          "framing": "medium shot",
+          "camera": "locked camera",
+          "visible_text": [],
+          "media_type": "video",
+          "analysis_pipeline": "compact_video_single_pass",
+          "task_ids": [
+            "20260909_085213_709675_85629a88-5374-492b-b739-69848fdd8be9"
+          ],
+          "scene_cut_candidates_seconds": [],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "timeline_only",
+          "elapsed_seconds": 209.343,
+          "cache_hit": false,
+          "cache_key": "37fb76be1641e7e7002a6773eb3b26afde25ecbbc94fd662d8912eda170f8ee1",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 209.343
+          }
+        },
+        "transcript": "",
+        "uncertainties": [],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "timestamped description of visible action beats and body-motion choreography in video_1, needed to support d_2",
+            "priority": "required",
+            "source_asset_id": "video_1",
+            "region_or_time": "full video, segmented into action beats",
+            "status": "covered",
+            "matched_terms": [
+              "action",
+              "body",
+              "description",
+              "in",
+              "of",
+              "to"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "timestamped description of visible facial-expression states and changes in video_1, needed to support d_3",
+            "priority": "required",
+            "source_asset_id": "video_1",
+            "region_or_time": "full video, especially face regions",
+            "status": "covered",
+            "matched_terms": [
+              "description",
+              "in",
+              "of",
+              "to"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "timing evidence for performance rhythm: speeds, pauses, cadence, and phase relationships of movement and expression in video_1, needed to support d_4",
+            "priority": "required",
+            "source_asset_id": "video_1",
+            "region_or_time": "full video, time windows aligned to each visible beat",
+            "status": "covered",
+            "matched_terms": [
+              "for",
+              "in",
+              "of",
+              "to"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_4",
+            "claim": "whether video_1 contains one or more performers and whether a reciprocal two-person foam interaction is visible; if only one person is visible, report the limits of transfer",
+            "priority": "required",
+            "source_asset_id": "video_1",
+            "region_or_time": "full video",
+            "status": "covered",
+            "matched_terms": [
+              "foam",
+              "interaction",
+              "is",
+              "of",
+              "one",
+              "or",
+              "person",
+              "reciprocal",
+              "transfer",
+              "two"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      }
+    ],
+    "missing_asset_ids": [],
+    "perception_metrics": {
+      "request_count": 2,
+      "retry_count": 0,
+      "supplemental_request_count": 0,
+      "elapsed_seconds": 209.343
+    }
+  }
+}

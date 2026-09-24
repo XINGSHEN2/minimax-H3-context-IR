@@ -1,0 +1,33 @@
+{
+  "model": "MiniMax-H3",
+  "content": [
+    {
+      "type": "text",
+      "text": "subject_definitions:\n<Subject 1> is the woman in <Video 2>, with dark curly hair, freckled skin, a white t-shirt, blue denim overalls, and colorful woven bracelets on her right wrist.\n<Subject 2> is the outdoor cafe setting of <Video 2>: a wicker table surface in the foreground with a white ceramic cup resting on it and an open cafe space behind.\n<Subject 3> is the singing performance pattern of <Video 3>, used for performance control only with no identity transfer: the right hand extends forward palm-up and draws inward toward the chest as the head tilts back, then rises to touch the cheek and hair as the head tilts to the side, then lowers and extends outward again as the head tilts further back, with the eyes closed and the mouth open throughout.\n<Video 1> is the camera-movement reference for the target video: a continuous forward push toward the foreground subject, which holds a nearly constant scale while the surrounding space changes scale.\n<Audio 1> is the sung vocal layer of <Video 3>, reused in the target video as the singing voice of <Subject 1> (S1).\n\nsummary:\n[reference generation + audio reuse] The target video is one unbroken 5-second take in which <Subject 1> sits at <Subject 2> and sings on camera, her voice being the sung vocal reused from <Audio 1> and her performance following <Subject 3>, while the camera performs the Hitchcock-style forward push transferred from <Video 1>; the take ends with her still singing, eyes closed, mouth open, head tilted back and right hand extended outward.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - her face, dark curly hair, freckles, white t-shirt, blue denim overalls and woven bracelets stay stable and her identity never changes.\n<Subject 2> (appears in [Shot 1]): fully_preserved - the wicker table, the white cup and the cafe space keep their identity while the camera push changes their scale.\n<Subject 3> (appears in [Shot 1], across the singing): attribute_transfer - the hand gestures, head tilts and phrase timing move onto <Subject 1>, with no facial, hair or costume feature of the source performer.\n<Video 1> (camera movement): partially_preserved - the continuous forward push and its foreground/background scale relationship are kept; the source's people, beach location and framing are not.\n<Audio 1>: partially_copy - the sung vocal is reused unaltered as the target video's singing voice, with the cafe's diegetic ambience added underneath.\n\ndetailed_description:\nThe target video is a live-action, realistic outdoor-daylight shot that keeps the natural light, color and texture of <Video 2>'s cafe setting, with no added stylization and no on-screen text.\n[Shot 1] <Subject 1> is seated at <Subject 2>, her gaze lowered, her right hand free on the table and the white cup resting in front of her. She lifts her chin, opens her mouth and sings on camera; <Subject 1> (S1) sings with the vocal reused from <Audio 1>, and her lips, jaw and breath move locked to that audible vocal, whose original lyrics and language are preserved unchanged. Through the singing she performs the pattern of <Subject 3>: her right hand rises from the table and reaches forward at chest height with the palm up, then draws inward toward her chest as her head tilts back; the same hand then rises to touch her cheek and hair while her head tilts to the side and her eyes stay closed; finally she lowers the hand, extends it outward with the palm open and tilts her head further back. Her dark curly hair shifts at the sides of her face with every head tilt, and her freckles and white t-shirt stay clearly readable in the daylight. For the whole take the camera performs the movement transferred from <Video 1>: it pushes continuously forward toward her along a single unbroken path at an even speed, keeping her at a nearly constant size in frame while the cafe space behind her changes scale, so the background tables and the street depth visibly recede as the push goes on. The take ends on her still singing with her eyes closed, her mouth open, her right hand extended outward and her head tilted back.\n\noverall_soundscape:\nLight outdoor cafe ambience runs without a break: a low murmur from nearby tables, faint street traffic and a soft breeze against the wicker table. It stays low beneath the singing and remains even through the final frame.\n\nnon_diegetic_music:\nN/A"
+    },
+    {
+      "type": "video_url",
+      "video_url": {
+        "url": "http://10.0.96.114:30100/v1/assets/asset_1e6702d3f6e847f0b86f2258bcc96eb7/content"
+      },
+      "role": "reference_video"
+    },
+    {
+      "type": "video_url",
+      "video_url": {
+        "url": "http://10.0.96.114:30100/v1/assets/asset_34d3fdcf17394ddf92a430442ba822cf/content"
+      },
+      "role": "reference_video"
+    },
+    {
+      "type": "video_url",
+      "video_url": {
+        "url": "http://10.0.96.114:30100/v1/assets/asset_ed5087f6d34c4cc59a20bcab2fcc3723/content"
+      },
+      "role": "reference_video"
+    }
+  ],
+  "resolution": "768P",
+  "duration": 5,
+  "ratio": "16:9"
+}

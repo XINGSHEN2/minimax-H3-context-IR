@@ -1,0 +1,1060 @@
+{
+  "schema_version": "h3_compilation.light.v1",
+  "compiler_revision": "singlecall.v62.duration_bound_outline",
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 9.474,
+    "aspect_ratio": "9:16",
+    "generate_audio": true,
+    "style": "",
+    "prompt_profile": "auto"
+  },
+  "assets": [
+    {
+      "asset_id": "image_1",
+      "media_type": "image",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case2-ref2va/assets/图片1.png",
+      "label": "图片1"
+    },
+    {
+      "asset_id": "image_2",
+      "media_type": "image",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case2-ref2va/assets/图片2.png",
+      "label": "图片2"
+    },
+    {
+      "asset_id": "video_1",
+      "media_type": "video",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case2-ref2va/assets/视频1.mp4",
+      "label": "视频1"
+    }
+  ],
+  "content_plan": {
+    "creative_brief": {
+      "user_locked": [
+        "目标人物的身份以图1和图2为参考，需保留稳定的脸、发型和身体外观。",
+        "人物参考视频1的街舞动作，需迁移身体动作、四肢轨迹和动作节奏。",
+        "整段表演保持为街舞（嘻哈风格的舞蹈表演）。",
+        "视频时长9.474秒，9:16竖构图，带音频。"
+      ],
+      "reference_anchors": [
+        "<Picture 1>/<Picture 2>：表演者稳定的面部、短黑发、瘦削运动型身型，以及奶油色连帽衫、棕色抽绳短裤、白色低帮运动鞋和白袜。",
+        "<Video 1>：街舞动作语汇及其顺序和9.474秒的节奏。"
+      ],
+      "open_design": [
+        "以图1和图2中的体育场环境作为表演舞台。",
+        "镜头拍摄方式、取景和构图（目标视频内不做切镜）。",
+        "整体声景和画外配乐，因为用户没有提供音频参考。"
+      ]
+    },
+    "requirement_map": {
+      "content_events": [
+        {
+          "id": "ce_1",
+          "text": "将<Video 1>的街舞动作迁移到目标视频的表演者身上：身体动作、四肢轨迹和动作节奏。"
+        },
+        {
+          "id": "ce_2",
+          "text": "整段表演保持为街舞（嘻哈风格的舞蹈表演）。"
+        },
+        {
+          "id": "ce_3",
+          "text": "完整连续地完成整段动作，并在面向镜头的收尾姿态中结束。"
+        }
+      ],
+      "editing_treatments": [],
+      "global_style": [],
+      "audio_requirements": [
+        {
+          "id": "ar_1",
+          "text": "生成音频；用户未指定音乐、对白、歌词或音轨复用的内容。"
+        }
+      ]
+    },
+    "task_mode": "ref2va",
+    "must_keep": [
+      "<Subject 1> 稳定的面部、发型和身体外观来自<Picture 1>和<Picture 2>。",
+      "街舞（嘻哈）表演，不得替换为其他活动。",
+      "<Video 1> 的动作顺序和节奏：手臂外展再收拢、重心转移与踏步、身体律动与手臂波浪、滑步、快速转身、快步收尾、面向镜头的定格。",
+      "连续覆盖0.000–9.474秒，结尾保持静止。"
+    ],
+    "bindings": [
+      {
+        "asset_id": "image_1",
+        "role": "<Subject 1> 的面部、头发、身体和服装的身份参考。",
+        "retained_attributes": [
+          "短黑发",
+          "椭圆脸，深色眉毛",
+          "瘦削运动型身型",
+          "奶油色套头连帽衫",
+          "棕色抽绳短裤",
+          "白色低帮运动鞋和白袜"
+        ],
+        "optional_inherited_attributes": [
+          "体育场看台和潮湿混凝土环境作为舞台",
+          "阴天平光"
+        ],
+        "excluded_attributes": [
+          "双手插兜的静态站姿"
+        ],
+        "exclusion_reasons": [
+          "舞蹈要求手臂和腿自由活动，不能保持静态站姿。"
+        ]
+      },
+      {
+        "asset_id": "image_2",
+        "role": "<Subject 1> 的第二个身份参考，确认同一面部、头发和身体外观。",
+        "retained_attributes": [
+          "相同的面部结构和短黑发",
+          "瘦削运动型体格",
+          "相同的奶油色连帽衫和棕色短裤"
+        ],
+        "optional_inherited_attributes": [
+          "阴天竞技场光照"
+        ],
+        "excluded_attributes": [
+          "坐在看台座位上、双肘撑膝的坐姿"
+        ],
+        "exclusion_reasons": [
+          "坐姿会限制舞蹈所需的腿部和手臂动作。"
+        ]
+      },
+      {
+        "asset_id": "video_1",
+        "role": "目标视频的动作与编舞参考。",
+        "retained_attributes": [
+          "双臂外展再收拢",
+          "重心转移与两次受控踏步",
+          "身体律动与手臂波浪",
+          "滑步侧移",
+          "快速转身",
+          "快速脚步收尾",
+          "面向镜头的定格",
+          "0.000–9.474秒的动作时序"
+        ],
+        "optional_inherited_attributes": [
+          "连续单镜覆盖",
+          "固定全景取景"
+        ],
+        "excluded_attributes": [
+          "源舞者的身份（白色长袖衬衫、黑色裤子、白色帽子）",
+          "工作室环境和墙上的“SIEBE DA... STUBIO”标志"
+        ],
+        "exclusion_reasons": [
+          "目标表演者是 <Subject 1>，且用户只选择了 <Video 1> 的动作，因此源舞者的外观和环境不进入目标视频。"
+        ]
+      }
+    ],
+    "developments": [
+      {
+        "id": "dev_1",
+        "source_content_event_ids": [
+          "ce_1",
+          "ce_2"
+        ],
+        "visible_change": "表演者从宽站姿开始，双臂向外大幅伸展，再收回到躯干前方，同时将重心在两脚间转移并完成两次有控制的迈步。",
+        "outcome": "双臂弯曲收在身前，双脚落到新位置，身体已经进入街舞动作节奏。"
+      },
+      {
+        "id": "dev_2",
+        "source_content_event_ids": [
+          "ce_1",
+          "ce_2",
+          "ce_3"
+        ],
+        "visible_change": "身体律动从胸口传向髋部，接着从一侧肩经过手臂传到手部做手臂波浪，同时用小步侧滑移动。",
+        "outcome": "身体律动和手臂波浪完成，表演者已经横向移动了几步。"
+      },
+      {
+        "id": "dev_3",
+        "source_content_event_ids": [
+          "ce_1",
+          "ce_3"
+        ],
+        "visible_change": "肩膀带动一个干脆的转身，随后是密集的快速脚下动作，每个快步都踩在湿混凝土上，最后收成面向镜头的静止姿态。",
+        "outcome": "表演者面向镜头，双脚分开，保持静止的收尾姿态直到视频结束。"
+      }
+    ],
+    "shots": [
+      {
+        "id": "shot_1",
+        "development_ids": [
+          "dev_1",
+          "dev_2",
+          "dev_3"
+        ],
+        "content_purpose": "在一个连续镜头中呈现由<Subject 1>表演的整段街舞，让手臂外展收拢、身体律动与手臂波浪、滑步、转身、快步和最终定格全部清晰可见。",
+        "treatment_ids": [],
+        "start_seconds": 0.0,
+        "end_seconds": 9.474,
+        "description": "A static full shot frames <Subject 1> from the front, centered on the wet concrete with the red seating behind him. He starts in a wide stance and swings both arms out wide, then draws them back in across his torso while shifting his weight between his feet and taking two controlled steps, the hoodie fabric moving with each arm swing. His chest opens back as a body roll travels from his torso to his hips and then runs along one shoulder through both arms into his hands while he slides sideways in small steps, his sneakers mirrored in the wet concrete. His shoulder initiates a sharp turn that carries him into a burst of fast footwork, each quick step landing with a crisp slap on the wet concrete. The footwork resolves into a still finishing pose facing the camera, the arms and feet settling, and he holds that pose without moving until the final frame while the camera stays fixed."
+      }
+    ]
+  },
+  "uncertainties": [
+    "连帽衫的兜帽在<Picture 1>和<Picture 2>中都戴在头上；本计划将其放下，以便舞蹈时面部和头发保持可辨识。如果兜帽必须保持戴上，身份迁移的可见度会下降。",
+    "用户未提供音频参考，因此声景和配乐是设计出来的，而非继承得到的。",
+    "体育场背景同时出现在两张身份图片中，但用户未将其指定为场景；这里将其用作舞台背景。如果该环境不应出现，则需要重新规划舞台环境。"
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v2",
+    "provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3.8-27B",
+      "options": {
+        "cache_enabled": false,
+        "single_pass_image_analysis": true,
+        "max_parallel_assets": 1,
+        "image_base_url": "http://127.0.0.1:9012",
+        "video_base_url": "http://127.0.0.1:9012",
+        "single_pass_video_analysis": true,
+        "video_fps": 2,
+        "video_max_frames": 256,
+        "output_dir": "/home/mx/shenxing/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case2-ref2va/output/local_ir_260909_19_service_fresh_qwen38/perception_tasks",
+        "base_url": "http://127.0.0.1:9012",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000,
+        "max_parallel_attribute_batches": 2,
+        "image_attribute_batch_size": 3
+      }
+    },
+    "assets": [
+      {
+        "asset_id": "image_1",
+        "summary": "A young man stands in the center of a stadium field, wearing a cream hoodie and brown shorts, with red stadium seats in the background.",
+        "global_analysis": {
+          "scene": "Outdoor stadium setting with a wet concrete field and rows of red seats under an overcast sky",
+          "composition": "Full-body portrait centered in the frame, with the subject standing against a backdrop of tiered seating",
+          "framing_layers": [],
+          "visible_text": [],
+          "uncertainties": []
+        },
+        "evidence": [
+          {
+            "evidence_id": "evidence_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "A young man stands in the center of a stadium field, wearing a cream hoodie and brown shorts, with red stadium seats in the background."
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "category": "person",
+            "subcategory": "person",
+            "summary": "Young man with short dark hair, wearing a cream hoodie and brown shorts",
+            "quantity": {
+              "value": 1,
+              "confidence": 1.0
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "body build",
+                  "value": "slim and athletic",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "hair",
+                  "value": "short dark brown",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "upper body clothing",
+                  "value": "cream pullover hoodie with hood up and front pocket",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "lower body clothing",
+                  "value": "brown drawstring shorts",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "footwear",
+                  "value": "white low-top sneakers with white socks",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [
+                {
+                  "name": "pose",
+                  "value": "standing facing forward with hands in pockets",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "stadium_seats_1",
+            "category": "furniture",
+            "subcategory": "furniture",
+            "summary": "Rows of red stadium seating in the background",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "arrangement",
+                  "value": "tiered rows on metal frames",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "seat color",
+                  "value": "red",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "field_surface_1",
+            "category": "surface",
+            "subcategory": "surface",
+            "summary": "Wet concrete ground in the foreground",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "surface color",
+                  "value": "grey",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [
+                {
+                  "name": "condition",
+                  "value": "wet with visible reflections",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_relative_to",
+            "subject_id": "person_1",
+            "object_id": "field_surface_1",
+            "anchor": "person stands on the field surface",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_2",
+            "type": "positioned_relative_to",
+            "subject_id": "person_1",
+            "object_id": "stadium_seats_1",
+            "anchor": "person stands in front of the stadium seats",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "image_single_pass",
+          "task_ids": [
+            "20260909_085007_855751_a4ca755d-c462-4950-8eb7-35bead7c2847"
+          ],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "single_pass",
+          "elapsed_seconds": 64.561,
+          "cache_hit": false,
+          "cache_key": "33ed132d670ebc95c9f0f43540ef8be89c34152b2a288f5e6bf1ffca57b7db0f",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 64.561
+          }
+        },
+        "transcript": "",
+        "uncertainties": [],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "image_1 contains a visible person/character whose stable face/hair/body can be used as identity for the target performer",
+            "priority": "required",
+            "source_asset_id": "image_1",
+            "region_or_time": "visible person region in image_1",
+            "status": "covered",
+            "matched_terms": [
+              "as",
+              "be",
+              "body",
+              "face",
+              "for",
+              "hair",
+              "identity",
+              "person"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      },
+      {
+        "asset_id": "image_2",
+        "summary": "A young man with short dark hair sits on red stadium bleachers wearing a cream hooded sweatshirt and dark shorts.",
+        "global_analysis": {
+          "scene": "Outdoor stadium seating area with rows of red plastic seats and metal railings under an overcast sky",
+          "composition": "Medium shot centered on the seated subject, with the background bleachers receding diagonally to the right",
+          "framing_layers": [],
+          "visible_text": [],
+          "uncertainties": []
+        },
+        "evidence": [
+          {
+            "evidence_id": "evidence_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "A young man with short dark hair sits on red stadium bleachers wearing a cream hooded sweatshirt and dark shorts."
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "category": "person",
+            "subcategory": "person",
+            "summary": "Young man with short dark hair and a neutral expression, sitting with elbows resting on his knees",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "body build",
+                  "value": "Lean and athletic build with visible arm and leg muscle definition",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "hair",
+                  "value": "Short dark brown hair",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "clothing",
+                  "value": "Cream-colored hooded sweatshirt and dark brown shorts",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "hood",
+                  "value": "Hood is pulled up over the head, framing the face",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "shorts",
+                  "value": "Dark brown shorts with white drawstrings",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "facial features",
+                  "value": "Oval face shape, dark eyebrows, and a neutral, direct gaze",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "bleachers_1",
+            "category": "stadium_seating",
+            "subcategory": "stadium_seating",
+            "summary": "Rows of red stadium seats with metal support structures",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "arrangement",
+                  "value": "Tiered rows extending into the background",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "seat color",
+                  "value": "Faded red",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "seat material",
+                  "value": "Plastic or vinyl seating on metal frames",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_relative_to",
+            "subject_id": "person_1",
+            "object_id": "bleachers_1",
+            "anchor": "The person is sitting on the bleachers",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          }
+        ],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "image_single_pass",
+          "task_ids": [
+            "20260909_085112_422345_25788290-807a-420a-bdf9-3b761b697db4"
+          ],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "single_pass",
+          "elapsed_seconds": 46.551,
+          "cache_hit": false,
+          "cache_key": "bc715cd005700ea48e38b8ba2afffd6ef6fbd12292f06af51eb8563ffde8b710",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 46.551
+          }
+        },
+        "transcript": "",
+        "uncertainties": [],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "image_2 contains a visible person/character whose stable face/hair/body can be used as identity for the target performer",
+            "priority": "required",
+            "source_asset_id": "image_2",
+            "region_or_time": "visible person region in image_2",
+            "status": "covered",
+            "matched_terms": [
+              "as",
+              "body",
+              "face",
+              "hair",
+              "identity",
+              "person"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      },
+      {
+        "asset_id": "video_1",
+        "summary": "A male dancer performs a continuous street-dance routine in a studio, executing arm waves, body rolls, and footwork in front of a wall logo.",
+        "global_analysis": {},
+        "evidence": [
+          {
+            "evidence_id": "evidence_event_1",
+            "kind": "frame",
+            "time_seconds": 1.5,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "The dancer begins with a wide stance, extending arms outward and then bringing them inward while shifting weight and stepping."
+          },
+          {
+            "evidence_id": "evidence_event_2",
+            "kind": "frame",
+            "time_seconds": 4.5,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "The dancer performs a body roll and arm wave, moving his torso and arms in a fluid, rhythmic motion while stepping side to side."
+          },
+          {
+            "evidence_id": "evidence_event_3",
+            "kind": "frame",
+            "time_seconds": 7.737,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "The dancer executes a sharp turn and a series of quick footwork steps, ending with a final pose facing the camera."
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "category": "person",
+            "subcategory": "adult male",
+            "summary": "A male dancer wearing a white long-sleeve shirt, black pants, and a white cap.",
+            "quantity": {
+              "value": 1,
+              "confidence": 1.0
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "body type",
+                  "value": "slim",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "top color",
+                  "value": "white",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 1.0,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "bottom color",
+                  "value": "black",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 1.0,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "headwear color",
+                  "value": "white",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 1.0,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "clothing style",
+                  "value": "streetwear",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "logo_1",
+            "category": "object",
+            "subcategory": "wall decal",
+            "summary": "A large black 'S' logo with text underneath mounted on the white wall.",
+            "quantity": {
+              "value": 1,
+              "confidence": 1.0
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "shape",
+                  "value": "letter S",
+                  "evidence_ids": [],
+                  "confidence": 1.0,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "logo color",
+                  "value": "black",
+                  "evidence_ids": [],
+                  "confidence": 1.0,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [
+                {
+                  "name": "finish",
+                  "value": "glossy",
+                  "evidence_ids": [],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "text content",
+                  "value": "SIEBE DA... STUDIO",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": [
+              "Full text is partially obscured by the dancer"
+            ]
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_relative_to",
+            "subject_id": "person_1",
+            "object_id": "logo_1",
+            "anchor": "dancer is in front of logo",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2",
+              "evidence_event_3"
+            ],
+            "confidence": 1.0,
+            "source": "visible"
+          }
+        ],
+        "events": [
+          {
+            "event_id": "event_1",
+            "time_range": [
+              0.0,
+              3.0
+            ],
+            "entity_ids": [
+              "person_1"
+            ],
+            "action": "The dancer begins with a wide stance, extending arms outward and then bringing them inward while shifting weight and stepping.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "continuous",
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.95
+          },
+          {
+            "event_id": "event_2",
+            "time_range": [
+              3.0,
+              6.0
+            ],
+            "entity_ids": [
+              "person_1"
+            ],
+            "action": "The dancer performs a body roll and arm wave, moving his torso and arms in a fluid, rhythmic motion while stepping side to side.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "continuous",
+            "evidence_ids": [
+              "evidence_event_2"
+            ],
+            "confidence": 0.95
+          },
+          {
+            "event_id": "event_3",
+            "time_range": [
+              6.0,
+              9.474
+            ],
+            "entity_ids": [
+              "person_1"
+            ],
+            "action": "The dancer executes a sharp turn and a series of quick footwork steps, ending with a final pose facing the camera.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "continuous",
+            "evidence_ids": [
+              "evidence_event_3"
+            ],
+            "confidence": 0.95
+          }
+        ],
+        "technical": {
+          "duration_seconds": 9.474,
+          "framing": "full shot",
+          "camera": "locked camera",
+          "visible_text": [
+            "SIEBE DA",
+            "STUDIO"
+          ],
+          "media_type": "video",
+          "analysis_pipeline": "compact_video_single_pass",
+          "task_ids": [
+            "20260909_085200_162616_de72765b-4474-43cc-b1c3-28c7ece287b9"
+          ],
+          "scene_cut_candidates_seconds": [],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "timeline_only",
+          "elapsed_seconds": 115.904,
+          "cache_hit": false,
+          "cache_key": "4a5eda6ee842ad6a6ddf5987bcf8723f485ed8bd97a656c2aad74233987d0f00",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 115.904
+          }
+        },
+        "transcript": "",
+        "uncertainties": [],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "video_1 contains visible body motion/performance that can be transferred to the target performer",
+            "priority": "required",
+            "source_asset_id": "video_1",
+            "region_or_time": "visible performing-person intervals in video_1",
+            "status": "covered",
+            "matched_terms": [
+              "be",
+              "body",
+              "can",
+              "motion",
+              "to"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      }
+    ],
+    "missing_asset_ids": [],
+    "perception_metrics": {
+      "request_count": 3,
+      "retry_count": 0,
+      "supplemental_request_count": 0,
+      "elapsed_seconds": 115.904
+    }
+  }
+}
