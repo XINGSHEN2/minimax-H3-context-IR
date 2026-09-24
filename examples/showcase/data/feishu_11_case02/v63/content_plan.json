@@ -1,0 +1,308 @@
+{
+  "task_mode": "ref2va",
+  "creative_brief": {
+    "user_locked": [
+      "15 秒、16:9、生成音频的全参考改写任务。",
+      "整体节奏更快，宏大但不拖沓。",
+      "镜头之间使用快速硬切；使用短黑场作为转场。",
+      "舰桥剧烈震动；强光爆闪；跃迁冲击。",
+      "深空黑暗与星光的环境基调。",
+      "标题为电影预告片式宽字距排版包装；字体不是纯白，要有克制发光、材质感与微弱边缘辉光。",
+      "文字动效必须包含：从深空暗部渐入、被星光扫亮、字距展开、残影、微弱发光、黑场闪现。"
+    ],
+    "reference_anchors": [
+      "<Picture 1> 提供舰桥观察舱内部结构（大型矩形金属舷窗、窗台栏杆、条状反光金属地板）的身份与外观。",
+      "<Picture 1> 提供女性剪影的身份特征：背对镜头、深色马尾、黑色长款制服（肩章与腰带）、双手撑在窗台栏杆上、居中立于窗前、面部不可见。",
+      "<Picture 1> 提供舷窗外深空星云、密集星点与科幻舰队（两艘大型主力舰居中左右、多艘小型飞船散布、暗色舰体带微弱舷窗灯光）的身份与布置。",
+      "<Picture 1> 提供两行标题的原文与排版外观：\"THE LAST FLEET LEFT EARTH\"、\"SHE WAS NOT ON BOARD\"，宽字距大写无衬线，灰白偏冷非纯白，带材质感与微弱边缘辉光。"
+    ],
+    "open_design": [
+      "补充动作起止与表演：震动如何开始与加剧、人物如何撑住栏杆、爆闪如何冲刷舱内、跃迁后如何回落站直。",
+      "补充跃迁的执行主体与结果：本片设定为舷窗外舰队跃迁离开，人物所在舰桥被冲击扫过，人物未被带走，仍留在舷窗前（与画面文字语义一致）。",
+      "补充切点、景别与摄影机路径：硬切落点、短黑场出现的位置与数量。",
+      "补充标题动效的节奏与落位：第一行在开场渐入，第二行在跃迁后的空镜中渐入并黑场闪现。",
+      "补充声景与配乐：用户未指定音频内容，按硬切节奏、震动、爆闪与跃迁冲击补全预告片式声景与画外配乐。"
+    ]
+  },
+  "requirement_map": {
+    "content_events": [
+      {
+        "id": "ce_1",
+        "text": "起始状态：舰桥观察舱内，女性剪影背对镜头、双手撑在舷窗栏杆上，透过巨大矩形舷窗望向深空星云与舰队。"
+      },
+      {
+        "id": "ce_2",
+        "text": "舰桥剧烈震动：舱内结构、栏杆、地板随船体震动，人物重心下压、双手撑死栏杆维持站立。"
+      },
+      {
+        "id": "ce_3",
+        "text": "强光爆闪：舷窗外舰队引擎点火，白蓝色强光反复爆发并冲刷舰桥内部，人物剪影被强光反复边缘提亮。"
+      },
+      {
+        "id": "ce_4",
+        "text": "跃迁冲击与结果：跃迁引擎全开引发致盲爆闪与整体剧烈冲击，人物被抛向栏杆仍抓住不放；冲击收束后舰队离开原位置、只剩退去尾迹，人物震动回落、重新站直，仍留在舷窗前。"
+      }
+    ],
+    "editing_treatments": [
+      {
+        "id": "et_1",
+        "text": "整体节奏更快：镜头时长短、信息密度高，宏大但不拖沓，不重复同一现象。"
+      },
+      {
+        "id": "et_2",
+        "text": "镜头之间使用快速硬切（the camera cuts to / the shot cuts hard to）。"
+      },
+      {
+        "id": "et_3",
+        "text": "短黑场作为转场：画面整幅切到纯黑约四分之一秒后下一画面重新砸入。"
+      },
+      {
+        "id": "et_4",
+        "text": "标题为电影预告片式宽字距大写排版包装，两行原文与布局沿用素材。"
+      },
+      {
+        "id": "et_5",
+        "text": "字体不纯白：灰白偏冷、有表面材质感、克制自发光与微弱边缘辉光。"
+      },
+      {
+        "id": "et_6",
+        "text": "文字动效一：从深空暗部渐入，初现时亮度仅略高于深空。"
+      },
+      {
+        "id": "et_7",
+        "text": "文字动效二：被星光扫亮（一道星光自左向右扫过笔画并把字形提亮）。"
+      },
+      {
+        "id": "et_8",
+        "text": "文字动效三：字距展开（tracking 由收拢展开到全宽字距）。"
+      },
+      {
+        "id": "et_9",
+        "text": "文字动效四：残影/拖影（笔画后方拖出淡淡残像并逐渐消散）。"
+      },
+      {
+        "id": "et_10",
+        "text": "文字动效五：黑场闪现（标题在短黑场中瞬间消失再重新亮起，与微弱发光配合）。"
+      }
+    ],
+    "global_style": [
+      {
+        "id": "gs_1",
+        "text": "深空黑暗与星光基调：深空暗部、密集星点与深蓝黑星云构成背光与微弱辉光；舰桥内部冷色低调照明，人物始终为背光剪影。"
+      },
+      {
+        "id": "gs_2",
+        "text": "电影预告片式整体包装：冷色科幻质感、强反差光效、标题作为画面顶层持续存在的包装元素，始终压在画面暗部之上。"
+      }
+    ],
+    "audio_requirements": [
+      {
+        "id": "au_1",
+        "text": "用户未指定音乐、对白、歌词、静音或参考音轨；任务要求 generate_audio=true，因此音频由自主补全：与硬切节奏、舰桥震动、强光爆闪和跃迁冲击精确同步的预告片式声景与画外配乐，全片无对白。"
+      }
+    ]
+  },
+  "must_keep": [
+    "舰桥观察舱内部结构、女性背对剪影（深色马尾、黑色长款制服、双手撑栏杆、居中立于窗前、面部不可见）与舷窗外深空星云及舰队的身份特征。",
+    "两行标题原文 \"THE LAST FLEET LEFT EARTH\" 与 \"SHE WAS NOT ON BOARD\"，以及宽字距大写排版。",
+    "字体不纯白、克制发光、材质感与微弱边缘辉光的质感要求。",
+    "五项文字动效：从深空暗部渐入、被星光扫亮、字距展开、残影、黑场闪现。",
+    "五项节奏与效果：更快节奏、快速硬切、舰桥震动、强光爆闪、短黑场、跃迁冲击。",
+    "15 秒时长、16:9 画幅、生成音频；深空黑暗与星光基调贯穿全片。"
+  ],
+  "bindings": [
+    {
+      "asset_id": "image_1",
+      "role": "视觉参考来源：为舰桥观察舱、女性剪影、深空舰队与标题排版提供身份、环境与文字外观；不作首帧、尾帧或固定关键帧锚点（用户未指定），因此不锁定参考图整体构图作为某一时刻画面。",
+      "retained_attributes": [
+        "舰桥观察舱：大型矩形金属舷窗与厚重窗框、窗台栏杆、条状反光金属地板、冷色低调照明。",
+        "女性剪影：背对镜头、深色束起马尾、黑色长款制服外套（肩章与腰带）、双手撑在窗台栏杆、居中。",
+        "深空环境：深蓝黑星云带、密集星点、冷色调、提供背光与边缘辉光。",
+        "舰队：暗色舰体、微弱舷窗灯光、两艘大型主力舰居中左右、多艘小型飞船散布。",
+        "标题：两行原文、宽字距大写无衬线排版、灰白偏冷非纯白、材质感与微弱边缘辉光。"
+      ],
+      "optional_inherited_attributes": [
+        "中心对称构图与舷窗形成的嵌套框架（可在结尾镜头自然回到近似构图）。",
+        "窗台高光与金属地板条状反光的具体位置关系。",
+        "舰队左右平衡的分布关系（跃迁前保持，跃迁后允许打破）。"
+      ],
+      "excluded_attributes": [
+        "把参考图整体作为某一镜头的首帧、尾帧或固定构图锚点。",
+        "把参考图中已完整成形的两行标题与仍在原位的舰队当作最终画面状态。",
+        "参考图中标题的静态发光强度作为全片恒定值。"
+      ],
+      "exclusion_reasons": [
+        "用户未指定参考图为首帧或尾帧，按参考生成处理，不锁定整幅画面。",
+        "用户要求标题从深空暗部渐入并经历字距展开、残影、黑场闪现，且要求舰队跃迁离开，完整成形标题与原地舰队只属于参考图状态，不能作为结局。",
+        "静态图无法确认发光强度与动效，发光需按用户要求在全片动态变化。"
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_1",
+      "source_content_event_ids": [
+        "ce_1"
+      ],
+      "visible_change": "画面从近乎全黑开始：舷窗外深空星云与星点先被看见，舰桥观察舱的舷窗框、窗台栏杆与反光地板随后以冷色轮廓从暗部浮现；女性剪影背对镜头居中立在窗前，双手撑在栏杆上望向窗外；窗外舰队引擎灯光开始微亮并搏动。",
+      "outcome": "起始状态确立：人物位于舷窗前、舰队位于窗外深空中，舱内处于震动前的相对静止，仅有栏杆与地板的微弱起振。"
+    },
+    {
+      "id": "dev_2",
+      "source_content_event_ids": [
+        "ce_2",
+        "ce_3"
+      ],
+      "visible_change": "船体震动迅速加剧，栏杆、地板与舱壁结构明显抖动，人物下压重心、双手撑死栏杆撑住身体；同时舷窗外舰队引擎点火，白蓝色强光以脉冲形式反复爆发并冲刷舱内，人物剪影被强光反复边缘提亮、地板被照成亮面，脉冲之间舱内重新落回黑暗。",
+      "outcome": "舱体在剧烈震动中继续被冲击，人物被固定在舷窗前未脱离栏杆；强光脉冲不再回落，亮度持续抬升，为跃迁冲击蓄势。"
+    },
+    {
+      "id": "dev_3",
+      "source_content_event_ids": [
+        "ce_4"
+      ],
+      "visible_change": "跃迁引擎全开，致盲级白蓝色爆闪与整体冲击同时爆发，全舰桥被白光淹没到近乎全白，船体剧烈震荡、画面猛然俯仰，人物被抛向前方撞向栏杆但仍双手抓住不放；随后爆闪向内塌缩回舷窗方向、只剩一圈正在熄灭的光环。",
+      "outcome": "跃迁冲击完成：舱内亮度塌回黑暗，人物仍抓住栏杆、未被抛离舷窗位置。"
+    },
+    {
+      "id": "dev_4",
+      "source_content_event_ids": [
+        "ce_4"
+      ],
+      "visible_change": "震动回落为残余抖动，舱内冷色低调照明恢复、地板高光重新稳定；舷窗外星云与星点不变，但舰队已离开原有位置，只留下两道正在退去的尾迹与残余辉光；人物撑起身体、重新站直，双手仍搭在栏杆上，抬头望向空出的深空。",
+      "outcome": "结尾状态：舰队消失于深空，人物独自留在舰桥舷窗前，舱内恢复稳定冷色低调照明。"
+    }
+  ],
+  "shots": [
+    {
+      "id": "shot_1",
+      "development_ids": [
+        "dev_1"
+      ],
+      "content_purpose": "建立深空黑暗与舰桥起始状态，并让第一行标题从暗部渐入、被星光扫亮、字距展开。",
+      "treatment_ids": [
+        "et_1",
+        "et_4",
+        "et_5",
+        "et_6",
+        "et_7",
+        "et_8",
+        "et_9"
+      ],
+      "start_seconds": 0.0,
+      "end_seconds": 3.0,
+      "description": "The shot opens in near-total darkness: only the dense star points and the dark blue-black nebula band of <Subject 3> are visible through the glass, and <Subject 1>'s window frame, sill railing and reflective floor emerge as dim cold contours. The camera pushes in with small amplitude at slow speed toward the window. <Subject 2> stands centered at the railing as a backlit silhouette, both hands on the bar, her dark ponytail and long black coat barely separated from the star field, her face never shown. High in the dark upper region of the frame the first line of <Subject 4>, \"THE LAST FLEET LEFT EARTH\", fades in out of the surrounding darkness, at first barely brighter than the void; a soft pass of starlight then sweeps across the letterforms from left to right and lifts them into their textured cool grey-white finish with restrained self-illumination and a faint edge glow, and as the sweep passes, the letter-spacing expands outward until the line is fully wide-tracked with a thin afterimage trailing behind the letters. Beyond the glass, the drive lights of <Subject 3>'s fleet brighten and begin to pulse. In the final half-second the railing and floor start to vibrate faintly under her hands and the title letters tremble slightly with the deck."
+    },
+    {
+      "id": "shot_2",
+      "development_ids": [
+        "dev_2"
+      ],
+      "content_purpose": "快速硬切到人物背后，看清舰桥震动如何作用于人物与舱内结构。",
+      "treatment_ids": [
+        "et_1",
+        "et_2"
+      ],
+      "start_seconds": 3.0,
+      "end_seconds": 4.4,
+      "description": "At 00:03.000, the camera cuts hard to a medium-close view from behind <Subject 2>: her back and shoulders fill the left of the frame with the railing and window beyond, and the deck starts to shake, the camera shaking slightly as the metal railing, floor panels and hull ribs judder visibly, creaking and rattling under the low room hum. She drops her weight and presses both hands down onto the railing, bracing against it as the shudder grows, her ponytail and coat hem swinging with the vibration. Cold light strobing from outside begins to flick across her back and across the reflective floor. She holds her braced position to the end of the shot."
+    },
+    {
+      "id": "shot_3",
+      "development_ids": [
+        "dev_2"
+      ],
+      "content_purpose": "看见舰队引擎点火与强光爆闪对舰桥内部的反复冲刷。",
+      "treatment_ids": [
+        "et_1",
+        "et_2"
+      ],
+      "start_seconds": 4.4,
+      "end_seconds": 5.9,
+      "description": "At 00:04.400, the shot cuts hard to a view through the window past her shoulder: the two large capital ships of <Subject 3> ignite their drives and bursts of white-blue light flare out of their dark hulls in strobing pulses with a rising energy whine that cracks with each pulse. Each burst floods the bridge interior in a hard flash, rim-lighting <Subject 2>'s silhouette from the front, blowing the metal floor into a bright reflective sheet and throwing long window-frame shadows across the deck, then drops back into darkness between pulses. The camera shakes slightly with the hull. She braces harder, arms locked on the railing. Toward the end of the shot the pulses stop falling back and the light keeps rising, flooding the frame as the shot ends."
+    },
+    {
+      "id": "shot_4",
+      "development_ids": [
+        "dev_2"
+      ],
+      "content_purpose": "以极近特写看清手部在震动与爆闪下的反应，并用标题残影强化爆闪。",
+      "treatment_ids": [
+        "et_1",
+        "et_2",
+        "et_9"
+      ],
+      "start_seconds": 5.9,
+      "end_seconds": 6.7,
+      "description": "At 00:05.900, the shot cuts hard to an extreme close-up of <Subject 2>'s hands on the railing: the metal vibrates under her palms, her fingers tighten and her knuckles press against the bar as the bright pulses sweep across the metal from the window side, flicking the railing's cold highlight on and off. A faint afterimage of the first title line drifts across the dark metal surface and trails away. At the end of the shot the pulsing light collapses and the metal drops to near-darkness."
+    },
+    {
+      "id": "shot_5",
+      "development_ids": [
+        "dev_3"
+      ],
+      "content_purpose": "短黑场之后承接跃迁冲击：致盲爆闪、整体剧烈冲击与人物被抛向栏杆。",
+      "treatment_ids": [
+        "et_1",
+        "et_2",
+        "et_3"
+      ],
+      "start_seconds": 6.7,
+      "end_seconds": 8.6,
+      "description": "At 00:06.700, the frame cuts to the brief black frame, holds for an instant, then strikes back in on the warp impact: a blinding white-blue burst erupts from the fleet's drives and floods the entire bridge to near-white, the whole deck jolts violently, the camera shakes strongly and the frame pitches as railing and floor highlights blow out, and <Subject 2> is thrown forward into the railing but keeps both hands locked on it, her silhouette swallowed by the burst for a fraction of a second. A huge low detonation lands with the burst, with a sharp upper crack over it. The burst then implodes back toward the window, leaving a collapsing ring of light, and the frame falls into the brief black frame again."
+    },
+    {
+      "id": "shot_6",
+      "development_ids": [
+        "dev_4"
+      ],
+      "content_purpose": "跃迁之后：舱体回落稳定、舰队消失只剩尾迹，人物重新站直望向前方空出的深空。",
+      "treatment_ids": [
+        "et_1",
+        "et_2",
+        "et_3"
+      ],
+      "start_seconds": 8.6,
+      "end_seconds": 11.2,
+      "description": "At 00:08.600, the black frame holds for a beat and then the image strikes back: the deck is settling, residual shudders running through the railing and floor with soft ticking of cooling metal and a thinner room hum. Through the glass, <Subject 3>'s star field and nebula are unchanged, but the fleet is gone from its positions, leaving only two thin drive trails and a fading afterglow receding into the dark. <Subject 2> pushes herself up off the railing, straightens her back, keeps both hands on the bar and lifts her head to look out into the emptied space; the cold low-key interior light returns and the floor highlights steady, with a few residual light streaks still running along the metal. The camera pulls out with small amplitude at slow speed, holding her centered in the window frame."
+    },
+    {
+      "id": "shot_7",
+      "development_ids": [
+        "dev_4"
+      ],
+      "content_purpose": "第二行标题从暗部渐入、被星光扫亮、字距展开，并在短黑场中闪现一次。",
+      "treatment_ids": [
+        "et_1",
+        "et_2",
+        "et_4",
+        "et_5",
+        "et_6",
+        "et_7",
+        "et_8",
+        "et_9",
+        "et_10"
+      ],
+      "start_seconds": 11.2,
+      "end_seconds": 13.2,
+      "description": "At 00:11.200, the shot cuts hard to a wider view from further back inside the deck, so that <Subject 1>'s window frame nests around <Subject 2>, who is now small at the center of the frame as a silhouette against the deep-space darkness. The camera pushes in with small amplitude at slow speed. From the dark region across the middle of the frame the second line of <Subject 4>, \"SHE WAS NOT ON BOARD\", fades in out of the darkness; a pass of starlight sweeps across the letterforms and lights them, and the tracking widens until the line is fully wide-tracked, with ghost trails dragging behind each letter. As the line completes, the title flashes against the brief black frame, dropping out for a single instant of complete black and striking back fully lit, and then it holds."
+    },
+    {
+      "id": "shot_8",
+      "development_ids": [
+        "dev_4"
+      ],
+      "content_purpose": "收在宽字距双行标题与人物剪影的最终画面，并以短黑场结束。",
+      "treatment_ids": [
+        "et_1",
+        "et_3",
+        "et_4",
+        "et_5",
+        "et_9"
+      ],
+      "start_seconds": 13.2,
+      "end_seconds": 15.0,
+      "description": "At 00:13.200, the frame cuts to the brief black frame and returns on a centered, symmetrical wide of <Subject 1>: <Subject 2> stands at the railing in silhouette, the deep-space star field and nebula of <Subject 3> fill the window with the fleet's faint receding trails, and both lines of <Subject 4>, \"THE LAST FLEET LEFT EARTH\" and \"SHE WAS NOT ON BOARD\", are held in the upper part of the frame in wide-tracked cool grey-white letterforms with material texture, restrained glow and a faint edge glow, a last faint afterimage drifting off the letters. The camera holds a static shot with only a very slow drift. In the final fractions of a second the title and image hold, then the frame cuts to the brief black frame and the video ends there."
+    }
+  ]
+}

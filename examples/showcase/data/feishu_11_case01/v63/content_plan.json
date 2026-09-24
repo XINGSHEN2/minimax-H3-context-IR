@@ -1,0 +1,312 @@
+{
+  "task_mode": "ref2va",
+  "creative_brief": {
+    "user_locked": [
+      "四张参考图按图1→图2→图3→图4的顺序作为连续关键帧出现，不得重排、增删或替换关键帧。",
+      "全程固定双圆镜片遮罩：黑色羽化暗角，位置、大小与边缘虚化绝对一致，无变形无漂移，仅遮罩内部画面运动。",
+      "片头为虚焦手持晃动，随后快速拉近并结合 rack focus 清晰落到图1。",
+      "关键帧之间使用望远镜扫视转场：甩动、运动模糊、光学拖影、曝光闪烁，在最模糊处切换，随后迅速稳定并重新对焦到下一关键帧。",
+      "红字注释随对焦加载：初现略虚焦、低透明度，0.3–0.5 秒内随对焦淡入变清晰，切换前淡出或被运动模糊带走。",
+      "图2布料在克制的风中飘动，MINIMAX 字样随布面起伏保持可读。",
+      "图3人物如无意捕捉的时尚路人自然走动、转身、摆臂。",
+      "图4人物调整眼镜或微抬下巴，呈现冷感松弛的 fashion campaign 态度。",
+      "Wes Anderson 式窥视 35mm 胶片质感：轻微颗粒、柔和高光晕染、克制色彩、红字点缀；极简高级、微带搞怪灵动。",
+      "保持原图核心构图与 MINIMAX 装置不变；严禁新增人物、车辆、建筑与 logo；禁红字旋转、弹跳或大幅飞入飞出。"
+    ],
+    "reference_anchors": [
+      "image_1–image_4 共同提供四个关键帧的核心构图、双圆遮罩形态、暖调胶片影调与红字注释版式。",
+      "image_1 提供暖色斜阳候车亭场景、顶棚与墙面 MINIMAX 字样及绿色路牌。",
+      "image_2 提供仰拍高楼与白色长条布料旗帜、竖排 MINIMAX 字样与底部红色翻面。",
+      "image_3 提供屋顶人物装束（米色西装、黑色双筒望远镜、红色肩带包）与背景建筑竖排 MINIMAX 字样。",
+      "image_4 提供红框几何眼镜面部特写与右镜片内 MINIMAX 反射。"
+    ],
+    "open_design": [
+      "各次扫视甩动的方向、幅度与模糊持续时长，以及每个关键帧对焦落定与红字渐变的具体时刻。",
+      "布料飘动幅度与节奏、人物行走步数与转身幅度、调整眼镜的手部细节与下巴抬起程度。",
+      "环境声与画外配乐的具体内容（用户未指定音乐或对白）。"
+    ]
+  },
+  "requirement_map": {
+    "content_events": [
+      {
+        "id": "ce_1",
+        "text": "开头虚焦手持晃动，随后快速拉近并结合 rack focus 清晰落到图1（d_7、d_8）。"
+      },
+      {
+        "id": "ce_2",
+        "text": "图2布料随风克制飘动，MINIMAX 文字随布面起伏保持可读（d_12、d_13）。"
+      },
+      {
+        "id": "ce_3",
+        "text": "图3人物如无意捕捉的时尚路人自然走动、转身、摆臂（d_14）。"
+      },
+      {
+        "id": "ce_4",
+        "text": "图4人物调整眼镜或微抬下巴，展现冷感松弛的 fashion campaign 态度（d_15、d_16）。"
+      },
+      {
+        "id": "ce_5",
+        "text": "望远镜依次扫过四张关键帧，顺序固定为图1→图2→图3→图4（d_6）。"
+      }
+    ],
+    "editing_treatments": [
+      {
+        "id": "et_1",
+        "text": "图间望远镜扫视转场：甩动、运动模糊、光学拖影、曝光闪烁，在最模糊处切换并迅速稳定重新对焦（d_9、d_10）。"
+      },
+      {
+        "id": "et_2",
+        "text": "全程固定双圆镜片遮罩：黑色羽化暗角，位置大小边缘虚化绝对一致，无变形漂移，仅内部画面运动（d_11）。"
+      },
+      {
+        "id": "et_3",
+        "text": "红字随对焦加载：初现略虚焦低透明度，0.3–0.5 秒内淡入变清晰，切换前淡出或被运动模糊带走（d_17、d_18）。"
+      },
+      {
+        "id": "et_4",
+        "text": "红字可带微小纵向滑入或字距呼吸（软性可选，d_19）。"
+      },
+      {
+        "id": "et_5",
+        "text": "禁止红字旋转、弹跳或大幅飞入飞出（d_20）。"
+      },
+      {
+        "id": "et_6",
+        "text": "严禁新增人物、车辆、建筑、logo（d_23）。"
+      }
+    ],
+    "global_style": [
+      {
+        "id": "gs_1",
+        "text": "Wes Anderson 式窥视 35mm 胶片质感：轻微颗粒、柔和高光晕染、克制色彩、红字点缀（d_21）。"
+      },
+      {
+        "id": "gs_2",
+        "text": "极简高级、微带搞怪灵动的整体调性（d_22）。"
+      },
+      {
+        "id": "gs_3",
+        "text": "保持原图核心构图与 MINIMAX 装置不变（d_1–d_5）。"
+      }
+    ],
+    "audio_requirements": [
+      {
+        "id": "au_1",
+        "text": "开启音频生成；用户未指定对白、歌词或音乐，环境声与画外配乐由可见动作与风格推导。无可用音频分析，不声称听过任何素材声音。"
+      }
+    ]
+  },
+  "must_keep": [
+    "四关键帧顺序（图1→图2→图3→图4）与各自核心构图",
+    "固定双圆镜片遮罩的位置、大小、边缘虚化绝对一致",
+    "各图中 MINIMAX 装置与字样的呈现方式",
+    "红字注释原文与版式（由对应 Picture 锁定）",
+    "35mm 胶片质感与克制的窥视风格",
+    "禁止新增人物、车辆、建筑、logo，禁止红字旋转弹跳大幅飞入飞出"
+  ],
+  "bindings": [
+    {
+      "asset_id": "image_1",
+      "role": "[Shot 1] 的落定关键帧与构图基准，提供候车亭场景身份",
+      "retained_attributes": [
+        "遮罩内候车亭核心构图",
+        "暖色低角度斜阳与长阴影",
+        "顶棚与墙面 MINIMAX 字样",
+        "左侧绿色路牌",
+        "两条红字注释的原文与版式"
+      ],
+      "optional_inherited_attributes": [
+        "推近与对焦过程中暖光的连续晕染与镜头呼吸感"
+      ],
+      "excluded_attributes": [
+        "新增人物、车辆、建筑与 logo"
+      ],
+      "exclusion_reasons": [
+        "用户 d_23 明确排除"
+      ]
+    },
+    {
+      "asset_id": "image_2",
+      "role": "[Shot 2] 的落定关键帧，提供布料旗帜与楼面场景身份",
+      "retained_attributes": [
+        "仰拍高楼与竖向布料旗帜的核心构图",
+        "竖排 MINIMAX 字样及其可读性",
+        "布料材质与底部红色翻面",
+        "两条红字注释的原文与版式"
+      ],
+      "optional_inherited_attributes": [
+        "布料在克制风力下的起伏幅度与褶皱变化节奏"
+      ],
+      "excluded_attributes": [
+        "新增人物、车辆、建筑与 logo",
+        "与图1场景的空间连续性假设"
+      ],
+      "exclusion_reasons": [
+        "用户 d_23 明确排除",
+        "素材未提供两图共享同一空间位置的证据"
+      ]
+    },
+    {
+      "asset_id": "image_3",
+      "role": "[Shot 3] 的落定关键帧，提供屋顶人物与背景建筑身份",
+      "retained_attributes": [
+        "人物居左、建筑居右的核心构图",
+        "米色西装、白色内搭、红色肩带包与黑色双筒望远镜",
+        "背景建筑竖排 MINIMAX 字样与屋顶矮墙",
+        "两条红字注释的原文与版式"
+      ],
+      "optional_inherited_attributes": [
+        "行走步数、转身幅度与摆臂节奏（不改变装束与核心构图）"
+      ],
+      "excluded_attributes": [
+        "与图4人物的跨图同一身份绑定",
+        "新增人物、车辆、建筑与 logo"
+      ],
+      "exclusion_reasons": [
+        "person_1 与 person_2 是否同一模特在素材中未确认",
+        "用户 d_23 明确排除"
+      ]
+    },
+    {
+      "asset_id": "image_4",
+      "role": "[Shot 4] 的落定关键帧与结尾滞留画面，提供特写人物与眼镜身份",
+      "retained_attributes": [
+        "面部大特写偏右的核心构图",
+        "红色几何框眼镜与银色大耳环",
+        "右镜片内 MINIMAX 反射",
+        "冷感松弛的表情",
+        "两条红字注释的原文与版式"
+      ],
+      "optional_inherited_attributes": [
+        "调整眼镜的手部动作幅度与下巴抬起程度"
+      ],
+      "excluded_attributes": [
+        "与图3人物或背景建筑的同一性绑定",
+        "新增人物、车辆、建筑与 logo"
+      ],
+      "exclusion_reasons": [
+        "跨图身份与背景同一性在素材中未确认",
+        "用户 d_23 明确排除"
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_1",
+      "source_content_event_ids": [
+        "ce_1",
+        "ce_5"
+      ],
+      "visible_change": "画面在固定双圆遮罩内以完全虚焦的手持晃动开场，随后镜头快速推近并结合 rack focus，把画面清晰落在图1核心构图；图1的红字注释以略虚焦、低透明度状态随对焦在约 0.4 秒内渐显为清晰文字。",
+      "outcome": "图1构图清晰稳定，红字注释可读，画面在望远镜扫视起始前保持稳定。"
+    },
+    {
+      "id": "dev_2",
+      "source_content_event_ids": [
+        "ce_2",
+        "ce_5"
+      ],
+      "visible_change": "画面自上一次扫视的最大模糊迅速稳定并重新对焦到图2核心构图；悬挂在楼面的白色布料旗帜在克制的风中缓慢起伏飘动，布面褶皱依次变化，竖排 MINIMAX 字样随布面起伏仍保持可读；图2红字注释随对焦渐显清晰。",
+      "outcome": "图2清晰稳定，布料持续小幅飘动，MINIMAX 字样保持可读。"
+    },
+    {
+      "id": "dev_3",
+      "source_content_event_ids": [
+        "ce_3",
+        "ce_5"
+      ],
+      "visible_change": "画面自最大模糊迅速稳定并重新对焦到图3核心构图；屋顶人物把手从口袋抽出、转身沿矮墙自然行走数步并回身，手臂随身势自然摆动，动作像无意捕捉的时尚路人；图3红字注释随对焦渐显清晰。",
+      "outcome": "图3清晰稳定，人物停在转身后的新姿态，装束、背景建筑与 MINIMAX 字样不变。"
+    },
+    {
+      "id": "dev_4",
+      "source_content_event_ids": [
+        "ce_4",
+        "ce_5"
+      ],
+      "visible_change": "画面自最大模糊迅速稳定并重新对焦到图4核心构图；人物抬手调整红色几何框眼镜，随后微抬下巴，呈现冷感松弛的 fashion campaign 表情，镜片内 MINIMAX 反射保持不变；图4红字注释随对焦渐显清晰。",
+      "outcome": "图4面部特写构图稳定保持到 15 秒结束，红字注释清晰可见。"
+    }
+  ],
+  "shots": [
+    {
+      "id": "shot_1",
+      "development_ids": [
+        "dev_1"
+      ],
+      "content_purpose": "以虚焦手持开场，快速推近并用 rack focus 落到图1，红字随对焦渐显清晰，随后甩动模糊离场",
+      "treatment_ids": [
+        "et_1",
+        "et_2",
+        "et_3",
+        "et_4",
+        "et_5",
+        "et_6",
+        "gs_1",
+        "gs_2"
+      ],
+      "start_seconds": 0.0,
+      "end_seconds": 3.6,
+      "description": "The video opens completely out of focus inside <Subject 1>, the sunlit shelter street of <Picture 1> dissolved into soft warm blobs while the frame trembles with a handheld shake. The lens pushes in fast with a rack focus and the image resolves into sharp definition onto the framing of <Picture 1> by 00:02.400, keeping the original wording and layout of its signage and of its two red annotation lines, with a soft click from the focusing barrel as the image snaps sharp. Those red lines come up from low opacity, still slightly soft, and sharpen with the last part of the focus pull over roughly 0.4 s, fully clear by 00:02.900 with only a few pixels of upward drift and no rotation, bounce or large travel. At 00:03.200 the lens whips up and to the right at fast speed, motion blur and a faint optical smear build across the shelter, the red lines are carried away by the blur, and the frame reaches maximum blur at 00:03.600."
+    },
+    {
+      "id": "shot_2",
+      "development_ids": [
+        "dev_2"
+      ],
+      "content_purpose": "自最大模糊迅速稳定并重新对焦到图2，布料克制飘动且 MINIMAX 字样保持可读，红字随对焦渐显，随后甩动模糊离场",
+      "treatment_ids": [
+        "et_1",
+        "et_2",
+        "et_3",
+        "et_4",
+        "et_5",
+        "et_6",
+        "gs_1",
+        "gs_2"
+      ],
+      "start_seconds": 3.6,
+      "end_seconds": 7.2,
+      "description": "At 00:03.600, the shot begins still at maximum blur, the inner frame a smeared sweep of pale façades and sky, and the handheld movement settles as the lens stops its tilt; the rack focus resolves by 00:04.700 onto the framing of <Picture 2>. The white cloth banner hanging down the façade drifts and undulates in a restrained wind, its folds deepening and releasing in slow small waves from top to bottom, and its vertical MINIMAX lettering stays legible and undistorted as the surface ripples beneath it, with the low flapping of the cloth audible. The two red annotation lines of <Picture 2> fade up from low opacity, still slightly soft, and become fully sharp with the last part of the focus pull by 00:05.100, drifting up only a few pixels. At 00:06.800 the lens whips down and to the right at fast speed, the banner smears into streaks together with the red lines, and maximum blur lands at 00:07.200."
+    },
+    {
+      "id": "shot_3",
+      "development_ids": [
+        "dev_3"
+      ],
+      "content_purpose": "自最大模糊迅速稳定并重新对焦到图3，人物自然走动转身摆臂，红字随对焦渐显，随后甩动推近模糊离场",
+      "treatment_ids": [
+        "et_1",
+        "et_2",
+        "et_3",
+        "et_4",
+        "et_5",
+        "et_6",
+        "gs_1",
+        "gs_2"
+      ],
+      "start_seconds": 7.2,
+      "end_seconds": 11.0,
+      "description": "At 00:07.200, the shot begins still at maximum blur, a smeared rooftop and skyline, and the movement settles as the rack focus resolves by 00:08.400 onto the framing of <Picture 3>. The woman pulls her hand from her pocket, turns her torso, walks a few natural steps along the low concrete wall and turns back partway, her arms swinging loosely at her sides and her hair shifting with the turns, like a candidly captured fashion passerby, her footsteps tapping on the concrete; the telescope tracks her with small amplitude so she stays centred while the rooftop and the MINIMAX building behind her keep their framing. The two red annotation lines of <Picture 3> load from low opacity and sharpen with the focus pull by 00:08.800. At 00:10.600 the lens whips right and pushes in at fast speed, the figure and rooftop streaking into the blur, and maximum blur lands at 00:11.000."
+    },
+    {
+      "id": "shot_4",
+      "development_ids": [
+        "dev_4"
+      ],
+      "content_purpose": "自最大模糊迅速稳定并重新对焦到图4，人物调整眼镜并微抬下巴，红字随对焦渐显并保持到结尾",
+      "treatment_ids": [
+        "et_2",
+        "et_3",
+        "et_4",
+        "et_5",
+        "et_6",
+        "gs_1",
+        "gs_2"
+      ],
+      "start_seconds": 11.0,
+      "end_seconds": 15.0,
+      "description": "At 00:11.000, the shot begins still at maximum blur, a smeared close-up of warm skin and pale sky, and the movement settles as the rack focus resolves by 00:12.200 onto the framing of <Picture 4>. The woman lifts one hand to the red geometric frame of her glasses and adjusts them at the bridge, then lowers her hand and slightly raises her chin, holding a cool, relaxed fashion-campaign expression while the MINIMAX reflection inside her right lens stays as depicted and a light rustle of fabric and hair accompanies the movement. The two red annotation lines of <Picture 4> load from low opacity and sharpen with the focus pull by 00:12.600, staying sharp to the final frame, which holds unchanged until 00:15.000."
+    }
+  ]
+}

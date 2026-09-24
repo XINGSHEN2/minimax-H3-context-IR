@@ -1,0 +1,323 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "15-second duration, 16:9 horizontal frame, audio generated.",
+      "image_1 supplies the video's overall texture and atmosphere.",
+      "image_2 supplies the protagonist's appearance.",
+      "Protagonist consistency: long platinum blonde hair, narrow black retro sunglasses, black high-gloss patent leather trench coat, cool and confident fashion expression.",
+      "Orange firelight reflected on the patent leather coat surface.",
+      "Nighttime fire scene with black smoke and orange-red flames.",
+      "Film-look fast-cut fashion commercial with VHS glitch, CCTV broadcast interruption, 90s analog film grain, scan lines, chromatic aberration, light leaks, flash-white transitions and slight camera shake."
+    ],
+    "reference_anchors": [
+      "From image_1: fire-lit night frame with orange-red flames, drifting black smoke, a strong orange light-leak bloom, analog and VHS artifacts, and broadcast-interruption graphics as the atmosphere target.",
+      "From image_2: the full head-to-toe styling of the single protagonist, covering hair, eyewear, belted patent leather trench coat and pointed high-heeled boots, kept as one consistent identity in every shot."
+    ],
+    "open_design": [
+      "The specific beat sequence inside the 15 seconds: head tilt in the firelight, gaze into the lens, walk toward the camera, the sunglasses gesture, the final held pose.",
+      "The number and placement of cuts inside the fast-cut rhythm, and which boundaries use flash-white transitions.",
+      "When the CCTV broadcast-interruption overlay cuts in and how long it stays on screen.",
+      "All sound design and music, since the user specified none."
+    ]
+  },
+  "requirement_map": {
+    "content_events": [
+      {
+        "id": "ce_1",
+        "text": "The protagonist appears on screen in a nighttime fire scene wearing long platinum blonde hair, narrow black retro sunglasses, a black high-gloss patent leather trench coat, with a cool, confident fashion expression.",
+        "directive_ids": [
+          "d_2",
+          "d_3",
+          "d_4",
+          "d_5"
+        ]
+      },
+      {
+        "id": "ce_2",
+        "text": "Orange firelight reflects on the patent leather coat surface in fire-lit coverage.",
+        "directive_ids": [
+          "d_6"
+        ]
+      },
+      {
+        "id": "ce_3",
+        "text": "The video takes place in a nighttime fire scene with black smoke and orange-red flames.",
+        "directive_ids": [
+          "d_8",
+          "d_9"
+        ]
+      }
+    ],
+    "editing_treatments": [
+      {
+        "id": "et_1",
+        "text": "Fast-cut fashion-commercial rhythm across the 15 seconds.",
+        "directive_ids": [
+          "d_11"
+        ]
+      },
+      {
+        "id": "et_2",
+        "text": "VHS glitch artifacts on the cuts and over the image.",
+        "directive_ids": [
+          "d_7"
+        ]
+      },
+      {
+        "id": "et_3",
+        "text": "CCTV broadcast-interruption visuals.",
+        "directive_ids": [
+          "d_7"
+        ]
+      },
+      {
+        "id": "et_4",
+        "text": "Flash-white transitions.",
+        "directive_ids": [
+          "d_12"
+        ]
+      },
+      {
+        "id": "et_5",
+        "text": "Slight camera shake.",
+        "directive_ids": [
+          "d_10"
+        ]
+      },
+      {
+        "id": "et_6",
+        "text": "15-second duration in a 16:9 horizontal frame.",
+        "directive_ids": [
+          "d_13"
+        ]
+      }
+    ],
+    "global_style": [
+      {
+        "id": "gs_1",
+        "text": "Overall texture and atmosphere transferred from image_1: fire-lit night, warm orange bloom, analog film look.",
+        "directive_ids": [
+          "d_1"
+        ]
+      },
+      {
+        "id": "gs_2",
+        "text": "Film-look fashion-commercial treatment.",
+        "directive_ids": [
+          "d_7"
+        ]
+      },
+      {
+        "id": "gs_3",
+        "text": "90s analog film grain, scan lines, chromatic aberration and light leaks throughout.",
+        "directive_ids": [
+          "d_7"
+        ]
+      }
+    ],
+    "audio_requirements": [
+      {
+        "id": "ar_1",
+        "text": "generate_audio is true; the user requested no dialogue, lyrics or specific music, so the fire-scene soundscape and the audience-only score are designed to fit the commercial's style.",
+        "directive_ids": []
+      }
+    ]
+  },
+  "task_mode": "ref2va",
+  "must_keep": [
+    "15-second duration and 16:9 horizontal frame",
+    "Protagonist identity: long platinum blonde hair, narrow black retro sunglasses, black high-gloss patent leather trench coat, cool and confident fashion expression",
+    "Orange firelight reflections on the patent leather coat surface",
+    "Nighttime fire scene with black smoke and orange-red flames",
+    "Film-look fast-cut fashion-commercial treatment with 90s analog film grain, scan lines, chromatic aberration, light leaks, VHS glitch and CCTV broadcast-interruption visuals",
+    "Flash-white transitions",
+    "Slight camera shake"
+  ],
+  "bindings": [
+    {
+      "asset_id": "image_1",
+      "role": "Overall texture and atmosphere reference, transferred into the fire-scene look; not used as a locked frame anchor.",
+      "retained_attributes": [
+        "Nighttime fire-scene atmosphere with orange-red flames and black smoke",
+        "Strong orange light-leak bloom and warm firelight domination",
+        "90s analog film grain, scan-line and VHS glitch texture",
+        "CCTV broadcast-interruption frame with the text \"BROADCAST: INTERRUPTION\" and the channel number \"27\""
+      ],
+      "optional_inherited_attributes": [
+        "Protagonist placed slightly right of center with her head tilted up",
+        "Graphics hugging the frame edges"
+      ],
+      "excluded_attributes": [
+        "image_1 as a locked first or last frame or as an exact frame match"
+      ],
+      "exclusion_reasons": [
+        "The image is a texture and atmosphere reference only; the target video is a moving 15-second sequence through the fire scene."
+      ]
+    },
+    {
+      "asset_id": "image_2",
+      "role": "Character-appearance reference for the protagonist: identity, hair, eyewear, outerwear and footwear; not used as a locked frame anchor.",
+      "retained_attributes": [
+        "Long, voluminous, outward-flipped platinum blonde hair",
+        "Narrow black retro sunglasses",
+        "Black high-gloss patent leather belted trench coat with lapels and deep V front",
+        "Black pointed high-heeled boots",
+        "Cool, confident fashion expression"
+      ],
+      "optional_inherited_attributes": [
+        "Hands-in-pocket stance",
+        "Head tilted up"
+      ],
+      "excluded_attributes": [
+        "White seamless studio background",
+        "Flat three-view side-by-side layout",
+        "Even studio lighting"
+      ],
+      "exclusion_reasons": [
+        "The target video takes place in the night fire scene under warm firelight, so the studio presentation is not carried over."
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dv_1",
+      "source_content_event_ids": [
+        "ce_1",
+        "ce_2",
+        "ce_3"
+      ],
+      "visible_change": "The protagonist is on screen inside the nighttime fire scene, standing slightly right of center with her head tilted up and away from the camera and both hands in the coat pockets, while black smoke drifts behind her and orange-red flames flare at the left and right edges and throw orange reflections across the patent leather coat.",
+      "outcome": "She is established in the fire scene, coat lit by firelight, still looking up and away from the camera."
+    },
+    {
+      "id": "dv_2",
+      "source_content_event_ids": [
+        "ce_1",
+        "ce_2"
+      ],
+      "visible_change": "She lowers her chin and turns her gaze straight into the camera, and an orange flame flare crosses the narrow sunglasses and the coat collar while she holds the cool, confident expression.",
+      "outcome": "She faces the camera directly, with firelight on the lenses and the patent leather."
+    },
+    {
+      "id": "dv_3",
+      "source_content_event_ids": [
+        "ce_1",
+        "ce_2",
+        "ce_3"
+      ],
+      "visible_change": "She walks forward toward the camera through drifting black smoke, the front panels of the coat swinging with each stride and the high-heeled boots striking the scorched ground, while the flames behind her rise higher and the smoke parts around her shoulders.",
+      "outcome": "She has moved closer to the camera through the smoke, still walking forward with the coat swinging."
+    },
+    {
+      "id": "dv_4",
+      "source_content_event_ids": [
+        "ce_1",
+        "ce_2"
+      ],
+      "visible_change": "She plants her final step and halts, lifts one hand out of the pocket to push the narrow sunglasses up the bridge of her nose, then drops the hand back into the pocket as the flames behind her flare and orange light washes across her shoulders and lapels.",
+      "outcome": "She stands still close to the camera, the coat settled around her and firelight on the patent leather."
+    },
+    {
+      "id": "dv_5",
+      "source_content_event_ids": [
+        "ce_1",
+        "ce_2"
+      ],
+      "visible_change": "She stays planted, raises her chin slightly and holds a cool, confident gaze into the camera, motionless apart from the drift of her hair while orange firelight travels across the patent leather and the sunglasses.",
+      "outcome": "Final held pose facing the camera as the video ends."
+    }
+  ],
+  "shots": [
+    {
+      "id": "shot_1",
+      "development_ids": [
+        "dv_1"
+      ],
+      "content_purpose": "Establish the protagonist, her locked look and the fire-scene atmosphere with the coat catching orange firelight.",
+      "treatment_ids": [
+        "et_5",
+        "et_6"
+      ],
+      "start_seconds": 0.0,
+      "end_seconds": 2.2,
+      "description": "The scene opens inside <Subject 2>; <Subject 1> stands slightly right of center with her head tilted up and away from the camera and both hands inside her coat pockets. Black smoke drifts behind her, orange-red flames flare up at the left and right edges, and orange firelight reflects across the patent leather of the coat while the light leak pulses brighter as the flames rise. The camera pushes in with small amplitude at slow speed."
+    },
+    {
+      "id": "shot_2",
+      "development_ids": [
+        "dv_2"
+      ],
+      "content_purpose": "Show her lowering her chin and locking eyes with the camera through the narrow sunglasses, with firelight on the lenses.",
+      "treatment_ids": [
+        "et_4",
+        "et_2",
+        "et_5"
+      ],
+      "start_seconds": 2.2,
+      "end_seconds": 4.4,
+      "description": "At 00:02.200, a flash-white transition cuts to a close-up of <Subject 1>'s face as a short burst of analog static rides the cut. She lowers her chin and turns her gaze straight into the lens behind the narrow black sunglasses; an orange flame flare crosses the lenses and the coat collar, chromatic aberration separates the edges of her silhouette, and she holds the cool, confident expression. The camera holds a static shot."
+    },
+    {
+      "id": "shot_3",
+      "development_ids": [
+        "dv_3"
+      ],
+      "content_purpose": "Show her walking toward the camera through black smoke with the coat swinging and the flames rising behind her.",
+      "treatment_ids": [
+        "et_1",
+        "et_2",
+        "et_5"
+      ],
+      "start_seconds": 4.4,
+      "end_seconds": 7.6,
+      "description": "At 00:04.400, a hard cut with a single-frame VHS glitch tear changes to a medium full shot as <Subject 1> walks toward the camera through drifting black smoke. The front panels of the coat swing with each stride, the flames behind her rise higher, and the smoke parts around her shoulders as she holds her hands in her pockets. The camera tracks backward at her pace, keeping her centered in the frame."
+    },
+    {
+      "id": "shot_4",
+      "development_ids": [
+        "dv_3"
+      ],
+      "content_purpose": "Show the boots and coat hem defined by the character reference as she strides through embers and smoke.",
+      "treatment_ids": [
+        "et_1",
+        "et_5"
+      ],
+      "start_seconds": 7.6,
+      "end_seconds": 9.6,
+      "cut_reason": "The boots and the patent leather hem only read at ground level; the walking medium-full shot cannot show them.",
+      "continuity_bridge": "She is mid-stride toward the camera at the end of [Shot 3] and continues the same walk into this low ground-level view, advancing toward the lens with the same direction and stride.",
+      "description": "At 00:07.600, a hard cut drops to a low-angle shot close to the ground: her black pointed high-heeled boots stride toward the lens through low smoke and glowing embers, and the patent leather hem of the coat swings across the lower frame as the ember light strokes the leather. The camera moves backward low to the ground at her walking pace."
+    },
+    {
+      "id": "shot_5",
+      "development_ids": [
+        "dv_4"
+      ],
+      "content_purpose": "Show the halt and the sunglasses gesture from the front, with the coat settling and the firelight washing over her shoulders and lapels.",
+      "treatment_ids": [
+        "et_4",
+        "et_5"
+      ],
+      "start_seconds": 9.6,
+      "end_seconds": 12.2,
+      "cut_reason": "The halt and the hand-to-sunglasses gesture need a front-facing framing that also shows the coat settling; the low ground-level view cannot show them.",
+      "continuity_bridge": "She is still walking toward the camera at the end of [Shot 4], so this shot resumes on her final step and carries that same forward motion into the halt, at eye level, with the smoke and ember light still around her.",
+      "description": "At 00:09.600, a flash-white transition cuts to a medium shot from the front as she plants her final step and stops. She lifts one hand out of her pocket and pushes the narrow sunglasses up the bridge of her nose, then drops the hand back into the pocket; the coat settles around her and the flames behind her flare brighter, washing orange light across her shoulders and lapels. The camera pushes in with small amplitude at slow speed."
+    },
+    {
+      "id": "shot_6",
+      "development_ids": [
+        "dv_5"
+      ],
+      "content_purpose": "Land the final held confident pose with firelight on the coat, as the CCTV broadcast-interruption overlay cuts in before the video ends.",
+      "treatment_ids": [
+        "et_2",
+        "et_3",
+        "et_5"
+      ],
+      "start_seconds": 12.2,
+      "end_seconds": 15.0,
+      "description": "At 00:12.200, the shot cuts to a medium close-up as <Subject 1> raises her chin slightly and holds her cool, confident gaze into the lens, motionless apart from the drift of her hair, while orange firelight travels across the patent leather and the sunglasses. The CCTV broadcast-interruption frame from <Subject 2>, with its interrupted-broadcast text and channel number, cuts in over the image on a burst of static and tears across the picture while she stays visible beneath it, and the video ends on that held pose."
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "model": "MiniMax-H3",
+  "content": [
+    {
+      "type": "text",
+      "text": "subject_definitions:\n<Subject 1> is the lone protagonist, a tall slender figure with dark mid-length hair, a black over-knee tailored coat over a black top and black trousers, and black lace-up platform boots, taking its identity from <Picture 2> and its small back-view staging from <Picture 1>.\n<Subject 2> is the environment of <Picture 1>: a giant circular gate of concentric metal rings that nearly fills the frame, its center an absolute unlit darkness, standing on wet, light-reflecting ground under cold, desaturated green-grey low-key light.\n\nsummary:\n[reference generation] The target video is a 15-second photorealistic, high-contrast cosmic teaser in which <Subject 1> stands as a tiny back-view figure before <Subject 2>, whose dark center never answers. <Picture 1> supplies the atmosphere, visual style and gate staging and <Picture 2> supplies the protagonist's identity; the opening ultra-wide shot ends on the fully sharp main title with the camera still pushing in, then cuts hard to a closer back view where the figure takes one slow step toward the darkness and stops.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1], [Shot 2]): fully_preserved - the identity anchors from <Picture 2> (dark mid-length hair, black over-knee tailored coat, black top and trousers, black lace-up platform boots, slender build) stay consistent; only the camera distance changes between the two shots.\n<Subject 2> (appears in [Shot 1], [Shot 2]): fully_preserved - the concentric ring structure, the absolute darkness at the center and the wet reflective ground stay unchanged; only the viewing distance changes.\n<Picture 1> (atmosphere, visual style and gate staging for [Shot 1] and [Shot 2]): partially_preserved - its photorealistic high-contrast low-key look, cold desaturated palette, wet ground reflections, dark gate center and small back-view figure staging carry over, while its poster layout, its centered figure position and its secondary lower copy are not reproduced.\n<Picture 2> (protagonist identity source for both shots): fully_preserved - the face, hair, coat, trousers, boots and build it defines remain the identity anchors of the figure, which is framed from behind in both shots; the white studio background is not used.\n\ndetailed_description:\nThe target video is photorealistic and cinematic, with high-contrast low-key lighting, a desaturated cold green-grey palette and a tight, hard-cutting rhythm, following the atmosphere and visual style of <Picture 1>.\n[Shot 1] An ultra-wide establishing shot: <Subject 2> nearly fills the frame, its concentric metal rings running past the frame edges and its center holding absolute, unlit darkness, while the wet ground below reflects the rings and the dark opening. <Subject 1> stands as a very small back-view figure in the lower part of the frame, offset to the right, motionless. The camera pushes in slowly with small amplitude toward the dark center, gradually enlarging the tiny silhouette against the rings. A deep low-frequency pulse runs under the shot with a faint metallic vibration ringing distantly above the gate. The main title reading \"THE STARS WERE LISTENING\" fades in from the edge of the darkness around 00:03.400, spreading outward across the frame with fogged, eroded edges and subtle grain, still blurred; at 00:05.800 it resolves to sharp, very narrow heavy all-caps lettering in dark red mixed with rust red, and one soft hit lands exactly at that moment. The push-in continues, holding the sharp title over the unlit center, until the shot cuts hard away.\n[Shot 2] At 00:08.000, the shot cuts hard to a tighter view from directly behind <Subject 1>, the figure now much larger but still low in the frame and slightly right of center, the coat fabric texture and the laces of the platform boots readable against the wet floor; the rings of <Subject 2> curve across the upper frame and its center stays in absolute darkness. A low draft lifts the coat hem and the hair, fine ripples spread across the wet ground, and a faint cold rim light creeps along the inner edges of the rings. The figure shifts weight and takes one slow step forward toward the gate, the boot landing with a soft wet sound and the coat hem swinging, then stops still. The camera follows with a slow low push-in, ending on the back of the figure with the unlit center of the gate directly ahead.\n\noverall_soundscape:\nA deep low-frequency pulse beats steadily through a wide, reflective, empty space, with a faint metallic vibration ringing distantly above the gate. The vibration thins away after the hard cut while the pulse continues uninterrupted and grows slightly heavier, then decays toward near silence over the final second.\n\nnon_diegetic_music:\nN/A"
+    },
+    {
+      "type": "image_url",
+      "image_url": {
+        "url": "http://10.0.96.114:30100/v1/assets/asset_dd8e86d903de4dbc9aa4fb74fad16b56/content"
+      },
+      "role": "reference_image"
+    },
+    {
+      "type": "image_url",
+      "image_url": {
+        "url": "http://10.0.96.114:30100/v1/assets/asset_e0fad807017a4ce99bdd26559ffbed58/content"
+      },
+      "role": "reference_image"
+    }
+  ],
+  "resolution": "768P",
+  "duration": 15,
+  "ratio": "16:9"
+}

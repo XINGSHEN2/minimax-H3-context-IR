@@ -1,0 +1,33 @@
+subject_definitions:
+<Subject 1> is the dusk desert-highway setting transferred from <Picture 1>: an empty two-lane road on an open plain under heavy purple-tinted cloud, with cold low-key film-grain grading and a restrained high-fashion mood.
+<Subject 2> is the vintage car in <Picture 1>: a copper-brown two-door sedan with round red tail lights that glow in the dusk and an operable rear trunk.
+<Subject 3> is the woman in <Picture 2>: a tall slim model with wet-look dark hair, deep red lips, black nails, a black high-gloss patent-leather high-neck long-sleeve mini dress, and black pointed stiletto heels.
+<Subject 4> is the man in <Picture 2>: a tall model with short dark curly hair, wearing the black stand-collar long coat, black trousers, and black leather shoes from <Picture 2>.
+<Subject 5> is the black bag in <Picture 3>: a trapezoid tote with two arched handles, black crocodile-embossed leather, and a metal logo clasp centered on the front.
+<Picture 4> is the final frame of the video, holding the brand logo card.
+
+summary:
+[reference generation + keyframe completion] On <Subject 1>, <Subject 3> walks back along <Subject 2>, opens its trunk, lifts out <Subject 5>, holds one silent look with <Subject 4> who stands beside the car, and walks away with the bag down the empty road; the video ends on <Picture 4>.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1], [Shot 2], [Shot 5]): fully_preserved - the highway geography, purple cloud bank, and cold low-key grain stay identical.
+<Subject 2> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 5]): fully_preserved - body color, round red tail lights, and trunk behavior stay consistent; the trunk is opened once and stays open afterwards.
+<Subject 3> (appears in [Shot 1], [Shot 2], [Shot 3], [Shot 4], [Shot 5]): fully_preserved - face, wet-look hair, red lip, and the glossy black mini dress remain unchanged.
+<Subject 4> (appears in [Shot 1], [Shot 4], [Shot 5]): fully_preserved - identity and the black long-coat wardrobe from <Picture 2> are retained; the brown-coat variant shown in <Picture 1> is not used.
+<Subject 5> (appears in [Shot 2], [Shot 3], [Shot 4], [Shot 5]): fully_preserved - silhouette, crocodile-embossed leather, arched handles, and the front metal clasp stay identical; the exact logo letters are never read out or altered.
+<Picture 4> ([Shot 6] final frame): fully_preserved - the centered white serif wordmark, its subtitle line, and the black background are reproduced unchanged.
+
+detailed_description:
+The target video is a 16:9 fashion-campaign film with a cold, restrained, low-key grade and visible film grain transferred from <Picture 1>; the nine panels of <Picture 1> are visual reference only and do not define the cut order.
+[Shot 1] The video opens on the empty desert highway of <Subject 1> at dusk, the heavy purple cloud bank pressing low over the horizon. <Subject 2> stands angled on the shoulder with its round red tail lights glowing. <Subject 3> walks back along the car's flank toward its rear while <Subject 4> stands beside the front door with his hands in his coat pockets. Wind lifts strands of her wet-look hair and slides the hem of her glossy black dress, which catches a thin red reflection from the tail lights. The camera tracks backward low and level at slow speed, keeping the car and both figures inside the deep frame while her heels crunch once on the loose gravel. She reaches the rear and her black-nailed hand rises to the trunk.
+[Shot 2] At 00:02.800, the camera cuts to a tighter three-quarter rear view of <Subject 2>. <Subject 3>'s hand grips the trunk handle, the latch releases with a single metallic clack, and she lifts the lid; the open trunk reveals <Subject 5> lying on the trunk floor. The camera pushes in with small amplitude at slow speed as the lid settles fully open, and the red tail light blooms across the copper-brown paint beside her hip. She bends forward and reaches into the trunk.
+[Shot 3] At 00:05.000, the camera cuts to a close shot of <Subject 5> as <Subject 3> lifts it clear of the trunk with both hands on the arched handles; the crocodile-embossed black leather and the centered metal clasp catch the cold dusk light, and the stiff handles creak slightly under tension. The camera tilts up with small amplitude as she straightens, the patent leather of her dress mirroring the same cold light. She settles the bag at her right side, the trunk still open behind her.
+[Shot 4] At 00:07.200, the camera cuts to a medium two-shot. <Subject 4> is still standing beside the car; <Subject 3> straightens with <Subject 5> hanging at her side, and their eyes meet. Neither of them moves: only the wind crossing the open road shifts her hair and the edge of his long coat. The camera arcs slowly around the pair with small amplitude, holding both faces in frame, and the air between them stays quiet. She holds his gaze, then turns her head toward the road ahead.
+[Shot 5] At 00:09.800, the camera cuts to a wide rear view. <Subject 3> walks away from the camera down the empty highway of <Subject 1> with <Subject 5> swinging faintly at her side, her back to the lens and the glossy dress catching the last light, while <Subject 2> and <Subject 4> remain small and still beside the road. The camera holds a static shot with a slow pull out as she recedes along the shoulder, and gusts push dust across the asphalt.
+[Shot 6] At 00:12.200, the shot cuts to black and settles exactly on <Picture 4>, holding the centered white serif wordmark, its subtitle line, and the black background unchanged and completely still through the final frame.
+
+overall_soundscape:
+A steady dry wind moves across the open highway from the first frame to the last, with faint grit and a high, empty desert tone beneath it. The trunk latch, the gravel underfoot, and the stiff leather handles register against that wind instead of over it. As the figure recedes the wind thins gradually and fades under the closing logo frame.
+
+non_diegetic_music:
+A restrained fashion score at a slow tempo: sparse analog synth pads, a low sub-bass pulse, and a soft percussive tick that carries the cut rhythm beneath the natural wind. The pulse thins to one sustained tone during the silent look in [Shot 4], returns for the exit in [Shot 5], and decays into a single low tone under <Picture 4>.

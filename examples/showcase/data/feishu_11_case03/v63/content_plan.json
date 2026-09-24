@@ -1,0 +1,213 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "Photorealistic cinematic rendering with high-contrast lighting and tight, compact pacing.",
+      "image_1 is the overall atmosphere and visual-style reference; image_2 is the protagonist identity reference (face, hair, body appearance).",
+      "Shot 1: ultra-wide establishing shot; the giant circular cosmic gate nearly fills the frame with absolute darkness at its center; the ground is wet and light-reflecting.",
+      "Shot 1 staging: the protagonist is a very small back-view figure in the lower part of the frame, offset to the right.",
+      "Shot 1 camera: slow forward push-in.",
+      "Shot 1 main title: fades in from the edge of the darkness, blurred then sharp; verbatim wording \"THE STARS WERE LISTENING\"; very narrow, heavy-weight, all-caps type in dark red mixed with rust red, with subtle grain and fogged/blurred edges.",
+      "Shot 1 audio: deep low-frequency pulse, distant metallic vibration, and one soft hit synchronized with the moment the title becomes sharp.",
+      "A hard cut ends Shot 1.",
+      "Target duration 15 seconds, 16:9, audio enabled."
+    ],
+    "reference_anchors": [
+      "image_1: giant circular gate of concentric metal rings nearly filling the frame, absolute unlit darkness at its center, wet light-reflecting ground, cold desaturated green-grey low-key high-contrast atmosphere, small back-view figure silhouette staged on the ground in front of the gate, grain and fogged-edge treatment.",
+      "image_2: protagonist identity anchors (face, dark mid-length hair, black over-knee tailored coat, black top and trousers, black lace-up platform boots, slender build) plus readable coat-fabric and boot detail for tighter framing."
+    ],
+    "open_design": [
+      "Everything after the hard cut: a tighter back view of the protagonist before the same gate, one slow step forward that stops short of entering, a low draft lifting the coat hem and hair, fine ripples spreading across the wet ground, a faint cold rim light creeping along the inner ring edges, held on the still-unlit center.",
+      "Exact timing of the title reveal (blur start 00:03.400, sharp resolve 00:05.800) and of the hard cut (00:08.000).",
+      "The protagonist stays motionless in Shot 1 while the camera pushes in; the darkness at the gate center is never broken in either shot."
+    ]
+  },
+  "requirement_map": {
+    "content_events": [
+      {
+        "id": "ce_1",
+        "text": "A giant circular cosmic gate of concentric rings nearly fills the frame with absolute darkness at its center, standing on wet, light-reflecting ground."
+      },
+      {
+        "id": "ce_2",
+        "text": "The protagonist stands before the gate as a very small back-view figure in the lower part of the frame, offset to the right."
+      },
+      {
+        "id": "ce_3",
+        "text": "(Open-design completion, not user-specified or observed) After the hard cut the protagonist is seen closer from directly behind, takes one slow step toward the gate and stops; the dark center stays unbroken."
+      }
+    ],
+    "editing_treatments": [
+      {
+        "id": "et_1",
+        "text": "Shot 1 is an ultra-wide establishing shot."
+      },
+      {
+        "id": "et_2",
+        "text": "Shot 1 camera: slow forward push-in (dolly in)."
+      },
+      {
+        "id": "et_3",
+        "text": "Main title animation: fades in from the edge of the darkness, starting blurred and resolving to sharp."
+      },
+      {
+        "id": "et_4",
+        "text": "Main title typography and colour: very narrow, heavy weight, all caps, dark red mixed with rust red, subtle grain and fogged, blurred edges."
+      },
+      {
+        "id": "et_5",
+        "text": "A hard cut ends Shot 1."
+      },
+      {
+        "id": "et_6",
+        "text": "Tight, compact pacing overall."
+      }
+    ],
+    "global_style": [
+      {
+        "id": "gs_1",
+        "text": "Photorealistic cinematic rendering."
+      },
+      {
+        "id": "gs_2",
+        "text": "High-contrast lighting with strong highlight/shadow division."
+      },
+      {
+        "id": "gs_3",
+        "text": "Overall atmosphere and visual style transferred from image_1: cold desaturated green-grey low key, wet reflective surfaces, fine cinematic grain."
+      }
+    ],
+    "audio_requirements": [
+      {
+        "id": "ar_1",
+        "text": "Deep low-frequency pulse."
+      },
+      {
+        "id": "ar_2",
+        "text": "Distant metallic vibration."
+      },
+      {
+        "id": "ar_3",
+        "text": "One soft hit synchronized with the moment the title becomes sharp."
+      }
+    ]
+  },
+  "task_mode": "ref2va",
+  "must_keep": [
+    "Photorealistic cinematic look with high-contrast, strongly divided highlight and shadow.",
+    "Tight, compact pacing across the 15 seconds.",
+    "Ultra-wide establishing framing in Shot 1 with the gate nearly filling the frame and its center in absolute darkness.",
+    "Wet, light-reflecting ground beneath the gate.",
+    "Protagonist staged as a very small back-view figure in the lower part of the frame, offset to the right, in Shot 1.",
+    "Slow forward push-in during Shot 1.",
+    "Main title animation: fade-in from the edge of the darkness, blurred then sharp.",
+    "Verbatim on-screen title \"THE STARS WERE LISTENING\" in very narrow, heavy, all-caps dark-red/rust-red type with subtle grain and fogged edges.",
+    "Deep low-frequency pulse and distant metallic vibration under Shot 1, with one soft hit landing exactly as the title sharpens.",
+    "Hard cut at the end of Shot 1.",
+    "Protagonist identity anchors from image_2 kept stable across both shots.",
+    "The gate center remains absolute darkness; nothing emerges from it."
+  ],
+  "bindings": [
+    {
+      "asset_id": "image_1",
+      "role": "Atmosphere and visual-style reference, plus environment and staging reference for the gate space and the small back-view figure.",
+      "retained_attributes": [
+        "Giant circular gate of concentric metal rings nearly filling the frame",
+        "Absolute unlit darkness at the gate center",
+        "Wet, light-reflecting ground",
+        "Cold desaturated green-grey low-key colour with high-contrast lighting",
+        "Small back-view figure silhouette in the gate space",
+        "Title colour treatment (dark red mixed with rust red) with narrow heavy caps, grain and fogged edges"
+      ],
+      "optional_inherited_attributes": [
+        "Concentric ring surface detail and seams",
+        "Faint haze/fog in the air",
+        "Puddle reflections spreading on the ground"
+      ],
+      "excluded_attributes": [
+        "Poster layout with the title banded across the middle and the secondary lower copy \"SOMETHING ANSWERED BELOW\"",
+        "Metal racks, crates and unreadable signage on the left and right of the frame",
+        "The centered position of the figure"
+      ],
+      "exclusion_reasons": [
+        "The poster layout and secondary copy are not requested on-screen text; the user specifies only the single main title.",
+        "Side props and unreadable signage are poster furniture and would clutter the ultra-wide gate composition.",
+        "The user explicitly stages the figure in the lower part of the frame offset to the right, which overrides the reference position."
+      ]
+    },
+    {
+      "asset_id": "image_2",
+      "role": "Protagonist identity reference for the figure in both shots.",
+      "retained_attributes": [
+        "Face identity",
+        "Dark mid-length hair falling naturally",
+        "Black over-knee tailored coat",
+        "Black top and black trousers",
+        "Black lace-up platform boots",
+        "Slender build"
+      ],
+      "optional_inherited_attributes": [
+        "Coat fabric texture",
+        "Boot lace and sole detail"
+      ],
+      "excluded_attributes": [
+        "White studio background",
+        "Three-view grid and close-up panel layout"
+      ],
+      "exclusion_reasons": [
+        "The white board background is a reference-shooting setup, not a narrative environment; the target video takes place inside the gate space."
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_1",
+      "source_content_event_ids": [
+        "ce_1",
+        "ce_2"
+      ],
+      "visible_change": "In one held ultra-wide view, the giant gate of concentric rings fills the frame with its center in absolute darkness and the wet ground reflecting beneath it, while the protagonist stands motionless as a very small back-view figure in the lower part of the frame, offset to the right; the slow push-in enlarges the gate and the tiny silhouette, and the main title materializes out of the darkness and resolves to sharp.",
+      "outcome": "The scale relationship is fully established: a tiny figure facing away before an unlit, unreadable opening, the title sharp on screen, the protagonist still in place and still facing the gate."
+    },
+    {
+      "id": "dev_2",
+      "source_content_event_ids": [
+        "ce_3"
+      ],
+      "visible_change": "The protagonist is seen much larger from directly behind; a low draft lifts the coat hem and hair, fine ripples spread across the wet ground, and the figure shifts weight and takes one slow step toward the gate before stopping still.",
+      "outcome": "The protagonist stands one step closer to the gate, still with their back to the camera, boots planted on the wet floor; the ground reflections settle and the gate center remains in absolute darkness."
+    }
+  ],
+  "shots": [
+    {
+      "id": "shot_1",
+      "development_ids": [
+        "dev_1"
+      ],
+      "content_purpose": "Establish the scale relationship between the small back-view protagonist and the giant unlit gate, and deliver the main title reveal up to the hard cut.",
+      "treatment_ids": [
+        "et_1",
+        "et_2",
+        "et_3",
+        "et_4",
+        "et_5",
+        "et_6"
+      ],
+      "start_seconds": 0.0,
+      "end_seconds": 8.0,
+      "description": "An ultra-wide establishing shot: <Subject 2> nearly fills the frame, its concentric metal rings running past the frame edges and its center holding absolute, unlit darkness, while the wet ground below reflects the rings and the dark opening. <Subject 1> stands as a very small back-view figure in the lower part of the frame, offset to the right, motionless. The camera pushes in slowly with small amplitude toward the dark center, gradually enlarging the tiny silhouette against the rings. A deep low-frequency pulse runs under the shot with a faint metallic vibration ringing distantly above the gate. The main title reading \"THE STARS WERE LISTENING\" fades in from the edge of the darkness around 00:03.400, spreading outward across the frame with fogged, eroded edges and subtle grain, still blurred; at 00:05.800 it resolves to sharp, very narrow heavy all-caps lettering in dark red mixed with rust red, and one soft hit lands exactly at that moment. The push-in continues, holding the sharp title over the unlit center, until the shot cuts hard away."
+    },
+    {
+      "id": "shot_2",
+      "development_ids": [
+        "dev_2"
+      ],
+      "content_purpose": "Show the protagonist closer from directly behind and their one slow step toward the gate while the dark center stays unbroken.",
+      "treatment_ids": [
+        "et_6"
+      ],
+      "start_seconds": 8.0,
+      "end_seconds": 15.0,
+      "description": "At 00:08.000, the shot cuts hard to a tighter view from directly behind <Subject 1>, the figure now much larger but still low in the frame and slightly right of center, the coat fabric texture and the laces of the platform boots readable against the wet floor; the rings of <Subject 2> curve across the upper frame and its center stays in absolute darkness. A low draft lifts the coat hem and the hair, fine ripples spread across the wet ground, and a faint cold rim light creeps along the inner edges of the rings. The figure shifts weight and takes one slow step forward toward the gate, the boot landing with a soft wet sound and the coat hem swinging, then stops still. The camera follows with a slow low push-in, ending on the back of the figure with the unlit center of the gate directly ahead."
+    }
+  ]
+}

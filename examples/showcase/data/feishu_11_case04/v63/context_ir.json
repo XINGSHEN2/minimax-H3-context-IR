@@ -1,0 +1,1599 @@
+{
+  "schema_version": "h3_compilation.light.v1",
+  "compiler_revision": "singlecall.v63.logical_developments",
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 15,
+    "aspect_ratio": "16:9",
+    "generate_audio": true,
+    "style": "",
+    "prompt_profile": "auto"
+  },
+  "assets": [
+    {
+      "asset_id": "image_1",
+      "media_type": "image",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.1 品牌大片与影视内容/case4-ref2va/assets/图1.png",
+      "label": "图1",
+      "user_role": null
+    },
+    {
+      "asset_id": "image_2",
+      "media_type": "image",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.1 品牌大片与影视内容/case4-ref2va/assets/图2.png",
+      "label": "图2",
+      "user_role": null
+    },
+    {
+      "asset_id": "image_3",
+      "media_type": "image",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.1 品牌大片与影视内容/case4-ref2va/assets/图3.png",
+      "label": "图3",
+      "user_role": null
+    },
+    {
+      "asset_id": "image_4",
+      "media_type": "image",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/1.商用级多场景生成/1.1 品牌大片与影视内容/case4-ref2va/assets/图4.png",
+      "label": "图4",
+      "user_role": null
+    }
+  ],
+  "content_plan": {
+    "creative_brief": {
+      "user_locked": [
+        "16:9 横版时尚品牌视频，时长 15 秒，需要生成音频",
+        "这是一支卖衣服和包的时尚 campaign，气质高级、冷感、克制",
+        "剪辑节奏要灵动、有时尚节奏，不能无聊",
+        "不能像普通剧情片，也不能像电商广告",
+        "情节顺序：荒漠公路与复古车；女人回到车尾；打开后备箱；取出黑色包袋；与站在车边的男人有一瞬间的安静关系；随后拿着包离开",
+        "结尾以品牌 logo 收尾",
+        "氛围、场景与胶片质感对齐图1；包袋对齐图3；人物对齐图2；ending logo 对齐图4",
+        "包袋与服装自然融入人物行动，成为角色气质的一部分"
+      ],
+      "reference_anchors": [
+        "图1 提供暮色荒漠公路场景环境（地貌、开阔地平线、紫调厚重云层）、整体氛围与冷调低调胶片颗粒影调，并作为视觉参考而非帧锚点；其九宫格面板顺序不作为播放顺序依据",
+        "图1 另提供复古轿车（铜棕车身、红色圆形尾灯点亮、可开后备箱）与叙事参考姿态",
+        "图2 提供女人与男人的稳定身份特征（面部、发型、体态）以及本片采用的黑色系服装版本（女人黑亮面高领短裙与黑色尖头高跟鞋；男人黑色立领长外套、黑裤、黑皮鞋）",
+        "图3 提供黑色梯形双拱提手包袋的产品外观：纯黑裂纹/鳄鱼压纹皮革、正面中央金属 logo 扣、双提手结构",
+        "图4 提供结尾品牌 logo 卡的居中白色衬线字形、副标题行与纯黑底色"
+      ],
+      "open_design": [
+        "镜头切分、机位与运镜路径（低角度跟拍、后备箱视角、包袋近景、双人对望中景、离去全景）",
+        "后备箱开启方式、女人取包时的手部动作、提包姿态与持包侧",
+        "男人的具体站位（车头旁静止站立）、两人对望的时长与结束方式",
+        "女人离开的方向与她在画面纵深中变小的过程",
+        "风、砂石、暮色冷光在漆皮裙、车漆、皮革与金属扣上的即时光线反应",
+        "整体声景与画外配乐的具体构成与让位位置"
+      ]
+    },
+    "requirement_map": {
+      "content_events": [
+        {
+          "id": "ce_1",
+          "text": "荒漠公路与复古车旁，女人回到车尾（男人站在车边）"
+        },
+        {
+          "id": "ce_2",
+          "text": "女人打开后备箱"
+        },
+        {
+          "id": "ce_3",
+          "text": "女人取出黑色包袋"
+        },
+        {
+          "id": "ce_4",
+          "text": "女人与站在车边的男人有一瞬间的安静关系"
+        },
+        {
+          "id": "ce_5",
+          "text": "女人拿着包离开"
+        },
+        {
+          "id": "ce_6",
+          "text": "结尾出现品牌 logo 作为收尾"
+        }
+      ],
+      "editing_treatments": [
+        {
+          "id": "et_1",
+          "text": "全片保持 16:9 横版画幅"
+        },
+        {
+          "id": "et_2",
+          "text": "剪辑节奏灵动、有时尚节奏感，不无聊；以短促切点与镜内运镜配合，不用单一长镜拖满时长"
+        },
+        {
+          "id": "et_3",
+          "text": "结尾硬切至品牌 logo 卡并静止收尾"
+        },
+        {
+          "id": "et_4",
+          "text": "排除普通剧情片式处理：不做对话式表演与戏剧化情绪铺陈"
+        },
+        {
+          "id": "et_5",
+          "text": "排除电商广告式处理：不做参数式产品讲解答、口播或白底产品切条"
+        }
+      ],
+      "global_style": [
+        {
+          "id": "gs_1",
+          "text": "整体氛围与情绪基调参考图1：暮色荒漠公路、冷感克制"
+        },
+        {
+          "id": "gs_2",
+          "text": "场景环境（地貌、环境元素、场景质感）参考图1"
+        },
+        {
+          "id": "gs_3",
+          "text": "胶片质感、颗粒与影调色彩参考图1，冷调低调"
+        },
+        {
+          "id": "gs_4",
+          "text": "全片保持高级、冷感、克制的时尚基调"
+        },
+        {
+          "id": "gs_5",
+          "text": "包袋与服装自然融入人物动作，成为角色气质的一部分"
+        }
+      ],
+      "audio_requirements": [
+        {
+          "id": "ar_1",
+          "text": "需要生成音频且无对白；安静关系瞬间保持无言、低声音密度与克制处理"
+        }
+      ]
+    },
+    "task_mode": "ref2va",
+    "must_keep": [
+      "16:9 横版、15 秒、含音轨",
+      "用户指定的情节顺序：回到车尾 → 打开后备箱 → 取出黑色包袋 → 与车边男人安静一刻 → 拿包离开 → 品牌 logo 收尾",
+      "图1 的暮色荒漠公路环境、紫调云层与冷调胶片颗粒影调",
+      "女人与男人的稳定身份外观，以及本片采用的黑色系服装版本",
+      "黑色梯形双提手裂纹皮革包袋及其正面金属 logo 扣",
+      "结尾品牌 logo 的字形、排版与黑白配色",
+      "高级、冷感、克制的基调，以及灵动、有时尚节奏感的剪辑",
+      "不做普通剧情片式与电商广告式处理"
+    ],
+    "bindings": [
+      {
+        "asset_id": "image_1",
+        "role": "场景环境、整体氛围与影像质感的 transfer 参考，兼作叙事视觉参考（非帧锚点，九宫格顺序不作为播放顺序）",
+        "retained_attributes": [
+          "暮色荒漠公路地貌、开阔地平线与公路质感",
+          "黄昏紫调厚重云层天空",
+          "冷色低调、带胶片颗粒的影调与色彩",
+          "复古轿车：铜棕/古铜车身、红色圆形尾灯点亮",
+          "克制、冷感的时尚氛围"
+        ],
+        "optional_inherited_attributes": [
+          "九宫格中的人物姿态、构图层次可作为分镜参考",
+          "车内与脸部特写、背影离去等画面意图可作为叙事线索"
+        ],
+        "excluded_attributes": [
+          "九宫格拼图的版式与面板排列",
+          "男模在图1 中的棕色翻领外套版服装",
+          "图1 中男人坐于车头的姿态"
+        ],
+        "exclusion_reasons": [
+          "面板排列是素材排版，不是播放顺序证据",
+          "人物服装按用户指定的人物资产图2 版本统一",
+          "用户明确要求男人站在车边，而非坐在车头"
+        ]
+      },
+      {
+        "asset_id": "image_2",
+        "role": "女人与男人的身份资产参考，提供稳定面部、发型、体态与本片采用的服装版本",
+        "retained_attributes": [
+          "女模特：湿发贴脸、深红唇、黑色指甲，黑色亮面/漆皮高领长袖迷你裙与黑色尖头细高跟鞋",
+          "男模特：高个、深色短卷发，黑色立领长外套、黑裤、黑皮鞋"
+        ],
+        "optional_inherited_attributes": [
+          "正/侧/背视角提供的服装剪裁与比例信息用于跨镜一致性"
+        ],
+        "excluded_attributes": [
+          "白底棚拍背景",
+          "六视角并排展示版式"
+        ],
+        "exclusion_reasons": [
+          "白底展示是素材呈现方式，不进入荒漠公路场景",
+          "并排版式不是片内画面结构"
+        ]
+      },
+      {
+        "asset_id": "image_3",
+        "role": "包袋产品资产参考，提供黑色包袋的外观与结构",
+        "retained_attributes": [
+          "黑色梯形包体与双拱形提手",
+          "纯黑裂纹/鳄鱼压纹皮革材质",
+          "正面中央金属 logo 扣",
+          "侧面与背面结构比例"
+        ],
+        "optional_inherited_attributes": [
+          "三视角提供的皮革反光与提手形态用于取包与持包镜头"
+        ],
+        "excluded_attributes": [
+          "白底棚拍背景",
+          "金属 logo 的具体字母认读"
+        ],
+        "exclusion_reasons": [
+          "白底展示不进入场景",
+          "素材证据无法确认 logo 字母，不做文字认读特写"
+        ]
+      },
+      {
+        "asset_id": "image_4",
+        "role": "结尾品牌 logo 帧锚点，作为目标视频的最终画面",
+        "retained_attributes": [
+          "纯黑底居中白色衬线字与下方副标题行",
+          "居中排版与黑白配色"
+        ],
+        "optional_inherited_attributes": [],
+        "excluded_attributes": [],
+        "exclusion_reasons": []
+      }
+    ],
+    "developments": [
+      {
+        "id": "dev_1",
+        "source_content_event_ids": [
+          "ce_1"
+        ],
+        "visible_change": "暮色荒漠公路旁，复古车停在路肩、红色圆形尾灯点亮；女人沿车身侧面走回车尾，男人站在车边不动，风带起她的湿发与裙摆。",
+        "outcome": "女人抵达车尾并伸手触碰后备箱盖；男人仍站在车边；车、灯与暮色环境保持连续。"
+      },
+      {
+        "id": "dev_2",
+        "source_content_event_ids": [
+          "ce_2"
+        ],
+        "visible_change": "女人抬开后备箱盖，箱盖完全打开，箱内露出黑色包袋。",
+        "outcome": "后备箱保持打开状态，黑色包袋位于箱内可见位置，女人俯身准备取出。"
+      },
+      {
+        "id": "dev_3",
+        "source_content_event_ids": [
+          "ce_3"
+        ],
+        "visible_change": "女人双手握住双提手把黑色包袋提离后备箱，裂纹皮革与正面金属扣在冷光下显形。",
+        "outcome": "包袋在女人手中、位于她身体一侧；后备箱仍打开，未被重新关闭。"
+      },
+      {
+        "id": "dev_4",
+        "source_content_event_ids": [
+          "ce_4"
+        ],
+        "visible_change": "女人直起身，与站在车边的男人对视；两人静止不动，只有风带动头发与外套下摆，声音变薄。",
+        "outcome": "安静对望持续一瞬后由女人主动结束，她转头看向公路方向；男人留在车边，包袋仍在她手中。"
+      },
+      {
+        "id": "dev_5",
+        "source_content_event_ids": [
+          "ce_5"
+        ],
+        "visible_change": "女人提着黑色包袋背对镜头沿荒漠公路走远，身形逐渐变小；复古车与男人留在原地，路面恢复空旷。",
+        "outcome": "女人与包袋离开画面纵深，车与男人保持原位。"
+      },
+      {
+        "id": "dev_6",
+        "source_content_event_ids": [
+          "ce_6"
+        ],
+        "visible_change": "画面切至黑底品牌 logo 卡，居中白色衬线字与副标题行静止呈现。",
+        "outcome": "视频以品牌 logo 画面结束。"
+      }
+    ],
+    "shots": [
+      {
+        "id": "shot_1",
+        "development_ids": [
+          "dev_1"
+        ],
+        "content_purpose": "建立暮色荒漠公路与复古车环境，看见女人走回车尾、男人站在车边不动",
+        "treatment_ids": [
+          "et_1",
+          "et_2"
+        ],
+        "start_seconds": 0.0,
+        "end_seconds": 2.8,
+        "description": "The video opens on the empty desert highway of <Subject 1> at dusk, the heavy purple cloud bank pressing low over the horizon. <Subject 2> stands angled on the shoulder with its round red tail lights glowing. <Subject 3> walks back along the car's flank toward its rear while <Subject 4> stands beside the front door with his hands in his coat pockets. Wind lifts strands of her wet-look hair and slides the hem of her glossy black dress, which catches a thin red reflection from the tail lights. The camera tracks backward low and level at slow speed, keeping the car and both figures inside the deep frame while her heels crunch once on the loose gravel. She reaches the rear and her black-nailed hand rises to the trunk."
+      },
+      {
+        "id": "shot_2",
+        "development_ids": [
+          "dev_2"
+        ],
+        "content_purpose": "看清后备箱被打开、箱内露出黑色包袋，建立取包动作起点",
+        "treatment_ids": [
+          "et_2"
+        ],
+        "start_seconds": 2.8,
+        "end_seconds": 5.0,
+        "cut_reason": "同一连续取包动作需要从整体走位切到后箱视角，才能看清箱盖开启与箱内包袋",
+        "continuity_bridge": "shot_1 结束于她手抬向箱盖；shot_2 从同一手位继续，手已握住箱盖把手",
+        "description": "At 00:02.800, the camera cuts to a tighter three-quarter rear view of <Subject 2>. <Subject 3>'s hand grips the trunk handle, the latch releases with a single metallic clack, and she lifts the lid; the open trunk reveals <Subject 5> lying on the trunk floor. The camera pushes in with small amplitude at slow speed as the lid settles fully open, and the red tail light blooms across the copper-brown paint beside her hip. She bends forward and reaches into the trunk."
+      },
+      {
+        "id": "shot_3",
+        "development_ids": [
+          "dev_3"
+        ],
+        "content_purpose": "看清黑色包袋被提起的材质、提手与正面金属扣，确认产品外观",
+        "treatment_ids": [
+          "et_2"
+        ],
+        "start_seconds": 5.0,
+        "end_seconds": 7.2,
+        "cut_reason": "同一取包动作需拉近到包袋本身，才能看清皮革纹理与金属扣",
+        "continuity_bridge": "shot_2 结束于她俯身伸手入箱；shot_3 从同一俯身姿态继续，双手已握住双提手",
+        "description": "At 00:05.000, the camera cuts to a close shot of <Subject 5> as <Subject 3> lifts it clear of the trunk with both hands on the arched handles; the crocodile-embossed black leather and the centered metal clasp catch the cold dusk light, and the stiff handles creak slightly under tension. The camera tilts up with small amplitude as she straightens, the patent leather of her dress mirroring the same cold light. She settles the bag at her right side, the trunk still open behind her."
+      },
+      {
+        "id": "shot_4",
+        "development_ids": [
+          "dev_4"
+        ],
+        "content_purpose": "看见女人与站在车边的男人之间一瞬间的安静关系，以及由她主动结束这一刻",
+        "treatment_ids": [
+          "et_2"
+        ],
+        "start_seconds": 7.2,
+        "end_seconds": 9.8,
+        "description": "At 00:07.200, the camera cuts to a medium two-shot. <Subject 4> is still standing beside the car; <Subject 3> straightens with <Subject 5> hanging at her side, and their eyes meet. Neither of them moves: only the wind crossing the open road shifts her hair and the edge of his long coat. The camera arcs slowly around the pair with small amplitude, holding both faces in frame, and the air between them stays quiet. She holds his gaze, then turns her head toward the road ahead."
+      },
+      {
+        "id": "shot_5",
+        "development_ids": [
+          "dev_5"
+        ],
+        "content_purpose": "看见女人提着包背对镜头沿公路走远，车与男人留在原地",
+        "treatment_ids": [
+          "et_2"
+        ],
+        "start_seconds": 9.8,
+        "end_seconds": 12.2,
+        "description": "At 00:09.800, the camera cuts to a wide rear view. <Subject 3> walks away from the camera down the empty highway of <Subject 1> with <Subject 5> swinging faintly at her side, her back to the lens and the glossy dress catching the last light, while <Subject 2> and <Subject 4> remain small and still beside the road. The camera holds a static shot with a slow pull out as she recedes along the shoulder, and gusts push dust across the asphalt."
+      },
+      {
+        "id": "shot_6",
+        "development_ids": [
+          "dev_6"
+        ],
+        "content_purpose": "以品牌 logo 卡静止收尾",
+        "treatment_ids": [
+          "et_3"
+        ],
+        "start_seconds": 12.2,
+        "end_seconds": 15.0,
+        "description": "At 00:12.200, the shot cuts to black and settles exactly on <Picture 4>, holding the centered white serif wordmark, its subtitle line, and the black background unchanged and completely still through the final frame."
+      }
+    ]
+  },
+  "uncertainties": [
+    "图1 中男模穿棕色翻领外套，图2 中男模穿黑色立领长外套，两处服装冲突；本次按用户指定的人物资产采用图2 黑色版本，如需图1 棕色版本需人工确认。",
+    "图1 中男人坐在车头，而用户要求男人站在车边，已按用户要求处理为站立。",
+    "图3 包袋正面金属 logo 的具体字母无法确认，因此片中只保留金属扣的存在、位置与反光，不做文字认读特写。",
+    "图1 九宫格面板无播放顺序证据，本方案按用户文字描述的先后顺序安排镜头，未采用面板排列顺序。",
+    "静态参考图无法证明真实动作与运镜，片中的走位、开箱取包动作、对望时长与摄影机运动属于补全设计，需要在成片中确认。"
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v1",
+    "provider": {
+      "name": "Qwen3.8-27B",
+      "mode": "grouped_images_projected"
+    },
+    "assets": [
+      {
+        "asset_id": "image_1",
+        "summary": "3x3九宫格暮色荒漠公路时尚分镜：复古车红尾灯、棕外套男人、黑亮面裙女人开后备箱取黑包、车内与脸部特写、背影离去",
+        "global_analysis": {
+          "scene": "高级冷感时尚 campaign 参考集合：暮色荒漠公路叙事分镜 + 白底人物/包袋资产 + 品牌 ending logo",
+          "composition": "图1为3x3九宫格叙事拼图；图2为白底六视角人物并排；图3为白底三视角包袋并排；图4为居中黑底文字",
+          "framing_layers": [
+            {
+              "description": "图1左上：复古车车尾，红色圆形尾灯点亮，暮色云层公路",
+              "coverage": "panel_1_1",
+              "confidence": 0.9,
+              "source_asset_ids": [
+                "image_1"
+              ]
+            },
+            {
+              "description": "图1中上：男人穿棕色外套黑高领坐于车头，侧脸望右",
+              "coverage": "panel_1_2",
+              "confidence": 0.9,
+              "source_asset_ids": [
+                "image_1"
+              ]
+            },
+            {
+              "description": "图1右上：黑指甲手抚铜棕车身，红色尾灯特写",
+              "coverage": "panel_1_3",
+              "confidence": 0.9,
+              "source_asset_ids": [
+                "image_1"
+              ]
+            },
+            {
+              "description": "图1左中：女人穿黑色亮面高领裙俯身打开后备箱",
+              "coverage": "panel_2_1",
+              "confidence": 0.9,
+              "source_asset_ids": [
+                "image_1"
+              ]
+            },
+            {
+              "description": "图1中中：手提黑色包袋特写，包面金属logo",
+              "coverage": "panel_2_2",
+              "confidence": 0.9,
+              "source_asset_ids": [
+                "image_1"
+              ]
+            },
+            {
+              "description": "图1右中：男人站车边，女人背影持包，暮色天空",
+              "coverage": "panel_2_3",
+              "confidence": 0.9,
+              "source_asset_ids": [
+                "image_1"
+              ]
+            },
+            {
+              "description": "图1左下：女人坐于车内，透过车窗/挡风玻璃",
+              "coverage": "panel_3_1",
+              "confidence": 0.85,
+              "source_asset_ids": [
+                "image_1"
+              ]
+            },
+            {
+              "description": "图1中下：女人脸部特写，湿发、深红唇、冷光",
+              "coverage": "panel_3_2",
+              "confidence": 0.9,
+              "source_asset_ids": [
+                "image_1"
+              ]
+            },
+            {
+              "description": "图1右下：女人背影走向车，暮色荒漠地平线",
+              "coverage": "panel_3_3",
+              "confidence": 0.9,
+              "source_asset_ids": [
+                "image_1"
+              ]
+            }
+          ],
+          "visible_text": [],
+          "uncertainties": [
+            "图1与图2中男模特服装不一致：图1为棕色外套+黑高领，图2为黑色长外套+黑裤，需保留冲突来源",
+            "包袋金属logo字母无法确认（疑似CD或Φ形），不补全",
+            "九宫格面板顺序不代表播放或动作顺序",
+            "静态图无法证明动作、镜头运动或持续时间"
+          ]
+        },
+        "image_observation": {
+          "source_asset_id": "image_1",
+          "summary": "3x3九宫格暮色荒漠公路时尚分镜：复古车红尾灯、棕外套男人、黑亮面裙女人开后备箱取黑包、车内与脸部特写、背影离去",
+          "entity_ids": [
+            "person_1",
+            "person_2",
+            "bag_1",
+            "car_1",
+            "environment_1"
+          ],
+          "uncertainties": [
+            "面板顺序非播放顺序"
+          ]
+        },
+        "evidence": [
+          {
+            "evidence_id": "image_1_whole_frame",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "3x3九宫格暮色荒漠公路时尚分镜：复古车红尾灯、棕外套男人、黑亮面裙女人开后备箱取黑包、车内与脸部特写、背影离去"
+          },
+          {
+            "evidence_id": "image_1_person_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "女模特：黑色亮面/漆皮高领长袖短裙、黑色尖头高跟鞋、湿发、深红唇、黑指甲，冷感高级造型"
+          },
+          {
+            "evidence_id": "image_1_person_2",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "男模特：高个、深色卷发；图1穿棕色外套+黑高领，图2穿黑色长外套+黑裤黑鞋（两图服装冲突）"
+          },
+          {
+            "evidence_id": "image_1_bag_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "黑色梯形手提包，双拱形提手，裂纹/鳄鱼纹皮革，正面金属logo扣"
+          },
+          {
+            "evidence_id": "image_1_car_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "复古轿车，铜棕/古铜车身，红色圆形尾灯，可开后备箱"
+          },
+          {
+            "evidence_id": "image_1_environment_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "暮色荒漠公路场景，紫调云层天空，冷调低调胶片质感"
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "source_asset_ids": [
+              "image_1",
+              "image_2"
+            ],
+            "evidence_ids": [
+              "image_1_person_1"
+            ],
+            "category": "person",
+            "subcategory": "person",
+            "summary": "女模特：黑色亮面/漆皮高领长袖短裙、黑色尖头高跟鞋、湿发、深红唇、黑指甲，冷感高级造型",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [
+                {
+                  "name": "服装质感",
+                  "value": "漆皮/亮面皮革反光",
+                  "evidence_ids": [
+                    "image_1_person_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [
+                {
+                  "name": "服装",
+                  "value": "黑色亮面高领长袖迷你裙",
+                  "evidence_ids": [
+                    "image_1_person_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "鞋",
+                  "value": "黑色尖头细高跟鞋",
+                  "evidence_ids": [
+                    "image_1_person_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "妆容发型",
+                  "value": "湿发贴脸、深红唇、黑色指甲",
+                  "evidence_ids": [
+                    "image_1_person_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "person_2",
+            "source_asset_ids": [
+              "image_1",
+              "image_2"
+            ],
+            "evidence_ids": [
+              "image_1_person_2"
+            ],
+            "category": "person",
+            "subcategory": "person",
+            "summary": "男模特：高个、深色卷发；图1穿棕色外套+黑高领，图2穿黑色长外套+黑裤黑鞋（两图服装冲突）",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "服装_图1",
+                  "value": "棕色翻领外套+黑色高领内搭",
+                  "evidence_ids": [
+                    "image_1_person_2"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "服装_图2",
+                  "value": "黑色立领长外套+黑裤+黑皮鞋",
+                  "evidence_ids": [
+                    "image_1_person_2"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "发型",
+                  "value": "深色短卷发",
+                  "evidence_ids": [
+                    "image_1_person_2"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "图1与图2服装版本不一致，未静默合并"
+            ]
+          },
+          {
+            "entity_id": "bag_1",
+            "source_asset_ids": [
+              "image_1",
+              "image_3"
+            ],
+            "evidence_ids": [
+              "image_1_bag_1"
+            ],
+            "category": "object",
+            "subcategory": "object",
+            "summary": "黑色梯形手提包，双拱形提手，裂纹/鳄鱼纹皮革，正面金属logo扣",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "包型",
+                  "value": "梯形结构双提手",
+                  "evidence_ids": [
+                    "image_1_bag_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "颜色",
+                  "value": "纯黑",
+                  "evidence_ids": [
+                    "image_1_bag_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "皮革",
+                  "value": "黑色裂纹/鳄鱼压纹皮革",
+                  "evidence_ids": [
+                    "image_1_bag_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "logo",
+                  "value": "正面中央金属字母扣",
+                  "evidence_ids": [
+                    "image_1_bag_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "金属logo具体字母无法确认"
+            ]
+          },
+          {
+            "entity_id": "car_1",
+            "source_asset_ids": [
+              "image_1"
+            ],
+            "evidence_ids": [
+              "image_1_car_1"
+            ],
+            "category": "object",
+            "subcategory": "object",
+            "summary": "复古轿车，铜棕/古铜车身，红色圆形尾灯，可开后备箱",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "车型",
+                  "value": "复古双门轿车",
+                  "evidence_ids": [
+                    "image_1_car_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "车身",
+                  "value": "铜棕/古铜色",
+                  "evidence_ids": [
+                    "image_1_car_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "尾灯",
+                  "value": "红色圆形尾灯点亮",
+                  "evidence_ids": [
+                    "image_1_car_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "environment_1",
+            "source_asset_ids": [
+              "image_1"
+            ],
+            "evidence_ids": [
+              "image_1_environment_1"
+            ],
+            "category": "environment",
+            "subcategory": "environment",
+            "summary": "暮色荒漠公路场景，紫调云层天空，冷调低调胶片质感",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "天空",
+                  "value": "黄昏紫调厚重云层",
+                  "evidence_ids": [
+                    "image_1_environment_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "地面",
+                  "value": "荒漠公路/开阔地平线",
+                  "evidence_ids": [
+                    "image_1_environment_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "光照质感",
+                  "value": "冷色低调、胶片颗粒氛围",
+                  "evidence_ids": [
+                    "image_1_environment_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_relative_to",
+            "subject_id": "person_1",
+            "object_id": "car_1",
+            "anchor": "女人俯身于车尾打开后备箱",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "image_1_whole_frame"
+            ],
+            "confidence": 0.85,
+            "source": "visible",
+            "source_asset_ids": [
+              "image_1"
+            ]
+          },
+          {
+            "relation_id": "relation_2",
+            "type": "held_by",
+            "subject_id": "bag_1",
+            "object_id": "person_1",
+            "anchor": "女人手提/取出黑色包袋",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "image_1_whole_frame"
+            ],
+            "confidence": 0.85,
+            "source": "visible",
+            "source_asset_ids": [
+              "image_1"
+            ]
+          },
+          {
+            "relation_id": "relation_3",
+            "type": "positioned_relative_to",
+            "subject_id": "person_2",
+            "object_id": "car_1",
+            "anchor": "男人坐/立于车边",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "image_1_whole_frame"
+            ],
+            "confidence": 0.85,
+            "source": "visible",
+            "source_asset_ids": [
+              "image_1"
+            ]
+          },
+          {
+            "relation_id": "relation_4",
+            "type": "facing",
+            "subject_id": "person_1",
+            "object_id": "person_2",
+            "anchor": "两人在车旁形成安静对望关系",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "image_1_whole_frame"
+            ],
+            "confidence": 0.7,
+            "source": "inferred",
+            "source_asset_ids": [
+              "image_1"
+            ]
+          },
+          {
+            "relation_id": "relation_5",
+            "type": "positioned_in",
+            "subject_id": "person_1",
+            "object_id": "environment_1",
+            "anchor": "人物处于暮色荒漠公路场景",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "image_1_whole_frame"
+            ],
+            "confidence": 0.9,
+            "source": "visible",
+            "source_asset_ids": [
+              "image_1"
+            ]
+          },
+          {
+            "relation_id": "relation_6",
+            "type": "positioned_in",
+            "subject_id": "car_1",
+            "object_id": "environment_1",
+            "anchor": "复古车停于荒漠公路",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "image_1_whole_frame"
+            ],
+            "confidence": 0.9,
+            "source": "visible",
+            "source_asset_ids": [
+              "image_1"
+            ]
+          }
+        ],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "grouped_image_projected",
+          "grouped_request_asset_ids": [
+            "image_1",
+            "image_2",
+            "image_3",
+            "image_4"
+          ],
+          "analysis_status": "observed",
+          "quality_warnings": []
+        },
+        "transcript": "",
+        "uncertainties": [
+          "男模特服装在图1与图2间冲突，需用户决定采用版本",
+          "包袋金属logo字母不可确认",
+          "九宫格面板无播放顺序证据",
+          "静态参考无法证明动作与镜头运动",
+          "面板顺序非播放顺序"
+        ]
+      },
+      {
+        "asset_id": "image_2",
+        "summary": "白底多视角服装参考：女模特黑亮面高领裙+黑高跟鞋，男模特黑长外套+黑裤，各含正/侧/背",
+        "global_analysis": {
+          "scene": "高级冷感时尚 campaign 参考集合：暮色荒漠公路叙事分镜 + 白底人物/包袋资产 + 品牌 ending logo",
+          "composition": "图1为3x3九宫格叙事拼图；图2为白底六视角人物并排；图3为白底三视角包袋并排；图4为居中黑底文字",
+          "framing_layers": [
+            {
+              "description": "图2：白底六视角，女模特黑亮面裙正/侧/背 + 男模特黑长外套正/侧/背",
+              "coverage": "full",
+              "confidence": 0.9,
+              "source_asset_ids": [
+                "image_2"
+              ]
+            }
+          ],
+          "visible_text": [],
+          "uncertainties": [
+            "图1与图2中男模特服装不一致：图1为棕色外套+黑高领，图2为黑色长外套+黑裤，需保留冲突来源",
+            "包袋金属logo字母无法确认（疑似CD或Φ形），不补全",
+            "九宫格面板顺序不代表播放或动作顺序",
+            "静态图无法证明动作、镜头运动或持续时间"
+          ]
+        },
+        "image_observation": {
+          "source_asset_id": "image_2",
+          "summary": "白底多视角服装参考：女模特黑亮面高领裙+黑高跟鞋，男模特黑长外套+黑裤，各含正/侧/背",
+          "entity_ids": [
+            "person_1",
+            "person_2"
+          ],
+          "uncertainties": [
+            "男模特服装与图1不一致"
+          ]
+        },
+        "evidence": [
+          {
+            "evidence_id": "image_2_whole_frame",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "白底多视角服装参考：女模特黑亮面高领裙+黑高跟鞋，男模特黑长外套+黑裤，各含正/侧/背"
+          },
+          {
+            "evidence_id": "image_2_person_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "女模特：黑色亮面/漆皮高领长袖短裙、黑色尖头高跟鞋、湿发、深红唇、黑指甲，冷感高级造型"
+          },
+          {
+            "evidence_id": "image_2_person_2",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "男模特：高个、深色卷发；图1穿棕色外套+黑高领，图2穿黑色长外套+黑裤黑鞋（两图服装冲突）"
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "source_asset_ids": [
+              "image_1",
+              "image_2"
+            ],
+            "evidence_ids": [
+              "image_2_person_1"
+            ],
+            "category": "person",
+            "subcategory": "person",
+            "summary": "女模特：黑色亮面/漆皮高领长袖短裙、黑色尖头高跟鞋、湿发、深红唇、黑指甲，冷感高级造型",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [
+                {
+                  "name": "服装质感",
+                  "value": "漆皮/亮面皮革反光",
+                  "evidence_ids": [
+                    "image_2_person_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [
+                {
+                  "name": "服装",
+                  "value": "黑色亮面高领长袖迷你裙",
+                  "evidence_ids": [
+                    "image_2_person_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "鞋",
+                  "value": "黑色尖头细高跟鞋",
+                  "evidence_ids": [
+                    "image_2_person_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "妆容发型",
+                  "value": "湿发贴脸、深红唇、黑色指甲",
+                  "evidence_ids": [
+                    "image_2_person_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "person_2",
+            "source_asset_ids": [
+              "image_1",
+              "image_2"
+            ],
+            "evidence_ids": [
+              "image_2_person_2"
+            ],
+            "category": "person",
+            "subcategory": "person",
+            "summary": "男模特：高个、深色卷发；图1穿棕色外套+黑高领，图2穿黑色长外套+黑裤黑鞋（两图服装冲突）",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "服装_图1",
+                  "value": "棕色翻领外套+黑色高领内搭",
+                  "evidence_ids": [
+                    "image_2_person_2"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "服装_图2",
+                  "value": "黑色立领长外套+黑裤+黑皮鞋",
+                  "evidence_ids": [
+                    "image_2_person_2"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "发型",
+                  "value": "深色短卷发",
+                  "evidence_ids": [
+                    "image_2_person_2"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "图1与图2服装版本不一致，未静默合并"
+            ]
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_4",
+            "type": "facing",
+            "subject_id": "person_1",
+            "object_id": "person_2",
+            "anchor": "两人在车旁形成安静对望关系",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "image_2_whole_frame"
+            ],
+            "confidence": 0.7,
+            "source": "inferred",
+            "source_asset_ids": [
+              "image_2"
+            ]
+          }
+        ],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "grouped_image_projected",
+          "grouped_request_asset_ids": [
+            "image_1",
+            "image_2",
+            "image_3",
+            "image_4"
+          ],
+          "analysis_status": "observed",
+          "quality_warnings": []
+        },
+        "transcript": "",
+        "uncertainties": [
+          "男模特服装在图1与图2间冲突，需用户决定采用版本",
+          "包袋金属logo字母不可确认",
+          "九宫格面板无播放顺序证据",
+          "静态参考无法证明动作与镜头运动",
+          "男模特服装与图1不一致"
+        ]
+      },
+      {
+        "asset_id": "image_3",
+        "summary": "白底黑色手提包三视图：正面带金属logo、侧面、背面，裂纹皮革",
+        "global_analysis": {
+          "scene": "高级冷感时尚 campaign 参考集合：暮色荒漠公路叙事分镜 + 白底人物/包袋资产 + 品牌 ending logo",
+          "composition": "图1为3x3九宫格叙事拼图；图2为白底六视角人物并排；图3为白底三视角包袋并排；图4为居中黑底文字",
+          "framing_layers": [
+            {
+              "description": "图3：白底黑色手提包正面(带金属logo)/侧面/背面三视图",
+              "coverage": "full",
+              "confidence": 0.9,
+              "source_asset_ids": [
+                "image_3"
+              ]
+            }
+          ],
+          "visible_text": [],
+          "uncertainties": [
+            "图1与图2中男模特服装不一致：图1为棕色外套+黑高领，图2为黑色长外套+黑裤，需保留冲突来源",
+            "包袋金属logo字母无法确认（疑似CD或Φ形），不补全",
+            "九宫格面板顺序不代表播放或动作顺序",
+            "静态图无法证明动作、镜头运动或持续时间"
+          ]
+        },
+        "image_observation": {
+          "source_asset_id": "image_3",
+          "summary": "白底黑色手提包三视图：正面带金属logo、侧面、背面，裂纹皮革",
+          "entity_ids": [
+            "bag_1"
+          ],
+          "uncertainties": [
+            "logo字母不可确认"
+          ]
+        },
+        "evidence": [
+          {
+            "evidence_id": "image_3_whole_frame",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "白底黑色手提包三视图：正面带金属logo、侧面、背面，裂纹皮革"
+          },
+          {
+            "evidence_id": "image_3_bag_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "黑色梯形手提包，双拱形提手，裂纹/鳄鱼纹皮革，正面金属logo扣"
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "bag_1",
+            "source_asset_ids": [
+              "image_1",
+              "image_3"
+            ],
+            "evidence_ids": [
+              "image_3_bag_1"
+            ],
+            "category": "object",
+            "subcategory": "object",
+            "summary": "黑色梯形手提包，双拱形提手，裂纹/鳄鱼纹皮革，正面金属logo扣",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "包型",
+                  "value": "梯形结构双提手",
+                  "evidence_ids": [
+                    "image_3_bag_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "颜色",
+                  "value": "纯黑",
+                  "evidence_ids": [
+                    "image_3_bag_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "皮革",
+                  "value": "黑色裂纹/鳄鱼压纹皮革",
+                  "evidence_ids": [
+                    "image_3_bag_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "logo",
+                  "value": "正面中央金属字母扣",
+                  "evidence_ids": [
+                    "image_3_bag_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "金属logo具体字母无法确认"
+            ]
+          }
+        ],
+        "relations": [],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "grouped_image_projected",
+          "grouped_request_asset_ids": [
+            "image_1",
+            "image_2",
+            "image_3",
+            "image_4"
+          ],
+          "analysis_status": "observed",
+          "quality_warnings": []
+        },
+        "transcript": "",
+        "uncertainties": [
+          "男模特服装在图1与图2间冲突，需用户决定采用版本",
+          "包袋金属logo字母不可确认",
+          "九宫格面板无播放顺序证据",
+          "静态参考无法证明动作与镜头运动",
+          "logo字母不可确认"
+        ]
+      },
+      {
+        "asset_id": "image_4",
+        "summary": "纯黑底居中白色衬线品牌字 NOCTURNE / LEATHER GOODS",
+        "global_analysis": {
+          "scene": "高级冷感时尚 campaign 参考集合：暮色荒漠公路叙事分镜 + 白底人物/包袋资产 + 品牌 ending logo",
+          "composition": "图1为3x3九宫格叙事拼图；图2为白底六视角人物并排；图3为白底三视角包袋并排；图4为居中黑底文字",
+          "framing_layers": [
+            {
+              "description": "图4：纯黑底居中白色衬线字 NOCTURNE 与 LEATHER GOODS",
+              "coverage": "full",
+              "confidence": 0.95,
+              "source_asset_ids": [
+                "image_4"
+              ]
+            }
+          ],
+          "visible_text": [
+            {
+              "text": "NOCTURNE",
+              "legibility": "clear",
+              "region": "center",
+              "confidence": 0.95,
+              "source_asset_ids": [
+                "image_4"
+              ]
+            },
+            {
+              "text": "LEATHER GOODS",
+              "legibility": "clear",
+              "region": "center_below",
+              "confidence": 0.9,
+              "source_asset_ids": [
+                "image_4"
+              ]
+            }
+          ],
+          "uncertainties": [
+            "图1与图2中男模特服装不一致：图1为棕色外套+黑高领，图2为黑色长外套+黑裤，需保留冲突来源",
+            "包袋金属logo字母无法确认（疑似CD或Φ形），不补全",
+            "九宫格面板顺序不代表播放或动作顺序",
+            "静态图无法证明动作、镜头运动或持续时间"
+          ]
+        },
+        "image_observation": {
+          "source_asset_id": "image_4",
+          "summary": "纯黑底居中白色衬线品牌字 NOCTURNE / LEATHER GOODS",
+          "entity_ids": [
+            "logo_1"
+          ],
+          "uncertainties": []
+        },
+        "evidence": [
+          {
+            "evidence_id": "image_4_whole_frame",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "纯黑底居中白色衬线品牌字 NOCTURNE / LEATHER GOODS"
+          },
+          {
+            "evidence_id": "image_4_logo_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "品牌 ending logo：黑底白色衬线字 NOCTURNE 与下方 LEATHER GOODS"
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "logo_1",
+            "source_asset_ids": [
+              "image_4"
+            ],
+            "evidence_ids": [
+              "image_4_logo_1"
+            ],
+            "category": "text",
+            "subcategory": "text",
+            "summary": "品牌 ending logo：黑底白色衬线字 NOCTURNE 与下方 LEATHER GOODS",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "配色",
+                  "value": "白字纯黑底",
+                  "evidence_ids": [
+                    "image_4_logo_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "排版",
+                  "value": "居中白色衬线大写，下方细线+小字",
+                  "evidence_ids": [
+                    "image_4_logo_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "grouped_image_projected",
+          "grouped_request_asset_ids": [
+            "image_1",
+            "image_2",
+            "image_3",
+            "image_4"
+          ],
+          "analysis_status": "observed",
+          "quality_warnings": []
+        },
+        "transcript": "",
+        "uncertainties": [
+          "男模特服装在图1与图2间冲突，需用户决定采用版本",
+          "包袋金属logo字母不可确认",
+          "九宫格面板无播放顺序证据",
+          "静态参考无法证明动作与镜头运动"
+        ]
+      }
+    ],
+    "missing_asset_ids": [],
+    "perception_metrics": {
+      "request_count": 1
+    },
+    "experiment": {
+      "mode": "qwen3.8_grouped_images_projected",
+      "user_request": "制作一支 16:9 横版高级时尚品牌视频。整体氛围、场景和胶片质感参考图1；包袋资产参考图3；人物资产参考图2；品牌 ending logo 参考图4。这是一支卖衣服和包的时尚 campaign，整体气质要高级、冷感、克制，但剪辑不能无聊，要更灵动、更有时尚节奏。不要像普通剧情片，也不要像电商广告。核心故事依然很简单：荒漠公路和复古车旁，女人回到车尾，打开后备箱，取出黑色包袋，和站在车边的男人有一瞬间的安静关系，然后她拿着包离开。包和服装要自然融入人物行动里，成为角色气质的一部分。"
+    }
+  }
+}
