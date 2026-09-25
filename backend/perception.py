@@ -131,36 +131,17 @@ entities 表示后续生成过程中需要保持身份一致或独立控制的�
 
 把示例值全部替换为当前视频中的观察结果，不得原样输出占位内容。features 格式固定为 [group,name,value,confidence,source]；group 只能是 geometry、color、material、surface、components、component_layout、orientation_cues、identity_markers、other，source 只能是 visible、inferred、unresolved。只记录有区分度且有视觉依据的特征，不补全被遮挡、裁切、模糊或无法辨认的文字。不要推断音频、对白、真实身份、品牌结论、价格、所有权或未展示的动作。"""
 
-RELATIONAL_IMAGE_PROMPT = """请一次性分析输入图片，输出可复用的视觉证据和适合视频生成的语义分组。图片分析不是分镜设计。只返回一个紧凑 JSON 对象，不要使用 Markdown：
-{"summary":"图片整体可见内容","global_analysis":{"scene":"整体场景","composition":"空间关系与构图","framing_layers":[],"visible_text":[],"uncertainties":[]},"entities":[{"entity_id":"person_1","category":"person","summary":"人物及其固定造型的可见概述","quantity":[1,0.9],"features":[["components","服装与随身造型","黑色外套和黑色靴子",0.9,"visible"]],"uncertainties":[]},{"entity_id":"environment_1","category":"environment","summary":"场景、背景和光照的可见概述","quantity":[1,0.9],"features":[["other","光照","冷色低调照明",0.9,"visible"]],"uncertainties":[]}],"relations":[["relation_1","positioned_relative_to","person_1","environment_1","人物位于场景中央",0.9,"visible"]],"uncertainties":[]}
+RELATIONAL_IMAGE_PROMPT = """请分析输入图片，记录可供视频生成使用的可见事实。不要设计分镜、动作或声音。只返回一个 JSON 对象，不要 Markdown：
+{"summary":"一句话概括画面","global_analysis":{"scene":"场景","composition":"主体位置与构图","framing_layers":[],"visible_text":[],"uncertainties":[]},"entities":[{"entity_id":"person_1","category":"person","summary":"人物及固定造型","quantity":[1,0.9],"features":[["components","服装","黑色外套",0.9,"visible"]],"uncertainties":[]},{"entity_id":"environment_1","category":"environment","summary":"场景与光线","quantity":[1,0.9],"features":[["other","光线","冷色照明",0.9,"visible"]],"uncertainties":[]}],"relations":[["relation_1","positioned_relative_to","person_1","environment_1","人物位于场景中央",0.9,"visible"]],"uncertainties":[]}
 
-按以下顺序分析：
-1. 整体结构：先判断单一画面、多面板、嵌套画面、遮罩、界面、拼图或分镜板。多面板图片必须在 global_analysis.framing_layers 中逐格记录位置、构图、主要主体和可见状态；不能因为实体数量限制而漏掉面板。面板顺序不等于播放顺序。
-2. 重要内容：结合检查计划中的用户原始需求确定观察重点，但用户文字只是关注线索，不能当成图片中的可见事实。
-3. 生成语义归并：
-entities 表示后续生成过程中需要保持身份一致或独立控制的“生成语义单元”，不是素材物件清单。先忠实记录可见证据，再结合检查计划中的用户原始需求判断生成相关性；用户文字只能决定观察和组织重点，不能作为素材中的可见事实。
+按顺序检查：
+1. 先看整张图。说明是单幅画面、分格、嵌套画面还是带遮罩的画面；分格时逐格写清位置、主体和可见状态。分格顺序不等于视频播放顺序。
+2. 结合附在后面的用户需求决定观察重点，但只报告图片中实际看得到的内容。特别留意用户点名的人物、物品、场景、材质和文字；看不到的要求不要写成图片事实。
+3. entities 只列后续需要单独保持或控制的主体。人物与固定发型、服装通常合为一个人物；同一空间的普通背景物通常合为环境。如果物品会被单独拿取、打开、移动、改变，或用户要求单独展示、保持身份，就单列。画面中的任何内容都按这个标准判断；不要只因它位于背景或画面叠层，就自动并入环境。不要逐件列出无关小物。简单图片通常有 2–6 个实体，复杂图片可更多，不为凑数量增减。
+4. 每个实体保留最有用的可见特征：用户点名的细节、识别身份的外形、重要部件、主色和材质。普通实体通常写 3–6 项；用户点名的细节不能因数量限制丢掉。summary 用一句话概括，不重复 features。同一对象在多格或多视角中沿用同一 entity_id；不同对象不要误合并。
+5. 写清主体间看得见的位置和持有关系。文字只抄可辨认的部分，模糊或遮挡处不要补字。静态图片不能证明动作先后、运镜、声音或看不见的内部结构；不确定时明确标出。
 
-   对每个候选内容执行“独立控制测试”。满足以下任一条件时，倾向单列实体：
-   1. 用户明确要求单独保留、展示、改变、替换或操作它。
-   2. 它会相对所属主体或环境独立运动，或被拿取、穿戴、驾驶、打开、拆装等。
-   3. 它会发生独立的外观、状态、位置、数量或形态变化。
-   4. 它需要跨镜头保持独立身份一致，或必须与相似对象区分。
-   5. 分镜必须无歧义地单独引用它，或它承担关键空间、交互、因果关系。
-   6. 合并后会丢失用户明确要求或影响目标视频可执行性。
-
-   如果以上条件全部不成立，则优先将它合并为所属主体的 feature、environment 的组成部分、global_style 的处理或 visible_text。以下只是可覆盖的默认行为，不是固定分类：
-   - 人物与固定发型、服装、鞋、佩戴饰品和随身造型通常合并；换装对象、核心商品或需要独立变化的服饰可以单列。
-   - 同一空间的建筑、家具、背景物、天气、光照和氛围通常合并为 environment；会运动、变形、被操作或承担叙事功能的元素应单列。
-   - 扫描线、颗粒、暗角、色调等全片处理通常合并为 global_style；具有明确时间范围、局部作用对象或独立演变过程的效果可以单列。
-   - 可见文字通常记录在 visible_text；需要生成、变化、持续保持、被操作或参与叙事时可以单列。
-   - 多视角、分镜板或连续时间中有充分证据表明是同一对象的内容沿用同一 entity_id；不同真实个体或明确不同版本不得错误合并。
-
-   特征采用生成相关性预算，而不是可见细节清单。普通实体默认只保留 3–6 个足以识别和稳定生成它的高价值特征，按以下顺序选择：用户明确要求检查或保留的特征；跨镜身份锚点；核心轮廓、服装或产品结构；会影响交互的部件；必要的材质或主色。不要记录对生成目标无影响的背景小物、轻微色差、通用装饰、重复纹理或被 summary 已经概括的内容。用户明确点名的细节不受默认数量限制。summary 只用一句话说明主体是什么以及它在素材中的作用，不重复 features。
-
-   实体数量采用软预算：简单素材通常使用 2–6 个高价值实体，复杂素材可以超过 8 个。不得为了满足数量而遗漏多面板内容、多个真实主体或用户明确要求；每个额外实体都应具有清楚的独立控制理由。独立实体只表示可独立引用或保持，不自动要求独立镜头、特写或展示动作。优先更少但完整的生成单元，保持边界明确且可执行。
-4. 不确定性：区分 visible、inferred 和 unresolved。静态图片只能证明可见状态，不能证明动作、持续时间、镜头运动、机构工作方式或面板播放顺序。
-
-只能使用既有字段。framing_layers 使用 description、coverage、confidence；visible_text 使用 text、legibility、region、confidence，禁止补全模糊、遮挡、裁切或无法确认的文字。features 使用 [group,name,value,confidence,source]，group 只能是 geometry、color、material、surface、components、component_layout、orientation_cues、identity_markers、other，source 只能是 visible、inferred、unresolved。每个 relation 的端点必须对应已声明的 entity_id。不要推断真实身份、品牌结论、价格、性能、隐藏连接、所有权、音频或用户意图。"""
+只能使用示例中的字段。framing_layers 使用 description、coverage、confidence；visible_text 使用 text、legibility、region、confidence；features 使用 [group,name,value,confidence,source]。group 只能是 geometry、color、material、surface、components、component_layout、orientation_cues、identity_markers、other；source 只能是 visible、inferred、unresolved。relation 两端必须是已经列出的 entity_id。不要推断真实身份、品牌结论、价格、所有权或音频。"""
 
 def _analysis_profile(asset: Mapping[str, Any], plan: Mapping[str, Any] | None) -> str:
     """Select the cheapest evidence pipeline that still satisfies the plan."""
@@ -1130,9 +1111,9 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
                 ) from exc
             retry_prompt = (
                 prompt
-                + "\nYour previous response was invalid or truncated JSON. Retry from scratch. "
-                + "Return only complete compact JSON in the exact requested schema. "
-                + "Use fewer words and fewer optional details so the closing braces fit."
+                + "\n上次回答的 JSON 不完整或无法解析。请从头重写，"
+                + "只返回符合指定字段的完整、紧凑 JSON。"
+                + "减少非必要细节，确保所有括号闭合。"
             )
             return self._run_task(
                 media_path, retry_prompt,
@@ -1278,8 +1259,8 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
         run_dir = output_root / "staged" / f"{asset.get('asset_id', 'image')}-{time.time_ns()}"
         localization_image = self._localization_input(source, run_dir / "localization_input.jpg")
         plan_text = json.dumps(plan or {}, ensure_ascii=False)
-        guard = ("\n以下是根据用户要求形成的检查计划，它只规定观察重点，不属于视觉证据：" + plan_text
-                 + "\n计划中的类别和用途只能作为待验证假设。遵守 do_not_infer；如果素材与用户描述冲突，明确记录可见冲突。")
+        guard = ("\n下面是用户需求形成的观察重点，不是图片事实：" + plan_text
+                 + "\n只按图片记录事实；用户描述与图片不符时，写出差异。")
         localized = self._run_task(localization_image, LOCALIZATION_PROMPT + guard, run_dir / "localization", 700)
         global_analysis = localized.get("global_analysis")
         if not isinstance(global_analysis, Mapping):
@@ -1392,9 +1373,9 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             "output_dir", "/home/mx/shenxing/minimax-H3-context-IR/outputs/qwen3-vl-32b",
         ))).expanduser().resolve()
         guard = (
-            "\n以下是根据用户要求形成的检查计划，它只规定观察重点，不属于视觉证据："
+            "\n下面是用户需求形成的观察重点，不是图片事实："
             + json.dumps(plan or {}, ensure_ascii=False)
-            + "\n计划中的类别和用途只能作为待验证假设。遵守 do_not_infer；如果素材与用户描述冲突，明确记录可见冲突。"
+            + "\n只按图片记录事实；用户描述与图片不符时，写出差异。"
         )
         raw = self._run_task(
             source, RELATIONAL_IMAGE_PROMPT + guard,
@@ -1473,9 +1454,9 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
                 + "。这些时间只是测量线索：请根据画面核实真实切点，忽略闪光或快速运动造成的误报，"
                   "不得用均匀时间间隔替代实际观察。"
             )
-        guard = ("\n以下是根据用户要求形成的检查计划，它只规定观察重点，不属于视觉证据："
+        guard = ("\n下面是用户需求形成的观察重点，不是图片事实："
                  + json.dumps(plan or {}, ensure_ascii=False)
-                 + "\n计划中的类别和用途只能作为待验证假设。遵守 do_not_infer；如果素材与用户描述冲突，明确记录可见冲突。")
+                 + "\n只按图片记录事实；用户描述与图片不符时，写出差异。")
         timeline_raw = self._run_task(
             source,
             COMPACT_VIDEO_SINGLE_PASS_PROMPT + duration_rule + guard,
