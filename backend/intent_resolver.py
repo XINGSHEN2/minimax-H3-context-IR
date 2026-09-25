@@ -13,10 +13,9 @@ from typing import Any, Callable, Mapping
 from backend.contracts import normalize_source_request, validate_source_request
 
 
-INTENT_SCOPE_RULES = """Interpret scope without inventing restrictions. A user-described Shot constrains that segment only unless the user explicitly requires one shot, a one-take video, no added shots, a fully locked storyboard, or strict replication. An unmarked hard cut requires incoming content; a final hard cut may end the video. Record ambiguity instead of converting derived interpretation into a new user constraint."""
+INTENT_SCOPE_RULES = "用户只描述某个镜头时，要求只约束这个镜头。除非用户明确要求一镜到底、不能加镜头、完全锁定分镜或严格复刻，否则不要把局部要求扩大到全片。未说明内容的硬切需要下一段画面；片尾硬切可以直接结束。不确定时记录疑问，不把猜测写成用户要求。"
 
-INTENT_COMPLETION_RULES = """Classify open design space without designing the video. Preserve explicit content, order, timing, asset use and ending. Missing staging, coverage or connective action is open design unless strict replication or a local edit locks it. Do not invent events, shots or prohibitions in intent resolution; the outline Skill decides minimal sufficient completion later."""
-
+INTENT_COMPLETION_RULES = "保留用户指定的内容、顺序、时间、素材用途和结尾。未指定的表演、机位、衔接动作通常留给后续创作；严格复刻或局部编辑的锁定范围除外。本阶段只标记哪些内容开放，不新增事件、镜头或禁令。"
 
 _DIMENSION_MARKERS = (
     ("first_frame", ("first frame", "opening frame", "start frame")),
@@ -90,105 +89,39 @@ def _atomize_added_directives(directives: list[Any], supplied_count: int) -> lis
 def build_intent_prompt(source: Mapping[str, Any]) -> str:
     manifest = [{k: item.get(k) for k in ("asset_id", "media_type", "label", "user_role", "original_filename")}
                 for item in source.get("assets", []) if isinstance(item, Mapping)]
-    return f"""You are the intent-resolution stage of a multimodal video compiler.
-Read only the user's language and asset manifest. Do not claim to see, hear, OCR,
-identify, or classify media contents. Convert explicit user requirements into
-locked directives, and write a targeted perception plan telling a VLM what
-visible evidence to inspect.
+    return f"""你负责在看素材之前理解用户需求，并给视觉模型写逐素材检查计划。你只能读取用户文字和素材清单；不能声称已经看见、听见或识别素材内容。
 
 {INTENT_SCOPE_RULES}
 {INTENT_COMPLETION_RULES}
 
-Rules:
-- Preserve every supplied directive byte-for-byte; never rewrite or delete it.
-- Add directives only for explicit user requirements. Do not turn guesses into locks.
-- Resolve a generic character phrase such as "人物", "characters", or "the
-  performers" against the whole described interaction. If several characters
-  participate in a reciprocal action and the user does not explicitly name only
-  one, target all participating characters rather than arbitrarily selecting the
-  first actor mentioned.
-- Dynamic facial expression and performance timing transferred from a video are
-  motion/performance controls, not identity controls. Identity covers stable face,
-  hair, and body appearance.
-- Every newly added directive must control exactly one semantic dimension. Split
-  identity, outfit, product, motion, camera, rhythm, scene, voice, music, style,
-  first-frame, and last-frame requirements into separate directives. Never put
-  attributes from several of these dimensions into one scope array.
-- Use an asset_id from the manifest only when that asset is the source of the
-  controlled attribute. For instructions about the target video itself, use
-  asset_id="" and state the affected Picture, subject, shot or boundary in target.
-  Do not attach global camera/style/sound instructions to the first asset.
-- transfer means inheriting an attribute from a reference; it does not mean
-  generating an action requested in text. A still Picture cannot supply observed
-  camera motion, speech, walking or edit rhythm. Record such explicit target
-  requirements as asset-free directives with their exact required behavior and
-  target scope. Reserve may_change for permission rather than mandatory action.
-- Preservation is local to the referenced content unless cross-shot persistence
-  is explicitly required. 'Keep each source composition' means keep each distinct
-  scene in its assigned shot, not carry one scene or product into all shots.
-  Repeated branding or a shared theme does not establish physical identity.
-  Before seeing evidence, preserve 'the referenced content as depicted' rather
-  than asserting the same named physical object occurs in every asset.
-- Resolve every asset reference in the user's language into asset_mentions. This
-  includes image, video, and audio references. Preserve the exact referring text.
-- Semantic reference resolution belongs to you, not to downstream code. Record
-  whether the referring phrase is singular or plural. For a singular reference,
-  return exactly one resolved asset. If it is genuinely
-  ambiguous, return no resolved asset, list all plausible candidates, and add a
-  concise open question instead of guessing.
-- expected_media_type must reflect the user's wording (image, video, audio, or
-  empty when the wording does not imply a type). Never resolve a typed mention
-  to an asset of a different media type.
-- Separate user-claimed semantics (for example a claimed product category) from
-  visual evidence. Put such claims in user_claimed_category, never as a VLM fact.
-- role describes authority/use, not observed content. Prefer general values such
-  as authoritative_product_appearance, identity_reference, motion_reference,
-  camera_structure_reference, edit_base, scene_reference, or audio_reference.
-- Assign a definite reference role only when the user or supplied manifest states
-  it. When use is unspecified, set role="unspecified_reference"; do not guess
-  style-only, identity-only, or storyboard authority from filenames or task type.
-  One asset may contribute several dimensions; role is not an inspection whitelist.
-- For images, ask perception to inspect overall structure, distinct panels or
-  regions, their content/composition/visible states, and supported relationships
-  between regions, in addition to the requested focus. Do not assume panels exist.
-  Leave possible narrative sequence versus complementary views to visual analysis
-  as uncertain hypotheses, never as user requirements or confirmed chronology.
-- analyze contains concrete visible properties/questions relevant to the request.
-- do_not_infer blocks unsupported semantic assertions, not observation of content
-  outside a guessed role. Do not use it to suppress panel content or explicitly
-  uncertain structural hypotheses merely because the user did not specify use.
-- Distinguish unresolved meaning from unspecified creative content. Record an
-  open question for conflicting requirements or ambiguous source identity; do not
-  treat missing choreography or coverage as a prohibition on creative completion.
-  Set completion_policy.creative=true when a generation request leaves staging,
-  action or coverage open, even without an explicit request to expand. Set it false
-  for a fully locked task with no such design space. Preserve strict replication
-  and local-edit boundaries regardless of this flag. Never invent factual claims.
-  Keep opening-only requirements scoped to that beat, and retain any instruction
-  to continue after it in resolved_request. This policy is an interpretation, not
-  a new user constraint.
-- Return exactly one JSON object, without Markdown.
+按下面顺序处理：
+1. 用 resolved_request 忠实、简短地整理用户要生成什么。保留明确的内容、动作、顺序、时长、结尾和素材用途；未说清的地方不要擅自补成事实。
+2. 把明确要求写进 directives。每条只管一个方面，例如人物身份、服装、产品、动作、运镜、剪辑节奏、场景、声音、风格、首帧或尾帧。不要把不同方面塞进同一条，也不要把推测写成硬要求。原有 directives 必须原样保留。用户泛指多名参与者时，不要只选第一个人；视频里的表情和表演节奏属于动作，不属于固定身份。
+3. 找出用户文字中提到的每张图、每段视频和音频，在 asset_mentions 中保留原话并对应素材编号。单数引用只能对应一个素材；确实不确定时列出候选并写入 open_questions，不要猜。素材类型必须与用户说法一致。
+4. 为每份素材写 perception_plan。role 只表示用户指定的用途；没指定就写 unspecified_reference，不根据文件名猜用途。analyze 要列出与用户目标有关、能从画面核实的具体问题：整张画面的结构、人物或物品特征、文字、光线、位置关系，以及视频中的可见动作和时间。多格图片要逐格核对，不能把格子顺序当成播放顺序；相同品牌也不证明多张图里是同一件实物。图片不能证明运镜、动作过程或声音；视觉模型不能分析音频。用户所称的类别放进 user_claimed_category，不能当作已看见的事实。
+5. do_not_infer 只阻止无依据的结论，不要让它遮住素材中实际可见的内容。evidence_requirements 只列确实需要核实的关键事实。用户要求互相冲突或素材引用不清时记录问题；缺少表演细节或补充镜头通常属于开放创作，不是禁令。
 
-Required shape:
+字段含义：transfer 是从参考素材继承属性，不是执行用户文字要求的动作；may_change 表示允许变化，不表示必须变化。素材只约束与它有关的内容；全局运镜、风格或声音要求不要随意挂到第一张图上。completion_policy.creative 在生成任务留有动作、机位或衔接空间时为 true；完全锁定且没有此类空间时为 false。保留严格复刻和局部编辑的边界。
+
+只返回一个 JSON 对象，不要 Markdown。字段结构：
 {{
-  "resolved_request": "faithful concise operational restatement",
-  "asset_mentions": [{{"source_text":"exact text such as 图1 or reference video","resolved_asset_ids":["image_1"],"expected_media_type":"image|video|audio|empty","cardinality":"singular|plural","resolution":"exact|semantic|ambiguous|unresolved","confidence":1.0,"candidates":[]}}],
-  "directives": [{{"directive_id":"d_1","asset_id":"image_1","target":"stable semantic target","operation":"preserve|replace|transfer|may_change|exclude","scope":["controlled attribute"],"priority":"hard|soft","provenance":"explicit_user"}}],
+  "resolved_request": "忠实简短的需求整理",
+  "asset_mentions": [{{"source_text":"用户原话","resolved_asset_ids":["image_1"],"expected_media_type":"image|video|audio|empty","cardinality":"singular|plural","resolution":"exact|semantic|ambiguous|unresolved","confidence":1.0,"candidates":[]}}],
+  "directives": [{{"directive_id":"d_1","asset_id":"image_1","target":"约束对象","operation":"preserve|replace|transfer|may_change|exclude","scope":["一项具体要求"],"priority":"hard|soft","provenance":"explicit_user"}}],
   "completion_policy": {{"technical":true,"conservative_semantic":true,"creative":true}},
-  "perception_plan": {{"assets":[{{"asset_id":"image_1","role":"authority/use role","user_claimed_category":"or empty","analyze":["visible property or relation"],"evidence_requirements":[{{"claim":"single visible fact needed by a directive","priority":"required|useful|optional","region_or_time":"visible region, source-time window, or empty","retry_policy":"local_only","max_retries":1}}],"do_not_infer":["unsupported conclusion"]}}]}},
+  "perception_plan": {{"assets":[{{"asset_id":"image_1","role":"素材用途","user_claimed_category":"用户声称的类别或空字符串","analyze":["要核实的可见事实"],"evidence_requirements":[{{"claim":"需要核实的事实","priority":"required|useful|optional","region_or_time":"画面位置、原视频时间或空字符串","retry_policy":"local_only","max_retries":1}}],"do_not_infer":["不能从该素材推断的结论"]}}]}},
   "open_questions": []
 }}
 
-Supplied directives (immutable):
+已有 directives（必须原样保留）：
 {json.dumps(source.get('directives', []), ensure_ascii=False, indent=2)}
 
-User request:
+用户原始需求：
 {source.get('user_request', '')}
 
-Asset manifest:
+素材清单：
 {json.dumps(manifest, ensure_ascii=False, indent=2)}
 """.strip()
-
 
 def validate_intent_resolution(payload: Mapping[str, Any], source: Mapping[str, Any]) -> dict[str, Any]:
     if not isinstance(payload, Mapping):
