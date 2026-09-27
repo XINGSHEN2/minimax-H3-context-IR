@@ -19,7 +19,7 @@ async function render(){
   const card=node('article');card.className='card';const head=node('div');head.className='card-head';head.append(node('h3',group.label));const badge=node('span',group.status==='ready'?'已完成':'缺失');badge.className='badge';head.append(badge);card.append(head);
   if(group.video){const video=node('video');video.controls=true;video.muted=true;video.playsInline=true;video.preload='metadata';video.loop=$('#loopAll').checked;video.src=group.video;card.append(video)}else{const missing=node('div','未提供');missing.className='missing';card.append(missing)}
   if(group.duration_seconds){const info=node('p',`${group.size} · 实际 ${group.duration_seconds} 秒`);info.style.cssText='padding:8px 16px;color:#98a2b3';card.append(info)}
-  const details=node('details'),pre=node('pre','加载中…');details.append(node('summary','查看 Prompt'),pre);if(group.prompt)card.append(details);else card.append(node('p','参考成片仅供效果对照；未提供独立 Prompt。'));
+  const details=node('details'),pre=node('pre','加载中…');details.append(node('summary','查看 Prompt'),pre);if(group.prompt)card.append(details);else card.append(node('p','未提供独立 Prompt。'));
   const links=node('div');links.className='links';for(const [path,label]of [[group.context_ir,'Context-IR'],[group.content_plan,'内容计划'],[group.request,'请求参数'],[group.video,'打开视频']])if(path){const a=node('a',label);a.href=path;a.target='_blank';a.rel='noopener';links.append(a)}card.append(links);grid.append(card);
   textFile(group.prompt).then(text=>{if(generation===state.generation)pre.textContent=text});
  }
