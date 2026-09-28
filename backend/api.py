@@ -207,6 +207,9 @@ def _create_case(form: cgi.FieldStorage) -> tuple[str, dict[str, Any]]:
     task_type = _field_text(form, "task_type", "ref2va").lower()
     if task_type not in {"t2va", "i2va", "fl2va", "l2va", "ref2va"}:
         raise ValueError("不支持的任务类型")
+    prompt_profile = _field_text(form, "prompt_profile", "auto").lower()
+    if prompt_profile not in {"auto", "ref2va", "base"}:
+        raise ValueError("prompt_profile 必须为 auto、ref2va 或 base")
     duration = float(_field_text(form, "duration_seconds", "15"))
     if not 4 <= duration <= 15:
         raise ValueError("视频时长必须为 4–15 秒")
@@ -261,6 +264,7 @@ def _create_case(form: cgi.FieldStorage) -> tuple[str, dict[str, Any]]:
             "user_request": user_request,
             "task": {
                 "type": task_type,
+                "prompt_profile": prompt_profile,
                 "duration_seconds": duration,
                 "aspect_ratio": aspect_ratio,
                 "generate_audio": generate_audio,

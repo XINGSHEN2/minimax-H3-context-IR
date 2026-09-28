@@ -1,35 +1,42 @@
 ---
 name: h3-prompt-writing
-description: Write MiniMax H3 video generation prompts for T2VA, I2VA, FL2VA, L2VA, and Ref2VA. Use when rewriting multimodal requests into H3 prompt structures, composing integrated_multimodal_description, overall_soundscape, and non_diegetic_music, aligning keyframes, or defining reference labels for images, videos, and audio.
-compatibility: Portable to any agent that can read local files — no external API calls, MiniMax Hub tools, or proprietary runtime required. The agents/openai.yaml file only adds optional ChatGPT/Codex UI metadata; it does not restrict the skill to OpenAI agents.
+description: 为 T2VA、I2VA、FL2VA、L2VA 和 Ref2VA 编写 MiniMax H3 视频生成提示词。用于把已经锁定的视觉与音频计划编译成 H3 提示词结构、对齐关键帧，以及为图片、视频和音频定义参考标签。
+compatibility: 可移植到任何能够读取本地文件的 Agent；无需外部 API、MiniMax Hub 工具或专有运行时。agents/openai.yaml 只提供可选的 ChatGPT/Codex 界面元数据，不限制本 Skill 只能供 OpenAI Agent 使用。
 ---
 
-# H3 Prompt Writing
+# H3 提示词编写
 
-## Workflow
+## 工作流程
 
-1. Identify the input mode: T2VA, I2VA, FL2VA, L2VA, or full-reference Ref2VA.
-2. For base text/keyframe modes, read `references/base-en.txt` and follow its final prompt structure.
-3. For full-reference mode, read `references/ref-en.txt` and follow its six-section rewrite format.
-4. Preserve the exact field names, section order, labels, and timing notation from the selected guide.
+1. 判断输入模式：T2VA、I2VA、FL2VA、L2VA 或全参考 Ref2VA。
+2. 阅读 `references/shared-zh-en.txt`，应用所有模式共用的镜头、运镜、对白、可见文字和音频字段写法。声音内容取舍遵循已经完成的 H3 Sound Planning Skill 计划。
+3. 对于基础文本／关键帧模式，阅读 `references/base-zh-en.txt`，遵循其中的最终提示词结构。
+4. 对于全参考模式，阅读 `references/ref2va-zh-en.txt`，遵循其中的六板块改写格式。
+5. 保持所选指南规定的字段名称、板块顺序、标签和时间格式完全一致。
 
-## Base Modes
+## 基础模式
 
-- T2VA: build the full audiovisual timeline from text.
-- I2VA: start from the first frame and develop forward from it.
-- FL2VA: describe the continuous path between the first and last frames.
-- L2VA: infer a plausible opening and converge to the supplied last frame.
+- T2VA：根据文本构建完整视听时间线。
+- I2VA：从给定首帧出发，向后连续发展。
+- FL2VA：描述从首帧到尾帧的连续路径。
+- L2VA：推断合理的前置状态，并最终收敛到给定尾帧。
 
-Use `integrated_multimodal_description`, `overall_soundscape`, and `non_diegetic_music` in the order shown in `references/base-en.txt`.
+按照 `references/base-zh-en.txt` 的顺序输出 `integrated_multimodal_description`、`overall_soundscape` 和 `non_diegetic_music`。
 
-## Full-Reference Mode
+## 全参考模式
 
-Ref2VA rewrites use `subject_definitions`, `summary`, `retention_analysis`, `detailed_description`, `overall_soundscape`, and `non_diegetic_music` in that order. Reference labels stay consistent across all sections.
+Ref2VA 改写按以下顺序使用：`subject_definitions`、`summary`、`retention_analysis`、`detailed_description`、`overall_soundscape`、`non_diegetic_music`。所有板块中的参考标签必须保持一致。
 
-Read `references/ref-en.txt` for label rules, retention analysis, and complete examples.
+阅读 `references/ref2va-zh-en.txt`，获取标签规则、保留度分析和完整示例。
 
-## Output Rules
+## 输出规则
 
-- Write rewrite sections in English; preserve dialogue, lyrics, and visible scene text in their original language.
-- Describe each shot by composition, subjects, environment, actions, camera, sound, and the exact point where referenced content appears.
-- Avoid plot summaries, unresolved reference labels, and timing that does not match the requested duration.
+- 改写板块使用英文；对白、歌词和画面中可见文字保留原始语言。
+- 使用最短充分表达。完整保留用户要求和锁定计划，但同一事实只写在最适合的一个板块；其他板块通过标签引用，不换用近义句再次解释。素材证据丰富不等于最终提示词必须逐项转录。
+- `subject_definitions` 只定义跨镜复用、属性迁移、替换编辑或无法通过 Picture/Video 标签清楚控制的生成语义单元。只存在于一个已锚定 Picture/Video 中的静态环境、人物、物体和文字，直接写入该 Picture/Video 定义及对应镜头，不另建 Subject。背景小物、身体部件、服装部件和同一环境的组成默认归入所属主体，不逐物件建 Subject。
+- `summary` 只概括任务、素材分工、事件主线和结局；`retention_analysis` 只写出现范围、保留级别及允许变化，不复述已经定义的外观。
+- 全局风格、固定遮罩、持续效果和重复转场语法各定义一次。定义了 Picture/Video 关键帧后，镜头用该标签锁定完整画面，只补充动态变化；不再枚举锚点中已经可见的场景组成。重复转场家族定义后，各边界只写“启动／承接该转场并落到哪个锚点”，不重述模糊、峰值替换、稳定和对焦的完整过程。每个镜头只写执行该镜头所需的动作、必要构图差异、单一摄影机路径、边界和精确同步声音；不要重述固定外观、全局风格、通用禁令或剪辑理由。
+- 关键帧成为第一帧可辨内容时，镜内动作必须从该关键帧已显示的位置、姿态和持物状态继续；不能写成主体再次入画、重新取得物品或重新到达关键帧。关键帧中已有的可见文字默认写成“保持 `<Picture N>` 中的原文和布局”，不逐字转录；只有用户要求新生成／改写文字，或文字内容本身承担叙事、对白、歌词或精确同步作用时才抄写全文。
+- 不设机械字数或字符上限。写完后逐句检查：删除后若不会损失用户要求、参考绑定、可见事件、连续性、声音同步或 H3 执行信息，就删除。
+- 精简不能删除用户明确的动作、顺序、文字、保留项、禁止项、持续效果或音频要求。适用于多镜的要求和禁止项必须在逐镜之前合并写一次；同一行为适用于多个镜头时先写一条完整的全局执行语法，逐镜仅引用其发生位置。最终逐项对照 requirement_map，确保每个明确要求在 H3 中有且只有必要的落实位置。
+- 避免使用剧情摘要代替可执行描述，避免未定义的参考标签，以及与目标时长不一致的时间标记。

@@ -10,15 +10,26 @@ import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any, Callable, Mapping
 from urllib.parse import urlparse
 from backend.contracts import normalize_source_request, validate_source_request
 from backend.perception import PERCEPTION_PROVIDERS, PerceptionProviderConfig, sanitize_media_analysis_quality
 from backend.intent_resolver import resolve_intent
 ROOT = Path(__file__).resolve().parent.parent
 SKILLS_DIR = ROOT / "skills"
-CORE_SKILLS = ("h3-prompt-writing", "h3-shot-planning")
+CORE_SKILLS = ("h3-outline-planning", "h3-shot-planning", "h3-sound-planning", "h3-prompt-writing")
 OFFICIAL_SKILLS = set(CORE_SKILLS)
+
+def prompt_profile_for_source(source: Mapping[str, Any]) -> str:
+    """Resolve the protocol guide set from an explicit override or task type."""
+    task = source.get("task") if isinstance(source, Mapping) else None
+    task = task if isinstance(task, Mapping) else {}
+    profile = str(task.get("prompt_profile", "auto")).strip().lower()
+    if profile == "auto":
+        return "ref2va" if task.get("type") == "ref2va" else "base"
+    if profile not in {"ref2va", "base"}:
+        raise ValueError("prompt_profile must be auto, ref2va, or base")
+    return profile
 
 def reasoning_provider_config() -> dict[str, str]:
     selected = os.environ.get("CONTEXT_IR_LLM_PROVIDER", "deepseek").strip().lower()
@@ -122,6 +133,7 @@ def invoke_reasoning_json(
     reasoning: dict[str, str],
     log_path: Path,
     skill_names: list[str] | None = None,
+    prompt_profile: str = "ref2va",
 ) -> dict[str, Any]:
     """Run one strict JSON turn through the configured replaceable runtime."""
     runtime = os.environ.get("CONTEXT_IR_LLM_RUNTIME", "direct").strip().lower()
@@ -135,17 +147,14 @@ def invoke_reasoning_json(
                 raise FileNotFoundError(f"missing official Skill: {path.parent}")
             system_parts.append(path.read_text(encoding="utf-8"))
             if name == "h3-prompt-writing":
-                # Direct Chat has no filesystem tool. The skill index alone
-                # cannot execute its instruction to read the protocol guides.
-                # Ref2VA also imports the base guide's speech/camera rules.
-                for reference_name in ("base-en.txt", "ref-en.txt"):
+                # Direct Chat has no filesystem tool, so inject the shared
+                # protocol plus exactly one mode-specific guide.
+                if prompt_profile not in {"ref2va", "base"}:
+                    raise ValueError("prompt_profile must be ref2va or base")
+                profile_reference = "ref2va-zh-en.txt" if prompt_profile == "ref2va" else "base-zh-en.txt"
+                for reference_name in ("shared-zh-en.txt", profile_reference):
                     reference = path.parent / "references" / reference_name
                     guide = reference.read_text(encoding="utf-8")
-                    if reference_name == "ref-en.txt":
-                        # The protocol rules are sufficient at runtime. The long
-                        # worked example repeats appearance in shots and can
-                        # override the project's single-definition convention.
-                        guide = guide.split("## 7. Complete Example", 1)[0].rstrip()
                     system_parts.append(guide)
         return direct_runtime_from_config(reasoning).invoke_json(
             prompt,
@@ -170,8 +179,8 @@ def run_agent(
 ) -> int:
     if style_skill:
         raise ValueError(
-            "style_skill has been retired; h3-shot-planning is now always enabled "
-            "and creative style stays governed by the user request and production policies"
+            "style_skill has been retired; prompt behavior is governed by the user request, "
+            "production instructions, and the active h3-prompt-writing skill"
         )
     run_started = time.perf_counter()
     stage_timings: dict[str, Any] = {

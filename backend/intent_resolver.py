@@ -10,9 +10,12 @@ import copy
 import json
 from typing import Any, Callable, Mapping
 
-from backend.prompt_instructions import SHOT_SCOPE_RULES, COMPLETION_RULES
-
 from backend.contracts import normalize_source_request, validate_source_request
+
+
+INTENT_SCOPE_RULES = """Interpret scope without inventing restrictions. A user-described Shot constrains that segment only unless the user explicitly requires one shot, a one-take video, no added shots, a fully locked storyboard, or strict replication. An unmarked hard cut requires incoming content; a final hard cut may end the video. Record ambiguity instead of converting derived interpretation into a new user constraint."""
+
+INTENT_COMPLETION_RULES = """Classify open design space without designing the video. Preserve explicit content, order, timing, asset use and ending. Missing staging, coverage or connective action is open design unless strict replication or a local edit locks it. Do not invent events, shots or prohibitions in intent resolution; the outline Skill decides minimal sufficient completion later."""
 
 
 _DIMENSION_MARKERS = (
@@ -93,8 +96,8 @@ identify, or classify media contents. Convert explicit user requirements into
 locked directives, and write a targeted perception plan telling a VLM what
 visible evidence to inspect.
 
-{SHOT_SCOPE_RULES}
-{COMPLETION_RULES}
+{INTENT_SCOPE_RULES}
+{INTENT_COMPLETION_RULES}
 
 Rules:
 - Preserve every supplied directive byte-for-byte; never rewrite or delete it.

@@ -1,38 +1,42 @@
 ---
 name: h3-shot-planning
-description: Execute camera movement, shot continuity and editorial boundaries for MiniMax H3 prompts from an existing content plan.
+description: 把已确定的内容大纲写成可直接用于 H3 的逐镜英文描述，决定必要切镜、镜内画面、摄影机、局部声音、转场和时间。
 ---
 
-# H3 Shot Planning
+# H3 分镜规划
 
-The caller owns user authority, completion scope, content developments and cut decisions. Apply those decisions without adding a second planning framework, model call, review gate or default shot count.
+输入是用户要求、素材用途、已确定的 `developments` 和目标时长。输出按播放顺序排列的 `shots`，以及 `h3_prompt.detailed_description` 中可直接用于 H3 的英文 `[Shot N]` 正文。遵守 H3 Prompt Writing Skill 的参考标签和语言格式。本阶段只决定怎样拍已确定的内容，不增加、删除或改写事件；大纲若有矛盾，退回 Outline Planning Skill 修正。
 
-## References
+## 第一步：确定每段要看见什么
 
-Use each reference only in its assigned role. Identity sheets, scene boards, style references, action phases and chronological storyboards are different inputs. Picture count does not determine shot count. Place a keyframe at its evidenced action state: first frame, intermediate beat, last frame or composition reference. Do not begin from a completed result when its arrival must be shown.
+按发生顺序读每条 development 和用户明确要求。先确定观众要看见的起始状态、动作或展示过程、直接结果，以及必须读清的文字、材质、人物反应或参考构图。每个要求都要有落点；没有画面依据的细节不要编成素材事实。
 
-For video references, transfer only requested dimensions such as choreography, performance rhythm, camera path, edit structure or environment. Preserve a requested storyboard sequence and reference cadence. Do not fabricate unseen action or prolong the source merely to fill time.
+## 第二步：决定哪里切镜
 
-## Camera execution
+同一时间、地点、主体和动作目标，先用一个连续镜头安排准备、动作、必要细节、即时反应和结果。一个 Shot 可以随人物运动改变构图、景别或焦点，不必始终停在同一机位和景别。
 
-Choose framing that makes the planned purpose readable: full bodies and floor contact for choreography, both sides of a relationship when required, or the relevant product surface during use. Stable observation is valid. When the camera moves, describe one coherent path, its speed/amplitude and the reveal it enables. A focus change is not camera translation. Avoid contradictory fixed/moving instructions and decorative movement with no viewing purpose.
+只有以下情况才增加 Shot：时间或地点改变；主要观察对象或人物之间的关系真正改变；当前镜头即使跟随主体、移动摄影机、重新构图、改变景别或焦点，仍无法看清用户要求的内容或重要结果；用户或参考明确指定切点或独立片段。用户明确要求蒙太奇、舞蹈卡点或独立产品展示时，按指定的剪辑结构安排镜头。快节奏、硬切和电影感只决定必要切点怎样表现，不自动增加镜头。标题变化、闪白、黑场、故障、震动和普通反应附在它们表现的动作或已有切点上，不因效果出现就单独成镜，除非用户或参考明确要求独立片段。
 
-A shot may contain ordered action stages and gradual reframing. Keep connected preparation, action, reaction and visible consequence physically continuous when the plan has merged them. Integrate product detail into handling, use, rotation or material response when specified. Do not silently split a merged phrase back into coverage shots.
+列出初步镜头后，逐个检查切点：删掉它，动作能否自然连续？后镜要看的哪项必要内容，是前镜通过主体或摄影机运动、重新构图、改变景别或焦点仍拍不清的？这个切点是否由用户、参考、真实时空变化或观察对象变化指定？如果删掉能自然连接，且后两问都没有具体答案，就合并。只多一个角度、再次展示同一标题材质或把同一次震动拆成几个景别，不是充分理由。镜头数由内容决定，不设固定数量。
 
-## Cuts and transitions
+## 第三步：直接写每个镜头
 
-At a cut, preserve the planned action phase, screen direction, camera side, eyeline, relative position, wardrobe and object ownership. An outgoing end state may be mid-action; the incoming view resumes that unfinished phase. Do not restart completed action or skip a required transformation. Intentional ellipsis and discontinuity remain valid when specified.
+在 `[Shot N]` 正文中依次写清：开头先看见谁和什么，它们在哪里、处于什么状态；人物或物体接下来怎样运动、状态怎样改变；用户要求的材质、结构、文字或表情在什么画面和光线下看清；如果是针对参考素材的修改，在出现该内容的镜头里需要详细说明原来是什么，被修改成了什么，不能只描述修改后是什么；摄影机怎样跟随或重新构图；结束时留下什么画面和状态。不要只写“展示产品”“人物反应”或一个景别名称，让后续步骤猜镜头内容。对参与动作的物品，写清它在动作开始前在哪里、由谁持有或处于什么状态，再写它如何改变。只交代与本镜动作或后续镜头有关的主体，不逐一罗列背景物。
 
-Give a boundary one concrete connection: action match, eyeline, cause/reaction, composition, sound bridge or intentional time/place jump. An ordinary cut needs no optical effect. Preserve requested hard cuts, black frames, flashes and discontinuity instead of smoothing them away.
+固定外观和场景可引用已定义的 Subject、Picture 或 Video，不逐镜重抄；但本镜要看的具体细节必须写在本镜。只写与用户目标和素材相符的内容，不为填满时间增加动作或物体。一个 Shot 只容纳同一连续时空中的动作；摄影机使用一条连贯路径，不能同时要求固定机位和移动。运镜没有观看作用时保持稳定。
 
-For blur, flash, smoke, darkness, occlusion or a foreground wipe that conceals a source/scene replacement, execute one atomic irreversible boundary: fully conceal outgoing content, swap at peak concealment, then reveal only incoming content. The outgoing scene must not regain clarity after the swap. Describe the boundary once rather than spreading it across both shots.
+参考图若作为镜头起点，首次清晰画面就符合其位置、姿态、持物和构图；若作为目标，写清画面怎样连续到达它。不要到达后再重复一次关键帧，也不擅自让人物重新入画或寻找目标。与画面精确同步的对白、动作声和转场声写在发生的动作旁，自然穿插；不为每次切镜添加音效。持续环境声和画外配乐留给 Sound Planning Skill。
 
-## Timing and sound
+## 第四步：连接镜头并分配时间
 
-Honor explicit timing and reference cadence. Allocate enough time for the principal action and readable outcome before secondary display or ending. Do not create pauses merely to close a shot.
+逐对检查相邻镜头，确保镜头之间逻辑性合理：前镜结束时，人物在哪里、动作做到哪一步，关键物品在哪里、由谁持有，物品处于什么状态；后镜从这些状态继续。没有拍到改变状态的动作，就保持原状态；即使物品暂时离开画面，它再次出现时也必须接上此前状态。若两镜之间确实需要拿取、放下、开关或交接，应把动作安排在其中一镜，不让变化凭空发生。服装、运动方向、环境和需要延续的声音同样接上。同一动作确实需要拆镜时，再填写 `cut_reason` 和 `continuity_bridge`。
 
-Synchronize physical sound with visible triggers and stops. Footsteps stop when walking stops; off-screen sound continues only when its source action continues. Natural reverberation may cross a cut, while a new impact requires a new visible cause. Preserve audio-copy and silence scopes exactly as assigned.
+每个切点写清前镜从什么画面离开、怎样切换，以及后镜第一帧看见什么。硬切直接到新画面；甩镜写清甩动方向和落到的对象；闪白、黑场、遮挡或故障只在边界的一侧执行一次。除非用户或参考要求返回或闪回，换到新画面后旧画面不重新清晰。转场不能凭空增加动作或延长事件。
 
-## H3 prose
+按动作完成、细节辨认和文字阅读实际需要分配时间。镜头从 0 秒连续覆盖目标时长，不平均切分，不为填满时长增加停顿。
 
-Keep stable identity, source bindings, global style and persistent effects in their existing global sections. In each shot, write only its action phrase, necessary framing/camera behavior, continuity-critical state and boundary execution. Do not repeat fixed appearance or explain editorial reasoning in executable prose.
+## 输出与检查
+
+每个 `shots` 条目写 `id`、`development_ids`、`content_purpose`、`treatment_ids`、`start_seconds` 和 `end_seconds`；只有拆开同一连续动作时再写 `cut_reason`、`continuity_bridge`。完整镜头文字只写在 `h3_prompt.detailed_description`，每镜以独占行首的 `[Shot N]` 开始，编号与 `shots` 一一对应；不再输出另一套镜头正文。
+
+提交前检查四件事：用户要求和 developments 是否都拍到了；每个切点是否有上述必要理由，合并后会损失什么或违反哪项指定结构；每镜的画面、动作和摄影机是否具体可拍；逐镜核对关键人物与物品的起始状态、可见变化、结束状态和下一镜起点，找不到执行动作的状态变化必须修正，同时检查关键帧、声音和转场是否接得上。锁定后交给 Sound Planning Skill；后续只排版，不重新设计镜头。

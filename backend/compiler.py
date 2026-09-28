@@ -6,7 +6,11 @@ import os
 import re
 import time
 
-COMPILER_REVISION='singlecall.v33.lean_shot_planner'
+COMPILER_REVISION='singlecall.v63.logical_developments'
+REQUIRED_H3_SECTIONS = (
+    'subject_definitions', 'summary', 'retention_analysis',
+    'detailed_description', 'overall_soundscape', 'non_diegetic_music',
+)
 def configured_h3_text_max_chars():
     """Only report a deployment limit when explicitly configured."""
     value = os.environ.get('CONTEXT_IR_H3_TEXT_MAX_CHARS', '').strip()
@@ -16,6 +20,31 @@ def configured_h3_text_max_chars():
     if limit <= 0:
         raise ValueError('CONTEXT_IR_H3_TEXT_MAX_CHARS must be positive')
     return limit
+
+
+def extract_shot_descriptions(prompt):
+    """Read canonical Shot bodies from the model's final H3 text, unchanged."""
+    section = re.search(r'(?mi)^\s*detailed_description\s*:', prompt)
+    ending = re.search(r'(?mi)^\s*overall_soundscape\s*:', prompt)
+    if not section or not ending or ending.start() <= section.end():
+        return [], ['Cannot locate detailed_description shot boundaries']
+    body = prompt[section.end():ending.start()]
+    markers = list(re.finditer(r'(?mi)^\s*\[Shot\s+(\d+)\]', body))
+    if not markers:
+        return [], ['detailed_description has no line-start [Shot N] labels']
+    descriptions = []
+    errors = []
+    # A global visual setup may precede the first shot in the official format.
+    # Keep it in h3_prompt; shot records contain only their own bodies.
+    for index, match in enumerate(markers):
+        if int(match.group(1)) != index + 1:
+            errors.append('Shot labels must be consecutive from 1')
+        end = markers[index + 1].start() if index + 1 < len(markers) else len(body)
+        description = body[match.end():end].strip()
+        if not description:
+            errors.append(f'Shot {index + 1} description is empty')
+        descriptions.append(description)
+    return descriptions, errors
 
 
 def transport_issues(result,evidence):
@@ -50,7 +79,31 @@ def transport_issues(result,evidence):
         for label,kind in [('Picture','image'),('Video','video')]:
             count=sum(a.get('media_type')==kind for a in evidence.get('assets',[]))
             if any(int(n)<1 or int(n)>count for n in re.findall(r'<'+label+r'\s+(\d+)>',prompt)):errors.append('Prompt references nonexistent '+label)
-        if any(h not in prompt for h in ['subject_definitions','summary','retention_analysis','detailed_description','overall_soundscape','non_diegetic_music']):warnings.append('Some official section labels are absent; inspect wording, no automatic rewrite')
+        section_matches = {
+            name: list(re.finditer(r'(?mi)^\s*' + re.escape(name) + r'\s*:', prompt))
+            for name in REQUIRED_H3_SECTIONS
+        }
+        missing = [name for name, matches in section_matches.items() if not matches]
+        duplicate = [name for name, matches in section_matches.items() if len(matches) > 1]
+        if missing:
+            errors.append('h3_prompt missing required sections: ' + ', '.join(missing))
+        if duplicate:
+            errors.append('h3_prompt has duplicate required sections: ' + ', '.join(duplicate))
+        if not missing and not duplicate:
+            ordered = [section_matches[name][0] for name in REQUIRED_H3_SECTIONS]
+            if [match.start() for match in ordered] != sorted(match.start() for match in ordered):
+                errors.append('h3_prompt required sections must appear in official order')
+            else:
+                for index, name in enumerate(REQUIRED_H3_SECTIONS):
+                    start = ordered[index].end()
+                    end = ordered[index + 1].start() if index + 1 < len(ordered) else len(prompt)
+                    if not prompt[start:end].strip():
+                        errors.append('h3_prompt required section is empty: ' + name)
+        if not missing and not duplicate:
+            descriptions, shot_errors = extract_shot_descriptions(prompt)
+            errors.extend(shot_errors)
+            if isinstance(shots,list) and len(descriptions) != len(shots):
+                errors.append(f'detailed_description has {len(descriptions)} Shots but content_plan has {len(shots)}')
     return errors,warnings
 
 def prepare_writer_evidence(evidence):
@@ -71,7 +124,7 @@ def prepare_writer_evidence(evidence):
 
 
 def compile_prompt(source, output_dir, reasoning, timings, started, progress=None):
-    from backend.agent import invoke_reasoning_json, CORE_SKILLS
+    from backend.agent import invoke_reasoning_json, CORE_SKILLS, prompt_profile_for_source
     from backend.evidence import build_writer_evidence
     from backend.prompt_instructions import build_compact_writing_prompt
     from backend.contracts import build_h3_request
@@ -79,20 +132,33 @@ def compile_prompt(source, output_dir, reasoning, timings, started, progress=Non
     def save(name, value):
         (output_dir / name).write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
+    raw_perception = source.get('perception')
+    if isinstance(raw_perception, dict):
+        save('media_analysis_raw.json', raw_perception)
     evidence = prepare_writer_evidence(build_writer_evidence(source))
     save('evidence_input.json', evidence)
     instruction = build_compact_writing_prompt(evidence)
     (output_dir / 'compiler_instructions.txt').write_text(instruction, encoding='utf-8')
     tick = time.perf_counter()
-    result = invoke_reasoning_json(instruction, reasoning, output_dir / 'writer_1.log', list(CORE_SKILLS))
+    prompt_profile = prompt_profile_for_source(source)
+    result = invoke_reasoning_json(
+        instruction, reasoning, output_dir / 'writer_1.log', list(CORE_SKILLS),
+        prompt_profile=prompt_profile,
+    )
+    timings['prompt_profile'] = prompt_profile
     timings['stages_seconds']['single_call_compile'] = round(time.perf_counter() - tick, 3)
     if progress:
         progress('validation')
     errors, warnings = transport_issues(result, evidence)
     save('compilation_result.json', result)
+    compact_evidence_chars = len(json.dumps(evidence, ensure_ascii=False, separators=(',', ':')))
+    raw_analysis_chars = (len(json.dumps(raw_perception, ensure_ascii=False, separators=(',', ':')))
+                          if isinstance(raw_perception, dict) else None)
     audit = {'schema_version': 'h3_prompt_contract.v1', 'passed': not errors,
              'errors': errors, 'warnings': warnings, 'semantic_quality_verified': False,
              'compiler_revision': COMPILER_REVISION, 'llm_calls': 1,
+             'raw_media_analysis_chars': raw_analysis_chars,
+             'writer_evidence_chars': compact_evidence_chars,
              'h3_prompt_chars': len(result.get('h3_prompt', '')) if isinstance(result.get('h3_prompt'), str) else None,
              'h3_v2_endpoint_max_chars': configured_h3_text_max_chars()}
     save('h3_prompt_audit.json', audit)
@@ -105,6 +171,10 @@ def compile_prompt(source, output_dir, reasoning, timings, started, progress=Non
         # issue a generation request for invalid output.
         raise ValueError('v20 transport validation failed: ' + json.dumps(errors, ensure_ascii=False))
     plan = result['content_plan']
+    descriptions, _ = extract_shot_descriptions(result['h3_prompt'])
+    plan = copy.deepcopy(plan)
+    for shot, description in zip(plan['shots'], descriptions):
+        shot['description'] = description
     save('content_plan.json', plan)
     save('story_outline.json', plan.get('developments', []))
     # Explicitly a lightweight record, NOT a fabricated canonical Context-IR.
