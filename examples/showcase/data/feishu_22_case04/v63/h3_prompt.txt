@@ -1,0 +1,24 @@
+subject_definitions:
+<Video 1> is the source video for the target video: a locked wide shot in 16:9 over a polished light-brown wooden floor with white circular markings, in which three suited men in the left, center, and right slots of one row perform a rapid floor-level routine that ends in a stacked pyramid while a woman in white stands at the left edge of the frame.
+<Subject 1> is the photorealistic capybara replacing the leftmost suited man of <Video 1>, with a blunt square muzzle, small rounded ears, short legs, and a heavy barrel body.
+<Subject 2> is the photorealistic capybara replacing the center suited man of <Video 1>, with the same capybara anatomy.
+<Subject 3> is the photorealistic capybara replacing the rightmost suited man of <Video 1>, with the same capybara anatomy.
+
+summary:
+[reference generation] The target video replaces the three suited performers of <Video 1> with three photorealistic capybaras that keep the same locked wide framing and follow the source routine's action order and rapid tempo: after <Subject 1>, <Subject 2>, and <Subject 3> drop flat onto the floor in turn, the left and center capybaras exchange slots, the center and right capybaras exchange slots, and the capybara left in the center jumps onto the backs of the other two to end in the same stacked pyramid.
+
+retention_analysis:
+<Video 1> (fixed wide framing, action order, tempo, and floor-level trajectories; the entire 5.875 s): partially_preserved - the locked camera, wide 16:9 framing, wooden floor, choreography order, rapid tempo, and final pyramid arrangement are kept, while the three suited men are replaced by capybaras.
+<Subject 1> (appears in [Shot 1]): attribute_transfer - the leftmost man's slot, timing, and body trajectory are transferred onto a photorealistic capybara; his human identity, suit, and human limb mechanics are discarded.
+<Subject 2> (appears in [Shot 1]): attribute_transfer - the center man's slot, timing, and body trajectory are transferred onto a photorealistic capybara; his human identity, suit, and human limb mechanics are discarded.
+<Subject 3> (appears in [Shot 1]): attribute_transfer - the rightmost man's slot, timing, and body trajectory are transferred onto a photorealistic capybara; his human identity, suit, and human limb mechanics are discarded.
+
+detailed_description:
+The target video is a photorealistic live-action clip in 16:9 that keeps the locked wide framing of <Video 1>; all three capybaras have dense, individually detailed photorealistic fur and receive the floor's existing light so their contact shadows stay consistent with the surrounding environment.
+[Shot 1] A static wide shot from the fixed camera position of <Video 1> holds the polished light-brown wooden floor with its white circular markings, and the camera never moves, zooms, or cuts. Three photorealistic capybaras, <Subject 1> at the left, <Subject 2> at the center, and <Subject 3> at the right, replace the three suited men in the same slots of the row and stand on the floor while the woman in white from <Video 1> remains at the left edge of the frame. In rapid succession <Subject 1>, then <Subject 2>, then <Subject 3> drop flat onto the boards, each flopping belly-down with its short legs tucked under, fur pressing against the wood, and a low dull impact sounding through the room. <Subject 1> then pushes off its forelegs and springs sideways into the center slot, landing belly-down beside <Subject 2>; as <Subject 1> lands, <Subject 2> rolls over its shoulder from the center slot into the left slot, rotating across the boards and sliding flat to a stop with a light scuff of claws. <Subject 1> then rolls sideways from the center toward the right slot while <Subject 3> springs up out of the right slot and jumps into the vacated center slot, the two crossing the floor in one quick exchange. Finally <Subject 3> pushes up from the center slot and jumps onto the backs of <Subject 2> and <Subject 1> lying flat at the left and right of the row, landing across both backs with a soft thud and settling into a stacked pyramid; all three hold flat and still until the video ends, their fur and contact shadows resting under the room's existing light.
+
+overall_soundscape:
+Indoor room tone with a faint low ventilation hum continues throughout. Three heavy bodies land on the wooden floor in quick succession, claws scrabble and slide over the boards during the two exchanges, and the stacked capybaras settle with a soft scuff before the room tone closes the video.
+
+non_diegetic_music:
+N/A

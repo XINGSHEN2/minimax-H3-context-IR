@@ -1,0 +1,28 @@
+subject_definitions:
+<Video 1> is the source video edited by the target video: a single continuous 6-second medium shot in which the camera tracks backward as children run down a white daisy slope in warm low-angle golden light.
+<Subject 1> is the child who runs at the left of the group in <Video 1> and becomes the leftmost figure in frame after the leftmost foreground child exits, identified by their face, shoulder-length brown hair and body as shown in <Video 1>; their outerwear is replaced by <Subject 3>.
+<Subject 2> is the golden retriever from <Picture 1>, replacing the rearmost child in <Video 1>: a medium-large, sturdy dog with a golden to light-golden medium-length coat, longer fur on the chest and legs, long droopy ears, a dark nose and a slightly open mouth with the pink tongue out.
+<Subject 3> is the blue washed denim children's jacket from <Picture 2>, worn by <Subject 1>: a sherpa collar, metal buttons, "WILD CHILD" embroidery on the chest and patch graphics.
+<Subject 4> is the center child leading the group in <Video 1>, with long flowing brown hair and an off-white button-down long-sleeve shirt.
+<Subject 5> is the leftmost foreground child in <Video 1>, with long fluffy brown hair and a beige ribbed knit top, preserved unchanged.
+
+summary:
+[video editing + reference generation] The target video is an edited version of <Video 1>: the child at the rear of the running group is replaced by <Subject 2> in the same position and scale, and the jacket worn by the child at the left of the group is replaced by <Subject 3>, while the other children, the daisy meadow, the framing, the backward-tracking camera and the 6-second timing stay as in <Video 1>. The group keeps running toward the lens, the leftmost foreground child exits the left frame edge at about two seconds as in the source, and the video ends mid-run on the remaining three figures with the retriever still at the rear.
+
+retention_analysis:
+<Video 1> (edit base, full 6 seconds): partially_preserved - framing, angle, backward-tracking movement, 6-second duration and edit rhythm are kept, and everything outside the two edited regions stays as in the source.
+<Subject 1> (appears in [Shot 1], full duration): partially_preserved - face, shoulder-length brown hair and body stay as in <Video 1>; the outerwear is replaced by <Subject 3>.
+<Subject 2> (appears in [Shot 1], full duration, at the right rear of the group): fully_preserved - the coat color, fur length, droopy ears, dark nose and tongue-out mouth defined from <Picture 1> remain unchanged.
+<Subject 3> (appears in [Shot 1], full duration, worn by <Subject 1>): fully_preserved - the denim color, sherpa collar, metal buttons and "WILD CHILD" embroidery and patches remain, now worn on the running child instead of hanging in <Picture 2>.
+<Subject 4> (appears in [Shot 1], full duration): fully_preserved - identity, hair and off-white button-down shirt unchanged.
+<Subject 5> (appears in [Shot 1], first two seconds): fully_preserved - identity, hair and beige ribbed knit top unchanged; exits the left edge of frame as in <Video 1>.
+
+detailed_description:
+The target video keeps the live-action look of <Video 1>: warm low-angle golden-hour sunlight, a pale blue-white sky over the white daisy meadow and a natural filmic rendering with soft shallow depth of field.
+[Shot 1] The camera tracks backward at the same steady pace, height and medium framing as <Video 1>, holding the running group centered on the daisy slope. In the left foreground, <Subject 5> runs toward the lens smiling and exits the left edge of frame at about the two-second mark exactly as in <Video 1>, softening slightly in the near focus before leaving. Just to their right, <Subject 1> runs forward in the position they hold in <Video 1>; the original khaki-brown jacket is gone and the child now wears <Subject 3> - the washed denim sits open at the sherpa collar, the metal buttons catch the low sun, and the "WILD CHILD" embroidery and patch graphics are legible on the chest as the fabric folds and swings with each stride - while <Subject 1>'s face, shoulder-length brown hair and body remain as in the source. In the center, <Subject 4> leads the group in the off-white button-down shirt with long hair streaming sideways. At the right rear, at the same position and on-screen scale as the rearmost child in <Video 1>, that child and the brown jacket and khaki top they wore no longer appear; <Subject 2> runs there instead, on all fours and at the group's pace, the golden coat rippling in the backlight, the long droopy ears bouncing with each stride, the dark nose pointing at the lens and the mouth open with the pink tongue out, fully visible at the rear of the formation. From the two-second mark to the end, the three remaining figures - <Subject 1> now leftmost, <Subject 4> in the center and <Subject 2> at the right rear - continue running toward the tracking camera, hair, denim and fur moving with the same easy rhythm as <Video 1>, and the shot closes on this formation with no new action, cut or camera change. Synchronized sound: rapid footfalls through the grass and the dog's panting rise with the run.
+
+overall_soundscape:
+A light breeze moves through the daisy meadow for the whole video. Quick footfalls through grass and the dog's panting stay with the run toward the lens, with the children's fast breathing and light laughter underneath until the final frame.
+
+non_diegetic_music:
+N/A

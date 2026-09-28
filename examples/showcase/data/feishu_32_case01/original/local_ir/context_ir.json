@@ -1,0 +1,888 @@
+{
+  "schema_version": "h3_compilation.light.v1",
+  "compiler_revision": "singlecall.v63.logical_developments",
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 15,
+    "aspect_ratio": "16:9",
+    "generate_audio": true,
+    "style": "",
+    "prompt_profile": "auto"
+  },
+  "assets": [
+    {
+      "asset_id": "video_1",
+      "media_type": "video",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.2 场景与视觉效果编辑/case1-ref2va/assets/视频1.mp4",
+      "label": "视频1"
+    },
+    {
+      "asset_id": "video_2",
+      "media_type": "video",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.2 场景与视觉效果编辑/case1-ref2va/assets/视频2.mov",
+      "label": "视频2"
+    }
+  ],
+  "content_plan": {
+    "task_mode": "ref2va",
+    "creative_brief": {
+      "user_locked": [
+        "Remove the green-screen background of video 1 and replace it with a fairy-tale background in the style of video 2.",
+        "The replacement background uses video 2's fairy-tale style, elements and palette.",
+        "Keep the video 1 performer's identity, face, hair and body appearance unchanged.",
+        "Keep the video 1 performer's action, pose and timing unchanged.",
+        "Background elements must fully match the performer's action and timing.",
+        "Replace the performer's lighting (direction, color temperature, intensity, shadows) so it matches the replacement background.",
+        "15 seconds, 16:9, audio generated."
+      ],
+      "reference_anchors": [
+        "<Video 1> supplies the performer's identity and dress, her exact action and timing (walk forward with a leftward glance from 0–5s, then turn to face the camera with a growing smile, slow down and extend her right hand toward the lens from 5–9.5s), the locked-off camera and framing change caused by her approach, and the uniform green-screen region to be removed.",
+        "<Video 2> supplies the replacement environment: mossy green floor densely set with small mushrooms, red berries and tiny glowing points, the large red amanita with visible gills on the left, dark cave backdrop with vertical waterfall-like light bands, saturated mossy green with red-orange accents against cool dark depth, warm local foreground glow with low-contrast cool background light, soft bloom and thin haze."
+      ],
+      "open_design": [
+        "Exact frame-level timing of the environment glow, motes and berry brightness relative to her steps and reach.",
+        "Content of the continuous continuation after the 9.5-second source ends: the bloom around her hand, the creature's reaction and the settled final glow.",
+        "Whether the small creature from video 2 is kept as a small off-centre background element.",
+        "All ambience and score, since no audio was analysed for either asset."
+      ]
+    },
+    "requirement_map": {
+      "content_events": [
+        {
+          "id": "ce_1",
+          "text": "Remove the uniform green-screen background behind the performer across the whole clip and eliminate green spill on her hair and edges, replacing the region with the fairy-tale forest."
+        },
+        {
+          "id": "ce_2",
+          "text": "Fill the replaced background with video 2's fairy-tale environment: mossy ground with dense small mushrooms, red berries and small glowing points, the large red amanita with visible gills at the left, dark cave backdrop with vertical waterfall-like light bands, saturated green with red-orange accents and cool dark depth."
+        },
+        {
+          "id": "ce_3",
+          "text": "Keep the performer's identity, face, curly auburn hair, cream vintage dress and body appearance unchanged."
+        },
+        {
+          "id": "ce_4",
+          "text": "Keep the performer's action, pose and timing: she walks toward the locked camera glancing left (0–5s), turns to the camera with a growing smile, then slows and extends her right hand toward the lens (5–9.5s)."
+        },
+        {
+          "id": "ce_5",
+          "text": "Make background elements move in sync with her action and timing while staying spatially locked to her, so the light, motes and berries respond to her steps and to her reaching hand."
+        },
+        {
+          "id": "ce_6",
+          "text": "Replace the performer's lighting so its direction, color temperature, intensity and shadows match the replacement background."
+        },
+        {
+          "id": "ce_7",
+          "text": "Run 15 seconds continuously and end in a settled, resolved state."
+        }
+      ],
+      "editing_treatments": [
+        {
+          "id": "et_1",
+          "text": "Keep the source's single continuous locked-off take: no cuts, no transitions and no added camera movement, so the keyed performer stays registered to the new background."
+        },
+        {
+          "id": "et_2",
+          "text": "Deliver a clean composite with no green fringe, green spill, matte edge or interface overlay visible at any time."
+        }
+      ],
+      "global_style": [
+        {
+          "id": "gs_1",
+          "text": "Fairy-tale storybook realism: high-saturation mossy greens with red-orange accents against a cool dark background, warm foreground glow, soft bloom, thin haze and slowly drifting glowing motes."
+        }
+      ],
+      "audio_requirements": [
+        {
+          "id": "ar_1",
+          "text": "Generate audio: a quiet enchanted-forest ambience and a light storybook score, since no source audio is available to reuse."
+        },
+        {
+          "id": "ar_2",
+          "text": "No dialogue and no lyrics; the performer's lips part into a smile without spoken words."
+        }
+      ]
+    },
+    "must_keep": [
+      "Performer identity, face, hair, dress and body appearance from video 1",
+      "Performer action, pose and timing from video 1 including the walk, leftward glance, turn, growing smile and the right-hand reach toward the lens",
+      "Locked-off camera and the framing change caused by the performer approaching",
+      "Synchronization between the background elements and the performer's action and timing",
+      "Fairy-tale environment elements, layering, palette and light mood from video 2",
+      "Relit performer matching the replacement background in direction, color temperature, intensity and shadow"
+    ],
+    "bindings": [
+      {
+        "asset_id": "video_1",
+        "role": "Source footage to be edited: background region removed, performer relit, performer footage reused as the temporal spine of the target video.",
+        "retained_attributes": [
+          "performer identity, face, curly auburn hair, fair skin",
+          "cream puff-sleeve vintage dress with lace bodice and tiered tulle skirt, light-colored flat shoes",
+          "action, pose and timing of the walk, leftward glance, turn, growing smile and right-hand reach",
+          "locked-off camera and full-body-to-medium framing tightening as she approaches"
+        ],
+        "optional_inherited_attributes": [
+          "dress sway and hair motion during the walk",
+          "soft contact shadow under the feet, re-timed to the new lighting"
+        ],
+        "excluded_attributes": [
+          "uniform medium green background region",
+          "green spill and green edge contamination on hair and silhouette",
+          "flat even frontal studio light and its shadow direction"
+        ],
+        "exclusion_reasons": [
+          "The green-screen region is the object of the requested replacement.",
+          "Green spill and fringe would betray the key and are covered by the clean-composite requirement.",
+          "The original frontal studio lighting cannot match the fairy-tale background and is explicitly replaced."
+        ]
+      },
+      {
+        "asset_id": "video_2",
+        "role": "Reference for the replacement background: supplies environment elements, composition logic, palette and lighting mood as a locked-off plate.",
+        "retained_attributes": [
+          "mossy green forest floor with dense small mushrooms, red berries and tiny glowing points",
+          "large red amanita with visible gills on the left",
+          "dark cave backdrop with vertical waterfall-like light bands",
+          "saturated mossy green palette with red-orange accents against cool dark depth",
+          "warm local foreground glow with low-contrast cool background light, soft bloom and thin haze"
+        ],
+        "optional_inherited_attributes": [
+          "density and micro-detail of moss, mushroom caps and berries",
+          "small grey-brown rodent-like creature kept as a small off-centre background element",
+          "glow points and drifting motes"
+        ],
+        "excluded_attributes": [
+          "the slow rightward camera pan",
+          "centred placement of the creature",
+          "white mouse cursor and recording-interface overlay"
+        ],
+        "exclusion_reasons": [
+          "The target composite must stay locked off to match video 1's footage so the keyed performer remains registered.",
+          "The performer is the sole front-plane subject, so the creature is moved off-centre and kept small.",
+          "The cursor is recording-interface residue, not scene content."
+        ]
+      }
+    ],
+    "developments": [
+      {
+        "id": "dev_1",
+        "source_content_event_ids": [
+          "event_1"
+        ],
+        "visible_change": "The girl walks forward across the mossy forest floor toward the locked lens and glances to her left, her dress swaying, while the moss glow and glowing motes brighten and drift upward in step with her steps and the small creature lifts its head and turns toward her; she then turns to face the camera with a growing smile as the framing tightens from full body to medium shot.",
+        "outcome": "She stands facing the camera in a medium shot, smiling, keyed clean of the green screen, lit by a warm key with a cool rim, with the fairy-tale forest glowing around her."
+      },
+      {
+        "id": "dev_2",
+        "source_content_event_ids": [
+          "event_2"
+        ],
+        "visible_change": "She slows and extends her right hand toward the lens; glowing motes stream across the moss and gather into her open palm, the red amanita and berries brighten, and her face and dress take the warmer key as her lips part into a wide smile aimed at the lens without spoken words.",
+        "outcome": "Her right hand is extended toward the lens with the motes gathered in her palm, the forest light raised around her."
+      },
+      {
+        "id": "dev_3",
+        "source_content_event_ids": [],
+        "visible_change": "Completing the reach and continuing past the end of the source footage, the motes lift off her palm and swirl up around her hand into the air; the whole forest floor blooms brighter with a gentle pulse from the light bands behind and the creature stands and faces her; she draws her hand back to her chest, keeps smiling at the camera, and the light settles into a calm steady warm glow over the unchanged cool bands.",
+        "outcome": "The video ends with her facing the camera, hand near her chest, the forest glow settled and the cool vertical light bands steady behind her."
+      }
+    ],
+    "shots": [
+      {
+        "id": "shot_1",
+        "development_ids": [
+          "dev_1",
+          "dev_2",
+          "dev_3"
+        ],
+        "content_purpose": "Execute the entire background-replacement edit in one continuous locked-off take: the keyed performer's walk, turn and right-hand reach with light and motes synchronized to her action and timing, then the bloom around her hand and the settled final glow.",
+        "treatment_ids": [
+          "et_1",
+          "et_2",
+          "gs_1"
+        ],
+        "start_seconds": 0.0,
+        "end_seconds": 15.0,
+        "description": "The shot begins from the same framing as <Video 1>: <Subject 1> stands full body at the centre of frame with her flat shoes on the mossy floor of <Subject 2>, the large red amanita with visible gills rising on the left, dense small mushrooms, red berries and tiny glowing points spread across the moss around her, <Subject 3> sitting quietly on the moss to the right of her, and the dark cave wall with its vertical waterfall-like light bands filling the depth behind. She carries a warm soft key from the front left that matches the amanita glow, a cool rim from the light bands behind that separates her from the dark background, and a soft warm contact shadow under her feet. In the first five seconds she walks forward toward the lens and glances to her left, her dress swaying, while the moss glow and the glowing motes brighten and drift upward in step with her steps and the small creature lifts its head and turns toward her; she then turns to face the camera with a growing smile, the framing tightening from full body to medium shot as she approaches. From about five seconds she slows and extends her right hand toward the lens, and the glowing motes stream across the moss and gather into her open palm, the red amanita and berries brightening as her face and dress pick up the warmer key; her lips part into a wide delighted smile at the lens with no spoken words. Past the end of the source footage she completes the reach, the motes lift off her palm, swirl up around her hand and rise into the air, the whole forest floor blooms brighter as the light bands behind pulse gently and the creature stands and faces her. She draws her hand back to her chest, holds her smile toward the camera, and the light settles into a calm steady warm glow on her while the cool vertical bands behind stay steady to the final frame. The camera remains a locked static shot throughout so she stays registered to the background, her footsteps press softly into the moss, a single clear chime sounds as the motes gather in her hand, and the low cave murmur swells slightly with the bloom and eases back as the glow settles."
+      }
+    ]
+  },
+  "uncertainties": [
+    "<Video 1> runs 9.5 seconds while the target duration is 15 seconds: the first 9.5 seconds reuse the source action and timing one-to-one and the remaining roughly 5.5 seconds extend the same performance and environment; if the source must not be extended, the target should be 9.5 seconds instead.",
+    "No audio was analysed for video 1 or video 2, so all ambience and score are newly designed and no source audio, dialogue or lyrics are claimed or reused.",
+    "The white cursor visible in video 2 is treated as recording-interface residue and excluded from the transferred background.",
+    "The user did not specify whether video 2's central creature should be kept; it is retained only as a small off-centre background element so it cannot compete with the performer.",
+    "The replacement background's exact lighting parameters are inferred from video 2's visible warm foreground glow and cool low-contrast background light rather than measured values."
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v2",
+    "provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3.8-27B",
+      "options": {
+        "cache_enabled": false,
+        "single_pass_image_analysis": true,
+        "max_parallel_assets": 1,
+        "image_base_url": "http://10.6.157.43:9012",
+        "video_base_url": "http://10.6.157.43:9012",
+        "single_pass_video_analysis": true,
+        "video_fps": 2,
+        "video_max_frames": 256,
+        "output_dir": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.2 场景与视觉效果编辑/case1-ref2va/output/v63.1-3.2-perception-tasks",
+        "base_url": "http://10.6.157.43:9012",
+        "asset_upload_base_url": "http://10.0.96.114:30100",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000,
+        "max_parallel_attribute_batches": 2,
+        "image_attribute_batch_size": 3
+      }
+    },
+    "assets": [
+      {
+        "asset_id": "video_1",
+        "summary": "A young girl in a cream vintage dress walks toward a locked camera on a uniform green screen, looks around, then smiles and reaches her right hand toward the lens.",
+        "global_analysis": {},
+        "evidence": [
+          {
+            "evidence_id": "evidence_event_1",
+            "kind": "frame",
+            "time_seconds": 2.5,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "Girl walks forward toward camera, glancing to her left, then turns to face the camera with a growing smile"
+          },
+          {
+            "evidence_id": "evidence_event_2",
+            "kind": "frame",
+            "time_seconds": 7.25,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "Girl slows and extends her right hand toward the camera, smiling with mouth open as if speaking"
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "category": "person",
+            "subcategory": "child girl",
+            "summary": "Young girl with curly auburn hair in a cream vintage dress, sole subject walking and gesturing on the green screen",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "skin",
+                  "value": "fair skin",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "dress",
+                  "value": "cream puff-sleeve dress with lace bodice and tiered tulle skirt",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "shoes",
+                  "value": "light-colored flat shoes",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.7,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "hair",
+                  "value": "curly shoulder-length auburn hair",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "environment_1",
+            "category": "environment",
+            "subcategory": "studio green screen",
+            "summary": "Uniform green screen backdrop filling the frame with soft even lighting and slight edge darkening",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "background",
+                  "value": "uniform medium green",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "lighting",
+                  "value": "soft even frontal light, faint shadow under feet",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_relative_to",
+            "subject_id": "person_1",
+            "object_id": "environment_1",
+            "anchor": "girl centered in frame against green backdrop",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          }
+        ],
+        "events": [
+          {
+            "event_id": "event_1",
+            "time_range": [
+              0.0,
+              5.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "environment_1"
+            ],
+            "action": "Girl walks forward toward camera, glancing to her left, then turns to face the camera with a growing smile",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "continuous",
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.9
+          },
+          {
+            "event_id": "event_2",
+            "time_range": [
+              5.0,
+              9.5
+            ],
+            "entity_ids": [
+              "person_1",
+              "environment_1"
+            ],
+            "action": "Girl slows and extends her right hand toward the camera, smiling with mouth open as if speaking",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "none",
+            "evidence_ids": [
+              "evidence_event_2"
+            ],
+            "confidence": 0.85
+          }
+        ],
+        "technical": {
+          "duration_seconds": 9.5,
+          "framing": "full body to medium shot as subject approaches",
+          "camera": "locked",
+          "visible_text": [],
+          "media_type": "video",
+          "analysis_pipeline": "compact_video_single_pass",
+          "task_ids": [
+            "20260927_164633_970221_cf45814d-2e8b-40ae-b8d5-5f09bf9a3d3d"
+          ],
+          "scene_cut_candidates_seconds": [],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "timeline_and_entities",
+          "elapsed_seconds": 509.611,
+          "cache_hit": false,
+          "cache_key": "e6a6ba0dbfdb355c8f4b8058e454af4f89892303393069a5129bcc8789e1ffbd",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 509.611
+          }
+        },
+        "transcript": "",
+        "uncertainties": [
+          "exact clip length beyond last frame",
+          "framing change likely from subject approach rather than camera move"
+        ],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "the background is a green-screen region and its color, uniformity and extent across the clip",
+            "priority": "required",
+            "source_asset_id": "video_1",
+            "region_or_time": "full frame, entire clip duration",
+            "status": "covered",
+            "matched_terms": [
+              "background",
+              "color",
+              "green",
+              "is",
+              "region",
+              "screen"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "the performer's silhouette edges needing keying, including hair, soft boundaries and green spill",
+            "priority": "required",
+            "source_asset_id": "video_1",
+            "region_or_time": "performer boundary region, entire clip duration",
+            "status": "covered",
+            "matched_terms": [
+              "green",
+              "hair",
+              "soft"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "the performer's action, pose and timing across the clip so background elements can be keyed to it",
+            "priority": "required",
+            "source_asset_id": "video_1",
+            "region_or_time": "performer region, entire clip duration",
+            "status": "covered",
+            "matched_terms": [
+              "action",
+              "background",
+              "be",
+              "can",
+              "it",
+              "so",
+              "to"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_4",
+            "claim": "the lighting present on the performer (direction, color temperature, intensity, shadows) before relighting",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "performer region, entire clip duration",
+            "status": "covered",
+            "matched_terms": [
+              "before",
+              "color",
+              "lighting",
+              "on"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_5",
+            "claim": "camera framing, camera movement and whether the performer stays in frame",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "full frame, entire clip duration",
+            "status": "covered",
+            "matched_terms": [
+              "camera",
+              "frame",
+              "framing",
+              "in"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_6",
+            "claim": "presence of props, foreground objects, graphics or visible text besides the performer",
+            "priority": "required",
+            "source_asset_id": "video_1",
+            "region_or_time": "full frame",
+            "status": "covered",
+            "matched_terms": [
+              "of",
+              "or",
+              "text"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      },
+      {
+        "asset_id": "video_2",
+        "summary": "童话感微缩森林场景：苔藓绿地布满小蘑菇、红浆果与发光点，左侧大红伞菌，背景为暗色洞穴与瀑布状光带，中央有一只小型动物，镜头缓慢右移。",
+        "global_analysis": {},
+        "evidence": [
+          {
+            "evidence_id": "evidence_event_1",
+            "kind": "frame",
+            "time_seconds": 2.0,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "单一连续镜头缓慢向右平移，左侧大红蘑菇逐渐移出画面，中央小动物基本静止，场景无剪切"
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "creature_1",
+            "category": "creature",
+            "subcategory": "small rodent-like animal",
+            "summary": "画面中央苔藓地上的一只小型动物，粉灰色口鼻，面向镜头，全程基本静止",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.8
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "body",
+                  "value": "小型四足圆润身体，尖口鼻",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.7,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "fur",
+                  "value": "灰褐色皮毛配粉色口鼻",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.7,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [
+                {
+                  "name": "pose",
+                  "value": "坐姿面向镜头，位于画面中心",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "物种不确定（小鼠或风格化小龙）"
+            ]
+          },
+          {
+            "entity_id": "environment_1",
+            "category": "environment",
+            "subcategory": "fantasy forest floor",
+            "summary": "高饱和苔藓绿地与密集微缩蘑菇、红浆果、发光点构成的童话场景，背景为暗色洞穴与垂直瀑布光带",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "palette",
+                  "value": "鲜绿苔藓配红橙浆果与蘑菇，背景冷暗",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "flora",
+                  "value": "密集小蘑菇、红色浆果、发光圆点、左侧红伞菌与菌褶",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "atmosphere",
+                  "value": "柔光bloom、薄雾与颗粒光点，背景垂直光带似瀑布",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "lighting",
+                  "value": "前景暖色局部辉光，背景低调冷光，低对比",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_in",
+            "subject_id": "creature_1",
+            "object_id": "environment_1",
+            "anchor": "小动物位于苔藓地中央，被蘑菇与浆果环绕",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "events": [
+          {
+            "event_id": "event_1",
+            "time_range": [
+              0.0,
+              4.0
+            ],
+            "entity_ids": [
+              "creature_1",
+              "environment_1"
+            ],
+            "action": "单一连续镜头缓慢向右平移，左侧大红蘑菇逐渐移出画面，中央小动物基本静止，场景无剪切",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "continuous",
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.9
+          }
+        ],
+        "technical": {
+          "duration_seconds": 4.0,
+          "framing": "wide establishing shot",
+          "camera": "slow pan right",
+          "visible_text": [],
+          "media_type": "video",
+          "analysis_pipeline": "compact_video_single_pass",
+          "task_ids": [
+            "20260927_165506_082775_3efdb2d1-ad28-4941-a42c-af2412df3f23"
+          ],
+          "scene_cut_candidates_seconds": [],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "timeline_and_entities",
+          "elapsed_seconds": 466.122,
+          "cache_hit": false,
+          "cache_key": "aee92ded80d5cecaab0ac4428eaf85d35d6914d9bd2e8e1f6877bd77a3e3af69",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 466.122
+          }
+        },
+        "transcript": "",
+        "uncertainties": [
+          "画面中可见白色鼠标指针，属录屏界面残留而非场景内容"
+        ],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "the background scene's elements, composition, palette and depth layering",
+            "priority": "useful",
+            "source_asset_id": "video_2",
+            "region_or_time": "representative frames across the clip",
+            "status": "covered",
+            "matched_terms": [
+              "palette",
+              "scene"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "lighting direction, color temperature, contrast and atmospheric effects to be matched when relighting video 1's performer",
+            "priority": "useful",
+            "source_asset_id": "video_2",
+            "region_or_time": "full frame, representative frames across the clip",
+            "status": "covered",
+            "matched_terms": [
+              "be",
+              "color",
+              "lighting"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "the visual style markers that produce the fairy-tale quality",
+            "priority": "useful",
+            "source_asset_id": "video_2",
+            "region_or_time": "full frame",
+            "status": "covered",
+            "matched_terms": [
+              "markers",
+              "quality"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_4",
+            "claim": "whether characters or figures are present and their placement relative to the background",
+            "priority": "required",
+            "source_asset_id": "video_2",
+            "region_or_time": "full frame, entire clip duration",
+            "status": "covered",
+            "matched_terms": [
+              "or"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_5",
+            "claim": "camera framing, camera movement and whether the shot is static",
+            "priority": "useful",
+            "source_asset_id": "video_2",
+            "region_or_time": "entire clip duration",
+            "status": "covered",
+            "matched_terms": [
+              "camera",
+              "framing",
+              "is",
+              "shot"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      }
+    ],
+    "missing_asset_ids": [],
+    "perception_metrics": {
+      "request_count": 2,
+      "retry_count": 0,
+      "supplemental_request_count": 0,
+      "elapsed_seconds": 509.611
+    }
+  }
+}

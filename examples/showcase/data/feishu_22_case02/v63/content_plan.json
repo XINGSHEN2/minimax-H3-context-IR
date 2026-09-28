@@ -1,0 +1,183 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "The performer's action is street dance, using the performed action from video_1.",
+      "The performer's identity comes from image_1 (图1) and image_2 (图2).",
+      "Target video: 9.474 seconds, 9:16 vertical, audio generated."
+    ],
+    "reference_anchors": [
+      "image_1: young man with short dark hair and a slim athletic build, wearing a cream pullover hoodie with the hood up, brown drawstring shorts, and white low-top sneakers with white socks; stadium field with wet grey concrete and tiered red seating under an overcast sky.",
+      "image_2: the same young man, oval face, dark eyebrows, neutral direct gaze, lean athletic build, cream hooded sweatshirt with the hood up, dark brown drawstring shorts with white drawstrings.",
+      "video_1: one continuous street-dance routine in three phrases — outward arm extensions with weight shifts (0.0–3.0 s), torso body roll with an arm wave and side-to-side stepping (3.0–6.0 s), sharp turn and quick footwork ending in a held pose facing the camera (6.0–9.474 s)."
+    ],
+    "open_design": [
+      "Single continuous camera treatment: steady full-body vertical framing, a small slow push-in during the arm wave, then an ease back with a slight downward tilt so the closing footwork stays in frame, holding on the final pose.",
+      "Physical performance detail: hood stays up while the hoodie hem and hood edges swing, sneakers grip and scuff lightly on the wet concrete.",
+      "Sound design: open-air stadium ambience plus designed street-dance music and dance-move sounds; no reference audio is supplied.",
+      "No additional dancers, props, location changes, or extra dance phrases beyond the observed routine from video_1."
+    ]
+  },
+  "requirement_map": {
+    "content_events": [
+      {
+        "id": "r_1",
+        "requirement": "The performer in the target video carries the stable face, hair and body appearance of the young man in image_1 and image_2."
+      },
+      {
+        "id": "r_2",
+        "requirement": "Street dance is the performed action of the target video."
+      },
+      {
+        "id": "r_3",
+        "requirement": "Opening phrase: arms extend outward and draw inward while weight shifts from foot to foot (from video_1, 0.0–3.0 s)."
+      },
+      {
+        "id": "r_4",
+        "requirement": "Middle phrase: torso body roll with a fluid arm wave and side-to-side stepping (from video_1, 3.0–6.0 s)."
+      },
+      {
+        "id": "r_5",
+        "requirement": "Closing phrase: sharp turn and quick footwork, ending in a final pose facing the camera (from video_1, 6.0–9.474 s)."
+      }
+    ],
+    "editing_treatments": [
+      {
+        "id": "r_6",
+        "requirement": "The routine plays as one uninterrupted take, preserving the continuous flow of the reference performance without cutting inside the dance."
+      }
+    ],
+    "global_style": [
+      {
+        "id": "r_7",
+        "requirement": "Realistic live-action photographic look under natural overcast daylight, matching the reference images; no stylization, overlays or added text."
+      }
+    ],
+    "audio_requirements": [
+      {
+        "id": "r_8",
+        "requirement": "Audio is generated with the video (generate_audio enabled); no reference audio asset is provided, so street-dance music and dance-move sounds are designed rather than copied."
+      }
+    ]
+  },
+  "task_mode": "ref2va",
+  "must_keep": [
+    "Stable face, short dark hair and slim athletic build from image_1 and image_2.",
+    "Cream hooded sweatshirt with the hood up, brown drawstring shorts, white low-top sneakers with white socks.",
+    "Dance phrase order from video_1: outward arm extensions with weight shifts, torso body roll with arm wave and side-to-side stepping, then sharp turn, quick footwork and a held final pose facing the camera.",
+    "9.474-second duration, 9:16 vertical framing, one continuous uncut performance.",
+    "Generated audio is present."
+  ],
+  "bindings": [
+    {
+      "asset_id": "image_1",
+      "role": "Primary character identity reference, and optional source of the surrounding environment.",
+      "retained_attributes": [
+        "face and head shape",
+        "short dark hair",
+        "slim athletic build",
+        "cream pullover hoodie with the hood up and front pocket",
+        "brown drawstring shorts",
+        "white low-top sneakers with white socks"
+      ],
+      "optional_inherited_attributes": [
+        "stadium field setting: wet grey concrete surface with visible reflections",
+        "tiered red stadium seating on metal frames behind the subject",
+        "flat overcast daylight"
+      ],
+      "excluded_attributes": [
+        "standing pose with both hands in pockets",
+        "static full-body centered portrait framing"
+      ],
+      "exclusion_reasons": [
+        "The transferred action requires continuous dance motion, not a static standing pose or a fixed picture layout."
+      ]
+    },
+    {
+      "asset_id": "image_2",
+      "role": "Secondary character identity reference confirming face, upper body and wardrobe.",
+      "retained_attributes": [
+        "oval face shape and dark eyebrows",
+        "neutral direct gaze",
+        "lean athletic build with visible arm and leg definition",
+        "cream hooded sweatshirt with the hood pulled up",
+        "dark brown drawstring shorts"
+      ],
+      "optional_inherited_attributes": [
+        "hood-up silhouette framing the face"
+      ],
+      "excluded_attributes": [
+        "seated pose with elbows resting on the knees on the bleachers",
+        "medium-shot seated composition"
+      ],
+      "exclusion_reasons": [
+        "The transferred routine is performed standing and moving, so the seated pose and its framing cannot carry over."
+      ]
+    },
+    {
+      "asset_id": "video_1",
+      "role": "Action and choreography reference supplying the performed body motion and its phrase order.",
+      "retained_attributes": [
+        "broad opening arm extensions and drawing inward with weight shifts and small steps",
+        "fluid torso body roll with an arm wave and alternating side-to-side stepping",
+        "sharp turn followed by rapid footwork",
+        "held final pose facing the camera",
+        "sequential order and rough timing proportions of the three phrases"
+      ],
+      "optional_inherited_attributes": [
+        "continuous, uncut performance flow"
+      ],
+      "excluded_attributes": [
+        "white long-sleeve shirt, black pants and white cap of the source dancer",
+        "studio interior and the black 'S' wall logo with its text",
+        "locked full-shot camera and its studio framing"
+      ],
+      "exclusion_reasons": [
+        "Only the observed body motion and action performance are transferred; wardrobe and identity come from the reference images, and the setting is the stadium field inherited from image_1."
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_1",
+      "source_content_event_ids": [
+        "r_3"
+      ],
+      "visible_change": "Standing on the wet stadium field, the target performer widens his stance and extends both arms out to the sides, then draws them inward toward his chest while shifting his weight from one foot to the other in small stepping adjustments.",
+      "outcome": "He stands centered on the field, arms drawn in close to his chest with his weight settled, ready to continue into the next phrase."
+    },
+    {
+      "id": "dev_2",
+      "source_content_event_ids": [
+        "r_4"
+      ],
+      "visible_change": "Without pausing, he rolls his torso from hips through chest while both arms ripple outward in a wave, stepping alternately left and right; the hoodie hem and the edge of the hood swing with the motion.",
+      "outcome": "His torso returns upright with his arms at mid-height, weight centered and still facing the camera."
+    },
+    {
+      "id": "dev_3",
+      "source_content_event_ids": [
+        "r_5"
+      ],
+      "visible_change": "He snaps into a sharp pivot, bursts into rapid footwork steps on the wet concrete, then plants both feet and rises into a final pose facing the camera.",
+      "outcome": "He holds the final pose facing the camera, still and centered, until the video ends."
+    }
+  ],
+  "shots": [
+    {
+      "id": "shot_1",
+      "development_ids": [
+        "dev_1",
+        "dev_2",
+        "dev_3"
+      ],
+      "content_purpose": "Show the whole transferred street-dance routine in one continuous take — arm and weight-shift opening, torso body roll with arm wave, and the closing sharp turn, quick footwork and held final pose — while the performer's identity from the reference images stays clearly readable.",
+      "treatment_ids": [
+        "r_6",
+        "r_7"
+      ],
+      "start_seconds": 0.0,
+      "end_seconds": 9.474,
+      "description": "The shot opens on <Subject 2> with <Subject 1> standing centered in the lower half of the frame, facing the camera with his hood up and feet apart on the wet concrete. He begins <Subject 3>: he widens his stance and extends both arms out to the sides, then draws them inward toward his chest while shifting his weight from foot to foot in small stepping adjustments, his sneakers scuffing lightly on the wet surface and the hoodie fabric rustling with each extension. Without pausing, he rolls his torso from hips through chest as both arms ripple outward in a wave, stepping alternately left and right while the hoodie hem and the edge of his hood swing with the motion. The camera pushes in with small amplitude at slow speed toward his upper body during the arm wave, then eases back and tilts down slightly to keep his feet in frame as he snaps into a sharp pivot and bursts into quick footwork, his sneakers squeaking against the concrete on each quick step. He plants both feet and rises into a final pose facing the camera, chest lifted and arms held, staying still and centered in that pose until the final frame."
+    }
+  ]
+}

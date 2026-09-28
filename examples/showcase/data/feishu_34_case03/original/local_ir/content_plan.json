@@ -1,0 +1,204 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "Two magicians stand on stage facing the audience (d_1).",
+      "Both magicians wave their wands at the same time (d_2).",
+      "A puff of smoke rises after the simultaneous wand wave (d_3).",
+      "After the smoke clears the magician on the left wears a white suit and the magician on the right wears a black suit (d_4, d_5, d_6).",
+      "Both pairs of gloves keep their colour through the swap (d_7).",
+      "Both magicians bow in thanks to the audience (d_8).",
+      "The red curtain behind them closes after the bow (d_9) and its colour goes from deep red to deep blue (d_10).",
+      "Fixed event order: simultaneous wand wave, smoke rising, smoke clearing with the suit-colour swap, bow, curtain closing with the deep red to deep blue transition (d_11).",
+      "The video ends on the curtain closing and the deep red to deep blue transition, with no content after it (d_12)."
+    ],
+    "reference_anchors": [
+      "The two magicians' identities, pre-swap costumes, black gloves, star-topped wands and left/right stage positions come from image_1 (<Picture 1>).",
+      "The stage environment comes from image_1: light-brown planked wooden floor, deep red side curtains tied back with gold cords, painted backdrop of a grey-blue lake with mountains and a castle on an island, and a row of black audience silhouettes along the bottom edge.",
+      "The illustrated look of image_1 (bold black outlines, low-saturation grey-green and brown-red palette, subtle grain) is carried into the target video.",
+      "image_1 is a single still frame: it supplies the opening stage arrangement and the pre-swap costume state, not the trick itself, the bow or the curtain behaviour."
+    ],
+    "open_design": [
+      "The smoke is completed as a puff bursting from the stage floor between the two magicians; the costume exchange itself happens unseen behind it, so only the before and after states are shown.",
+      "The top hats follow the costume colours through the swap, so the left magician's hat matches his new white suit and the right magician's hat matches his new black suit; only the gloves are unchanged, per the user's explicit exception.",
+      "image_1 shows no rear curtain, so the red side curtains already tied back at the stage edges slip their gold cords and sweep inward to close behind the magicians.",
+      "The colour transition is completed as the curtain fabric shifting from deep red to deep blue while the two panels meet and settle.",
+      "No style, music, dialogue or effects were specified by the user; the diegetic trick sounds, a brief light applause and one non-diegetic variety-show cue are added under the conservative completion policy and add no new visual events.",
+      "Shot count, framing, camera paths and timings are decided by the shot plan inside the six-second limit; except for the bow, the magicians keep their stage positions and never leave the stage."
+    ]
+  },
+  "requirement_map": {
+    "content_events": [
+      {
+        "id": "c_1",
+        "requirement": "Two magicians stand on stage facing the audience (d_1)."
+      },
+      {
+        "id": "c_2",
+        "requirement": "Both magicians wave their wands at the same time (d_2)."
+      },
+      {
+        "id": "c_3",
+        "requirement": "A puff of smoke rises after the simultaneous wand wave (d_3)."
+      },
+      {
+        "id": "c_4",
+        "requirement": "After the smoke clears the suit colours have exchanged: the left magician wears a white suit and the right magician wears a black suit (d_4, d_5, d_6)."
+      },
+      {
+        "id": "c_5",
+        "requirement": "Both magicians' glove colours stay unchanged through the swap (d_7)."
+      },
+      {
+        "id": "c_6",
+        "requirement": "Both magicians bow in thanks to the audience (d_8)."
+      },
+      {
+        "id": "c_7",
+        "requirement": "The red curtain behind the magicians closes after the bow (d_9)."
+      },
+      {
+        "id": "c_8",
+        "requirement": "The curtain colour transitions from deep red to deep blue (d_10)."
+      },
+      {
+        "id": "c_9",
+        "requirement": "Fixed event order: wand wave, smoke rising, smoke clearing with the suit swap, bow, curtain closing with the deep red to deep blue transition (d_11)."
+      },
+      {
+        "id": "c_10",
+        "requirement": "The video ends on the curtain closing and the colour transition, with nothing after it (d_12)."
+      }
+    ],
+    "editing_treatments": [],
+    "global_style": [
+      {
+        "id": "g_1",
+        "requirement": "The user gave no style text; the illustrated style of image_1 (bold black outlines, low-saturation grey-green and brown-red palette, subtle grain) is retained as the reference style."
+      }
+    ],
+    "audio_requirements": [
+      {
+        "id": "a_1",
+        "requirement": "generate_audio is true and the user specified no music, dialogue, lyrics or effects; audio is completed as the diegetic sounds of the act (wand whoosh, smoke puff, light applause, curtain rustle) plus a light non-diegetic variety-show cue."
+      }
+    ]
+  },
+  "task_mode": "ref2va",
+  "must_keep": [
+    "Both magicians stay in their original left and right stage positions with their identities, black gloves and star-topped wands.",
+    "The two wands are waved at the same moment, not one after the other.",
+    "Smoke rises only after the wand wave and hides both costumes before the reveal.",
+    "After the smoke clears: left magician in a white suit, right magician in a black suit.",
+    "Both pairs of gloves remain black before and after the swap.",
+    "The bow happens before the curtain closes.",
+    "The curtain closes and its colour goes from deep red to deep blue.",
+    "The final frame is the closed deep-blue curtain; no content follows it.",
+    "The six-second limit is respected and every beat is given time to read."
+  ],
+  "bindings": [
+    {
+      "asset_id": "image_1",
+      "role": "reference generation: source of the two magicians' identities and pre-swap costumes, the star-topped wands, the stage environment and the illustrated style, and the anchor for the opening stage arrangement.",
+      "retained_attributes": [
+        "Left magician: mustached stage magician in black tailcoat, black waistcoat, black bow tie and tall black top hat, black gloves, star-topped wand in his right hand.",
+        "Right magician: mustached stage magician in white tailcoat, white waistcoat, white bow tie and tall white top hat, black gloves, star-topped wand in his left hand.",
+        "Left/right placement of the two magicians on the stage.",
+        "Stage environment: light-brown planked wooden floor, deep red side curtains with gold cords, painted backdrop of a grey-blue lake with mountains and a castle on an island, row of black audience silhouettes along the bottom edge.",
+        "Illustrated style: bold black outlines, low-saturation grey-green and brown-red palette, subtle grain."
+      ],
+      "optional_inherited_attributes": [
+        "The gold cord tassels and the planked floor seams.",
+        "The specific silhouette head shapes in the front row.",
+        "Soft, low-contrast stage lighting."
+      ],
+      "excluded_attributes": [
+        "The reference's exact pre-trick pose in which the two figures angle toward each other with open palms turned toward each other.",
+        "The reference's black/white costume assignment as a permanent state."
+      ],
+      "exclusion_reasons": [
+        "d_1 requires both magicians to face the audience, so the inward-facing stance is replaced by a front-facing stage pose.",
+        "The costume colours are the subject of the trick, so the reference colours are kept only as the pre-swap state and exchange them at the reveal."
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_1",
+      "source_content_event_ids": [
+        "c_1",
+        "c_2",
+        "c_3"
+      ],
+      "visible_change": "Both magicians stand on the stage in their original costumes facing the audience, each with a star-topped wand raised. They sweep the wands up and across in mirrored arcs at the same moment, then sweep back. On the second sweep a puff of smoke bursts from the stage floor between them, swells upward and spreads sideways until it wraps both figures and hides their costumes and hats.",
+      "outcome": "Both magicians are wrapped in thick smoke, their costumes hidden, with both wands still raised above the cloud."
+    },
+    {
+      "id": "dev_2",
+      "source_content_event_ids": [
+        "c_4",
+        "c_5"
+      ],
+      "visible_change": "The smoke thins from the top down and drifts to the sides, uncovering first the top hats and then the costumes: the left magician is now dressed entirely in white (tailcoat, waistcoat, bow tie, top hat) and the right magician entirely in black, while both pairs of gloves remain black where the hands grip the wands. Both magicians keep their wands raised in the same matched pose, facing the audience.",
+      "outcome": "The colour exchange is complete and legible: left magician in white, right magician in black, both pairs of gloves still black, both standing with wands raised and facing the audience."
+    },
+    {
+      "id": "dev_3",
+      "source_content_event_ids": [
+        "c_6"
+      ],
+      "visible_change": "Both magicians lower their wands and bow forward toward the audience together, holding the bow.",
+      "outcome": "Both magicians are bent forward in a bow to the audience, still facing them and still on their own side of the stage."
+    },
+    {
+      "id": "dev_4",
+      "source_content_event_ids": [
+        "c_7",
+        "c_8",
+        "c_9",
+        "c_10"
+      ],
+      "visible_change": "With the bow complete, the gold cords on the red side curtains slip loose and the two panels sweep inward from both edges, crossing the backdrop behind the magicians and meeting at the centre of the stage. As the panels meet and settle, the fabric colour shifts from deep red to deep blue.",
+      "outcome": "The stage is closed off by a fully drawn, deep-blue curtain with the two magicians still bowed in front of it; the video ends on that image with nothing after it."
+    }
+  ],
+  "shots": [
+    {
+      "id": "shot_1",
+      "development_ids": [
+        "dev_1"
+      ],
+      "content_purpose": "Establish the two magicians facing the audience in their original costumes, show the simultaneous wand wave, and let the rising smoke hide both costumes so the exchange stays unseen.",
+      "treatment_ids": [],
+      "start_seconds": 0.0,
+      "end_seconds": 2.0,
+      "description": "The shot opens on the stage of <Subject 3>, with the audience silhouettes running along the bottom edge and the lake-and-castle backdrop behind. <Subject 1> stands at the left and <Subject 2> at the right, both turned to face the audience, each holding a star-topped wand raised at chest height. The two wands cut the air with a soft whoosh as the magicians sweep them up and across in mirrored arcs at the same moment, then sweep back down. On the second sweep a puff of smoke bursts from the stage floor between them with a soft muffled pop, swells upward and spreads sideways until it wraps around both figures and hides their costumes and hats. The camera pushes in with small amplitude at slow speed, keeping both magicians and the two curtain edges in frame. The shot ends with the smoke filling the centre of the frame and both wands still raised above the cloud."
+    },
+    {
+      "id": "shot_2",
+      "development_ids": [
+        "dev_2"
+      ],
+      "content_purpose": "Show the smoke clearing and the result of the trick clearly: the left magician now in white, the right magician now in black, both pairs of gloves still black.",
+      "treatment_ids": [],
+      "start_seconds": 2.0,
+      "end_seconds": 3.6,
+      "cut_reason": "The exchanged costume colours and the unchanged black gloves must be read clearly, and the wide framing of shot 1 cannot deliver that while the drifting smoke still crosses the frame; the smoke is used as the cut medium.",
+      "continuity_bridge": "The smoke cloud filling the frame at the end of shot 1 is the same cloud that thins at the start of shot 2; both magicians keep their positions, raised wands and mirrored pose across the cut.",
+      "description": "At 00:02.000, the shot cuts to a closer two-shot framed from the waist up, centred between the two magicians. The smoke thins from the top down and drifts off to the sides with a soft hiss, uncovering first the two top hats and then the costumes: <Subject 1>, on the left, now wears a white tailcoat, white waistcoat, white bow tie and white top hat, while <Subject 2>, on the right, now wears a black tailcoat, black waistcoat, black bow tie and black top hat. Both pairs of gloves stay black and remain clearly visible where each hand grips its wand, and both magicians keep their wands raised in the same matched pose, still facing the audience. The camera pushes in with small amplitude at slow speed until the two costumes and the two pairs of gloves fill the frame. The shot ends as the last of the smoke clears and the two magicians stand revealed in the exchanged costumes."
+    },
+    {
+      "id": "shot_3",
+      "development_ids": [
+        "dev_3",
+        "dev_4"
+      ],
+      "content_purpose": "Show the bow to the audience, then the red side curtains sweeping closed behind the magicians and shifting from deep red to deep blue as the closing image.",
+      "treatment_ids": [],
+      "start_seconds": 3.6,
+      "end_seconds": 6.0,
+      "cut_reason": "The bow and the closing curtain need a framing that contains the floor, the backdrop and both curtain edges, which the waist-up two-shot of shot 2 cannot hold.",
+      "continuity_bridge": "Shot 2 ends with both magicians standing on their own side of the stage, facing the audience with new costume colours and wands raised; shot 3 begins with the same two figures in the same positions lowering their wands to bow.",
+      "description": "At 00:03.600, the shot cuts to a wider framing of the stage that includes the floor, both side curtains and the backdrop. The two magicians lower their wands, then sweep their hats and arms down and bow forward together toward the audience, holding the bow, as a brief light swell of applause comes from the silhouetted audience. With the bow complete, the gold cords on the red side curtains slip loose and the two panels sweep inward from both edges with a soft fabric rustle, crossing the backdrop behind the magicians and meeting at the centre of the stage. As the panels meet and settle, the fabric colour shifts from deep red to deep blue. The camera holds a static wide shot so that both curtain edges and the full stage stay in frame. The shot ends on the fully closed deep-blue curtain with the two magicians still bowed in front of it, and no action follows."
+    }
+  ]
+}

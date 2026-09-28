@@ -1,0 +1,20 @@
+subject_definitions:
+<Video 1> is the source video for video editing. <Subject 1> is the newly added third astronaut on the left side of the screen, whose design is derived from the original astronauts in <Video 1>, wearing an identical white spacesuit with black joint accents, a white helmet, and a bulky white geometric backpack with dark vents. <Audio 1> is directly reused as the target video's background music.
+
+summary:
+[video editing + audio reuse] The target video is an edited version of <Video 1>. Set on a reddish, Mars-like landscape with large white pyramid habitats, the video preserves the original forward tracking camera motion and the two original astronauts. A third astronaut, <Subject 1>, is seamlessly added to the left side of the screen. <Subject 1> wears the exact same white spacesuit and bulky backpack as the original team, and walks in perfect synchronization with them towards the distant structures. <Audio 1> is reused and extended as the atmospheric background music.
+
+retention_analysis:
+<Video 1> (source video editing): partially_preserved - The source video's forward tracking camera motion, reddish barren landscape, white pyramid-shaped habitats, dusk lighting, and the two original astronauts are preserved, while the composition is altered to include the new astronaut on the left.
+<Subject 1> (appears in [Shot 1]): fully_preserved - The newly added astronaut flawlessly replicates the source-derived white spacesuit, white helmet, and bulky geometric backpack design, and performs a walking action that is perfectly synchronized with the original astronauts.
+<Audio 1>: partially_copy - The atmospheric electronic synth drone from <Audio 1> is reused and extended to serve as the background music across the target video's longer duration.
+
+detailed_description:
+The target video is in a realistic cinematic sci-fi style.
+[Shot 1] The target video is an edited version of <Video 1>. The shot opens on a desolate, reddish, Mars-like landscape under a soft dusk sky. In the background, several large, white, pyramid-shaped habitats stand on the rocky terrain, with the central structure featuring glowing lights at its base and a painted graphic resembling a green, white, and red flag alongside the partially visible text "MAR". The camera is positioned behind the subjects and tracks steadily forward. In this edited version, there are now three astronauts walking away from the camera towards the distant habitats. The original two astronauts remain in the center and right side of the frame, while <Subject 1> is seamlessly integrated on the far left side. <Subject 1> wears the exact same team uniform as the others: a textured white spacesuit with black joint accents, a white helmet, and a bulky, angular white geometric backpack equipped with dark vents. The three astronauts walk forward in perfect unison, their steps, weight shifts, and arm swings perfectly aligned to match each other's pacing. The atmospheric, ambient electronic synth music from <Audio 1> plays continuously throughout the shot, enhancing the mysterious and exploratory mood of the scene. As the camera slowly pushes in, the synchronized team continues their steady trek across the dusty red ground, with the soft dusk lighting casting subtle shadows on their white suits until the video concludes.
+
+overall_soundscape:
+The overall soundscape features an atmospheric, slow-paced electronic synth drone that creates a mysterious, desolate, and exploratory sci-fi atmosphere.
+
+non_diegetic_music:
+An ambient, slow-tempo electronic synth track plays continuously in the background, featuring sustained, ethereal chords without any percussion.

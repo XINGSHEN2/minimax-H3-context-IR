@@ -1,0 +1,26 @@
+subject_definitions:
+<Subject 1> is the young woman from <Video 2>, with dark curly hair, freckles, a white t-shirt, blue denim overalls, and colorful woven bracelets on her wrists.
+<Subject 2> is the singing-performance pattern of the woman in <Video 3>: the right hand extended forward with an open palm and drawn inward toward the chest as the head tilts back, then raised to touch her cheek and hair as the head tilts to the side, then lowered and extended outward again as the head tilts back further, all carried by an open, sustained singing mouth.
+<Audio 1> is the sung vocal layer of <Video 3>, referenced for the voice timbre and delivery of <Subject 1> (S1).
+<Video 1> is the camera-movement reference for the target video: a continuous forward dolly with a matched counter-zoom that holds the subject's scale in frame while the background widens and recedes.
+<Video 2> is the source of <Subject 1> and of the target video's setting: a wicker table at an outdoor pavement café, a small white ceramic cup in her right hand, defocused seated patrons and a walking passer-by behind her, in natural daylight.
+
+summary:
+[reference generation + audio reference] In a single 5-second take, <Subject 1>, the young woman from <Video 2>, lowers her cup at the café table and sings on screen while the camera performs <Video 1>'s continuous push-in with counter-zoom. Her sung voice and her mouth, hand and head phrasing follow the singing in <Video 3>, and the take ends on her sustained final note as the background reaches its widest and most distant.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1]): fully_preserved - her facial identity, dark curly hair, freckles, white t-shirt, denim overalls and woven bracelets remain as defined; the granted change is that she is now singing.
+<Subject 2> (appears in [Shot 1]): attribute_transfer - <Video 3>'s gesture path and phrase order are carried by <Subject 1>'s own arms, body and clothing.
+<Video 1> (camera-movement source): partially_preserved - the continuous forward dolly and its foreground/background scale relationship are reproduced as one uninterrupted move on a different subject and location, stretched across the target's full 5 seconds.
+<Video 2> (subject and setting source): fully_preserved - the seated café situation, the wicker table, the defocused background and the small white cup she holds at the start remain the opening state; the locked camera is replaced by the <Video 1> movement.
+<Audio 1>: reference - the target's singing follows <Audio 1>'s vocal timbre and delivery without copying the original signal.
+
+detailed_description:
+The target video is a realistic live-action clip in natural daylight with the shallow, defocused outdoor-café look of <Video 2>, in 16:9.
+[Shot 1] <Subject 1> sits at the wicker table of <Video 2>, holding the small white ceramic cup in her right hand and looking down into it, with defocused patrons and a passer-by behind her. She lowers the cup onto the tabletop, where it settles with a soft clink, and her head comes up from the downward gaze as her mouth opens and she begins to sing on screen: <Subject 1> (S1) sings with the timbre and delivery referenced from <Audio 1>, <d>[English] Hold the light a little longer.</d> Her freed right hand extends forward with an open palm and draws inward toward her chest while her head tilts back, following the phrasing of <Subject 2>. Throughout the take the camera pushes in toward her at a slow, steady rate with large amplitude while zooming out by a matching amount, so her face and shoulders keep the same size in frame while the blurred café background widens and recedes behind her. Still singing without a break, <Subject 1> (S1) raises her right hand to her face, her fingers brushing her cheek and the curls beside her ear, and her head tilts to the side, continuing, <d>[English] Keep it here with me.</d> She then lowers the hand from her face and extends it outward again with an open palm as her head tilts further back, and the phrase resolves on a sustained open note that carries to the final frame. The push ends with the background at its widest and most distant, and the shot closes on her sustained note, right arm extended, the small cup resting on the table in front of her.
+
+overall_soundscape:
+The outdoor café ambience runs unbroken from the first frame to the last: distant mid-day traffic along with a few birds, and low overlapping chatter from the defocused patrons behind her. Her sung voice sits closest and clearest in the mix with the ambience several steps behind it, and the ambience continues under her sustained final note.
+
+non_diegetic_music:
+N/A

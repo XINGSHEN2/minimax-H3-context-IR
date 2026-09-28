@@ -1,0 +1,1276 @@
+{
+  "schema_version": "h3_compilation.light.v1",
+  "compiler_revision": "singlecall.v63.logical_developments",
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 6,
+    "aspect_ratio": "16:9",
+    "generate_audio": true,
+    "style": "",
+    "prompt_profile": "auto"
+  },
+  "assets": [
+    {
+      "asset_id": "image_1",
+      "media_type": "image",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.1 角色与物体编辑/case3-ref2va/assets/图片1.png",
+      "label": "图片1"
+    },
+    {
+      "asset_id": "image_2",
+      "media_type": "image",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.1 角色与物体编辑/case3-ref2va/assets/图片2.png",
+      "label": "图片2"
+    },
+    {
+      "asset_id": "video_1",
+      "media_type": "video",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.1 角色与物体编辑/case3-ref2va/assets/视频1.mp4",
+      "label": "视频1"
+    }
+  ],
+  "content_plan": {
+    "creative_brief": {
+      "user_locked": [
+        "In Video 1, the rearmost child is replaced by the golden retriever from Image 1, using the dog's identity and appearance as depicted in Image 1.",
+        "In Video 1, the jacket worn by the leftmost child is replaced by the denim jacket from Image 2, and the original khaki-toned jacket is removed.",
+        "Video 1 is the edit base: framing, angle, camera movement, timing, 6-second duration, edit rhythm, scene, background and all regions outside the two edited areas are preserved.",
+        "The leftmost child's identity, face, hair and body appearance are preserved; only the jacket changes.",
+        "All children in Video 1 other than the rearmost child keep their identity and appearance."
+      ],
+      "reference_anchors": [
+        "<Video 1>: one continuous 6-second medium shot; the camera tracks backward with the running group on a white daisy slope under warm low-angle golden light; the leftmost foreground child exits the left frame edge at about 2 seconds; the child at the left of the group stays in frame for the whole take and becomes the leftmost figure after that exit; the rearmost child stays at the right rear, fully visible, for the whole take.",
+        "<Video 1> provides the scene, lighting, framing, camera movement and timing that the two edits must fit inside.",
+        "<Picture 1> provides only the replacement dog's identity: golden to light-golden medium-length coat with longer fur on chest and legs, long droopy ears, dark nose, slightly open mouth with pink tongue out, sturdy medium-large build.",
+        "<Picture 2> provides only the replacement jacket's identity: blue washed denim, sherpa collar, metal buttons, \"WILD CHILD\" chest embroidery, patch graphics."
+      ],
+      "open_design": [
+        "The dog inherits the replaced child's on-screen position, scale and running motion (running toward the lens on all fours at the group's pace), because the reference dog is a static seated pose while the source position is moving; this keeps the camera path and timing unchanged.",
+        "The denim jacket is completed as a worn garment: it sits on the running child with the fabric folding and swinging with each stride, instead of hanging flat as in Image 2.",
+        "Natural running sound details for the new group in the meadow (grass footfalls, the dog's panting) are completed from the visible scene.",
+        "No new event, cut, extra character, extra object or new ending is added: the video still ends mid-run as in Video 1."
+      ]
+    },
+    "requirement_map": {
+      "content_events": [
+        {
+          "id": "ce_1",
+          "text": "The rearmost child in Video 1 is replaced by the golden retriever from Image 1, keeping that child's on-screen position, scale, visibility and running motion."
+        },
+        {
+          "id": "ce_2",
+          "text": "The rearmost child's own identity and clothing (brown jacket and khaki inner top) no longer appear in the video."
+        },
+        {
+          "id": "ce_3",
+          "text": "The leftmost child in Video 1 wears the denim jacket from Image 2 instead of the original khaki-toned outerwear."
+        },
+        {
+          "id": "ce_4",
+          "text": "The leftmost child's identity, face, hair and body appearance stay unchanged."
+        },
+        {
+          "id": "ce_5",
+          "text": "All other children in Video 1 keep their identity and appearance unchanged."
+        },
+        {
+          "id": "ce_6",
+          "text": "The scene, background and environment of Video 1 outside the two edited regions stay unchanged."
+        },
+        {
+          "id": "ce_7",
+          "text": "Video 1's timing, 6-second duration and single continuous edit rhythm are preserved."
+        }
+      ],
+      "editing_treatments": [
+        {
+          "id": "et_1",
+          "text": "Both replacements are integrated inside the existing continuous take with no added cut, transition, dissolve, overlay or masking artifact."
+        },
+        {
+          "id": "et_2",
+          "text": "The two edited regions keep the same framing, scale, lighting direction and shallow depth of field as the surrounding source footage."
+        }
+      ],
+      "global_style": [
+        {
+          "id": "gs_1",
+          "text": "Live-action sunny outdoor footage: a white daisy meadow on a rolling slope, pale blue-white sky, warm low-angle golden-hour light, natural filmic rendering with soft shallow depth of field, as in Video 1."
+        }
+      ],
+      "audio_requirements": [
+        {
+          "id": "ar_1",
+          "text": "Audio is generated for the edited video (generate_audio enabled). The user specifies no music, dialogue, lyric, silence or audio reuse, and no audio reference asset is provided."
+        }
+      ]
+    },
+    "task_mode": "ref2va",
+    "must_keep": [
+      "Video 1's framing, angle, height and backward-tracking camera movement.",
+      "6-second duration, timing and continuous single-take rhythm, including the leftmost foreground child's exit from the left frame edge at about 2 seconds.",
+      "The daisy meadow on a rolling slope, pale sky, warm low-angle golden-hour backlight and background of Video 1.",
+      "Identity, face, shoulder-length brown hair and body of the leftmost child, apart from the replaced jacket.",
+      "Identity and appearance of every other child in Video 1, including the center child in the off-white shirt and the leftmost foreground child in the beige knit top.",
+      "The rearmost child's on-screen position, scale and full visibility, now occupied by the dog.",
+      "No cut, transition, text overlay or masking artifact introduced by the two edits."
+    ],
+    "bindings": [
+      {
+        "asset_id": "video_1",
+        "role": "Edit base and source structure; provides scene, framing, camera movement, timing and the identities of the preserved children; supplies the position, scale and running motion that the replacement dog inherits.",
+        "retained_attributes": [
+          "camera framing, angle, height and backward-tracking movement",
+          "6-second duration, timing and continuous single-take edit rhythm",
+          "daisy meadow environment, rolling slope, pale sky, warm golden-hour lighting",
+          "identity and appearance of the center child in the off-white button-down shirt",
+          "identity, face, hair and body of the leftmost child",
+          "identity, hair and beige knit top of the leftmost foreground child"
+        ],
+        "optional_inherited_attributes": [
+          "the rearmost child's on-screen position, scale, full visibility and running motion, inherited by the replacement dog",
+          "the clothing worn under the replaced jacket on the leftmost child, kept as in the source"
+        ],
+        "excluded_attributes": [
+          "the rearmost child's identity and appearance, including the brown jacket and khaki inner top",
+          "the khaki-toned jacket currently worn by the leftmost child"
+        ],
+        "exclusion_reasons": [
+          "replaced by the golden retriever from Image 1 per the user's first edit",
+          "replaced by the denim jacket from Image 2 per the user's second edit"
+        ]
+      },
+      {
+        "asset_id": "image_1",
+        "role": "Identity and appearance reference for the replacement subject in the rearmost position.",
+        "retained_attributes": [
+          "golden to light-golden medium-length coat",
+          "longer fur on the chest and legs",
+          "long droopy ears",
+          "dark nose",
+          "mouth slightly open with the pink tongue out",
+          "sturdy medium-large build"
+        ],
+        "optional_inherited_attributes": [
+          "front-facing orientation, kept because the dog runs toward the tracking camera as the replaced child did"
+        ],
+        "excluded_attributes": [
+          "the seated pose",
+          "the green tennis ball between the front paws",
+          "the forest path, fallen leaves and tree background"
+        ],
+        "exclusion_reasons": [
+          "the dog inherits the rearmost child's running motion from Video 1 rather than the reference's sitting pose, so that camera movement and timing stay unchanged",
+          "the tennis ball is a separate object in Image 1, not part of the dog's identity, and the user's edit only covers the dog's identity and appearance",
+          "the environment comes from Video 1 and stays unchanged"
+        ]
+      },
+      {
+        "asset_id": "image_2",
+        "role": "Identity reference for the replacement outerwear worn by the leftmost child.",
+        "retained_attributes": [
+          "blue washed denim fabric",
+          "sherpa collar",
+          "metal buttons",
+          "\"WILD CHILD\" chest embroidery",
+          "patch graphics"
+        ],
+        "optional_inherited_attributes": [
+          "fit and drape adapted to the child's running body"
+        ],
+        "excluded_attributes": [
+          "the wooden hanger",
+          "the log-cabin interior background"
+        ],
+        "exclusion_reasons": [
+          "the jacket is worn by the leftmost child in Video 1's meadow scene instead of being displayed on a hanger"
+        ]
+      }
+    ],
+    "developments": [
+      {
+        "id": "dev_1",
+        "source_content_event_ids": [
+          "event_1"
+        ],
+        "visible_change": "Both edits are already in place when the video starts. On the daisy slope the group runs toward the backward-tracking camera: at the left of the group the leftmost child now wears the denim jacket from Image 2 in place of the original khaki-toned jacket, while that child's face, shoulder-length brown hair and body stay as in Video 1; at the right rear the rearmost child from Video 1 no longer appears and the golden retriever from Image 1 runs on all fours in that same position and scale, fully visible; the leftmost foreground child in the beige knit top runs close to the lens and exits the left edge of frame at about 2 seconds.",
+        "outcome": "Three figures remain in frame: the leftmost child now wearing the denim jacket, the center child in the off-white shirt, and the running retriever at the right rear, all still moving toward the camera."
+      },
+      {
+        "id": "dev_2",
+        "source_content_event_ids": [
+          "event_2"
+        ],
+        "visible_change": "The three remaining figures keep running toward the backward-tracking camera across the daisy slope; the leftmost child stays at the left in the denim jacket with the fabric moving with each stride, the center child keeps leading in the off-white shirt, and the retriever holds the rearmost right position, its coat and ears moving with the run.",
+        "outcome": "The video ends mid-run at 6 seconds on this three-figure formation, with the denim jacket and the retriever's rearmost position unchanged from the moment they were established and no new event added."
+      }
+    ],
+    "shots": [
+      {
+        "id": "shot_1",
+        "development_ids": [
+          "dev_1",
+          "dev_2"
+        ],
+        "content_purpose": "Hold the source's single continuous take so both replacements are read clearly inside it: the leftmost child in the denim jacket and the retriever at the right rear run toward the backward-tracking camera, the leftmost foreground child exits at about two seconds as in Video 1, and the group keeps running to the end without any new event.",
+        "treatment_ids": [
+          "et_1",
+          "et_2"
+        ],
+        "start_seconds": 0.0,
+        "end_seconds": 6.0,
+        "description": "The camera tracks backward at the same steady pace, height and medium framing as <Video 1>, holding the running group centered on the daisy slope. In the left foreground, <Subject 5> runs toward the lens smiling and exits the left edge of frame at about the two-second mark exactly as in <Video 1>, softening slightly in the near focus before leaving. Just to their right, <Subject 1> runs forward in the position they hold in <Video 1>; the original khaki-brown jacket is gone and the child now wears <Subject 3> - the washed denim sits open at the sherpa collar, the metal buttons catch the low sun, and the \"WILD CHILD\" embroidery and patch graphics are legible on the chest as the fabric folds and swings with each stride - while <Subject 1>'s face, shoulder-length brown hair and body remain as in the source. In the center, <Subject 4> leads the group in the off-white button-down shirt with long hair streaming sideways. At the right rear, at the same position and on-screen scale as the rearmost child in <Video 1>, that child and the brown jacket and khaki top they wore no longer appear; <Subject 2> runs there instead, on all fours and at the group's pace, the golden coat rippling in the backlight, the long droopy ears bouncing with each stride, the dark nose pointing at the lens and the mouth open with the pink tongue out, fully visible at the rear of the formation. From the two-second mark to the end, the three remaining figures - <Subject 1> now leftmost, <Subject 4> in the center and <Subject 2> at the right rear - continue running toward the tracking camera, hair, denim and fur moving with the same easy rhythm as <Video 1>, and the shot closes on this formation with no new action, cut or camera change. Synchronized sound: rapid footfalls through the grass and the dog's panting rise with the run."
+      }
+    ]
+  },
+  "uncertainties": [
+    "The user calls the leftmost child's garment a khaki jacket, but the video evidence describes the left-of-group child's jacket as brown/rust and places the khaki-toned garment on the rearmost child's inner top. The edit was applied to the child at the left of the running group - the child who wears an outer jacket and becomes the leftmost figure after about two seconds - because the jacket type and position identifier match; if the user meant the leftmost foreground child in the beige ribbed knit top who exits at about two seconds, the second edit would target a different child.",
+    "The user did not say how the replacement dog should behave. The dog was given the replaced child's position, scale, full visibility and running motion so that Video 1's camera movement and timing stay unchanged, and the reference dog's seated pose, tennis ball and forest setting were excluded.",
+    "No audio analysis of Video 1 is available, so the soundscape was designed from the visible meadow scene and the running group rather than from observed audio; no audio reuse or audio reference asset was specified."
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v2",
+    "provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3.8-27B",
+      "options": {
+        "cache_enabled": false,
+        "single_pass_image_analysis": true,
+        "max_parallel_assets": 1,
+        "image_base_url": "http://10.6.157.43:9012",
+        "video_base_url": "http://10.6.157.43:9012",
+        "single_pass_video_analysis": true,
+        "video_fps": 2,
+        "video_max_frames": 256,
+        "output_dir": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.1 角色与物体编辑/case3-ref2va/output/v63.1-user-shot-edit-3.1-perception-tasks",
+        "base_url": "http://10.6.157.43:9012",
+        "asset_upload_base_url": "http://10.0.96.114:30100",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000,
+        "max_parallel_attribute_batches": 2,
+        "image_attribute_batch_size": 3
+      }
+    },
+    "assets": [
+      {
+        "asset_id": "image_1",
+        "summary": "单一画面，一只金色长毛犬坐在铺满落叶的林间小路上，正面朝向镜头，前爪间放着一个绿色网球。",
+        "global_analysis": {
+          "scene": "秋季林间小路，地面覆盖枯叶，背景为成排树木，柔和自然光。",
+          "composition": "主体居中，正面坐姿，占据画面中下部；背景树木形成纵深，小路向右侧延伸。",
+          "framing_layers": [],
+          "visible_text": [],
+          "uncertainties": [
+            "无法确认犬的品种血统或真实身份"
+          ]
+        },
+        "evidence": [
+          {
+            "evidence_id": "evidence_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "单一画面，一只金色长毛犬坐在铺满落叶的林间小路上，正面朝向镜头，前爪间放着一个绿色网球。"
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "dog_1",
+            "category": "animal",
+            "subcategory": "animal",
+            "summary": "画面中央的金色长毛犬，正面坐姿，是主要主体。",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "体型",
+                  "value": "中大型，躯干结实",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "毛色",
+                  "value": "整体金色至浅金色",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "毛质",
+                  "value": "中长毛，胸前与腿部毛较长",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [
+                {
+                  "name": "耳朵",
+                  "value": "下垂的长耳，贴于头部两侧",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "口部",
+                  "value": "嘴微张，粉色舌头伸出",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [
+                {
+                  "name": "姿势",
+                  "value": "正面坐姿，前腿直立朝向镜头",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "品种血统不可确认"
+            ]
+          },
+          {
+            "entity_id": "ball_1",
+            "category": "object",
+            "subcategory": "object",
+            "summary": "位于犬前爪之间的绿色网球，作为交互物件。",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "形状",
+                  "value": "球形",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "颜色",
+                  "value": "绿色",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "表面",
+                  "value": "磨损的网球表面，带缝线",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "environment_1",
+            "category": "environment",
+            "subcategory": "environment",
+            "summary": "秋季林间场景，提供背景与地面环境。",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "地面",
+                  "value": "泥土小路覆盖大量枯黄落叶",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "背景",
+                  "value": "成排树干与稀疏秋叶，景深虚化",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "光照",
+                  "value": "柔和自然光，暖色调",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_in",
+            "subject_id": "dog_1",
+            "object_id": "environment_1",
+            "anchor": "犬坐在林间小路上",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_2",
+            "type": "positioned_relative_to",
+            "subject_id": "ball_1",
+            "object_id": "dog_1",
+            "anchor": "网球位于犬两前爪之间",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          }
+        ],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "image_single_pass",
+          "task_ids": [
+            "20260928_052324_260080_1b52a561-1430-4ab0-b4d0-1d218d1ed978"
+          ],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "single_pass",
+          "elapsed_seconds": 86.258,
+          "cache_hit": false,
+          "cache_key": "b2b7d9730d8066b2e986936ffa9617adf4263d9d79e67228b9535f657c4d36e8",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 86.258
+          }
+        },
+        "transcript": "",
+        "uncertainties": [
+          "静态画面无法证明动作或镜头运动"
+        ],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "a dog is present and its fur color and coat are visible",
+            "priority": "useful",
+            "source_asset_id": "image_1",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "color",
+              "dog",
+              "is"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "the dog's pose, orientation and visible extent within the frame",
+            "priority": "useful",
+            "source_asset_id": "image_1",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "dog",
+              "frame",
+              "orientation"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      },
+      {
+        "asset_id": "image_2",
+        "summary": "一件蓝色水洗儿童牛仔夹克独立挂在木质衣架上，背景为原木小屋，夹克带羊羔绒领、金属纽扣、胸前刺绣文字与贴布图案。",
+        "global_analysis": {
+          "scene": "室内原木小屋，夹克悬挂展示，无人物",
+          "composition": "夹克居中正面平铺悬挂，衣架钩挂在上方横木，背景为水平原木墙与地板，右侧栏杆与户外虚化",
+          "framing_layers": [],
+          "visible_text": [
+            {
+              "text": "WILD CHILD",
+              "legibility": "clear",
+              "region": "夹克左胸（画面右侧）彩色刺绣",
+              "confidence": 0.95
+            }
+          ],
+          "uncertainties": [
+            "领口内侧标签文字模糊无法确认",
+            "夹克具体尺码或适用年龄不可见"
+          ]
+        },
+        "evidence": [
+          {
+            "evidence_id": "evidence_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "一件蓝色水洗儿童牛仔夹克独立挂在木质衣架上，背景为原木小屋，夹克带羊羔绒领、金属纽扣、胸前刺绣文字与贴布图案。"
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "jacket_1",
+            "category": "object",
+            "subcategory": "object",
+            "summary": "独立悬挂展示的蓝色水洗儿童牛仔夹克，为画面核心商品",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.98
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "environment_1",
+            "category": "environment",
+            "subcategory": "environment",
+            "summary": "原木小屋背景与木质衣架横木，提供暖色自然光展示氛围",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_relative_to",
+            "subject_id": "jacket_1",
+            "object_id": "environment_1",
+            "anchor": "夹克悬挂于衣架中央，位于原木背景前",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          }
+        ],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "image_single_pass",
+          "task_ids": [
+            "20260928_052450_512641_c389d36c-37da-4802-9154-f1575e47450e"
+          ],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "single_pass",
+          "elapsed_seconds": 102.79,
+          "cache_hit": false,
+          "cache_key": "11817cde6d6fd714712c32a8b4107b4cb83b1456fb65887f7ddd897590d97cbd",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 102.79
+          }
+        },
+        "transcript": "",
+        "uncertainties": [],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "a denim jacket is visible together with its color and construction details",
+            "priority": "useful",
+            "source_asset_id": "image_2",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "color",
+              "is",
+              "jacket"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "whether the jacket is worn by a person or displayed separately, and how many views or panels are shown",
+            "priority": "useful",
+            "source_asset_id": "image_2",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "is",
+              "jacket",
+              "or"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      },
+      {
+        "asset_id": "video_1",
+        "summary": "四个孩子在金色夕阳下的白色雏菊山坡上朝镜头奔跑，最左侧前景孩子约2秒后出画，其余三名孩子持续跑向镜头。",
+        "global_analysis": {},
+        "evidence": [
+          {
+            "evidence_id": "evidence_event_1",
+            "kind": "frame",
+            "time_seconds": 1.0,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "四名孩子笑着朝镜头奔跑；最左侧前景的米色针织衫孩子因贴近镜头而模糊，并在约2秒时移出画面左侧"
+          },
+          {
+            "evidence_id": "evidence_event_2",
+            "kind": "frame",
+            "time_seconds": 4.0,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "三名孩子（左棕夹克、中白衬衫、右棕夹克）继续向镜头奔跑，头发与衣摆随跑动飘动，右侧孩子始终位于队尾"
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "category": "person",
+            "subcategory": "child",
+            "summary": "最左侧前景、离镜头最近的孩子，微笑奔跑，约2秒后出画",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "发型",
+                  "value": "长而蓬松的棕色头发",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "服装",
+                  "value": "米色/奶油色罗纹针织上衣",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "位置",
+                  "value": "画面最左前景，0-2秒可见后出画",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "person_2",
+            "category": "person",
+            "subcategory": "child",
+            "summary": "左侧孩子，穿棕褐色夹克，person_1出画后成为画面最左",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "发型",
+                  "value": "及肩棕色头发",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "外套",
+                  "value": "棕褐色/锈色夹克，内搭米色衬衫",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "位置",
+                  "value": "群体左侧，2秒后为画面最左孩子",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "person_3",
+            "category": "person",
+            "subcategory": "child",
+            "summary": "居中领跑的孩子，穿白色纽扣衬衫",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "发型",
+                  "value": "长而飘动的棕色头发",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "服装",
+                  "value": "白色/米白纽扣长袖衬衫",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "位置",
+                  "value": "画面中央，领跑",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "person_4",
+            "category": "person",
+            "subcategory": "child",
+            "summary": "右侧队尾孩子，穿棕夹克内搭卡其色上衣，离镜头最远",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "发型",
+                  "value": "棕色头发",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "外套",
+                  "value": "棕色夹克，内搭卡其/棕褐色上衣",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "位置",
+                  "value": "群体最右且最后方，全程可见",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "environment_1",
+            "category": "environment",
+            "subcategory": "exterior",
+            "summary": "开满白色雏菊的起伏山坡草地，晴朗淡色天空，暖金色夕阳光",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "场景",
+                  "value": "白色雏菊花田与草坡",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "光照",
+                  "value": "暖调金色低角度阳光，天空浅蓝偏白",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_in_front_of",
+            "subject_id": "person_1",
+            "object_id": "person_3",
+            "anchor": "最左前景孩子位于群体前方",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_2",
+            "type": "positioned_behind",
+            "subject_id": "person_4",
+            "object_id": "person_3",
+            "anchor": "右侧孩子位于队尾最后方",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_3",
+            "type": "positioned_left_of",
+            "subject_id": "person_2",
+            "object_id": "person_3",
+            "anchor": "左侧孩子与居中孩子并排偏左",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_4",
+            "type": "located_in",
+            "subject_id": "person_3",
+            "object_id": "environment_1",
+            "anchor": "孩子们奔跑于雏菊花田中",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "events": [
+          {
+            "event_id": "event_1",
+            "time_range": [
+              0.0,
+              2.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "person_2",
+              "person_3",
+              "person_4",
+              "environment_1"
+            ],
+            "action": "四名孩子笑着朝镜头奔跑；最左侧前景的米色针织衫孩子因贴近镜头而模糊，并在约2秒时移出画面左侧",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "none",
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.9
+          },
+          {
+            "event_id": "event_2",
+            "time_range": [
+              2.0,
+              6.0
+            ],
+            "entity_ids": [
+              "person_2",
+              "person_3",
+              "person_4",
+              "environment_1"
+            ],
+            "action": "三名孩子（左棕夹克、中白衬衫、右棕夹克）继续向镜头奔跑，头发与衣摆随跑动飘动，右侧孩子始终位于队尾",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "continuous",
+            "evidence_ids": [
+              "evidence_event_2"
+            ],
+            "confidence": 0.9
+          }
+        ],
+        "technical": {
+          "duration_seconds": 6.0,
+          "framing": "medium shot",
+          "camera": "随奔跑的孩子向后移动跟拍",
+          "visible_text": [],
+          "media_type": "video",
+          "analysis_pipeline": "compact_video_single_pass",
+          "task_ids": [
+            "20260928_053147_464695_ae28d579-e3ec-4600-930a-fb8153998204"
+          ],
+          "scene_cut_candidates_seconds": [],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "timeline_and_entities",
+          "elapsed_seconds": 691.715,
+          "cache_hit": false,
+          "cache_key": "1a3d8caf02587ffc7f20433c390a403f3a0790455775527d7e261a34949916d6",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 691.715
+          }
+        },
+        "transcript": "",
+        "uncertainties": [
+          "最左侧孩子(person_2)的夹克呈棕褐/锈色而非卡其色；卡其/棕褐色仅见于右侧孩子(person_4)的内搭上衣，与'最左孩子穿卡其夹克'的说法存在可见冲突",
+          "孩子们全程处于奔跑状态而非站立"
+        ],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "a child is positioned at the back of the group, behind the other children",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "full video duration",
+            "status": "covered",
+            "matched_terms": [
+              "at",
+              "behind",
+              "child",
+              "is",
+              "of",
+              "other",
+              "positioned"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "the leftmost child is visible and wears an outer garment",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "full video duration",
+            "status": "covered",
+            "matched_terms": [
+              "an",
+              "child",
+              "is"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "the outer garment of the leftmost child has a khaki/tan visible color",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "frames in which the leftmost child is visible",
+            "status": "covered",
+            "matched_terms": [
+              "child",
+              "color",
+              "of"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_4",
+            "claim": "visible extent and frame position of the rearmost child (how much of the body is on screen)",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "frames in which the rearmost child is visible",
+            "status": "covered",
+            "matched_terms": [
+              "child",
+              "frame",
+              "is",
+              "of",
+              "on",
+              "position"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_5",
+            "claim": "visible extent and outerwear appearance of the leftmost child in the final frames",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "final frames of the video",
+            "status": "covered",
+            "matched_terms": [
+              "child",
+              "in",
+              "of"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      }
+    ],
+    "missing_asset_ids": [],
+    "perception_metrics": {
+      "request_count": 3,
+      "retry_count": 0,
+      "supplemental_request_count": 0,
+      "elapsed_seconds": 691.715
+    }
+  }
+}

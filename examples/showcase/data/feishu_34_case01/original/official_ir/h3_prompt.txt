@@ -1,0 +1,24 @@
+subject_definitions:
+<Subject 1> is the man in <Video 1>, a Caucasian man with short grey hair, wearing a black suit jacket, white shirt, black tie, black trousers, and black shoes.
+<Subject 2> is the car in <Video 1>, a vintage light blue sedan with red graffiti on its side.
+<Video 1> is the source video for video editing.
+<Audio 1> is directly used as the target video's audio track, providing a low rumbling drone and ambient crackling sound.
+
+summary:
+[video editing + audio reuse] The target video is an edited version of <Video 1>. <Subject 1> sits on a red sofa instead of a chair, reading a green-covered book. His sunglasses are removed, showing his face clearly. In the background, <Subject 2> is parked in a normal, unburned state, and a tree is added on the left side of the screen. <Subject 1> reaches into his jacket, pulls out a small black notebook instead of a photo, looks at it, and puts it back before returning to his book. <Audio 1> provides the ambient sound.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1]): partially_preserved - the man's identity, grey hair, black suit, white shirt, and black tie are preserved, but his sunglasses are explicitly removed to reveal his clear face.
+<Subject 2> (appears in [Shot 1]): partially_preserved - the vintage blue sedan and its red graffiti are preserved, but the burning effect and thick black smoke are explicitly removed, leaving the vehicle in a normal state.
+<Video 1> (source video editing): partially_preserved - the static camera framing, desert environment, and the man's overall action sequence of reading, retrieving an item, and returning it are preserved, but the specific props (newspaper replaced by green book, photo replaced by black notebook, chair replaced by red sofa), the car's state, and the environment (added tree) are altered as requested.
+<Audio 1>: partially_copy - the audio signal from <Audio 1> is reused and extended to cover the longer target duration, providing the continuous ambient rumbling and crackling sound.
+
+detailed_description:
+The target video is in realistic style.
+[Shot 1] The video begins with a wide, static shot of a barren desert landscape under a hazy, pale sky. On the left side of the screen, a leafy green tree now stands planted in the dry sand, adding a natural element to the otherwise empty environment. In the midground, <Subject 2>, a vintage light blue sedan with red graffiti on its side, is parked normally; it is completely free of any fire or thick black smoke. In the foreground, <Subject 1>, a Caucasian man with short grey hair wearing a crisp white shirt, black tie, black suit jacket, black trousers, and black shoes, sits comfortably on a plush red sofa that replaces the original folding chair. His sunglasses have been removed, revealing his clear face, eyes, and a neutral, focused expression. Instead of a newspaper, he holds a green-covered book with both hands, reading it calmly. As the scene progresses, <Subject 1> lowers the green-covered book slightly to his lap. He uses his right hand to reach into the left inner breast pocket of his black suit jacket. He pulls out a small black notebook, replacing the original white photo, and holds it up in front of him. He gazes thoughtfully at the black notebook for a few seconds, his face clearly visible, keeping his posture relaxed against the back of the red sofa. He then smoothly lowers his right hand and carefully places the small black notebook back into his inner suit pocket. Once the notebook is tucked safely away, he adjusts the lapel of his suit jacket, raises the green-covered book back to his eye level, and gracefully resumes reading in the quiet desert setting. The camera remains a perfectly static shot throughout the entire sequence, maintaining a steady, wide framing that captures the newly added tree, the intact, unburned <Subject 2>, and <Subject 1>'s quiet reading activity. The audio track features a low rumbling drone and subtle ambient crackling sound from <Audio 1>, which plays continuously to support the atmospheric desert scene.
+
+overall_soundscape:
+The soundscape consists of a continuous low rumbling drone and subtle ambient crackling that establish a quiet, atmospheric tone in the desert setting.
+
+non_diegetic_music:
+N/A

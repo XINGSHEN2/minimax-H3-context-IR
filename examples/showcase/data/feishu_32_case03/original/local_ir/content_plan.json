@@ -1,0 +1,157 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "Replace only the scene visible outside the window in Video 1 with the scene depicted in Image 1.",
+      "Keep all other visible content of Video 1 unchanged: framing, camera motion, timing, the dark interior, the long-haired silhouette figure, the curtain-opening action and the cut to the window view.",
+      "Keep the window frame, glass and its perspective as shown in Video 1 while the scene behind the glass changes.",
+      "Target format: 6 seconds, 16:9, audio generated."
+    ],
+    "reference_anchors": [
+      "Video 1 supplies the near-black interior, the centered long-haired figure in dark clothing seen only as a silhouette, the curtain with a narrow vertical daylight gap that widens as the figure pulls it apart, a locked interior camera, and a cut to a wide view through a high-rise window.",
+      "Video 1 supplies the window itself: large glazing with visible frame edges, an oblique arrangement of glass and streak reflections across the surface, and a slight drift in the window shot.",
+      "Image 1 supplies the replacement view: a beige high-rise tower with a regular window grid and a cornice at center, a multi-storey green glass curtain-wall complex to its right topped by a dark tower carrying legible \"NIO\" signage, dense white residential towers far left, a continuous tree-canopy band across the midground, a road with lamp posts and railings in the lower foreground, and blue sky with scattered white clouds in bright daylight with soft cloud shadows."
+    ],
+    "open_design": [
+      "How the replacement skyline sits inside the window's perspective and how the retained glass reflections pass over it.",
+      "The moment the replacement view becomes fully readable and how long it is held.",
+      "The trailing hold that extends the 5-second source to the 6-second target, using the same slight drift.",
+      "The target video's ambience, since no audio analysis of Video 1 is available."
+    ]
+  },
+  "requirement_map": {
+    "content_events": [
+      {
+        "id": "ce_1",
+        "text": "In the dark interior of Video 1, the centered long-haired silhouette figure pulls the curtains apart so the narrow vertical daylight gap widens (preserved from Video 1)."
+      },
+      {
+        "id": "ce_2",
+        "text": "The scene seen through the window is the daytime city skyline from Image 1: beige central tower with a window grid, green glass complex with the dark \"NIO\" tower at its right, white residential towers far left, tree-canopy band, foreground road and lamp posts, blue sky with scattered clouds."
+      }
+    ],
+    "editing_treatments": [
+      {
+        "id": "et_1",
+        "text": "Window-region replacement edit: only the scene visible outside the window changes; every other pixel region keeps Video 1's original content."
+      },
+      {
+        "id": "et_2",
+        "text": "The cut between the interior curtain shot and the wide window view is preserved from Video 1."
+      },
+      {
+        "id": "et_3",
+        "text": "No new camera moves, transitions, titles, overlays or effects are introduced beyond the replacement itself."
+      }
+    ],
+    "global_style": [
+      {
+        "id": "gs_1",
+        "text": "Realistic photographic look carried over from Video 1, with the replacement skyline keeping the natural daylight, colours and depth of the Image 1 scene as seen through glass."
+      }
+    ],
+    "audio_requirements": [
+      {
+        "id": "au_1",
+        "text": "Audio is generated for the target video; no music or sound reuse is requested, and no audio analysis of Video 1 is available, so reuse of the original track is not claimed."
+      }
+    ]
+  },
+  "task_mode": "ref2va",
+  "must_keep": [
+    "Video 1's framing, camera motion and timing outside the outside-window scene",
+    "The dark interior with the curtain's vertical light gap and the long-haired silhouette figure",
+    "The visible curtain-opening action and the cut to the wide window view",
+    "The window frame, glass surface, its perspective and oblique streak reflections",
+    "Image 1's skyline composition, colours, daylight and \"NIO\" signage inside the window view",
+    "No reappearance of Video 1's original waterfront exterior view"
+  ],
+  "bindings": [
+    {
+      "asset_id": "video_1",
+      "role": "Source video for the edit; carries every preserved element outside the window-replacement area.",
+      "retained_attributes": [
+        "framing of the interior medium shot and the wide window shot",
+        "locked interior camera and the slight drift of the window shot",
+        "shot timing and the cut between the two shots",
+        "dark low-key interior with the curtain's narrow vertical daylight gap",
+        "centered long-haired figure in dark clothing, readable only as a silhouette",
+        "the curtain-opening action of the figure",
+        "window frame, glass surface, its perspective and oblique streak reflections"
+      ],
+      "optional_inherited_attributes": [
+        "contrast and grain character of the source footage"
+      ],
+      "excluded_attributes": [
+        "the original exterior waterfront city scene seen through the window: glass high-rises, the lakeside building, road traffic, the lake surface and the distant mountains"
+      ],
+      "exclusion_reasons": [
+        "The user replaces the outside-window scene with the Image 1 skyline, so the original exterior must not appear in the window."
+      ]
+    },
+    {
+      "asset_id": "image_1",
+      "role": "Replacement content for the scene seen outside the window.",
+      "retained_attributes": [
+        "skyline layout: beige central tower with regular window grid in front of the tree-canopy band, green glass complex with the dark \"NIO\" tower to the right, white residential towers far left",
+        "midground tree canopy, foreground road, lamp posts and railings",
+        "blue sky with scattered clouds, bright daylight and soft cloud shadows",
+        "dominant beige, green, white and blue palette"
+      ],
+      "optional_inherited_attributes": [
+        "depth layering from the foreground road and lamp posts up to the sky"
+      ],
+      "excluded_attributes": [
+        "the image's flat standalone full-frame presentation as a photograph"
+      ],
+      "exclusion_reasons": [
+        "Image 1 supplies scene content and appearance seen through the window, not a picture inserted as a frame; the view keeps the window's perspective, glass and reflections."
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_1",
+      "source_content_event_ids": [
+        "ce_1"
+      ],
+      "visible_change": "In the near-black interior the long-haired figure stands centered and grips both curtain edges, pulling them apart so the narrow central light gap widens into a bright vertical strip that catches the fabric edges and the rim of the hair while the face stays unreadable.",
+      "outcome": "Curtains parted and daylight entering through the widening opening, with the figure still readable only as a dark silhouette and no change to the room's layout or the figure's position."
+    },
+    {
+      "id": "dev_2",
+      "source_content_event_ids": [
+        "ce_2"
+      ],
+      "visible_change": "The scene beyond the window is the Image 1 skyline: the beige central tower stands in front of the tree-canopy band, the green glass complex with the dark \"NIO\" tower sits to its right, white residential towers recede far left, the road with lamp posts occupies the lower foreground and blue sky with scattered clouds fills the upper area; the window's frame edges and oblique streak reflections stay over this view while the camera drifts only slightly.",
+      "outcome": "A steady wide view of the replacement skyline through the retained window, continuing unchanged to the end of the video."
+    }
+  ],
+  "shots": [
+    {
+      "id": "shot_1",
+      "development_ids": [
+        "dev_1"
+      ],
+      "content_purpose": "Preserved opening: the dark interior and the curtain-opening action of Video 1, establishing the light that the window view continues from.",
+      "treatment_ids": [],
+      "start_seconds": 0.0,
+      "end_seconds": 2.5,
+      "description": "The video opens on the preserved dark interior of <Video 1>: the figure with long dark hair falling over the shoulders and dark clothing stands centered in near-black silhouette, facing dark curtains that hang with only a narrow vertical strip of daylight between them. The figure grips both curtain edges at chest height and pulls them apart; the vertical gap widens steadily into a bright strip that catches the fabric edges and the rim of the hair while the face stays unreadable in the low-key and cold light, and the camera holds a locked medium framing. Soft fabric sliding accompanies the pull."
+    },
+    {
+      "id": "shot_2",
+      "development_ids": [
+        "dev_2"
+      ],
+      "content_purpose": "Preserved cut to the wide window view, now showing the Image 1 skyline through the retained glass.",
+      "treatment_ids": [
+        "et_1",
+        "et_2",
+        "et_3"
+      ],
+      "start_seconds": 2.5,
+      "end_seconds": 6.0,
+      "description": "At 00:02.500, the shot cuts to the wide view through the window. Beyond the glass stands <Subject 1>: the beige central tower rises in front of the tree canopy with the green glass complex and its dark sign-bearing tower to the right, the white residential towers receding far left, the canopy band running unbroken across the midground, and the road with lamp posts below under blue sky with scattered clouds and bright daylight. The window of <Subject 2> keeps its frame edges, glass and perspective over this view, its oblique streak reflections passing across the skyline as the camera drifts slightly with small amplitude at slow speed. The replacement skyline stays stable and fully readable through the glass until the video ends at 00:06.000."
+    }
+  ]
+}

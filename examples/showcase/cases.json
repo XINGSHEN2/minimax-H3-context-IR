@@ -4,7 +4,7 @@
       "id": "feishu_11_case01",
       "title": "Case 1 · 四图望远镜搜索",
       "category": "1.1 品牌大片与影视内容",
-      "description": "默认页签：v63 逻辑连续大纲；保留 v33、Raw 和官方结果供对照。不同版本并非严格同参数评测。",
+      "description": "Raw、本地 IR v63 和官方 IR 的同案例对照。",
       "variants": {
         "v63": {
           "label": "v63 · 逻辑连续大纲",
@@ -39,42 +39,6 @@
               "content_plan": "data/feishu_11_case01/v63/content_plan.json"
             }
           }
-        },
-        "v33": {
-          "label": "v33 · 精简分镜工作流",
-          "groups": {
-            "raw": {
-              "label": "Raw",
-              "status": "ready",
-              "video": "data/feishu_11_case01/original/raw/result.mp4",
-              "prompt": "data/feishu_11_case01/original/raw/h3_prompt.txt",
-              "request": "data/feishu_11_case01/original/raw/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "v33": {
-              "label": "本地 IR · v33 精简分镜",
-              "status": "ready",
-              "video": "data/feishu_11_case01/v33/result.mp4",
-              "prompt": "data/feishu_11_case01/v33/h3_prompt.txt",
-              "request": "data/feishu_11_case01/v33/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.084,
-              "size": "1344×768",
-              "content_plan": "data/feishu_11_case01/v33/content_plan.json"
-            },
-            "official_ir": {
-              "label": "官方 IR · 原始结果",
-              "status": "ready",
-              "video": "data/feishu_11_case01/original/official_ir/result.mp4",
-              "prompt": "data/feishu_11_case01/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_11_case01/original/official_ir/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            }
-          }
         }
       },
       "assets": [
@@ -104,7 +68,7 @@
       "id": "feishu_11_case02",
       "title": "Case 2 · 太空预告片",
       "category": "1.1 品牌大片与影视内容",
-      "description": "默认页签：v63 逻辑连续大纲；保留 v33、Raw 和官方结果供对照。不同版本并非严格同参数评测。",
+      "description": "Raw、本地 IR v63 和官方 IR 的同案例对照。",
       "variants": {
         "v63": {
           "label": "v63 · 逻辑连续大纲",
@@ -139,42 +103,6 @@
               "content_plan": "data/feishu_11_case02/v63/content_plan.json"
             }
           }
-        },
-        "v33": {
-          "label": "v33 · 精简分镜工作流",
-          "groups": {
-            "raw": {
-              "label": "Raw",
-              "status": "ready",
-              "video": "data/feishu_11_case02/original/raw/result.mp4",
-              "prompt": "data/feishu_11_case02/original/raw/h3_prompt.txt",
-              "request": "data/feishu_11_case02/original/raw/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "v33": {
-              "label": "本地 IR · v33 精简分镜",
-              "status": "ready",
-              "video": "data/feishu_11_case02/v33/result.mp4",
-              "prompt": "data/feishu_11_case02/v33/h3_prompt.txt",
-              "request": "data/feishu_11_case02/v33/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.084,
-              "size": "1344×768",
-              "content_plan": "data/feishu_11_case02/v33/content_plan.json"
-            },
-            "official_ir": {
-              "label": "官方 IR · 原始结果",
-              "status": "ready",
-              "video": "data/feishu_11_case02/original/official_ir/result.mp4",
-              "prompt": "data/feishu_11_case02/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_11_case02/original/official_ir/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            }
-          }
         }
       },
       "assets": [
@@ -189,7 +117,7 @@
       "id": "feishu_11_case03",
       "title": "Case 3 · 宇宙门开场",
       "category": "1.1 品牌大片与影视内容",
-      "description": "默认页签：v63 逻辑连续大纲；保留 v33、Raw 和官方结果供对照。不同版本并非严格同参数评测。",
+      "description": "Raw、本地 IR v63 和官方 IR 的同案例对照。",
       "variants": {
         "v63": {
           "label": "v63 · 逻辑连续大纲",
@@ -224,42 +152,6 @@
               "content_plan": "data/feishu_11_case03/v63/content_plan.json"
             }
           }
-        },
-        "v33": {
-          "label": "v33 · 精简分镜工作流",
-          "groups": {
-            "raw": {
-              "label": "Raw",
-              "status": "ready",
-              "video": "data/feishu_11_case03/original/raw/result.mp4",
-              "prompt": "data/feishu_11_case03/original/raw/h3_prompt.txt",
-              "request": "data/feishu_11_case03/original/raw/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "v33": {
-              "label": "本地 IR · v33 精简分镜",
-              "status": "ready",
-              "video": "data/feishu_11_case03/v33/result.mp4",
-              "prompt": "data/feishu_11_case03/v33/h3_prompt.txt",
-              "request": "data/feishu_11_case03/v33/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.084,
-              "size": "1344×768",
-              "content_plan": "data/feishu_11_case03/v33/content_plan.json"
-            },
-            "official_ir": {
-              "label": "官方 IR · 原始结果",
-              "status": "ready",
-              "video": "data/feishu_11_case03/original/official_ir/result.mp4",
-              "prompt": "data/feishu_11_case03/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_11_case03/original/official_ir/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            }
-          }
         }
       },
       "assets": [
@@ -279,7 +171,7 @@
       "id": "feishu_11_case04",
       "title": "Case 4 · 衣服与包时尚广告",
       "category": "1.1 品牌大片与影视内容",
-      "description": "默认页签：v63 逻辑连续大纲；保留 v33、Raw 和官方结果供对照。不同版本并非严格同参数评测。",
+      "description": "Raw、本地 IR v63 和官方 IR 的同案例对照。",
       "variants": {
         "v63": {
           "label": "v63 · 逻辑连续大纲",
@@ -314,42 +206,6 @@
               "content_plan": "data/feishu_11_case04/v63/content_plan.json"
             }
           }
-        },
-        "v33": {
-          "label": "v33 · 精简分镜工作流",
-          "groups": {
-            "raw": {
-              "label": "Raw",
-              "status": "ready",
-              "video": "data/feishu_11_case04/original/raw/result.mp4",
-              "prompt": "data/feishu_11_case04/original/raw/h3_prompt.txt",
-              "request": "data/feishu_11_case04/original/raw/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "v33": {
-              "label": "本地 IR · v33 精简分镜",
-              "status": "ready",
-              "video": "data/feishu_11_case04/v33/result.mp4",
-              "prompt": "data/feishu_11_case04/v33/h3_prompt.txt",
-              "request": "data/feishu_11_case04/v33/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.084,
-              "size": "1344×768",
-              "content_plan": "data/feishu_11_case04/v33/content_plan.json"
-            },
-            "official_ir": {
-              "label": "官方 IR · 原始结果",
-              "status": "ready",
-              "video": "data/feishu_11_case04/original/official_ir/result.mp4",
-              "prompt": "data/feishu_11_case04/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_11_case04/original/official_ir/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            }
-          }
         }
       },
       "assets": [
@@ -379,7 +235,7 @@
       "id": "feishu_11_case05",
       "title": "Case 5 · 火焰时装广告",
       "category": "1.1 品牌大片与影视内容",
-      "description": "默认页签：v63 逻辑连续大纲；保留 v33、Raw 和官方结果供对照。不同版本并非严格同参数评测。",
+      "description": "Raw、本地 IR v63 和官方 IR 的同案例对照。",
       "variants": {
         "v63": {
           "label": "v63 · 逻辑连续大纲",
@@ -414,42 +270,6 @@
               "content_plan": "data/feishu_11_case05/v63/content_plan.json"
             }
           }
-        },
-        "v33": {
-          "label": "v33 · 精简分镜工作流",
-          "groups": {
-            "raw": {
-              "label": "Raw",
-              "status": "ready",
-              "video": "data/feishu_11_case05/original/raw/result.mp4",
-              "prompt": "data/feishu_11_case05/original/raw/h3_prompt.txt",
-              "request": "data/feishu_11_case05/original/raw/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "v33": {
-              "label": "本地 IR · v33 精简分镜",
-              "status": "ready",
-              "video": "data/feishu_11_case05/v33/result.mp4",
-              "prompt": "data/feishu_11_case05/v33/h3_prompt.txt",
-              "request": "data/feishu_11_case05/v33/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.084,
-              "size": "1344×768",
-              "content_plan": "data/feishu_11_case05/v33/content_plan.json"
-            },
-            "official_ir": {
-              "label": "官方 IR · 原始结果",
-              "status": "ready",
-              "video": "data/feishu_11_case05/original/official_ir/result.mp4",
-              "prompt": "data/feishu_11_case05/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_11_case05/original/official_ir/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            }
-          }
         }
       },
       "assets": [
@@ -469,10 +289,10 @@
       "id": "feishu_22_case01",
       "title": "Case 1 · 男女泡沫动作迁移",
       "category": "2.2 角色、动作与镜头参考",
-      "description": "默认页签：v62；保留 v33、Raw、官方结果供对照。不同版本并非严格同参数评测。",
+      "description": "Raw、本地 IR v63 和官方 IR 的同案例对照。",
       "variants": {
-        "v62": {
-          "label": "v62 · 2.2 四例",
+        "v63": {
+          "label": "v63",
           "groups": {
             "raw": {
               "label": "Raw",
@@ -484,50 +304,16 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             },
-            "v62": {
-              "label": "本地 IR · v62",
+            "local_ir": {
+              "label": "本地 IR · v63",
               "status": "ready",
-              "video": "data/feishu_22_case01/v62/result.mp4",
-              "prompt": "data/feishu_22_case01/v62/h3_prompt.txt",
-              "request": "data/feishu_22_case01/v62/request.json",
-              "context_ir": "data/feishu_22_case01/v62/context_ir.json",
-              "content_plan": "data/feishu_22_case01/v62/content_plan.json"
-            },
-            "official_ir": {
-              "label": "官方 IR · 原始结果",
-              "status": "ready",
-              "video": "data/feishu_22_case01/original/official_ir/result.mp4",
-              "prompt": "data/feishu_22_case01/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_22_case01/original/official_ir/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            }
-          }
-        },
-        "v33": {
-          "label": "v33 · 精简分镜工作流",
-          "groups": {
-            "raw": {
-              "label": "Raw",
-              "status": "ready",
-              "video": "data/feishu_22_case01/original/raw/result.mp4",
-              "prompt": "data/feishu_22_case01/original/raw/h3_prompt.txt",
-              "request": "data/feishu_22_case01/original/raw/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "v33": {
-              "label": "本地 IR · v33 精简分镜",
-              "status": "ready",
-              "video": "data/feishu_22_case01/v33/result.mp4",
-              "prompt": "data/feishu_22_case01/v33/h3_prompt.txt",
-              "request": "data/feishu_22_case01/v33/request.json",
-              "context_ir": null,
+              "video": "data/feishu_22_case01/v63/result.mp4",
+              "prompt": "data/feishu_22_case01/v63/h3_prompt.txt",
+              "request": "data/feishu_22_case01/v63/request.json",
+              "context_ir": "data/feishu_22_case01/v63/context_ir.json",
+              "content_plan": "data/feishu_22_case01/v63/content_plan.json",
               "duration_seconds": 15.084,
-              "size": "1344×768",
-              "content_plan": "data/feishu_22_case01/v33/content_plan.json"
+              "size": "1344×768"
             },
             "official_ir": {
               "label": "官方 IR · 原始结果",
@@ -559,10 +345,10 @@
       "id": "feishu_22_case02",
       "title": "Case 2 · 街舞动作迁移",
       "category": "2.2 角色、动作与镜头参考",
-      "description": "默认页签：v62；保留 v33、Raw、官方结果供对照。不同版本并非严格同参数评测。",
+      "description": "Raw、本地 IR v63 和官方 IR 的同案例对照。",
       "variants": {
-        "v62": {
-          "label": "v62 · 2.2 四例",
+        "v63": {
+          "label": "v63",
           "groups": {
             "raw": {
               "label": "Raw",
@@ -574,50 +360,16 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             },
-            "v62": {
-              "label": "本地 IR · v62",
+            "local_ir": {
+              "label": "本地 IR · v63",
               "status": "ready",
-              "video": "data/feishu_22_case02/v62/result.mp4",
-              "prompt": "data/feishu_22_case02/v62/h3_prompt.txt",
-              "request": "data/feishu_22_case02/v62/request.json",
-              "context_ir": "data/feishu_22_case02/v62/context_ir.json",
-              "content_plan": "data/feishu_22_case02/v62/content_plan.json"
-            },
-            "official_ir": {
-              "label": "官方 IR · 原始结果",
-              "status": "ready",
-              "video": "data/feishu_22_case02/original/official_ir/result.mp4",
-              "prompt": "data/feishu_22_case02/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_22_case02/original/official_ir/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
+              "video": "data/feishu_22_case02/v63/result.mp4",
+              "prompt": "data/feishu_22_case02/v63/h3_prompt.txt",
+              "request": "data/feishu_22_case02/v63/request.json",
+              "context_ir": "data/feishu_22_case02/v63/context_ir.json",
+              "content_plan": "data/feishu_22_case02/v63/content_plan.json",
+              "duration_seconds": 10.125,
               "size": "1344×768"
-            }
-          }
-        },
-        "v33": {
-          "label": "v33 · 精简分镜工作流",
-          "groups": {
-            "raw": {
-              "label": "Raw",
-              "status": "ready",
-              "video": "data/feishu_22_case02/original/raw/result.mp4",
-              "prompt": "data/feishu_22_case02/original/raw/h3_prompt.txt",
-              "request": "data/feishu_22_case02/original/raw/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "v33": {
-              "label": "本地 IR · v33 精简分镜",
-              "status": "ready",
-              "video": "data/feishu_22_case02/v33/result.mp4",
-              "prompt": "data/feishu_22_case02/v33/h3_prompt.txt",
-              "request": "data/feishu_22_case02/v33/request.json",
-              "context_ir": null,
-              "duration_seconds": 9.425,
-              "size": "768×1344",
-              "content_plan": "data/feishu_22_case02/v33/content_plan.json"
             },
             "official_ir": {
               "label": "官方 IR · 原始结果",
@@ -654,10 +406,10 @@
       "id": "feishu_22_case03",
       "title": "Case 3 · 希区柯克运镜与人物表演",
       "category": "2.2 角色、动作与镜头参考",
-      "description": "默认页签：v62；保留 v33、Raw、官方结果供对照。不同版本并非严格同参数评测。",
+      "description": "Raw、本地 IR v63 和官方 IR 的同案例对照。",
       "variants": {
-        "v62": {
-          "label": "v62 · 2.2 四例",
+        "v63": {
+          "label": "v63",
           "groups": {
             "raw": {
               "label": "Raw",
@@ -669,50 +421,16 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             },
-            "v62": {
-              "label": "本地 IR · v62",
+            "local_ir": {
+              "label": "本地 IR · v63",
               "status": "ready",
-              "video": "data/feishu_22_case03/v62/result.mp4",
-              "prompt": "data/feishu_22_case03/v62/h3_prompt.txt",
-              "request": "data/feishu_22_case03/v62/request.json",
-              "context_ir": "data/feishu_22_case03/v62/context_ir.json",
-              "content_plan": "data/feishu_22_case03/v62/content_plan.json"
-            },
-            "official_ir": {
-              "label": "官方 IR · 原始结果",
-              "status": "ready",
-              "video": "data/feishu_22_case03/original/official_ir/result.mp4",
-              "prompt": "data/feishu_22_case03/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_22_case03/original/official_ir/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
+              "video": "data/feishu_22_case03/v63/result.mp4",
+              "prompt": "data/feishu_22_case03/v63/h3_prompt.txt",
+              "request": "data/feishu_22_case03/v63/request.json",
+              "context_ir": "data/feishu_22_case03/v63/context_ir.json",
+              "content_plan": "data/feishu_22_case03/v63/content_plan.json",
+              "duration_seconds": 6.584,
               "size": "1344×768"
-            }
-          }
-        },
-        "v33": {
-          "label": "v33 · 精简分镜工作流",
-          "groups": {
-            "raw": {
-              "label": "Raw",
-              "status": "ready",
-              "video": "data/feishu_22_case03/original/raw/result.mp4",
-              "prompt": "data/feishu_22_case03/original/raw/h3_prompt.txt",
-              "request": "data/feishu_22_case03/original/raw/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "v33": {
-              "label": "本地 IR · v33 精简分镜",
-              "status": "ready",
-              "video": "data/feishu_22_case03/v33/result.mp4",
-              "prompt": "data/feishu_22_case03/v33/h3_prompt.txt",
-              "request": "data/feishu_22_case03/v33/request.json",
-              "context_ir": null,
-              "duration_seconds": 5.175,
-              "size": "1344×768",
-              "content_plan": "data/feishu_22_case03/v33/content_plan.json"
             },
             "official_ir": {
               "label": "官方 IR · 原始结果",
@@ -749,10 +467,10 @@
       "id": "feishu_22_case04",
       "title": "Case 4 · 水豚动作替换",
       "category": "2.2 角色、动作与镜头参考",
-      "description": "默认页签：v62；保留 v33、Raw、官方结果供对照。不同版本并非严格同参数评测。",
+      "description": "Raw、本地 IR v63 和官方 IR 的同案例对照。",
       "variants": {
-        "v62": {
-          "label": "v62 · 2.2 四例",
+        "v63": {
+          "label": "v63",
           "groups": {
             "raw": {
               "label": "Raw",
@@ -764,50 +482,16 @@
               "duration_seconds": 15.107,
               "size": "1344×768"
             },
-            "v62": {
-              "label": "本地 IR · v62",
+            "local_ir": {
+              "label": "本地 IR · v63",
               "status": "ready",
-              "video": "data/feishu_22_case04/v62/result.mp4",
-              "prompt": "data/feishu_22_case04/v62/h3_prompt.txt",
-              "request": "data/feishu_22_case04/v62/request.json",
-              "context_ir": "data/feishu_22_case04/v62/context_ir.json",
-              "content_plan": "data/feishu_22_case04/v62/content_plan.json"
-            },
-            "official_ir": {
-              "label": "官方 IR · 原始结果",
-              "status": "ready",
-              "video": "data/feishu_22_case04/original/official_ir/result.mp4",
-              "prompt": "data/feishu_22_case04/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_22_case04/original/official_ir/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            }
-          }
-        },
-        "v33": {
-          "label": "v33 · 精简分镜工作流",
-          "groups": {
-            "raw": {
-              "label": "Raw",
-              "status": "ready",
-              "video": "data/feishu_22_case04/original/raw/result.mp4",
-              "prompt": "data/feishu_22_case04/original/raw/h3_prompt.txt",
-              "request": "data/feishu_22_case04/original/raw/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "v33": {
-              "label": "本地 IR · v33 精简分镜",
-              "status": "ready",
-              "video": "data/feishu_22_case04/v33/result.mp4",
-              "prompt": "data/feishu_22_case04/v33/h3_prompt.txt",
-              "request": "data/feishu_22_case04/v33/request.json",
-              "context_ir": null,
+              "video": "data/feishu_22_case04/v63/result.mp4",
+              "prompt": "data/feishu_22_case04/v63/h3_prompt.txt",
+              "request": "data/feishu_22_case04/v63/request.json",
+              "context_ir": "data/feishu_22_case04/v63/context_ir.json",
+              "content_plan": "data/feishu_22_case04/v63/content_plan.json",
               "duration_seconds": 6.584,
-              "size": "1344×768",
-              "content_plan": "data/feishu_22_case04/v33/content_plan.json"
+              "size": "1344×768"
             },
             "official_ir": {
               "label": "官方 IR · 原始结果",
@@ -827,6 +511,503 @@
           "src": "data/feishu_22_case04/assets/视频1.mp4",
           "label": "视频1.mp4",
           "type": "video"
+        }
+      ]
+    },
+    {
+      "id": "feishu_31_case01",
+      "title": "Case 1 · 猫替换为狗",
+      "category": "3.1 角色与物体编辑",
+      "description": "Raw、本地 IR 和官方 IR 的同案例对照。各栏使用对应参考时长。",
+      "variants": {
+        "v63.1": {
+          "label": "v63.1",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_31_case01/original/raw/result.mp4",
+              "prompt": "data/feishu_31_case01/original/raw/h3_prompt.txt",
+              "request": "data/feishu_31_case01/original/raw/request.json",
+              "context_ir": null,
+              "content_plan": null,
+              "duration_seconds": 6.084,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · v63.1",
+              "status": "ready",
+              "video": "data/feishu_31_case01/original/local_ir/result.mp4",
+              "prompt": "data/feishu_31_case01/original/local_ir/h3_prompt.txt",
+              "request": "data/feishu_31_case01/original/local_ir/request.json",
+              "context_ir": "data/feishu_31_case01/original/local_ir/context_ir.json",
+              "content_plan": "data/feishu_31_case01/original/local_ir/content_plan.json",
+              "duration_seconds": 6.584,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/feishu_31_case01/original/official_ir/result.mp4",
+              "prompt": "data/feishu_31_case01/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_31_case01/original/official_ir/request.json",
+              "context_ir": null,
+              "content_plan": null,
+              "duration_seconds": 6.084,
+              "size": "1344×768"
+            }
+          }
+        }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_31_case01/assets/视频1.mp4",
+          "label": "视频1.mp4",
+          "type": "video"
+        }
+      ]
+    },
+    {
+      "id": "feishu_31_case02",
+      "title": "Case 2 · 左侧增加同队队员",
+      "category": "3.1 角色与物体编辑",
+      "description": "Raw、本地 IR 和官方 IR 的同案例对照。各栏使用对应参考时长。",
+      "variants": {
+        "v63.1": {
+          "label": "v63.1",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_31_case02/original/raw/result.mp4",
+              "prompt": "data/feishu_31_case02/original/raw/h3_prompt.txt",
+              "request": "data/feishu_31_case02/original/raw/request.json",
+              "context_ir": null,
+              "content_plan": null,
+              "duration_seconds": 6.084,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · v63.1",
+              "status": "ready",
+              "video": "data/feishu_31_case02/original/local_ir/result.mp4",
+              "prompt": "data/feishu_31_case02/original/local_ir/h3_prompt.txt",
+              "request": "data/feishu_31_case02/original/local_ir/request.json",
+              "context_ir": "data/feishu_31_case02/original/local_ir/context_ir.json",
+              "content_plan": "data/feishu_31_case02/original/local_ir/content_plan.json",
+              "duration_seconds": 6.584,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/feishu_31_case02/original/official_ir/result.mp4",
+              "prompt": "data/feishu_31_case02/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_31_case02/original/official_ir/request.json",
+              "context_ir": null,
+              "content_plan": null,
+              "duration_seconds": 6.084,
+              "size": "1344×768"
+            }
+          }
+        }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_31_case02/assets/视频1.mp4",
+          "label": "视频1.mp4",
+          "type": "video"
+        }
+      ]
+    },
+    {
+      "id": "feishu_31_case03",
+      "title": "Case 3 · 金毛与牛仔外套替换",
+      "category": "3.1 角色与物体编辑",
+      "description": "Raw、本地 IR 和官方 IR 的同案例对照。各栏使用对应参考时长。",
+      "variants": {
+        "v63.1": {
+          "label": "v63.1",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_31_case03/original/raw/result.mp4",
+              "prompt": "data/feishu_31_case03/original/raw/h3_prompt.txt",
+              "request": "data/feishu_31_case03/original/raw/request.json",
+              "context_ir": null,
+              "content_plan": null,
+              "duration_seconds": 6.084,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · v63.1",
+              "status": "ready",
+              "video": "data/feishu_31_case03/original/local_ir/result.mp4",
+              "prompt": "data/feishu_31_case03/original/local_ir/h3_prompt.txt",
+              "request": "data/feishu_31_case03/original/local_ir/request.json",
+              "context_ir": "data/feishu_31_case03/original/local_ir/context_ir.json",
+              "content_plan": "data/feishu_31_case03/original/local_ir/content_plan.json",
+              "duration_seconds": 6.584,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/feishu_31_case03/original/official_ir/result.mp4",
+              "prompt": "data/feishu_31_case03/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_31_case03/original/official_ir/request.json",
+              "context_ir": null,
+              "content_plan": null,
+              "duration_seconds": 6.084,
+              "size": "1344×768"
+            }
+          }
+        }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_31_case03/assets/图片1.png",
+          "label": "图片1.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_31_case03/assets/图片2.png",
+          "label": "图片2.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_31_case03/assets/视频1.mp4",
+          "label": "视频1.mp4",
+          "type": "video"
+        }
+      ]
+    },
+    {
+      "id": "feishu_32_case01",
+      "title": "Case 1 · 绿幕替换为童话背景",
+      "category": "3.2 场景与视觉效果编辑",
+      "description": "Raw、本地 IR 和官方 IR 的同案例对照。各栏使用对应参考时长。",
+      "variants": {
+        "v63.1": {
+          "label": "v63.1",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_32_case01/original/raw/result.mp4",
+              "prompt": "data/feishu_32_case01/original/raw/h3_prompt.txt",
+              "request": "data/feishu_32_case01/original/raw/request.json",
+              "context_ir": null,
+              "content_plan": null,
+              "duration_seconds": 15.084,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · v63.1",
+              "status": "ready",
+              "video": "data/feishu_32_case01/original/local_ir/result.mp4",
+              "prompt": "data/feishu_32_case01/original/local_ir/h3_prompt.txt",
+              "request": "data/feishu_32_case01/original/local_ir/request.json",
+              "context_ir": "data/feishu_32_case01/original/local_ir/context_ir.json",
+              "content_plan": "data/feishu_32_case01/original/local_ir/content_plan.json",
+              "duration_seconds": 15.084,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/feishu_32_case01/original/official_ir/result.mp4",
+              "prompt": "data/feishu_32_case01/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_32_case01/original/official_ir/request.json",
+              "context_ir": null,
+              "content_plan": null,
+              "duration_seconds": 15.084,
+              "size": "1344×768"
+            }
+          }
+        }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_32_case01/assets/视频1.mp4",
+          "label": "视频1.mp4",
+          "type": "video"
+        },
+        {
+          "src": "data/feishu_32_case01/assets/视频2.mov",
+          "label": "视频2.mov",
+          "type": "video"
+        }
+      ]
+    },
+    {
+      "id": "feishu_32_case02",
+      "title": "Case 2 · 街边咖啡馆改为夜晚",
+      "category": "3.2 场景与视觉效果编辑",
+      "description": "Raw、本地 IR 和官方 IR 的同案例对照。各栏使用对应参考时长。",
+      "variants": {
+        "v63.1": {
+          "label": "v63.1",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_32_case02/original/raw/result.mp4",
+              "prompt": "data/feishu_32_case02/original/raw/h3_prompt.txt",
+              "request": "data/feishu_32_case02/original/raw/request.json",
+              "context_ir": null,
+              "content_plan": null,
+              "duration_seconds": 6.084,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · v63.1",
+              "status": "ready",
+              "video": "data/feishu_32_case02/original/local_ir/result.mp4",
+              "prompt": "data/feishu_32_case02/original/local_ir/h3_prompt.txt",
+              "request": "data/feishu_32_case02/original/local_ir/request.json",
+              "context_ir": "data/feishu_32_case02/original/local_ir/context_ir.json",
+              "content_plan": "data/feishu_32_case02/original/local_ir/content_plan.json",
+              "duration_seconds": 6.584,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/feishu_32_case02/original/official_ir/result.mp4",
+              "prompt": "data/feishu_32_case02/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_32_case02/original/official_ir/request.json",
+              "context_ir": null,
+              "content_plan": null,
+              "duration_seconds": 6.084,
+              "size": "1344×768"
+            }
+          }
+        }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_32_case02/assets/视频1.mp4",
+          "label": "视频1.mp4",
+          "type": "video"
+        }
+      ]
+    },
+    {
+      "id": "feishu_32_case03",
+      "title": "Case 3 · 窗外场景替换",
+      "category": "3.2 场景与视觉效果编辑",
+      "description": "Raw、本地 IR 和官方 IR 的同案例对照。各栏使用对应参考时长。",
+      "variants": {
+        "v63.1": {
+          "label": "v63.1",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_32_case03/original/raw/result.mp4",
+              "prompt": "data/feishu_32_case03/original/raw/h3_prompt.txt",
+              "request": "data/feishu_32_case03/original/raw/request.json",
+              "context_ir": null,
+              "content_plan": null,
+              "duration_seconds": 6.125,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · v63.1",
+              "status": "ready",
+              "video": "data/feishu_32_case03/original/local_ir/result.mp4",
+              "prompt": "data/feishu_32_case03/original/local_ir/h3_prompt.txt",
+              "request": "data/feishu_32_case03/original/local_ir/request.json",
+              "context_ir": "data/feishu_32_case03/original/local_ir/context_ir.json",
+              "content_plan": "data/feishu_32_case03/original/local_ir/content_plan.json",
+              "duration_seconds": 6.584,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/feishu_32_case03/original/official_ir/result.mp4",
+              "prompt": "data/feishu_32_case03/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_32_case03/original/official_ir/request.json",
+              "context_ir": null,
+              "content_plan": null,
+              "duration_seconds": 6.125,
+              "size": "1344×768"
+            }
+          }
+        }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_32_case03/assets/图片1.png",
+          "label": "图片1.png",
+          "type": "image"
+        },
+        {
+          "src": "data/feishu_32_case03/assets/视频1.mp4",
+          "label": "视频1.mp4",
+          "type": "video"
+        }
+      ]
+    },
+    {
+      "id": "feishu_34_case01",
+      "title": "Case 1 · 报纸与座椅等精准替换",
+      "category": "3.4 高精度的指令遵循",
+      "description": "Raw、本地 IR 和官方 IR 的同案例对照。各栏使用对应参考时长。",
+      "variants": {
+        "v63.1": {
+          "label": "v63.1",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_34_case01/original/raw/result.mp4",
+              "prompt": "data/feishu_34_case01/original/raw/h3_prompt.txt",
+              "request": "data/feishu_34_case01/original/raw/request.json",
+              "context_ir": null,
+              "content_plan": null,
+              "duration_seconds": 10.084,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · v63.1",
+              "status": "ready",
+              "video": "data/feishu_34_case01/original/local_ir/result.mp4",
+              "prompt": "data/feishu_34_case01/original/local_ir/h3_prompt.txt",
+              "request": "data/feishu_34_case01/original/local_ir/request.json",
+              "context_ir": "data/feishu_34_case01/original/local_ir/context_ir.json",
+              "content_plan": "data/feishu_34_case01/original/local_ir/content_plan.json",
+              "duration_seconds": 10.125,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/feishu_34_case01/original/official_ir/result.mp4",
+              "prompt": "data/feishu_34_case01/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_34_case01/original/official_ir/request.json",
+              "context_ir": null,
+              "content_plan": null,
+              "duration_seconds": 10.084,
+              "size": "1344×768"
+            }
+          }
+        }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_34_case01/assets/视频1.mp4",
+          "label": "视频1.mp4",
+          "type": "video"
+        }
+      ]
+    },
+    {
+      "id": "feishu_34_case02",
+      "title": "Case 2 · 可乐与便利店招牌替换",
+      "category": "3.4 高精度的指令遵循",
+      "description": "Raw、本地 IR 和官方 IR 的同案例对照。各栏使用对应参考时长。",
+      "variants": {
+        "v63.1": {
+          "label": "v63.1",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_34_case02/original/raw/result.mp4",
+              "prompt": "data/feishu_34_case02/original/raw/h3_prompt.txt",
+              "request": "data/feishu_34_case02/original/raw/request.json",
+              "context_ir": null,
+              "content_plan": null,
+              "duration_seconds": 15.084,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · v63.1",
+              "status": "ready",
+              "video": "data/feishu_34_case02/original/local_ir/result.mp4",
+              "prompt": "data/feishu_34_case02/original/local_ir/h3_prompt.txt",
+              "request": "data/feishu_34_case02/original/local_ir/request.json",
+              "context_ir": "data/feishu_34_case02/original/local_ir/context_ir.json",
+              "content_plan": "data/feishu_34_case02/original/local_ir/content_plan.json",
+              "duration_seconds": 15.084,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/feishu_34_case02/original/official_ir/result.mp4",
+              "prompt": "data/feishu_34_case02/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_34_case02/original/official_ir/request.json",
+              "context_ir": null,
+              "content_plan": null,
+              "duration_seconds": 15.084,
+              "size": "1344×768"
+            }
+          }
+        }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_34_case02/assets/视频1.mp4",
+          "label": "视频1.mp4",
+          "type": "video"
+        }
+      ]
+    },
+    {
+      "id": "feishu_34_case03",
+      "title": "Case 3 · 魔术师服装与幕布变色",
+      "category": "3.4 高精度的指令遵循",
+      "description": "Raw、本地 IR 和官方 IR 的同案例对照。各栏使用对应参考时长。",
+      "variants": {
+        "v63.1": {
+          "label": "v63.1",
+          "groups": {
+            "raw": {
+              "label": "Raw",
+              "status": "ready",
+              "video": "data/feishu_34_case03/original/raw/result.mp4",
+              "prompt": "data/feishu_34_case03/original/raw/h3_prompt.txt",
+              "request": "data/feishu_34_case03/original/raw/request.json",
+              "context_ir": null,
+              "content_plan": null,
+              "duration_seconds": 6.584,
+              "size": "1344×768"
+            },
+            "local_ir": {
+              "label": "本地 IR · v63.1",
+              "status": "ready",
+              "video": "data/feishu_34_case03/original/local_ir/result.mp4",
+              "prompt": "data/feishu_34_case03/original/local_ir/h3_prompt.txt",
+              "request": "data/feishu_34_case03/original/local_ir/request.json",
+              "context_ir": "data/feishu_34_case03/original/local_ir/context_ir.json",
+              "content_plan": "data/feishu_34_case03/original/local_ir/content_plan.json",
+              "duration_seconds": 6.584,
+              "size": "1344×768"
+            },
+            "official_ir": {
+              "label": "官方 IR",
+              "status": "ready",
+              "video": "data/feishu_34_case03/original/official_ir/result.mp4",
+              "prompt": "data/feishu_34_case03/original/official_ir/h3_prompt.txt",
+              "request": "data/feishu_34_case03/original/official_ir/request.json",
+              "context_ir": null,
+              "content_plan": null,
+              "duration_seconds": 6.584,
+              "size": "1344×768"
+            }
+          }
+        }
+      },
+      "assets": [
+        {
+          "src": "data/feishu_34_case03/assets/图片1.png",
+          "label": "图片1.png",
+          "type": "image"
         }
       ]
     }

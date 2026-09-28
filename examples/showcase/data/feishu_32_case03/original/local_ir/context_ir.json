@@ -1,0 +1,1152 @@
+{
+  "schema_version": "h3_compilation.light.v1",
+  "compiler_revision": "singlecall.v63.logical_developments",
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 6,
+    "aspect_ratio": "16:9",
+    "generate_audio": true,
+    "style": "",
+    "prompt_profile": "auto"
+  },
+  "assets": [
+    {
+      "asset_id": "image_1",
+      "media_type": "image",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.2 场景与视觉效果编辑/case3-ref2va/assets/图片1.png",
+      "label": "图片1"
+    },
+    {
+      "asset_id": "video_1",
+      "media_type": "video",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.2 场景与视觉效果编辑/case3-ref2va/assets/视频1.mp4",
+      "label": "视频1"
+    }
+  ],
+  "content_plan": {
+    "creative_brief": {
+      "user_locked": [
+        "Replace only the scene visible outside the window in Video 1 with the scene depicted in Image 1.",
+        "Keep all other visible content of Video 1 unchanged: framing, camera motion, timing, the dark interior, the long-haired silhouette figure, the curtain-opening action and the cut to the window view.",
+        "Keep the window frame, glass and its perspective as shown in Video 1 while the scene behind the glass changes.",
+        "Target format: 6 seconds, 16:9, audio generated."
+      ],
+      "reference_anchors": [
+        "Video 1 supplies the near-black interior, the centered long-haired figure in dark clothing seen only as a silhouette, the curtain with a narrow vertical daylight gap that widens as the figure pulls it apart, a locked interior camera, and a cut to a wide view through a high-rise window.",
+        "Video 1 supplies the window itself: large glazing with visible frame edges, an oblique arrangement of glass and streak reflections across the surface, and a slight drift in the window shot.",
+        "Image 1 supplies the replacement view: a beige high-rise tower with a regular window grid and a cornice at center, a multi-storey green glass curtain-wall complex to its right topped by a dark tower carrying legible \"NIO\" signage, dense white residential towers far left, a continuous tree-canopy band across the midground, a road with lamp posts and railings in the lower foreground, and blue sky with scattered white clouds in bright daylight with soft cloud shadows."
+      ],
+      "open_design": [
+        "How the replacement skyline sits inside the window's perspective and how the retained glass reflections pass over it.",
+        "The moment the replacement view becomes fully readable and how long it is held.",
+        "The trailing hold that extends the 5-second source to the 6-second target, using the same slight drift.",
+        "The target video's ambience, since no audio analysis of Video 1 is available."
+      ]
+    },
+    "requirement_map": {
+      "content_events": [
+        {
+          "id": "ce_1",
+          "text": "In the dark interior of Video 1, the centered long-haired silhouette figure pulls the curtains apart so the narrow vertical daylight gap widens (preserved from Video 1)."
+        },
+        {
+          "id": "ce_2",
+          "text": "The scene seen through the window is the daytime city skyline from Image 1: beige central tower with a window grid, green glass complex with the dark \"NIO\" tower at its right, white residential towers far left, tree-canopy band, foreground road and lamp posts, blue sky with scattered clouds."
+        }
+      ],
+      "editing_treatments": [
+        {
+          "id": "et_1",
+          "text": "Window-region replacement edit: only the scene visible outside the window changes; every other pixel region keeps Video 1's original content."
+        },
+        {
+          "id": "et_2",
+          "text": "The cut between the interior curtain shot and the wide window view is preserved from Video 1."
+        },
+        {
+          "id": "et_3",
+          "text": "No new camera moves, transitions, titles, overlays or effects are introduced beyond the replacement itself."
+        }
+      ],
+      "global_style": [
+        {
+          "id": "gs_1",
+          "text": "Realistic photographic look carried over from Video 1, with the replacement skyline keeping the natural daylight, colours and depth of the Image 1 scene as seen through glass."
+        }
+      ],
+      "audio_requirements": [
+        {
+          "id": "au_1",
+          "text": "Audio is generated for the target video; no music or sound reuse is requested, and no audio analysis of Video 1 is available, so reuse of the original track is not claimed."
+        }
+      ]
+    },
+    "task_mode": "ref2va",
+    "must_keep": [
+      "Video 1's framing, camera motion and timing outside the outside-window scene",
+      "The dark interior with the curtain's vertical light gap and the long-haired silhouette figure",
+      "The visible curtain-opening action and the cut to the wide window view",
+      "The window frame, glass surface, its perspective and oblique streak reflections",
+      "Image 1's skyline composition, colours, daylight and \"NIO\" signage inside the window view",
+      "No reappearance of Video 1's original waterfront exterior view"
+    ],
+    "bindings": [
+      {
+        "asset_id": "video_1",
+        "role": "Source video for the edit; carries every preserved element outside the window-replacement area.",
+        "retained_attributes": [
+          "framing of the interior medium shot and the wide window shot",
+          "locked interior camera and the slight drift of the window shot",
+          "shot timing and the cut between the two shots",
+          "dark low-key interior with the curtain's narrow vertical daylight gap",
+          "centered long-haired figure in dark clothing, readable only as a silhouette",
+          "the curtain-opening action of the figure",
+          "window frame, glass surface, its perspective and oblique streak reflections"
+        ],
+        "optional_inherited_attributes": [
+          "contrast and grain character of the source footage"
+        ],
+        "excluded_attributes": [
+          "the original exterior waterfront city scene seen through the window: glass high-rises, the lakeside building, road traffic, the lake surface and the distant mountains"
+        ],
+        "exclusion_reasons": [
+          "The user replaces the outside-window scene with the Image 1 skyline, so the original exterior must not appear in the window."
+        ]
+      },
+      {
+        "asset_id": "image_1",
+        "role": "Replacement content for the scene seen outside the window.",
+        "retained_attributes": [
+          "skyline layout: beige central tower with regular window grid in front of the tree-canopy band, green glass complex with the dark \"NIO\" tower to the right, white residential towers far left",
+          "midground tree canopy, foreground road, lamp posts and railings",
+          "blue sky with scattered clouds, bright daylight and soft cloud shadows",
+          "dominant beige, green, white and blue palette"
+        ],
+        "optional_inherited_attributes": [
+          "depth layering from the foreground road and lamp posts up to the sky"
+        ],
+        "excluded_attributes": [
+          "the image's flat standalone full-frame presentation as a photograph"
+        ],
+        "exclusion_reasons": [
+          "Image 1 supplies scene content and appearance seen through the window, not a picture inserted as a frame; the view keeps the window's perspective, glass and reflections."
+        ]
+      }
+    ],
+    "developments": [
+      {
+        "id": "dev_1",
+        "source_content_event_ids": [
+          "ce_1"
+        ],
+        "visible_change": "In the near-black interior the long-haired figure stands centered and grips both curtain edges, pulling them apart so the narrow central light gap widens into a bright vertical strip that catches the fabric edges and the rim of the hair while the face stays unreadable.",
+        "outcome": "Curtains parted and daylight entering through the widening opening, with the figure still readable only as a dark silhouette and no change to the room's layout or the figure's position."
+      },
+      {
+        "id": "dev_2",
+        "source_content_event_ids": [
+          "ce_2"
+        ],
+        "visible_change": "The scene beyond the window is the Image 1 skyline: the beige central tower stands in front of the tree-canopy band, the green glass complex with the dark \"NIO\" tower sits to its right, white residential towers recede far left, the road with lamp posts occupies the lower foreground and blue sky with scattered clouds fills the upper area; the window's frame edges and oblique streak reflections stay over this view while the camera drifts only slightly.",
+        "outcome": "A steady wide view of the replacement skyline through the retained window, continuing unchanged to the end of the video."
+      }
+    ],
+    "shots": [
+      {
+        "id": "shot_1",
+        "development_ids": [
+          "dev_1"
+        ],
+        "content_purpose": "Preserved opening: the dark interior and the curtain-opening action of Video 1, establishing the light that the window view continues from.",
+        "treatment_ids": [],
+        "start_seconds": 0.0,
+        "end_seconds": 2.5,
+        "description": "The video opens on the preserved dark interior of <Video 1>: the figure with long dark hair falling over the shoulders and dark clothing stands centered in near-black silhouette, facing dark curtains that hang with only a narrow vertical strip of daylight between them. The figure grips both curtain edges at chest height and pulls them apart; the vertical gap widens steadily into a bright strip that catches the fabric edges and the rim of the hair while the face stays unreadable in the low-key and cold light, and the camera holds a locked medium framing. Soft fabric sliding accompanies the pull."
+      },
+      {
+        "id": "shot_2",
+        "development_ids": [
+          "dev_2"
+        ],
+        "content_purpose": "Preserved cut to the wide window view, now showing the Image 1 skyline through the retained glass.",
+        "treatment_ids": [
+          "et_1",
+          "et_2",
+          "et_3"
+        ],
+        "start_seconds": 2.5,
+        "end_seconds": 6.0,
+        "description": "At 00:02.500, the shot cuts to the wide view through the window. Beyond the glass stands <Subject 1>: the beige central tower rises in front of the tree canopy with the green glass complex and its dark sign-bearing tower to the right, the white residential towers receding far left, the canopy band running unbroken across the midground, and the road with lamp posts below under blue sky with scattered clouds and bright daylight. The window of <Subject 2> keeps its frame edges, glass and perspective over this view, its oblique streak reflections passing across the skyline as the camera drifts slightly with small amplitude at slow speed. The replacement skyline stays stable and fully readable through the glass until the video ends at 00:06.000."
+      }
+    ]
+  },
+  "uncertainties": [
+    "Video 1 is observed as 5.0 seconds while the target is 6 seconds; the plan holds the final window view about one second longer with the same slight drift, and the user did not specify how to fill the extra time.",
+    "Frames between 2 s and 3 s of Video 1 are unresolved: whether the transition into the window view is a hard cut or the curtains opening to reveal the scene. The plan follows the recorded hard cut at 00:02.500; if the source is actually a continuous reveal, the shot boundary must be changed to a single continuous shot.",
+    "No audio analysis of Video 1 was supplied, so whether the original sound should be reused or replaced is unresolved; the plan generates interior tone and outdoor ambience without claiming reuse of the source track.",
+    "The window frame geometry is reported as occluded by reflections, so its exact shape is not specified beyond keeping the window, glass and perspective of Video 1."
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v2",
+    "provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3.8-27B",
+      "options": {
+        "cache_enabled": false,
+        "single_pass_image_analysis": true,
+        "max_parallel_assets": 1,
+        "image_base_url": "http://10.6.157.43:9012",
+        "video_base_url": "http://10.6.157.43:9012",
+        "single_pass_video_analysis": true,
+        "video_fps": 2,
+        "video_max_frames": 256,
+        "output_dir": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.2 场景与视觉效果编辑/case3-ref2va/output/v63.1-3.2-perception-tasks",
+        "base_url": "http://10.6.157.43:9012",
+        "asset_upload_base_url": "http://10.0.96.114:30100",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000,
+        "max_parallel_attribute_batches": 2,
+        "image_attribute_batch_size": 3
+      }
+    },
+    "assets": [
+      {
+        "asset_id": "image_1",
+        "summary": "一张白天城市景观照片，中央为一栋米色高层塔楼，右侧为绿色玻璃幕墙建筑群，左侧远处为密集白色住宅楼群，中景为茂密树冠带，前景为道路与路灯杆，上方为蓝天白云。",
+        "global_analysis": {
+          "scene": "白天的城市天际线，自然光照明，蓝天带分散白云",
+          "composition": "横向宽幅单画面，天空占上半部，建筑带居中，树冠带横贯中下，前景道路与灯杆在底部，形成天空-建筑-植被-道路四层纵深",
+          "framing_layers": [],
+          "visible_text": [
+            {
+              "text": "NIO",
+              "legibility": "clear",
+              "region": "右侧绿色建筑群顶部深色塔楼",
+              "confidence": 0.8
+            }
+          ],
+          "uncertainties": [
+            "无法确认具体城市或建筑真实名称",
+            "前景车辆与人物细节过远无法辨识"
+          ]
+        },
+        "evidence": [
+          {
+            "evidence_id": "evidence_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "一张白天城市景观照片，中央为一栋米色高层塔楼，右侧为绿色玻璃幕墙建筑群，左侧远处为密集白色住宅楼群，中景为茂密树冠带，前景为道路与路灯杆，上方为蓝天白云。"
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "building_1",
+            "category": "building",
+            "subcategory": "building",
+            "summary": "画面中央的米色高层塔楼，矩形立面带规则窗格，是视觉主体",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "轮廓",
+                  "value": "高耸矩形板楼，顶部有檐口线脚",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "主色",
+                  "value": "米色与浅棕相间立面",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "表面",
+                  "value": "平整混凝土/石材质感外墙",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [],
+              "component_layout": [
+                {
+                  "name": "窗格",
+                  "value": "垂直与水平规则网格窗",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "building_2",
+            "category": "building",
+            "subcategory": "building",
+            "summary": "右侧绿色玻璃幕墙建筑群，顶部带深色塔楼与NIO标识",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "形态",
+                  "value": "多层横向延展楼体加顶部深色方块塔",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "主色",
+                  "value": "绿色玻璃与浅色横向带",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "标识",
+                  "value": "顶部可见NIO字样",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "building_3",
+            "category": "building",
+            "subcategory": "building",
+            "summary": "左侧远处密集的白色高层住宅楼群，构成背景天际线",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.85
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "形态",
+                  "value": "多栋并排高层板楼",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "主色",
+                  "value": "白色与浅灰",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "vegetation_1",
+            "category": "environment",
+            "subcategory": "environment",
+            "summary": "横贯中景的茂密绿色树冠带，遮挡建筑底部",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "形态",
+                  "value": "连续起伏的树冠轮廓",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "主色",
+                  "value": "深绿到黄绿混合",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "foreground_1",
+            "category": "environment",
+            "subcategory": "environment",
+            "summary": "底部前景的道路、金属护栏、路灯杆与零星遮阳伞和车辆",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.85
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "主色",
+                  "value": "灰色路面与金属杆",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "构件",
+                  "value": "多根细长路灯杆与横向护栏",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "environment_1",
+            "category": "environment",
+            "subcategory": "environment",
+            "summary": "上方蓝天白云与整体白天自然光照氛围",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "主色",
+                  "value": "蓝色天空与白色云团",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "光照",
+                  "value": "明亮日光，云影柔和",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_in_front_of",
+            "subject_id": "building_1",
+            "object_id": "vegetation_1",
+            "anchor": "中央塔楼立于树冠带后方",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_2",
+            "type": "positioned_right_of",
+            "subject_id": "building_2",
+            "object_id": "building_1",
+            "anchor": "绿色建筑群位于中央塔楼右侧",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_3",
+            "type": "positioned_left_of",
+            "subject_id": "building_3",
+            "object_id": "building_1",
+            "anchor": "白色楼群位于中央塔楼左侧远处",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.85,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_4",
+            "type": "below",
+            "subject_id": "foreground_1",
+            "object_id": "vegetation_1",
+            "anchor": "道路前景位于树冠带下方",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "image_single_pass",
+          "task_ids": [
+            "20260927_170849_388120_3fdf2526-ba86-4e03-a4db-bf378feb41e8"
+          ],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "single_pass",
+          "elapsed_seconds": 121.839,
+          "cache_hit": false,
+          "cache_key": "868e1eac1f5dc0ba92acbcc87712f012e1bb98651ebca3c27de662672ee6ffbe",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 121.839
+          }
+        },
+        "transcript": "",
+        "uncertainties": [],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "the overall scene content and composition depicted in image_1",
+            "priority": "useful",
+            "source_asset_id": "image_1",
+            "region_or_time": "whole image",
+            "status": "covered",
+            "matched_terms": [
+              "composition",
+              "in",
+              "scene"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "lighting condition and dominant colours of the depicted scene",
+            "priority": "required",
+            "source_asset_id": "image_1",
+            "region_or_time": "whole image",
+            "status": "covered",
+            "matched_terms": [
+              "of",
+              "scene"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "existence of distinct panels or regions and their individual content",
+            "priority": "useful",
+            "source_asset_id": "image_1",
+            "region_or_time": "whole image",
+            "status": "covered",
+            "matched_terms": [
+              "of",
+              "or",
+              "regions"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      },
+      {
+        "asset_id": "video_1",
+        "summary": "昏暗室内一名长发人物拉开窗帘，随后切至透过高层窗户看到的明亮城市滨水景观。",
+        "global_analysis": {},
+        "evidence": [
+          {
+            "evidence_id": "evidence_event_1",
+            "kind": "frame",
+            "time_seconds": 1.0,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "暗室中人物位于画面中央，双手在胸前拉开窗帘，中央垂直光缝逐渐变宽"
+          },
+          {
+            "evidence_id": "evidence_event_2",
+            "kind": "frame",
+            "time_seconds": 4.0,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "透过带反光的玻璃窗看到白天城市滨水全景，镜头基本静止、轻微漂移"
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "category": "person",
+            "subcategory": "adult",
+            "summary": "暗室中长发人物，以剪影形式出现并执行拉窗帘动作",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.8
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "发型",
+                  "value": "深色长发披肩",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "服装",
+                  "value": "深色上衣，仅见轮廓",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.7,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "光照状态",
+                  "value": "低调冷光，面部细节不可辨",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": [
+              "性别与年龄无法确认"
+            ]
+          },
+          {
+            "entity_id": "environment_1",
+            "category": "environment",
+            "subcategory": "interior",
+            "summary": "极暗的室内空间，中央有窗帘缝隙透出的冷色光带",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "窗帘",
+                  "value": "深色垂帘，中央留缝",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "光照",
+                  "value": "冷色低调照明，几乎全黑",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "window_1",
+            "category": "object",
+            "subcategory": "window",
+            "summary": "高层大窗，作为观看室外景观的介质，玻璃上有斜向反光",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.85
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "形态",
+                  "value": "大面积玻璃窗，画面边缘可见窗框/玻璃边界",
+                  "evidence_ids": [
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.7,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [],
+              "material": [],
+              "surface": [
+                {
+                  "name": "反光",
+                  "value": "斜向条状玻璃反光与轻微色偏",
+                  "evidence_ids": [
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "窗框具体形状被反光遮挡"
+            ]
+          },
+          {
+            "entity_id": "environment_2",
+            "category": "environment",
+            "subcategory": "exterior city",
+            "summary": "白天阳光下的城市滨水景观：玻璃高楼、临水大型建筑、道路车流、湖面与远山",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "色调",
+                  "value": "暖色阳光、青蓝湖水、晴朗天空",
+                  "evidence_ids": [
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "建筑",
+                  "value": "左侧玻璃幕墙高楼与临水现代建筑群",
+                  "evidence_ids": [
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "地形",
+                  "value": "湖面、道路与车辆、远处山脉",
+                  "evidence_ids": [
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "具体城市地点不可推断"
+            ]
+          },
+          {
+            "entity_id": "environment_2",
+            "category": "environment",
+            "subcategory": "exterior city",
+            "summary": "白天阳光下的城市滨水景观：玻璃高楼、临水大型建筑、道路车流、湖面与远山",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "色调",
+                  "value": "暖色阳光、青蓝湖水、晴朗天空",
+                  "evidence_ids": [
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "建筑",
+                  "value": "左侧玻璃幕墙高楼与临水现代建筑群",
+                  "evidence_ids": [
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "地形",
+                  "value": "湖面、道路与车辆、远处山脉",
+                  "evidence_ids": [
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "具体城市地点不可推断"
+            ]
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_relative_to",
+            "subject_id": "person_1",
+            "object_id": "environment_1",
+            "anchor": "人物位于暗室中央，面向窗帘",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_2",
+            "type": "frames_view",
+            "subject_id": "window_1",
+            "object_id": "environment_2",
+            "anchor": "室外景观透过窗户玻璃可见并带反光",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_2"
+            ],
+            "confidence": 0.85,
+            "source": "visible"
+          }
+        ],
+        "events": [
+          {
+            "event_id": "event_1",
+            "time_range": [
+              0.0,
+              2.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "environment_1"
+            ],
+            "action": "暗室中人物位于画面中央，双手在胸前拉开窗帘，中央垂直光缝逐渐变宽",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "cut",
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.85
+          },
+          {
+            "event_id": "event_2",
+            "time_range": [
+              3.0,
+              5.0
+            ],
+            "entity_ids": [
+              "environment_2",
+              "window_1"
+            ],
+            "action": "透过带反光的玻璃窗看到白天城市滨水全景，镜头基本静止、轻微漂移",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "none",
+            "evidence_ids": [
+              "evidence_event_2"
+            ],
+            "confidence": 0.9
+          }
+        ],
+        "technical": {
+          "duration_seconds": 5.0,
+          "framing": "event_1 medium shot; event_2 wide shot",
+          "camera": "locked camera, slight drift in exterior shot",
+          "visible_text": [],
+          "media_type": "video",
+          "analysis_pipeline": "compact_video_single_pass",
+          "task_ids": [
+            "20260927_171602_866568_e1adebe3-9cde-4149-87ab-5dab3e37429b"
+          ],
+          "scene_cut_candidates_seconds": [],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "timeline_and_entities",
+          "elapsed_seconds": 511.289,
+          "cache_hit": false,
+          "cache_key": "7db88c11bb984c1757963f7c828a413ca71a29dcc3175f33fc003b8ed9d56075",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 511.289
+          }
+        },
+        "transcript": "",
+        "uncertainties": [
+          "2s到3s之间是硬切还是窗帘完全拉开的揭示，帧间无法确认"
+        ],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "the window region and the scene visible outside the window",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "whole video duration",
+            "status": "covered",
+            "matched_terms": [
+              "region",
+              "scene",
+              "window"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "the source-time window in which the outside-window scene is visible",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "whole video duration",
+            "status": "covered",
+            "matched_terms": [
+              "in",
+              "is",
+              "scene",
+              "time",
+              "window"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "camera movement and framing trajectory during the video",
+            "priority": "required",
+            "source_asset_id": "video_1",
+            "region_or_time": "whole video duration",
+            "status": "covered",
+            "matched_terms": [
+              "camera",
+              "framing"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_4",
+            "claim": "lighting condition and colour characteristics of the outside-window scene",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "outside-window region across the video",
+            "status": "covered",
+            "matched_terms": [
+              "scene",
+              "window"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      }
+    ],
+    "missing_asset_ids": [],
+    "perception_metrics": {
+      "request_count": 2,
+      "retry_count": 0,
+      "supplemental_request_count": 0,
+      "elapsed_seconds": 511.289
+    }
+  }
+}

@@ -1,0 +1,22 @@
+subject_definitions:
+<Subject 1> is the young man whose stable face, short dark hair and slim athletic build come from <Picture 1> and <Picture 2>, wearing the cream hooded sweatshirt with the hood up, brown drawstring shorts, and white low-top sneakers with white socks seen in <Picture 1>.
+<Subject 2> is the outdoor stadium field from <Picture 1>: wet grey concrete underfoot, tiered red seating on metal frames behind, and flat overcast daylight.
+<Subject 3> is the street-dance routine performed in <Video 1>: an opening of outward arm extensions with weight shifts, a torso body roll with an arm wave and side-to-side stepping, and a closing sharp turn, quick footwork and a held pose facing the camera.
+
+summary:
+[reference generation] The target video is a 9.474-second vertical clip in which <Subject 1> performs <Subject 3> on <Subject 2>. The routine runs uninterrupted from the opening arm extensions through the body roll to the closing turn, quick footwork and a held final pose facing the camera.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1]): fully_preserved - the face, hair, body and wardrobe anchors defined above remain consistent while the performer dances.
+<Subject 2> (appears in [Shot 1]): fully_preserved - the wet concrete, tiered red seating and overcast daylight anchors stay unchanged.
+<Subject 3> (appears in [Shot 1]): attribute_transfer - <Video 1>'s body motion and phrase order are carried onto <Subject 1> in <Subject 2>, while the source dancer's white long-sleeve shirt, black pants, cap, studio backdrop and locked camera are not carried over.
+
+detailed_description:
+The target video is a realistic single-take vertical dance performance in natural overcast daylight, with the photographic look of <Picture 1> and <Picture 2>.
+[Shot 1] The shot opens on <Subject 2> with <Subject 1> standing centered in the lower half of the frame, facing the camera with his hood up and feet apart on the wet concrete. He begins <Subject 3>: he widens his stance and extends both arms out to the sides, then draws them inward toward his chest while shifting his weight from foot to foot in small stepping adjustments, his sneakers scuffing lightly on the wet surface and the hoodie fabric rustling with each extension. Without pausing, he rolls his torso from hips through chest as both arms ripple outward in a wave, stepping alternately left and right while the hoodie hem and the edge of his hood swing with the motion. The camera pushes in with small amplitude at slow speed toward his upper body during the arm wave, then eases back and tilts down slightly to keep his feet in frame as he snaps into a sharp pivot and bursts into quick footwork, his sneakers squeaking against the concrete on each quick step. He plants both feet and rises into a final pose facing the camera, chest lifted and arms held, staying still and centered in that pose until the final frame.
+
+overall_soundscape:
+Open-air stadium ambience with light wind moving across the empty stands and a faint distant hum underneath. Hoodie fabric swishes with the arm extensions, and sneaker scuffs and squeaks land on the wet concrete through the stepping and the closing quick footwork, continuing under the music and staying audible through the held final pose.
+
+non_diegetic_music:
+A mid-tempo street-dance funk groove built on boom-bap drums and a syncopated electric bass, with muted brass stabs marking the arm extensions and the body roll. It eases back slightly under the closing footwork so the sneaker squeaks stay audible, then lands on a final downbeat as the dancer holds the closing pose.

@@ -1,0 +1,562 @@
+{
+  "schema_version": "h3_compilation.light.v1",
+  "compiler_revision": "singlecall.v63.logical_developments",
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 6,
+    "aspect_ratio": "16:9",
+    "generate_audio": true,
+    "style": "",
+    "prompt_profile": "auto"
+  },
+  "assets": [
+    {
+      "asset_id": "video_1",
+      "media_type": "video",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.1 角色与物体编辑/case1-ref2va/assets/视频1.mp4",
+      "label": "视频1"
+    }
+  ],
+  "content_plan": {
+    "creative_brief": {
+      "user_locked": [
+        "The cat entity visible in video_1 is replaced by a dog (entity identity substitution).",
+        "The replacement dog inherits the action and on-screen timing of the replaced cat (motion and pose progression).",
+        "Everything outside the replaced subject is preserved: scene, background, camera behaviour, cut structure, duration and lighting, and all non-cat content.",
+        "Ref2VA output, 16:9, generate_audio enabled, single continuous shot with no cuts."
+      ],
+      "reference_anchors": [
+        "video_1 supplies the source edit base: one unbroken medium close-up with an essentially static camera and slight drift.",
+        "video_1 supplies the person's identity, wardrobe, pose and the gaze-shift/head-lowering/nuzzle progression with its timing.",
+        "video_1 supplies the pale cool backdrop and the soft diffused low-key lighting.",
+        "video_1 supplies the cradled animal's position, calm behaviour, ears-up pose, open-to-closed eye progression and beat timing, which the dog inherits."
+      ],
+      "open_design": [
+        "The dog's breed, size class, fur colour and coat length are unspecified and may be chosen so the animal still reads as cradled at the same scale and its eyes remain visible.",
+        "Only technically necessary connective detail is added: the dog stays calm without struggling and the completed nuzzle is held through the final frame.",
+        "No new event, new subject, new location or new ending is introduced."
+      ]
+    },
+    "requirement_map": {
+      "content_events": [
+        {
+          "id": "ce_1",
+          "text": "The cat entity visible in video_1 is replaced by a dog identity."
+        },
+        {
+          "id": "ce_2",
+          "text": "The replacement dog inherits the removed cat's motion, pose progression and on-screen timing."
+        },
+        {
+          "id": "ce_3",
+          "text": "The person keeps cradling the animal in gloved arms, moves their gaze from the camera down onto it, lowers their head and finally rests their nose against its forehead."
+        },
+        {
+          "id": "ce_4",
+          "text": "The animal stays calm with ears up, its eyes go from open to fully closed, and the resulting pose holds to the end."
+        }
+      ],
+      "editing_treatments": [
+        {
+          "id": "et_1",
+          "text": "Single unbroken shot: no cuts, no transitions, no scene change; the reference's cut structure is preserved exactly."
+        }
+      ],
+      "global_style": [
+        {
+          "id": "gs_1",
+          "text": "Preserve the reference look: realistic photographic rendering, cool soft diffused low-key lighting against a pale blue-white backdrop, 16:9 medium close-up, slightly desaturated palette."
+        }
+      ],
+      "audio_requirements": [
+        {
+          "id": "au_1",
+          "text": "generate_audio is enabled: the target carries one continuous diegetic ambience with quiet in-frame handling sounds; no dialogue, lyrics, voiceover or audience music are requested, and no audio analysis of video_1 exists, so no source audio track is reused or reproduced."
+        }
+      ]
+    },
+    "task_mode": "ref2va",
+    "must_keep": [
+      "one continuous shot with no cuts, transitions or scene change",
+      "essentially static camera with slight drift and 16:9 medium close-up framing",
+      "the person's identity, herringbone wool coat, leather gloves and ribbed turtleneck collar as seen in video_1",
+      "the pale blue-white backdrop and the soft cool diffused lighting",
+      "the action timing: gaze held to camera, then down onto the animal, head lowering, nose meeting the animal's forehead",
+      "the animal's calm behaviour, upright ears, eyes moving from open to fully closed, and the held final pose",
+      "the cradled position and compact on-screen scale of the animal against the person's chest",
+      "16:9 aspect ratio and a 6-second runtime"
+    ],
+    "bindings": [
+      {
+        "asset_id": "video_1",
+        "role": "source video for entity replacement, plus motion/timing template and preserved-structure reference",
+        "retained_attributes": [
+          "single continuous shot and cut structure",
+          "essentially static camera with slight drift",
+          "16:9 medium close-up framing",
+          "person identity, wardrobe and the gaze-and-head-lowering action timing",
+          "pale cool backdrop and soft diffused low-key lighting",
+          "cradled animal position, calm behaviour, ears-up pose, open-to-closed eye progression and beat timing"
+        ],
+        "optional_inherited_attributes": [
+          "animal occupies the same frame-center position and compact scale inside the cradled arms",
+          "animal's head rests against the person's chest"
+        ],
+        "excluded_attributes": [
+          "cat species identity",
+          "grey tabby coat with dark stripes",
+          "amber orange eyes",
+          "white muzzle and chin markings"
+        ],
+        "exclusion_reasons": [
+          "d_1 requires the cat entity identity to be replaced by a dog, so all cat-specific appearance attributes cannot be retained"
+        ]
+      }
+    ],
+    "developments": [
+      {
+        "id": "dev_1",
+        "source_content_event_ids": [
+          "ce_1",
+          "ce_2",
+          "ce_3"
+        ],
+        "visible_change": "The shot opens in the reference's cradled pose, but the animal held against the person's chest is now a dog instead of the cat. The person's eyes leave the camera and travel down onto the dog while their head begins to lower; the dog stays calm inside the arms, ears up and eyes open.",
+        "outcome": "The person's face is descending toward the dog, the dog is still calm and alert, the gaze has broken from the camera, and no cut has occurred."
+      },
+      {
+        "id": "dev_2",
+        "source_content_event_ids": [
+          "ce_2",
+          "ce_4"
+        ],
+        "visible_change": "The person's nose comes to rest against the dog's forehead; the dog's eyes narrow and close completely and its head tilts slightly into the person's face, while the camera keeps drifting slightly without reframing.",
+        "outcome": "The nuzzle is complete and held: nose against the dog's forehead, dog's eyes closed, and the pose remains unchanged through the final frame."
+      }
+    ],
+    "shots": [
+      {
+        "id": "shot_1",
+        "development_ids": [
+          "dev_1",
+          "dev_2"
+        ],
+        "content_purpose": "Single continuous replacement shot: establish the person cradling the dog in the preserved setup, follow the gaze shift and head lowering into the forehead nuzzle, and hold the closing pose to the end.",
+        "treatment_ids": [
+          "et_1"
+        ],
+        "start_seconds": 0.0,
+        "end_seconds": 6.0,
+        "description": "The single continuous shot keeps the framing, camera behaviour and timing of <Video 1> with no cut: a 16:9 medium close-up, camera essentially static with a very slight drift, the pale backdrop of <Subject 3> filling the frame behind them. <Subject 1> stands leaning slightly forward with both gloved arms cradling <Subject 2> against their chest, the dog's head at the center of the frame, its upright ears clear against the pale background and its dark eyes open; the cool diffused light lays a soft highlight along the coat shoulder and falls off gently across the dog's fur. <Subject 1> holds their gaze into the lens, then shifts their eyes down from the camera onto the dog and begins to lower their head, chin dropping slowly, a soft leather-and-wool rustle sounding as the arms settle and the head descends. The dog stays calm and does not struggle, ears staying up and body settling deeper into the cradle of the arms. The descent continues until the person's nose comes to rest against the dog's forehead; on contact the dog's narrows and closes fully and its head tilts slightly into the person's face, with the dog's quiet breathing steady against the chest. The camera keeps drifting very slightly without reframing, and the pose holds motionless through the final frame, the nose against the dog's forehead and the dog's eyes closed."
+      }
+    ]
+  },
+  "uncertainties": [
+    "video_1 runs 5.0 s while the target runtime is 6.0 s; the extra second is filled by holding the completed nuzzle pose, so the target is one second longer than the source.",
+    "The person's gender is undetermined in the source analysis and is not needed for the replacement; the prompt keeps the person gender-neutral.",
+    "No audio analysis exists for video_1, so no source audio track is reused or reproduced; the generated ambience and handling sounds are newly designed.",
+    "The dog's breed, size class and coat colour are unspecified by the user; a short-haired tan dog with upright ears was chosen so the cradled scale and the open-to-closed eye beat stay readable.",
+    "Whether the backdrop is snow or a pale studio floor is unresolved in the source analysis, so it is described only as a pale blue-white surface with the preserved lighting."
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v2",
+    "provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3.8-27B",
+      "options": {
+        "cache_enabled": false,
+        "single_pass_image_analysis": true,
+        "max_parallel_assets": 1,
+        "image_base_url": "http://10.6.157.43:9012",
+        "video_base_url": "http://10.6.157.43:9012",
+        "single_pass_video_analysis": true,
+        "video_fps": 2,
+        "video_max_frames": 256,
+        "output_dir": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.1 角色与物体编辑/case1-ref2va/output/v63.1-user-shot-edit-3.1-perception-tasks",
+        "base_url": "http://10.6.157.43:9012",
+        "asset_upload_base_url": "http://10.0.96.114:30100",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000,
+        "max_parallel_attribute_batches": 2,
+        "image_attribute_batch_size": 3
+      }
+    },
+    "assets": [
+      {
+        "asset_id": "video_1",
+        "summary": "单一连续镜头：一位卷发年轻人穿米色人字纹羊毛大衣、戴棕色皮手套，在冷调浅色背景前怀抱一只灰色虎斑猫，并逐渐低头轻蹭猫头。",
+        "global_analysis": {},
+        "evidence": [
+          {
+            "evidence_id": "evidence_event_1",
+            "kind": "frame",
+            "time_seconds": 2.5,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "人物以戴手套的双臂环抱猫，视线从镜头缓缓移向猫，头部逐渐下低，最终鼻尖贴近猫额；猫保持安静，耳朵竖起，眼睛由睁开到逐渐闭合，无剪切或场景变化"
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "category": "person",
+            "subcategory": "young adult",
+            "summary": "卷发年轻人，作为抱猫的主体贯穿全片，动作从注视镜头转为低头亲昵猫。",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "外套",
+                  "value": "米色人字纹粗纺羊毛大衣",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "手套",
+                  "value": "棕色皮革手套，用于环抱猫",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "内搭",
+                  "value": "领口可见米白色罗纹高领毛衣",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "发型",
+                  "value": "蓬松棕色卷发垂落额前",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "性别无法从画面确定"
+            ]
+          },
+          {
+            "entity_id": "cat_1",
+            "category": "animal",
+            "subcategory": "cat",
+            "summary": "灰色虎斑猫，被抱在人物怀中，是全片核心对象，姿态由警觉转为放松闭眼。",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "体型",
+                  "value": "中等紧凑体型，头部位于画面中央",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "毛色",
+                  "value": "灰色虎斑，带深色条纹",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "面部",
+                  "value": "口鼻与下巴有白色斑纹",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "眼睛",
+                  "value": "琥珀橙色眼睛",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "品种不可判定"
+            ]
+          },
+          {
+            "entity_id": "environment_1",
+            "category": "environment",
+            "subcategory": "exterior or studio",
+            "summary": "浅色冷调背景与地面，提供柔和低调照明，衬托人物与猫。",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "背景",
+                  "value": "浅蓝白色明亮表面，疑似雪地或浅色摄影地面",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "光照",
+                  "value": "冷色、柔和漫射的低调照明",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": [
+              "背景是雪地还是影棚浅色地面无法确认"
+            ]
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "holds",
+            "subject_id": "person_1",
+            "object_id": "cat_1",
+            "anchor": "人物用戴皮手套的双臂环抱猫",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_2",
+            "type": "positioned_relative_to",
+            "subject_id": "cat_1",
+            "object_id": "person_1",
+            "anchor": "猫头贴靠人物胸前，位于画面中心",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_3",
+            "type": "positioned_relative_to",
+            "subject_id": "person_1",
+            "object_id": "environment_1",
+            "anchor": "人物俯身卧于浅色背景前",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "events": [
+          {
+            "event_id": "event_1",
+            "time_range": [
+              0.0,
+              5.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "cat_1",
+              "environment_1"
+            ],
+            "action": "人物以戴手套的双臂环抱猫，视线从镜头缓缓移向猫，头部逐渐下低，最终鼻尖贴近猫额；猫保持安静，耳朵竖起，眼睛由睁开到逐渐闭合，无剪切或场景变化",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "none",
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.92
+          }
+        ],
+        "technical": {
+          "duration_seconds": 5.0,
+          "framing": "medium close-up",
+          "camera": "基本固定，轻微漂移",
+          "visible_text": [],
+          "media_type": "video",
+          "analysis_pipeline": "compact_video_single_pass",
+          "task_ids": [
+            "20260928_050815_230471_9f7d066b-55c2-4206-98b6-43982c9a5e1d"
+          ],
+          "scene_cut_candidates_seconds": [],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "timeline_and_entities",
+          "elapsed_seconds": 249.378,
+          "cache_hit": false,
+          "cache_key": "df010a6b3456fc33d165b86638a06e0d55023b3f5de99783c4477fa67108e40f",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 249.378
+          }
+        },
+        "transcript": "",
+        "uncertainties": [
+          "人物性别不可判定",
+          "背景表面材质（雪/影棚）未确认"
+        ],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "video_1 contains at least one visible cat (user assertion to verify)",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "at",
+              "cat",
+              "one",
+              "to"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "time windows and frame regions in which the cat is visible",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "cat",
+              "frame",
+              "in",
+              "is",
+              "regions",
+              "time"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "visible appearance attributes of the cat (body shape, fur pattern, size, face)",
+            "priority": "required",
+            "source_asset_id": "video_1",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "attributes",
+              "cat",
+              "face"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_4",
+            "claim": "what the cat is doing and how its pose changes across the footage",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "cat",
+              "is"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      }
+    ],
+    "missing_asset_ids": [],
+    "perception_metrics": {
+      "request_count": 1,
+      "retry_count": 0,
+      "supplemental_request_count": 0,
+      "elapsed_seconds": 249.378
+    }
+  }
+}

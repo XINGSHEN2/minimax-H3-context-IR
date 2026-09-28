@@ -1,0 +1,23 @@
+subject_definitions:
+<Subject 1> is the young man in <Video 1>, who has curly brown hair, freckles, and wears a thick beige woolen coat over a ribbed sweater, with brown leather gloves.
+<Video 1> is the source video for the edit, showing the young man holding a cat in the snow.
+<Audio 1> is the audio reuse source, containing a soft, sustained drone and ambient wind-like sound.
+
+summary:
+[video editing + audio reuse] The target video is an edited version of <Video 1>. The young man (<Subject 1>) is lying in the snow, resting his head on his gloved hands. The original gray cat has been replaced by a dog, and the man gently kisses the dog on its head as it rests peacefully. The ambient drone sound from <Audio 1> is partially reused and extended to fit the longer target duration.
+
+retention_analysis:
+<Video 1> (source video editing): partially_preserved - the source video's camera framing, the snowy setting, and the man's actions are preserved, but the original cat is replaced by a dog, and the timing is extended to the target duration.
+<Subject 1> (appears in [Shot 1]): fully_preserved - the young man's curly brown hair, freckles, beige woolen coat, brown leather gloves, and his gentle interaction are completely retained.
+<Audio 1>: partially_copy - the soft ambient drone sound from <Audio 1> is reused and extended to fit the complete 15-second target audio track.
+
+detailed_description:
+The target video is in a realistic, cinematic photographic style. It is an edited version of <Video 1>, where the original gray cat is replaced by a dog, and the footage is extended to fit a longer duration.
+
+[Shot 1] The shot opens with an intimate close-up of <Subject 1>, the young man with tousled, curly brown hair, a smattering of freckles across his pale cheeks, and light-colored eyes. He is lying close to the ground on a stark, snowy white surface, bundled up against the cold. He wears a thick, textured beige woolen coat with a herringbone weave over a ribbed high-neck sweater, and his hands are encased in weathered, dark brown leather gloves. He rests his chin gently against his crossed, gloved hands. Tucked safely against his chest and resting its head directly on the leather gloves is a small, furry dog, which has seamlessly replaced the original gray cat. The dog gazes forward with a calm, comfortable demeanor, its soft fur contrasting vividly against the rugged leather and thick wool. The camera executes a very slow, continuous push-in, enhancing the quiet intimacy of the scene. <Subject 1> looks softly down toward the dog, his expression tender and serene. Slowly, he leans his face forward, closing his eyes, and presses a gentle, lingering kiss to the top of the dog's head. The dog reacts by peacefully closing its eyes, completely at ease in the man's protective embrace. The soft, moody ambient drone and subtle wind-like textures from <Audio 1> play continuously underneath, their atmospheric chill contrasting with the visual warmth of the interaction. The camera holds this tight framing as the man keeps his face resting lovingly against the dog's head, the gentle ambient soundscape carrying the shot to its peaceful conclusion.
+
+overall_soundscape:
+A quiet, moody atmosphere characterized by a continuous, soft ambient drone and gentle wind-like sounds, creating a chilly but peaceful winter feel.
+
+non_diegetic_music:
+N/A

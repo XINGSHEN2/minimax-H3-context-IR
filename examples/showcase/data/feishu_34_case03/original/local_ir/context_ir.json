@@ -1,0 +1,845 @@
+{
+  "schema_version": "h3_compilation.light.v1",
+  "compiler_revision": "singlecall.v63.logical_developments",
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 6,
+    "aspect_ratio": "16:9",
+    "generate_audio": true,
+    "style": "",
+    "prompt_profile": "auto"
+  },
+  "assets": [
+    {
+      "asset_id": "image_1",
+      "media_type": "image",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.4 高精度的指令遵循/case3-ref2va/assets/图片1.png",
+      "label": "图片1"
+    }
+  ],
+  "content_plan": {
+    "creative_brief": {
+      "user_locked": [
+        "Two magicians stand on stage facing the audience (d_1).",
+        "Both magicians wave their wands at the same time (d_2).",
+        "A puff of smoke rises after the simultaneous wand wave (d_3).",
+        "After the smoke clears the magician on the left wears a white suit and the magician on the right wears a black suit (d_4, d_5, d_6).",
+        "Both pairs of gloves keep their colour through the swap (d_7).",
+        "Both magicians bow in thanks to the audience (d_8).",
+        "The red curtain behind them closes after the bow (d_9) and its colour goes from deep red to deep blue (d_10).",
+        "Fixed event order: simultaneous wand wave, smoke rising, smoke clearing with the suit-colour swap, bow, curtain closing with the deep red to deep blue transition (d_11).",
+        "The video ends on the curtain closing and the deep red to deep blue transition, with no content after it (d_12)."
+      ],
+      "reference_anchors": [
+        "The two magicians' identities, pre-swap costumes, black gloves, star-topped wands and left/right stage positions come from image_1 (<Picture 1>).",
+        "The stage environment comes from image_1: light-brown planked wooden floor, deep red side curtains tied back with gold cords, painted backdrop of a grey-blue lake with mountains and a castle on an island, and a row of black audience silhouettes along the bottom edge.",
+        "The illustrated look of image_1 (bold black outlines, low-saturation grey-green and brown-red palette, subtle grain) is carried into the target video.",
+        "image_1 is a single still frame: it supplies the opening stage arrangement and the pre-swap costume state, not the trick itself, the bow or the curtain behaviour."
+      ],
+      "open_design": [
+        "The smoke is completed as a puff bursting from the stage floor between the two magicians; the costume exchange itself happens unseen behind it, so only the before and after states are shown.",
+        "The top hats follow the costume colours through the swap, so the left magician's hat matches his new white suit and the right magician's hat matches his new black suit; only the gloves are unchanged, per the user's explicit exception.",
+        "image_1 shows no rear curtain, so the red side curtains already tied back at the stage edges slip their gold cords and sweep inward to close behind the magicians.",
+        "The colour transition is completed as the curtain fabric shifting from deep red to deep blue while the two panels meet and settle.",
+        "No style, music, dialogue or effects were specified by the user; the diegetic trick sounds, a brief light applause and one non-diegetic variety-show cue are added under the conservative completion policy and add no new visual events.",
+        "Shot count, framing, camera paths and timings are decided by the shot plan inside the six-second limit; except for the bow, the magicians keep their stage positions and never leave the stage."
+      ]
+    },
+    "requirement_map": {
+      "content_events": [
+        {
+          "id": "c_1",
+          "requirement": "Two magicians stand on stage facing the audience (d_1)."
+        },
+        {
+          "id": "c_2",
+          "requirement": "Both magicians wave their wands at the same time (d_2)."
+        },
+        {
+          "id": "c_3",
+          "requirement": "A puff of smoke rises after the simultaneous wand wave (d_3)."
+        },
+        {
+          "id": "c_4",
+          "requirement": "After the smoke clears the suit colours have exchanged: the left magician wears a white suit and the right magician wears a black suit (d_4, d_5, d_6)."
+        },
+        {
+          "id": "c_5",
+          "requirement": "Both magicians' glove colours stay unchanged through the swap (d_7)."
+        },
+        {
+          "id": "c_6",
+          "requirement": "Both magicians bow in thanks to the audience (d_8)."
+        },
+        {
+          "id": "c_7",
+          "requirement": "The red curtain behind the magicians closes after the bow (d_9)."
+        },
+        {
+          "id": "c_8",
+          "requirement": "The curtain colour transitions from deep red to deep blue (d_10)."
+        },
+        {
+          "id": "c_9",
+          "requirement": "Fixed event order: wand wave, smoke rising, smoke clearing with the suit swap, bow, curtain closing with the deep red to deep blue transition (d_11)."
+        },
+        {
+          "id": "c_10",
+          "requirement": "The video ends on the curtain closing and the colour transition, with nothing after it (d_12)."
+        }
+      ],
+      "editing_treatments": [],
+      "global_style": [
+        {
+          "id": "g_1",
+          "requirement": "The user gave no style text; the illustrated style of image_1 (bold black outlines, low-saturation grey-green and brown-red palette, subtle grain) is retained as the reference style."
+        }
+      ],
+      "audio_requirements": [
+        {
+          "id": "a_1",
+          "requirement": "generate_audio is true and the user specified no music, dialogue, lyrics or effects; audio is completed as the diegetic sounds of the act (wand whoosh, smoke puff, light applause, curtain rustle) plus a light non-diegetic variety-show cue."
+        }
+      ]
+    },
+    "task_mode": "ref2va",
+    "must_keep": [
+      "Both magicians stay in their original left and right stage positions with their identities, black gloves and star-topped wands.",
+      "The two wands are waved at the same moment, not one after the other.",
+      "Smoke rises only after the wand wave and hides both costumes before the reveal.",
+      "After the smoke clears: left magician in a white suit, right magician in a black suit.",
+      "Both pairs of gloves remain black before and after the swap.",
+      "The bow happens before the curtain closes.",
+      "The curtain closes and its colour goes from deep red to deep blue.",
+      "The final frame is the closed deep-blue curtain; no content follows it.",
+      "The six-second limit is respected and every beat is given time to read."
+    ],
+    "bindings": [
+      {
+        "asset_id": "image_1",
+        "role": "reference generation: source of the two magicians' identities and pre-swap costumes, the star-topped wands, the stage environment and the illustrated style, and the anchor for the opening stage arrangement.",
+        "retained_attributes": [
+          "Left magician: mustached stage magician in black tailcoat, black waistcoat, black bow tie and tall black top hat, black gloves, star-topped wand in his right hand.",
+          "Right magician: mustached stage magician in white tailcoat, white waistcoat, white bow tie and tall white top hat, black gloves, star-topped wand in his left hand.",
+          "Left/right placement of the two magicians on the stage.",
+          "Stage environment: light-brown planked wooden floor, deep red side curtains with gold cords, painted backdrop of a grey-blue lake with mountains and a castle on an island, row of black audience silhouettes along the bottom edge.",
+          "Illustrated style: bold black outlines, low-saturation grey-green and brown-red palette, subtle grain."
+        ],
+        "optional_inherited_attributes": [
+          "The gold cord tassels and the planked floor seams.",
+          "The specific silhouette head shapes in the front row.",
+          "Soft, low-contrast stage lighting."
+        ],
+        "excluded_attributes": [
+          "The reference's exact pre-trick pose in which the two figures angle toward each other with open palms turned toward each other.",
+          "The reference's black/white costume assignment as a permanent state."
+        ],
+        "exclusion_reasons": [
+          "d_1 requires both magicians to face the audience, so the inward-facing stance is replaced by a front-facing stage pose.",
+          "The costume colours are the subject of the trick, so the reference colours are kept only as the pre-swap state and exchange them at the reveal."
+        ]
+      }
+    ],
+    "developments": [
+      {
+        "id": "dev_1",
+        "source_content_event_ids": [
+          "c_1",
+          "c_2",
+          "c_3"
+        ],
+        "visible_change": "Both magicians stand on the stage in their original costumes facing the audience, each with a star-topped wand raised. They sweep the wands up and across in mirrored arcs at the same moment, then sweep back. On the second sweep a puff of smoke bursts from the stage floor between them, swells upward and spreads sideways until it wraps both figures and hides their costumes and hats.",
+        "outcome": "Both magicians are wrapped in thick smoke, their costumes hidden, with both wands still raised above the cloud."
+      },
+      {
+        "id": "dev_2",
+        "source_content_event_ids": [
+          "c_4",
+          "c_5"
+        ],
+        "visible_change": "The smoke thins from the top down and drifts to the sides, uncovering first the top hats and then the costumes: the left magician is now dressed entirely in white (tailcoat, waistcoat, bow tie, top hat) and the right magician entirely in black, while both pairs of gloves remain black where the hands grip the wands. Both magicians keep their wands raised in the same matched pose, facing the audience.",
+        "outcome": "The colour exchange is complete and legible: left magician in white, right magician in black, both pairs of gloves still black, both standing with wands raised and facing the audience."
+      },
+      {
+        "id": "dev_3",
+        "source_content_event_ids": [
+          "c_6"
+        ],
+        "visible_change": "Both magicians lower their wands and bow forward toward the audience together, holding the bow.",
+        "outcome": "Both magicians are bent forward in a bow to the audience, still facing them and still on their own side of the stage."
+      },
+      {
+        "id": "dev_4",
+        "source_content_event_ids": [
+          "c_7",
+          "c_8",
+          "c_9",
+          "c_10"
+        ],
+        "visible_change": "With the bow complete, the gold cords on the red side curtains slip loose and the two panels sweep inward from both edges, crossing the backdrop behind the magicians and meeting at the centre of the stage. As the panels meet and settle, the fabric colour shifts from deep red to deep blue.",
+        "outcome": "The stage is closed off by a fully drawn, deep-blue curtain with the two magicians still bowed in front of it; the video ends on that image with nothing after it."
+      }
+    ],
+    "shots": [
+      {
+        "id": "shot_1",
+        "development_ids": [
+          "dev_1"
+        ],
+        "content_purpose": "Establish the two magicians facing the audience in their original costumes, show the simultaneous wand wave, and let the rising smoke hide both costumes so the exchange stays unseen.",
+        "treatment_ids": [],
+        "start_seconds": 0.0,
+        "end_seconds": 2.0,
+        "description": "The shot opens on the stage of <Subject 3>, with the audience silhouettes running along the bottom edge and the lake-and-castle backdrop behind. <Subject 1> stands at the left and <Subject 2> at the right, both turned to face the audience, each holding a star-topped wand raised at chest height. The two wands cut the air with a soft whoosh as the magicians sweep them up and across in mirrored arcs at the same moment, then sweep back down. On the second sweep a puff of smoke bursts from the stage floor between them with a soft muffled pop, swells upward and spreads sideways until it wraps around both figures and hides their costumes and hats. The camera pushes in with small amplitude at slow speed, keeping both magicians and the two curtain edges in frame. The shot ends with the smoke filling the centre of the frame and both wands still raised above the cloud."
+      },
+      {
+        "id": "shot_2",
+        "development_ids": [
+          "dev_2"
+        ],
+        "content_purpose": "Show the smoke clearing and the result of the trick clearly: the left magician now in white, the right magician now in black, both pairs of gloves still black.",
+        "treatment_ids": [],
+        "start_seconds": 2.0,
+        "end_seconds": 3.6,
+        "cut_reason": "The exchanged costume colours and the unchanged black gloves must be read clearly, and the wide framing of shot 1 cannot deliver that while the drifting smoke still crosses the frame; the smoke is used as the cut medium.",
+        "continuity_bridge": "The smoke cloud filling the frame at the end of shot 1 is the same cloud that thins at the start of shot 2; both magicians keep their positions, raised wands and mirrored pose across the cut.",
+        "description": "At 00:02.000, the shot cuts to a closer two-shot framed from the waist up, centred between the two magicians. The smoke thins from the top down and drifts off to the sides with a soft hiss, uncovering first the two top hats and then the costumes: <Subject 1>, on the left, now wears a white tailcoat, white waistcoat, white bow tie and white top hat, while <Subject 2>, on the right, now wears a black tailcoat, black waistcoat, black bow tie and black top hat. Both pairs of gloves stay black and remain clearly visible where each hand grips its wand, and both magicians keep their wands raised in the same matched pose, still facing the audience. The camera pushes in with small amplitude at slow speed until the two costumes and the two pairs of gloves fill the frame. The shot ends as the last of the smoke clears and the two magicians stand revealed in the exchanged costumes."
+      },
+      {
+        "id": "shot_3",
+        "development_ids": [
+          "dev_3",
+          "dev_4"
+        ],
+        "content_purpose": "Show the bow to the audience, then the red side curtains sweeping closed behind the magicians and shifting from deep red to deep blue as the closing image.",
+        "treatment_ids": [],
+        "start_seconds": 3.6,
+        "end_seconds": 6.0,
+        "cut_reason": "The bow and the closing curtain need a framing that contains the floor, the backdrop and both curtain edges, which the waist-up two-shot of shot 2 cannot hold.",
+        "continuity_bridge": "Shot 2 ends with both magicians standing on their own side of the stage, facing the audience with new costume colours and wands raised; shot 3 begins with the same two figures in the same positions lowering their wands to bow.",
+        "description": "At 00:03.600, the shot cuts to a wider framing of the stage that includes the floor, both side curtains and the backdrop. The two magicians lower their wands, then sweep their hats and arms down and bow forward together toward the audience, holding the bow, as a brief light swell of applause comes from the silhouetted audience. With the bow complete, the gold cords on the red side curtains slip loose and the two panels sweep inward from both edges with a soft fabric rustle, crossing the backdrop behind the magicians and meeting at the centre of the stage. As the panels meet and settle, the fabric colour shifts from deep red to deep blue. The camera holds a static wide shot so that both curtain edges and the full stage stay in frame. The shot ends on the fully closed deep-blue curtain with the two magicians still bowed in front of it, and no action follows."
+      }
+    ]
+  },
+  "uncertainties": [
+    "image_1 is a single still frame: it cannot confirm the magicians' actions, the smoke, the bow or the curtain behaviour, so the smoke mechanism, the bow timing and the side-curtain closing are creative completions rather than observed facts.",
+    "image_1 contains no rear curtain, and its red side curtains are tied back with gold cords; closing those side curtains behind the magicians is an interpretation of the user's 'the red curtain behind them closes'.",
+    "The user specifies only the suit colours as swapped and the gloves as unchanged; whether the top hats follow the costume exchange is unspecified and was resolved as a full costume-colour exchange, recorded in open_design.",
+    "The image analysis describes both magicians as facing the audience but also as facing each other with open palms turned inward; the user's directive that both face the audience was followed.",
+    "Six seconds is tight for five beats (wand wave, smoke, reveal, bow, curtain close with colour transition); times were allocated as 2.0 s, 1.6 s and 2.4 s, leaving the curtain colour transition roughly 0.5 s to read.",
+    "No audio was analysed and the user specified no sound; all soundscape and music content is designed under the completion policy and is not an observation from the source."
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v2",
+    "provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3.8-27B",
+      "options": {
+        "cache_enabled": false,
+        "single_pass_image_analysis": true,
+        "max_parallel_assets": 1,
+        "image_base_url": "http://10.6.157.43:9012",
+        "video_base_url": "http://10.6.157.43:9012",
+        "single_pass_video_analysis": true,
+        "video_fps": 2,
+        "video_max_frames": 256,
+        "output_dir": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.4 高精度的指令遵循/case3-ref2va/output/v63-3.4-r1/perception_tasks",
+        "base_url": "http://10.6.157.43:9012",
+        "asset_upload_base_url": "http://10.0.96.114:30100",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000,
+        "max_parallel_attribute_batches": 2,
+        "image_attribute_batch_size": 3
+      }
+    },
+    "assets": [
+      {
+        "asset_id": "image_1",
+        "summary": "单一舞台画面：左右各一名戴高帽、持星形魔杖的礼服人物相对而立，背景为湖山城堡画，两侧红帷幕，前景为一排黑色剪影观众。",
+        "global_analysis": {
+          "scene": "室内舞台表演场景，木质台面上两名礼服人物分立左右，背景为绘有湖泊、山脉与湖心城堡的布景，两侧垂挂红色帷幕。",
+          "composition": "近似对称构图，两名人物占据中景左右，背景画居中，前景底部一排剪影观众形成下边框，帷幕框住左右边缘。",
+          "framing_layers": [
+            {
+              "description": "单一连续画面，无分格、无嵌套、无界面元素，整幅为一个舞台场景。",
+              "coverage": "full_frame",
+              "confidence": 0.95
+            }
+          ],
+          "visible_text": [],
+          "uncertainties": [
+            "静态画面无法证明人物正在表演或动作时序",
+            "无法确认两名人物是否为同一真实个体",
+            "无法推断帷幕、观众或背景画之外的离画内容"
+          ]
+        },
+        "evidence": [
+          {
+            "evidence_id": "evidence_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "单一舞台画面：左右各一名戴高帽、持星形魔杖的礼服人物相对而立，背景为湖山城堡画，两侧红帷幕，前景为一排黑色剪影观众。"
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "category": "person",
+            "subcategory": "person",
+            "summary": "左侧穿黑色礼服、戴黑色高帽并持星形魔杖的男性人物，作为舞台左方主体。",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "服装",
+                  "value": "黑色燕尾服礼服配黑色马甲与领结",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "头部造型",
+                  "value": "黑色高顶礼帽与八字胡",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "手持道具",
+                  "value": "右手握一根顶端为五角星的细长魔杖",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "手套",
+                  "value": "双手戴黑色手套",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [
+                {
+                  "name": "姿态",
+                  "value": "面向观众，左臂向外摊开手掌",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "无法确认其真实身份或姓名"
+            ]
+          },
+          {
+            "entity_id": "person_2",
+            "category": "person",
+            "subcategory": "person",
+            "summary": "右侧穿白色礼服、戴白色高帽并持星形魔杖的男性人物，作为舞台右方主体。",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "服装",
+                  "value": "白色燕尾服礼服配白色马甲与领结",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "头部造型",
+                  "value": "白色高顶礼帽与八字胡",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "手持道具",
+                  "value": "左手握一根顶端为五角星的细长魔杖",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "手套",
+                  "value": "双手戴黑色手套",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [
+                {
+                  "name": "姿态",
+                  "value": "面向观众，右臂向外摊开手掌",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "无法确认其真实身份或姓名",
+              "无法确认与person_1是否为同一人"
+            ]
+          },
+          {
+            "entity_id": "environment_1",
+            "category": "environment",
+            "subcategory": "environment",
+            "summary": "舞台空间，含木质台面、两侧红帷幕与湖山城堡背景画，提供场景氛围。",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [
+                {
+                  "name": "台面",
+                  "value": "浅棕色木质舞台地板，带拼缝纹理",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [
+                {
+                  "name": "侧帷幕",
+                  "value": "左右两侧深红色帷幕，以金色绳带束起并垂穗",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "背景画",
+                  "value": "绘有灰蓝色湖泊、远山与湖心岛上的城堡",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "光照",
+                  "value": "整体冷色低调照明，人物与背景对比柔和",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": [
+              "背景画是否为实体布景或印刷画无法确认"
+            ]
+          },
+          {
+            "entity_id": "audience_1",
+            "category": "environment",
+            "subcategory": "environment",
+            "summary": "前景底部一排黑色剪影观众，作为观看舞台的下边框元素。",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "轮廓",
+                  "value": "一排纯黑剪影头部，无内部细节",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "剪影种类",
+                  "value": "含鸟喙头、带角头、普通人头与长兔耳头等轮廓",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [
+                {
+                  "name": "朝向",
+                  "value": "背对观者、面向舞台方向",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "剪影具体数量与种类在边缘处部分裁切，难以逐一确认"
+            ]
+          },
+          {
+            "entity_id": "prop_1",
+            "category": "object",
+            "subcategory": "object",
+            "summary": "两名人物各持的一根星形顶端魔杖，作为可独立引用的手持道具。",
+            "quantity": {
+              "value": 2,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "形态",
+                  "value": "细长直杆，顶端为五角星",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "配色",
+                  "value": "左者魔杖偏金黄，右者魔杖偏银白",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "握持",
+                  "value": "分别被person_1右手与person_2左手握持",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "魔杖材质无法确认"
+            ]
+          },
+          {
+            "entity_id": "global_style",
+            "category": "style",
+            "subcategory": "style",
+            "summary": "全片统一的卡通插画风格处理。",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "线条",
+                  "value": "黑色粗描边勾勒人物与物体轮廓",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "色调",
+                  "value": "低饱和灰绿与棕红主调，带轻微颗粒质感",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_relative_to",
+            "subject_id": "person_1",
+            "object_id": "environment_1",
+            "anchor": "person_1站立于舞台台面左侧",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_2",
+            "type": "positioned_relative_to",
+            "subject_id": "person_2",
+            "object_id": "environment_1",
+            "anchor": "person_2站立于舞台台面右侧",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_3",
+            "type": "facing",
+            "subject_id": "person_1",
+            "object_id": "person_2",
+            "anchor": "两人相对而立，摊开的手掌朝向彼此",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_4",
+            "type": "holds",
+            "subject_id": "person_1",
+            "object_id": "prop_1",
+            "anchor": "person_1右手握持一根星形魔杖",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_5",
+            "type": "holds",
+            "subject_id": "person_2",
+            "object_id": "prop_1",
+            "anchor": "person_2左手握持一根星形魔杖",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_6",
+            "type": "positioned_relative_to",
+            "subject_id": "audience_1",
+            "object_id": "environment_1",
+            "anchor": "audience_1位于舞台前景底部，背对观者",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "image_single_pass",
+          "task_ids": [
+            "20260924_064712_294709_07660590-2761-41a1-bae2-60858ec1b402"
+          ],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "single_pass",
+          "elapsed_seconds": 195.041,
+          "cache_hit": false,
+          "cache_key": "0650cda553d3da94d1f78292d4ad0eaa14079a0a0f883f6e1218afebaf087395",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 195.041
+          }
+        },
+        "transcript": "",
+        "uncertainties": [
+          "静态画面不能证明人物动作、表演内容或镜头运动",
+          "不能从布局推断时间顺序或叙事阶段"
+        ],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "the image's overall structure is either a single continuous frame or a set of distinct regions, with each region's extent described",
+            "priority": "useful",
+            "source_asset_id": "image_1",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "frame",
+              "is",
+              "or",
+              "region",
+              "regions",
+              "single"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "whether one or more human figures are visible and how many, with their spatial arrangement",
+            "priority": "useful",
+            "source_asset_id": "image_1",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "one",
+              "or",
+              "spatial"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "visible colors of any stage curtain/backdrop and of any garments or gloves",
+            "priority": "useful",
+            "source_asset_id": "image_1",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "or"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      }
+    ],
+    "missing_asset_ids": [],
+    "perception_metrics": {
+      "request_count": 1,
+      "retry_count": 0,
+      "supplemental_request_count": 0,
+      "elapsed_seconds": 195.041
+    }
+  }
+}

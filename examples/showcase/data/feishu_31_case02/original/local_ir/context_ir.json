@@ -1,0 +1,473 @@
+{
+  "schema_version": "h3_compilation.light.v1",
+  "compiler_revision": "singlecall.v63.logical_developments",
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 6,
+    "aspect_ratio": "16:9",
+    "generate_audio": true,
+    "style": "",
+    "prompt_profile": "auto"
+  },
+  "assets": [
+    {
+      "asset_id": "video_1",
+      "media_type": "video",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.1 角色与物体编辑/case2-ref2va/assets/视频1.mp4",
+      "label": "视频1"
+    }
+  ],
+  "content_plan": {
+    "creative_brief": {
+      "user_locked": [
+        "Add exactly one additional person in the left region of the target frame.",
+        "The added person wears the same team uniform as the existing performers.",
+        "The added person's movement stays consistent with the surrounding performers.",
+        "The existing visible picture content of video_1 — scene, performers, background, framing and camera behavior — is preserved."
+      ],
+      "reference_anchors": [
+        "<Video 1> supplies the preserved base footage: a single continuous wide locked-camera shot of two astronauts in cream-white spacesuits with white backpacks walking away from the camera across reddish-brown barren terrain toward a white pyramid habitat labeled MARS, with dark hills and a pale sky under warm low dusk light.",
+        "<Video 1> supplies the team uniform design to be transferred: cream-white spacesuit, white backpack, matching visible garment design.",
+        "<Video 1> supplies the walking motion to be matched: steady gait, swinging arms, continuous forward walk away from the camera with no cuts."
+      ],
+      "open_design": [
+        "Exact lateral and depth placement of the added person inside the left region: chosen as open ground to the left of the leftmost astronaut, at a similar distance from the camera, without occluding either existing performer.",
+        "Stride phase, arm-swing phase and spacing of the added person relative to the neighboring astronaut, kept locked in step for the whole shot.",
+        "How the extra second beyond the analyzed 5.0 seconds continues: the same walk extends, with all three figures continuing away from the locked camera.",
+        "Shadows and light response of the added figure under the same warm low dusk light."
+      ]
+    },
+    "requirement_map": {
+      "content_events": [
+        {
+          "id": "r_1",
+          "text": "One additional person is present in the left region of the target frame."
+        },
+        {
+          "id": "r_2",
+          "text": "The added person wears the same team uniform as the existing performers, matching garment type, color, pattern and visible design."
+        },
+        {
+          "id": "r_3",
+          "text": "The added person's body pose, gesture phase and movement rhythm stay consistent with the surrounding performers."
+        },
+        {
+          "id": "r_4",
+          "text": "The existing visible scene, performers, background and framing of video_1 remain unchanged."
+        }
+      ],
+      "editing_treatments": [
+        {
+          "id": "r_5",
+          "text": "No new cuts, transitions or camera moves are introduced; the edit stays video_1's single continuous locked-camera shot."
+        }
+      ],
+      "global_style": [
+        {
+          "id": "r_6",
+          "text": "Preserve video_1's cinematic realistic look, warm low dusk light, reddish-brown barren terrain, pale sky and wide framing."
+        }
+      ],
+      "audio_requirements": [
+        {
+          "id": "r_7",
+          "text": "generate_audio is enabled; no music, dialogue or source-audio reuse is requested. Deliver scene ambience and footfalls synchronized to the walk."
+        }
+      ]
+    },
+    "task_mode": "ref2va (video editing of <Video 1>)",
+    "must_keep": [
+      "Exactly one additional person, positioned in the left region of the frame.",
+      "The added person's uniform matches the existing performers' cream-white spacesuit and white backpack in garment type, color, pattern and visible design.",
+      "The added person's pose, gesture phase and movement rhythm match the neighboring performers for the whole shot.",
+      "The two existing astronauts, the reddish-brown terrain, the MARS pyramid habitat, the horizon, the framing and the locked camera of video_1 remain unchanged.",
+      "No cuts, transitions or camera movement are introduced."
+    ],
+    "bindings": [
+      {
+        "asset_id": "video_1",
+        "role": "Source video for the edit; provides the preserved base footage and the appearance and motion references transferred to the added person.",
+        "retained_attributes": [
+          "Two existing astronauts, their relative spacing, and the left astronaut walking slightly ahead",
+          "Cream-white spacesuit and white backpack design of the team uniform",
+          "Reddish-brown barren terrain, white pyramid habitat labeled MARS, dark hills, pale sky",
+          "Warm low dusk lighting and wide framing",
+          "Locked camera and single continuous take with no cuts",
+          "Continuous forward walking motion away from the camera"
+        ],
+        "optional_inherited_attributes": [
+          "Gradual reduction in apparent figure size as the group walks away from the locked camera",
+          "Continuation of the same walking rhythm beyond the analyzed 5.0 seconds"
+        ],
+        "excluded_attributes": [
+          "The source video's audio track"
+        ],
+        "exclusion_reasons": [
+          "No audio analysis exists for video_1 and no audio reuse directive was given, so the target video's sound is generated for the scene instead of being claimed as a copy of the source audio."
+        ]
+      }
+    ],
+    "developments": [
+      {
+        "id": "dev_1",
+        "source_content_event_ids": [
+          "r_1",
+          "r_2",
+          "r_4"
+        ],
+        "visible_change": "In the unchanged wide locked shot of video_1, a third team member is now present in the left region of the frame, wearing the identical cream-white spacesuit and white backpack as the two existing astronauts, already mid-stride and walking in the same direction away from the camera.",
+        "outcome": "Three uniformed figures are visible walking away from the camera across the reddish-brown terrain toward the MARS habitat, with the added person on open ground to the left of the leftmost astronaut and neither existing performer occluded."
+      },
+      {
+        "id": "dev_2",
+        "source_content_event_ids": [
+          "r_3",
+          "r_5",
+          "r_6"
+        ],
+        "visible_change": "All three figures continue walking away from the camera toward the habitat on one shared rhythm; the added person's stride, arm swing, torso lean and pace remain in phase with the neighboring astronaut for the whole shot while the scene and locked camera stay unchanged.",
+        "outcome": "At the end of the shot the three figures are still walking away in step toward the habitat, smaller in the wide frame, with the existing scene, framing and camera unchanged."
+      }
+    ],
+    "shots": [
+      {
+        "id": "shot_1",
+        "development_ids": [
+          "dev_1",
+          "dev_2"
+        ],
+        "content_purpose": "Add one uniformed person to the left region of the source frame and keep the whole group walking in step, while preserving video_1's scene, performers, framing and locked camera in one continuous shot.",
+        "treatment_ids": [
+          "r_5",
+          "r_6",
+          "r_7"
+        ],
+        "start_seconds": 0.0,
+        "end_seconds": 6.0,
+        "description": "The shot begins from the unchanged framing of <Video 1>: a wide locked camera looks across the barren reddish-brown terrain toward the white pyramid habitat labeled \"MARS\" in the distance, with dark hills along the horizon. The two existing astronauts in cream-white spacesuits with white backpacks walk away from the camera toward the habitat, the left one slightly ahead of the right. In the left region of the frame, one additional person (<Subject 1>) is already present at the first frame, walking away from the camera on open ground to the left of the leftmost existing astronaut, at a similar distance from the camera and clear of both existing figures so that neither is occluded, and remaining continuously in frame. From the first frame onward this added person moves with the same body pose, stride length, arm swing, torso lean and walking rhythm as the neighboring astronaut, so the three sets of footsteps land together and the spacing between the figures stays constant. All three continue walking away from the camera with a steady gait, growing gradually smaller in the wide frame as the distance to the habitat closes, and each suit picks up the same warm low dusk light and casts a long shadow across the terrain. The camera stays locked with no pan, push or zoom, and the shot continues without a cut through the final frame, where the three uniformed figures are still walking away in step toward the habitat. Synchronized with the walk, boots strike loose gravel in one shared rhythm at a moderate distance."
+      }
+    ]
+  },
+  "uncertainties": [
+    "video_1 has no audio analysis and no audio directive was given, so no <Audio N> reuse is defined; the target video's ambience and footfalls are generated for the scene rather than asserted as a copy of the source track.",
+    "The supplied analysis reports video_1 at 5.0 seconds while the target duration is 6.0 seconds; the final second extends the same continuous walk beyond the analyzed footage, assumed to keep the identical gait and locked camera.",
+    "The analysis does not describe in detail what occupies the left region besides terrain and the left astronaut, so the added person is placed on open ground left of the leftmost astronaut at a similar camera distance, without occluding either existing performer.",
+    "Exact lateral spacing and stride phase of the added person relative to the neighboring astronaut are chosen conservatively for a locked-camera wide shot and are not specified by the source evidence."
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v2",
+    "provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3.8-27B",
+      "options": {
+        "cache_enabled": false,
+        "single_pass_image_analysis": true,
+        "max_parallel_assets": 1,
+        "image_base_url": "http://10.6.157.43:9012",
+        "video_base_url": "http://10.6.157.43:9012",
+        "single_pass_video_analysis": true,
+        "video_fps": 2,
+        "video_max_frames": 256,
+        "output_dir": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.1 角色与物体编辑/case2-ref2va/output/v63.1-user-shot-edit-3.1-perception-tasks",
+        "base_url": "http://10.6.157.43:9012",
+        "asset_upload_base_url": "http://10.0.96.114:30100",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000,
+        "max_parallel_attribute_batches": 2,
+        "image_attribute_batch_size": 3
+      }
+    },
+    "assets": [
+      {
+        "asset_id": "video_1",
+        "summary": "Two astronauts in cream-white spacesuits walk away from the camera across reddish-brown barren terrain toward a white pyramid habitat labeled MARS under warm dusk light.",
+        "global_analysis": {},
+        "evidence": [
+          {
+            "evidence_id": "evidence_event_1",
+            "kind": "frame",
+            "time_seconds": 2.5,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "Two astronauts walk side by side away from the camera toward the habitat with a steady gait and swinging arms, gradually closing distance; single continuous shot, no cuts or scene changes."
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "category": "person",
+            "subcategory": "adult",
+            "summary": "Left astronaut in a cream-white spacesuit with white backpack, walking away from camera.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "person_2",
+            "category": "person",
+            "subcategory": "adult",
+            "summary": "Right astronaut in a matching cream-white spacesuit with white backpack, walking away from camera.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "environment_1",
+            "category": "environment",
+            "subcategory": "exterior",
+            "summary": "Reddish-brown barren terrain with a white pyramid habitat marked MARS, dark hills and pale sky under warm low dusk light.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_relative_to",
+            "subject_id": "person_1",
+            "object_id": "person_2",
+            "anchor": "left astronaut walks slightly ahead of right astronaut",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_2",
+            "type": "positioned_relative_to",
+            "subject_id": "person_1",
+            "object_id": "environment_1",
+            "anchor": "astronauts walk in center-left of frame toward habitat",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_3",
+            "type": "positioned_relative_to",
+            "subject_id": "person_2",
+            "object_id": "environment_1",
+            "anchor": "right astronaut walks beside left astronaut toward habitat",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "events": [
+          {
+            "event_id": "event_1",
+            "time_range": [
+              0.0,
+              5.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "person_2",
+              "environment_1"
+            ],
+            "action": "Two astronauts walk side by side away from the camera toward the habitat with a steady gait and swinging arms, gradually closing distance; single continuous shot, no cuts or scene changes.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "none",
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.9
+          }
+        ],
+        "technical": {
+          "duration_seconds": 5.0,
+          "framing": "wide shot",
+          "camera": "locked camera",
+          "visible_text": [
+            "MARS"
+          ],
+          "media_type": "video",
+          "analysis_pipeline": "compact_video_single_pass",
+          "task_ids": [
+            "20260928_051844_889422_037dadeb-c2ab-4e66-ba0c-f6b97f6e89cd"
+          ],
+          "scene_cut_candidates_seconds": [],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "timeline_and_entities",
+          "elapsed_seconds": 513.33,
+          "cache_hit": false,
+          "cache_key": "1c0da0a412f2eb2260f2e8667be36bc78fc57d1864b2d2094a5c1081e68c1ff4",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 513.33
+          }
+        },
+        "transcript": "",
+        "uncertainties": [],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "The existing performers' uniform appearance (garment type, colors, pattern, visible insignia) is visible and consistent enough to duplicate on an added person",
+            "priority": "required",
+            "source_asset_id": "video_1",
+            "region_or_time": "existing performers across the asset",
+            "status": "covered",
+            "matched_terms": [
+              "an",
+              "is",
+              "on",
+              "person",
+              "to",
+              "type"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "The visible content currently occupying the left region of the frame",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "left region of the frame",
+            "status": "covered",
+            "matched_terms": [
+              "frame",
+              "left",
+              "of",
+              "region"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "Body pose, gesture and movement rhythm of the performers nearest the left region that the added person should match",
+            "priority": "required",
+            "source_asset_id": "video_1",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "left",
+              "match",
+              "of",
+              "person",
+              "region"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_4",
+            "claim": "Whether the camera is static or moving, and therefore whether the left side of the frame stays fixed",
+            "priority": "required",
+            "source_asset_id": "video_1",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "camera",
+              "frame",
+              "is",
+              "left",
+              "of",
+              "or",
+              "side"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_5",
+            "claim": "Available depth and space on the left region for an added person relative to existing people",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "left region of the frame",
+            "status": "covered",
+            "matched_terms": [
+              "an",
+              "for",
+              "left",
+              "on",
+              "person",
+              "region",
+              "relative",
+              "space",
+              "to"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      }
+    ],
+    "missing_asset_ids": [],
+    "perception_metrics": {
+      "request_count": 1,
+      "retry_count": 0,
+      "supplemental_request_count": 0,
+      "elapsed_seconds": 513.33
+    }
+  }
+}

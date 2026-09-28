@@ -1,0 +1,21 @@
+subject_definitions:
+<Subject 1> is the cityscape environment in <Picture 1>, featuring a central tall, light-colored modern building, a green mid-rise building on the right, dense green trees in the foreground, distant high-rises, and a blue sky with scattered clouds.
+<Video 1> is the source video for video editing, providing the first-person camera perspective, the dark interior, the hands, and the curtain-opening action.
+<Audio 1> is directly reused as the target video's audio, containing sounds of breathing, curtain rustling, and outdoor ambience.
+
+summary:
+[video editing + reference generation + audio reuse] The target video is an edited version of <Video 1>. It preserves the first-person action of two hands opening heavy dark curtains, but replaces the original outdoor harbor view with the cityscape of <Subject 1>, featuring a tall central building and lush green trees.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 1]): fully_preserved - the target video replaces the original window view with the central tall building, green mid-rise, foreground trees, and blue sky from <Subject 1>.
+<Video 1> (source-video editing): partially_preserved - the target preserves the first-person perspective, the dark room, the hands, and the action of pulling the curtains apart, while replacing the outdoor scenery with <Subject 1>.
+<Audio 1>: partially_copy - the synchronized audio of waking up and fabric rustling from <Audio 1> is reused during the initial curtain-opening action, while ambient city sound continues to cover the extended target duration.
+
+detailed_description:
+[Shot 1] The target video is an edited version of <Video 1>, in a realistic, first-person live-action style. The shot begins in a pitch-dark room. From a first-person perspective, two hands reach out toward a faint vertical sliver of light coming through the center of heavy, dark curtains. The quiet room is briefly filled with the subtle sound of a person stirring and breathing. The hands firmly grasp the edges of the fabric and pull the curtains wide open. The loud, heavy rustle of the thick fabric is heard as bright natural daylight suddenly floods the room, completely transforming the indoor lighting from dark to a vibrant, warm glow. Outside the window glass, the cityscape of <Subject 1> is revealed. The prominent tall, light-colored modern building stands clearly in the center of the frame. Below it, a dense canopy of lush green trees fills the foreground, while a wide green mid-rise building occupies the right side of the view. The camera pushes slightly forward, bringing the vibrant blue sky and scattered clouds of <Subject 1> into sharper focus, with distant residential high-rises dotting the far horizon. The hands release the curtains and drop out of frame. The ambient city atmosphere takes over the soundscape, replacing the initial quietness. The camera holds steady on this crisp, beautiful morning window view, allowing the peaceful urban scenery and bright sunlight to linger continuously through the rest of the extended duration.
+
+overall_soundscape:
+The soundscape starts with the subtle sounds of a person stirring, followed by the loud, physical rustle of heavy fabric being pulled apart, and smoothly transitions into a peaceful, airy morning city ambience.
+
+non_diegetic_music:
+N/A

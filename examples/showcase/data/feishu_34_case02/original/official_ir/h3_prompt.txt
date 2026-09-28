@@ -1,0 +1,24 @@
+subject_definitions:
+<Video 1> is the source video for video editing.
+<Subject 1> is the young woman in <Video 1>, with long wet black hair and wearing a black graphic t-shirt.
+<Subject 2> is the convenience store in the background of <Video 1>.
+<Audio 1> is the source audio track, containing BGM and the young woman's speech.
+
+summary:
+[video editing] The target video is an edited version of <Video 1>. The young woman (<Subject 1>) presents a Coca-Cola can instead of the original blue beverage, and points to the background convenience store (<Subject 2>), which now features a glowing "互惠" sign instead of "全家". At the end of the video, she lifts a clear plastic bag filled entirely with Coca-Cola cans instead of mixed snacks, and her reused dialogue from <Audio 1> is updated to reflect the new purchase.
+
+retention_analysis:
+<Video 1> (source-video editing): partially_preserved - The source video's camera motion, overall timing, and subject actions are kept, but the opening can, the background store sign, the plastic bag's contents, and the final dialogue are replaced.
+<Subject 1> (appears in [Shot 1]): fully_preserved - The young woman's identity, wet hair, black graphic t-shirt, and actions are retained exactly as in the source.
+<Subject 2> (appears in [Shot 1]): partially_preserved - The convenience store environment is kept, but its glowing "全家" sign is materially changed to a "互惠" sign.
+<Audio 1>: partially_copy - The upbeat BGM and the first two spoken phrases from <Audio 1> are reused directly, while the final spoken sentence is replaced to say "买了一堆可乐" instead of the original line.
+
+detailed_description:
+The target video is in realistic live-action style.
+[Shot 1] The video is a single continuous edited shot based on <Video 1>. It begins at night in front of a brightly lit convenience store (<Subject 2>), which features a glowing "互惠" sign on its storefront, replacing its original branding. A young woman (<Subject 1>) with long wet black hair and wearing a black graphic t-shirt stands in the foreground of a rain-slicked parking lot, facing the camera. She holds a red Coca-Cola can in her right hand instead of the original blue beverage. The young woman (S1), speaking in a casual and enthusiastic young female voice, says, <d>[Chinese] 这个是我最近发现的一个特别好喝的饮料，</d> while gesturing slightly with the can. She then lowers her hand and places the Coca-Cola can down on a metallic surface in the bottom left of the frame. Turning her body and pointing back toward the store (<Subject 2>) with her right arm, the young woman (S1) continues, <d>[Chinese] 然后这家店呢，</d> keeping her arm extended. She then turns back to face the camera, drops her arm, and adds, <d>[Chinese] 是我经常来的一家店。</d> After speaking, she raises her left hand to lightly cover her mouth, smiles, drops her hand, and gives a confident thumbs-up to the camera. The camera angle remains steady on her upper body. She then looks downward and reaches below the frame. She lifts up a clear plastic bag, which is now completely filled with red Coca-Cola cans rather than mixed snacks. As she holds the bag open with both hands to show its contents, the young woman (S1) says her final modified line, <d>[Chinese] 然后今天买了一堆可乐。</d> The camera pushes in slightly on the plastic bag full of Coca-Cola cans as she speaks. After she finishes her sentence, she continues to hold the heavy bag open toward the lens, looking down at the cans as the upbeat background music from <Audio 1> continues playing through the end of the video.
+
+overall_soundscape:
+The video features an upbeat electronic background music track playing continuously, accompanied by the clear, natural voice of the young woman speaking to the camera and subtle Foley sounds of her movements and rustling the plastic bag.
+
+non_diegetic_music:
+An energetic, upbeat electronic pop instrumental from <Audio 1> plays constantly in the background, featuring a driving beat and synth melodies that maintain a lively tone.

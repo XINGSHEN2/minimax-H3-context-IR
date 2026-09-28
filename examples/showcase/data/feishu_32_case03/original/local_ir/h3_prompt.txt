@@ -1,0 +1,23 @@
+subject_definitions:
+<Subject 1> is the daytime urban skyline taken from <Picture 1> that now fills the view outside the window: a beige high-rise tower with a cornice and a regular grid of windows at center, a multi-storey green glass curtain-wall complex to its right topped by a dark tower carrying the legible signage "NIO", a cluster of dense white residential towers far left, a continuous tree-canopy band across the midground, a road with lamp posts and railings in the lower foreground, and blue sky with scattered white clouds above under bright daylight with soft cloud shadows.
+<Subject 2> is the window of <Video 1>: the large high-rise glazing with its frame edges, its perspective and the oblique streak reflections crossing the glass.
+<Video 1> is the source video for the target edit — the dark interior with the long-haired silhouette figure pulling the curtains apart, followed by a cut to a wide view through the window of <Subject 2>, shot with a locked camera in the interior and a slight drift in the window view.
+
+summary:
+[video editing + reference generation] The target video is an edited version of <Video 1> in which only the scene visible outside the window is replaced: the daytime skyline of <Subject 1> is now seen through the retained window of <Subject 2>, while the dark interior, the curtain-opening action, the cut, the framing, the camera motion and the timing of <Video 1> stay unchanged, and the window view holds to the end.
+
+retention_analysis:
+<Subject 1> (appears in [Shot 2]): fully_preserved - the skyline composition, colours, daylight and "NIO" signage of <Picture 1> are carried into the outside-window view, now seen through glass.
+<Subject 2> (appears in [Shot 2]): partially_preserved - the window frame, glass surface, perspective and oblique streak reflections stay in place while the scene behind the glass is replaced.
+<Video 1> (framing, cut, camera motion and timing): partially_preserved - every element except the outside-window scene is retained; the exterior view is replaced and the final window view is held to fill the 6-second target.
+
+detailed_description:
+The target video is a realistic photographic edit of <Video 1>; only the scene outside the window is replaced, and the original waterfront exterior of <Video 1> must not appear anywhere in the finished video.
+[Shot 1] The video opens on the preserved dark interior of <Video 1>: the figure with long dark hair falling over the shoulders and dark clothing stands centered in near-black silhouette, facing dark curtains that hang with only a narrow vertical strip of daylight between them. The figure grips both curtain edges at chest height and pulls them apart; the vertical gap widens steadily into a bright strip that catches the fabric edges and the rim of the hair while the face stays unreadable in the low-key and cold light, and the camera holds a locked medium framing. Soft fabric sliding accompanies the pull.
+[Shot 2] At 00:02.500, the shot cuts to the wide view through the window. Beyond the glass stands <Subject 1>: the beige central tower rises in front of the tree canopy with the green glass complex and its dark sign-bearing tower to the right, the white residential towers receding far left, the canopy band running unbroken across the midground, and the road with lamp posts below under blue sky with scattered clouds and bright daylight. The window of <Subject 2> keeps its frame edges, glass and perspective over this view, its oblique streak reflections passing across the skyline as the camera drifts slightly with small amplitude at slow speed. The replacement skyline stays stable and fully readable through the glass until the video ends at 00:06.000.
+
+overall_soundscape:
+Quiet, close interior room tone fills the dark opening while soft fabric slides as the curtains are pulled apart. At the cut the sound opens into a wide outdoor city ambience heard through the glass — light traffic hum from the road below, faint wind and distant city air — and this open ambience continues unchanged to the end of the video.
+
+non_diegetic_music:
+N/A

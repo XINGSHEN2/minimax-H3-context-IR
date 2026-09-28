@@ -1,0 +1,20 @@
+subject_definitions:
+<Video 1> is the source video for the target video edit: a single continuous wide locked-camera shot of two astronauts in cream-white spacesuits with white backpacks walking away from the camera across reddish-brown barren terrain toward a white pyramid habitat labeled "MARS", with dark hills and a pale sky under warm low dusk light. Its scene, two performers, background, framing, locked camera and single-take structure are preserved, and it supplies the team uniform design and the walking motion for one added person.
+<Subject 1> is the single additional astronaut added on the left side of the frame in the target video, wearing a cream-white spacesuit with a white backpack identical in garment type, color, pattern and visible design to the uniforms worn by the performers in <Video 1>.
+
+summary:
+[video editing] The target video is an edited version of <Video 1>. One additional astronaut (<Subject 1>) is added in the left region of the frame, wearing the same cream-white spacesuit and white backpack as the existing performers and walking in step with them; the existing terrain, two performers, background, framing and locked camera stay unchanged, and the group keeps walking away toward the MARS habitat through the final frame.
+
+retention_analysis:
+<Video 1> (whole-frame content, camera and single-take structure): partially_preserved - the scene, the two existing performers, background, framing, locked camera and non-stop walking structure stay as in <Video 1>, while the left region of the frame gains one additional person and the walking motion continues for the full target duration.
+<Subject 1> (appears in [Shot 1]): attribute_transfer - uniform appearance and walking motion are transferred from the performers in <Video 1> to a newly added third team member, whose identity is a new person rather than a copy of either existing astronaut.
+
+detailed_description:
+The target video keeps the realistic cinematic look of <Video 1>, with warm low dusk sunlight raking across reddish-brown barren terrain under a pale sky, and remains a single continuous wide locked-camera shot with no cuts.
+[Shot 1] The shot begins from the unchanged framing of <Video 1>: a wide locked camera looks across the barren reddish-brown terrain toward the white pyramid habitat labeled "MARS" in the distance, with dark hills along the horizon. The two existing astronauts in cream-white spacesuits with white backpacks walk away from the camera toward the habitat, the left one slightly ahead of the right. In the left region of the frame, one additional person (<Subject 1>) is already present at the first frame, walking away from the camera on open ground to the left of the leftmost existing astronaut, at a similar distance from the camera and clear of both existing figures so that neither is occluded, and remaining continuously in frame. From the first frame onward this added person moves with the same body pose, stride length, arm swing, torso lean and walking rhythm as the neighboring astronaut, so the three sets of footsteps land together and the spacing between the figures stays constant. All three continue walking away from the camera with a steady gait, growing gradually smaller in the wide frame as the distance to the habitat closes, and each suit picks up the same warm low dusk light and casts a long shadow across the terrain. The camera stays locked with no pan, push or zoom, and the shot continues without a cut through the final frame, where the three uniformed figures are still walking away in step toward the habitat. Synchronized with the walk, boots strike loose gravel in one shared rhythm at a moderate distance.
+
+overall_soundscape:
+Steady wind sweeps across the open terrain with a thin, echoing ambience throughout the shot. Three sets of boots crunch rhythmically on loose gravel in one shared walking rhythm, and the footfalls soften gradually as the figures recede toward the habitat.
+
+non_diegetic_music:
+N/A

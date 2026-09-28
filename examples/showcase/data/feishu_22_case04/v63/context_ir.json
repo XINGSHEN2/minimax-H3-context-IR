@@ -1,0 +1,747 @@
+{
+  "schema_version": "h3_compilation.light.v1",
+  "compiler_revision": "singlecall.v63.logical_developments",
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 5.875,
+    "aspect_ratio": "16:9",
+    "generate_audio": true,
+    "style": "",
+    "prompt_profile": "auto"
+  },
+  "assets": [
+    {
+      "asset_id": "video_1",
+      "media_type": "video",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case4-ref2va/assets/视频1.mp4",
+      "label": "视频1"
+    }
+  ],
+  "content_plan": {
+    "creative_brief": {
+      "user_locked": [
+        "Replace the three suited men in <Video 1> with three highly realistic capybaras, one per original performer, keeping their left, center, and right positions.",
+        "Keep <Video 1>'s fixed camera position and wide full-shot framing: no camera movement and no cuts.",
+        "Transfer the stated motion order: the capybaras drop flat on the floor in rapid succession, the leftmost jumps to the center, the center rolls to the leftmost, the center rolls to the rightmost, the rightmost jumps to the center, and finally the center capybara jumps onto the backs of the other two into a pyramid.",
+        "Keep <Video 1>'s action order and execution tempo.",
+        "Photorealistic capybara fur texture and detail; lighting and shadow must integrate the capybaras into the existing environment light.",
+        "Target duration 5.875 s at 16:9 with generated audio."
+      ],
+      "reference_anchors": [
+        "<Video 1> provides a locked wide shot in 16:9 over a polished light-brown wooden floor with white circular markings, with the three performers in the left, center, and right slots of one compact row and the camera unchanged throughout.",
+        "<Video 1> shows the performers starting on their feet and moving down to the floor, with the routine running as one continuous floor-level sequence that ends in a stacked pyramid of two bodies lying flat and a third resting on their backs.",
+        "<Video 1> shows a woman in white standing at the left edge of the frame.",
+        "<Video 1> supplies the rapid, successive tempo of the opening drop to the floor."
+      ],
+      "open_design": [
+        "The visible detail of how each capybara's drop, jump, and roll begins and completes, including body contact with the boards, fur compression, and sliding stops.",
+        "The settling and hold of the final stacked pyramid at the end of the video.",
+        "The room ambience and the physical body-impact sounds of the routine."
+      ]
+    },
+    "requirement_map": {
+      "content_events": [
+        {
+          "id": "c_1",
+          "text": "The three suited men in <Video 1> are replaced by three capybaras occupying the same left, center, and right slots."
+        },
+        {
+          "id": "c_2",
+          "text": "The three capybaras drop flat onto the floor one after another, rapidly."
+        },
+        {
+          "id": "c_3",
+          "text": "The leftmost capybara jumps to the center position."
+        },
+        {
+          "id": "c_4",
+          "text": "The capybara at the center rolls to the leftmost position."
+        },
+        {
+          "id": "c_5",
+          "text": "The capybara at the center rolls to the rightmost position."
+        },
+        {
+          "id": "c_6",
+          "text": "The rightmost capybara jumps to the center position."
+        },
+        {
+          "id": "c_7",
+          "text": "The capybara at the center jumps onto the backs of the other two, stacking into a pyramid."
+        }
+      ],
+      "editing_treatments": [
+        {
+          "id": "e_1",
+          "text": "Fixed-position camera, wide full shot, no camera movement and no cuts for the whole 5.875 s."
+        }
+      ],
+      "global_style": [
+        {
+          "id": "g_1",
+          "text": "Photorealistic capybara anatomy and fur with individual-hair detail."
+        },
+        {
+          "id": "g_2",
+          "text": "The capybaras receive the environment's existing light and cast contact shadows consistent with the surrounding floor."
+        }
+      ],
+      "audio_requirements": [
+        {
+          "id": "a_1",
+          "text": "Generated audio is enabled; no music, dialogue, lyric, or source-audio reuse was specified."
+        }
+      ]
+    },
+    "task_mode": "ref2va",
+    "must_keep": [
+      "Locked wide-shot camera position and framing from <Video 1>; no camera movement, no cuts.",
+      "Three capybaras in the left, center, and right slots of the original row.",
+      "The action order and rapid tempo: successive lie-downs, left/center exchange, center/right exchange, final pyramid.",
+      "The final stacked pyramid of two capybaras lying flat with the third on their backs.",
+      "Photorealistic capybara fur and lighting/shadow integration with the environment.",
+      "Continuous coverage of 0 to 5.875 s at 16:9."
+    ],
+    "bindings": [
+      {
+        "asset_id": "video_1",
+        "role": "Motion and scene-structure reference for the target video; source of the camera framing, the floor environment, and the action order and tempo that the capybaras follow.",
+        "retained_attributes": [
+          "Locked wide-shot camera position and 16:9 framing with no camera movement",
+          "The three left, center, and right slots of the performer row",
+          "The action order and rapid tempo of the routine",
+          "The polished light-brown wooden floor with white circular markings",
+          "The final arrangement of two bodies flat with a third on their backs",
+          "The woman in white standing at the left edge of the frame"
+        ],
+        "optional_inherited_attributes": [
+          "The exact spacing between the three slots and how compact the row is",
+          "The precise beat length of each individual exchange within the overall rapid tempo",
+          "Background objects of the source location beyond the floor"
+        ],
+        "excluded_attributes": [
+          "The three men's suits, human bodies, faces, and human joint mechanics",
+          "Human locomotion patterns that cannot transfer onto quadruped anatomy"
+        ],
+        "exclusion_reasons": [
+          "The replacement directive removes the three suited men and their clothing in favor of capybaras, so no human identity or suiting may appear.",
+          "The trajectory transfers onto a quadruped, so human limb mechanics are replaced by capybara body mechanics."
+        ]
+      }
+    ],
+    "developments": [
+      {
+        "id": "dev_1",
+        "source_content_event_ids": [
+          "c_1",
+          "c_2"
+        ],
+        "visible_change": "Under the locked wide camera, three photorealistic capybaras stand in the left, center, and right slots of the row on the polished wooden floor, replacing the three suited men; starting with the leftmost, they drop flat onto the boards in rapid succession, the center following and then the rightmost, each flopping belly-down with its short legs tucked under and its fur pressing against the wood.",
+        "outcome": "All three capybaras lie flat on the floor in a row, holding the left, center, and right start slots."
+      },
+      {
+        "id": "dev_2",
+        "source_content_event_ids": [
+          "c_3",
+          "c_4"
+        ],
+        "visible_change": "The capybara in the left slot pushes off its forelegs and springs sideways into the center slot, landing belly-down beside the capybara already there; as it lands, the capybara in the center slot rolls over its shoulder across the boards into the left slot and slides flat to a stop.",
+        "outcome": "The two capybaras have exchanged slots: the capybara that began on the left lies in the center and the one that began in the center lies at the left, with the right capybara still flat in its slot."
+      },
+      {
+        "id": "dev_3",
+        "source_content_event_ids": [
+          "c_5",
+          "c_6"
+        ],
+        "visible_change": "The capybara lying in the center slot rolls sideways toward the right slot while the capybara lying in the right slot springs up and jumps into the vacated center slot, the two crossing the floor in one quick exchange.",
+        "outcome": "The two capybaras have exchanged slots: the capybara from the center lies flat at the right and the capybara from the right occupies the center slot, with the third capybara still flat at the left."
+      },
+      {
+        "id": "dev_4",
+        "source_content_event_ids": [
+          "c_7"
+        ],
+        "visible_change": "The capybara in the center slot pushes up on its forelegs and jumps onto the backs of the two capybaras lying flat at the left and right of the row, landing across both backs and settling into a stacked pyramid.",
+        "outcome": "The three capybaras hold a stacked pyramid on the floor: two lying flat with the third resting across their backs, remaining still until the video ends."
+      }
+    ],
+    "shots": [
+      {
+        "id": "shot_1",
+        "development_ids": [
+          "dev_1",
+          "dev_2",
+          "dev_3",
+          "dev_4"
+        ],
+        "content_purpose": "Hold the single locked wide shot that shows the three capybaras replacing the suited men, their rapid successive lie-downs, the two slot exchanges, and the final stacked pyramid, with photorealistic fur and environment-matched light and shadow.",
+        "treatment_ids": [
+          "e_1"
+        ],
+        "start_seconds": 0.0,
+        "end_seconds": 5.875,
+        "description": "A static wide shot from the fixed camera position of <Video 1> holds the polished light-brown wooden floor with its white circular markings, and the camera never moves, zooms, or cuts. Three photorealistic capybaras, <Subject 1> at the left, <Subject 2> at the center, and <Subject 3> at the right, replace the three suited men in the same slots of the row and stand on the floor while the woman in white from <Video 1> remains at the left edge of the frame. In rapid succession <Subject 1>, then <Subject 2>, then <Subject 3> drop flat onto the boards, each flopping belly-down with its short legs tucked under, fur pressing against the wood, and a low dull impact sounding through the room. <Subject 1> then pushes off its forelegs and springs sideways into the center slot, landing belly-down beside <Subject 2>; as <Subject 1> lands, <Subject 2> rolls over its shoulder from the center slot into the left slot, rotating across the boards and sliding flat to a stop with a light scuff of claws. <Subject 1> then rolls sideways from the center toward the right slot while <Subject 3> springs up out of the right slot and jumps into the vacated center slot, the two crossing the floor in one quick exchange. Finally <Subject 3> pushes up from the center slot and jumps onto the backs of <Subject 2> and <Subject 1> lying flat at the left and right of the row, landing across both backs with a soft thud and settling into a stacked pyramid; all three hold flat and still until the video ends, their fur and contact shadows resting under the room's existing light."
+      }
+    ]
+  },
+  "uncertainties": [
+    "The user's chain is ambiguous about which capybara occupies the center at each step; the plan resolves it as two consecutive slot exchanges so that the capybara that came from the right ends on top of the pyramid. A different reading would change which capybara finishes on top.",
+    "The user's stated sequence contains more movement phases than the three events visible in the source analysis, which shows the pyramid formed from roughly 3.0 s onward; the plan keeps the user's order and the source tempo inside 5.875 s, so the two exchanges each last about a second and may read briefly.",
+    "The user does not mention the woman in white who is visible at the left edge of <Video 1>; the plan keeps her standing at the frame edge as visible source content, and retention should be confirmed if she is unwanted.",
+    "No audio analysis of <Video 1> exists, so the soundscape is newly designed; if the source's original track must be reused, an audio reference and reuse scope would be required."
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v2",
+    "provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3.8-27B",
+      "options": {
+        "cache_enabled": false,
+        "single_pass_image_analysis": true,
+        "max_parallel_assets": 1,
+        "image_base_url": "http://127.0.0.1:9012",
+        "video_base_url": "http://127.0.0.1:9012",
+        "single_pass_video_analysis": true,
+        "video_fps": 2,
+        "video_max_frames": 256,
+        "output_dir": "/home/mx/shenxing/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case4-ref2va/output/local_ir_260909_19_service_fresh_qwen38/perception_tasks",
+        "base_url": "http://127.0.0.1:9012",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000,
+        "max_parallel_attribute_batches": 2,
+        "image_attribute_batch_size": 3
+      }
+    },
+    "assets": [
+      {
+        "asset_id": "video_1",
+        "summary": "Three men in suits perform a synchronized acrobatic routine on a wooden floor, culminating in a stacked pyramid formation.",
+        "global_analysis": {},
+        "evidence": [
+          {
+            "evidence_id": "evidence_event_1",
+            "kind": "frame",
+            "time_seconds": 0.75,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "Three men in suits stand in a line on a wooden floor while a woman stands to the left; the men begin to crouch and move toward the floor."
+          },
+          {
+            "evidence_id": "evidence_event_2",
+            "kind": "frame",
+            "time_seconds": 2.25,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "The men drop to the floor, with the center man performing a forward roll while the others position themselves on the ground."
+          },
+          {
+            "evidence_id": "evidence_event_3",
+            "kind": "frame",
+            "time_seconds": 4.438,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "The men form a stacked pyramid, with two men lying flat on the floor and the third man balancing on their backs."
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "category": "person",
+            "subcategory": "adult man",
+            "summary": "Man in a dark blue suit performing a forward roll and lying on the floor.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "body shape",
+                  "value": "male adult",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "suit color",
+                  "value": "dark blue",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "person_2",
+            "category": "person",
+            "subcategory": "adult man",
+            "summary": "Man in a black suit lying on the floor as part of the pyramid base.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "body shape",
+                  "value": "male adult",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "suit color",
+                  "value": "black",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "person_3",
+            "category": "person",
+            "subcategory": "adult man",
+            "summary": "Man in a grey suit balancing on the backs of the other two men.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "body shape",
+                  "value": "male adult",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "suit color",
+                  "value": "grey",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "person_4",
+            "category": "person",
+            "subcategory": "adult woman",
+            "summary": "Woman in white clothing standing to the left of the men.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "body shape",
+                  "value": "female adult",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "clothing color",
+                  "value": "white",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "floor_1",
+            "category": "object",
+            "subcategory": "floor",
+            "summary": "Polished wooden floor with white circular markings.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "surface color",
+                  "value": "light brown",
+                  "evidence_ids": [],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "surface material",
+                  "value": "wood",
+                  "evidence_ids": [],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_relative_to",
+            "subject_id": "person_1",
+            "object_id": "person_2",
+            "anchor": "person_1 is to the left of person_2",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2",
+              "evidence_event_3"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_2",
+            "type": "positioned_relative_to",
+            "subject_id": "person_2",
+            "object_id": "person_3",
+            "anchor": "person_2 is to the left of person_3",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2",
+              "evidence_event_3"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_3",
+            "type": "positioned_relative_to",
+            "subject_id": "person_4",
+            "object_id": "person_1",
+            "anchor": "person_4 is to the left of person_1",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2",
+              "evidence_event_3"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_4",
+            "type": "positioned_relative_to",
+            "subject_id": "person_3",
+            "object_id": "person_1",
+            "anchor": "person_3 is on top of person_1",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2",
+              "evidence_event_3"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_5",
+            "type": "positioned_relative_to",
+            "subject_id": "person_3",
+            "object_id": "person_2",
+            "anchor": "person_3 is on top of person_2",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2",
+              "evidence_event_3"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          }
+        ],
+        "events": [
+          {
+            "event_id": "event_1",
+            "time_range": [
+              0.0,
+              1.5
+            ],
+            "entity_ids": [
+              "person_1",
+              "person_2",
+              "person_3",
+              "person_4"
+            ],
+            "action": "Three men in suits stand in a line on a wooden floor while a woman stands to the left; the men begin to crouch and move toward the floor.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "cut",
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.95
+          },
+          {
+            "event_id": "event_2",
+            "time_range": [
+              1.5,
+              3.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "person_2",
+              "person_3"
+            ],
+            "action": "The men drop to the floor, with the center man performing a forward roll while the others position themselves on the ground.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "continuous",
+            "evidence_ids": [
+              "evidence_event_2"
+            ],
+            "confidence": 0.9
+          },
+          {
+            "event_id": "event_3",
+            "time_range": [
+              3.0,
+              5.875
+            ],
+            "entity_ids": [
+              "person_1",
+              "person_2",
+              "person_3"
+            ],
+            "action": "The men form a stacked pyramid, with two men lying flat on the floor and the third man balancing on their backs.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "continuous",
+            "evidence_ids": [
+              "evidence_event_3"
+            ],
+            "confidence": 0.95
+          }
+        ],
+        "technical": {
+          "duration_seconds": 5.875,
+          "framing": "wide shot",
+          "camera": "locked camera",
+          "visible_text": [],
+          "media_type": "video",
+          "analysis_pipeline": "compact_video_single_pass",
+          "task_ids": [
+            "20260909_090151_159282_7a0fd664-2c3c-4628-bccf-75f395606b96"
+          ],
+          "scene_cut_candidates_seconds": [],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "timeline_and_entities",
+          "elapsed_seconds": 152.355,
+          "cache_hit": false,
+          "cache_key": "fc819c9e51b5ff70ba572fd42b1156b81ff13af7f5009834b5c9f215a7b6d02b",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 152.355
+          }
+        },
+        "transcript": "",
+        "uncertainties": [],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "video_1 is visibly a fixed-position wide/full shot with the camera unchanged during the relevant action",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "entire visible source video; timestamped frames",
+            "status": "covered",
+            "matched_terms": [
+              "action",
+              "camera",
+              "is",
+              "position",
+              "shot",
+              "wide"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "there are exactly three visible suited performers ordered left/middle/right in the source shot",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "whole visible source scene before movement begins",
+            "status": "covered",
+            "matched_terms": [
+              "in",
+              "left",
+              "shot",
+              "three"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "each suited performer's visible body path and timing correspond to the requested sequence: rapid sequential lying, left/center/right exchanges, and final pyramid",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "source-time intervals covering the described choreography",
+            "status": "covered",
+            "matched_terms": [
+              "body",
+              "center",
+              "left",
+              "lying",
+              "pyramid",
+              "to"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_4",
+            "claim": "measurable lighting, shadow direction, ground contact, and environmental geometry are visible around the performers for realistic capybara integration",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "regions surrounding each performer through the entire source video",
+            "status": "covered",
+            "matched_terms": [
+              "for",
+              "geometry",
+              "ground"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      }
+    ],
+    "missing_asset_ids": [],
+    "perception_metrics": {
+      "request_count": 1,
+      "retry_count": 0,
+      "supplemental_request_count": 0,
+      "elapsed_seconds": 152.355
+    }
+  }
+}

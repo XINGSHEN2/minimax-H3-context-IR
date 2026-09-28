@@ -1,0 +1,19 @@
+{
+  "model": "MiniMax-H3",
+  "content": [
+    {
+      "type": "text",
+      "text": "两位魔术师站在舞台上面向观众表演\"互换\"魔术： 两人同时挥动魔杖，一阵烟雾升起。烟雾散去后，两人的西装颜色互换——左边的人穿白色西装，右边的人现在穿黑色西装，但两人手套颜色不变。 两人鞠躬致谢，身后的红色幕布拉上，从深红色渐变为深蓝色"
+    },
+    {
+      "type": "image_url",
+      "image_url": {
+        "url": "http://10.0.96.114:30100/v1/assets/asset_6d27d1f0defd4c0390fd7a9f1cb672d1/content"
+      },
+      "role": "reference_image"
+    }
+  ],
+  "resolution": "768P",
+  "duration": 6,
+  "ratio": "16:9"
+}

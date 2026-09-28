@@ -1,0 +1,206 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "The two characters and the staging come from 图1: a young man and a young woman in that indoor kitchen, the man in front of the sink at frame centre-right and the woman at frame left, with their face, hair and body appearance kept stable.",
+      "Action order: the man hands a washed dish to the woman at frame left; he then turns and suddenly flings dishwashing foam with his right hand toward the woman at the left edge of the frame; she is startled and immediately counterattacks; the two then playfully splash foam at each other and dodge.",
+      "The characters' body movement, gestures, dynamic facial expressions and performance rhythm strictly follow 输入视频1, transferred onto the two characters from 图1.",
+      "Audible laughter from both characters during the foam exchange."
+    ],
+    "reference_anchors": [
+      "image_1 supplies the two characters' identity (face, hair, body appearance) and the kitchen scene and two-person staging (sink at frame centre-right with the man in front of it, woman at frame left).",
+      "video_1 supplies the performance of a two-person kitchen interaction: plate hand-off, a sudden turn-and-fling beat, reciprocal foam throwing with dodging, and the facial-expression and beat timing that go with it, presented as one continuous real-time interaction in medium framing."
+    ],
+    "open_design": [
+      "How the woman obtains foam for her counterattack (scooping from the sink basin, the same source used in 输入视频1), and the trajectory, size and landing of each clump.",
+      "Dodge directions and small position shifts inside the sink-and-counter area, keeping the frame-left / frame-centre-right staging.",
+      "The resting state of the plate she keeps holding and of the counter props during the exchange.",
+      "Shot count, framing scale, camera behaviour and cut placement.",
+      "The ending: the exchange is still in progress at the final frame, both laughing, with no resolution inserted."
+    ]
+  },
+  "requirement_map": {
+    "content_events": [
+      {
+        "id": "ce_1",
+        "text": "The young man in front of the sink at frame centre-right hands a washed dish to the young woman at frame left."
+      },
+      {
+        "id": "ce_2",
+        "text": "The young man turns and suddenly flings dishwashing foam with his right hand toward the young woman at the left edge of the frame."
+      },
+      {
+        "id": "ce_3",
+        "text": "The young woman reacts with a startle and immediately counterattacks."
+      },
+      {
+        "id": "ce_4",
+        "text": "Both characters playfully splash foam at each other and dodge."
+      },
+      {
+        "id": "ce_5",
+        "text": "Scene and staging stay unchanged: the kitchen with the sink, the young man in front of it at frame centre-right and the young woman at frame left."
+      },
+      {
+        "id": "ce_6",
+        "text": "The two characters keep the stable identity from 图1: face, hair and body appearance."
+      }
+    ],
+    "editing_treatments": [
+      {
+        "id": "et_1",
+        "text": "No transition, text animation or visual effect was requested; the interaction is presented as continuous real-time performance inside the same kitchen space."
+      }
+    ],
+    "global_style": [
+      {
+        "id": "gs_1",
+        "text": "Body movement, gestures, dynamic facial expressions and performance rhythm are strictly carried over from 输入视频1 onto the two characters from 图1."
+      },
+      {
+        "id": "gs_2",
+        "text": "Realistic indoor kitchen continuity: the same kitchen space, lighting and wet, foam-flecked counter surfaces from 图1 remain unchanged from the first frame to the last."
+      }
+    ],
+    "audio_requirements": [
+      {
+        "id": "au_1",
+        "text": "Audible laughter from both characters during the foam exchange."
+      },
+      {
+        "id": "au_2",
+        "text": "No reuse of the input video's audio track was requested and its audio was not analyzed; the laughter is newly performed by the two characters of the target video."
+      }
+    ]
+  },
+  "task_mode": "ref2va",
+  "must_keep": [
+    "The two characters from 图1 and their stable identity: face, hair and body appearance.",
+    "The kitchen scene and staging: the sink with the young man in front of it at frame centre-right, the young woman at frame left.",
+    "The man's hand-off of a washed dish to the woman at frame left.",
+    "The man's turn and sudden right-hand fling of dishwashing foam toward the woman at the left edge of the frame.",
+    "The woman's startled reaction followed by her immediate counterattack.",
+    "Mutual playful foam splashing and dodging by both characters.",
+    "Audible laughter from both characters during the foam exchange.",
+    "Body movement, gesture performance, dynamic facial expressions and performance rhythm transferred from 输入视频1.",
+    "14.9-second, 16:9, audio-enabled output with the interaction still in progress at the final frame."
+  ],
+  "bindings": [
+    {
+      "asset_id": "image_1",
+      "role": "Identity reference for the two target characters and scene-and-staging anchor for the opening shot.",
+      "retained_attributes": [
+        "Young man: dark wavy medium-length hair, white short-sleeved t-shirt.",
+        "Young woman: dark shoulder-length hair, black top.",
+        "Kitchen environment: stainless-steel sink with curved faucet, counter, glass-fronted cabinets.",
+        "Two-person staging: woman at frame left, man in front of the sink at frame centre-right."
+      ],
+      "optional_inherited_attributes": [
+        "Counter props: dark glass bottle and small white-bristled brush beside the sink.",
+        "Depth arrangement with the woman nearer the camera at frame left and the man mid-ground at frame centre-right."
+      ],
+      "excluded_attributes": [
+        "The foam-covered white object held by the man in the still image.",
+        "The frozen photographic pose of both characters."
+      ],
+      "exclusion_reasons": [
+        "The user's opening beat is the hand-off of a washed dish, so the object held at the start must be a wet plate.",
+        "Body movement, gestures, expressions and rhythm come from video_1, so the still pose cannot be held."
+      ]
+    },
+    {
+      "asset_id": "video_1",
+      "role": "Performance reference: body movement and gesture performance, dynamic facial expression and its timing, performance rhythm and beat timing.",
+      "retained_attributes": [
+        "Gesture phrasing of the plate hand-off between two people standing at a sink.",
+        "The beat of turning back, reaching into the sink, and a sudden sharp turn with a right-arm fling.",
+        "Reciprocal throwing with dodging and continuous movement inside the sink-and-counter area.",
+        "Expression beat sequence: impact flinch, wide eyes and open mouth, then laughter.",
+        "Beat timing: roughly the first third for the hand-off, the next third for the fling and impact, the remainder for the mutual exchange.",
+        "Continuous single-location real-time flow."
+      ],
+      "optional_inherited_attributes": [
+        "Medium two-shot framing that holds both characters at the sink.",
+        "Both characters staying within arm's reach of the counter and sink."
+      ],
+      "excluded_attributes": [
+        "Identities, hair and clothing of the reference performers (dreadlocks, yellow t-shirt, gold chain; ponytail, red-and-white striped t-shirt, blue towel).",
+        "The reference video's own audio track and its laughter.",
+        "The reference video's precise knife-edge cut, character dialogue and any plot outside the described interaction."
+      ],
+      "exclusion_reasons": [
+        "d_4 requires the identity and appearance of the two characters to come from 图1.",
+        "No audio reuse was requested, and its audio was not analyzed.",
+        "Only performance transfer was requested; the target scene and staging come from 图1."
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_1",
+      "source_content_event_ids": [
+        "ce_1",
+        "ce_5",
+        "ce_6"
+      ],
+      "visible_change": "In the kitchen of 图1, the young man stands in front of the sink at frame centre-right with a freshly washed white plate held over the basin while the young woman waits at frame left with her hands open; following the gesture phrasing and tempo of 输入视频1, he lifts the plate, leans half a step toward her and extends it across the counter, and she takes it with both hands and settles it against her chest.",
+      "outcome": "The woman at frame left now holds the wet plate; the man's hands are free over the sink; both characters remain in their original staging."
+    },
+    {
+      "id": "dev_2",
+      "source_content_event_ids": [
+        "ce_2"
+      ],
+      "visible_change": "The man turns back to the sink, dips his right hand into the basin and gathers a fistful of white sudsy foam, then snaps his body around and whips his right arm across his torso, flinging the foam toward the woman at the left edge of the frame; the clump breaks apart in the air and the largest piece strikes her cheek and black top.",
+      "outcome": "Foam is smeared across the woman's cheek, jaw and shoulder and drips onto the plate and counter, while the man's wet right hand stays extended over the basin and he starts laughing."
+    },
+    {
+      "id": "dev_3",
+      "source_content_event_ids": [
+        "ce_3"
+      ],
+      "visible_change": "The woman's head snaps back with wide eyes and an open mouth at the impact, and the startle immediately turns into laughter; she leans in over the counter, scoops a fistful of foam from the sink basin with her free right hand and hurls it back at the man, and it bursts against his chest and left shoulder.",
+      "outcome": "Foam speckles the man's white t-shirt and shoulder; the woman still holds the plate in her left hand; both face each other across the sink, laughing and ready to continue."
+    },
+    {
+      "id": "dev_4",
+      "source_content_event_ids": [
+        "ce_4",
+        "ce_5"
+      ],
+      "visible_change": "The two trade further clumps in quick alternation, scooping from the basin and throwing in one motion, the man ducking behind his raised shoulder and the woman leaning sideways so that foam sails past her shoulder and slaps the cabinet behind her; both keep laughing loudly and moving only inside the sink-and-counter area of the same staging.",
+      "outcome": "At the final frame the exchange is still in progress: both characters stand foam-flecked in the original staging, faces and hair speckled, the man with foam dripping from his right hand and the woman's throwing arm still raised, both laughing."
+    }
+  ],
+  "shots": [
+    {
+      "id": "shot_1",
+      "development_ids": [
+        "dev_1",
+        "dev_2"
+      ],
+      "content_purpose": "Establish the kitchen staging and the two identities, show the washed-dish hand-off, then the man's turn back to the sink and his sudden right-hand fling of foam toward the woman.",
+      "treatment_ids": [
+        "et_1"
+      ],
+      "start_seconds": 0.0,
+      "end_seconds": 6.4,
+      "description": "The shot opens on the staging of <Picture 1>: <Subject 1> stands in front of the stainless-steel sink at frame centre-right with a freshly washed white plate held above the basin, and <Subject 2> stands at frame left facing him with her hands open. Following the gesture phrasing and unhurried tempo of <Video 1>, <Subject 1> lifts the plate, leans half a step toward frame left and extends it across the counter; <Subject 2> takes it with both hands and settles it against her black top, and the wet plate clicks softly as it changes hands. <Subject 1> turns back to the sink, dips his right hand into the basin and gathers a fistful of white sudsy foam. The camera holds a steady medium two-shot on the staging, then pushes in with small amplitude at slow speed as <Subject 1> suddenly snaps his body around and whips his right arm across his torso, flinging the foam toward frame left; the clump breaks apart in the air and the largest piece flies straight at <Subject 2>'s face."
+    },
+    {
+      "id": "shot_2",
+      "development_ids": [
+        "dev_3",
+        "dev_4"
+      ],
+      "content_purpose": "Show the woman's startled facial reaction at the moment of impact, her immediate counterattack, and the mutual playful foam exchange with dodging and laughter up to the final frame.",
+      "treatment_ids": [
+        "et_1"
+      ],
+      "start_seconds": 6.4,
+      "end_seconds": 14.9,
+      "cut_reason": "The required startle beat (wide eyes, head snap, open mouth before laughter) is too small to read in the establishing medium two-shot, and the observation emphasis shifts from the man's hand-off at the sink to the woman's face at frame left; a closer framing across the sink is needed to see the foam strike and that expression without losing the man.",
+      "continuity_bridge": "The foam clump already in flight at the end of Shot 1 lands on the woman's cheek in the first frame of Shot 2; the man's right arm is still extended low over the basin from the throw, the plate stays in the woman's left hand at her chest, and both characters keep their positions and their wet, foam-flecked surfaces.",
+      "description": "At 00:06.400, the shot cuts to a closer medium two-shot angled across the sink, favouring <Subject 2> at frame left with <Subject 1> at frame centre-right and his right arm still extended over the basin. Following the facial-expression timing of <Video 1>, the foam splatters across her cheek, jaw and shoulder, her head jerks back, her eyes fly wide and her mouth drops open before the yelp breaks into laughter, and wet foam drips from her chin onto the plate she still holds at her chest. <Subject 1> laughs out loud as his shoulder loosens; <Subject 2> leans in over the counter, scoops a fistful of foam from the sink basin with her free right hand and hurls it back, and the clump bursts against his chest and left shoulder in a wet spatter that speckles his white t-shirt while he flinches back, still laughing. The camera pulls out with small amplitude at slow speed to keep both in frame as they keep trading clumps: he ducks behind his raised shoulder, she leans sideways and a clump sails past her shoulder and slaps the cabinet behind her, and she scoops and throws again. Both laugh loudly on every throw. The shot holds on the two of them still going at the end of the video, foam-flecked faces and hair, the man with foam dripping from his right hand and the woman's throwing arm still raised."
+    }
+  ]
+}

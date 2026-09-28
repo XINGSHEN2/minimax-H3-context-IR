@@ -1,0 +1,147 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "The newspaper in the source video becomes a book with a green cover, still held open on the man's lap.",
+      "The chair the man sits on becomes a red sofa.",
+      "The sunglasses are removed and his face, including the eye area, is fully visible and unobstructed.",
+      "All burning, flames and smoke on the vehicle are removed; the car keeps its normal, undamaged, non-burning appearance.",
+      "The photo card taken from his clothing becomes a small black notebook.",
+      "One tree is added on the left side of the frame."
+    ],
+    "reference_anchors": [
+      "Man: short gray-blond hair, black suit, white shirt, black tie, dark shoes, seated with head lowered while reading, right hand reaching into the inner jacket pocket around the fourth second.",
+      "Vehicle: silver-gray old four-door sedan, nose facing right, red graffiti on the rear door and trunk, parked behind the man.",
+      "Environment: flat open desert sand, level horizon, pale sky, bright diffuse daylight with short shadows, low-saturation warm palette, left side of frame containing no object in the source.",
+      "Structure: one continuous 10-second take with no cuts and a slow push-in from a wide shot to a medium close-up.",
+      "Timing: reading for roughly the first four seconds, retrieval and inspection of the held object around the fourth to fifth second, return to reading until the tenth second."
+    ],
+    "open_design": [
+      "Exact look of the added tree (height, trunk thickness, foliage density, distance from camera).",
+      "Exact red tone, size and cushion shape of the sofa; exact shade and thickness of the green book cover; exact size, cover texture and page edges of the black notebook.",
+      "The newly generated eye area and micro-expression while he looks down at the notebook, kept consistent with the visible mouth, chin and hair.",
+      "Sand texture, minor clothing folds and shadow falloff that carry no user requirement."
+    ]
+  },
+  "requirement_map": {
+    "content_events": [
+      {
+        "id": "ce_1",
+        "text": "The newspaper held on the man's lap is replaced by a book with a green cover, held open with both hands throughout the scene."
+      },
+      {
+        "id": "ce_2",
+        "text": "The chair the character sits on is replaced by a red sofa, and he stays seated on it centered in frame."
+      },
+      {
+        "id": "ce_3",
+        "text": "The sunglasses are removed; his face, including the eye area, is clearly visible and unobstructed."
+      },
+      {
+        "id": "ce_4",
+        "text": "All burning, flames and smoke on the vehicle are removed and the car stays in its normal, intact, undamaged state."
+      },
+      {
+        "id": "ce_5",
+        "text": "The photo card taken from his clothing around the fourth second becomes a small black notebook, raised to chest height to be looked at and then lowered as he resumes reading."
+      },
+      {
+        "id": "ce_6",
+        "text": "One tree is added on the left side of the frame and remains visible there."
+      }
+    ],
+    "editing_treatments": [
+      {
+        "id": "et_1",
+        "text": "Direct edit of <Video 1>: keep the single continuous 10-second take with no cuts and the slow push-in from wide shot to medium close-up."
+      }
+    ],
+    "global_style": [
+      {
+        "id": "gs_1",
+        "text": "Preserve the source's realistic look: bright diffuse desert daylight, short shadows, low-saturation warm palette, pale sky and flat open sand."
+      }
+    ],
+    "audio_requirements": [
+      {
+        "id": "ae_1",
+        "text": "Audio generation stays enabled with source-like dry desert ambience; because the burning effect is removed, no fire crackle or burning sound may be present."
+      },
+      {
+        "id": "ae_2",
+        "text": "The user requests no music, dialogue or lyrics; no new music or spoken lines are added."
+      }
+    ]
+  },
+  "task_mode": "ref2va - video editing (direct edit of <Video 1>: newspaper, chair and photo card replaced; sunglasses, fire and smoke removed; tree added)",
+  "must_keep": [
+    "The single continuous take, its 10-second duration, and the slow push-in from wide to medium close-up.",
+    "The man's identity: black suit, white shirt, black tie, dark shoes, short gray-blond hair, seated reading posture, and the inner-pocket retrieval timing around the fourth second.",
+    "The desert setting: flat open sand, level horizon, pale sky, bright diffuse daylight, short shadows, low-saturation warm palette.",
+    "The silver-gray old four-door sedan, nose facing right, red graffiti on the rear door and trunk, in a normal intact state.",
+    "His visible mouth, chin and hair stay consistent, and the face is unobstructed by eyewear after the edit."
+  ],
+  "bindings": [
+    {
+      "asset_id": "video_1",
+      "role": "Source video for a direct edit; supplies the single-take time structure, the slow push-in camera move, character identity and behavior, environment, vehicle appearance, and the timing of the reading and the retrieval.",
+      "retained_attributes": [
+        "One continuous 10-second take with no cuts; slow push-in from wide to medium close-up.",
+        "Man's black suit, white shirt, black tie, dark shoes, short gray-blond hair, seated reading posture and right-hand inner-pocket retrieval around the fourth second.",
+        "Flat desert sand, level horizon, pale sky, bright diffuse daylight, short shadows, low-saturation warm palette.",
+        "Silver-gray old four-door sedan, nose facing right, red graffiti markings on the rear door and trunk, parked behind the man."
+      ],
+      "optional_inherited_attributes": [
+        "Exact hand placement and page-turning rhythm while reading; slight weight shifts on the seat.",
+        "Sand ripple texture, shadow direction and softness, minor clothing folds, haze level near the horizon."
+      ],
+      "excluded_attributes": [
+        "Sunglasses worn on the face.",
+        "The newspaper and its unreadable printed columns.",
+        "The red folding camping chair with white cross frame.",
+        "The small white photo card taken from the inner pocket.",
+        "Burning, flames, fire glow and black smoke on the sedan."
+      ],
+      "exclusion_reasons": [
+        "Removed per directive to show the unobstructed face (d_3, d_4).",
+        "Replaced by a green-covered book (d_1).",
+        "Replaced by a red sofa (d_2).",
+        "Replaced by a small black notebook (d_7).",
+        "Fire effect removed so the vehicle stays normal and undamaged (d_5, d_6)."
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_1",
+      "source_content_event_ids": [
+        "event_1"
+      ],
+      "visible_change": "In the opening wide desert framing, the man sits centered on a red sofa, his face fully visible with no sunglasses, an open green-covered book resting on his lap in both hands as he reads with his head lowered; behind him the silver-gray sedan stands parked and intact with no flames or smoke, and an added tree stands at the left side of the frame; the camera begins its slow push-in.",
+      "outcome": "He is still reading from the green book while seated on the red sofa; the sedan remains intact, silent and motionless; the tree remains at the left of frame while the camera has moved closer toward a medium framing."
+    },
+    {
+      "id": "dev_2",
+      "source_content_event_ids": [
+        "event_2"
+      ],
+      "visible_change": "From about the fourth second he lifts his right hand into his inner jacket pocket and draws out a small black notebook, raises it to chest height and looks down at it while the green book stays open on his lap under his left hand; the push-in continues; he then lowers the notebook and returns both hands to the open book, still reading.",
+      "outcome": "The black notebook is no longer held up; he finishes the shot reading the open green book with both hands on his lap, the sedan is still intact and the tree is still at the left edge; nothing burns at any point."
+    }
+  ],
+  "shots": [
+    {
+      "id": "s_1",
+      "development_ids": [
+        "dev_1",
+        "dev_2"
+      ],
+      "content_purpose": "Apply all edits inside the source's single continuous take: green-covered book instead of the newspaper, red sofa instead of the chair, no sunglasses with a fully visible face, an intact non-burning sedan, a small black notebook instead of the photo card, and a tree at the left of frame, while keeping the source reading behavior and the retrieval around the fourth second.",
+      "treatment_ids": [
+        "et_1"
+      ],
+      "start_seconds": 0.0,
+      "end_seconds": 10.0,
+      "description": "The video opens on the wide source framing of <Subject 2>, its added tree standing at the left side of the frame. <Subject 3> is parked intact and motionless on the sand directly behind the man, nose facing right, its red graffiti visible, with no flames, smoke or burn damage on it. <Subject 1> sits centered on <Subject 5> with his head lowered; his face is fully visible and unobstructed in the daylight, eyes open with no eyewear, and <Subject 4> rests open on his lap in both hands with short soft shadows under the sofa. The camera pushes in slowly from this wide framing toward a medium close-up of <Subject 1>, keeping the tree inside the left of frame. From about the fourth second he lifts his right hand to his inner jacket pocket and draws out <Subject 6>, raising it to chest height and looking down at it while <Subject 4> stays open on his lap under his left hand; a soft page rustle sounds as he turns a page, the sofa fabric creaks lightly when he shifts his weight, and a brief cloth rustle accompanies <Subject 6> leaving his pocket. He then lowers <Subject 6> and returns both hands to the book, continuing to read as the push-in settles. <Subject 3> never ignites, and the tree remains at the left of frame through the final frame."
+    }
+  ]
+}

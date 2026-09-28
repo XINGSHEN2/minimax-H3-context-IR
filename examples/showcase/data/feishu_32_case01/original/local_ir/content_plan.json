@@ -1,0 +1,185 @@
+{
+  "task_mode": "ref2va",
+  "creative_brief": {
+    "user_locked": [
+      "Remove the green-screen background of video 1 and replace it with a fairy-tale background in the style of video 2.",
+      "The replacement background uses video 2's fairy-tale style, elements and palette.",
+      "Keep the video 1 performer's identity, face, hair and body appearance unchanged.",
+      "Keep the video 1 performer's action, pose and timing unchanged.",
+      "Background elements must fully match the performer's action and timing.",
+      "Replace the performer's lighting (direction, color temperature, intensity, shadows) so it matches the replacement background.",
+      "15 seconds, 16:9, audio generated."
+    ],
+    "reference_anchors": [
+      "<Video 1> supplies the performer's identity and dress, her exact action and timing (walk forward with a leftward glance from 0–5s, then turn to face the camera with a growing smile, slow down and extend her right hand toward the lens from 5–9.5s), the locked-off camera and framing change caused by her approach, and the uniform green-screen region to be removed.",
+      "<Video 2> supplies the replacement environment: mossy green floor densely set with small mushrooms, red berries and tiny glowing points, the large red amanita with visible gills on the left, dark cave backdrop with vertical waterfall-like light bands, saturated mossy green with red-orange accents against cool dark depth, warm local foreground glow with low-contrast cool background light, soft bloom and thin haze."
+    ],
+    "open_design": [
+      "Exact frame-level timing of the environment glow, motes and berry brightness relative to her steps and reach.",
+      "Content of the continuous continuation after the 9.5-second source ends: the bloom around her hand, the creature's reaction and the settled final glow.",
+      "Whether the small creature from video 2 is kept as a small off-centre background element.",
+      "All ambience and score, since no audio was analysed for either asset."
+    ]
+  },
+  "requirement_map": {
+    "content_events": [
+      {
+        "id": "ce_1",
+        "text": "Remove the uniform green-screen background behind the performer across the whole clip and eliminate green spill on her hair and edges, replacing the region with the fairy-tale forest."
+      },
+      {
+        "id": "ce_2",
+        "text": "Fill the replaced background with video 2's fairy-tale environment: mossy ground with dense small mushrooms, red berries and small glowing points, the large red amanita with visible gills at the left, dark cave backdrop with vertical waterfall-like light bands, saturated green with red-orange accents and cool dark depth."
+      },
+      {
+        "id": "ce_3",
+        "text": "Keep the performer's identity, face, curly auburn hair, cream vintage dress and body appearance unchanged."
+      },
+      {
+        "id": "ce_4",
+        "text": "Keep the performer's action, pose and timing: she walks toward the locked camera glancing left (0–5s), turns to the camera with a growing smile, then slows and extends her right hand toward the lens (5–9.5s)."
+      },
+      {
+        "id": "ce_5",
+        "text": "Make background elements move in sync with her action and timing while staying spatially locked to her, so the light, motes and berries respond to her steps and to her reaching hand."
+      },
+      {
+        "id": "ce_6",
+        "text": "Replace the performer's lighting so its direction, color temperature, intensity and shadows match the replacement background."
+      },
+      {
+        "id": "ce_7",
+        "text": "Run 15 seconds continuously and end in a settled, resolved state."
+      }
+    ],
+    "editing_treatments": [
+      {
+        "id": "et_1",
+        "text": "Keep the source's single continuous locked-off take: no cuts, no transitions and no added camera movement, so the keyed performer stays registered to the new background."
+      },
+      {
+        "id": "et_2",
+        "text": "Deliver a clean composite with no green fringe, green spill, matte edge or interface overlay visible at any time."
+      }
+    ],
+    "global_style": [
+      {
+        "id": "gs_1",
+        "text": "Fairy-tale storybook realism: high-saturation mossy greens with red-orange accents against a cool dark background, warm foreground glow, soft bloom, thin haze and slowly drifting glowing motes."
+      }
+    ],
+    "audio_requirements": [
+      {
+        "id": "ar_1",
+        "text": "Generate audio: a quiet enchanted-forest ambience and a light storybook score, since no source audio is available to reuse."
+      },
+      {
+        "id": "ar_2",
+        "text": "No dialogue and no lyrics; the performer's lips part into a smile without spoken words."
+      }
+    ]
+  },
+  "must_keep": [
+    "Performer identity, face, hair, dress and body appearance from video 1",
+    "Performer action, pose and timing from video 1 including the walk, leftward glance, turn, growing smile and the right-hand reach toward the lens",
+    "Locked-off camera and the framing change caused by the performer approaching",
+    "Synchronization between the background elements and the performer's action and timing",
+    "Fairy-tale environment elements, layering, palette and light mood from video 2",
+    "Relit performer matching the replacement background in direction, color temperature, intensity and shadow"
+  ],
+  "bindings": [
+    {
+      "asset_id": "video_1",
+      "role": "Source footage to be edited: background region removed, performer relit, performer footage reused as the temporal spine of the target video.",
+      "retained_attributes": [
+        "performer identity, face, curly auburn hair, fair skin",
+        "cream puff-sleeve vintage dress with lace bodice and tiered tulle skirt, light-colored flat shoes",
+        "action, pose and timing of the walk, leftward glance, turn, growing smile and right-hand reach",
+        "locked-off camera and full-body-to-medium framing tightening as she approaches"
+      ],
+      "optional_inherited_attributes": [
+        "dress sway and hair motion during the walk",
+        "soft contact shadow under the feet, re-timed to the new lighting"
+      ],
+      "excluded_attributes": [
+        "uniform medium green background region",
+        "green spill and green edge contamination on hair and silhouette",
+        "flat even frontal studio light and its shadow direction"
+      ],
+      "exclusion_reasons": [
+        "The green-screen region is the object of the requested replacement.",
+        "Green spill and fringe would betray the key and are covered by the clean-composite requirement.",
+        "The original frontal studio lighting cannot match the fairy-tale background and is explicitly replaced."
+      ]
+    },
+    {
+      "asset_id": "video_2",
+      "role": "Reference for the replacement background: supplies environment elements, composition logic, palette and lighting mood as a locked-off plate.",
+      "retained_attributes": [
+        "mossy green forest floor with dense small mushrooms, red berries and tiny glowing points",
+        "large red amanita with visible gills on the left",
+        "dark cave backdrop with vertical waterfall-like light bands",
+        "saturated mossy green palette with red-orange accents against cool dark depth",
+        "warm local foreground glow with low-contrast cool background light, soft bloom and thin haze"
+      ],
+      "optional_inherited_attributes": [
+        "density and micro-detail of moss, mushroom caps and berries",
+        "small grey-brown rodent-like creature kept as a small off-centre background element",
+        "glow points and drifting motes"
+      ],
+      "excluded_attributes": [
+        "the slow rightward camera pan",
+        "centred placement of the creature",
+        "white mouse cursor and recording-interface overlay"
+      ],
+      "exclusion_reasons": [
+        "The target composite must stay locked off to match video 1's footage so the keyed performer remains registered.",
+        "The performer is the sole front-plane subject, so the creature is moved off-centre and kept small.",
+        "The cursor is recording-interface residue, not scene content."
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_1",
+      "source_content_event_ids": [
+        "event_1"
+      ],
+      "visible_change": "The girl walks forward across the mossy forest floor toward the locked lens and glances to her left, her dress swaying, while the moss glow and glowing motes brighten and drift upward in step with her steps and the small creature lifts its head and turns toward her; she then turns to face the camera with a growing smile as the framing tightens from full body to medium shot.",
+      "outcome": "She stands facing the camera in a medium shot, smiling, keyed clean of the green screen, lit by a warm key with a cool rim, with the fairy-tale forest glowing around her."
+    },
+    {
+      "id": "dev_2",
+      "source_content_event_ids": [
+        "event_2"
+      ],
+      "visible_change": "She slows and extends her right hand toward the lens; glowing motes stream across the moss and gather into her open palm, the red amanita and berries brighten, and her face and dress take the warmer key as her lips part into a wide smile aimed at the lens without spoken words.",
+      "outcome": "Her right hand is extended toward the lens with the motes gathered in her palm, the forest light raised around her."
+    },
+    {
+      "id": "dev_3",
+      "source_content_event_ids": [],
+      "visible_change": "Completing the reach and continuing past the end of the source footage, the motes lift off her palm and swirl up around her hand into the air; the whole forest floor blooms brighter with a gentle pulse from the light bands behind and the creature stands and faces her; she draws her hand back to her chest, keeps smiling at the camera, and the light settles into a calm steady warm glow over the unchanged cool bands.",
+      "outcome": "The video ends with her facing the camera, hand near her chest, the forest glow settled and the cool vertical light bands steady behind her."
+    }
+  ],
+  "shots": [
+    {
+      "id": "shot_1",
+      "development_ids": [
+        "dev_1",
+        "dev_2",
+        "dev_3"
+      ],
+      "content_purpose": "Execute the entire background-replacement edit in one continuous locked-off take: the keyed performer's walk, turn and right-hand reach with light and motes synchronized to her action and timing, then the bloom around her hand and the settled final glow.",
+      "treatment_ids": [
+        "et_1",
+        "et_2",
+        "gs_1"
+      ],
+      "start_seconds": 0.0,
+      "end_seconds": 15.0,
+      "description": "The shot begins from the same framing as <Video 1>: <Subject 1> stands full body at the centre of frame with her flat shoes on the mossy floor of <Subject 2>, the large red amanita with visible gills rising on the left, dense small mushrooms, red berries and tiny glowing points spread across the moss around her, <Subject 3> sitting quietly on the moss to the right of her, and the dark cave wall with its vertical waterfall-like light bands filling the depth behind. She carries a warm soft key from the front left that matches the amanita glow, a cool rim from the light bands behind that separates her from the dark background, and a soft warm contact shadow under her feet. In the first five seconds she walks forward toward the lens and glances to her left, her dress swaying, while the moss glow and the glowing motes brighten and drift upward in step with her steps and the small creature lifts its head and turns toward her; she then turns to face the camera with a growing smile, the framing tightening from full body to medium shot as she approaches. From about five seconds she slows and extends her right hand toward the lens, and the glowing motes stream across the moss and gather into her open palm, the red amanita and berries brightening as her face and dress pick up the warmer key; her lips part into a wide delighted smile at the lens with no spoken words. Past the end of the source footage she completes the reach, the motes lift off her palm, swirl up around her hand and rise into the air, the whole forest floor blooms brighter as the light bands behind pulse gently and the creature stands and faces her. She draws her hand back to her chest, holds her smile toward the camera, and the light settles into a calm steady warm glow on her while the cool vertical bands behind stay steady to the final frame. The camera remains a locked static shot throughout so she stays registered to the background, her footsteps press softly into the moss, a single clear chime sounds as the motes gather in her hand, and the low cave murmur swells slightly with the bloom and eases back as the glow settles."
+    }
+  ]
+}

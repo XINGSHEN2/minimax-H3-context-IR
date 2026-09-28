@@ -1,0 +1,26 @@
+{
+  "model": "MiniMax-H3",
+  "content": [
+    {
+      "type": "text",
+      "text": "将视频1绿幕背景去除，变成类似视频2的童话感背景，背景元素需要完全匹配视频1的人物动作。修改视频1的人物光线，使之完全匹配背景。"
+    },
+    {
+      "type": "video_url",
+      "video_url": {
+        "url": "http://10.0.96.114:30100/v1/assets/asset_27307a5d914d498292dffbd2c7724f0e/content"
+      },
+      "role": "reference_video"
+    },
+    {
+      "type": "video_url",
+      "video_url": {
+        "url": "http://10.0.96.114:30100/v1/assets/asset_9c73583b8fc442bd8bfcf8466c53d2e3/content"
+      },
+      "role": "reference_video"
+    }
+  ],
+  "resolution": "768P",
+  "duration": 15,
+  "ratio": "16:9"
+}

@@ -1,0 +1,24 @@
+subject_definitions:
+<Video 1> is the source video for the target video edit, a single continuous medium close-up of a person cradling an animal in front of a pale cool backdrop.
+<Subject 1> is the person in <Video 1>, with fluffy brown curly hair falling over the forehead, a beige herringbone coarse wool coat, brown leather gloves, and a visible cream ribbed turtleneck collar.
+<Subject 2> is the dog that replaces the grey tabby cat held in <Video 1>: a small-to-medium short-haired dog with warm tan fur, upright ears, a dark nose and bright dark eyes, sized to be cradled in the person's arms, inheriting the cat's cradled position, pose progression and on-screen timing.
+<Subject 3> is the environment of <Video 1>: a bright pale blue-white backdrop and floor under soft, cool, diffused low-key lighting.
+
+summary:
+[video editing + reference generation] The target video is an edited version of <Video 1> in which the cradled cat is replaced by <Subject 2> while the shot keeps its single unbroken take, framing, camera behaviour, lighting and timing. <Subject 1> cradles <Subject 2> against their chest in front of <Subject 3>, moves their gaze from the camera down onto the dog and lowers their head until their nose rests against the dog's forehead, while the dog stays calm and closes its eyes; the pose holds through the final frame, filling the target's 6-second runtime.
+
+retention_analysis:
+<Video 1> (cut structure, camera behaviour and framing): fully_preserved - the target keeps one unbroken take with an essentially static camera and slight drift in a 16:9 medium close-up.
+<Subject 1> ([Shot 1]): fully_preserved - identity, wardrobe and the gaze-and-head-lowering action keep their original progression and timing.
+<Subject 2> ([Shot 1]): attribute_transfer - the cradled position, calm pose progression and on-screen timing of the original cat are transferred to a dog identity; the cat's species, grey tabby coat, amber eyes and white muzzle markings are not retained.
+<Subject 3> ([Shot 1]): fully_preserved - the pale backdrop and soft cool diffused lighting remain unchanged.
+
+detailed_description:
+The target video is a realistic photographic edit with soft, cool, diffused low-key lighting and a slightly desaturated palette.
+[Shot 1] The single continuous shot keeps the framing, camera behaviour and timing of <Video 1> with no cut: a 16:9 medium close-up, camera essentially static with a very slight drift, the pale backdrop of <Subject 3> filling the frame behind them. <Subject 1> stands leaning slightly forward with both gloved arms cradling <Subject 2> against their chest, the dog's head at the center of the frame, its upright ears clear against the pale background and its dark eyes open; the cool diffused light lays a soft highlight along the coat shoulder and falls off gently across the dog's fur. <Subject 1> holds their gaze into the lens, then shifts their eyes down from the camera onto the dog and begins to lower their head, chin dropping slowly, a soft leather-and-wool rustle sounding as the arms settle and the head descends. The dog stays calm and does not struggle, ears staying up and body settling deeper into the cradle of the arms. The descent continues until the person's nose comes to rest against the dog's forehead; on contact the dog's narrows and closes fully and its head tilts slightly into the person's face, with the dog's quiet breathing steady against the chest. The camera keeps drifting very slightly without reframing, and the pose holds motionless through the final frame, the nose against the dog's forehead and the dog's eyes closed.
+
+overall_soundscape:
+Quiet, cool room ambience with a faint airy hiss runs under the whole shot. One soft leather-and-wool rustle accompanies the arms settling and the head lowering, and calm, steady dog breathing stays audible near the chest until the final frame.
+
+non_diegetic_music:
+N/A

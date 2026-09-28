@@ -1,0 +1,207 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "The target video's camera work reproduces the Hitchcock camera movement of video_1: motion type, direction, magnitude, speed and start/stop timing must be that movement rather than a static or ordinary shot.",
+      "The person depicted in video_2 is the singing subject of the target video; her facial identity, hair and body appearance are preserved.",
+      "The target video's sung vocal takes its singing voice (vocal timbre and delivery) from video_3.",
+      "The target subject's singing performance motion and phrasing timing (lip and mouth movement, gesture, posture) take from video_3's visible performance.",
+      "The person from video_2 is shown singing; this is the granted change to her state.",
+      "5.0 seconds, 16:9, audio generated on the final track."
+    ],
+    "reference_anchors": [
+      "video_2 provides a young woman with dark curly hair, freckles, a white t-shirt, blue denim overalls and colorful woven bracelets, seated at an outdoor café table and holding a small white ceramic cup in her right hand while looking down into it, with a wicker table surface, defocused seated patrons and a walking passer-by behind her, locked camera, medium shot.",
+      "video_3 provides a visible singing performance in three continuous phrase phases on a locked camera: hand extended forward palm-up drawn inward to the chest with the head tilting back; hand raised to the cheek and hair with the head tilting to the side; hand lowered and extended outward again with the head tilting back further, mouth open throughout.",
+      "video_1 provides a continuous forward camera dolly on a beach in a medium shot over 2.09 seconds, with a foreground/background scale relationship attached to the move."
+    ],
+    "open_design": [
+      "The sung lyric content, because video_3's audio track was not analyzed and no lyrics or melody could be transcribed.",
+      "The counter-zoom magnitude and direction pairing that complete the Hitchcock effect, and how the move's start/stop timing is stretched across the 5 seconds.",
+      "The action of lowering the white cup onto the table at the start, which frees the singing woman's right hand for the referenced gesture path.",
+      "Which background patrons remain visible as the background recedes.",
+      "The sustained final note that ends the take."
+    ]
+  },
+  "requirement_map": {
+    "content_events": [
+      {
+        "id": "ce_1",
+        "requirement": "The person from video_2 is shown singing on screen in the target video (d_3)."
+      },
+      {
+        "id": "ce_2",
+        "requirement": "Her sung vocal follows video_3's singing voice in timbre and delivery (d_4)."
+      },
+      {
+        "id": "ce_3",
+        "requirement": "Her singing performance motion and phrasing timing — lip and mouth movement, gesture, posture — follow video_3's visible performance (d_5)."
+      }
+    ],
+    "editing_treatments": [
+      {
+        "id": "et_1",
+        "requirement": "The target video's camera work transfers video_1's Hitchcock camera movement: motion type, direction, magnitude, speed and start/stop timing (d_1)."
+      },
+      {
+        "id": "et_2",
+        "requirement": "The camera movement plays as one uninterrupted take with no cut inside the 5 seconds."
+      }
+    ],
+    "global_style": [
+      {
+        "id": "gs_1",
+        "requirement": "Keep video_2's natural-daylight, shallow-depth live-action café look with a defocused background, in 16:9."
+      }
+    ],
+    "audio_requirements": [
+      {
+        "id": "au_1",
+        "requirement": "Generated audio must contain the target subject's singing voice on the final track."
+      },
+      {
+        "id": "au_2",
+        "requirement": "The singing is a diegetic on-screen performance by the video_2 person, not an off-screen or substitute voice."
+      },
+      {
+        "id": "au_3",
+        "requirement": "No background music was requested; the café ambience and the sung voice carry the track."
+      }
+    ]
+  },
+  "task_mode": "ref2va",
+  "must_keep": [
+    "video_2 woman's facial identity, dark curly hair, freckles, white t-shirt, denim overalls and woven bracelets",
+    "her seated café position and the small white cup she holds at the start",
+    "the singing action itself, sung on screen by that woman",
+    "video_3's vocal timbre and delivery as the vocal reference",
+    "video_3's gesture path and phrase order as the performance reference",
+    "video_1's continuous forward dolly with its foreground/background scale relationship",
+    "5.0 seconds, 16:9, one continuous take, audio generated"
+  ],
+  "bindings": [
+    {
+      "asset_id": "video_1",
+      "role": "camera-movement reference for the target video",
+      "retained_attributes": [
+        "continuous forward dolly movement onto the subject",
+        "the foreground/background scale relationship produced by the move (the Hitchcock counter-zoom signature)",
+        "one sustained, uninterrupted camera move",
+        "medium-shot scale held on the subject"
+      ],
+      "optional_inherited_attributes": [
+        "a slow, steady rate rather than a snap",
+        "the move running for the whole length of the take"
+      ],
+      "excluded_attributes": [
+        "the beach location",
+        "the man in the wheelchair and the woman pushing him",
+        "the dark blue shirt, black strapless top, blue scarf, white hat and metal-frame wheelchair",
+        "the 2.09-second clip length"
+      ],
+      "exclusion_reasons": [
+        "the target subject and setting come from video_2",
+        "only the camera work is transferred, not the depicted scene or its people",
+        "the target clip is 5.0 seconds, so the movement is extended across the full take"
+      ]
+    },
+    {
+      "asset_id": "video_2",
+      "role": "identity source and setting source for the singing subject",
+      "retained_attributes": [
+        "facial identity",
+        "dark curly hair and freckles",
+        "white t-shirt and blue denim overalls",
+        "colorful woven bracelets",
+        "seated position at the outdoor café table with the small white ceramic cup in her right hand"
+      ],
+      "optional_inherited_attributes": [
+        "the wicker table surface and the defocused seated patrons and walking passer-by behind her",
+        "natural daylight and shallow depth of field",
+        "the original medium-shot framing as the camera's starting framing"
+      ],
+      "excluded_attributes": [
+        "her motionless, silent state",
+        "the locked camera",
+        "the downward gaze as a permanent state through the end of the clip"
+      ],
+      "exclusion_reasons": [
+        "d_3 grants the singing action",
+        "the camera work comes from video_1",
+        "her gaze lifts as the singing starts and the performance introduces the referenced hand and head motion"
+      ]
+    },
+    {
+      "asset_id": "video_3",
+      "role": "vocal reference and visible singing-performance reference",
+      "retained_attributes": [
+        "the three-phase phrase order and its timing: hand extended forward palm-up and drawn inward to the chest with the head tilting back; hand raised to the cheek and hair with the head tilting to the side; hand lowered and extended outward again with the head tilting back further",
+        "open-mouthed singing articulation throughout the performance",
+        "upright, slightly forward-leaning posture",
+        "sung vocal timbre and delivery"
+      ],
+      "optional_inherited_attributes": [
+        "brief eye closure on the sustained final note"
+      ],
+      "excluded_attributes": [
+        "the black satin dress, gold hoop earrings and long wavy hair",
+        "the plain grey backdrop",
+        "eyes closed for the entire performance",
+        "the 4.018-second clip length"
+      ],
+      "exclusion_reasons": [
+        "appearance comes from video_2",
+        "the setting comes from video_2",
+        "eye state is outside the granted scope (lip and mouth movement, gesture, posture) and video_2 shows her eyes visible and her gaze readable",
+        "phrase timings are scaled to the 5.0-second target"
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_1",
+      "source_content_event_ids": [
+        "ce_1",
+        "ce_3"
+      ],
+      "visible_change": "Seated at the outdoor café table, the woman from video_2 looks down into the small white cup in her right hand, lowers it onto the wicker tabletop, and brings her head up from the downward gaze; her mouth opens as the first sung phrase begins, and her freed right hand extends forward with an open palm and starts drawing inward toward her chest as her head tilts back.",
+      "outcome": "The cup rests on the table, her right hand is free and extended forward palm-up, her head is raised, and she is audibly singing the opening phrase."
+    },
+    {
+      "id": "dev_2",
+      "source_content_event_ids": [
+        "ce_1",
+        "ce_2",
+        "ce_3"
+      ],
+      "visible_change": "Still singing without a break, she brings her inward-moving right hand up to her face, her fingers brushing her cheek and the curls beside her ear, and her head tilts to the side while the vocal keeps the phrase going through a continuously open mouth.",
+      "outcome": "Her right hand is at her face, her head is tilted to the side, and the sung phrase continues unbroken."
+    },
+    {
+      "id": "dev_3",
+      "source_content_event_ids": [
+        "ce_1",
+        "ce_2",
+        "ce_3"
+      ],
+      "visible_change": "She lowers her hand from her face and extends it outward again with an open palm while her head tilts further back, and the sung phrase resolves on a sustained open note.",
+      "outcome": "She is still singing the sustained final note with her right arm extended outward and her head tilted back, and the cup remains on the table."
+    }
+  ],
+  "shots": [
+    {
+      "id": "shot_1",
+      "development_ids": [
+        "dev_1",
+        "dev_2",
+        "dev_3"
+      ],
+      "content_purpose": "Show the video_2 woman singing the referenced performance at the café table, from setting down the cup through the sustained final note, while the video_1 Hitchcock camera movement runs continuously and keeps her scale fixed as the background recedes.",
+      "treatment_ids": [
+        "et_1",
+        "et_2"
+      ],
+      "start_seconds": 0.0,
+      "end_seconds": 5.0,
+      "description": "<Subject 1> sits at the wicker table of <Video 2>, holding the small white ceramic cup in her right hand and looking down into it, with defocused patrons and a passer-by behind her. She lowers the cup onto the tabletop, where it settles with a soft clink, and her head comes up from the downward gaze as her mouth opens and she begins to sing on screen: <Subject 1> (S1) sings with the timbre and delivery referenced from <Audio 1>, <d>[English] Hold the light a little longer.</d> Her freed right hand extends forward with an open palm and draws inward toward her chest while her head tilts back, following the phrasing of <Subject 2>. Throughout the take the camera pushes in toward her at a slow, steady rate with large amplitude while zooming out by a matching amount, so her face and shoulders keep the same size in frame while the blurred café background widens and recedes behind her. Still singing without a break, <Subject 1> (S1) raises her right hand to her face, her fingers brushing her cheek and the curls beside her ear, and her head tilts to the side, continuing, <d>[English] Keep it here with me.</d> She then lowers the hand from her face and extends it outward again with an open palm as her head tilts further back, and the phrase resolves on a sustained open note that carries to the final frame. The push ends with the background at its widest and most distant, and the shot closes on her sustained note, right arm extended, the small cup resting on the table in front of her."
+    }
+  ]
+}

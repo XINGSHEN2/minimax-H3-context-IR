@@ -1,0 +1,134 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "Use video_1 as the reference video for a Re f2VA generation.",
+      "Replace the target video's illumination across the entire duration with night lighting.",
+      "The finished video must read as night, not as filtered daylight.",
+      "Preserve the scene and setting depicted in the reference video.",
+      "Preserve the appearance of the person depicted in the reference video.",
+      "Preserve the framing, camera position and camera movement of the reference video.",
+      "Preserve the shot order, cut structure and overall duration of the reference video (soft).",
+      "Target duration 6 seconds, 16:9, with generated audio."
+    ],
+    "reference_anchors": [
+      "video_1 supplies the entire target timeline: one continuous medium shot of a street-side café with the woman seated at the rattan table in the centre foreground.",
+      "video_1 supplies the person's identity: dark voluminous shoulder-length curly hair, freckles across nose and cheeks, white short-sleeve T-shirt under light blue denim overalls, several colourful braided bracelets on her right wrist.",
+      "video_1 supplies the scene: rattan tables and chairs, a wooden café sign at the left with its wording and layout unchanged, an awning, seated customers, pedestrians walking behind, and a street where a red bus or tram passes.",
+      "video_1 supplies the action order: the woman drinks from the small white ceramic cup held in her right hand, lowers it, sets it down and reaches toward the table surface, with background activity continuing.",
+      "video_1 supplies the camera behaviour: medium framing, essentially fixed position with a very slight handheld drift."
+    ],
+    "open_design": [
+      "Which practical night sources light the scene and how they are placed, coloured and fall off: warm café lamps and lit signage near the subject, cooler street lighting beyond, plus vehicle lights in the background.",
+      "How surfaces respond to the new light: the white cup, table, chairs and the woman's hair and shoulders carry smaller warm highlights and deeper shadow instead of bright daylight speculars and long sunlight shadows.",
+      "Whether the passing red vehicle shows a lit interior and headlights.",
+      "How the final moment of the same continuous action is held so the single shot covers the six-second target, without adding a new event."
+    ]
+  },
+  "requirement_map": {
+    "content_events": [
+      {
+        "id": "ce_1",
+        "text": "The depicted action continues unchanged: the woman drinks from the white cup, lowers it, sets it down on the table and reaches across the table surface, with the café customers, pedestrians and the passing red vehicle still present."
+      },
+      {
+        "id": "ce_2",
+        "text": "The person depicted keeps her identity: same woman, same hair, freckles, clothing and wrist bracelets."
+      }
+    ],
+    "editing_treatments": [
+      {
+        "id": "et_1",
+        "text": "Replace the illumination across the entire duration of the video so that the scene reads as night; every daylight light source, tone and shadow must be substituted, not merely darkened."
+      },
+      {
+        "id": "et_2",
+        "text": "Keep the reference video's framing, camera position and camera movement (medium shot, essentially fixed with a very slight handheld drift)."
+      },
+      {
+        "id": "et_3",
+        "text": "Keep the reference video's shot order, cut structure (one continuous shot, no cuts) and overall duration, allowing only the small extension needed for the six-second target."
+      }
+    ],
+    "global_style": [
+      {
+        "id": "gs_1",
+        "text": "Realistic night-time street-café look over the whole video: warm practical lamp and sign light on the subject, cooler ambient street light in the background, deeper shadows, lower overall exposure."
+      }
+    ],
+    "audio_requirements": [
+      {
+        "id": "ar_1",
+        "text": "Audio is generated for the target video; the reference video's audio is not analysed and is not required to be reused. No dialogue, lyrics, music or silence was requested."
+      }
+    ]
+  },
+  "task_mode": "[video editing + reference generation]",
+  "must_keep": [
+    "Scene and setting of video_1, including the café furniture, the wooden café sign with its original wording and layout, the awning, seated customers, pedestrians and the red vehicle on the street.",
+    "Identity of the woman in video_1.",
+    "Framing, camera position and camera movement of video_1.",
+    "Single continuous shot with no added cuts, and the reference action order.",
+    "Night illumination replacing daylight illumination across the whole duration."
+  ],
+  "bindings": [
+    {
+      "asset_id": "video_1",
+      "role": "Source video for the relit edit: provides scene, person identity, camera behaviour, action order, cut structure and duration.",
+      "retained_attributes": [
+        "café setting, furniture, signage, awning, seated customers, pedestrians, street and passing red vehicle",
+        "the woman's hair, freckles, white T-shirt, light blue denim overalls and colourful right-wrist bracelets",
+        "medium framing, essentially fixed camera position and very slight handheld drift",
+        "single continuous shot with no cuts and the same action order",
+        "white ceramic cup raised to the lips, lowered, set on the table, followed by a reach across the table"
+      ],
+      "optional_inherited_attributes": [
+        "street activity of pedestrians and the red vehicle",
+        "slight handheld micro-drift",
+        "shallower contrast and deeper shadow where the new light falls off"
+      ],
+      "excluded_attributes": [
+        "bright warm afternoon sunlight from the upper right, high daylight exposure, warm daylight highlight tone and long sunlight shadows on the ground and table",
+        "daylight speculars on the white cup, table surface and hair"
+      ],
+      "exclusion_reasons": [
+        "d_5 requires the target video's illumination to be replaced across the entire duration so the scene reads as night; keeping any daylight key direction, level or tone would contradict the replacement."
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_1",
+      "source_content_event_ids": [
+        "event_1"
+      ],
+      "visible_change": "Under night illumination, the woman at the café table raises the small white ceramic cup with her right hand and drinks from it at her lips. The café and the street behind her read as night: warm lamp and sign light on her hair, shoulder and the table, cooler light on the street, the seated customers and pedestrians still visible, and the red vehicle still passing.",
+      "outcome": "The cup is lowered from her lips and is held in her right hand just above the table, with the night-lit café and street continuing behind her."
+    },
+    {
+      "id": "dev_2",
+      "source_content_event_ids": [
+        "event_1"
+      ],
+      "visible_change": "She sets the cup down on the table and reaches her right hand out across the table surface while pedestrians continue walking past behind her and the red vehicle continues along the street.",
+      "outcome": "The white cup rests on the table, her right hand rests on the table surface, and the night street keeps its activity."
+    }
+  ],
+  "shots": [
+    {
+      "id": "shot_1",
+      "development_ids": [
+        "dev_1",
+        "dev_2"
+      ],
+      "content_purpose": "Show the preserved café action under fully replaced night illumination in one continuous take: the sip from the white cup, the cup being set down, the reach across the table, and the settled end state, keeping the original medium framing and camera behaviour.",
+      "treatment_ids": [
+        "et_1",
+        "et_2",
+        "et_3"
+      ],
+      "start_seconds": 0.0,
+      "end_seconds": 6.0,
+      "description": "The shot begins from the opening framing of <Video 1>: a medium shot of <Subject 1> seated at the rattan café table with the small white ceramic cup in her right hand near the table, now under night illumination. Warm lamp and sign light glows on her curly hair, her right shoulder and the table surface, the white glaze of the cup carries a small warm highlight instead of a daylight specular, and the background café and street fall away into cooler, lower-key light with the seated customers still visible. The camera holds the same framing, position and very slight handheld drift as <Video 1>. <Subject 1> raises the cup to her lips and drinks, and a soft sip is audible as she does. She lowers the cup and sets it down on the table with a light clink, then reaches her right hand out across the table surface while her gaze moves toward the street. Behind her, pedestrians continue to walk past in the dimmed street and the red bus or tram continues along the road with its interior and running lights glowing. She settles with her right hand resting on the table and the night café and street continuing around her, and the shot holds on that same framing until the video ends."
+    }
+  ]
+}

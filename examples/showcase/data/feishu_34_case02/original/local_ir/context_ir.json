@@ -1,0 +1,827 @@
+{
+  "schema_version": "h3_compilation.light.v1",
+  "compiler_revision": "singlecall.v63.logical_developments",
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 15,
+    "aspect_ratio": "16:9",
+    "generate_audio": true,
+    "style": "",
+    "prompt_profile": "auto"
+  },
+  "assets": [
+    {
+      "asset_id": "video_1",
+      "media_type": "video",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.4 高精度的指令遵循/case2-ref2va/assets/视频1.mp4",
+      "label": "视频1"
+    }
+  ],
+  "content_plan": {
+    "creative_brief": {
+      "user_locked": [
+        "The target video is an edit of video_1 in 16:9, 15 seconds, with generated audio.",
+        "The canned drink that appears at the opening is replaced by a Coca-Cola can.",
+        "The glowing convenience-store sign in the background is changed from “全家” to “互惠”.",
+        "Every snack item inside the plastic bag at the ending is replaced by Coca-Cola cans; the plastic bag itself is kept.",
+        "The character's closing spoken line becomes “买了一堆可乐”.",
+        "No other content, character, action, environment or structure change is requested."
+      ],
+      "reference_anchors": [
+        "The single young woman in video_1: long straight black hair, young East Asian face, black band T-shirt with a yellow-and-red flame-style band graphic.",
+        "The night convenience-store parking lot: wet reflective ground, green awning, glowing white two-character sign below the awning, bright white storefront light, metal table at the left of frame.",
+        "The white translucent plastic bag held and lifted with both hands at the ending.",
+        "The action order and timing of video_1: can shown and set down at 0–3s, pointing at the store and speaking at 3–9s, bending down and lifting the bag at 9–14s.",
+        "The locked camera with a slight push-in at the ending."
+      ],
+      "open_design": [
+        "The Coca-Cola can variant: standard red Coca-Cola can with the white script and wave; one can presented at the opening and several identical cans inside the ending bag.",
+        "The number and arrangement of the cans packed in the bag.",
+        "The woman's exact gesture and expression beats while the retained earlier line plays.",
+        "The exact moment the ending push-in settles within the final shot."
+      ]
+    },
+    "requirement_map": {
+      "content_events": [
+        {
+          "id": "r_1",
+          "requirement": "Replace the canned drink at the video opening with a Coca-Cola can, keeping its position, handling and timing."
+        },
+        {
+          "id": "r_2",
+          "requirement": "Change the glowing convenience-store sign in the background from “全家” to “互惠”, keeping its position, glow and layout."
+        },
+        {
+          "id": "r_3",
+          "requirement": "Replace every snack item inside the ending plastic bag with Coca-Cola cans; the plastic bag is retained."
+        },
+        {
+          "id": "r_4",
+          "requirement": "Change the character's closing spoken line to “买了一堆可乐”."
+        }
+      ],
+      "editing_treatments": [
+        {
+          "id": "et_1",
+          "requirement": "Deliver the target as an edited version of video_1: keep the existing shot flow, pacing, framing and camera behavior, and change only the four specified elements, adding no new cuts, transitions, titles or effects."
+        }
+      ],
+      "global_style": [
+        {
+          "id": "gs_1",
+          "requirement": "Preserve video_1's realistic night exterior look: bright white storefront light, wet reflective pavement, natural color, 16:9, no added stylization."
+        }
+      ],
+      "audio_requirements": [
+        {
+          "id": "au_1",
+          "requirement": "Generate audio: reuse the source ambience and the woman's earlier speech, and replace only the closing line with the Chinese line “买了一堆可乐” performed by the same speaker."
+        }
+      ]
+    },
+    "task_mode": "ref2va",
+    "must_keep": [
+      "The woman's identity and her single continuous performance through the video.",
+      "The night parking-lot environment, wet reflective ground, green awning, storefront light and left metal table.",
+      "The white translucent plastic bag and its two-handed lift at the ending.",
+      "The action order and pacing of video_1: can presentation, pointing at the store while speaking, then the bag reveal.",
+      "The locked camera with the ending push-in.",
+      "The reused source ambience and the woman's earlier speech; only the closing line changes."
+    ],
+    "bindings": [
+      {
+        "asset_id": "video_1",
+        "role": "edited source video providing structure, identity, environment, key objects and synchronized audio",
+        "retained_attributes": [
+          "shot order, pacing and continuous coverage from 0s to the ending bag reveal",
+          "locked medium framing with the slight push-in at the ending",
+          "the woman's identity: long straight black hair, young East Asian face, black band T-shirt with yellow-and-red flame graphic",
+          "parking-lot environment: wet reflective ground, green awning, glowing white sign position, left metal table, bright white storefront light",
+          "the white translucent plastic bag and its two-handed handling",
+          "synchronized audio ambience and the woman's earlier spoken line"
+        ],
+        "optional_inherited_attributes": [
+          "exact body poses, gesture timing and micro-pacing of the performance",
+          "the stacking and visibility of the items inside the bag"
+        ],
+        "excluded_attributes": [
+          "the original blue canned drink with white lettering",
+          "the store-sign lettering “全家”",
+          "the snack packaging inside the bag (red chip bag, yellow packet, red-and-white box, green-capped bottle)",
+          "the original closing line “买了一些小零食”"
+        ],
+        "exclusion_reasons": [
+          "replaced by a Coca-Cola can (d_1)",
+          "replaced by “互惠” (d_2)",
+          "replaced by Coca-Cola cans (d_3)",
+          "replaced by “买了一堆可乐” (d_4)"
+        ]
+      }
+    ],
+    "developments": [
+      {
+        "id": "dev_1",
+        "source_content_event_ids": [
+          "event_1"
+        ],
+        "visible_change": "The woman raises the can toward the camera, turning it so the red body and white Coca-Cola script face the lens in the storefront light, holds it a beat, then lowers it and sets it down on the metal table at the left edge of frame.",
+        "outcome": "The Coca-Cola can stands on the left metal table, out of her hands, with its branding clearly readable."
+      },
+      {
+        "id": "dev_2",
+        "source_content_event_ids": [
+          "event_2"
+        ],
+        "visible_change": "She turns her upper body and points at the store behind her; the glowing white sign under the green awning is clearly readable above her shoulder and now reads “互惠” where it previously read “全家”. She turns back to the camera and speaks, her earlier line carried over from the source audio, while the can stays on the table.",
+        "outcome": "The store sign reads “互惠” in the same position and glow, and she faces the camera again with the presented can still on the table."
+      },
+      {
+        "id": "dev_3",
+        "source_content_event_ids": [
+          "event_3"
+        ],
+        "visible_change": "She bends down out of the lower frame and rises, lifting the white translucent plastic bag with both hands.",
+        "outcome": "The bag is held in both hands and lifted toward the camera."
+      },
+      {
+        "id": "dev_4",
+        "source_content_event_ids": [
+          "event_4"
+        ],
+        "visible_change": "She opens the bag toward the lens; the red chip bag, yellow packet, red-and-white box and green-capped bottle are gone and the bag holds several Coca-Cola cans instead, their white script and wave readable through the plastic. She delivers her closing line “买了一堆可乐”.",
+        "outcome": "The video ends on a close-up of the bag packed with Coca-Cola cans with the new closing line audible."
+      }
+    ],
+    "shots": [
+      {
+        "id": "shot_1",
+        "development_ids": [
+          "dev_1",
+          "dev_2",
+          "dev_3"
+        ],
+        "content_purpose": "Establish the woman in the night parking lot, show the Coca-Cola can presented and set down, reveal the glowing “互惠” sign as she points at the store, sustain her earlier speech, and end as she bends down and the plastic bag starts to rise into frame.",
+        "treatment_ids": [
+          "et_1",
+          "gs_1",
+          "au_1"
+        ],
+        "start_seconds": 0.0,
+        "end_seconds": 11.0,
+        "description": "A locked medium shot holds <Subject 1> (S1) center frame in the parking lot of <Subject 2>. She raises <Subject 4> in her right hand toward the camera, turning the can so its red body and white Coca-Cola script face the lens in the storefront light, holds it for a beat, then lowers it and sets it down on the metal table at the left edge of frame, where it stays standing. Without moving the camera, she turns her upper body and points back at the store behind her, and the camera tilts up with small amplitude at slow speed so the glowing white sign under the green awning is clearly readable above her shoulder: the sign, which in <Video 1> read \"全家\", now reads \"互惠\" with the same white glow, two-character size, spacing and position. She turns back to face the lens and speaks (S1), her earlier line carried over unchanged from <Audio 1> with her lips moving in sync to that reused audio. She then bends down out of the lower frame, and the top of <Subject 3>, the white translucent plastic bag, rises into the lower frame between both her hands."
+      },
+      {
+        "id": "shot_2",
+        "development_ids": [
+          "dev_4"
+        ],
+        "content_purpose": "Show the bag's contents as individual Coca-Cola cans in a tight ending framing and deliver the replaced closing line on the bag close-up.",
+        "treatment_ids": [
+          "et_1",
+          "au_1"
+        ],
+        "start_seconds": 11.0,
+        "end_seconds": 15.0,
+        "cut_reason": "The main observation target changes from the woman's actions in the wide parking-lot framing to the individual identities of the cans inside the bag, which that framing cannot resolve.",
+        "continuity_bridge": "Shot 1 ends as she bends down out of the lower frame and the bag's top rises into the bottom of frame; Shot 2 begins as the same bag comes up in both her hands, the bag never leaving her grip across the cut.",
+        "description": "At 00:11.000, the shot cuts to a closer framing as <Subject 3> comes up in both her hands in front of her chest. She opens the bag's mouth toward the lens, and the camera pushes in with large amplitude at slow speed until the bag's opening fills the frame; inside, the original red chip bag, yellow packet, red-and-white box and green-capped bottle are all gone, replaced by several <Subject 4> cans packed together with their white script and wave readable through the plastic. The plastic crinkles and the cans clink lightly as she tilts the bag open, her face just above the bag's edge. As the push-in settles she speaks her closing line (S1) in the same voice carried over from <Audio 1>, <d>[Chinese] 买了一堆可乐</d>, with her lips in sync, and the video ends on the close-up of the bag filled with Coca-Cola cans."
+      }
+    ]
+  },
+  "uncertainties": [
+    "video_1 is 14.0s long while the target is 15.0s; the extra second is planned as a held close-up on the bag at the end rather than a new action.",
+    "The woman's earlier spoken line has no transcript in the supplied evidence, so it is carried over from the source audio instead of being re-performed; only the closing line has known text.",
+    "The exact Coca-Cola can variant (classic, zero sugar, etc.) and the number and arrangement of cans inside the bag are not specified by the user.",
+    "Whether the ending bag close-up exists as a separate source shot or as a push-in inside one take is not confirmed by the evidence; the plan uses a single cut at 11.0s so the cans can be read individually.",
+    "The source sign characters are identified only as probably “全家” with limited legibility; the replacement “互惠” is placed at the same position, size and glow rather than replicating exact original glyph shapes."
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v2",
+    "provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3.8-27B",
+      "options": {
+        "cache_enabled": false,
+        "single_pass_image_analysis": true,
+        "max_parallel_assets": 1,
+        "image_base_url": "http://10.6.157.43:9012",
+        "video_base_url": "http://10.6.157.43:9012",
+        "single_pass_video_analysis": true,
+        "video_fps": 2,
+        "video_max_frames": 256,
+        "output_dir": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.4 高精度的指令遵循/case2-ref2va/output/v63-3.4-r1/perception_tasks",
+        "base_url": "http://10.6.157.43:9012",
+        "asset_upload_base_url": "http://10.0.96.114:30100",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000,
+        "max_parallel_attribute_batches": 2,
+        "image_attribute_batch_size": 3
+      }
+    },
+    "assets": [
+      {
+        "asset_id": "video_1",
+        "summary": "夜晚便利店停车场，一名长发女子先向镜头展示一罐蓝色易拉罐并放到桌上，随后指向身后亮灯的便利店，最后弯腰起身举起一袋零食并展示袋内物品。",
+        "global_analysis": {},
+        "evidence": [
+          {
+            "evidence_id": "evidence_event_1",
+            "kind": "frame",
+            "time_seconds": 1.5,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "女子手持蓝色易拉罐靠近镜头展示，随后将罐子放到画面左侧金属桌面上"
+          },
+          {
+            "evidence_id": "evidence_event_2",
+            "kind": "frame",
+            "time_seconds": 6.0,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "女子侧身用手指向身后亮灯的便利店，再转回面向镜头说话，罐子留在左侧桌上"
+          },
+          {
+            "evidence_id": "evidence_event_3",
+            "kind": "frame",
+            "time_seconds": 10.0,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "女子弯腰出画，随后起身双手提起一个白色塑料袋"
+          },
+          {
+            "evidence_id": "evidence_event_4",
+            "kind": "frame",
+            "time_seconds": 12.5,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "女子举起塑料袋展示，镜头推近为袋内零食特写：红色薯片袋、黄色袋、红白盒、绿色瓶盖"
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "category": "person",
+            "subcategory": "young woman",
+            "summary": "长发年轻女子，穿黑色乐队T恤，是全程唯一出镜主体",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "hair",
+                  "value": "长直黑发披肩",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3",
+                    "evidence_event_4"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "top",
+                  "value": "黑色T恤，胸前黄红火焰状乐队字样及乐队人物印花",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3",
+                    "evidence_event_4"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "face",
+                  "value": "年轻东亚面孔",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3",
+                    "evidence_event_4"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "can_1",
+            "category": "object",
+            "subcategory": "beverage can",
+            "summary": "蓝色易拉罐，开场被举向镜头后置于左侧桌面，是替换目标物",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "shape",
+                  "value": "标准铝制易拉罐",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "body",
+                  "value": "蓝色罐身配大号白色风格化字样",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "state",
+                  "value": "0-3s被手持展示，3s后静置于左侧金属桌",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": [
+              "罐身品牌与文字无法确认"
+            ]
+          },
+          {
+            "entity_id": "bag_1",
+            "category": "object",
+            "subcategory": "plastic bag",
+            "summary": "白色塑料袋，结尾被举起展示，内含多种零食",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [
+                {
+                  "name": "bag",
+                  "value": "白色半透明塑料袋",
+                  "evidence_ids": [
+                    "evidence_event_3",
+                    "evidence_event_4"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [
+                {
+                  "name": "contents",
+                  "value": "红色薯片袋(可见Lay's标志)、黄色袋、红白盒、绿色瓶盖瓶",
+                  "evidence_ids": [
+                    "evidence_event_3",
+                    "evidence_event_4"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "state",
+                  "value": "11s起被双手提起展示，13s后为袋内特写",
+                  "evidence_ids": [
+                    "evidence_event_3",
+                    "evidence_event_4"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": [
+              "袋内物品具体品牌与数量不完全可辨"
+            ]
+          },
+          {
+            "entity_id": "environment_1",
+            "category": "environment",
+            "subcategory": "exterior night",
+            "summary": "夜间便利店停车场，湿滑反光地面与亮灯店面构成背景",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "background",
+                  "value": "便利店绿色雨棚，棚下发光白色招牌含两个中文字符",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "foreground",
+                  "value": "画面左侧金属桌面/柜台",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "lighting",
+                  "value": "夜间，店面强白光，地面湿滑反光",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": [
+              "招牌字符疑似'全家'但清晰度有限"
+            ]
+          },
+          {
+            "entity_id": "text_1",
+            "category": "text",
+            "subcategory": "sign",
+            "summary": "背景发光招牌上的两个白色中文字符",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.85
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "content",
+                  "value": "两个白色中文字，疑似'全家'，位于绿色雨棚下方居中偏右",
+                  "evidence_ids": [],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": [
+              "字符识别不完全确定"
+            ]
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_relative_to",
+            "subject_id": "person_1",
+            "object_id": "environment_1",
+            "anchor": "人物位于画面中央，身后为便利店",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2",
+              "evidence_event_3",
+              "evidence_event_4"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_2",
+            "type": "held_by",
+            "subject_id": "can_1",
+            "object_id": "person_1",
+            "anchor": "0-3s罐子被女子右手举起",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2",
+              "evidence_event_3",
+              "evidence_event_4"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_3",
+            "type": "placed_on",
+            "subject_id": "can_1",
+            "object_id": "environment_1",
+            "anchor": "3s后罐子置于左侧金属桌",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_4",
+            "type": "held_by",
+            "subject_id": "bag_1",
+            "object_id": "person_1",
+            "anchor": "11s起袋子被女子双手提起",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2",
+              "evidence_event_3",
+              "evidence_event_4"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          }
+        ],
+        "events": [
+          {
+            "event_id": "event_1",
+            "time_range": [
+              0.0,
+              3.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "can_1",
+              "environment_1"
+            ],
+            "action": "女子手持蓝色易拉罐靠近镜头展示，随后将罐子放到画面左侧金属桌面上",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "continuous",
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.95
+          },
+          {
+            "event_id": "event_2",
+            "time_range": [
+              3.0,
+              9.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "environment_1",
+              "can_1"
+            ],
+            "action": "女子侧身用手指向身后亮灯的便利店，再转回面向镜头说话，罐子留在左侧桌上",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "continuous",
+            "evidence_ids": [
+              "evidence_event_2"
+            ],
+            "confidence": 0.95
+          },
+          {
+            "event_id": "event_3",
+            "time_range": [
+              9.0,
+              11.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "bag_1"
+            ],
+            "action": "女子弯腰出画，随后起身双手提起一个白色塑料袋",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "continuous",
+            "evidence_ids": [
+              "evidence_event_3"
+            ],
+            "confidence": 0.9
+          },
+          {
+            "event_id": "event_4",
+            "time_range": [
+              11.0,
+              14.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "bag_1"
+            ],
+            "action": "女子举起塑料袋展示，镜头推近为袋内零食特写：红色薯片袋、黄色袋、红白盒、绿色瓶盖",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "end",
+            "evidence_ids": [
+              "evidence_event_4"
+            ],
+            "confidence": 0.9
+          }
+        ],
+        "technical": {
+          "duration_seconds": 14.0,
+          "framing": "medium shot, ending close-up on bag",
+          "camera": "locked with slight push-in at end",
+          "visible_text": [
+            "招牌两个白色中文字(疑似全家)",
+            "红色薯片袋Lay's标志"
+          ],
+          "media_type": "video",
+          "analysis_pipeline": "compact_video_single_pass",
+          "task_ids": [
+            "20260924_063927_235346_11a46925-6b30-433b-b1b7-ea1f199b82a5"
+          ],
+          "scene_cut_candidates_seconds": [],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "timeline_and_entities",
+          "elapsed_seconds": 649.091,
+          "cache_hit": false,
+          "cache_key": "fe51733030e44762012b883ba6065144f004ccf85ea1ccf5261e57e1f47170ca",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 649.091
+          }
+        },
+        "transcript": "",
+        "uncertainties": [
+          "招牌文字识别不确定",
+          "罐身品牌不可确认",
+          "袋内物品部分被遮挡"
+        ],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "a canned beverage is visibly present at the video opening, at a locatable position and time window",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "opening segment of video_1",
+            "status": "covered",
+            "matched_terms": [
+              "at",
+              "beverage",
+              "is",
+              "position",
+              "time"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "a glowing convenience-store sign with legible characters is visible in the background, at a locatable position and time window",
+            "priority": "required",
+            "source_asset_id": "video_1",
+            "region_or_time": "background of the segment where the sign appears",
+            "status": "covered",
+            "matched_terms": [
+              "at",
+              "background",
+              "in",
+              "is",
+              "position",
+              "sign",
+              "time"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "a plastic bag with visible snack items is present at the video ending, with visible contents count and arrangement",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "ending segment of video_1",
+            "status": "covered",
+            "matched_terms": [
+              "at",
+              "bag",
+              "contents",
+              "ending",
+              "is",
+              "plastic"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_4",
+            "claim": "any visible on-screen subtitle or burned-in text at the ending segment, and the final speaker's visible performance timing",
+            "priority": "optional",
+            "source_asset_id": "video_1",
+            "region_or_time": "ending segment of video_1",
+            "status": "covered",
+            "matched_terms": [
+              "at",
+              "ending",
+              "in",
+              "on",
+              "or",
+              "text"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      }
+    ],
+    "missing_asset_ids": [],
+    "perception_metrics": {
+      "request_count": 1,
+      "retry_count": 0,
+      "supplemental_request_count": 0,
+      "elapsed_seconds": 649.091
+    }
+  }
+}

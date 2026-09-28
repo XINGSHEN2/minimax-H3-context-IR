@@ -1,0 +1,1391 @@
+{
+  "schema_version": "h3_compilation.light.v1",
+  "compiler_revision": "singlecall.v63.logical_developments",
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 5.0,
+    "aspect_ratio": "16:9",
+    "generate_audio": true,
+    "style": "",
+    "prompt_profile": "auto"
+  },
+  "assets": [
+    {
+      "asset_id": "video_1",
+      "media_type": "video",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case3-ref2va/assets/视频1.mp4",
+      "label": "视频1"
+    },
+    {
+      "asset_id": "video_2",
+      "media_type": "video",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case3-ref2va/assets/视频2.mp4",
+      "label": "视频2"
+    },
+    {
+      "asset_id": "video_3",
+      "media_type": "video",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case3-ref2va/assets/视频3.mp4",
+      "label": "视频3"
+    }
+  ],
+  "content_plan": {
+    "creative_brief": {
+      "user_locked": [
+        "The target video's camera work reproduces the Hitchcock camera movement of video_1: motion type, direction, magnitude, speed and start/stop timing must be that movement rather than a static or ordinary shot.",
+        "The person depicted in video_2 is the singing subject of the target video; her facial identity, hair and body appearance are preserved.",
+        "The target video's sung vocal takes its singing voice (vocal timbre and delivery) from video_3.",
+        "The target subject's singing performance motion and phrasing timing (lip and mouth movement, gesture, posture) take from video_3's visible performance.",
+        "The person from video_2 is shown singing; this is the granted change to her state.",
+        "5.0 seconds, 16:9, audio generated on the final track."
+      ],
+      "reference_anchors": [
+        "video_2 provides a young woman with dark curly hair, freckles, a white t-shirt, blue denim overalls and colorful woven bracelets, seated at an outdoor café table and holding a small white ceramic cup in her right hand while looking down into it, with a wicker table surface, defocused seated patrons and a walking passer-by behind her, locked camera, medium shot.",
+        "video_3 provides a visible singing performance in three continuous phrase phases on a locked camera: hand extended forward palm-up drawn inward to the chest with the head tilting back; hand raised to the cheek and hair with the head tilting to the side; hand lowered and extended outward again with the head tilting back further, mouth open throughout.",
+        "video_1 provides a continuous forward camera dolly on a beach in a medium shot over 2.09 seconds, with a foreground/background scale relationship attached to the move."
+      ],
+      "open_design": [
+        "The sung lyric content, because video_3's audio track was not analyzed and no lyrics or melody could be transcribed.",
+        "The counter-zoom magnitude and direction pairing that complete the Hitchcock effect, and how the move's start/stop timing is stretched across the 5 seconds.",
+        "The action of lowering the white cup onto the table at the start, which frees the singing woman's right hand for the referenced gesture path.",
+        "Which background patrons remain visible as the background recedes.",
+        "The sustained final note that ends the take."
+      ]
+    },
+    "requirement_map": {
+      "content_events": [
+        {
+          "id": "ce_1",
+          "requirement": "The person from video_2 is shown singing on screen in the target video (d_3)."
+        },
+        {
+          "id": "ce_2",
+          "requirement": "Her sung vocal follows video_3's singing voice in timbre and delivery (d_4)."
+        },
+        {
+          "id": "ce_3",
+          "requirement": "Her singing performance motion and phrasing timing — lip and mouth movement, gesture, posture — follow video_3's visible performance (d_5)."
+        }
+      ],
+      "editing_treatments": [
+        {
+          "id": "et_1",
+          "requirement": "The target video's camera work transfers video_1's Hitchcock camera movement: motion type, direction, magnitude, speed and start/stop timing (d_1)."
+        },
+        {
+          "id": "et_2",
+          "requirement": "The camera movement plays as one uninterrupted take with no cut inside the 5 seconds."
+        }
+      ],
+      "global_style": [
+        {
+          "id": "gs_1",
+          "requirement": "Keep video_2's natural-daylight, shallow-depth live-action café look with a defocused background, in 16:9."
+        }
+      ],
+      "audio_requirements": [
+        {
+          "id": "au_1",
+          "requirement": "Generated audio must contain the target subject's singing voice on the final track."
+        },
+        {
+          "id": "au_2",
+          "requirement": "The singing is a diegetic on-screen performance by the video_2 person, not an off-screen or substitute voice."
+        },
+        {
+          "id": "au_3",
+          "requirement": "No background music was requested; the café ambience and the sung voice carry the track."
+        }
+      ]
+    },
+    "task_mode": "ref2va",
+    "must_keep": [
+      "video_2 woman's facial identity, dark curly hair, freckles, white t-shirt, denim overalls and woven bracelets",
+      "her seated café position and the small white cup she holds at the start",
+      "the singing action itself, sung on screen by that woman",
+      "video_3's vocal timbre and delivery as the vocal reference",
+      "video_3's gesture path and phrase order as the performance reference",
+      "video_1's continuous forward dolly with its foreground/background scale relationship",
+      "5.0 seconds, 16:9, one continuous take, audio generated"
+    ],
+    "bindings": [
+      {
+        "asset_id": "video_1",
+        "role": "camera-movement reference for the target video",
+        "retained_attributes": [
+          "continuous forward dolly movement onto the subject",
+          "the foreground/background scale relationship produced by the move (the Hitchcock counter-zoom signature)",
+          "one sustained, uninterrupted camera move",
+          "medium-shot scale held on the subject"
+        ],
+        "optional_inherited_attributes": [
+          "a slow, steady rate rather than a snap",
+          "the move running for the whole length of the take"
+        ],
+        "excluded_attributes": [
+          "the beach location",
+          "the man in the wheelchair and the woman pushing him",
+          "the dark blue shirt, black strapless top, blue scarf, white hat and metal-frame wheelchair",
+          "the 2.09-second clip length"
+        ],
+        "exclusion_reasons": [
+          "the target subject and setting come from video_2",
+          "only the camera work is transferred, not the depicted scene or its people",
+          "the target clip is 5.0 seconds, so the movement is extended across the full take"
+        ]
+      },
+      {
+        "asset_id": "video_2",
+        "role": "identity source and setting source for the singing subject",
+        "retained_attributes": [
+          "facial identity",
+          "dark curly hair and freckles",
+          "white t-shirt and blue denim overalls",
+          "colorful woven bracelets",
+          "seated position at the outdoor café table with the small white ceramic cup in her right hand"
+        ],
+        "optional_inherited_attributes": [
+          "the wicker table surface and the defocused seated patrons and walking passer-by behind her",
+          "natural daylight and shallow depth of field",
+          "the original medium-shot framing as the camera's starting framing"
+        ],
+        "excluded_attributes": [
+          "her motionless, silent state",
+          "the locked camera",
+          "the downward gaze as a permanent state through the end of the clip"
+        ],
+        "exclusion_reasons": [
+          "d_3 grants the singing action",
+          "the camera work comes from video_1",
+          "her gaze lifts as the singing starts and the performance introduces the referenced hand and head motion"
+        ]
+      },
+      {
+        "asset_id": "video_3",
+        "role": "vocal reference and visible singing-performance reference",
+        "retained_attributes": [
+          "the three-phase phrase order and its timing: hand extended forward palm-up and drawn inward to the chest with the head tilting back; hand raised to the cheek and hair with the head tilting to the side; hand lowered and extended outward again with the head tilting back further",
+          "open-mouthed singing articulation throughout the performance",
+          "upright, slightly forward-leaning posture",
+          "sung vocal timbre and delivery"
+        ],
+        "optional_inherited_attributes": [
+          "brief eye closure on the sustained final note"
+        ],
+        "excluded_attributes": [
+          "the black satin dress, gold hoop earrings and long wavy hair",
+          "the plain grey backdrop",
+          "eyes closed for the entire performance",
+          "the 4.018-second clip length"
+        ],
+        "exclusion_reasons": [
+          "appearance comes from video_2",
+          "the setting comes from video_2",
+          "eye state is outside the granted scope (lip and mouth movement, gesture, posture) and video_2 shows her eyes visible and her gaze readable",
+          "phrase timings are scaled to the 5.0-second target"
+        ]
+      }
+    ],
+    "developments": [
+      {
+        "id": "dev_1",
+        "source_content_event_ids": [
+          "ce_1",
+          "ce_3"
+        ],
+        "visible_change": "Seated at the outdoor café table, the woman from video_2 looks down into the small white cup in her right hand, lowers it onto the wicker tabletop, and brings her head up from the downward gaze; her mouth opens as the first sung phrase begins, and her freed right hand extends forward with an open palm and starts drawing inward toward her chest as her head tilts back.",
+        "outcome": "The cup rests on the table, her right hand is free and extended forward palm-up, her head is raised, and she is audibly singing the opening phrase."
+      },
+      {
+        "id": "dev_2",
+        "source_content_event_ids": [
+          "ce_1",
+          "ce_2",
+          "ce_3"
+        ],
+        "visible_change": "Still singing without a break, she brings her inward-moving right hand up to her face, her fingers brushing her cheek and the curls beside her ear, and her head tilts to the side while the vocal keeps the phrase going through a continuously open mouth.",
+        "outcome": "Her right hand is at her face, her head is tilted to the side, and the sung phrase continues unbroken."
+      },
+      {
+        "id": "dev_3",
+        "source_content_event_ids": [
+          "ce_1",
+          "ce_2",
+          "ce_3"
+        ],
+        "visible_change": "She lowers her hand from her face and extends it outward again with an open palm while her head tilts further back, and the sung phrase resolves on a sustained open note.",
+        "outcome": "She is still singing the sustained final note with her right arm extended outward and her head tilted back, and the cup remains on the table."
+      }
+    ],
+    "shots": [
+      {
+        "id": "shot_1",
+        "development_ids": [
+          "dev_1",
+          "dev_2",
+          "dev_3"
+        ],
+        "content_purpose": "Show the video_2 woman singing the referenced performance at the café table, from setting down the cup through the sustained final note, while the video_1 Hitchcock camera movement runs continuously and keeps her scale fixed as the background recedes.",
+        "treatment_ids": [
+          "et_1",
+          "et_2"
+        ],
+        "start_seconds": 0.0,
+        "end_seconds": 5.0,
+        "description": "<Subject 1> sits at the wicker table of <Video 2>, holding the small white ceramic cup in her right hand and looking down into it, with defocused patrons and a passer-by behind her. She lowers the cup onto the tabletop, where it settles with a soft clink, and her head comes up from the downward gaze as her mouth opens and she begins to sing on screen: <Subject 1> (S1) sings with the timbre and delivery referenced from <Audio 1>, <d>[English] Hold the light a little longer.</d> Her freed right hand extends forward with an open palm and draws inward toward her chest while her head tilts back, following the phrasing of <Subject 2>. Throughout the take the camera pushes in toward her at a slow, steady rate with large amplitude while zooming out by a matching amount, so her face and shoulders keep the same size in frame while the blurred café background widens and recedes behind her. Still singing without a break, <Subject 1> (S1) raises her right hand to her face, her fingers brushing her cheek and the curls beside her ear, and her head tilts to the side, continuing, <d>[English] Keep it here with me.</d> She then lowers the hand from her face and extends it outward again with an open palm as her head tilts further back, and the phrase resolves on a sustained open note that carries to the final frame. The push ends with the background at its widest and most distant, and the shot closes on her sustained note, right arm extended, the small cup resting on the table in front of her."
+      }
+    ]
+  },
+  "uncertainties": [
+    "video_3's audio track was not analyzed (media_analysis.v2 contains no audio evidence), so no lyrics or melody could be transcribed from the singing reference; the two sung lines in detailed_description are authored open-design placeholders and should be replaced if the user supplies the actual lyrics.",
+    "video_1's evidence reports a forward dolly with a measurable foreground/background scale relationship but no zoom parameters, so the counter-zoom magnitude and its start/stop timing are designed rather than measured, and the move is extended from video_1's 2.09 seconds across the target's 5.0 seconds.",
+    "video_3's three performance phases are observed at roughly 1.5 s and 3.0 s of its 4.018 seconds; their per-phrase timing in the 5.0-second target is an estimate.",
+    "video_3 keeps the eyes closed throughout the visible performance; that state lies outside the granted scope (lip and mouth movement, gesture, posture) and was not carried over, since video_2 shows the subject's eyes visible and her gaze readable.",
+    "video_2's background patrons and walking passer-by are out of focus with unresolved faces; only their presence and clothing colours are used, and no facial detail is claimed."
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v2",
+    "provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3.8-27B",
+      "options": {
+        "cache_enabled": false,
+        "single_pass_image_analysis": true,
+        "max_parallel_assets": 1,
+        "image_base_url": "http://127.0.0.1:9012",
+        "video_base_url": "http://127.0.0.1:9012",
+        "single_pass_video_analysis": true,
+        "video_fps": 2,
+        "video_max_frames": 256,
+        "output_dir": "/home/mx/shenxing/minimax-H3-data/minimax-H3-feishu-cases/2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case3-ref2va/output/local_ir_260909_19_service_fresh_qwen38/perception_tasks",
+        "base_url": "http://127.0.0.1:9012",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000,
+        "max_parallel_attribute_batches": 2,
+        "image_attribute_batch_size": 3
+      }
+    },
+    "assets": [
+      {
+        "asset_id": "video_1",
+        "summary": "A man in a wheelchair is pushed by a woman on a sandy beach, with the camera moving forward toward them.",
+        "global_analysis": {},
+        "evidence": [
+          {
+            "evidence_id": "evidence_event_1",
+            "kind": "frame",
+            "time_seconds": 1.045,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "The woman pushes the man in the wheelchair forward on the sand while the camera moves closer to them."
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "category": "person",
+            "subcategory": "adult man",
+            "summary": "Man with glasses sitting in a wheelchair",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "hair",
+                  "value": "dark and wavy",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "shirt color",
+                  "value": "dark blue",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "accessories",
+                  "value": "metal-framed glasses",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "person_2",
+            "category": "person",
+            "subcategory": "adult woman",
+            "summary": "Woman standing behind the man pushing the wheelchair",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "top color",
+                  "value": "black strapless",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "accessories",
+                  "value": "blue scarf",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "accessories",
+                  "value": "white hat",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "wheelchair_1",
+            "category": "object",
+            "subcategory": "wheelchair",
+            "summary": "Wheelchair occupied by the man",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "wheels",
+                  "value": "large rear wheels",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "structure",
+                  "value": "metal frame",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_relative_to",
+            "subject_id": "person_2",
+            "object_id": "person_1",
+            "anchor": "woman stands behind man",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_2",
+            "type": "positioned_relative_to",
+            "subject_id": "person_1",
+            "object_id": "wheelchair_1",
+            "anchor": "man sits in wheelchair",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          }
+        ],
+        "events": [
+          {
+            "event_id": "event_1",
+            "time_range": [
+              0.0,
+              2.09
+            ],
+            "entity_ids": [
+              "person_1",
+              "person_2",
+              "wheelchair_1"
+            ],
+            "action": "The woman pushes the man in the wheelchair forward on the sand while the camera moves closer to them.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "continuous",
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.95
+          }
+        ],
+        "technical": {
+          "duration_seconds": 2.09,
+          "framing": "medium shot",
+          "camera": "forward dolly movement",
+          "visible_text": [],
+          "media_type": "video",
+          "analysis_pipeline": "compact_video_single_pass",
+          "task_ids": [
+            "20260909_090026_164788_789c2fb8-c1d1-472f-b94a-99f3017bca3a"
+          ],
+          "scene_cut_candidates_seconds": [],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "timeline_and_entities",
+          "elapsed_seconds": 89.407,
+          "cache_hit": false,
+          "cache_key": "4c164adcb832b1b10bf9430012605b11fe687c9181de7837337bbaeac8d8a7c7",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 89.407
+          }
+        },
+        "transcript": "",
+        "uncertainties": [],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "source video_1 has an observable camera movement trajectory that can be transferred",
+            "priority": "required",
+            "source_asset_id": "video_1",
+            "region_or_time": "entire visible video_1 clip",
+            "status": "covered",
+            "matched_terms": [
+              "an",
+              "be",
+              "camera",
+              "can",
+              "movement"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "the movement contains a measurable foreground/background scale relationship associated with the camera move",
+            "priority": "required",
+            "source_asset_id": "video_1",
+            "region_or_time": "dominant camera-movement segment in video_1",
+            "status": "covered",
+            "matched_terms": [
+              "camera",
+              "move",
+              "movement"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      },
+      {
+        "asset_id": "video_2",
+        "summary": "A young woman with curly hair and freckles sits at an outdoor cafe table, holding a white cup and looking down.",
+        "global_analysis": {},
+        "evidence": [
+          {
+            "evidence_id": "evidence_event_1",
+            "kind": "frame",
+            "time_seconds": 2.009,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "The woman holds a white cup in her right hand, looking down at it while seated at a cafe table."
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "category": "person",
+            "subcategory": "adult woman",
+            "summary": "Young woman with dark curly hair and freckles, wearing a white t-shirt and denim overalls.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "hair shape",
+                  "value": "curly",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "hair color",
+                  "value": "dark brown/black",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "top color",
+                  "value": "white",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "bottom color",
+                  "value": "blue denim",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [
+                {
+                  "name": "skin texture",
+                  "value": "freckled",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [
+                {
+                  "name": "accessories",
+                  "value": "colorful woven bracelets",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "cup_1",
+            "category": "object",
+            "subcategory": "ceramic cup",
+            "summary": "A small white cup held by the woman.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "object shape",
+                  "value": "cylindrical",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "object color",
+                  "value": "white",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "object material",
+                  "value": "ceramic",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "inferred",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "table_1",
+            "category": "object",
+            "subcategory": "cafe table",
+            "summary": "A wicker table surface visible in the foreground.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "table shape",
+                  "value": "round",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [],
+              "material": [
+                {
+                  "name": "table material",
+                  "value": "wicker",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "person_2",
+            "category": "person",
+            "subcategory": "adult man",
+            "summary": "Man sitting at a table in the background, out of focus.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.8
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "top color",
+                  "value": "grey",
+                  "evidence_ids": [],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "face details obscured by blur"
+            ]
+          },
+          {
+            "entity_id": "person_3",
+            "category": "person",
+            "subcategory": "adult woman",
+            "summary": "Woman sitting at a table in the background, out of focus.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.8
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "top color",
+                  "value": "pink",
+                  "evidence_ids": [],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "face details obscured by blur"
+            ]
+          },
+          {
+            "entity_id": "person_4",
+            "category": "person",
+            "subcategory": "adult man",
+            "summary": "Man walking in the background, out of focus.",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.8
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "top color",
+                  "value": "black",
+                  "evidence_ids": [],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "face details obscured by blur"
+            ]
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "holding",
+            "subject_id": "person_1",
+            "object_id": "cup_1",
+            "anchor": "The woman holds the cup in her right hand",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_2",
+            "type": "seated_at",
+            "subject_id": "person_1",
+            "object_id": "table_1",
+            "anchor": "The woman is seated at the table",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_3",
+            "type": "positioned_behind",
+            "subject_id": "person_2",
+            "object_id": "person_1",
+            "anchor": "The man is seated behind the woman",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.8,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_4",
+            "type": "positioned_behind",
+            "subject_id": "person_3",
+            "object_id": "person_1",
+            "anchor": "The woman is seated behind the woman",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.8,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_5",
+            "type": "positioned_behind",
+            "subject_id": "person_4",
+            "object_id": "person_1",
+            "anchor": "The man is walking behind the woman",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.8,
+            "source": "visible"
+          }
+        ],
+        "events": [
+          {
+            "event_id": "event_1",
+            "time_range": [
+              0.0,
+              4.018
+            ],
+            "entity_ids": [
+              "person_1",
+              "cup_1",
+              "table_1"
+            ],
+            "action": "The woman holds a white cup in her right hand, looking down at it while seated at a cafe table.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "cut",
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.95
+          }
+        ],
+        "technical": {
+          "duration_seconds": 4.018,
+          "framing": "medium shot",
+          "camera": "locked camera",
+          "visible_text": [
+            "CAFÉ"
+          ],
+          "media_type": "video",
+          "analysis_pipeline": "compact_video_single_pass",
+          "task_ids": [
+            "20260909_090155_879720_68883c06-add4-403f-975d-c7aebe50181f"
+          ],
+          "scene_cut_candidates_seconds": [],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "timeline_and_entities",
+          "elapsed_seconds": 92.72,
+          "cache_hit": false,
+          "cache_key": "7d61dae2fc1da35014261261283dc34240709556cf30f97fe082ffa1c8602508",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 92.72
+          }
+        },
+        "transcript": "",
+        "uncertainties": [
+          "Background details are out of focus and difficult to discern clearly."
+        ],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "every focal human subject in video_2 is listed rather than only the first encountered",
+            "priority": "useful",
+            "source_asset_id": "video_2",
+            "region_or_time": "all frames with visible people",
+            "status": "covered",
+            "matched_terms": [
+              "in",
+              "is",
+              "subject"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "stable identity cues for each focal subject in video_2 are available",
+            "priority": "required",
+            "source_asset_id": "video_2",
+            "region_or_time": "clear face and body views",
+            "status": "covered",
+            "matched_terms": [
+              "cues",
+              "for",
+              "identity",
+              "in",
+              "subject"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "existing shot framing and scene context in video_2 are available to preserve the intended spatial setting",
+            "priority": "useful",
+            "source_asset_id": "video_2",
+            "region_or_time": "shot or scene boundaries in video_2",
+            "status": "covered",
+            "matched_terms": [
+              "framing",
+              "in",
+              "scene",
+              "shot",
+              "spatial",
+              "to"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      },
+      {
+        "asset_id": "video_3",
+        "summary": "A woman in a black satin dress performs a continuous, expressive gesture sequence with her eyes closed and mouth open, moving her head and hands rhythmically against a plain grey background.",
+        "global_analysis": {},
+        "evidence": [
+          {
+            "evidence_id": "evidence_event_1",
+            "kind": "frame",
+            "time_seconds": 0.75,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "The woman begins with her right hand extended forward, palm up, then brings it inward toward her chest while her head tilts slightly back and her mouth remains open."
+          },
+          {
+            "evidence_id": "evidence_event_2",
+            "kind": "frame",
+            "time_seconds": 2.25,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "She raises her right hand to her face, fingers lightly touching her cheek and hair, while her head tilts to the side and her eyes remain closed."
+          },
+          {
+            "evidence_id": "evidence_event_3",
+            "kind": "frame",
+            "time_seconds": 3.509,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "She lowers her hand from her face, extends it outward again with an open palm, and tilts her head back further, maintaining an open-mouthed expression."
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "category": "person",
+            "subcategory": "adult woman",
+            "summary": "A woman with long dark hair, wearing a black satin dress and gold earrings, performing expressive gestures.",
+            "quantity": {
+              "value": 1,
+              "confidence": 1.0
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "hair length",
+                  "value": "long, wavy",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 1.0,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "hair color",
+                  "value": "black",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 1.0,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "dress color",
+                  "value": "black",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 1.0,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [
+                {
+                  "name": "dress material",
+                  "value": "satin",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "surface": [],
+              "components": [
+                {
+                  "name": "earrings",
+                  "value": "gold, hoop-style",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [
+                {
+                  "name": "body posture",
+                  "value": "upright, slightly leaning forward",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "eye state",
+                  "value": "closed throughout",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 1.0,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "mouth state",
+                  "value": "open, suggesting vocalization",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2",
+                    "evidence_event_3"
+                  ],
+                  "confidence": 1.0,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [],
+        "events": [
+          {
+            "event_id": "event_1",
+            "time_range": [
+              0.0,
+              1.5
+            ],
+            "entity_ids": [
+              "person_1"
+            ],
+            "action": "The woman begins with her right hand extended forward, palm up, then brings it inward toward her chest while her head tilts slightly back and her mouth remains open.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "continuous",
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.95
+          },
+          {
+            "event_id": "event_2",
+            "time_range": [
+              1.5,
+              3.0
+            ],
+            "entity_ids": [
+              "person_1"
+            ],
+            "action": "She raises her right hand to her face, fingers lightly touching her cheek and hair, while her head tilts to the side and her eyes remain closed.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "continuous",
+            "evidence_ids": [
+              "evidence_event_2"
+            ],
+            "confidence": 0.95
+          },
+          {
+            "event_id": "event_3",
+            "time_range": [
+              3.0,
+              4.018
+            ],
+            "entity_ids": [
+              "person_1"
+            ],
+            "action": "She lowers her hand from her face, extends it outward again with an open palm, and tilts her head back further, maintaining an open-mouthed expression.",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "continuous",
+            "evidence_ids": [
+              "evidence_event_3"
+            ],
+            "confidence": 0.95
+          }
+        ],
+        "technical": {
+          "duration_seconds": 4.018,
+          "framing": "medium shot",
+          "camera": "locked camera",
+          "visible_text": [],
+          "media_type": "video",
+          "analysis_pipeline": "compact_video_single_pass",
+          "task_ids": [
+            "20260909_090328_468416_e0581b80-364a-450e-87f5-8cfad49940be"
+          ],
+          "scene_cut_candidates_seconds": [],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "timeline_and_entities",
+          "elapsed_seconds": 54.069,
+          "cache_hit": false,
+          "cache_key": "589e11bcc23274f0a9c4c4fdef7ba4c4f2503f787c596911e6076e641adbbb67",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 54.069
+          }
+        },
+        "transcript": "",
+        "uncertainties": [
+          "Dropped relation relation_1 with unknown endpoints: person_1, background"
+        ],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "at least one visibly identifiable singing segment is present in video_3; if none is visible, mark this unresolved rather than inventing it",
+            "priority": "useful",
+            "source_asset_id": "video_3",
+            "region_or_time": "search across visible video_3 clip",
+            "status": "covered",
+            "matched_terms": [
+              "at",
+              "in",
+              "is",
+              "it",
+              "mark",
+              "one"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "visible phrase-level timing cues can be used to align voice and performance to the target",
+            "priority": "required",
+            "source_asset_id": "video_3",
+            "region_or_time": "visible singing segments in video_3",
+            "status": "covered",
+            "matched_terms": [
+              "be",
+              "can",
+              "cues",
+              "to"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "a transferable visible mouth/face/body performance pattern is available in video_3",
+            "priority": "useful",
+            "source_asset_id": "video_3",
+            "region_or_time": "visible singing segments in video_3",
+            "status": "covered",
+            "matched_terms": [
+              "body",
+              "face",
+              "in",
+              "is",
+              "mouth"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_4",
+            "claim": "the temporal ordering of head, mouth, and body motions is captured at phrase level",
+            "priority": "required",
+            "source_asset_id": "video_3",
+            "region_or_time": "visible singing segments in video_3",
+            "status": "covered",
+            "matched_terms": [
+              "at",
+              "body",
+              "head",
+              "is",
+              "mouth"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      }
+    ],
+    "missing_asset_ids": [],
+    "perception_metrics": {
+      "request_count": 3,
+      "retry_count": 0,
+      "supplemental_request_count": 0,
+      "elapsed_seconds": 92.72
+    }
+  }
+}

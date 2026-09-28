@@ -1,0 +1,837 @@
+{
+  "schema_version": "h3_compilation.light.v1",
+  "compiler_revision": "singlecall.v63.logical_developments",
+  "task": {
+    "type": "ref2va",
+    "duration_seconds": 10,
+    "aspect_ratio": "16:9",
+    "generate_audio": true,
+    "style": "",
+    "prompt_profile": "auto"
+  },
+  "assets": [
+    {
+      "asset_id": "video_1",
+      "media_type": "video",
+      "uri": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.4 高精度的指令遵循/case1-ref2va/assets/视频1.mp4",
+      "label": "视频1"
+    }
+  ],
+  "content_plan": {
+    "creative_brief": {
+      "user_locked": [
+        "The newspaper in the source video becomes a book with a green cover, still held open on the man's lap.",
+        "The chair the man sits on becomes a red sofa.",
+        "The sunglasses are removed and his face, including the eye area, is fully visible and unobstructed.",
+        "All burning, flames and smoke on the vehicle are removed; the car keeps its normal, undamaged, non-burning appearance.",
+        "The photo card taken from his clothing becomes a small black notebook.",
+        "One tree is added on the left side of the frame."
+      ],
+      "reference_anchors": [
+        "Man: short gray-blond hair, black suit, white shirt, black tie, dark shoes, seated with head lowered while reading, right hand reaching into the inner jacket pocket around the fourth second.",
+        "Vehicle: silver-gray old four-door sedan, nose facing right, red graffiti on the rear door and trunk, parked behind the man.",
+        "Environment: flat open desert sand, level horizon, pale sky, bright diffuse daylight with short shadows, low-saturation warm palette, left side of frame containing no object in the source.",
+        "Structure: one continuous 10-second take with no cuts and a slow push-in from a wide shot to a medium close-up.",
+        "Timing: reading for roughly the first four seconds, retrieval and inspection of the held object around the fourth to fifth second, return to reading until the tenth second."
+      ],
+      "open_design": [
+        "Exact look of the added tree (height, trunk thickness, foliage density, distance from camera).",
+        "Exact red tone, size and cushion shape of the sofa; exact shade and thickness of the green book cover; exact size, cover texture and page edges of the black notebook.",
+        "The newly generated eye area and micro-expression while he looks down at the notebook, kept consistent with the visible mouth, chin and hair.",
+        "Sand texture, minor clothing folds and shadow falloff that carry no user requirement."
+      ]
+    },
+    "requirement_map": {
+      "content_events": [
+        {
+          "id": "ce_1",
+          "text": "The newspaper held on the man's lap is replaced by a book with a green cover, held open with both hands throughout the scene."
+        },
+        {
+          "id": "ce_2",
+          "text": "The chair the character sits on is replaced by a red sofa, and he stays seated on it centered in frame."
+        },
+        {
+          "id": "ce_3",
+          "text": "The sunglasses are removed; his face, including the eye area, is clearly visible and unobstructed."
+        },
+        {
+          "id": "ce_4",
+          "text": "All burning, flames and smoke on the vehicle are removed and the car stays in its normal, intact, undamaged state."
+        },
+        {
+          "id": "ce_5",
+          "text": "The photo card taken from his clothing around the fourth second becomes a small black notebook, raised to chest height to be looked at and then lowered as he resumes reading."
+        },
+        {
+          "id": "ce_6",
+          "text": "One tree is added on the left side of the frame and remains visible there."
+        }
+      ],
+      "editing_treatments": [
+        {
+          "id": "et_1",
+          "text": "Direct edit of <Video 1>: keep the single continuous 10-second take with no cuts and the slow push-in from wide shot to medium close-up."
+        }
+      ],
+      "global_style": [
+        {
+          "id": "gs_1",
+          "text": "Preserve the source's realistic look: bright diffuse desert daylight, short shadows, low-saturation warm palette, pale sky and flat open sand."
+        }
+      ],
+      "audio_requirements": [
+        {
+          "id": "ae_1",
+          "text": "Audio generation stays enabled with source-like dry desert ambience; because the burning effect is removed, no fire crackle or burning sound may be present."
+        },
+        {
+          "id": "ae_2",
+          "text": "The user requests no music, dialogue or lyrics; no new music or spoken lines are added."
+        }
+      ]
+    },
+    "task_mode": "ref2va - video editing (direct edit of <Video 1>: newspaper, chair and photo card replaced; sunglasses, fire and smoke removed; tree added)",
+    "must_keep": [
+      "The single continuous take, its 10-second duration, and the slow push-in from wide to medium close-up.",
+      "The man's identity: black suit, white shirt, black tie, dark shoes, short gray-blond hair, seated reading posture, and the inner-pocket retrieval timing around the fourth second.",
+      "The desert setting: flat open sand, level horizon, pale sky, bright diffuse daylight, short shadows, low-saturation warm palette.",
+      "The silver-gray old four-door sedan, nose facing right, red graffiti on the rear door and trunk, in a normal intact state.",
+      "His visible mouth, chin and hair stay consistent, and the face is unobstructed by eyewear after the edit."
+    ],
+    "bindings": [
+      {
+        "asset_id": "video_1",
+        "role": "Source video for a direct edit; supplies the single-take time structure, the slow push-in camera move, character identity and behavior, environment, vehicle appearance, and the timing of the reading and the retrieval.",
+        "retained_attributes": [
+          "One continuous 10-second take with no cuts; slow push-in from wide to medium close-up.",
+          "Man's black suit, white shirt, black tie, dark shoes, short gray-blond hair, seated reading posture and right-hand inner-pocket retrieval around the fourth second.",
+          "Flat desert sand, level horizon, pale sky, bright diffuse daylight, short shadows, low-saturation warm palette.",
+          "Silver-gray old four-door sedan, nose facing right, red graffiti markings on the rear door and trunk, parked behind the man."
+        ],
+        "optional_inherited_attributes": [
+          "Exact hand placement and page-turning rhythm while reading; slight weight shifts on the seat.",
+          "Sand ripple texture, shadow direction and softness, minor clothing folds, haze level near the horizon."
+        ],
+        "excluded_attributes": [
+          "Sunglasses worn on the face.",
+          "The newspaper and its unreadable printed columns.",
+          "The red folding camping chair with white cross frame.",
+          "The small white photo card taken from the inner pocket.",
+          "Burning, flames, fire glow and black smoke on the sedan."
+        ],
+        "exclusion_reasons": [
+          "Removed per directive to show the unobstructed face (d_3, d_4).",
+          "Replaced by a green-covered book (d_1).",
+          "Replaced by a red sofa (d_2).",
+          "Replaced by a small black notebook (d_7).",
+          "Fire effect removed so the vehicle stays normal and undamaged (d_5, d_6)."
+        ]
+      }
+    ],
+    "developments": [
+      {
+        "id": "dev_1",
+        "source_content_event_ids": [
+          "event_1"
+        ],
+        "visible_change": "In the opening wide desert framing, the man sits centered on a red sofa, his face fully visible with no sunglasses, an open green-covered book resting on his lap in both hands as he reads with his head lowered; behind him the silver-gray sedan stands parked and intact with no flames or smoke, and an added tree stands at the left side of the frame; the camera begins its slow push-in.",
+        "outcome": "He is still reading from the green book while seated on the red sofa; the sedan remains intact, silent and motionless; the tree remains at the left of frame while the camera has moved closer toward a medium framing."
+      },
+      {
+        "id": "dev_2",
+        "source_content_event_ids": [
+          "event_2"
+        ],
+        "visible_change": "From about the fourth second he lifts his right hand into his inner jacket pocket and draws out a small black notebook, raises it to chest height and looks down at it while the green book stays open on his lap under his left hand; the push-in continues; he then lowers the notebook and returns both hands to the open book, still reading.",
+        "outcome": "The black notebook is no longer held up; he finishes the shot reading the open green book with both hands on his lap, the sedan is still intact and the tree is still at the left edge; nothing burns at any point."
+      }
+    ],
+    "shots": [
+      {
+        "id": "s_1",
+        "development_ids": [
+          "dev_1",
+          "dev_2"
+        ],
+        "content_purpose": "Apply all edits inside the source's single continuous take: green-covered book instead of the newspaper, red sofa instead of the chair, no sunglasses with a fully visible face, an intact non-burning sedan, a small black notebook instead of the photo card, and a tree at the left of frame, while keeping the source reading behavior and the retrieval around the fourth second.",
+        "treatment_ids": [
+          "et_1"
+        ],
+        "start_seconds": 0.0,
+        "end_seconds": 10.0,
+        "description": "The video opens on the wide source framing of <Subject 2>, its added tree standing at the left side of the frame. <Subject 3> is parked intact and motionless on the sand directly behind the man, nose facing right, its red graffiti visible, with no flames, smoke or burn damage on it. <Subject 1> sits centered on <Subject 5> with his head lowered; his face is fully visible and unobstructed in the daylight, eyes open with no eyewear, and <Subject 4> rests open on his lap in both hands with short soft shadows under the sofa. The camera pushes in slowly from this wide framing toward a medium close-up of <Subject 1>, keeping the tree inside the left of frame. From about the fourth second he lifts his right hand to his inner jacket pocket and draws out <Subject 6>, raising it to chest height and looking down at it while <Subject 4> stays open on his lap under his left hand; a soft page rustle sounds as he turns a page, the sofa fabric creaks lightly when he shifts his weight, and a brief cloth rustle accompanies <Subject 6> leaving his pocket. He then lowers <Subject 6> and returns both hands to the book, continuing to read as the push-in settles. <Subject 3> never ignites, and the tree remains at the left of frame through the final frame."
+      }
+    ]
+  },
+  "uncertainties": [
+    "The source video's audio track was not analyzed and no audio asset is registered, so the target soundscape is designed from the visible desert scene only and no <Audio N> label is assigned.",
+    "The eye area beneath the source sunglasses is never visible, so the generated eyes and expression under the now-unobstructed face are an assumption made consistent with the visible mouth, chin and hair.",
+    "The source graffiti lettering on the sedan is unreadable, so it must stay as unreadable red markings rather than reproduced text.",
+    "The source newspaper's printed text is unreadable, so the replacement book's pages are left without legible text.",
+    "The source is a single continuous shot with no cuts, so keeping one shot is treated as required; how fully the added tree stays inside the tightening frame during the push-in is a planning choice resolved by holding it along the left edge."
+  ],
+  "perception": {
+    "schema_version": "media_analysis.v2",
+    "provider": {
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3.8-27B",
+      "options": {
+        "cache_enabled": false,
+        "single_pass_image_analysis": true,
+        "max_parallel_assets": 1,
+        "image_base_url": "http://10.6.157.43:9012",
+        "video_base_url": "http://10.6.157.43:9012",
+        "single_pass_video_analysis": true,
+        "video_fps": 2,
+        "video_max_frames": 256,
+        "output_dir": "/home/xingshen/minimax-H3-data/minimax-H3-feishu-cases/3. 全能精准编辑与修改/3.4 高精度的指令遵循/case1-ref2va/output/v63-3.4-r1/perception_tasks",
+        "base_url": "http://10.6.157.43:9012",
+        "asset_upload_base_url": "http://10.0.96.114:30100",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000,
+        "max_parallel_attribute_batches": 2,
+        "image_attribute_batch_size": 3
+      }
+    },
+    "assets": [
+      {
+        "asset_id": "video_1",
+        "summary": "沙漠中一名穿黑西装戴墨镜的男子坐在红色折叠椅上读报纸，身后一辆轿车猛烈燃烧冒黑烟，镜头缓慢推近，男子中途从西装内袋取出一张小照片查看。",
+        "global_analysis": {},
+        "evidence": [
+          {
+            "evidence_id": "evidence_event_1",
+            "kind": "frame",
+            "time_seconds": 2.0,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "男子坐于红色折叠椅上低头读报纸，身后轿车持续燃烧并升起浓黑烟柱，镜头从全景缓慢推近至中景"
+          },
+          {
+            "evidence_id": "evidence_event_2",
+            "kind": "frame",
+            "time_seconds": 7.0,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "男子右手伸入西装内袋取出一张白色小照片/卡片举至胸前查看，随后双手持报纸继续阅读，火与烟持续"
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "category": "person",
+            "subcategory": "adult man",
+            "summary": "穿黑西装打黑领带、戴深色墨镜的短发男子，坐于画面中央读报，是画面主体",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "服装",
+                  "value": "黑色西装、白衬衫、黑色领带、深色皮鞋",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [
+                {
+                  "name": "面部",
+                  "value": "深色墨镜遮住双眼，嘴部与下巴可见，短金灰色头发",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": [
+                {
+                  "name": "姿态",
+                  "value": "坐姿，低头读报，中途取物查看",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "chair_1",
+            "category": "object",
+            "subcategory": "folding chair",
+            "summary": "红色交叉支架折叠露营椅，位于前景中央供男子乘坐",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "主色",
+                  "value": "红色",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "结构",
+                  "value": "红色布面与白色交叉金属支架",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": []
+          },
+          {
+            "entity_id": "newspaper_1",
+            "category": "object",
+            "subcategory": "newspaper",
+            "summary": "男子手持的展开大报，全程置于膝上，文字不可辨",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "主色",
+                  "value": "米白/浅灰纸面",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "形态",
+                  "value": "对开展开的报纸，多栏版面",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "报纸文字内容不可辨认"
+            ]
+          },
+          {
+            "entity_id": "car_1",
+            "category": "object",
+            "subcategory": "sedan",
+            "summary": "男子身后燃烧的银灰色轿车，车头朝右，车身有红色涂鸦，全程火焰与黑烟",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "车型",
+                  "value": "老式四门轿车，车头朝右",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "车身",
+                  "value": "银灰/灰绿色",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [
+                {
+                  "name": "标记",
+                  "value": "后车门与车尾有红色涂鸦字样",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "状态",
+                  "value": "整车被橙红火焰包裹，上方升起浓密黑烟",
+                  "evidence_ids": [
+                    "evidence_event_1",
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": [
+              "涂鸦文字不可辨认"
+            ]
+          },
+          {
+            "entity_id": "photo_1",
+            "category": "object",
+            "subcategory": "photo card",
+            "summary": "约4-5秒时男子从西装内袋取出的白色小照片/卡片，举于胸前查看",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.85
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "形态",
+                  "value": "小型白色矩形卡片/照片",
+                  "evidence_ids": [
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "动作",
+                  "value": "从内袋取出后持于右手，随后不再明显可见",
+                  "evidence_ids": [
+                    "evidence_event_2"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": [
+              "卡片具体内容不可辨认"
+            ]
+          },
+          {
+            "entity_id": "environment_1",
+            "category": "environment",
+            "subcategory": "exterior desert",
+            "summary": "平坦开阔的沙漠空地与苍白天空，明亮漫射日光，画面左侧全程为空旷沙地无遮挡物",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "空间",
+                  "value": "平坦沙地，地平线居中，左侧无物体",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "色调",
+                  "value": "浅沙色地面、灰白天空，整体低饱和暖调",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "光照",
+                  "value": "明亮均匀日光，人物与椅子下有短影",
+                  "evidence_ids": [
+                    "evidence_event_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "sits_on",
+            "subject_id": "person_1",
+            "object_id": "chair_1",
+            "anchor": "男子坐于红色折叠椅上",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_2",
+            "type": "holds",
+            "subject_id": "person_1",
+            "object_id": "newspaper_1",
+            "anchor": "男子双手持报纸于膝上",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_3",
+            "type": "behind",
+            "subject_id": "car_1",
+            "object_id": "person_1",
+            "anchor": "燃烧轿车位于男子正后方",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_4",
+            "type": "extracts",
+            "subject_id": "person_1",
+            "object_id": "photo_1",
+            "anchor": "男子从西装内袋取出小照片",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_event_1",
+              "evidence_event_2"
+            ],
+            "confidence": 0.85,
+            "source": "visible"
+          }
+        ],
+        "events": [
+          {
+            "event_id": "event_1",
+            "time_range": [
+              0.0,
+              4.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "chair_1",
+              "newspaper_1",
+              "car_1",
+              "environment_1"
+            ],
+            "action": "男子坐于红色折叠椅上低头读报纸，身后轿车持续燃烧并升起浓黑烟柱，镜头从全景缓慢推近至中景",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "continuous",
+            "evidence_ids": [
+              "evidence_event_1"
+            ],
+            "confidence": 0.9
+          },
+          {
+            "event_id": "event_2",
+            "time_range": [
+              4.0,
+              10.0
+            ],
+            "entity_ids": [
+              "person_1",
+              "photo_1",
+              "newspaper_1",
+              "car_1"
+            ],
+            "action": "男子右手伸入西装内袋取出一张白色小照片/卡片举至胸前查看，随后双手持报纸继续阅读，火与烟持续",
+            "state_before": {},
+            "state_after": {},
+            "transition_type": "continuous",
+            "evidence_ids": [
+              "evidence_event_2"
+            ],
+            "confidence": 0.85
+          }
+        ],
+        "technical": {
+          "duration_seconds": 10.0,
+          "framing": "wide to medium close-up, slow push-in",
+          "camera": "locked position with slow zoom in",
+          "visible_text": [
+            "车身红色涂鸦（不可辨认）",
+            "报纸版面文字（不可辨认）"
+          ],
+          "media_type": "video",
+          "analysis_pipeline": "compact_video_single_pass",
+          "task_ids": [
+            "20260924_062807_941549_5b473a3e-f347-4c30-a59a-2d253b4029a1"
+          ],
+          "scene_cut_candidates_seconds": [],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "timeline_and_entities",
+          "elapsed_seconds": 548.07,
+          "cache_hit": false,
+          "cache_key": "330ee9d1b320721c821cb69a2c43e55810abfd0b81c5d8878e822e7f8676a0be",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 548.07
+          }
+        },
+        "transcript": "",
+        "uncertainties": [
+          "视频为单一连续镜头，无剪切",
+          "左侧画面全程为空旷沙漠，适合添加树木等元素"
+        ],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "A newspaper is visible, and where and when it appears",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "full source timeline",
+            "status": "covered",
+            "matched_terms": [
+              "is",
+              "it",
+              "newspaper"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "The chair the seated character sits on is visible and identifiable",
+            "priority": "required",
+            "source_asset_id": "video_1",
+            "region_or_time": "source-time windows showing the seated character",
+            "status": "covered",
+            "matched_terms": [
+              "chair",
+              "is",
+              "on",
+              "sits"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "Sunglasses are worn on the character's face, and in which time windows",
+            "priority": "required",
+            "source_asset_id": "video_1",
+            "region_or_time": "face region, full source timeline",
+            "status": "covered",
+            "matched_terms": [
+              "face",
+              "in",
+              "on",
+              "time"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_4",
+            "claim": "Which facial features are observable beneath or around the sunglasses",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "face region, source-time windows with sunglasses",
+            "status": "covered",
+            "matched_terms": [
+              "or"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_5",
+            "claim": "A vehicle shows visible burning, fire or smoke effects, and when",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "full source timeline",
+            "status": "covered",
+            "matched_terms": [
+              "or"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_6",
+            "claim": "The vehicle's exterior appearance apart from the fire effect",
+            "priority": "required",
+            "source_asset_id": "video_1",
+            "region_or_time": "source-time windows showing the vehicle",
+            "status": "covered",
+            "matched_terms": [
+              "exterior"
+            ],
+            "retry_policy": "local_only",
+            "max_retries": 1,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_7",
+            "claim": "An object is taken out from the character's clothing, its appearance, and the action timing",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "full source timeline",
+            "status": "covered",
+            "matched_terms": [
+              "action",
+              "an",
+              "is",
+              "its",
+              "object",
+              "out"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_8",
+            "claim": "What is visible in the left portion of the frame across the timeline",
+            "priority": "useful",
+            "source_asset_id": "video_1",
+            "region_or_time": "left region of frame, full source timeline",
+            "status": "covered",
+            "matched_terms": [
+              "frame",
+              "in",
+              "is"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      }
+    ],
+    "missing_asset_ids": [],
+    "perception_metrics": {
+      "request_count": 1,
+      "retry_count": 0,
+      "supplemental_request_count": 0,
+      "elapsed_seconds": 548.07
+    }
+  }
+}

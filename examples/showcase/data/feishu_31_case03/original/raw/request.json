@@ -1,0 +1,31 @@
+{
+  "task": "ref2va",
+  "prompt_file": "/tmp/feishu-h3-duration-fixed/95a2c9f68976/prompt.txt",
+  "conditions": [
+    {
+      "type": "image",
+      "uri": "/tmp/feishu-h3-duration-fixed/95a2c9f68976/assets/图片1.png",
+      "role": "reference"
+    },
+    {
+      "type": "image",
+      "uri": "/tmp/feishu-h3-duration-fixed/95a2c9f68976/assets/图片2.png",
+      "role": "reference"
+    },
+    {
+      "type": "video",
+      "uri": "/tmp/feishu-h3-duration-fixed/95a2c9f68976/assets/视频1.mp4",
+      "role": "reference"
+    }
+  ],
+  "target": {
+    "short_edge": 768,
+    "aspect_ratio": "16:9",
+    "duration_seconds": 6.061
+  },
+  "seed": 42,
+  "n": 1,
+  "num_inference_steps": 20,
+  "output_mode": "decoded_files",
+  "output_path": "/tmp/feishu-h3-duration-fixed/95a2c9f68976/output"
+}
