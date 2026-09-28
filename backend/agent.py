@@ -163,12 +163,6 @@ def invoke_reasoning_json(
         )
     raise ValueError("v20 supports only the direct Chat Completions runtime")
 
-def _perception_input_origin(source: dict[str, Any], perception_from: Path | None) -> str:
-    """Describe the selected input route, not the provider's internal cache hits."""
-    if perception_from is not None:
-        return "file"
-    return "supplied_analysis" if source.get("perception") is not None else "perception_pipeline"
-
 def run_agent(
     source: dict[str, Any],
     output_dir: Path,
@@ -185,7 +179,6 @@ def run_agent(
     run_started = time.perf_counter()
     stage_timings: dict[str, Any] = {
         "schema_version": "context_ir_stage_timings.v1",
-        "perception_reused": perception_from is not None,
         "stages_seconds": {},
     }
 
@@ -246,9 +239,6 @@ def run_agent(
     if progress_callback:
         progress_callback("perception")
     stage_started = time.perf_counter()
-    perception_origin = _perception_input_origin(source, perception_from)
-    stage_timings["perception_input_origin"] = perception_origin
-    stage_timings["perception_reused"] = perception_origin != "perception_pipeline"
     if perception_from is not None:
         perception = json.loads(perception_from.resolve().read_text(encoding="utf-8"))
         if not isinstance(perception, dict):
