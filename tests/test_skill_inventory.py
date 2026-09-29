@@ -3,17 +3,21 @@ from pathlib import Path
 from backend.agent import CORE_SKILLS, SKILLS_DIR
 
 
-def test_only_active_and_optional_skills_are_packaged():
+def test_only_active_skills_are_packaged():
     packaged = {
         path.name
         for path in Path(SKILLS_DIR).iterdir()
         if path.is_dir() and (path / 'SKILL.md').is_file()
     }
-    # Retained research skill is available for explicit experiments, not loaded
-    # by default. The v20 compiler uses only the two CORE_SKILLS.
-    assert packaged == set(CORE_SKILLS) | {'h3-video-experience'}
+    assert packaged == set(CORE_SKILLS)
 
 
-def test_shot_planning_skill_is_always_loaded():
-    assert CORE_SKILLS == ('h3-prompt-writing', 'h3-shot-planning')
-    assert (Path(SKILLS_DIR) / CORE_SKILLS[1] / 'SKILL.md').is_file()
+def test_all_four_planning_and_writing_skills_are_loaded():
+    assert CORE_SKILLS == (
+        'h3-outline-planning',
+        'h3-shot-planning',
+        'h3-sound-planning',
+        'h3-prompt-writing',
+    )
+    for skill_name in CORE_SKILLS:
+        assert (Path(SKILLS_DIR) / skill_name / 'SKILL.md').is_file()
