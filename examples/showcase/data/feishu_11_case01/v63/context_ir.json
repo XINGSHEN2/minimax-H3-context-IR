@@ -40,194 +40,193 @@
     }
   ],
   "content_plan": {
-    "task_mode": "ref2va",
     "creative_brief": {
       "user_locked": [
-        "四张参考图按图1→图2→图3→图4的顺序作为连续关键帧出现，不得重排、增删或替换关键帧。",
-        "全程固定双圆镜片遮罩：黑色羽化暗角，位置、大小与边缘虚化绝对一致，无变形无漂移，仅遮罩内部画面运动。",
-        "片头为虚焦手持晃动，随后快速拉近并结合 rack focus 清晰落到图1。",
-        "关键帧之间使用望远镜扫视转场：甩动、运动模糊、光学拖影、曝光闪烁，在最模糊处切换，随后迅速稳定并重新对焦到下一关键帧。",
-        "红字注释随对焦加载：初现略虚焦、低透明度，0.3–0.5 秒内随对焦淡入变清晰，切换前淡出或被运动模糊带走。",
-        "图2布料在克制的风中飘动，MINIMAX 字样随布面起伏保持可读。",
-        "图3人物如无意捕捉的时尚路人自然走动、转身、摆臂。",
-        "图4人物调整眼镜或微抬下巴，呈现冷感松弛的 fashion campaign 态度。",
-        "Wes Anderson 式窥视 35mm 胶片质感：轻微颗粒、柔和高光晕染、克制色彩、红字点缀；极简高级、微带搞怪灵动。",
-        "保持原图核心构图与 MINIMAX 装置不变；严禁新增人物、车辆、建筑与 logo；禁红字旋转、弹跳或大幅飞入飞出。"
+        "图1至图4作为连续关键帧，按 图1→图2→图3→图4 的顺序使用，构成 15 秒序列",
+        "开头虚焦手持晃动，随后快速拉近并 rack focus 稳定到图1",
+        "图与图之间使用望远镜扫视转场：甩动、运动模糊、光学拖影、曝光闪烁，在最模糊处切换，随后迅速稳定并重新对焦",
+        "全片固定双圆镜片遮罩：黑色羽化暗角，位置、大小、边缘虚化绝对一致，无变形无漂移，仅遮罩内部画面运动",
+        "图2：布料随风克制飘动，MINIMAX 文字随布面起伏并保持可读",
+        "图3：人物如无意捕捉的时尚路人，自然走动、转身、摆臂",
+        "图4：人物调整眼镜或微抬下巴，呈现冷感松弛的 fashion campaign 态度",
+        "红字随对焦轻微加载：初现略虚焦、低透明度，0.3–0.5 秒内淡入变清晰（可微小纵向滑入或字距呼吸），切换前淡出或被运动模糊带走；禁旋转、弹跳或大幅飞入飞出",
+        "Wes Anderson 式窥视 35mm 胶片质感：轻微颗粒、柔和高光晕染、克制色彩、红字点缀，极简高级、微带搞怪灵动",
+        "严禁新增人物、车辆、建筑或 logo",
+        "保持原图核心构图与 MINIMAX 装置、字样不变"
       ],
       "reference_anchors": [
-        "image_1–image_4 共同提供四个关键帧的核心构图、双圆遮罩形态、暖调胶片影调与红字注释版式。",
-        "image_1 提供暖色斜阳候车亭场景、顶棚与墙面 MINIMAX 字样及绿色路牌。",
-        "image_2 提供仰拍高楼与白色长条布料旗帜、竖排 MINIMAX 字样与底部红色翻面。",
-        "image_3 提供屋顶人物装束（米色西装、黑色双筒望远镜、红色肩带包）与背景建筑竖排 MINIMAX 字样。",
-        "image_4 提供红框几何眼镜面部特写与右镜片内 MINIMAX 反射。"
+        "<Picture 1> 提供图1街景身份：公交候车亭、顶棚白色 MINIMAX 字样及墙面对应阴影、左侧绿色路牌、前景路面、暖调 35mm 质感，以及左右两侧红字叠加层",
+        "<Picture 2> 提供图2身份：米色高层立面仰拍、右侧垂挂白色长幅织物、竖排 MINIMAX 字样、织物下缘红橙色背面、阴天漫射光",
+        "<Picture 3> 提供图3身份：混凝土屋顶、米色西装女性（棕发及肩带刘海、酒红单肩包、右手小黑色物件）、身后带竖排 MINIMAX 字样的大型建筑立面",
+        "<Picture 4> 提供图4身份：短发人物面部特写、红色棱角太阳镜（镜片反射 MINIMAX 建筑与字样）、银色耳饰、红色领口、米色竖纹建筑与淡蓝天空",
+        "四张图分别提供四段视线的固定构图、取景与画面内容，以及各自的红字内容与版式"
       ],
       "open_design": [
-        "各次扫视甩动的方向、幅度与模糊持续时长，以及每个关键帧对焦落定与红字渐变的具体时刻。",
-        "布料飘动幅度与节奏、人物行走步数与转身幅度、调整眼镜的手部细节与下巴抬起程度。",
-        "环境声与画外配乐的具体内容（用户未指定音乐或对白）。"
+        "四段视线的具体时长分配（约 3.5–3.8 秒一段，末段略长以保留收束）",
+        "每次扫视的甩动方向（图1→图2 向右上、图2→图3 向左上、图3→图4 向右下）",
+        "开场虚焦晃动、推近与对焦落定的内部节奏，以及镜内极轻微手持漂移",
+        "图3 人物转身后行进方向与步数、图4 手势的顺序（先轻推镜框、再抬下巴并把视线移向侧上方）与结尾保持状态",
+        "扫视时的低频掠过声与对焦机械声，以及轻巧室内乐式画外配乐的乐器与让位方式"
       ]
     },
     "requirement_map": {
       "content_events": [
         {
           "id": "ce_1",
-          "text": "开头虚焦手持晃动，随后快速拉近并结合 rack focus 清晰落到图1（d_7、d_8）。"
+          "requirement": "依次呈现四次 MINIMAX 装置视线：图1 街边候车亭、图2 建筑立面织物横幅、图3 屋顶路人、图4 太阳镜特写；每次视线保持该图的核心构图与 MINIMAX 装置、字样不变"
         },
         {
           "id": "ce_2",
-          "text": "图2布料随风克制飘动，MINIMAX 文字随布面起伏保持可读（d_12、d_13）。"
+          "requirement": "图2 段：织物横幅在风中克制飘动，MINIMAX 文字随布面起伏并始终可读，织物下缘红橙背面随翻动露出"
         },
         {
           "id": "ce_3",
-          "text": "图3人物如无意捕捉的时尚路人自然走动、转身、摆臂（d_14）。"
+          "requirement": "图3 段：人物如被无意捕捉的时尚路人，自然走动并转身摆臂，不看向镜头"
         },
         {
           "id": "ce_4",
-          "text": "图4人物调整眼镜或微抬下巴，展现冷感松弛的 fashion campaign 态度（d_15、d_16）。"
-        },
-        {
-          "id": "ce_5",
-          "text": "望远镜依次扫过四张关键帧，顺序固定为图1→图2→图3→图4（d_6）。"
+          "requirement": "图4 段：人物调整眼镜或微抬下巴，呈现冷感松弛的 fashion campaign 态度并保持到结尾"
         }
       ],
       "editing_treatments": [
         {
           "id": "et_1",
-          "text": "图间望远镜扫视转场：甩动、运动模糊、光学拖影、曝光闪烁，在最模糊处切换并迅速稳定重新对焦（d_9、d_10）。"
+          "requirement": "图1、图2、图3、图4 作为连续关键帧按序使用，构成完整时间线"
         },
         {
           "id": "et_2",
-          "text": "全程固定双圆镜片遮罩：黑色羽化暗角，位置大小边缘虚化绝对一致，无变形漂移，仅内部画面运动（d_11）。"
+          "requirement": "开场先虚焦并手持晃动，随后快速推近 / 变焦拉近并 rack focus 落在图1"
         },
         {
           "id": "et_3",
-          "text": "红字随对焦加载：初现略虚焦低透明度，0.3–0.5 秒内淡入变清晰，切换前淡出或被运动模糊带走（d_17、d_18）。"
+          "requirement": "相邻关键帧之间为望远镜扫视转场：甩动、运动模糊、光学拖影、曝光闪烁，在最模糊处完成切换，随后迅速稳定并重新对焦"
         },
         {
           "id": "et_4",
-          "text": "红字可带微小纵向滑入或字距呼吸（软性可选，d_19）。"
+          "requirement": "全片固定双圆镜片遮罩：黑色羽化暗角，位置、大小与边缘虚化绝对一致，无变形、无旋转、无漂移，仅遮罩内部画面运动"
         },
         {
           "id": "et_5",
-          "text": "禁止红字旋转、弹跳或大幅飞入飞出（d_20）。"
-        },
-        {
-          "id": "et_6",
-          "text": "严禁新增人物、车辆、建筑、logo（d_23）。"
+          "requirement": "红字随对焦加载：初现略虚焦、低透明度，0.3–0.5 秒内淡入变清晰，可微小纵向滑入或字距呼吸；切换前淡出或被运动模糊带走；禁旋转、弹跳或大幅飞入飞出"
         }
       ],
       "global_style": [
         {
           "id": "gs_1",
-          "text": "Wes Anderson 式窥视 35mm 胶片质感：轻微颗粒、柔和高光晕染、克制色彩、红字点缀（d_21）。"
+          "requirement": "Wes Anderson 式窥视 35mm 胶片质感：轻微颗粒、柔和高光晕染、克制色彩、红字点缀，极简高级、微带搞怪灵动"
         },
         {
           "id": "gs_2",
-          "text": "极简高级、微带搞怪灵动的整体调性（d_22）。"
+          "requirement": "全片不得新增人物、车辆、建筑或 logo；保持每张原图的核心构图与 MINIMAX 装置外观不变"
         },
         {
           "id": "gs_3",
-          "text": "保持原图核心构图与 MINIMAX 装置不变（d_1–d_5）。"
+          "requirement": "保持四张关键帧各自描绘的场景内容、取景与 MINIMAX 字样外观，仅按指令加入指定运动与遮罩"
         }
       ],
       "audio_requirements": [
         {
           "id": "au_1",
-          "text": "开启音频生成；用户未指定对白、歌词或音乐，环境声与画外配乐由可见动作与风格推导。无可用音频分析，不声称听过任何素材声音。"
+          "requirement": "用户未指定音乐、对白、歌词或静音；generate_audio 开启，因此按克制环境声加轻巧画外配乐设计，无对白，不复制任何素材音轨"
         }
       ]
     },
+    "task_mode": "ref2va",
     "must_keep": [
-      "四关键帧顺序（图1→图2→图3→图4）与各自核心构图",
-      "固定双圆镜片遮罩的位置、大小、边缘虚化绝对一致",
-      "各图中 MINIMAX 装置与字样的呈现方式",
-      "红字注释原文与版式（由对应 Picture 锁定）",
-      "35mm 胶片质感与克制的窥视风格",
-      "禁止新增人物、车辆、建筑、logo，禁止红字旋转弹跳大幅飞入飞出"
+      "图1→图2→图3→图4 连续关键帧顺序",
+      "开场虚焦手持晃动后快速拉近 rack focus 落在图1",
+      "望远镜扫视转场：甩动、运动模糊、光学拖影、曝光闪烁，最模糊处切换后迅速稳定重新对焦",
+      "固定双圆镜片遮罩：位置、大小、边缘虚化绝对一致，无变形漂移，仅内部画面运动",
+      "Wes Anderson 式窥视 35mm 胶片质感：轻微颗粒、柔和高光晕染、克制色彩、红字点缀，极简高级微带搞怪",
+      "红字随对焦加载：略虚焦低透明度起，0.3–0.5 秒内变清晰，可微小纵向滑入或字距呼吸，切换前淡出或被模糊带走，禁旋转弹跳与大幅飞入飞出",
+      "图2 织物克制飘动且 MINIMAX 文字保持可读",
+      "图3 路人式自然走动、转身摆臂",
+      "图4 调整眼镜或微抬下巴的冷感松弛态度",
+      "各图核心构图与 MINIMAX 装置、字样不变；不新增人物、车辆、建筑、logo"
     ],
     "bindings": [
       {
         "asset_id": "image_1",
-        "role": "[Shot 1] 的落定关键帧与构图基准，提供候车亭场景身份",
+        "role": "图1 关键帧锚点：开场由虚焦晃动与 rack focus 落入该画面，成为首段稳定视线",
         "retained_attributes": [
-          "遮罩内候车亭核心构图",
-          "暖色低角度斜阳与长阴影",
-          "顶棚与墙面 MINIMAX 字样",
-          "左侧绿色路牌",
-          "两条红字注释的原文与版式"
+          "核心构图与取景：候车亭居中、前景路面、背景混凝土立面与玻璃窗",
+          "MINIMAX 顶棚字样及墙面对应阴影的位置、比例与外观",
+          "左侧绿色路牌位置、暖调 35mm 色调与颗粒、柔和高光晕染",
+          "左右两侧红字的内容、位置与版式（作为随对焦加载的叠加层）"
         ],
         "optional_inherited_attributes": [
-          "推近与对焦过程中暖光的连续晕染与镜头呼吸感"
+          "混凝土与玻璃的材质细节、路面纹理、阴天式漫射光感"
         ],
         "excluded_attributes": [
-          "新增人物、车辆、建筑与 logo"
+          "该图原有的心形黑色遮罩形状",
+          "静态画面所隐含的绝对静止状态"
         ],
         "exclusion_reasons": [
-          "用户 d_23 明确排除"
+          "全片统一使用固定双圆镜片遮罩，替换各图原有遮罩形状",
+          "开场需要虚焦、晃动、推近与重新对焦等镜头内运动"
         ]
       },
       {
         "asset_id": "image_2",
-        "role": "[Shot 2] 的落定关键帧，提供布料旗帜与楼面场景身份",
+        "role": "图2 关键帧锚点：第一次扫视转场落点，承载织物飘动段",
         "retained_attributes": [
-          "仰拍高楼与竖向布料旗帜的核心构图",
-          "竖排 MINIMAX 字样及其可读性",
-          "布料材质与底部红色翻面",
-          "两条红字注释的原文与版式"
+          "仰拍取景与核心构图：米色高层立面、右侧垂挂白色长幅织物、阴天天空",
+          "织物形态、纵向褶皱与下缘红橙背面",
+          "竖排 MINIMAX 字样的位置与可读性",
+          "左右两侧红字的内容、位置与版式"
         ],
         "optional_inherited_attributes": [
-          "布料在克制风力下的起伏幅度与褶皱变化节奏"
+          "立面凹窗与阳台网格、颗粒质感、低饱和暖米色调"
         ],
         "excluded_attributes": [
-          "新增人物、车辆、建筑与 logo",
-          "与图1场景的空间连续性假设"
+          "该图原有的心形黑色遮罩形状",
+          "织物完全静止的状态"
         ],
         "exclusion_reasons": [
-          "用户 d_23 明确排除",
-          "素材未提供两图共享同一空间位置的证据"
+          "全片统一使用固定双圆镜片遮罩",
+          "用户要求织物随风克制飘动且字样随布面起伏"
         ]
       },
       {
         "asset_id": "image_3",
-        "role": "[Shot 3] 的落定关键帧，提供屋顶人物与背景建筑身份",
+        "role": "图3 关键帧锚点：第二次扫视转场落点，承载路人式自然走动段",
         "retained_attributes": [
-          "人物居左、建筑居右的核心构图",
-          "米色西装、白色内搭、红色肩带包与黑色双筒望远镜",
-          "背景建筑竖排 MINIMAX 字样与屋顶矮墙",
-          "两条红字注释的原文与版式"
+          "屋顶场景与低机位仰拍构图：前景女性、中景女儿墙、右侧大型建筑立面",
+          "人物外观：米色西装外套与米白针织上衣、米色褶裥长裤、棕发及肩带刘海、酒红单肩包、右手小黑色物件",
+          "建筑立面上竖排 MINIMAX 字样的位置与外观",
+          "左右两侧红字的内容、位置与版式"
         ],
         "optional_inherited_attributes": [
-          "行走步数、转身幅度与摆臂节奏（不改变装束与核心构图）"
+          "低饱和暖米色与灰蓝天空、柔和漫射光与轻微泛光"
         ],
         "excluded_attributes": [
-          "与图4人物的跨图同一身份绑定",
-          "新增人物、车辆、建筑与 logo"
+          "该图原有的双圆遮罩几何细节",
+          "人物被定格的姿态作为持续状态"
         ],
         "exclusion_reasons": [
-          "person_1 与 person_2 是否同一模特在素材中未确认",
-          "用户 d_23 明确排除"
+          "全片统一使用固定的双圆镜片遮罩，不随图变形",
+          "人物姿态仅作为动作起点，随后进入自然走动"
         ]
       },
       {
         "asset_id": "image_4",
-        "role": "[Shot 4] 的落定关键帧与结尾滞留画面，提供特写人物与眼镜身份",
+        "role": "图4 关键帧锚点：末次扫视转场落点与收束镜头，承载调整眼镜 / 微抬下巴的冷感态度",
         "retained_attributes": [
-          "面部大特写偏右的核心构图",
-          "红色几何框眼镜与银色大耳环",
-          "右镜片内 MINIMAX 反射",
-          "冷感松弛的表情",
-          "两条红字注释的原文与版式"
+          "面部特写取景与构图：人物面部主体、左侧米色竖纹建筑、淡蓝天空",
+          "红色棱角太阳镜、镜片反射的 MINIMAX 建筑与字样、银色耳饰、红色领口、深色齐刘海短发",
+          "人物略仰头、下巴微抬、视线偏侧上方的姿态作为起点",
+          "左右两侧红字的内容、位置与版式"
         ],
         "optional_inherited_attributes": [
-          "调整眼镜的手部动作幅度与下巴抬起程度"
+          "米色墙面竖向凹槽线条、左侧红色竖向构件、柔和自然日光"
         ],
         "excluded_attributes": [
-          "与图3人物或背景建筑的同一性绑定",
-          "新增人物、车辆、建筑与 logo"
+          "该图原有的心形遮罩形状",
+          "头部与表情被完全定格的持续状态"
         ],
         "exclusion_reasons": [
-          "跨图身份与背景同一性在素材中未确认",
-          "用户 d_23 明确排除"
+          "全片统一使用固定双圆镜片遮罩",
+          "用户要求人物做出调整眼镜或微抬下巴的动作并保持冷感态度"
         ]
       }
     ],
@@ -235,38 +234,37 @@
       {
         "id": "dev_1",
         "source_content_event_ids": [
-          "ce_1",
-          "ce_5"
+          "ce_1"
         ],
-        "visible_change": "画面在固定双圆遮罩内以完全虚焦的手持晃动开场，随后镜头快速推近并结合 rack focus，把画面清晰落在图1核心构图；图1的红字注释以略虚焦、低透明度状态随对焦在约 0.4 秒内渐显为清晰文字。",
-        "outcome": "图1构图清晰稳定，红字注释可读，画面在望远镜扫视起始前保持稳定。"
+        "visible_change": "遮罩内画面起初严重虚焦并手持晃动，只能看到暖色与灰调的光斑；镜头快速推近、焦点迅速拉回，画面在图1街景上落定并变清晰，候车亭顶棚字样与墙面对应阴影可读，同时两侧红字随对焦从略虚焦低透明度加载到完全清晰",
+        "outcome": "图1 候车亭视线在固定双圆遮罩内稳定、清晰、基本静止地保持，红字已完全清晰"
       },
       {
         "id": "dev_2",
         "source_content_event_ids": [
-          "ce_2",
-          "ce_5"
+          "ce_1",
+          "ce_2"
         ],
-        "visible_change": "画面自上一次扫视的最大模糊迅速稳定并重新对焦到图2核心构图；悬挂在楼面的白色布料旗帜在克制的风中缓慢起伏飘动，布面褶皱依次变化，竖排 MINIMAX 字样随布面起伏仍保持可读；图2红字注释随对焦渐显清晰。",
-        "outcome": "图2清晰稳定，布料持续小幅飘动，MINIMAX 字样保持可读。"
+        "visible_change": "画面经望远镜扫视切换到图2：米色高层立面仰拍视角稳定后重新对焦，白色长幅织物在克制风势下轻轻起伏，下缘翻折露出红橙背面，MINIMAX 字随布面波动但始终可读，红字随对焦加载清晰",
+        "outcome": "图2 织物视线保持轻微持续的飘动，字样清晰可读，画面停在该构图上"
       },
       {
         "id": "dev_3",
         "source_content_event_ids": [
-          "ce_3",
-          "ce_5"
+          "ce_1",
+          "ce_3"
         ],
-        "visible_change": "画面自最大模糊迅速稳定并重新对焦到图3核心构图；屋顶人物把手从口袋抽出、转身沿矮墙自然行走数步并回身，手臂随身势自然摆动，动作像无意捕捉的时尚路人；图3红字注释随对焦渐显清晰。",
-        "outcome": "图3清晰稳定，人物停在转身后的新姿态，装束、背景建筑与 MINIMAX 字样不变。"
+        "visible_change": "画面经扫视切换到图3：屋顶与大型建筑立面稳定后重新对焦，人物从原姿态中转身，自然迈步前行，手臂随步伐摆动，酒红单肩包随之轻摆，视线越过画面而不看向镜头，红字随对焦加载清晰",
+        "outcome": "人物在图3 屋顶构图中自然行走中，环境与立面保持不变"
       },
       {
         "id": "dev_4",
         "source_content_event_ids": [
-          "ce_4",
-          "ce_5"
+          "ce_1",
+          "ce_4"
         ],
-        "visible_change": "画面自最大模糊迅速稳定并重新对焦到图4核心构图；人物抬手调整红色几何框眼镜，随后微抬下巴，呈现冷感松弛的 fashion campaign 表情，镜片内 MINIMAX 反射保持不变；图4红字注释随对焦渐显清晰。",
-        "outcome": "图4面部特写构图稳定保持到 15 秒结束，红字注释清晰可见。"
+        "visible_change": "画面经扫视切换到图4：面部特写稳定后重新对焦，镜片反射与红色镜框变清晰，红字随对焦加载清晰；人物一只手进入画面下缘轻推镜框一次后收回，随后微抬下巴、视线移向侧上方，保持冷感松弛态度",
+        "outcome": "图4 特写保持抬下巴与冷感松弛表情直到结尾，红字保持清晰"
       }
     ],
     "shots": [
@@ -275,358 +273,154 @@
         "development_ids": [
           "dev_1"
         ],
-        "content_purpose": "以虚焦手持开场，快速推近并用 rack focus 落到图1，红字随对焦渐显清晰，随后甩动模糊离场",
+        "content_purpose": "以虚焦手持晃动开场，快速推近并 rack focus 落到图1 视线，展示候车亭 MINIMAX 装置与墙面阴影，并让红字随对焦加载",
         "treatment_ids": [
           "et_1",
           "et_2",
-          "et_3",
           "et_4",
-          "et_5",
-          "et_6",
-          "gs_1",
-          "gs_2"
+          "et_5"
         ],
         "start_seconds": 0.0,
-        "end_seconds": 3.6,
-        "description": "The video opens completely out of focus inside <Subject 1>, the sunlit shelter street of <Picture 1> dissolved into soft warm blobs while the frame trembles with a handheld shake. The lens pushes in fast with a rack focus and the image resolves into sharp definition onto the framing of <Picture 1> by 00:02.400, keeping the original wording and layout of its signage and of its two red annotation lines, with a soft click from the focusing barrel as the image snaps sharp. Those red lines come up from low opacity, still slightly soft, and sharpen with the last part of the focus pull over roughly 0.4 s, fully clear by 00:02.900 with only a few pixels of upward drift and no rotation, bounce or large travel. At 00:03.200 the lens whips up and to the right at fast speed, motion blur and a faint optical smear build across the shelter, the red lines are carried away by the blur, and the frame reaches maximum blur at 00:03.600."
+        "end_seconds": 3.8,
+        "description": "The apertures open on a badly defocused, shaking handheld view of the street corner, a warm blurred wash of pale concrete, dark pavement and glass that only surfaces as shapes between shakes, while the camera pushes in at fast speed and the focus racks. The picture resolves onto <Picture 1>: the bus shelter and its white canopy lettering snap into focus with the matching lettering shadow sharpening on the wall behind, the green street sign at the left becomes legible, and the grain and soft highlight bloom of the film look read clearly on the concrete and glass. As the focus locks, the red overlay text at both sides loads in and clears to full opacity. The camera then holds a nearly static shot with only a whisper of handheld drift, and the shelter, pavement and background wall stay otherwise motionless until the end of the shot."
       },
       {
         "id": "shot_2",
         "development_ids": [
           "dev_2"
         ],
-        "content_purpose": "自最大模糊迅速稳定并重新对焦到图2，布料克制飘动且 MINIMAX 字样保持可读，红字随对焦渐显，随后甩动模糊离场",
+        "content_purpose": "经扫视转场落到图2 仰拍视线，呈现织物克制飘动与保持可读的 MINIMAX 字样",
         "treatment_ids": [
           "et_1",
-          "et_2",
           "et_3",
           "et_4",
-          "et_5",
-          "et_6",
-          "gs_1",
-          "gs_2"
+          "et_5"
         ],
-        "start_seconds": 3.6,
-        "end_seconds": 7.2,
-        "description": "At 00:03.600, the shot begins still at maximum blur, the inner frame a smeared sweep of pale façades and sky, and the handheld movement settles as the lens stops its tilt; the rack focus resolves by 00:04.700 onto the framing of <Picture 2>. The white cloth banner hanging down the façade drifts and undulates in a restrained wind, its folds deepening and releasing in slow small waves from top to bottom, and its vertical MINIMAX lettering stays legible and undistorted as the surface ripples beneath it, with the low flapping of the cloth audible. The two red annotation lines of <Picture 2> fade up from low opacity, still slightly soft, and become fully sharp with the last part of the focus pull by 00:05.100, drifting up only a few pixels. At 00:06.800 the lens whips down and to the right at fast speed, the banner smears into streaks together with the red lines, and maximum blur lands at 00:07.200."
+        "start_seconds": 3.8,
+        "end_seconds": 7.4,
+        "description": "At 00:03.800, the telescopic sweep takes the frame: it whips upward and to the right at fast speed, the street sighting smearing into sideways optical drag with a brief exposure flicker, and the picture switches at peak blur. The frame stabilizes out of the smear and refocuses onto <Picture 2>, the beige facade climbing away in soft grainy daylight with the hanging banner sharpening from top to bottom. The long white fabric flutters in a restrained wind: its lower fold lifts and turns a little, gentle vertical ripples travel down the cloth, the MINIMAX lettering undulates along the fabric surface while staying fully readable, and the red-orange underside flashes into view at the bottom of each lift. The camera holds a nearly static shot with a very slight drift down the facade while the red overlay text loads in and clears, and the flutter continues to the end of the sighting."
       },
       {
         "id": "shot_3",
         "development_ids": [
           "dev_3"
         ],
-        "content_purpose": "自最大模糊迅速稳定并重新对焦到图3，人物自然走动转身摆臂，红字随对焦渐显，随后甩动推近模糊离场",
+        "content_purpose": "经扫视转场落到图3 屋顶视线，呈现人物如无意捕捉的时尚路人自然走动、转身摆臂",
         "treatment_ids": [
           "et_1",
-          "et_2",
           "et_3",
           "et_4",
-          "et_5",
-          "et_6",
-          "gs_1",
-          "gs_2"
+          "et_5"
         ],
-        "start_seconds": 7.2,
+        "start_seconds": 7.4,
         "end_seconds": 11.0,
-        "description": "At 00:07.200, the shot begins still at maximum blur, a smeared rooftop and skyline, and the movement settles as the rack focus resolves by 00:08.400 onto the framing of <Picture 3>. The woman pulls her hand from her pocket, turns her torso, walks a few natural steps along the low concrete wall and turns back partway, her arms swinging loosely at her sides and her hair shifting with the turns, like a candidly captured fashion passerby, her footsteps tapping on the concrete; the telescope tracks her with small amplitude so she stays centred while the rooftop and the MINIMAX building behind her keep their framing. The two red annotation lines of <Picture 3> load from low opacity and sharpen with the focus pull by 00:08.800. At 00:10.600 the lens whips right and pushes in at fast speed, the figure and rooftop streaking into the blur, and maximum blur lands at 00:11.000."
+        "description": "At 00:07.400, the next telescopic sweep whips leftward and upward at fast speed, the banner smearing out with optical drag and an exposure flicker, and the picture switches at peak blur; the frame stabilizes and refocuses onto <Picture 3>, the rooftop and the large lettered facade resolving in the same soft low-contrast daylight. The woman turns out of her depicted stance and walks a few natural steps toward the left across the roof as an unposed passerby, shoulders turning first, arms swinging loosely at her sides, the dark-red shoulder bag swaying against her hip and the beige suit fabric shifting with each stride, her gaze passing across the scene instead of into the lens. The camera pans left with small amplitude at slow speed to hold her inside the apertures, the red overlay text loads in and clears as the focus settles, and the parapet, roof surface and lettered facade behind her stay unchanged."
       },
       {
         "id": "shot_4",
         "development_ids": [
           "dev_4"
         ],
-        "content_purpose": "自最大模糊迅速稳定并重新对焦到图4，人物调整眼镜并微抬下巴，红字随对焦渐显并保持到结尾",
+        "content_purpose": "经扫视转场落到图4 特写，呈现调整镜框与微抬下巴的冷感松弛态度并保持到结尾",
         "treatment_ids": [
-          "et_2",
+          "et_1",
           "et_3",
           "et_4",
-          "et_5",
-          "et_6",
-          "gs_1",
-          "gs_2"
+          "et_5"
         ],
         "start_seconds": 11.0,
         "end_seconds": 15.0,
-        "description": "At 00:11.000, the shot begins still at maximum blur, a smeared close-up of warm skin and pale sky, and the movement settles as the rack focus resolves by 00:12.200 onto the framing of <Picture 4>. The woman lifts one hand to the red geometric frame of her glasses and adjusts them at the bridge, then lowers her hand and slightly raises her chin, holding a cool, relaxed fashion-campaign expression while the MINIMAX reflection inside her right lens stays as depicted and a light rustle of fabric and hair accompanies the movement. The two red annotation lines of <Picture 4> load from low opacity and sharpen with the focus pull by 00:12.600, staying sharp to the final frame, which holds unchanged until 00:15.000."
+        "description": "At 00:11.000, the final telescopic sweep whips rightward and slightly downward at fast speed, the rooftop smearing into optical drag with an exposure flicker, and the picture switches at peak blur; the frame stabilizes and refocuses onto <Picture 4> as the close-up sharpens, the red frame of the sunglasses, the reflected lettering in the mirrored lenses and the fluted facade behind all resolving in soft bloom. The red overlay text loads in with the focus and stays legible through the final frame. One hand rises into the lower edge of the apertures and nudges the glasses frame once at the temple, then withdraws, and the person lifts their chin a few degrees and lets their gaze drift up and to the side with a cool, relaxed expression, holding that fashion-campaign attitude without further movement through the last frame."
       }
     ]
   },
   "uncertainties": [
-    "素材为静态关键帧，无可用视频或音频分析；片头虚焦手持、扫视甩动与全部声音均为按用户要求设计，未从素材中观察到。",
-    "person_1（图3）与 person_2（图4）是否同一模特未确认，片中按各自关键帧独立保持装束与发型，不作跨图身份绑定。",
-    "图3与图4背景建筑是否同一未确认，各镜只保持各自原图背景，不假设空间同一性。",
-    "四图遮罩跨帧绝对一致性在静态图中无法验证，已在提示词中作为固定层约束；实际一致性依赖生成结果。",
-    "红字注释原文未逐字转录，交由对应 Picture 锁定原文与版式；若需要精确字幕文本需另行确认。"
+    "无法从静态素材确认图3 的女性与图4 的特写人物是否为同一人，本方案按两次独立视线处理，不声明身份连续性。",
+    "用户未指定每次扫视的甩动方向，方案按空间逻辑设定为图1→图2 向右上、图2→图3 向左上、图3→图4 向右下；若需其他方向需修改。",
+    "四张原图的遮罩形状并不一致（图1、图2、图4 为心形，图3 为双圆），而用户要求全片固定双圆镜片遮罩；方案统一替换为固定双圆遮罩，原图遮罩形状不再保留。",
+    "素材未提供任何音频分析结果，全部环境声与配乐均为新设计，无可复用音轨。",
+    "图3 人物右手所持小黑色物件的具体类型未定，方案仅按原样保留其外观，不改变形态。",
+    "图2 织物是否正在飘动无法由静态图确认，飘动幅度与频率为按用户要求的保守设计。",
+    "各段具体时长（3.8 / 3.6 / 3.6 / 4.0 秒）为按 15 秒总长分配的创作选择，用户未逐段指定。"
   ],
   "perception": {
-    "schema_version": "media_analysis.v1",
+    "schema_version": "media_analysis.v2",
     "provider": {
-      "name": "Qwen3.8-27B",
-      "mode": "grouped_images_projected"
+      "name": "local-qwen3-vl-32b",
+      "model": "Qwen3.8-27B",
+      "options": {
+        "cache_enabled": false,
+        "base_url": "http://10.6.157.43:9012",
+        "image_base_url": "http://10.6.157.43:9012",
+        "video_base_url": "http://10.6.157.43:9012",
+        "asset_upload_base_url": "http://10.0.96.114:30100",
+        "video_fps": 2.0,
+        "video_max_frames": 256,
+        "output_dir": "/home/xingshen/minimax-H3-context-IR/outputs/qwen3.8-27b",
+        "api_key_env": "GITEE_AI_API_KEY",
+        "video_frame_count": 6,
+        "max_tokens": 3000,
+        "max_parallel_assets": 0,
+        "max_parallel_attribute_batches": 2,
+        "image_attribute_batch_size": 3,
+        "single_pass_image_analysis": true,
+        "single_pass_video_analysis": true
+      }
     },
     "assets": [
       {
         "asset_id": "image_1",
-        "summary": "双圆遮罩内暖光候车亭，顶棚与墙面MINIMAX，左绿路牌，左右红字注释",
+        "summary": "单一画面，被心形黑色遮罩框住的城市街景：一座带 MINIMAX 顶棚字样的公交候车亭位于中央，其字样在后方混凝土墙上投下 MINIMAX 阴影，左右两侧有红色叠加文字，整体呈暖调 35mm 胶片质感。",
         "global_analysis": {
-          "scene": "老式望远镜/双圆镜片窥视视角下的城市MINIMAX装置系列，暖调胶片颗粒、柔和高光、克制色彩，红字点缀",
-          "composition": "每图中央为双圆（心形）镜片遮罩，黑色羽化暗角包围，内部画面居中构图；图1水平对称候车亭，图2仰拍高楼+斜挂旗帜，图3人物居左+建筑居右，图4脸部大特写偏右",
+          "scene": "白天的城市人行道，背景为混凝土建筑立面与玻璃窗，前景为路面，中央是一座公交候车亭。",
+          "composition": "心形遮罩将视线集中于候车亭；MINIMAX 顶棚字样与墙上阴影构成视觉中心，左侧绿色路牌与左右红色文字形成边角平衡。",
           "framing_layers": [
             {
-              "description": "双圆镜片遮罩，黑色羽化暗角，心形轮廓，内部为候车亭MINIMAX画面",
-              "coverage": "full_frame_overlay",
-              "confidence": 0.95,
-              "source_asset_ids": [
-                "image_1"
-              ]
+              "description": "心形黑色遮罩/暗角覆盖整幅画面，仅心形内部可见街景，边缘为纯黑",
+              "coverage": "full_frame_mask",
+              "confidence": 0.95
             }
           ],
           "visible_text": [
             {
               "text": "MINIMAX",
               "legibility": "clear",
-              "region": "image_1 候车亭顶棚",
-              "confidence": 0.95,
-              "source_asset_ids": [
-                "image_1"
-              ]
+              "region": "canopy_center",
+              "confidence": 0.98
             },
             {
               "text": "MINIMAX",
               "legibility": "clear_shadow",
-              "region": "image_1 墙面投影",
-              "confidence": 0.9,
-              "source_asset_ids": [
-                "image_1"
-              ]
+              "region": "back_wall_center_right",
+              "confidence": 0.95
             },
             {
               "text": "5 AV",
               "legibility": "clear",
-              "region": "image_1 左侧绿色路牌",
-              "confidence": 0.85,
-              "source_asset_ids": [
-                "image_1"
-              ]
-            },
-            {
-              "text": "MINIMAX CITY SIGHTING PUBLIC SPACE",
-              "legibility": "clear_red",
-              "region": "image_1 左下",
-              "confidence": 0.9,
-              "source_asset_ids": [
-                "image_1"
-              ]
-            },
-            {
-              "text": "FIELD NOTE [ SHADOW ] LOOK CLOSER",
-              "legibility": "clear_red",
-              "region": "image_1 右下",
-              "confidence": 0.9,
-              "source_asset_ids": [
-                "image_1"
-              ]
-            }
-          ],
-          "uncertainties": [
-            "图3与图4女性发型（棕中长发 vs 深短发）与服装（米色套装 vs 红色高领）存在冲突，无法确认是否同一模特不同造型",
-            "图4眼镜反射的MINIMAX建筑与图3背景建筑是否为同一建筑，反射模糊仅inferred",
-            "四图双圆遮罩的绝对位置/大小/边缘虚化一致性为inferred，静态图无法验证跨帧无漂移"
-          ]
-        },
-        "image_observation": {
-          "source_asset_id": "image_1",
-          "summary": "双圆遮罩内暖光候车亭，顶棚与墙面MINIMAX，左绿路牌，左右红字注释",
-          "entity_ids": [
-            "environment_1"
-          ],
-          "uncertainties": []
-        },
-        "evidence": [
-          {
-            "evidence_id": "image_1_whole_frame",
-            "kind": "frame",
-            "time_seconds": null,
-            "bbox_normalized": [
-              0.0,
-              0.0,
-              1.0,
-              1.0
-            ],
-            "description": "双圆遮罩内暖光候车亭，顶棚与墙面MINIMAX，左绿路牌，左右红字注释"
-          },
-          {
-            "evidence_id": "image_1_environment_1",
-            "kind": "frame",
-            "time_seconds": null,
-            "bbox_normalized": [
-              0.0,
-              0.0,
-              1.0,
-              1.0
-            ],
-            "description": "图1暖色斜阳下的城市公交候车亭，混凝土建筑立面，顶棚MINIMAX白字，墙面MINIMAX长投影，左侧绿色5 AV路牌，前景街道"
-          }
-        ],
-        "regions": [],
-        "entities": [
-          {
-            "entity_id": "environment_1",
-            "source_asset_ids": [
-              "image_1"
-            ],
-            "evidence_ids": [
-              "image_1_environment_1"
-            ],
-            "category": "environment",
-            "subcategory": "environment",
-            "summary": "图1暖色斜阳下的城市公交候车亭，混凝土建筑立面，顶棚MINIMAX白字，墙面MINIMAX长投影，左侧绿色5 AV路牌，前景街道",
-            "quantity": {
-              "value": 1,
+              "region": "left_green_sign",
               "confidence": 0.9
             },
-            "attributes": {
-              "geometry": [],
-              "color": [
-                {
-                  "name": "光照",
-                  "value": "暖色低角度斜阳，长阴影",
-                  "evidence_ids": [
-                    "image_1_environment_1"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "material": [],
-              "surface": [
-                {
-                  "name": "墙面",
-                  "value": "混凝土+MINIMAX投影",
-                  "evidence_ids": [
-                    "image_1_environment_1"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "components": [
-                {
-                  "name": "主体",
-                  "value": "玻璃候车亭+顶棚MINIMAX",
-                  "evidence_ids": [
-                    "image_1_environment_1"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                },
-                {
-                  "name": "路牌",
-                  "value": "绿色5 AV立牌",
-                  "evidence_ids": [
-                    "image_1_environment_1"
-                  ],
-                  "confidence": 0.85,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "component_layout": [],
-              "orientation_cues": [],
-              "identity_markers": [],
-              "other": []
-            },
-            "variations": [],
-            "uncertainties": []
-          }
-        ],
-        "relations": [],
-        "events": [],
-        "technical": {
-          "media_type": "image",
-          "analysis_pipeline": "grouped_image_projected",
-          "grouped_request_asset_ids": [
-            "image_1",
-            "image_2",
-            "image_3",
-            "image_4"
-          ],
-          "analysis_status": "observed",
-          "quality_warnings": []
-        },
-        "transcript": "",
-        "uncertainties": [
-          "person_1与person_2发型服装冲突，跨图身份一致性unresolved",
-          "environment_4与environment_3背景建筑同一性unresolved",
-          "四图遮罩跨帧绝对一致性inferred，静态图无法验证"
-        ]
-      },
-      {
-        "asset_id": "image_2",
-        "summary": "双圆遮罩内仰拍高楼，悬挂竖排MINIMAX白旗底翻红，左右红字注释",
-        "global_analysis": {
-          "scene": "老式望远镜/双圆镜片窥视视角下的城市MINIMAX装置系列，暖调胶片颗粒、柔和高光、克制色彩，红字点缀",
-          "composition": "每图中央为双圆（心形）镜片遮罩，黑色羽化暗角包围，内部画面居中构图；图1水平对称候车亭，图2仰拍高楼+斜挂旗帜，图3人物居左+建筑居右，图4脸部大特写偏右",
-          "framing_layers": [
             {
-              "description": "双圆镜片遮罩，黑色羽化暗角，心形轮廓，内部为高楼旗帜画面",
-              "coverage": "full_frame_overlay",
-              "confidence": 0.95,
-              "source_asset_ids": [
-                "image_2"
-              ]
-            }
-          ],
-          "visible_text": [
-            {
-              "text": "MINIMAX",
-              "legibility": "clear_vertical",
-              "region": "image_2 白色旗帜竖排",
-              "confidence": 0.95,
-              "source_asset_ids": [
-                "image_2"
-              ]
+              "text": "MINIMAX / CITY SIGHTING / PUBLIC SPACE",
+              "legibility": "clear",
+              "region": "left_red_overlay",
+              "confidence": 0.9
             },
             {
-              "text": "MINIMAX CITY SIGHTING FABRIC SIGNAL",
-              "legibility": "clear_red",
-              "region": "image_2 左下",
-              "confidence": 0.9,
-              "source_asset_ids": [
-                "image_2"
-              ]
-            },
-            {
-              "text": "FIELD NOTE [ ABOVE ] LOOK CLOSER",
-              "legibility": "clear_red",
-              "region": "image_2 右下",
-              "confidence": 0.9,
-              "source_asset_ids": [
-                "image_2"
-              ]
+              "text": "FIELD NOTE / [ SHADOW ] / LOOK CLOSER",
+              "legibility": "clear",
+              "region": "right_red_overlay",
+              "confidence": 0.9
             }
           ],
           "uncertainties": [
-            "图3与图4女性发型（棕中长发 vs 深短发）与服装（米色套装 vs 红色高领）存在冲突，无法确认是否同一模特不同造型",
-            "图4眼镜反射的MINIMAX建筑与图3背景建筑是否为同一建筑，反射模糊仅inferred",
-            "四图双圆遮罩的绝对位置/大小/边缘虚化一致性为inferred，静态图无法验证跨帧无漂移"
+            "心形遮罩是后期框选/暗角处理，不能据此推断为望远镜或双筒镜头视角",
+            "墙上 MINIMAX 为顶棚字样的投影，而非独立标识"
           ]
-        },
-        "image_observation": {
-          "source_asset_id": "image_2",
-          "summary": "双圆遮罩内仰拍高楼，悬挂竖排MINIMAX白旗底翻红，左右红字注释",
-          "entity_ids": [
-            "environment_2",
-            "flag_1"
-          ],
-          "uncertainties": []
         },
         "evidence": [
           {
-            "evidence_id": "image_2_whole_frame",
+            "evidence_id": "evidence_1",
             "kind": "frame",
             "time_seconds": null,
             "bbox_normalized": [
@@ -635,333 +429,29 @@
               1.0,
               1.0
             ],
-            "description": "双圆遮罩内仰拍高楼，悬挂竖排MINIMAX白旗底翻红，左右红字注释"
-          },
-          {
-            "evidence_id": "image_2_flag_1",
-            "kind": "frame",
-            "time_seconds": null,
-            "bbox_normalized": [
-              0.0,
-              0.0,
-              1.0,
-              1.0
-            ],
-            "description": "图2悬挂于高楼立面的白色长条旗帜，竖排黑色MINIMAX文字，底端翻面呈红色，可随风飘动"
-          },
-          {
-            "evidence_id": "image_2_environment_2",
-            "kind": "frame",
-            "time_seconds": null,
-            "bbox_normalized": [
-              0.0,
-              0.0,
-              1.0,
-              1.0
-            ],
-            "description": "图2仰拍米色高层公寓楼，规则窗格与阳台，多云天空背景"
+            "description": "单一画面，被心形黑色遮罩框住的城市街景：一座带 MINIMAX 顶棚字样的公交候车亭位于中央，其字样在后方混凝土墙上投下 MINIMAX 阴影，左右两侧有红色叠加文字，整体呈暖调 35mm 胶片质感。"
           }
         ],
         "regions": [],
         "entities": [
           {
-            "entity_id": "flag_1",
-            "source_asset_ids": [
-              "image_2"
-            ],
-            "evidence_ids": [
-              "image_2_flag_1"
-            ],
+            "entity_id": "installation_1",
             "category": "object",
             "subcategory": "object",
-            "summary": "图2悬挂于高楼立面的白色长条旗帜，竖排黑色MINIMAX文字，底端翻面呈红色，可随风飘动",
+            "summary": "画面中央的公交候车亭，顶棚带白色 MINIMAX 字样，并在后墙投下同名阴影，是用户标注的 MINIMAX 装置主体。",
             "quantity": {
               "value": 1,
-              "confidence": 0.9
+              "confidence": 0.95
             },
             "attributes": {
               "geometry": [
                 {
-                  "name": "形态",
-                  "value": "长条垂挂，底端飘起翻红",
+                  "name": "轮廓",
+                  "value": "水平延展的扁平顶棚加四根立柱",
                   "evidence_ids": [
-                    "image_2_flag_1"
+                    "evidence_1"
                   ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "color": [
-                {
-                  "name": "旗面",
-                  "value": "白色正面+红色背面",
-                  "evidence_ids": [
-                    "image_2_flag_1"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "material": [
-                {
-                  "name": "材质",
-                  "value": "布料",
-                  "evidence_ids": [
-                    "image_2_flag_1"
-                  ],
-                  "confidence": 0.85,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "surface": [],
-              "components": [
-                {
-                  "name": "文字",
-                  "value": "竖排黑色MINIMAX",
-                  "evidence_ids": [
-                    "image_2_flag_1"
-                  ],
-                  "confidence": 0.95,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "component_layout": [],
-              "orientation_cues": [],
-              "identity_markers": [],
-              "other": []
-            },
-            "variations": [],
-            "uncertainties": []
-          },
-          {
-            "entity_id": "environment_2",
-            "source_asset_ids": [
-              "image_2"
-            ],
-            "evidence_ids": [
-              "image_2_environment_2"
-            ],
-            "category": "environment",
-            "subcategory": "environment",
-            "summary": "图2仰拍米色高层公寓楼，规则窗格与阳台，多云天空背景",
-            "quantity": {
-              "value": 1,
-              "confidence": 0.9
-            },
-            "attributes": {
-              "geometry": [
-                {
-                  "name": "建筑",
-                  "value": "米色高层，规则窗格阳台",
-                  "evidence_ids": [
-                    "image_2_environment_2"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "color": [
-                {
-                  "name": "天空",
-                  "value": "多云淡蓝灰",
-                  "evidence_ids": [
-                    "image_2_environment_2"
-                  ],
-                  "confidence": 0.85,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "material": [],
-              "surface": [],
-              "components": [],
-              "component_layout": [],
-              "orientation_cues": [
-                {
-                  "name": "视角",
-                  "value": "仰拍",
-                  "evidence_ids": [
-                    "image_2_environment_2"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "identity_markers": [],
-              "other": []
-            },
-            "variations": [],
-            "uncertainties": []
-          }
-        ],
-        "relations": [
-          {
-            "relation_id": "relation_3",
-            "type": "hangs_on",
-            "subject_id": "flag_1",
-            "object_id": "environment_2",
-            "anchor": "白旗悬挂于高楼立面",
-            "spatial_constraints": {},
-            "evidence_ids": [
-              "image_2_whole_frame"
-            ],
-            "confidence": 0.9,
-            "source": "visible",
-            "source_asset_ids": [
-              "image_2"
-            ]
-          }
-        ],
-        "events": [],
-        "technical": {
-          "media_type": "image",
-          "analysis_pipeline": "grouped_image_projected",
-          "grouped_request_asset_ids": [
-            "image_1",
-            "image_2",
-            "image_3",
-            "image_4"
-          ],
-          "analysis_status": "observed",
-          "quality_warnings": []
-        },
-        "transcript": "",
-        "uncertainties": [
-          "person_1与person_2发型服装冲突，跨图身份一致性unresolved",
-          "environment_4与environment_3背景建筑同一性unresolved",
-          "四图遮罩跨帧绝对一致性inferred，静态图无法验证"
-        ]
-      },
-      {
-        "asset_id": "image_3",
-        "summary": "双圆遮罩内屋顶米色西装女性持望远镜，背景建筑竖排MINIMAX，左右红字注释",
-        "global_analysis": {
-          "scene": "老式望远镜/双圆镜片窥视视角下的城市MINIMAX装置系列，暖调胶片颗粒、柔和高光、克制色彩，红字点缀",
-          "composition": "每图中央为双圆（心形）镜片遮罩，黑色羽化暗角包围，内部画面居中构图；图1水平对称候车亭，图2仰拍高楼+斜挂旗帜，图3人物居左+建筑居右，图4脸部大特写偏右",
-          "framing_layers": [
-            {
-              "description": "双圆镜片遮罩，黑色羽化暗角，心形轮廓，内部为屋顶人物画面",
-              "coverage": "full_frame_overlay",
-              "confidence": 0.95,
-              "source_asset_ids": [
-                "image_3"
-              ]
-            }
-          ],
-          "visible_text": [
-            {
-              "text": "MIN MAX",
-              "legibility": "clear_vertical",
-              "region": "image_3 背景建筑立面竖排",
-              "confidence": 0.9,
-              "source_asset_ids": [
-                "image_3"
-              ]
-            },
-            {
-              "text": "MINIMAX CITY SIGHTING ROOFTOP VIEW",
-              "legibility": "clear_red",
-              "region": "image_3 左下",
-              "confidence": 0.9,
-              "source_asset_ids": [
-                "image_3"
-              ]
-            },
-            {
-              "text": "FIELD NOTE [ OBSERVER ] LOOK CLOSER",
-              "legibility": "clear_red",
-              "region": "image_3 右下",
-              "confidence": 0.9,
-              "source_asset_ids": [
-                "image_3"
-              ]
-            }
-          ],
-          "uncertainties": [
-            "图3与图4女性发型（棕中长发 vs 深短发）与服装（米色套装 vs 红色高领）存在冲突，无法确认是否同一模特不同造型",
-            "图4眼镜反射的MINIMAX建筑与图3背景建筑是否为同一建筑，反射模糊仅inferred",
-            "四图双圆遮罩的绝对位置/大小/边缘虚化一致性为inferred，静态图无法验证跨帧无漂移"
-          ]
-        },
-        "image_observation": {
-          "source_asset_id": "image_3",
-          "summary": "双圆遮罩内屋顶米色西装女性持望远镜，背景建筑竖排MINIMAX，左右红字注释",
-          "entity_ids": [
-            "person_1",
-            "environment_3"
-          ],
-          "uncertainties": []
-        },
-        "evidence": [
-          {
-            "evidence_id": "image_3_whole_frame",
-            "kind": "frame",
-            "time_seconds": null,
-            "bbox_normalized": [
-              0.0,
-              0.0,
-              1.0,
-              1.0
-            ],
-            "description": "双圆遮罩内屋顶米色西装女性持望远镜，背景建筑竖排MINIMAX，左右红字注释"
-          },
-          {
-            "evidence_id": "image_3_person_1",
-            "kind": "frame",
-            "time_seconds": null,
-            "bbox_normalized": [
-              0.0,
-              0.0,
-              1.0,
-              1.0
-            ],
-            "description": "图3屋顶女性，棕色波浪中长发齐刘海，米色西装外套+米色长裤+白色内搭，肩背红色包，手持黑色双筒望远镜，自然站立望向侧方"
-          },
-          {
-            "evidence_id": "image_3_environment_3",
-            "kind": "frame",
-            "time_seconds": null,
-            "bbox_normalized": [
-              0.0,
-              0.0,
-              1.0,
-              1.0
-            ],
-            "description": "图3屋顶场景，前景混凝土矮墙，背景米色建筑立面竖排MINIMAX大字，远处城市楼群，淡蓝天空"
-          }
-        ],
-        "regions": [],
-        "entities": [
-          {
-            "entity_id": "person_1",
-            "source_asset_ids": [
-              "image_3"
-            ],
-            "evidence_ids": [
-              "image_3_person_1"
-            ],
-            "category": "person",
-            "subcategory": "person",
-            "summary": "图3屋顶女性，棕色波浪中长发齐刘海，米色西装外套+米色长裤+白色内搭，肩背红色包，手持黑色双筒望远镜，自然站立望向侧方",
-            "quantity": {
-              "value": 1,
-              "confidence": 0.9
-            },
-            "attributes": {
-              "geometry": [
-                {
-                  "name": "发型",
-                  "value": "棕色波浪中长发齐刘海",
-                  "evidence_ids": [
-                    "image_3_person_1"
-                  ],
-                  "confidence": 0.85,
+                  "confidence": 0.88,
                   "source": "visible",
                   "alternatives": []
                 }
@@ -971,20 +461,20 @@
               "surface": [],
               "components": [
                 {
-                  "name": "服装",
-                  "value": "米色西装套装+白色内搭",
+                  "name": "顶棚字样",
+                  "value": "深色顶棚上的白色 MINIMAX 字母",
                   "evidence_ids": [
-                    "image_3_person_1"
+                    "evidence_1"
                   ],
-                  "confidence": 0.9,
+                  "confidence": 0.97,
                   "source": "visible",
                   "alternatives": []
                 },
                 {
-                  "name": "随身物",
-                  "value": "黑色双筒望远镜+红色肩带包",
+                  "name": "结构",
+                  "value": "矩形候车亭，含玻璃侧板与长椅",
                   "evidence_ids": [
-                    "image_3_person_1"
+                    "evidence_1"
                   ],
                   "confidence": 0.9,
                   "source": "visible",
@@ -992,14 +482,646 @@
                 }
               ],
               "component_layout": [],
-              "orientation_cues": [
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
                 {
-                  "name": "姿态",
-                  "value": "侧身站立，一手持望远镜一手插袋",
+                  "name": "投影",
+                  "value": "后方混凝土墙上由顶棚字样投下的 MINIMAX 阴影",
                   "evidence_ids": [
-                    "image_3_person_1"
+                    "evidence_1"
+                  ],
+                  "confidence": 0.93,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": [
+              "不能确认为某具体真实产品，仅为用户标注的 MINIMAX 装置"
+            ]
+          },
+          {
+            "entity_id": "environment_1",
+            "category": "environment",
+            "subcategory": "environment",
+            "summary": "候车亭所在的街景环境：混凝土建筑立面、人行道、前景路面与暖调胶片光照。",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "背景建筑",
+                  "value": "浅色混凝土立面与成排玻璃窗",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.92,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "地面",
+                  "value": "前景人行道与沥青路面",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "路牌",
+                  "value": "左侧绿色 5 AV 街道指示牌",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.88,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "光照与质感",
+                  "value": "暖褐 35mm 胶片色调、柔和高光泛光与颗粒",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_in_front_of",
+            "subject_id": "installation_1",
+            "object_id": "environment_1",
+            "anchor": "候车亭立于建筑立面前的 sidewalk 上",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.92,
+            "source": "visible"
+          },
+          {
+            "relation_id": "relation_2",
+            "type": "casts_shadow_on",
+            "subject_id": "installation_1",
+            "object_id": "environment_1",
+            "anchor": "顶棚 MINIMAX 字样在后方墙面投下阴影",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "image_single_pass",
+          "task_ids": [
+            "20260928_151439_768098_ee557643-1550-4439-8eeb-ff532de3d1a1"
+          ],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "single_pass",
+          "elapsed_seconds": 300.183,
+          "cache_hit": false,
+          "cache_key": "148c35cb57f3a19937aeffa80d579b8d176bd3aad5d2975e36da1ed0e1a32ebe",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 300.183
+          }
+        },
+        "transcript": "",
+        "uncertainties": [
+          "静态画面无法证明镜头运动、rack focus 过程或时间延续",
+          "画面中无人物、车辆或额外 logo"
+        ],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "presence, position and visual extent of the MINIMAX installation/device",
+            "priority": "useful",
+            "source_asset_id": "image_1",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "installation",
+              "minimax",
+              "of",
+              "position"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "whether the image is a single region or composed of multiple panels, and the content of each",
+            "priority": "useful",
+            "source_asset_id": "image_1",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "is",
+              "of",
+              "or",
+              "region",
+              "single"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "existence and placement of any red text overlay",
+            "priority": "useful",
+            "source_asset_id": "image_1",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "of",
+              "overlay",
+              "red",
+              "text"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_4",
+            "claim": "people, vehicles, buildings or logos already visible",
+            "priority": "useful",
+            "source_asset_id": "image_1",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "or"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      },
+      {
+        "asset_id": "image_2",
+        "summary": "一张带心形遮罩的单幅画面：仰视一栋米色高层建筑的立面，右侧悬挂一条印有竖排 MINIMAX 字样的白色长幅织物，织物下缘翻出红色背面；左右两侧各有红色叠加文字，整体覆有颗粒质感。",
+        "global_analysis": {
+          "scene": "城市建筑外立面的仰拍视角，一条大型织物横幅垂挂在楼体一侧，背景为阴天天空",
+          "composition": "心形黑色遮罩框住中央画面；建筑占据左中区域并向右上延伸，织物横幅位于画面中右、垂直下垂，红色叠加文字分列左右边缘",
+          "framing_layers": [
+            {
+              "description": "心形遮罩：黑色边框在顶部与底部收拢成心形，中央为近似圆形的可见视窗，内含建筑与织物",
+              "coverage": "full_frame",
+              "confidence": 0.95
+            }
+          ],
+          "visible_text": [
+            {
+              "text": "MINIMAX",
+              "legibility": "clear",
+              "region": "fabric_center_vertical",
+              "confidence": 0.95
+            },
+            {
+              "text": "MINIMAX CITY SIGHTING FABRIC SIGNAL",
+              "legibility": "clear",
+              "region": "left_mid",
+              "confidence": 0.9
+            },
+            {
+              "text": "FIELD NOTE [ ABOVE ] LOOK CLOSER",
+              "legibility": "clear",
+              "region": "right_mid",
+              "confidence": 0.9
+            }
+          ],
+          "uncertainties": [
+            "静态画面无法证明织物是否在风中摆动",
+            "无法判断风向、风速或持续时间"
+          ]
+        },
+        "evidence": [
+          {
+            "evidence_id": "evidence_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "一张带心形遮罩的单幅画面：仰视一栋米色高层建筑的立面，右侧悬挂一条印有竖排 MINIMAX 字样的白色长幅织物，织物下缘翻出红色背面；左右两侧各有红色叠加文字，整体覆有颗粒质感。"
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "fabric_1",
+            "category": "object",
+            "subcategory": "object",
+            "summary": "垂挂在建筑立面上的白色长幅织物，作为承载 MINIMAX 字样的核心主体",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "整体形态",
+                  "value": "垂直矩形长幅，自楼顶边缘下垂，下缘外展呈翻卷状",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "主色与背面",
+                  "value": "正面米白/乳白，下缘翻折处露出红橙色背面",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [
+                {
+                  "name": "褶皱",
+                  "value": "柔和纵向褶皱，底部边缘起伏",
+                  "evidence_ids": [
+                    "evidence_1"
                   ],
                   "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [
+                {
+                  "name": "朝向",
+                  "value": "沿建筑右中立面垂直悬挂，底边向右下倾斜",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "identity_markers": [
+                {
+                  "name": "文字",
+                  "value": "竖排黑色 MINIMAX 字母自上而下贯穿幅面",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "织物是否正在飘动无法由静态图确认"
+            ]
+          },
+          {
+            "entity_id": "environment_1",
+            "category": "environment",
+            "subcategory": "environment",
+            "summary": "米色高层建筑立面与阴天天空构成的背景，提供织物悬挂的空间与光照",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "建筑",
+                  "value": "多层米色楼体，规则排列的凹窗与小阳台网格",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "色调",
+                  "value": "暖米色立面配浅蓝灰天空",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "光照",
+                  "value": "阴天漫射光，无明显硬阴影",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "质感与遮罩",
+                  "value": "全画面颗粒胶片质感，外围心形黑色暗角遮罩",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_relative_to",
+            "subject_id": "fabric_1",
+            "object_id": "environment_1",
+            "anchor": "织物横幅垂挂在建筑右中侧立面上",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.95,
+            "source": "visible"
+          }
+        ],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "image_single_pass",
+          "task_ids": [
+            "20260928_151439_460662_6714df85-bb50-4e46-85d1-b41ec588dcd4"
+          ],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "single_pass",
+          "elapsed_seconds": 140.061,
+          "cache_hit": false,
+          "cache_key": "513818e58d52583a363eb697901e6d1fa5d332ec4bc0f5234dc4b44e8d6383aa",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 140.061
+          }
+        },
+        "transcript": "",
+        "uncertainties": [
+          "画面为单一连续图像加心形遮罩，非多面板分镜",
+          "红色叠加文字为后期图层，非场景内实物"
+        ],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "presence, placement and legibility of MINIMAX lettering on the fabric, and its spatial relation to fabric folds",
+            "priority": "useful",
+            "source_asset_id": "image_2",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "fabric",
+              "legibility",
+              "minimax",
+              "on",
+              "relation",
+              "spatial",
+              "to"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "visible extent and fold structure of the fabric",
+            "priority": "useful",
+            "source_asset_id": "image_2",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "fabric"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "whether the image is a single region or composed of multiple panels, and the content of each",
+            "priority": "useful",
+            "source_asset_id": "image_2",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "is",
+              "or",
+              "region",
+              "single"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_4",
+            "claim": "people, vehicles, buildings or logos already visible",
+            "priority": "optional",
+            "source_asset_id": "image_2",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "or"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      },
+      {
+        "asset_id": "image_3",
+        "summary": "单幅画面，透过双筒望远镜式黑色遮罩（两个圆形视口）观看：一名穿米色西装的女性站在混凝土屋顶上，身后是立面带有竖向“MINIMAX”字母的大型混凝土建筑，画面叠加红色说明文字。",
+        "global_analysis": {
+          "scene": "城市屋顶，柔和漫射光，低饱和暖米色与灰蓝色调，带轻微柔光/泛光质感",
+          "composition": "低机位仰拍；女性位于左中前景，混凝土女儿墙横贯中景，大型建筑占据右侧与背景，左侧远处可见城市楼群；整体被双筒望远镜黑色遮罩框定",
+          "framing_layers": [
+            {
+              "description": "双筒望远镜/瞄准镜式遮罩：黑色背景上两个相交的圆形视口，框住中央单一场景",
+              "coverage": "full_frame_mask",
+              "confidence": 0.9
+            }
+          ],
+          "visible_text": [
+            {
+              "text": "MINIMAX",
+              "legibility": "clear",
+              "region": "right-center building facade (vertical lettering)",
+              "confidence": 0.9
+            },
+            {
+              "text": "MINIMAX / CITY SIGHTING / ROOFTOP VIEW",
+              "legibility": "clear",
+              "region": "left red overlay",
+              "confidence": 0.9
+            },
+            {
+              "text": "FIELD NOTE / [ OBSERVER ] / LOOK CLOSER",
+              "legibility": "clear",
+              "region": "right red overlay",
+              "confidence": 0.9
+            }
+          ],
+          "uncertainties": [
+            "遮罩为双筒望远镜视角属推断，非画面内实物",
+            "女性手中黑色小物件具体类型不确定"
+          ]
+        },
+        "evidence": [
+          {
+            "evidence_id": "evidence_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "单幅画面，透过双筒望远镜式黑色遮罩（两个圆形视口）观看：一名穿米色西装的女性站在混凝土屋顶上，身后是立面带有竖向“MINIMAX”字母的大型混凝土建筑，画面叠加红色说明文字。"
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "category": "person",
+            "subcategory": "person",
+            "summary": "站立于屋顶的女性，作为被观察的主体，造型固定",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "wardrobe",
+                  "value": "米色修身西装外套内搭米白针织上衣与米色褶裥长裤",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "hair",
+                  "value": "及肩波浪棕色头发带刘海",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "accessory",
+                  "value": "酒红色皮革单肩包斜挎于身侧",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "held_object",
+                  "value": "右手持一小型黑色物件（似双筒望远镜）",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [
+                {
+                  "name": "body_pose",
+                  "value": "身体微侧向右，头转向其左侧，左手插袋",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.8,
                   "source": "visible",
                   "alternatives": []
                 }
@@ -1009,32 +1131,255 @@
             },
             "variations": [],
             "uncertainties": [
-              "与person_2是否同一模特未确认"
+              "手中物件确切类型未定"
             ]
           },
           {
-            "entity_id": "environment_3",
-            "source_asset_ids": [
-              "image_3"
-            ],
-            "evidence_ids": [
-              "image_3_environment_3"
-            ],
+            "entity_id": "environment_1",
             "category": "environment",
             "subcategory": "environment",
-            "summary": "图3屋顶场景，前景混凝土矮墙，背景米色建筑立面竖排MINIMAX大字，远处城市楼群，淡蓝天空",
+            "summary": "混凝土屋顶与带竖向字母的大型建筑构成的背景空间",
             "quantity": {
               "value": 1,
+              "confidence": 0.95
+            },
+            "attributes": {
+              "geometry": [
+                {
+                  "name": "building",
+                  "value": "大型混凝土建筑，立面有高耸竖向字母拼出 MINIMAX",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "color": [
+                {
+                  "name": "palette",
+                  "value": "低饱和暖米色建筑与灰蓝天空",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [
+                {
+                  "name": "foreground",
+                  "value": "混凝土女儿墙/矮墙横贯中前景，左侧远处有城市楼群",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "lighting",
+                  "value": "柔和漫射日光，轻微泛光/柔焦氛围",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": []
+          }
+        ],
+        "relations": [
+          {
+            "relation_id": "relation_1",
+            "type": "positioned_in_front_of",
+            "subject_id": "person_1",
+            "object_id": "environment_1",
+            "anchor": "女性立于屋顶女儿墙前，建筑在其身后右侧",
+            "spatial_constraints": {},
+            "evidence_ids": [
+              "evidence_1"
+            ],
+            "confidence": 0.9,
+            "source": "visible"
+          }
+        ],
+        "events": [],
+        "technical": {
+          "media_type": "image",
+          "analysis_pipeline": "image_single_pass",
+          "task_ids": [
+            "20260928_151440_040160_fa9a8683-5a92-4372-bd32-6afb0a3ded97"
+          ],
+          "analysis_status": "observed",
+          "quality_warnings": [],
+          "analysis_profile": "single_pass",
+          "elapsed_seconds": 458.742,
+          "cache_hit": false,
+          "cache_key": "060258b7809adcda8b516b9b2ab75c940893e3c4c1b2ca72f1e591b595880006",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 458.742
+          }
+        },
+        "transcript": "",
+        "uncertainties": [
+          "静态画面无法证明人物在行走或镜头运动",
+          "无法确认与图4是否为同一人"
+        ],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "number of people, their pose, body orientation and limb positions",
+            "priority": "useful",
+            "source_asset_id": "image_3",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "body",
+              "of",
+              "orientation",
+              "pose"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "visible wardrobe and styling",
+            "priority": "useful",
+            "source_asset_id": "image_3",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "wardrobe"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "presence of any MINIMAX installation or lettering",
+            "priority": "useful",
+            "source_asset_id": "image_3",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "lettering",
+              "minimax",
+              "of",
+              "or"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_4",
+            "claim": "people, vehicles, buildings or logos already visible",
+            "priority": "useful",
+            "source_asset_id": "image_3",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "or"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
+      },
+      {
+        "asset_id": "image_4",
+        "summary": "单帧特写：一名短发人物佩戴红色棱角太阳镜，镜片反射出带“Minimax”字样的建筑；画面被黑色心形遮罩框住，左右各有红色说明文字，背景为米色建筑与淡蓝天空。",
+        "global_analysis": {
+          "scene": "户外日间时尚特写，人物面部占据画面右侧主体，背景为建筑与天空",
+          "composition": "黑色遮罩在中央开出不规则心形/双叶视窗，人物面部偏右、头部微仰，建筑位于左侧背景，形成前景人物—中景建筑—天空的层次",
+          "framing_layers": [
+            {
+              "description": "黑色遮罩覆盖四边，中央留出心形/双叶形开口，顶部与底部各有一个内凹缺口",
+              "coverage": "full_frame_border",
+              "confidence": 0.95
+            }
+          ],
+          "visible_text": [
+            {
+              "text": "MINIMAX CITY SIGHTING REFLECTION",
+              "legibility": "clear",
+              "region": "left_mid_red",
+              "confidence": 0.95
+            },
+            {
+              "text": "FIELD NOTE [GLASS] LOOK CLOSER",
+              "legibility": "clear",
+              "region": "right_mid_red",
+              "confidence": 0.95
+            },
+            {
+              "text": "Minimax",
+              "legibility": "clear",
+              "region": "right_lens_reflection",
               "confidence": 0.9
+            }
+          ],
+          "uncertainties": [
+            "无法确认人物真实身份或品牌归属",
+            "画面中未见手部，无法判断手与脸的位置关系"
+          ]
+        },
+        "evidence": [
+          {
+            "evidence_id": "evidence_1",
+            "kind": "frame",
+            "time_seconds": null,
+            "bbox_normalized": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "description": "单帧特写：一名短发人物佩戴红色棱角太阳镜，镜片反射出带“Minimax”字样的建筑；画面被黑色心形遮罩框住，左右各有红色说明文字，背景为米色建筑与淡蓝天空。"
+          }
+        ],
+        "regions": [],
+        "entities": [
+          {
+            "entity_id": "person_1",
+            "category": "person",
+            "subcategory": "person",
+            "summary": "短发人物面部特写，佩戴红色太阳镜与金属耳饰，作为时尚广告主体",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.95
             },
             "attributes": {
               "geometry": [],
               "color": [
                 {
-                  "name": "光照",
-                  "value": "柔和日光，淡蓝天空",
+                  "name": "主色",
+                  "value": "红框与红领与肤色、深色发形成对比",
                   "evidence_ids": [
-                    "image_3_environment_3"
+                    "evidence_1"
                   ],
                   "confidence": 0.85,
                   "source": "visible",
@@ -1045,27 +1390,162 @@
               "surface": [],
               "components": [
                 {
-                  "name": "前景",
-                  "value": "混凝土矮墙/台阶",
+                  "name": "太阳镜",
+                  "value": "红色棱角粗框、镜面反光镜片",
                   "evidence_ids": [
-                    "image_3_environment_3"
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "发型",
+                  "value": "深色短发带齐刘海",
+                  "evidence_ids": [
+                    "evidence_1"
                   ],
                   "confidence": 0.9,
                   "source": "visible",
                   "alternatives": []
                 },
                 {
-                  "name": "背景建筑",
-                  "value": "米色立面竖排MINIMAX",
+                  "name": "耳饰",
+                  "value": "银色金属椭圆/豆形耳环",
                   "evidence_ids": [
-                    "image_3_environment_3"
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "服装",
+                  "value": "红色高领/翻领衣物露于右下",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "component_layout": [],
+              "orientation_cues": [
+                {
+                  "name": "头部姿态",
+                  "value": "头部微仰、下巴略抬、视线偏向侧上方",
+                  "evidence_ids": [
+                    "evidence_1"
                   ],
                   "confidence": 0.9,
                   "source": "visible",
                   "alternatives": []
                 }
               ],
+              "identity_markers": [],
+              "other": []
+            },
+            "variations": [],
+            "uncertainties": [
+              "面部表情为冷静放松，但具体情绪为推断"
+            ]
+          },
+          {
+            "entity_id": "environment_1",
+            "category": "environment",
+            "subcategory": "environment",
+            "summary": "米色竖纹建筑与淡蓝天空构成的户外背景，提供反射与空间层次",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [],
+              "material": [],
+              "surface": [],
+              "components": [
+                {
+                  "name": "建筑",
+                  "value": "米色/奶油色墙面带竖向凹槽线条",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                },
+                {
+                  "name": "建筑细节",
+                  "value": "左侧一道红色竖向构件",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.8,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
               "component_layout": [],
+              "orientation_cues": [],
+              "identity_markers": [],
+              "other": [
+                {
+                  "name": "天空与光照",
+                  "value": "淡蓝天空带薄云，柔和自然日光",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.85,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ]
+            },
+            "variations": [],
+            "uncertainties": [
+              "建筑具体地点与名称不可确认"
+            ]
+          },
+          {
+            "entity_id": "text_overlay_1",
+            "category": "text",
+            "subcategory": "text",
+            "summary": "左右两侧红色说明性文字，作为画面信息层",
+            "quantity": {
+              "value": 1,
+              "confidence": 0.9
+            },
+            "attributes": {
+              "geometry": [],
+              "color": [
+                {
+                  "name": "文字颜色",
+                  "value": "红色无衬线大写",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.95,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
+              "material": [],
+              "surface": [],
+              "components": [],
+              "component_layout": [
+                {
+                  "name": "布局",
+                  "value": "左三行右三行对称分布于遮罩内两侧",
+                  "evidence_ids": [
+                    "evidence_1"
+                  ],
+                  "confidence": 0.9,
+                  "source": "visible",
+                  "alternatives": []
+                }
+              ],
               "orientation_cues": [],
               "identity_markers": [],
               "other": []
@@ -1077,406 +1557,144 @@
         "relations": [
           {
             "relation_id": "relation_1",
-            "type": "positioned_relative_to",
+            "type": "positioned_in_front_of",
             "subject_id": "person_1",
-            "object_id": "environment_3",
-            "anchor": "人物立于屋顶混凝土墙前，背景为MINIMAX建筑",
+            "object_id": "environment_1",
+            "anchor": "人物面部位于建筑与天空前景",
             "spatial_constraints": {},
             "evidence_ids": [
-              "image_3_whole_frame"
+              "evidence_1"
             ],
             "confidence": 0.9,
-            "source": "visible",
-            "source_asset_ids": [
-              "image_3"
-            ]
-          }
-        ],
-        "events": [],
-        "technical": {
-          "media_type": "image",
-          "analysis_pipeline": "grouped_image_projected",
-          "grouped_request_asset_ids": [
-            "image_1",
-            "image_2",
-            "image_3",
-            "image_4"
-          ],
-          "analysis_status": "observed",
-          "quality_warnings": []
-        },
-        "transcript": "",
-        "uncertainties": [
-          "person_1与person_2发型服装冲突，跨图身份一致性unresolved",
-          "environment_4与environment_3背景建筑同一性unresolved",
-          "四图遮罩跨帧绝对一致性inferred，静态图无法验证"
-        ]
-      },
-      {
-        "asset_id": "image_4",
-        "summary": "双圆遮罩内女性红框眼镜特写，镜片反射MINIMAX，左右红字注释",
-        "global_analysis": {
-          "scene": "老式望远镜/双圆镜片窥视视角下的城市MINIMAX装置系列，暖调胶片颗粒、柔和高光、克制色彩，红字点缀",
-          "composition": "每图中央为双圆（心形）镜片遮罩，黑色羽化暗角包围，内部画面居中构图；图1水平对称候车亭，图2仰拍高楼+斜挂旗帜，图3人物居左+建筑居右，图4脸部大特写偏右",
-          "framing_layers": [
-            {
-              "description": "双圆镜片遮罩，黑色羽化暗角，心形轮廓，内部为脸部特写画面",
-              "coverage": "full_frame_overlay",
-              "confidence": 0.95,
-              "source_asset_ids": [
-                "image_4"
-              ]
-            }
-          ],
-          "visible_text": [
-            {
-              "text": "Minimax",
-              "legibility": "reflected_small",
-              "region": "image_4 右镜片反射",
-              "confidence": 0.8,
-              "source_asset_ids": [
-                "image_4"
-              ]
-            },
-            {
-              "text": "MINIMAX CITY SIGHTING REFLECTION",
-              "legibility": "clear_red",
-              "region": "image_4 左下",
-              "confidence": 0.9,
-              "source_asset_ids": [
-                "image_4"
-              ]
-            },
-            {
-              "text": "FIELD NOTE [ GLASS ] LOOK CLOSER",
-              "legibility": "clear_red",
-              "region": "image_4 右下",
-              "confidence": 0.9,
-              "source_asset_ids": [
-                "image_4"
-              ]
-            }
-          ],
-          "uncertainties": [
-            "图3与图4女性发型（棕中长发 vs 深短发）与服装（米色套装 vs 红色高领）存在冲突，无法确认是否同一模特不同造型",
-            "图4眼镜反射的MINIMAX建筑与图3背景建筑是否为同一建筑，反射模糊仅inferred",
-            "四图双圆遮罩的绝对位置/大小/边缘虚化一致性为inferred，静态图无法验证跨帧无漂移"
-          ]
-        },
-        "image_observation": {
-          "source_asset_id": "image_4",
-          "summary": "双圆遮罩内女性红框眼镜特写，镜片反射MINIMAX，左右红字注释",
-          "entity_ids": [
-            "person_2",
-            "glasses_1",
-            "environment_4"
-          ],
-          "uncertainties": []
-        },
-        "evidence": [
-          {
-            "evidence_id": "image_4_whole_frame",
-            "kind": "frame",
-            "time_seconds": null,
-            "bbox_normalized": [
-              0.0,
-              0.0,
-              1.0,
-              1.0
-            ],
-            "description": "双圆遮罩内女性红框眼镜特写，镜片反射MINIMAX，左右红字注释"
+            "source": "visible"
           },
-          {
-            "evidence_id": "image_4_person_2",
-            "kind": "frame",
-            "time_seconds": null,
-            "bbox_normalized": [
-              0.0,
-              0.0,
-              1.0,
-              1.0
-            ],
-            "description": "图4脸部大特写女性，深色短发齐刘海，戴红色几何框眼镜与银色大耳环，红色高领，冷感松弛表情"
-          },
-          {
-            "evidence_id": "image_4_glasses_1",
-            "kind": "frame",
-            "time_seconds": null,
-            "bbox_normalized": [
-              0.0,
-              0.0,
-              1.0,
-              1.0
-            ],
-            "description": "图4红色几何多边形框眼镜，镜片反射出MINIMAX建筑与天空，可被独立调整"
-          },
-          {
-            "evidence_id": "image_4_environment_4",
-            "kind": "frame",
-            "time_seconds": null,
-            "bbox_normalized": [
-              0.0,
-              0.0,
-              1.0,
-              1.0
-            ],
-            "description": "图4特写背景，虚化的米色建筑立面与红色竖向构件，淡蓝天空"
-          }
-        ],
-        "regions": [],
-        "entities": [
-          {
-            "entity_id": "person_2",
-            "source_asset_ids": [
-              "image_4"
-            ],
-            "evidence_ids": [
-              "image_4_person_2"
-            ],
-            "category": "person",
-            "subcategory": "person",
-            "summary": "图4脸部大特写女性，深色短发齐刘海，戴红色几何框眼镜与银色大耳环，红色高领，冷感松弛表情",
-            "quantity": {
-              "value": 1,
-              "confidence": 0.9
-            },
-            "attributes": {
-              "geometry": [],
-              "color": [
-                {
-                  "name": "衣领",
-                  "value": "红色高领",
-                  "evidence_ids": [
-                    "image_4_person_2"
-                  ],
-                  "confidence": 0.85,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "material": [],
-              "surface": [],
-              "components": [
-                {
-                  "name": "面部",
-                  "value": "深色短发齐刘海，自然唇色",
-                  "evidence_ids": [
-                    "image_4_person_2"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                },
-                {
-                  "name": "配饰",
-                  "value": "红色几何框眼镜+银色金属大耳环",
-                  "evidence_ids": [
-                    "image_4_person_2"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "component_layout": [],
-              "orientation_cues": [
-                {
-                  "name": "表情",
-                  "value": "微抬下巴冷感松弛",
-                  "evidence_ids": [
-                    "image_4_person_2"
-                  ],
-                  "confidence": 0.8,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "identity_markers": [],
-              "other": []
-            },
-            "variations": [],
-            "uncertainties": [
-              "与person_1是否同一模特未确认"
-            ]
-          },
-          {
-            "entity_id": "glasses_1",
-            "source_asset_ids": [
-              "image_4"
-            ],
-            "evidence_ids": [
-              "image_4_glasses_1"
-            ],
-            "category": "object",
-            "subcategory": "object",
-            "summary": "图4红色几何多边形框眼镜，镜片反射出MINIMAX建筑与天空，可被独立调整",
-            "quantity": {
-              "value": 1,
-              "confidence": 0.9
-            },
-            "attributes": {
-              "geometry": [
-                {
-                  "name": "镜框形状",
-                  "value": "几何多边形/猫眼",
-                  "evidence_ids": [
-                    "image_4_glasses_1"
-                  ],
-                  "confidence": 0.9,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "color": [
-                {
-                  "name": "镜框",
-                  "value": "红色",
-                  "evidence_ids": [
-                    "image_4_glasses_1"
-                  ],
-                  "confidence": 0.95,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "material": [],
-              "surface": [
-                {
-                  "name": "镜片",
-                  "value": "反射MINIMAX建筑与天空",
-                  "evidence_ids": [
-                    "image_4_glasses_1"
-                  ],
-                  "confidence": 0.85,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "components": [],
-              "component_layout": [],
-              "orientation_cues": [],
-              "identity_markers": [],
-              "other": []
-            },
-            "variations": [],
-            "uncertainties": []
-          },
-          {
-            "entity_id": "environment_4",
-            "source_asset_ids": [
-              "image_4"
-            ],
-            "evidence_ids": [
-              "image_4_environment_4"
-            ],
-            "category": "environment",
-            "subcategory": "environment",
-            "summary": "图4特写背景，虚化的米色建筑立面与红色竖向构件，淡蓝天空",
-            "quantity": {
-              "value": 1,
-              "confidence": 0.85
-            },
-            "attributes": {
-              "geometry": [],
-              "color": [
-                {
-                  "name": "天空",
-                  "value": "淡蓝",
-                  "evidence_ids": [
-                    "image_4_environment_4"
-                  ],
-                  "confidence": 0.8,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "material": [],
-              "surface": [
-                {
-                  "name": "背景",
-                  "value": "虚化米色建筑+红色竖条",
-                  "evidence_ids": [
-                    "image_4_environment_4"
-                  ],
-                  "confidence": 0.8,
-                  "source": "visible",
-                  "alternatives": []
-                }
-              ],
-              "components": [],
-              "component_layout": [],
-              "orientation_cues": [],
-              "identity_markers": [],
-              "other": []
-            },
-            "variations": [],
-            "uncertainties": [
-              "与图3背景建筑是否同一未确认"
-            ]
-          }
-        ],
-        "relations": [
           {
             "relation_id": "relation_2",
-            "type": "worn_by",
-            "subject_id": "glasses_1",
-            "object_id": "person_2",
-            "anchor": "红框眼镜佩戴于特写女性面部",
+            "type": "reflected_in",
+            "subject_id": "environment_1",
+            "object_id": "person_1",
+            "anchor": "建筑与Minimax字样反射于太阳镜镜片",
             "spatial_constraints": {},
             "evidence_ids": [
-              "image_4_whole_frame"
+              "evidence_1"
             ],
-            "confidence": 0.95,
-            "source": "visible",
-            "source_asset_ids": [
-              "image_4"
-            ]
+            "confidence": 0.85,
+            "source": "visible"
           },
           {
-            "relation_id": "relation_4",
-            "type": "reflected_in",
-            "subject_id": "environment_4",
-            "object_id": "glasses_1",
-            "anchor": "背景建筑反射于眼镜镜片",
+            "relation_id": "relation_3",
+            "type": "overlaid_on",
+            "subject_id": "text_overlay_1",
+            "object_id": "person_1",
+            "anchor": "红色文字叠加于画面左右区域",
             "spatial_constraints": {},
             "evidence_ids": [
-              "image_4_whole_frame"
+              "evidence_1"
             ],
-            "confidence": 0.75,
-            "source": "inferred",
-            "source_asset_ids": [
-              "image_4"
-            ]
+            "confidence": 0.9,
+            "source": "visible"
           }
         ],
         "events": [],
         "technical": {
           "media_type": "image",
-          "analysis_pipeline": "grouped_image_projected",
-          "grouped_request_asset_ids": [
-            "image_1",
-            "image_2",
-            "image_3",
-            "image_4"
+          "analysis_pipeline": "image_single_pass",
+          "task_ids": [
+            "20260928_151440_315155_21a6d04a-d763-4251-8167-f45ee072e51b"
           ],
           "analysis_status": "observed",
-          "quality_warnings": []
+          "quality_warnings": [],
+          "analysis_profile": "single_pass",
+          "elapsed_seconds": 592.769,
+          "cache_hit": false,
+          "cache_key": "358210ea27bd81f96129f55709bf16e266eeaa9896549e6b8a1ee2e0b37a57fa",
+          "perception_metrics": {
+            "request_count": 1,
+            "retry_count": 0,
+            "supplemental_request_count": 0,
+            "supplemental_elapsed_seconds": 0.0,
+            "elapsed_seconds": 592.769
+          }
         },
         "transcript": "",
         "uncertainties": [
-          "person_1与person_2发型服装冲突，跨图身份一致性unresolved",
-          "environment_4与environment_3背景建筑同一性unresolved",
-          "四图遮罩跨帧绝对一致性inferred，静态图无法验证"
-        ]
+          "静态图无法证明镜头运动、动作或面板播放顺序",
+          "未见车辆、其他人物或额外logo"
+        ],
+        "evidence_coverage": [
+          {
+            "requirement_id": "requirement_1",
+            "claim": "whether the person wears glasses and the current head/hand position",
+            "priority": "useful",
+            "source_asset_id": "image_4",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "person",
+              "position"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_2",
+            "claim": "number of people and their facial/head orientation",
+            "priority": "useful",
+            "source_asset_id": "image_4",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "of",
+              "orientation"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_3",
+            "claim": "presence of any MINIMAX installation, lettering or red text overlay",
+            "priority": "useful",
+            "source_asset_id": "image_4",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "minimax",
+              "of",
+              "or",
+              "overlay",
+              "red",
+              "text"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          },
+          {
+            "requirement_id": "requirement_4",
+            "claim": "people, vehicles, buildings or logos already visible",
+            "priority": "useful",
+            "source_asset_id": "image_4",
+            "region_or_time": "",
+            "status": "covered",
+            "matched_terms": [
+              "or"
+            ],
+            "retry_policy": "none",
+            "max_retries": 0,
+            "attempts": 0
+          }
+        ],
+        "supplemental_attempts": []
       }
     ],
     "missing_asset_ids": [],
     "perception_metrics": {
-      "request_count": 1
-    },
-    "experiment": {
-      "mode": "qwen3.8_grouped_images_projected",
-      "user_request": "图1至图4连续关键帧，模拟老式望远镜寻MINIMAX装置。开头虚焦手持晃动后快速拉近rack focus至图1，图间望远镜扫视转场（甩动、运动模糊、光学拖影、曝光闪烁）在最模糊处切换并迅速稳定重新对焦。全程固定双圆镜片遮罩（黑色羽化暗角、位置大小边缘虚化绝对一致无变形漂移）仅内部画面运动。图2布料随风克制飘动MINIMAX文字随布面起伏保持可读；图3人物如无意捕捉的时尚路人自然走动转身摆臂；图4人物调整眼镜或微抬下巴展现冷感松弛fashion campaign态度。红字随对焦轻微加载，初现略虚焦低透明度0.3–0.5秒内淡入变清晰（可微小纵向滑入或字距呼吸）切换前淡出或被运动模糊带走，禁旋转弹跳或大幅飞入飞出。Wes Anderson式窥视35mm胶片质感（轻微颗粒、柔和高光晕染、克制色彩、红字点缀），极简高级微带搞怪灵动，严禁新增人物车辆建筑logo，保持原图核心构图与MINIMAX装置不变。"
+      "request_count": 4,
+      "retry_count": 0,
+      "supplemental_request_count": 0,
+      "elapsed_seconds": 592.769
     }
   }
 }

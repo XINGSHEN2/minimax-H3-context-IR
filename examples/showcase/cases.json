@@ -4,10 +4,10 @@
       "id": "feishu_11_case01",
       "title": "Case 1 · 四图望远镜搜索",
       "category": "1.1 品牌大片与影视内容",
-      "description": "Raw、本地 IR v63 和官方 IR 的同案例对照。",
+      "description": "Raw、本地 IR 与官方 IR 的同案例对照；本地 IR 为更新分镜时码规则后的成片。",
       "variants": {
         "v63": {
-          "label": "v63 · 逻辑连续大纲",
+          "label": "v63 · 分镜时码规则",
           "groups": {
             "raw": {
               "label": "Raw",
@@ -30,7 +30,7 @@
               "size": "1344×768"
             },
             "v63": {
-              "label": "本地 IR · v63",
+              "label": "本地 IR · v63 更新版",
               "status": "ready",
               "video": "data/feishu_11_case01/v63/result.mp4",
               "prompt": "data/feishu_11_case01/v63/h3_prompt.txt",
