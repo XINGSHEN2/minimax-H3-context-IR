@@ -1,0 +1,26 @@
+{
+  "model": "MiniMax-H3",
+  "content": [
+    {
+      "type": "text",
+      "text": "在视频1中两个人周围加上图片1 这种橙黄色的手绘涂鸦，随着视频1中两人靠近，手绘涂鸦越来越多，从小的火花变成很明亮的光芒，在视频1中两个人亲吻时，手绘涂鸦出现粉红色的笔触"
+    },
+    {
+      "type": "image_url",
+      "image_url": {
+        "url": "http://10.0.96.114:30100/v1/assets/asset_4b5163d9f15043b08f3269e6437d3cb3/content"
+      },
+      "role": "reference_image"
+    },
+    {
+      "type": "video_url",
+      "video_url": {
+        "url": "http://10.0.96.114:30100/v1/assets/asset_3de0342663b849c79e02fcbefce271c5/content"
+      },
+      "role": "reference_video"
+    }
+  ],
+  "resolution": "768P",
+  "duration": 15,
+  "ratio": "9:16"
+}

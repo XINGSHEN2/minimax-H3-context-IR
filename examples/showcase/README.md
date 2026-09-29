@@ -1,6 +1,6 @@
 # Context-IR 视频对比展示
 
-GitHub Pages 当前展示 Feishu 1.1 和 2.2 案例。每个案例可切换已有的本地 IR 版本，并并排查看参考成片、Raw、本地 IR 和官方 IR。
+GitHub Pages 当前展示 Feishu 1.1、2.2、3.1、3.2 和 3.4 案例。每个案例并排展示 Raw、本地 IR 和官方 IR 视频。
 
 案例配置保存在 `cases.json`，素材和生成结果保存在 `data/`。更新页面时，请同步检查配置中的所有文件路径；不要运行旧的 A/B Test 构建脚本覆盖当前清单。
 

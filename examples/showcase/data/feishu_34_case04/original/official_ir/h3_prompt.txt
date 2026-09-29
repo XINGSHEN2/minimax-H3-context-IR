@@ -1,0 +1,29 @@
+subject_definitions:
+<Subject 1> is the young woman with brown hair wearing a light blue short-sleeved v-neck shirt in <Video 1>.
+<Subject 2> is the man with a beard and hair tied back, wearing a dark blue denim jacket over a white t-shirt in <Video 1>.
+<Subject 3> is the orange hand-drawn doodle visual style in <Picture 1>, featuring thick, jagged, painted strokes.
+<Video 1> is the source video for the live-action footage and structural baseline.
+
+summary:
+[video editing + reference generation] The target video is an edited version of <Video 1>. <Subject 1> and <Subject 2> sit closely together outdoors while <Subject 3>, an orange hand-drawn doodle effect, appears around them. As they lean in to kiss, the doodles multiply into a bright glowing light, and during the kiss, vibrant pink brushstrokes join the orange animation.
+
+retention_analysis:
+<Video 1> (source video editing): fully_preserved - the original live-action footage, camera framing, and chronological romantic performance are kept as the base layer for the visual effects.
+<Subject 1> (appears in [Shot 1]): fully_preserved - the woman's identity, clothing, expressions, and actions from the source video remain intact.
+<Subject 2> (appears in [Shot 1]): fully_preserved - the man's identity, clothing, expressions, and actions from the source video remain intact.
+<Subject 3> (appears in [Shot 1]): attribute_transfer - the thick, hand-drawn orange doodle style is dynamically applied to the space surrounding the characters, scaling up and incorporating pink strokes as requested.
+
+detailed_description:
+The target video is an edited version of <Video 1>. The target video is in a realistic live-action style, augmented with a vibrant 2D hand-drawn animation overlay. [Shot 1] The shot begins with <Subject 1> and <Subject 2> sitting closely together outdoors, with softly blurred green tree foliage in the bright background. <Subject 1> looks warmly toward <Subject 2>. As the scene opens, <Subject 3>, a visual effect of orange hand-drawn doodles, begins to materialize in the air directly around their heads and shoulders. Initially, these effects appear as small, scattered orange sparks and zigzagging lines drawn dynamically over the live-action footage. 
+
+As <Subject 2> leans in closer toward <Subject 1>, the hand-drawn orange doodles rapidly increase in quantity and density. The small animated sparks expand and merge, transforming into a brilliantly bright, glowing orange light that partially wraps around them, shifting continuously with a kinetic, frame-by-frame painted texture. 
+
+Their faces meet and they share a romantic kiss. At the exact moment of the kiss, the visual effect evolves further. Vibrant pink hand-drawn brushstrokes suddenly appear, intertwining with the bright orange light and adding a new layer of colorful, magical energy to the animated doodles surrounding their faces. The pink and orange strokes flicker, pulse, and swirl in a joyful, radiant display over the live-action embrace. 
+
+After holding the kiss, they gently pull back, gazing into each other's eyes with wide, affectionate smiles. The intertwining orange and pink hand-drawn doodles gradually begin to settle, returning to a softer, lingering sparkle that continues to float around them in the softly lit outdoor environment. The camera remains a static close-up throughout the entire sequence, maintaining a steady composition on their upper bodies and faces while the hand-drawn overlay provides all the dynamic kinetic energy.
+
+overall_soundscape:
+A romantic and magical soundscape featuring gentle, heartwarming background music, accompanied by subtle, sparkling, magical sound effects that synchronize with the appearance, glowing, and swirling of the animated hand-drawn doodles.
+
+non_diegetic_music:
+Soft, romantic acoustic guitar or piano music with a slow, tender tempo, building slightly in warmth and magical resonance during the kiss.

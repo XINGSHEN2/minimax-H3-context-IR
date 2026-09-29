@@ -1,0 +1,183 @@
+{
+  "creative_brief": {
+    "user_locked": [
+      "The target video is video_1 with a new hand-drawn doodle layer added around the two people, in the style of image_1.",
+      "video_1 is kept as the editing base: its original picture content and the order of its events are preserved.",
+      "The doodle layer is orange-yellow hand-drawn marks distributed around the two people; the amount increases as the two move closer; the marks build from small sparks into a very bright radiance.",
+      "At the moment the two kiss, the doodle layer shows pink brush strokes.",
+      "Target duration 15 seconds, 16:9, audio generated."
+    ],
+    "reference_anchors": [
+      "video_1 supplies the picture base: one continuous handheld medium close-up under tree shade in daylight, the woman in the light-blue V-neck shirt on the left and the bearded man in the denim jacket entering from the right, the camera drifting slightly to the right.",
+      "video_1 supplies the event order inherited by the edit: the woman smiling and looking right while the man enters - the two drawing close - the kiss - the separation and shared smile.",
+      "image_1 supplies the doodle appearance: orange, amber and red-orange rough marker strokes, radiating spark/star bursts, thick angular chevron strokes and short dashes, loosely scattered rather than a diffuse glow."
+    ],
+    "open_design": [
+      "How many marks appear at each beat and exactly where they sit around the two people.",
+      "The exact moment the small sparks finish growing into the bright radiance, and the shape of that radiance.",
+      "The shape and spread of the pink strokes at the kiss and how far they thin out before the end.",
+      "How the preserved events are distributed across the 15-second target, and the outdoor ambience and audience-only score."
+    ]
+  },
+  "requirement_map": {
+    "content_events": [
+      {
+        "id": "c_1",
+        "text": "Under the tree shade the woman smiles and looks to her right, the man enters from the right edge of the frame, and the two lean toward each other until they are face to face."
+      },
+      {
+        "id": "c_2",
+        "text": "The two kiss on the lips."
+      },
+      {
+        "id": "c_3",
+        "text": "The two separate after the kiss and look at each other with a smile while the camera drifts slightly to the right."
+      },
+      {
+        "id": "c_4",
+        "text": "A new layer of orange-yellow hand-drawn doodles appears around the two people and increases in amount as they move closer to each other."
+      },
+      {
+        "id": "c_5",
+        "text": "The doodle marks build from small sparks into a very bright radiance."
+      },
+      {
+        "id": "c_6",
+        "text": "At the moment of the kiss the doodle layer shows pink brush strokes."
+      }
+    ],
+    "editing_treatments": [
+      {
+        "id": "t_1",
+        "text": "The doodles are a flat 2D hand-drawn graphic composited over the live-action footage, not a photographic lens flare and not a 3D element."
+      },
+      {
+        "id": "t_2",
+        "text": "video_1 remains a single continuous take with its handheld feel and its slight drift to the right; no cuts or additional camera moves are introduced."
+      }
+    ],
+    "global_style": [
+      {
+        "id": "g_1",
+        "text": "A hand-drawn marker doodle aesthetic in orange, amber and red-orange laid over live-action outdoor footage lit by natural daytime light."
+      },
+      {
+        "id": "g_2",
+        "text": "The original footage keeps its shallow depth of field, blurred green foliage background and cool daylight balance."
+      }
+    ],
+    "audio_requirements": [
+      {
+        "id": "a_1",
+        "text": "generate_audio is enabled for the target video; the user specifies no dialogue, lyrics, music or individual sound effect."
+      },
+      {
+        "id": "a_2",
+        "text": "No audio reuse or audio reference directive is given for video_1's original track, so the target video carries newly designed ambience and audience-only music."
+      }
+    ]
+  },
+  "task_mode": "ref2va",
+  "must_keep": [
+    "video_1 stays the picture base: the same two people, the same tree-shade exterior, the same continuous take and the same order of approach - kiss - separation.",
+    "The doodle layer keeps image_1's orange-yellow hand-drawn look: rough irregular marker strokes, radiating spark/star bursts, thick angular chevrons and short dashes, placed around the two people.",
+    "The doodle amount increases as the two approach; the marks grow from small sparks into a very bright radiance; pink strokes appear at the kiss.",
+    "Duration 15 seconds, 16:9, one continuous take with no cuts."
+  ],
+  "bindings": [
+    {
+      "asset_id": "video_1",
+      "role": "Picture base and timeline source for the edit; supplies the people, the setting, the camera behaviour and the event order.",
+      "retained_attributes": [
+        "the original footage of the two people under the tree shade",
+        "the woman's and the man's appearance, screen positions and facing each other",
+        "the blurred green foliage background and natural daylight",
+        "the continuous handheld take with a slight drift to the right",
+        "the order approach - kiss - separation"
+      ],
+      "optional_inherited_attributes": [
+        "the exact seconds of each event, redistributed across the 15-second target"
+      ],
+      "excluded_attributes": [
+        "video_1's original audio track"
+      ],
+      "exclusion_reasons": [
+        "the source audio was not analyzed and no reuse directive was given; the target video carries newly designed ambience and score"
+      ]
+    },
+    {
+      "asset_id": "image_1",
+      "role": "Appearance reference for the new doodle layer.",
+      "retained_attributes": [
+        "orange, amber and mostly red-orange palette",
+        "rough irregular hand-drawn marker strokes with mixed line and block faces",
+        "radiating spark/star bursts, thick angular chevron strokes and short dashes",
+        "loose scattered marks rather than a diffuse glow"
+      ],
+      "optional_inherited_attributes": [
+        "the upward-radiating arrangement of the marks, adapted to surround the two people"
+      ],
+      "excluded_attributes": [
+        "the white slide, the blue grass-like fences, the pale sky and the two sliding people of the reference frame"
+      ],
+      "exclusion_reasons": [
+        "image_1 is used only as a doodle-style reference; its scene content is not part of the target video"
+      ]
+    }
+  ],
+  "developments": [
+    {
+      "id": "dev_1",
+      "source_content_event_ids": [
+        "c_1",
+        "c_4"
+      ],
+      "visible_change": "Under the tree shade the woman on the left smiles and looks to her right while a few small orange-yellow doodle marks appear around her; the man walks in from the right edge and the two lean toward each other, and as the space between them narrows more drawn chevrons, short dashes and small sparks appear around them both.",
+      "outcome": "The two are face to face in a medium close-up with a growing scatter of orange-yellow doodle marks around them."
+    },
+    {
+      "id": "dev_2",
+      "source_content_event_ids": [
+        "c_5"
+      ],
+      "visible_change": "With their faces close together the small drawn sparks lengthen and crowd into long bright orange-yellow rays radiating around and between their heads, and the drawn layer grows brighter and denser.",
+      "outcome": "A dense, very bright orange-yellow drawn radiance surrounds the two people just before the kiss."
+    },
+    {
+      "id": "dev_3",
+      "source_content_event_ids": [
+        "c_2",
+        "c_6"
+      ],
+      "visible_change": "Their lips meet in a kiss, and pink brush strokes appear across the drawn layer around their faces, blooming over their cheeks and hair while the bright orange-yellow rays soften into a warm halo.",
+      "outcome": "The two are kissing with pink doodle strokes blooming around their faces."
+    },
+    {
+      "id": "dev_4",
+      "source_content_event_ids": [
+        "c_3"
+      ],
+      "visible_change": "The two draw apart and look at each other with a smile; the pink strokes thin to a few light marks, the camera drifts slightly to the right so the man is more centered and the woman partly leaves the left edge, and a last orange spark and pink dash fade out.",
+      "outcome": "Final frame: the two smiling apart, the man centered, the woman partly out of frame on the left, with only faint traces of the doodle layer."
+    }
+  ],
+  "shots": [
+    {
+      "id": "shot_1",
+      "development_ids": [
+        "dev_1",
+        "dev_2",
+        "dev_3",
+        "dev_4"
+      ],
+      "content_purpose": "Present the preserved video_1 take as one continuous handheld medium close-up while the new doodle layer builds from small orange-yellow sparks into a bright radiance, turns to pink strokes at the kiss and thins away after the two separate.",
+      "treatment_ids": [
+        "t_1",
+        "t_2"
+      ],
+      "start_seconds": 0,
+      "end_seconds": 15,
+      "description": "The shot stays on one continuous handheld medium close-up under the tree shade, keeping the slight drift to the right of the original footage. In the opening seconds a few small orange-yellow hand-drawn marks of <Subject 1> appear around the woman on the left, two short dashes over her shoulder and one small radiating spark beside her head, while she smiles and looks to her right. The man walks in from the right edge of the frame and the two lean toward each other; as the space between them narrows, more marks of <Subject 1> appear and multiply around them both, thick chevrons and clusters of short dashes spreading beside their shoulders and across the blurred green background. When their faces come close together the small sparks lengthen and crowd into long bright orange-yellow rays that radiate around and between their heads, and the drawn layer grows brighter and denser as they close the last of the distance. When their lips meet, about eleven seconds into the shot, thick pink brush strokes appear across the drawn layer around their faces, blooming outward over their cheeks and hair, while the orange-yellow rays around them soften into a warm halo. The two then draw apart and look at each other with a smile, the pink strokes thin to a few light marks above their heads, the camera continues its slight drift to the right so the man sits more centered and the woman partly leaves the left edge of the frame, and in the final seconds a last small orange spark and a pink dash fade out at the top of the frame."
+    }
+  ]
+}

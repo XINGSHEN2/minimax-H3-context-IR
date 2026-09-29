@@ -1,0 +1,26 @@
+{
+  "model": "MiniMax-H3",
+  "content": [
+    {
+      "type": "text",
+      "text": "subject_definitions:\n<Subject 1> is the hand-drawn doodle layer whose stroke style is taken from <Picture 1>: flat opaque marker strokes in orange, amber and red-orange with rough irregular edges, forming radiating spark and star bursts, thick angular chevron strokes and short dashes, drawn as loose scattered marks rather than a diffuse glow.\n<Video 1> is the source video for the target video edit: one continuous handheld medium close-up under tree shade in daylight, with a young woman on the left in a light-blue V-neck shirt, long brown hair and dark red lipstick, and a bearded man with a top-knot and a small hoop earring who enters from the right in a dark blue denim jacket over a white T-shirt, the two leaning together, kissing, and then separating with a smile while the camera drifts slightly to the right.\n\nsummary:\n[video editing + reference generation] The target video is an edited version of <Video 1>. The original footage of the two people under the trees is kept as the picture base in the same order while a new animated layer of <Subject 1> is composited around them: a few small sparks at the start, more marks as the two move closer, long bright orange-yellow rays as they come face to face, pink strokes at the kiss, and the marks thinning out as they separate and smile.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): partially_preserved - the orange-yellow palette, the rough stroke character and the spark, chevron and dash mark vocabulary from <Picture 1> carry over, while the layer is extended by the requested growth animation and the pink phase at the kiss.\n<Video 1> (appears throughout [Shot 1] as the picture base): partially_preserved - the original footage, the two people, the camera behaviour and the order of the approach, the kiss and the separation are kept, with the event timing redistributed across the 15-second target.\n\ndetailed_description:\nThe edit keeps the live-action tree-shade footage as the picture base and composites a flat hand-drawn 2D layer of <Subject 1> over it, around the two people.\n[Shot 1] The shot stays on one continuous handheld medium close-up under the tree shade, keeping the slight drift to the right of the original footage. In the opening seconds a few small orange-yellow hand-drawn marks of <Subject 1> appear around the woman on the left, two short dashes over her shoulder and one small radiating spark beside her head, while she smiles and looks to her right. The man walks in from the right edge of the frame and the two lean toward each other; as the space between them narrows, more marks of <Subject 1> appear and multiply around them both, thick chevrons and clusters of short dashes spreading beside their shoulders and across the blurred green background. When their faces come close together the small sparks lengthen and crowd into long bright orange-yellow rays that radiate around and between their heads, and the drawn layer grows brighter and denser as they close the last of the distance. When their lips meet, about eleven seconds into the shot, thick pink brush strokes appear across the drawn layer around their faces, blooming outward over their cheeks and hair, while the orange-yellow rays around them soften into a warm halo. The two then draw apart and look at each other with a smile, the pink strokes thin to a few light marks above their heads, the camera continues its slight drift to the right so the man sits more centered and the woman partly leaves the left edge of the frame, and in the final seconds a last small orange spark and a pink dash fade out at the top of the frame.\n\noverall_soundscape:\nSoft rustling leaves, a light breeze and distant birdsong continue throughout the outdoor scene under the trees. The ambience stays quiet and close as the two lean together, with only faint cloth movement audible, and it settles back into the same calm tone after they draw apart.\n\nnon_diegetic_music:\nA warm, airy score at a slow to mid tempo, built from soft piano notes, a swelling string pad and a light shaker; it starts low under the outdoor ambience, grows louder and brighter as the drawn sparks multiply into the radiant glow, holds a suspended note through the kiss, and resolves into one soft sustained chord that fades out over the final frame."
+    },
+    {
+      "type": "image_url",
+      "image_url": {
+        "url": "http://10.0.96.114:30100/v1/assets/asset_4b5163d9f15043b08f3269e6437d3cb3/content"
+      },
+      "role": "reference_image"
+    },
+    {
+      "type": "video_url",
+      "video_url": {
+        "url": "http://10.0.96.114:30100/v1/assets/asset_3de0342663b849c79e02fcbefce271c5/content"
+      },
+      "role": "reference_video"
+    }
+  ],
+  "resolution": "768P",
+  "duration": 15,
+  "ratio": "9:16"
+}
