@@ -906,59 +906,6 @@
       ]
     },
     {
-      "id": "feishu_34_case02",
-      "title": "Case 2 · 可乐与便利店招牌替换",
-      "category": "3.4 高精度的指令遵循",
-      "description": "Raw、本地 IR 和官方 IR 的同案例对照。各栏使用对应参考时长。",
-      "variants": {
-        "v63.1": {
-          "label": "v63.1",
-          "groups": {
-            "raw": {
-              "label": "Raw",
-              "status": "ready",
-              "video": "data/feishu_34_case02/original/raw/result.mp4",
-              "prompt": "data/feishu_34_case02/original/raw/h3_prompt.txt",
-              "request": "data/feishu_34_case02/original/raw/request.json",
-              "context_ir": null,
-              "content_plan": null,
-              "duration_seconds": 15.084,
-              "size": "1344×768"
-            },
-            "local_ir": {
-              "label": "本地 IR · v63.1",
-              "status": "ready",
-              "video": "data/feishu_34_case02/original/local_ir/result.mp4",
-              "prompt": "data/feishu_34_case02/original/local_ir/h3_prompt.txt",
-              "request": "data/feishu_34_case02/original/local_ir/request.json",
-              "context_ir": "data/feishu_34_case02/original/local_ir/context_ir.json",
-              "content_plan": "data/feishu_34_case02/original/local_ir/content_plan.json",
-              "duration_seconds": 15.084,
-              "size": "1344×768"
-            },
-            "official_ir": {
-              "label": "官方 IR",
-              "status": "ready",
-              "video": "data/feishu_34_case02/original/official_ir/result.mp4",
-              "prompt": "data/feishu_34_case02/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_34_case02/original/official_ir/request.json",
-              "context_ir": null,
-              "content_plan": null,
-              "duration_seconds": 15.084,
-              "size": "1344×768"
-            }
-          }
-        }
-      },
-      "assets": [
-        {
-          "src": "data/feishu_34_case02/assets/视频1.mp4",
-          "label": "视频1.mp4",
-          "type": "video"
-        }
-      ]
-    },
-    {
       "id": "feishu_34_case03",
       "title": "Case 3 · 魔术师服装与幕布变色",
       "category": "3.4 高精度的指令遵循",
