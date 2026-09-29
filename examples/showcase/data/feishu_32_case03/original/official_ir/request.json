@@ -1,26 +1,23 @@
 {
-  "task": "ref2va",
-  "prompt_file": "/tmp/feishu-h3-duration-fixed/0306b77f7919/h3_prompt.txt",
-  "conditions": [
+  "page_case": 14,
+  "source_case": "3. 全能精准编辑与修改/3.2 场景与视觉效果编辑/case3-ref2va",
+  "endpoint": "https://api.minimaxi.com/v2/h3_context_ir",
+  "prompt": "视频1窗外的场景改成图1",
+  "duration": 6,
+  "ratio": "16:9",
+  "assets": [
     {
-      "type": "image",
-      "uri": "/tmp/feishu-h3-duration-fixed/0306b77f7919/assets/图片1.png",
-      "role": "reference"
+      "file": "assets/图片1.png",
+      "media_type": "image",
+      "bytes": 1631939,
+      "sha256": "b160f56627f3ee66e1385b8ec41a5c69d813d2765f8eb7df99ee71e8742845bd"
     },
     {
-      "type": "video",
-      "uri": "/tmp/feishu-h3-duration-fixed/0306b77f7919/assets/视频1.mp4",
-      "role": "reference"
+      "file": "assets/视频1.mp4",
+      "media_type": "video",
+      "bytes": 5372480,
+      "sha256": "7156f0234bef4dc493953401221d4a9f370d3b597653be77ef6f97f7815a881f"
     }
   ],
-  "target": {
-    "short_edge": 768,
-    "aspect_ratio": "16:9",
-    "duration_seconds": 6.084
-  },
-  "seed": 42,
-  "n": 1,
-  "num_inference_steps": 20,
-  "output_mode": "decoded_files",
-  "output_path": "/tmp/feishu-h3-duration-fixed/0306b77f7919/output"
+  "note": "Media submitted as Base64 data URIs; bytes omitted."
 }

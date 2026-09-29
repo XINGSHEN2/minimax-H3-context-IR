@@ -1,23 +1,25 @@
 subject_definitions:
-<Subject 1> is the young man in <Video 1>, who has curly brown hair, freckles, and wears a thick beige woolen coat over a ribbed sweater, with brown leather gloves.
-<Video 1> is the source video for the edit, showing the young man holding a cat in the snow.
-<Audio 1> is the audio reuse source, containing a soft, sustained drone and ambient wind-like sound.
+<Subject 1> is the young man with curly brown hair, freckles, a thick textured beige coat, and brown leather gloves in <Video 1>.
+<Subject 2> is the fluffy gray dog that replaces the original cat in <Video 1>.
+<Video 1> is the source video for the editing task.
+<Audio 1> is directly used as the target video's background music.
 
 summary:
-[video editing + audio reuse] The target video is an edited version of <Video 1>. The young man (<Subject 1>) is lying in the snow, resting his head on his gloved hands. The original gray cat has been replaced by a dog, and the man gently kisses the dog on its head as it rests peacefully. The ambient drone sound from <Audio 1> is partially reused and extended to fit the longer target duration.
+[video editing] The target video is an edited version of <Video 1>. <Subject 1> is lying down on a white surface, affectionately resting his face against a dog (<Subject 2>), which replaces the original gray cat. The camera performs a slow push-in while <Audio 1> plays a quiet ambient drone.
 
 retention_analysis:
-<Video 1> (source video editing): partially_preserved - the source video's camera framing, the snowy setting, and the man's actions are preserved, but the original cat is replaced by a dog, and the timing is extended to the target duration.
-<Subject 1> (appears in [Shot 1]): fully_preserved - the young man's curly brown hair, freckles, beige woolen coat, brown leather gloves, and his gentle interaction are completely retained.
-<Audio 1>: partially_copy - the soft ambient drone sound from <Audio 1> is reused and extended to fit the complete 15-second target audio track.
+<Subject 1> (appears in [Shot 1]): fully_preserved - the young man's identity, facial features, curly brown hair, thick beige coat, and brown leather gloves remain identical to the source video.
+<Subject 2> (appears in [Shot 1]): attribute_transfer - the original gray cat is replaced by a fluffy gray dog, which occupies the same spatial position in the man's arms.
+<Video 1> (camera motion): fully_preserved - the slow, steady push-in camera movement is maintained.
+<Video 1> (cut / pacing structure): fully_preserved - the unbroken single-shot structure and subtle performance timing are kept exactly as in the source.
+<Audio 1>: fully_copy - <Audio 1> is reused 1:1 as the target video's complete final audio track.
 
 detailed_description:
-The target video is in a realistic, cinematic photographic style. It is an edited version of <Video 1>, where the original gray cat is replaced by a dog, and the footage is extended to fit a longer duration.
-
-[Shot 1] The shot opens with an intimate close-up of <Subject 1>, the young man with tousled, curly brown hair, a smattering of freckles across his pale cheeks, and light-colored eyes. He is lying close to the ground on a stark, snowy white surface, bundled up against the cold. He wears a thick, textured beige woolen coat with a herringbone weave over a ribbed high-neck sweater, and his hands are encased in weathered, dark brown leather gloves. He rests his chin gently against his crossed, gloved hands. Tucked safely against his chest and resting its head directly on the leather gloves is a small, furry dog, which has seamlessly replaced the original gray cat. The dog gazes forward with a calm, comfortable demeanor, its soft fur contrasting vividly against the rugged leather and thick wool. The camera executes a very slow, continuous push-in, enhancing the quiet intimacy of the scene. <Subject 1> looks softly down toward the dog, his expression tender and serene. Slowly, he leans his face forward, closing his eyes, and presses a gentle, lingering kiss to the top of the dog's head. The dog reacts by peacefully closing its eyes, completely at ease in the man's protective embrace. The soft, moody ambient drone and subtle wind-like textures from <Audio 1> play continuously underneath, their atmospheric chill contrasting with the visual warmth of the interaction. The camera holds this tight framing as the man keeps his face resting lovingly against the dog's head, the gentle ambient soundscape carrying the shot to its peaceful conclusion.
+The target video is in a realistic, cinematic photographic style.
+[Shot 1] The scene opens with a close-up, intimately framing <Subject 1>, a young man with tousled curly brown hair, distinct freckles across his nose and cheeks, and fair skin. He is lying down on a stark, snowy white surface, dressed in a heavy, textured beige herringbone coat that envelops his shoulders. His hands, clad in thick, worn brown leather gloves, are crossed in the lower foreground, forming a secure resting place. Cradled gently within the crook of his arms and right below his face is <Subject 2>, a fluffy, gray-furred dog that has seamlessly replaced the original cat from the source video. The dog features soft, dense fur, relaxed ears, and dark eyes that calmly gaze toward the camera. As the shot progresses, <Subject 1> exhibits a tender display of affection; he slowly lowers his head, resting his cheek and forehead gently against the top of the dog's head. His expression softens profoundly, his eyelids fluttering closed as a faint, serene smile graces his lips. The dog remains peacefully nestled in the leather-gloved hands, absorbing the man's warmth. The camera executes a slow, deliberate push-in, gradually tightening the frame around their touching faces, heightening the emotional resonance and drawing attention to the tactile contrast between the rough wool of the coat, the creased leather of the gloves, and the soft fur of the dog. The lighting is soft and diffused, casting gentle shadows that sculpt the man's facial features and the deep folds of his clothing against the bright, minimalistic background. <Audio 1> provides a continuous, ethereal ambient synth drone that underscores the quiet, contemplative nature of the moment, playing uninterrupted through the end of the shot.
 
 overall_soundscape:
-A quiet, moody atmosphere characterized by a continuous, soft ambient drone and gentle wind-like sounds, creating a chilly but peaceful winter feel.
+An ethereal, atmospheric ambient synth drone plays continuously, creating a serene and introspective mood.
 
 non_diegetic_music:
-N/A
+Slow, sustained ambient electronic music with deep synth pads and no percussive beat, evoking a sense of calm and tenderness.

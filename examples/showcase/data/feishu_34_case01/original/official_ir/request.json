@@ -1,21 +1,17 @@
 {
-  "task": "ref2va",
-  "prompt_file": "/tmp/feishu-h3-duration-fixed/19ccd1ec6e12/h3_prompt.txt",
-  "conditions": [
+  "page_case": 15,
+  "source_case": "3. 全能精准编辑与修改/3.4 高精度的指令遵循/case1-ref2va",
+  "endpoint": "https://api.minimaxi.com/v2/h3_context_ir",
+  "prompt": "将参考视频中的报纸替换为一本绿色封皮的书；人物所坐的椅子改为红色沙发；去掉人物佩戴的墨镜，保留清晰面部；移除汽车燃烧效果，使车辆保持正常状态；人物从怀里拿出的照片改为一个黑色小本子；同时在画面左侧增加一棵树",
+  "duration": 10,
+  "ratio": "16:9",
+  "assets": [
     {
-      "type": "video",
-      "uri": "/tmp/feishu-h3-duration-fixed/19ccd1ec6e12/assets/视频1.mp4",
-      "role": "reference"
+      "file": "assets/视频1.mp4",
+      "media_type": "video",
+      "bytes": 10491034,
+      "sha256": "2b83dd2cb4c43583c53f3e121a53992a488a100ecb1619e5301c215834b90c5d"
     }
   ],
-  "target": {
-    "short_edge": 768,
-    "aspect_ratio": "16:9",
-    "duration_seconds": 10.055
-  },
-  "seed": 42,
-  "n": 1,
-  "num_inference_steps": 20,
-  "output_mode": "decoded_files",
-  "output_path": "/tmp/feishu-h3-duration-fixed/19ccd1ec6e12/output"
+  "note": "Media submitted as Base64 data URIs; bytes omitted."
 }

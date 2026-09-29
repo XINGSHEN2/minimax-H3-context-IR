@@ -1,19 +1,17 @@
 {
-  "model": "MiniMax-H3",
-  "content": [
+  "page_case": 16,
+  "source_case": "3. 全能精准编辑与修改/3.4 高精度的指令遵循/case3-ref2va",
+  "endpoint": "https://api.minimaxi.com/v2/h3_context_ir",
+  "prompt": "两位魔术师站在舞台上面向观众表演\"互换\"魔术： 两人同时挥动魔杖，一阵烟雾升起。烟雾散去后，两人的西装颜色互换——左边的人穿白色西装，右边的人现在穿黑色西装，但两人手套颜色不变。 两人鞠躬致谢，身后的红色幕布拉上，从深红色渐变为深蓝色",
+  "duration": 6,
+  "ratio": "16:9",
+  "assets": [
     {
-      "type": "text",
-      "text": "subject_definitions:\n<Subject 1> is the left magician in <Picture 1>, a thin man with a mustache wearing a black top hat, a black suit with a black vest and shirt, a black tie, and white gloves, holding a yellow star-topped magic wand.\n<Subject 2> is the right magician in <Picture 1>, a thin man with a mustache wearing a white top hat, a white suit with a white vest and shirt, a white bow tie, and black gloves, holding a silver star-topped magic wand.\n<Subject 3> is the stage environment in <Picture 1>, featuring a wooden floor, a painted backdrop of a lake, mountains, and an island castle, framed by dark red curtains on the sides, with audience silhouettes in the foreground.\n<Picture 1> is the first frame of [Shot 1], showing <Subject 1> and <Subject 2> performing on <Subject 3>.\n\nsummary:\n[keyframe completion + reference generation] The target video is a 2D animation starting from <Picture 1>. <Subject 1> and <Subject 2> wave their magic wands on <Subject 3>, causing a puff of smoke to appear. When the smoke clears, their suit colors have magically swapped, but their gloves remain the same. They bow to the audience as the red curtains close behind them and transition from dark red to dark blue.\n\nretention_analysis:\n<Picture 1> ([Shot 1] first frame): fully_preserved - the target video begins exactly with the composition and characters established in the reference image.\n<Subject 1> (appears in [Shot 1]): partially_preserved - his identity, face, mustache, black top hat, and white gloves are preserved, but his black suit, vest, shirt, and tie are magically replaced by white versions after the smoke clears, fulfilling the requested color swap.\n<Subject 2> (appears in [Shot 1]): partially_preserved - his identity, face, mustache, white top hat, and black gloves are preserved, but his white suit, vest, shirt, and bow tie are magically replaced by black versions after the smoke clears, fulfilling the requested color swap.\n<Subject 3> (appears in [Shot 1]): partially_preserved - the wooden stage, painted backdrop, and audience silhouettes are preserved, but the dark red curtains slide closed behind the magicians and their color changes to deep dark blue at the end of the shot.\n\ndetailed_description:\nThe target video is in a 2D hand-drawn animation style. The shot begins with <Picture 1>, establishing a theatrical performance. <Subject 1>, a thin man with a mustache, stands on the left wearing a black top hat, a fully black suit including a black vest and shirt, a black tie, and contrasting white gloves. He holds a yellow star-topped magic wand elegantly in his right hand. On the right stands <Subject 2>, a similarly thin man with a mustache, wearing a white top hat, a fully white suit with a white vest and shirt, a white bow tie, and contrasting black gloves. He holds a silver star-topped wand in his left hand. They are positioned on <Subject 3>, a wooden stage featuring a painted backdrop of a tranquil lake, towering mountains, and a small castle on an island. Heavy dark red curtains frame the left and right edges of the stage, and the dark, unmoving silhouettes of an audience—some bearing animal ears—sit in the immediate foreground, watching the show.\n\nBeginning their act, <Subject 1> and <Subject 2> face the audience directly and raise their respective wands gracefully. With a synchronized, dramatic flick of their wrists, they wave the magic wands inward toward each other. Instantly, a dense, swirling cloud of thick grey smoke erupts from the wooden floorboards between them, quickly billowing upward and outward to completely obscure both magicians from view. The smoke churns heavily for a few seconds before rapidly dissipating into the stage air. As the view clears, the result of the magical swap is revealed: <Subject 1> on the left is now wearing a crisp white suit, white vest, white shirt, and white tie, though his original black top hat and white gloves remain perfectly unchanged. <Subject 2> on the right is now dressed in a sharp black suit, black vest, black shirt, and black bow tie, while retaining his original white top hat and black gloves. Smiling triumphantly at the successful trick, the two magicians step slightly forward and bend down, sweeping their free arms outward in a synchronized, deep bow to thank the audience. While they hold their formal bow, the heavy dark red curtains on both sides of <Subject 3> release from their tiebacks and slide smoothly toward the center of the stage just behind the magicians. The fabric meets in the middle, completely concealing the painted backdrop from the audience's view while the bowing magicians remain visible in the foreground. Once the curtains are tightly shut and motionless, a magical wave of color washes over the draped fabric, smoothly shifting the material from its original dark red to a rich, deep dark blue to conclude the performance.\n\noverall_soundscape:\nA whimsical, theatrical soundscape featuring a dramatic \"poof\" sound effect for the smoke, followed by enthusiastic applause from the audience and the heavy, continuous swoosh of the stage curtains sliding shut.\n\nnon_diegetic_music:\nA lively, magical orchestral track featuring light pizzicato strings and playful woodwinds, maintaining a steady, upbeat tempo that swells excitedly during the magic trick and concludes with a definitive, theatrical final chord."
-    },
-    {
-      "type": "image_url",
-      "image_url": {
-        "url": "http://10.0.96.114:30100/v1/assets/asset_6d27d1f0defd4c0390fd7a9f1cb672d1/content"
-      },
-      "role": "reference_image"
+      "file": "assets/图片1.png",
+      "media_type": "image",
+      "bytes": 1153686,
+      "sha256": "cb92cdf8f327648dc77bfb519f66cdf70477483684ee4d8237dcda7c84e673e1"
     }
   ],
-  "resolution": "768P",
-  "duration": 6,
-  "ratio": "16:9"
+  "note": "Media submitted as Base64 data URIs; bytes omitted."
 }

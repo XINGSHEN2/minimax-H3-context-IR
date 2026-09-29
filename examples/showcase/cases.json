@@ -374,9 +374,9 @@
             "official_ir": {
               "label": "官方 IR · 原始结果",
               "status": "ready",
-              "video": "data/feishu_22_case02/original/official_ir/result.mp4",
-              "prompt": "data/feishu_22_case02/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_22_case02/original/official_ir/request.json",
+              "video": "data/feishu_22_case02/original/official_ir/result.mp4?v=20260929-duration-fix",
+              "prompt": "data/feishu_22_case02/original/official_ir/h3_prompt.txt?v=20260929-duration-fix",
+              "request": "data/feishu_22_case02/original/official_ir/request.json?v=20260929-duration-fix",
               "context_ir": null,
               "duration_seconds": 10.157,
               "size": "1344×768"
@@ -435,9 +435,9 @@
             "official_ir": {
               "label": "官方 IR · 原始结果",
               "status": "ready",
-              "video": "data/feishu_22_case04/original/official_ir/result.mp4",
-              "prompt": "data/feishu_22_case04/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_22_case04/original/official_ir/request.json",
+              "video": "data/feishu_22_case04/original/official_ir/result.mp4?v=20260929-duration-fix",
+              "prompt": "data/feishu_22_case04/original/official_ir/h3_prompt.txt?v=20260929-duration-fix",
+              "request": "data/feishu_22_case04/original/official_ir/request.json?v=20260929-duration-fix",
               "context_ir": null,
               "duration_seconds": 6.607,
               "size": "1344×768"
@@ -487,12 +487,12 @@
             "official_ir": {
               "label": "官方 IR",
               "status": "ready",
-              "video": "data/feishu_31_case01/original/official_ir/result.mp4",
-              "prompt": "data/feishu_31_case01/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_31_case01/original/official_ir/request.json",
+              "video": "data/feishu_31_case01/original/official_ir/result.mp4?v=20260929-duration-fix",
+              "prompt": "data/feishu_31_case01/original/official_ir/h3_prompt.txt?v=20260929-duration-fix",
+              "request": "data/feishu_31_case01/original/official_ir/request.json?v=20260929-duration-fix",
               "context_ir": null,
               "content_plan": null,
-              "duration_seconds": 6.084,
+              "duration_seconds": 6.607,
               "size": "1344×768"
             }
           }
@@ -540,12 +540,12 @@
             "official_ir": {
               "label": "官方 IR",
               "status": "ready",
-              "video": "data/feishu_31_case02/original/official_ir/result.mp4",
-              "prompt": "data/feishu_31_case02/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_31_case02/original/official_ir/request.json",
+              "video": "data/feishu_31_case02/original/official_ir/result.mp4?v=20260929-duration-fix",
+              "prompt": "data/feishu_31_case02/original/official_ir/h3_prompt.txt?v=20260929-duration-fix",
+              "request": "data/feishu_31_case02/original/official_ir/request.json?v=20260929-duration-fix",
               "context_ir": null,
               "content_plan": null,
-              "duration_seconds": 6.084,
+              "duration_seconds": 6.607,
               "size": "1344×768"
             }
           }
@@ -593,12 +593,12 @@
             "official_ir": {
               "label": "官方 IR",
               "status": "ready",
-              "video": "data/feishu_31_case03/original/official_ir/result.mp4",
-              "prompt": "data/feishu_31_case03/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_31_case03/original/official_ir/request.json",
+              "video": "data/feishu_31_case03/original/official_ir/result.mp4?v=20260929-duration-fix",
+              "prompt": "data/feishu_31_case03/original/official_ir/h3_prompt.txt?v=20260929-duration-fix",
+              "request": "data/feishu_31_case03/original/official_ir/request.json?v=20260929-duration-fix",
               "context_ir": null,
               "content_plan": null,
-              "duration_seconds": 6.084,
+              "duration_seconds": 6.607,
               "size": "1344×768"
             }
           }
@@ -714,12 +714,12 @@
             "official_ir": {
               "label": "官方 IR",
               "status": "ready",
-              "video": "data/feishu_32_case02/original/official_ir/result.mp4",
-              "prompt": "data/feishu_32_case02/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_32_case02/original/official_ir/request.json",
+              "video": "data/feishu_32_case02/original/official_ir/result.mp4?v=20260929-duration-fix",
+              "prompt": "data/feishu_32_case02/original/official_ir/h3_prompt.txt?v=20260929-duration-fix",
+              "request": "data/feishu_32_case02/original/official_ir/request.json?v=20260929-duration-fix",
               "context_ir": null,
               "content_plan": null,
-              "duration_seconds": 6.084,
+              "duration_seconds": 6.607,
               "size": "1344×768"
             }
           }
@@ -767,12 +767,12 @@
             "official_ir": {
               "label": "官方 IR",
               "status": "ready",
-              "video": "data/feishu_32_case03/original/official_ir/result.mp4",
-              "prompt": "data/feishu_32_case03/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_32_case03/original/official_ir/request.json",
+              "video": "data/feishu_32_case03/original/official_ir/result.mp4?v=20260929-duration-fix",
+              "prompt": "data/feishu_32_case03/original/official_ir/h3_prompt.txt?v=20260929-duration-fix",
+              "request": "data/feishu_32_case03/original/official_ir/request.json?v=20260929-duration-fix",
               "context_ir": null,
               "content_plan": null,
-              "duration_seconds": 6.125,
+              "duration_seconds": 6.607,
               "size": "1344×768"
             }
           }
@@ -825,12 +825,12 @@
             "official_ir": {
               "label": "官方 IR",
               "status": "ready",
-              "video": "data/feishu_34_case01/original/official_ir/result.mp4",
-              "prompt": "data/feishu_34_case01/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_34_case01/original/official_ir/request.json",
+              "video": "data/feishu_34_case01/original/official_ir/result.mp4?v=20260929-duration-fix",
+              "prompt": "data/feishu_34_case01/original/official_ir/h3_prompt.txt?v=20260929-duration-fix",
+              "request": "data/feishu_34_case01/original/official_ir/request.json?v=20260929-duration-fix",
               "context_ir": null,
               "content_plan": null,
-              "duration_seconds": 10.084,
+              "duration_seconds": 10.157,
               "size": "1344×768"
             }
           }
@@ -878,12 +878,12 @@
             "official_ir": {
               "label": "官方 IR",
               "status": "ready",
-              "video": "data/feishu_34_case03/original/official_ir/result.mp4",
-              "prompt": "data/feishu_34_case03/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_34_case03/original/official_ir/request.json",
+              "video": "data/feishu_34_case03/original/official_ir/result.mp4?v=20260929-duration-fix",
+              "prompt": "data/feishu_34_case03/original/official_ir/h3_prompt.txt?v=20260929-duration-fix",
+              "request": "data/feishu_34_case03/original/official_ir/request.json?v=20260929-duration-fix",
               "context_ir": null,
               "content_plan": null,
-              "duration_seconds": 6.584,
+              "duration_seconds": 6.607,
               "size": "1344×768"
             }
           }

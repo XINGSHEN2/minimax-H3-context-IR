@@ -1,21 +1,17 @@
 {
-  "task": "ref2va",
-  "prompt_file": "/tmp/feishu-h3-duration-fixed/61b943eb02cf/h3_prompt.txt",
-  "conditions": [
+  "page_case": 10,
+  "source_case": "3. 全能精准编辑与修改/3.1 角色与物体编辑/case2-ref2va",
+  "endpoint": "https://api.minimaxi.com/v2/h3_context_ir",
+  "prompt": "画面左边增加一个穿着相同团队制服的人，动作与旁人保持一致",
+  "duration": 6,
+  "ratio": "16:9",
+  "assets": [
     {
-      "type": "video",
-      "uri": "/tmp/feishu-h3-duration-fixed/61b943eb02cf/assets/视频1.mp4",
-      "role": "reference"
+      "file": "assets/视频1.mp4",
+      "media_type": "video",
+      "bytes": 4700215,
+      "sha256": "7ced4a21f226c1b519fa692e0a2c51fa970b4da25113f0378b8dd493038dff21"
     }
   ],
-  "target": {
-    "short_edge": 768,
-    "aspect_ratio": "16:9",
-    "duration_seconds": 6.061
-  },
-  "seed": 42,
-  "n": 1,
-  "num_inference_steps": 20,
-  "output_mode": "decoded_files",
-  "output_path": "/tmp/feishu-h3-duration-fixed/61b943eb02cf/output"
+  "note": "Media submitted as Base64 data URIs; bytes omitted."
 }

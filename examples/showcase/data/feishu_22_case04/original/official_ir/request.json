@@ -1,18 +1,17 @@
 {
-  "task": "ref2va",
-  "target": {
-    "short_edge": 768,
-    "aspect_ratio": "16:9",
-    "duration_seconds": 6
-  },
-  "seed": 42,
-  "n": 1,
-  "num_inference_steps": 20,
-  "output_mode": "decoded_files",
-  "conditions": [
+  "page_case": 8,
+  "source_case": "2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case4-ref2va",
+  "endpoint": "https://api.minimaxi.com/v2/h3_context_ir",
+  "prompt": "参考视频1进行动作模仿。固定机位全景镜头，正视频中三个穿西装的男人替换为三只高度写实的水豚。水豚必须严格遵循原视频的运动轨迹：依次迅速趴到地板上，然后最左边的水豚跳到中间位置，中间位置的水豚翻滚到最左边，接着中间的水豚翻滚到最右边，最右边的水豚跳跃到中间，最后中间水豚跳跃到另外两只背上，堆叠成金字塔形状。保持原有的固定机位不变。确保水豚的毛发质感和光影与环境融合",
+  "duration": 6,
+  "ratio": "16:9",
+  "assets": [
     {
-      "type": "video",
-      "role": "reference"
+      "file": "assets/视频1.mp4",
+      "media_type": "video",
+      "bytes": 4991564,
+      "sha256": "f3bd286115d56861c3cd0a11187773c65bdfba0cfc999777ebf6d9bf0db86515"
     }
-  ]
+  ],
+  "note": "Media submitted as Base64 data URIs; bytes omitted."
 }

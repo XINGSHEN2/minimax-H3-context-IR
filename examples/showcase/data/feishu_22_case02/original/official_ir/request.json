@@ -1,26 +1,29 @@
 {
-  "task": "ref2va",
-  "target": {
-    "short_edge": 768,
-    "aspect_ratio": "16:9",
-    "duration_seconds": 10
-  },
-  "seed": 42,
-  "n": 1,
-  "num_inference_steps": 20,
-  "output_mode": "decoded_files",
-  "conditions": [
+  "page_case": 7,
+  "source_case": "2. 原生多模态理解与生成/2.2 角色、动作与镜头参考/case2-ref2va",
+  "endpoint": "https://api.minimaxi.com/v2/h3_context_ir",
+  "prompt": "人物参考视频1的动作，表演街舞，人物参考图1 图2",
+  "duration": 10,
+  "ratio": "16:9",
+  "assets": [
     {
-      "type": "image",
-      "role": "reference"
+      "file": "assets/图片1.png",
+      "media_type": "image",
+      "bytes": 1298978,
+      "sha256": "edd07078b2a2dfb331ebbaa4e641ba587c7bb3968bb6fd258daf96dad6ef4ade"
     },
     {
-      "type": "image",
-      "role": "reference"
+      "file": "assets/图片2.png",
+      "media_type": "image",
+      "bytes": 1455402,
+      "sha256": "3487e150be116fc0595e111970ecc4485ebea0524a21e92a0240e0fa643988a9"
     },
     {
-      "type": "video",
-      "role": "reference"
+      "file": "assets/视频1.mp4",
+      "media_type": "video",
+      "bytes": 12151563,
+      "sha256": "ee41a7e2cd74943c729344db2dc7217b724c11e4e6c87d85ce406ed092216df6"
     }
-  ]
+  ],
+  "note": "Media submitted as Base64 data URIs; bytes omitted."
 }

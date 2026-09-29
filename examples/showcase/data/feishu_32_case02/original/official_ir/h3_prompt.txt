@@ -1,22 +1,23 @@
 subject_definitions:
-<Subject 1> is the young woman with dark curly hair, freckles, a white t-shirt, a denim apron dress, and colorful stacked bracelets on her right wrist in <Video 1>.
-<Video 1> is the source video for video editing.
-<Audio 1> is directly used as the target video's audio, containing street ambience, a breath, sipping sounds, a vocal murmur, and a cup clinking.
+<Video 1> is the source video for the editing task.
+<Subject 1> is the young woman in <Video 1>, with dark curly hair, freckles, wearing a white t-shirt, blue denim overalls, a beaded necklace, and colorful braided bracelets on her right wrist.
+<Subject 2> is the outdoor cafe and European-style street environment in <Video 1>.
+<Audio 1> is directly used as the target video's complete final audio track.
 
 summary:
-[video editing + audio reuse] The target video is an edited version of <Video 1>. The video maintains the original framing and action of <Subject 1> sitting at an outdoor cafe and drinking from a small cup, but the lighting is explicitly changed from daytime to nighttime. <Audio 1> is reused for the corresponding ambient and Foley sounds of the interaction.
+[video editing + audio reuse] The target video is an edited version of <Video 1>. <Subject 1> takes a sip from a small white cup at the cafe table in <Subject 2>, with the original daylight lighting explicitly altered to a nighttime setting. The original ambient street sounds and her appreciative hum from <Audio 1> are preserved.
 
 retention_analysis:
-<Video 1> (source-video editing): partially_preserved - the original camera angle, composition, and subject actions are maintained, while the lighting and daytime environment are explicitly replaced with a nighttime setting.
-<Subject 1> (appears in [Shot 1]): fully_preserved - her dark curly hair, freckles, white t-shirt, denim apron dress, and colorful bracelets remain intact.
-<Audio 1>: partially_copy - the core breathing, sipping, and clinking sounds from <Audio 1> are reused to match the action in [Shot 1], while the remaining target duration features continuing nighttime street ambience.
+<Video 1> (source-video editing): fully_preserved - the timing, camera framing, subject motion, and cut structure are maintained while the lighting is changed to night.
+<Subject 1> (appears in [Shot 1]): fully_preserved - her identity, curly hair, freckles, clothing, bracelets, and drinking action are retained from the source video, but illuminated by nighttime lighting.
+<Subject 2> (appears in [Shot 1]): partially_preserved - the cafe street layout, pedestrians, and background elements are retained, but the lighting is explicitly changed from daytime to nighttime.
+<Audio 1>: fully_copy - <Audio 1> is reused 1:1 as the target video's complete final audio track.
 
 detailed_description:
-The target video is in a realistic live-action style, functioning as a nighttime edit of the original footage.
-[Shot 1] The shot opens on a close-up of <Subject 1> seated at an outdoor cafe table. The environment is now immersed in the dark, moody atmosphere of night. Warm, artificial light spills from nearby streetlamps and glowing cafe windows, illuminating her face and highlighting her dark curly hair, freckles, white t-shirt, and denim apron dress. Several colorful stacked bracelets are visible on her right wrist. In the blurred background, the nighttime street scene features the silhouettes of pedestrians and the bright headlights of a passing red bus. As the scene begins, the nighttime street ambience from <Audio 1> is heard. <Subject 1> holds a small white cup near her chin, exhaling softly with an audible breath. She slowly brings the cup to her lips and takes a sip. As she drinks, a distinct sipping sound from the copied portion of <Audio 1> plays. She closes her eyes momentarily, savoring the beverage, and murmurs a soft, contented vocalization matching the audio track. She then lowers her right hand, bringing the cup down and placing it onto the table with a soft clink, perfectly synchronized with the Foley from <Audio 1>. After setting the cup down, <Subject 1> rests her arms on the table, her gaze cast thoughtfully downward as the warm nighttime lighting creates soft shadows across her features. The copied audio segment concludes, and a quiet, continuous nighttime street ambience remains audible through the rest of the target video's duration, while she maintains her relaxed, contemplative pose in the evening light.
+The target video is in a realistic live-action style, preserving the medium of the source video. [Shot 1] The shot begins with a medium close-up of <Subject 1> sitting at a table in <Subject 2>. The scene is transformed into a nighttime setting, with the previously sunny street now bathed in dark ambient evening lighting, punctuated by artificial glows from the background streetlamps, cafe storefronts, and the blurred red bus in the distance. <Subject 1> retains her dark curly hair, freckles, white t-shirt, blue denim overalls, beaded necklace, and the colorful braided bracelets on her right wrist. She holds a small white cup in her right hand near her mouth. The bustling street ambiance from <Audio 1> plays in the background. She exhales gently, then tilts the cup and takes a sip. As she lowers the cup, she lets out a soft, appreciative hum. The warm, dim nighttime lighting casts soft shadows across her face and the folds of her clothing. She moves her right arm down, placing the cup onto a saucer on the table, creating a sharp clinking sound synchronized with <Audio 1>. The shot ends as she gazes downward at the table, with the lively nighttime street atmosphere continuing to hum around her in the background.
 
 overall_soundscape:
-The soundscape features ambient street noise, breathing, sipping, a soft vocalization, and the clink of a cup directly reused from <Audio 1>, accompanied by continuous quiet nighttime street ambience to fit the extended duration.
+The soundscape features bustling ambient street noise, a gentle exhalation, an appreciative vocal hum, and the clinking of a ceramic cup being set down on a table.
 
 non_diegetic_music:
 N/A

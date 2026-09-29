@@ -1,21 +1,17 @@
 {
-  "task": "ref2va",
-  "prompt_file": "/tmp/feishu-h3-duration-fixed/f127fbef6bc9/h3_prompt.txt",
-  "conditions": [
+  "page_case": 13,
+  "source_case": "3. 全能精准编辑与修改/3.2 场景与视觉效果编辑/case2-ref2va",
+  "endpoint": "https://api.minimaxi.com/v2/h3_context_ir",
+  "prompt": "参考视频，改变光照，改成夜晚",
+  "duration": 6,
+  "ratio": "16:9",
+  "assets": [
     {
-      "type": "video",
-      "uri": "/tmp/feishu-h3-duration-fixed/f127fbef6bc9/assets/视频1.mp4",
-      "role": "reference"
+      "file": "assets/视频1.mp4",
+      "media_type": "video",
+      "bytes": 4469837,
+      "sha256": "f3313cfee11b884ac1290aa373be26227c638033a3b3b6d5c191f51cafb7cb18"
     }
   ],
-  "target": {
-    "short_edge": 768,
-    "aspect_ratio": "16:9",
-    "duration_seconds": 6.061
-  },
-  "seed": 42,
-  "n": 1,
-  "num_inference_steps": 20,
-  "output_mode": "decoded_files",
-  "output_path": "/tmp/feishu-h3-duration-fixed/f127fbef6bc9/output"
+  "note": "Media submitted as Base64 data URIs; bytes omitted."
 }

@@ -1,31 +1,29 @@
 {
-  "task": "ref2va",
-  "prompt_file": "/tmp/feishu-h3-duration-fixed/7c245472a5ab/h3_prompt.txt",
-  "conditions": [
+  "page_case": 11,
+  "source_case": "3. 全能精准编辑与修改/3.1 角色与物体编辑/case3-ref2va",
+  "endpoint": "https://api.minimaxi.com/v2/h3_context_ir",
+  "prompt": "视频1中最后面的小孩换成 图1中的金毛狗， 视频1中最左边小孩穿的卡其色外套改成图2中的牛仔外套",
+  "duration": 6,
+  "ratio": "16:9",
+  "assets": [
     {
-      "type": "image",
-      "uri": "/tmp/feishu-h3-duration-fixed/7c245472a5ab/assets/图片1.png",
-      "role": "reference"
+      "file": "assets/图片1.png",
+      "media_type": "image",
+      "bytes": 2068957,
+      "sha256": "2a240155bbc3c9f3c2ac577119fedfff6f12f78e07dadc823948bdb4b1f3ff24"
     },
     {
-      "type": "image",
-      "uri": "/tmp/feishu-h3-duration-fixed/7c245472a5ab/assets/图片2.png",
-      "role": "reference"
+      "file": "assets/图片2.png",
+      "media_type": "image",
+      "bytes": 1845698,
+      "sha256": "24a08491f72fd7fcc53819c7e196abd80565f2b187be5dcb7fd3bea1ba596404"
     },
     {
-      "type": "video",
-      "uri": "/tmp/feishu-h3-duration-fixed/7c245472a5ab/assets/视频1.mp4",
-      "role": "reference"
+      "file": "assets/视频1.mp4",
+      "media_type": "video",
+      "bytes": 9839546,
+      "sha256": "5693329849c04ef530e75f7480255ff1fe3fa6254117f05aca5c4c2e2f1c2b1a"
     }
   ],
-  "target": {
-    "short_edge": 768,
-    "aspect_ratio": "16:9",
-    "duration_seconds": 6.061
-  },
-  "seed": 42,
-  "n": 1,
-  "num_inference_steps": 20,
-  "output_mode": "decoded_files",
-  "output_path": "/tmp/feishu-h3-duration-fixed/7c245472a5ab/output"
+  "note": "Media submitted as Base64 data URIs; bytes omitted."
 }

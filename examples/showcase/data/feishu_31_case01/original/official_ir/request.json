@@ -1,21 +1,17 @@
 {
-  "task": "ref2va",
-  "prompt_file": "/tmp/feishu-h3-duration-fixed/0e4a421fe721/h3_prompt.txt",
-  "conditions": [
+  "page_case": 9,
+  "source_case": "3. 全能精准编辑与修改/3.1 角色与物体编辑/case1-ref2va",
+  "endpoint": "https://api.minimaxi.com/v2/h3_context_ir",
+  "prompt": "把视频中的猫换成狗",
+  "duration": 6,
+  "ratio": "16:9",
+  "assets": [
     {
-      "type": "video",
-      "uri": "/tmp/feishu-h3-duration-fixed/0e4a421fe721/assets/视频1.mp4",
-      "role": "reference"
+      "file": "assets/视频1.mp4",
+      "media_type": "video",
+      "bytes": 5455486,
+      "sha256": "e652c8d916401891d12c44a2efa4f4b4263152dfe4b82d96a567d452c8f00973"
     }
   ],
-  "target": {
-    "short_edge": 768,
-    "aspect_ratio": "16:9",
-    "duration_seconds": 6.061
-  },
-  "seed": 42,
-  "n": 1,
-  "num_inference_steps": 20,
-  "output_mode": "decoded_files",
-  "output_path": "/tmp/feishu-h3-duration-fixed/0e4a421fe721/output"
+  "note": "Media submitted as Base64 data URIs; bytes omitted."
 }
