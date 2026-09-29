@@ -12,7 +12,7 @@ function renderAssets(item){
 function renderResult(group,key){
  const card=node('article');card.className='result-card';const head=node('div');head.className='card-head';head.append(node('h3',GROUP_LABELS[key]));const badge=node('span',group?.status==='ready'?'已完成':'缺失');badge.className='badge';head.append(badge);card.append(head);
  if(group?.video){const video=node('video');video.controls=true;video.muted=true;video.playsInline=true;video.preload='metadata';video.src=group.video;card.append(video)}else{const missing=node('div','未提供');missing.className='missing';card.append(missing)}
- if(group?.duration_seconds||group?.size)card.append(node('p',[group.size,group.duration_seconds&&`实际 ${group.duration_seconds} 秒`].filter(Boolean).join(' · ')));
+ if(group?.size)card.append(node('p',group.size));
  if(group?.prompt){const details=node('details'),pre=node('pre','加载中…');details.append(node('summary','查看 Prompt'),pre);card.append(details);textFile(group.prompt).then(text=>{pre.textContent=text})}else card.append(node('p','未提供独立 Prompt。'));
  return card
 }
