@@ -14,7 +14,7 @@ function renderResult(group,key){
  if(group?.video){const video=node('video');video.controls=true;video.muted=true;video.playsInline=true;video.preload='metadata';video.src=group.video;card.append(video)}else{const missing=node('div','未提供');missing.className='missing';card.append(missing)}
  if(group?.duration_seconds||group?.size)card.append(node('p',[group.size,group.duration_seconds&&`实际 ${group.duration_seconds} 秒`].filter(Boolean).join(' · ')));
  if(group?.prompt){const details=node('details'),pre=node('pre','加载中…');details.append(node('summary','查看 Prompt'),pre);card.append(details);textFile(group.prompt).then(text=>{pre.textContent=text})}else card.append(node('p','未提供独立 Prompt。'));
- const links=node('div');links.className='links';for(const[path,label]of[[group?.context_ir,'Context-IR'],[group?.content_plan,'内容计划'],[group?.request,'请求参数'],[group?.video,'打开视频']])if(path){const link=node('a',label);link.href=path;link.target='_blank';link.rel='noopener';links.append(link)}card.append(links);return card
+ const links=node('div');links.className='links';for(const[path,label]of[[group?.context_ir,'Context-IR'],[group?.content_plan,'内容计划'],[group?.video,'打开视频']])if(path){const link=node('a',label);link.href=path;link.target='_blank';link.rel='noopener';links.append(link)}card.append(links);return card
 }
 function renderCase(item,index){
  const number=String(index+1).padStart(2,'0'),section=node('section');section.className='case-section';section.id=`case-${number}`;
