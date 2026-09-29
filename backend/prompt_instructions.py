@@ -3,23 +3,16 @@ from __future__ import annotations
 import json
 from typing import Any, Mapping
 
-ORCHESTRATION = """在一次 API 请求的一次响应中，严格依次完成四个阶段。这是内部工作顺序，不是四次请求；不要输出推理过程，也不要调用工具。
+ORCHESTRATION = """在一次请求中完成下面四步，返回最终结果，不输出草稿或推理过程，不调用工具。
 
-1. 使用 H3 Outline Planning Skill 确定“发生什么”：先整理用户要求和素材可见事实，按目标时长建立并锁定最小充分 developments，再据此确定素材用途与 bindings。不要设计镜头和声音。
-2. 使用 H3 Shot Planning Skill 确定“怎样看见”：把每条 development 映射到 shots，决定观看任务、镜头边界、摄影机路径、连续性、转场和时间，并在最终 h3_prompt 的 detailed_description 中写出完整逐镜正文。不要改写大纲。
-3. 使用 H3 Sound Planning Skill 确定“需要听见什么”：结合逐镜同步声音和用户要求，写出整体声景与画外配乐。不要为了声音增加动作、切点或视觉结果。
-4. 使用 H3 Prompt Writing Skill 确定“怎样交付给 H3”：根据任务 profile 阅读对应官方 reference，完成六板块信息分配和可执行表达；镜头正文只写一次，不另输出副本。
+1. H3 Outline Planning：根据原始用户要求、素材分析和目标时长，确定主要内容、可见发展和结束位置，写 developments 与素材用途。解析后的要求仅供辅助，不能代替用户原文。
+2. H3 Shot Planning：先安排观看过程和时间，再决定必要切点，直接在 detailed_description 中写完整镜头。动作、环境反应和文字效果能同时呈现时一起写，不逐项排成独立段落。
+3. H3 Sound Planning：结合镜头中的同步声音，写整体声景和画外配乐，不另加动作或切点。
+4. H3 Prompt Writing：按所选官方指南完成六板块格式，沿用已经确定的镜头与声音。
 
-Ref2VA 写作时，把信息按用途分配，而不是平均分配篇幅：
-- subject_definitions 只保留跨镜识别或独立控制所需的身份锚点；一个主体通常用一句完整定义，不罗列本镜才需要的动作、光线和环境细节。
-- summary 只说明任务类型、素材分工、事件主线和结局。
-- retention_analysis 只说明出现范围、保留级别、必须保持的核心身份，以及允许发生的目标变化；不重复主体定义，也不预写镜头内容。
-- detailed_description 承担主要执行信息。每个 Shot 应具体写清起始画面、主体动作的可见阶段、主体与环境的关系、必要的材质或光线响应、摄影机如何观察、切点如何到达下一状态，以及需要精确同步的声音。具体不等于重复：只写本镜独有、能够改变 H3 执行结果的信息。
-- overall_soundscape 和 non_diegetic_music 按声音计划简洁交付，不用缩短 detailed_description 来给前述板块腾篇幅。
+每个 Skill 只负责自己的规划内容，不另写多套镜头正文。最后对照用户要求和当前规则，修正遗漏、无依据的切镜及前后状态矛盾；content_plan 与 h3_prompt 保存同一个最终版本。
 
-最后核对用户要求覆盖、真实素材编号、时间连续性，以及 developments、shots 与 h3_prompt 的一致性。问题必须回到所属阶段修正；content_plan 只保存最终锁定版本。
-
-h3_prompt 采用最短充分表达且不设机械字符上限：前三节保持紧凑，detailed_description 保留执行每个镜头所需的具体信息。删除重复句，不删除会改变动作阶段、空间关系、材质与光线响应、摄影机执行、连续状态、切点或精确音画同步的信息。静态内容若只存在于一个已定义 Picture/Video 锚点中，不再拆成 Subject；逐镜不重述 Subject 外观、Picture 完整画面、全局风格或固定层。
+subject_definitions、summary、retention_analysis 保持简洁；detailed_description 写清能改变生成结果的动作、细节、光线、观看方式和局部声音。不设机械字数上限，删除重复表达，保留执行所需的信息。
 """
 
 RESPONSE_CONTRACT = """本次模型调用只返回一个 JSON 对象，顶层严格为 content_plan、h3_prompt、uncertainties，不输出分析、草稿或其他顶层字段。
