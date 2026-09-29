@@ -1,35 +1,29 @@
-const state={data:null,caseIndex:0,variant:'v63',generation:0},$=s=>document.querySelector(s),videos=()=>[...document.querySelectorAll('#comparison video')];
-async function textFile(path){if(!path)return '暂无 Prompt';try{const r=await fetch(path);if(!r.ok)throw Error();return await r.text()}catch{return '读取失败'}}
-function node(tag,text){const n=document.createElement(tag);if(text!==undefined)n.textContent=text;return n}
-async function render(){
- const generation=++state.generation,item=state.data.cases[state.caseIndex];
- if(!item.variants[state.variant])state.variant=Object.keys(item.variants)[0];
- const variant=item.variants[state.variant];$('#caseTitle').textContent=item.title;
- $('#caseNote').textContent=item.description||'';
- document.querySelectorAll('video').forEach(v=>v.pause());
- const gallery=$('#assets');gallery.replaceChildren();
+const $=selector=>document.querySelector(selector),videos=()=>[...document.querySelectorAll('.result-grid video')];
+const GROUP_ORDER=['raw','local_ir','official_ir'],GROUP_LABELS={raw:'Raw',local_ir:'本地 IR',official_ir:'官方 IR'};
+function node(tag,text){const element=document.createElement(tag);if(text!==undefined)element.textContent=text;return element}
+function normalizedTitle(title){return title.replace(/^Case\s*\d+\s*[·・:\-]?\s*/i,'')}
+async function textFile(path){if(!path)return '暂无 Prompt';try{const response=await fetch(path);if(!response.ok)throw Error();return await response.text()}catch{return '读取失败'}}
+function groupMap(groups){const localKey=Object.keys(groups).find(key=>key!=='raw'&&key!=='official_ir');return{raw:groups.raw,local_ir:groups[localKey],official_ir:groups.official_ir}}
+function renderAssets(item){
+ const section=node('section');section.className='asset-section';section.append(node('h3','参考素材'));const gallery=node('div');gallery.className='assets';
  for(const asset of item.assets||[]){const card=node('div');card.className='asset-card';const media=node(asset.type==='video'?'video':'img');media.src=asset.src;if(asset.type==='video'){media.controls=true;media.preload='metadata';media.muted=true;media.playsInline=true}else{media.alt=asset.label;media.loading='lazy'}const link=node('a',asset.label);link.href=asset.src;link.target='_blank';link.rel='noopener';card.append(media,link);gallery.append(card)}
- $('#assetSection').hidden=!gallery.children.length;
- const tabs=$('.tabs');tabs.replaceChildren();
- for(const key of Object.keys(item.variants)){const button=node('button',item.variants[key].label||({vague:'模糊需求',detailed:'详细需求',original:'原始需求'})[key]||key);button.classList.toggle('active',key===state.variant);button.onclick=()=>{state.variant=key;render()};tabs.append(button)}
- tabs.hidden=Object.keys(item.variants).length===1;
- const entries=Object.entries(variant.groups);$('#availability').textContent=`${entries.filter(([,g])=>g.status==='ready').length}/${entries.length} 个视频可用`;
- const grid=$('#comparison');grid.replaceChildren();
- for(const [,group]of entries){
-  const card=node('article');card.className='card';const head=node('div');head.className='card-head';head.append(node('h3',group.label));const badge=node('span',group.status==='ready'?'已完成':'缺失');badge.className='badge';head.append(badge);card.append(head);
-  if(group.video){const video=node('video');video.controls=true;video.muted=true;video.playsInline=true;video.preload='metadata';video.loop=$('#loopAll').checked;video.src=group.video;card.append(video)}else{const missing=node('div','未提供');missing.className='missing';card.append(missing)}
-  if(group.duration_seconds){const info=node('p',`${group.size} · 实际 ${group.duration_seconds} 秒`);info.style.cssText='padding:8px 16px;color:#98a2b3';card.append(info)}
-  const details=node('details'),pre=node('pre','加载中…');details.append(node('summary','查看 Prompt'),pre);if(group.prompt)card.append(details);else card.append(node('p','未提供独立 Prompt。'));
-  const links=node('div');links.className='links';for(const [path,label]of [[group.context_ir,'Context-IR'],[group.content_plan,'内容计划'],[group.request,'请求参数'],[group.video,'打开视频']])if(path){const a=node('a',label);a.href=path;a.target='_blank';a.rel='noopener';links.append(a)}card.append(links);grid.append(card);
-  textFile(group.prompt).then(text=>{if(generation===state.generation)pre.textContent=text});
- }
+ if(!gallery.children.length)gallery.append(node('p','未提供参考素材。'));section.append(gallery);return section
 }
-function selectCategory(){const select=$('#caseSelect');select.replaceChildren();state.data.cases.forEach((c,i)=>{if(c.category===$('#categorySelect').value)select.add(new Option(c.title,i))});state.caseIndex=Number(select.value);render()}
+function renderResult(group,key){
+ const card=node('article');card.className='result-card';const head=node('div');head.className='card-head';head.append(node('h3',GROUP_LABELS[key]));const badge=node('span',group?.status==='ready'?'已完成':'缺失');badge.className='badge';head.append(badge);card.append(head);
+ if(group?.video){const video=node('video');video.controls=true;video.muted=true;video.playsInline=true;video.preload='metadata';video.loop=$('#loopAll').checked;video.src=group.video;card.append(video)}else{const missing=node('div','未提供');missing.className='missing';card.append(missing)}
+ if(group?.duration_seconds||group?.size)card.append(node('p',[group.size,group.duration_seconds&&`实际 ${group.duration_seconds} 秒`].filter(Boolean).join(' · ')));
+ if(group?.prompt){const details=node('details'),pre=node('pre','加载中…');details.append(node('summary','查看 Prompt'),pre);card.append(details);textFile(group.prompt).then(text=>{pre.textContent=text})}else card.append(node('p','未提供独立 Prompt。'));
+ const links=node('div');links.className='links';for(const[path,label]of[[group?.context_ir,'Context-IR'],[group?.content_plan,'内容计划'],[group?.request,'请求参数'],[group?.video,'打开视频']])if(path){const link=node('a',label);link.href=path;link.target='_blank';link.rel='noopener';links.append(link)}card.append(links);return card
+}
+function renderCase(item,index){
+ const number=String(index+1).padStart(2,'0'),section=node('section');section.className='case-section';section.id=`case-${number}`;
+ const heading=node('div');heading.className='case-heading';const numberNode=node('span',number);numberNode.className='case-number';const copy=node('div');copy.append(node('p',item.category),node('h2',normalizedTitle(item.title)));if(item.description)copy.append(node('div',item.description));heading.append(numberNode,copy);section.append(heading,renderAssets(item));
+ const variant=item.variants[Object.keys(item.variants)[0]],groups=groupMap(variant.groups),grid=node('section');grid.className='result-grid';for(const key of GROUP_ORDER)grid.append(renderResult(groups[key],key));section.append(grid);return section
+}
 async function init(){
- const response=await fetch('cases.json');if(!response.ok)throw Error('案例清单读取失败');state.data=await response.json();
- for(const c of state.data.cases)c.category=c.category||'其他案例';
- const categories=[...new Set(state.data.cases.map(c=>c.category))];categories.sort((a,b)=>a.localeCompare(b,'zh-CN'));
- categories.forEach(c=>$('#categorySelect').add(new Option(c,c)));$('#categorySelect').value=state.data.default_category||categories[0];
- $('#categorySelect').onchange=selectCategory;$('#caseSelect').onchange=()=>{state.caseIndex=Number($('#caseSelect').value);render()};
- const play=v=>v.play().catch(()=>{});$('#playAll').onclick=()=>videos().forEach(play);$('#pauseAll').onclick=()=>videos().forEach(v=>v.pause());$('#restartAll').onclick=()=>videos().forEach(v=>{v.currentTime=0;play(v)});$('#loopAll').onchange=e=>videos().forEach(v=>v.loop=e.target.checked);selectCategory();
-}init().catch(error=>{$('#availability').textContent=error.message});
+ const response=await fetch('cases.json');if(!response.ok)throw Error('案例清单读取失败');const data=await response.json(),container=$('#cases'),nav=$('#caseNav');let ready=0,total=0;
+ data.cases.forEach((item,index)=>{const number=String(index+1).padStart(2,'0');container.append(renderCase(item,index));const link=node('a',number);link.href=`#case-${number}`;link.title=normalizedTitle(item.title);nav.append(link);const variant=item.variants[Object.keys(item.variants)[0]];for(const group of Object.values(groupMap(variant.groups))){total+=1;if(group?.status==='ready')ready+=1}});
+ $('#availability').textContent=`${data.cases.length} 个案例 · ${ready}/${total} 个视频可用`;const play=video=>video.play().catch(()=>{});$('#playAll').onclick=()=>videos().forEach(play);$('#pauseAll').onclick=()=>videos().forEach(video=>video.pause());$('#restartAll').onclick=()=>videos().forEach(video=>{video.currentTime=0;play(video)});$('#loopAll').onchange=event=>videos().forEach(video=>{video.loop=event.target.checked})
+}
+init().catch(error=>{$('#availability').textContent=error.message});

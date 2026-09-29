@@ -1,3 +1,24 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Context-IR 三路视频对比</title><link rel="stylesheet" href="styles.css"></head><body>
-<header><div><p class="eyebrow">MiniMax-H3 Context-IR</p><h1>三路视频对比</h1></div><div class="selectors"><label>案例分类<select id="categorySelect"></select></label><label>选择案例<select id="caseSelect"></select></label><div class="tabs"></div></div></header>
-<main><section class="brief"><div><span>当前案例</span><h2 id="caseTitle"></h2></div><p id="caseNote"></p></section><section id="assetSection"><h3>参考素材</h3><div id="assets"></div></section><section class="toolbar"><button id="playAll">▶ 同时播放</button><button id="pauseAll">Ⅱ 全部暂停</button><button id="restartAll">↺ 同时从头播放</button><label><input id="loopAll" type="checkbox" checked> 循环</label><span id="availability"></span><small>仅控制三路结果；默认静音，可单独开启声音。</small></section><section class="grid" id="comparison"></section></main><script src="app.js"></script></body></html>
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Context-IR 全案例三路对比</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div><p class="eyebrow">MiniMax-H3 Context-IR</p><h1>全案例三路对比</h1><p class="subtitle">Raw / 本地 IR / 官方 IR</p></div>
+    <nav id="caseNav" aria-label="案例快速导航"></nav>
+  </header>
+  <main>
+    <section class="toolbar" aria-label="全局视频控制">
+      <button id="playAll">▶ 同时播放</button><button id="pauseAll">Ⅱ 全部暂停</button><button id="restartAll">↺ 同时从头播放</button>
+      <label><input id="loopAll" type="checkbox" checked> 循环</label><span id="availability">正在读取案例…</span>
+      <small>控制页面内全部结果；默认静音，可单独开启声音。</small>
+    </section>
+    <div id="cases"></div>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
