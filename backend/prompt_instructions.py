@@ -18,12 +18,14 @@ Ref2VA 写作时，把信息按用途分配，而不是平均分配篇幅：
 - overall_soundscape 和 non_diegetic_music 按声音计划简洁交付，不用缩短 detailed_description 来给前述板块腾篇幅。
 
 最后核对用户要求覆盖、真实素材编号、时间连续性，以及 developments、shots 与 h3_prompt 的一致性。问题必须回到所属阶段修正；content_plan 只保存最终锁定版本。
+
+h3_prompt 采用最短充分表达且不设机械字符上限：前三节保持紧凑，detailed_description 保留执行每个镜头所需的具体信息。删除重复句，不删除会改变动作阶段、空间关系、材质与光线响应、摄影机执行、连续状态、切点或精确音画同步的信息。静态内容若只存在于一个已定义 Picture/Video 锚点中，不再拆成 Subject；逐镜不重述 Subject 外观、Picture 完整画面、全局风格或固定层。
 """
 
 RESPONSE_CONTRACT = """本次模型调用只返回一个 JSON 对象，顶层严格为 content_plan、h3_prompt、uncertainties，不输出分析、草稿或其他顶层字段。
-h3_prompt 必须是包含完整六节最终 H3 的字符串，不能是对象、数组或分节字段。它采用最短充分表达且不设机械字符上限：subject_definitions、summary 和 retention_analysis 保持紧凑，detailed_description 保留执行每个镜头所需的具体信息。删除重复句，不删除会改变动作阶段、空间关系、材质与光线响应、摄影机执行、连续状态、切点或精确音画同步的信息。静态内容若只存在于一个已定义 Picture/Video 锚点中，不再拆成 Subject；逐镜不重述 Subject 外观、Picture 完整画面、全局风格或固定层。
+h3_prompt 必须是包含完整六节最终 H3 的字符串，不能是对象、数组或分节字段。
 content_plan 包含：creative_brief（user_locked、reference_anchors、open_design）；requirement_map（content_events、editing_treatments、global_style、audio_requirements，每项含稳定 id 与要求文本）；task_mode；bindings（asset_id、role、retained_attributes、optional_inherited_attributes、excluded_attributes、exclusion_reasons）；developments（id、source_content_event_ids、visible_change、outcome）；shots（id、development_ids、content_purpose、treatment_ids、start_seconds、end_seconds；只有拆分同一连续动作时才增加 cut_reason 和 continuity_bridge）。逐镜正文只存在于 h3_prompt.detailed_description，各镜用独占行首的 [Shot N] 标签，编号从 1 连续递增，数量与 shots 一致；不要在 content_plan 另写 description、start_state、action、end_state、sound_cues 或 audio_plan。代码会从最终原文提取逐镜 description 供记录。不输出 action_units、shot_merge_audit 或 must_keep。
-用户指定的保留要求写入 creative_brief.user_locked；素材锚点及其适用阶段写入 reference_anchors 或 bindings；事件完成后的状态由 developments.outcome 决定。不要把某一阶段的状态延续到后续事件。使用真实 asset_id 和 reference_registry 编号；时间连续覆盖 0 到目标时长。uncertainties 只记录影响使用的具体问题。"""
+使用真实 asset_id 和 reference_registry 编号；时间连续覆盖 0 到目标时长。uncertainties 只记录影响使用的具体问题。"""
 
 COMPACT_WRITING_INSTRUCTIONS = "\n\n".join((
     "你是视频内容规划与 MiniMax H3 提示词编写器。按 system prompt 中四个 H3 Skill 的职责依次完成任务。",
