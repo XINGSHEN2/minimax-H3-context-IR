@@ -357,7 +357,7 @@
               "prompt": "data/feishu_22_case02/original/raw/h3_prompt.txt",
               "request": "data/feishu_22_case02/original/raw/request.json",
               "context_ir": null,
-              "duration_seconds": 15.107,
+              "duration_seconds": 10.157,
               "size": "1344×768"
             },
             "local_ir": {
@@ -378,7 +378,7 @@
               "prompt": "data/feishu_22_case02/original/official_ir/h3_prompt.txt",
               "request": "data/feishu_22_case02/original/official_ir/request.json",
               "context_ir": null,
-              "duration_seconds": 15.107,
+              "duration_seconds": 10.157,
               "size": "1344×768"
             }
           }
@@ -418,7 +418,7 @@
               "prompt": "data/feishu_22_case04/original/raw/h3_prompt.txt",
               "request": "data/feishu_22_case04/original/raw/request.json",
               "context_ir": null,
-              "duration_seconds": 15.107,
+              "duration_seconds": 6.607,
               "size": "1344×768"
             },
             "local_ir": {
@@ -439,7 +439,7 @@
               "prompt": "data/feishu_22_case04/original/official_ir/h3_prompt.txt",
               "request": "data/feishu_22_case04/original/official_ir/request.json",
               "context_ir": null,
-              "duration_seconds": 15.107,
+              "duration_seconds": 6.607,
               "size": "1344×768"
             }
           }

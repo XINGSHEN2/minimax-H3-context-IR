@@ -3,7 +3,7 @@
   "target": {
     "short_edge": 768,
     "aspect_ratio": "16:9",
-    "duration_seconds": 15
+    "duration_seconds": 6
   },
   "seed": 42,
   "n": 1,
