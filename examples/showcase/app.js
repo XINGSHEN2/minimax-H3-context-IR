@@ -1,4 +1,4 @@
-const $=selector=>document.querySelector(selector),videos=()=>[...document.querySelectorAll('.result-grid video')];
+const $=selector=>document.querySelector(selector);
 const GROUP_ORDER=['raw','local_ir','official_ir'],GROUP_LABELS={raw:'Raw',local_ir:'本地 IR',official_ir:'官方 IR'};
 function node(tag,text){const element=document.createElement(tag);if(text!==undefined)element.textContent=text;return element}
 function normalizedTitle(title){return title.replace(/^Case\s*\d+\s*[·・:\-]?\s*/i,'')}
@@ -11,7 +11,7 @@ function renderAssets(item){
 }
 function renderResult(group,key){
  const card=node('article');card.className='result-card';const head=node('div');head.className='card-head';head.append(node('h3',GROUP_LABELS[key]));const badge=node('span',group?.status==='ready'?'已完成':'缺失');badge.className='badge';head.append(badge);card.append(head);
- if(group?.video){const video=node('video');video.controls=true;video.muted=true;video.playsInline=true;video.preload='metadata';video.loop=$('#loopAll').checked;video.src=group.video;card.append(video)}else{const missing=node('div','未提供');missing.className='missing';card.append(missing)}
+ if(group?.video){const video=node('video');video.controls=true;video.muted=true;video.playsInline=true;video.preload='metadata';video.src=group.video;card.append(video)}else{const missing=node('div','未提供');missing.className='missing';card.append(missing)}
  if(group?.duration_seconds||group?.size)card.append(node('p',[group.size,group.duration_seconds&&`实际 ${group.duration_seconds} 秒`].filter(Boolean).join(' · ')));
  if(group?.prompt){const details=node('details'),pre=node('pre','加载中…');details.append(node('summary','查看 Prompt'),pre);card.append(details);textFile(group.prompt).then(text=>{pre.textContent=text})}else card.append(node('p','未提供独立 Prompt。'));
  const links=node('div');links.className='links';for(const[path,label]of[[group?.context_ir,'Context-IR'],[group?.content_plan,'内容计划'],[group?.request,'请求参数'],[group?.video,'打开视频']])if(path){const link=node('a',label);link.href=path;link.target='_blank';link.rel='noopener';links.append(link)}card.append(links);return card
@@ -24,6 +24,6 @@ function renderCase(item,index){
 async function init(){
  const response=await fetch('cases.json');if(!response.ok)throw Error('案例清单读取失败');const data=await response.json(),container=$('#cases'),nav=$('#caseNav');let ready=0,total=0;
  data.cases.forEach((item,index)=>{const number=String(index+1).padStart(2,'0');container.append(renderCase(item,index));const link=node('a',number);link.href=`#case-${number}`;link.title=normalizedTitle(item.title);nav.append(link);const variant=item.variants[Object.keys(item.variants)[0]];for(const group of Object.values(groupMap(variant.groups))){total+=1;if(group?.status==='ready')ready+=1}});
- $('#availability').textContent=`${data.cases.length} 个案例 · ${ready}/${total} 个视频可用`;const play=video=>video.play().catch(()=>{});$('#playAll').onclick=()=>videos().forEach(play);$('#pauseAll').onclick=()=>videos().forEach(video=>video.pause());$('#restartAll').onclick=()=>videos().forEach(video=>{video.currentTime=0;play(video)});$('#loopAll').onchange=event=>videos().forEach(video=>{video.loop=event.target.checked})
+ $('#availability').textContent=`${data.cases.length} 个案例 · ${ready}/${total} 个视频可用`
 }
 init().catch(error=>{$('#availability').textContent=error.message});
