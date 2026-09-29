@@ -18,7 +18,7 @@ function renderResult(group,key){
 }
 function renderCase(item,index){
  const number=String(index+1).padStart(2,'0'),section=node('section');section.className='case-section';section.id=`case-${number}`;
- const heading=node('div');heading.className='case-heading';const numberNode=node('span',number);numberNode.className='case-number';const copy=node('div');copy.append(node('p',item.category),node('h2',normalizedTitle(item.title)));if(item.description)copy.append(node('div',item.description));heading.append(numberNode,copy);section.append(heading,renderAssets(item));
+ const heading=node('div');heading.className='case-heading';const numberNode=node('span',number);numberNode.className='case-number';const copy=node('div'),title=node('h2',`Case ${index+1}`);title.style.fontSize='clamp(17px,1.8vw,22px)';copy.append(node('p',item.category),title);if(item.description)copy.append(node('div',item.description));heading.append(numberNode,copy);section.append(heading,renderAssets(item));
  const variant=item.variants[Object.keys(item.variants)[0]],groups=groupMap(variant.groups),grid=node('section');grid.className='result-grid';for(const key of GROUP_ORDER)grid.append(renderResult(groups[key],key));section.append(grid);return section
 }
 async function init(){
