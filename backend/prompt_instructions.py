@@ -24,7 +24,7 @@ h3_prompt 采用最短充分表达且不设机械字符上限：前三节保持�
 
 RESPONSE_CONTRACT = """本次模型调用只返回一个 JSON 对象，顶层严格为 content_plan、h3_prompt、uncertainties，不输出分析、草稿或其他顶层字段。
 h3_prompt 必须是包含完整六节最终 H3 的字符串，不能是对象、数组或分节字段。
-content_plan 包含：creative_brief（user_locked、reference_anchors、open_design）；requirement_map（content_events、editing_treatments、global_style、audio_requirements，每项含稳定 id 与要求文本）；task_mode；bindings（asset_id、role、retained_attributes、optional_inherited_attributes、excluded_attributes、exclusion_reasons）；developments（id、source_content_event_ids、visible_change、outcome）；shots（id、development_ids、content_purpose、treatment_ids、start_seconds、end_seconds）。逐镜正文只存在于 h3_prompt.detailed_description，各镜用独占行首的 [Shot N] 标签，编号从 1 连续递增，数量与 shots 一致；不要在 content_plan 另写 description、start_state、action、end_state、sound_cues 或 audio_plan。代码会从最终原文提取逐镜 description 供记录。不输出 action_units、shot_merge_audit 或 must_keep。
+content_plan 包含：creative_brief（user_locked、reference_anchors、open_design）；requirement_map（content_events、editing_treatments、global_style、audio_requirements，每项含稳定 id 与要求文本）；task_mode；bindings（asset_id、role、retained_attributes、optional_inherited_attributes、excluded_attributes、exclusion_reasons）；developments（id、source_content_event_ids、visible_change、outcome、estimated_duration_seconds）；shots（id、development_ids、content_purpose、treatment_ids、start_seconds、end_seconds）。逐镜正文只存在于 h3_prompt.detailed_description，各镜用独占行首的 [Shot N] 标签，编号从 1 连续递增，数量与 shots 一致；不要在 content_plan 另写 description、start_state、action、end_state、sound_cues 或 audio_plan。代码会从最终原文提取逐镜 description 供记录。不输出 action_units、shot_merge_audit 或 must_keep。
 使用真实 asset_id 和 reference_registry 编号；时间连续覆盖 0 到目标时长。uncertainties 只记录影响使用的具体问题。"""
 
 COMPACT_WRITING_INSTRUCTIONS = "\n\n".join((
