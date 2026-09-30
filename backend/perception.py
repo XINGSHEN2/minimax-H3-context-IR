@@ -282,6 +282,26 @@ def _close_truncated_json(text: str) -> dict[str, Any] | None:
     return None
 
 
+def split_qwen_message(message: Mapping[str, Any]) -> tuple[str, str]:
+    """Return diagnostic reasoning and final text without parsing reasoning as evidence."""
+    content = message.get("content")
+    if content is None:
+        content = ""
+    if not isinstance(content, str):
+        raise ValueError("Qwen message.content must be a string")
+    reasoning = message.get("reasoning_content")
+    if reasoning is not None:
+        if not isinstance(reasoning, str):
+            raise ValueError("Qwen message.reasoning_content must be a string")
+        return reasoning.strip(), content.strip()
+    if "</think>" in content:
+        thinking, final = content.split("</think>", 1)
+        return thinking.removeprefix("<think>").strip(), final.strip()
+    if content.lstrip().startswith("<think>"):
+        return content.lstrip().removeprefix("<think>").strip(), ""
+    return "", content.strip()
+
+
 def _json_object(text: str) -> dict[str, Any]:
     stripped = JSON_FENCE_PATTERN.sub("", text.strip())
     try:
@@ -1111,16 +1131,21 @@ class LocalQwen3VL32BProvider(PerceptionProvider):
             timeout=float(self.config.options.get("timeout_seconds", 1800)),
             base_url=service_base_url,
         )
-        choices = response.get("choices") or []
+        output_dir.mkdir(parents=True, exist_ok=True)
+        (output_dir / "response.json").write_text(
+            json.dumps(response, ensure_ascii=False, indent=2), encoding="utf-8")
         try:
-            response_text = str(choices[0]["message"]["content"])
-        except (IndexError, KeyError, TypeError) as exc:
+            message = response["choices"][0]["message"]
+            if not isinstance(message, Mapping):
+                raise TypeError("message must be an object")
+            thinking, parse_text = split_qwen_message(message)
+        except (IndexError, KeyError, TypeError, ValueError) as exc:
             raise RuntimeError("Local Qwen3-VL returned an invalid Chat Completions response") from exc
-        # Thinking-enabled Qwen embeds private reasoning before </think>.
-        # Parse only the final answer so JSON-like fragments in the reasoning
-        # cannot be mistaken for the structured perception result.
-        parse_text = response_text.split("</think>", 1)[1].strip() if "</think>" in response_text else response_text
+        (output_dir / "thinking.txt").write_text(thinking, encoding="utf-8")
+        (output_dir / "final.txt").write_text(parse_text, encoding="utf-8")
         try:
+            if not parse_text:
+                raise ValueError("Qwen returned no final content")
             result = _json_object(parse_text)
         except (ValueError, json.JSONDecodeError) as exc:
             retry_limit = max(0, int(self.config.options.get("json_parse_retries", 2)))
