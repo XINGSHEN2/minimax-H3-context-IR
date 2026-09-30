@@ -289,10 +289,10 @@
       "id": "feishu_22_case01",
       "title": "Case 1 · 男女泡沫动作迁移",
       "category": "2.2 角色、动作与镜头参考",
-      "description": "Raw、本地 IR v63 和官方 IR 的同案例对照。",
+      "description": "Raw、本地 IR v65 和官方 IR 的同案例对照。",
       "variants": {
-        "v63": {
-          "label": "v63",
+        "v65": {
+          "label": "v65",
           "groups": {
             "raw": {
               "label": "Raw",
@@ -305,15 +305,13 @@
               "size": "1344×768"
             },
             "local_ir": {
-              "label": "本地 IR · v63",
+              "label": "本地 IR · v65",
               "status": "ready",
-              "video": "data/feishu_22_case01/v63/result.mp4",
-              "prompt": "data/feishu_22_case01/v63/h3_prompt.txt",
-              "request": "data/feishu_22_case01/v63/request.json",
-              "context_ir": "data/feishu_22_case01/v63/context_ir.json",
-              "content_plan": "data/feishu_22_case01/v63/content_plan.json",
-              "duration_seconds": 15.084,
-              "size": "1344×768"
+              "video": "data/feishu_22_case01/v65/result.mp4",
+              "prompt": "data/feishu_22_case01/v65/h3_prompt.txt",
+              "request": "data/feishu_22_case01/v65/request.json",
+              "context_ir": "data/feishu_22_case01/v65/context_ir.json",
+              "content_plan": "data/feishu_22_case01/v65/content_plan.json"
             },
             "official_ir": {
               "label": "官方 IR · 原始结果",
