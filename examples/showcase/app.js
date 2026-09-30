@@ -22,7 +22,7 @@ function renderCase(item,index){
  const variant=item.variants[Object.keys(item.variants)[0]],groups=groupMap(variant.groups),grid=node('section');grid.className='result-grid';for(const key of GROUP_ORDER)grid.append(renderResult(groups[key],key));section.append(grid);return section
 }
 async function init(){
- const response=await fetch('cases.json');if(!response.ok)throw Error('案例清单读取失败');const data=await response.json(),container=$('#cases'),nav=$('#caseNav');let ready=0,total=0;
+ const response=await fetch('cases.json', {cache: 'no-store'});if(!response.ok)throw Error('案例清单读取失败');const data=await response.json(),container=$('#cases'),nav=$('#caseNav');let ready=0,total=0;
  data.cases.forEach((item,index)=>{const number=String(index+1).padStart(2,'0');container.append(renderCase(item,index));const link=node('a',number);link.href=`#case-${number}`;link.title=normalizedTitle(item.title);nav.append(link);const variant=item.variants[Object.keys(item.variants)[0]];for(const group of Object.values(groupMap(variant.groups))){total+=1;if(group?.status==='ready')ready+=1}});
  $('#availability').textContent=`${data.cases.length} 个案例 · ${ready}/${total} 个视频可用`
 }
