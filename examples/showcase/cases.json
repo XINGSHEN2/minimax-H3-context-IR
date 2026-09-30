@@ -286,60 +286,6 @@
       ]
     },
     {
-      "id": "feishu_22_case01",
-      "title": "Case 1 · 男女泡沫动作迁移",
-      "category": "2.2 角色、动作与镜头参考",
-      "description": "Raw、本地 IR v65 和官方 IR 的同案例对照。",
-      "variants": {
-        "v65": {
-          "label": "v65",
-          "groups": {
-            "raw": {
-              "label": "Raw",
-              "status": "ready",
-              "video": "data/feishu_22_case01/original/raw/result.mp4",
-              "prompt": "data/feishu_22_case01/original/raw/h3_prompt.txt",
-              "request": "data/feishu_22_case01/original/raw/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            },
-            "local_ir": {
-              "label": "本地 IR · v65",
-              "status": "ready",
-              "video": "data/feishu_22_case01/v65/result.mp4",
-              "prompt": "data/feishu_22_case01/v65/h3_prompt.txt",
-              "request": "data/feishu_22_case01/v65/request.json",
-              "context_ir": "data/feishu_22_case01/v65/context_ir.json",
-              "content_plan": "data/feishu_22_case01/v65/content_plan.json"
-            },
-            "official_ir": {
-              "label": "官方 IR · 原始结果",
-              "status": "ready",
-              "video": "data/feishu_22_case01/original/official_ir/result.mp4",
-              "prompt": "data/feishu_22_case01/original/official_ir/h3_prompt.txt",
-              "request": "data/feishu_22_case01/original/official_ir/request.json",
-              "context_ir": null,
-              "duration_seconds": 15.107,
-              "size": "1344×768"
-            }
-          }
-        }
-      },
-      "assets": [
-        {
-          "src": "data/feishu_22_case01/assets/图片1.png",
-          "label": "图片1.png",
-          "type": "image"
-        },
-        {
-          "src": "data/feishu_22_case01/assets/视频1.mp4",
-          "label": "视频1.mp4",
-          "type": "video"
-        }
-      ]
-    },
-    {
       "id": "feishu_22_case02",
       "title": "Case 2 · 街舞动作迁移",
       "category": "2.2 角色、动作与镜头参考",
