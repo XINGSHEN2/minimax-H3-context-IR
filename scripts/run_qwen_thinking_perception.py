@@ -4,7 +4,7 @@ from __future__ import annotations
 import argparse, json, os, threading, time, uuid
 from pathlib import Path
 from typing import Any, Mapping
-from backend.perception import LocalQwen3VL32BProvider, PerceptionProviderConfig
+from backend.perception import LocalQwen3VL32BProvider, PerceptionProviderConfig, split_qwen_message
 
 class RecordingThinkingProvider(LocalQwen3VL32BProvider):
     def __init__(self, config: PerceptionProviderConfig, response_dir: Path) -> None:
@@ -14,14 +14,7 @@ class RecordingThinkingProvider(LocalQwen3VL32BProvider):
         message=((response.get("choices") or [{}])[0].get("message") or {})
         record={"endpoint":(base_url or "")+path,"model":(payload or {}).get("model"),"enable_thinking":((payload or {}).get("chat_template_kwargs") or {}).get("enable_thinking"),"reasoning_content":message.get("reasoning_content"),"content":message.get("content"),"usage":response.get("usage"),"x_task_id":response.get("x_task_id")}
         stem=f"{time.time_ns()}_{uuid.uuid4().hex}"
-        content=str(message.get("content") or "")
-        if "</think>" in content:
-            thinking, final_content=content.split("</think>",1)
-            thinking=thinking.removeprefix("<think>").strip()
-            final_content=final_content.strip()
-        else:
-            thinking=""
-            final_content=content.strip()
+        thinking, final_content = split_qwen_message(message)
         with self.response_lock:
             (self.response_dir/f"{stem}.json").write_text(json.dumps(record,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
             (self.response_dir/f"{stem}.thinking.txt").write_text(thinking+"\n",encoding="utf-8")
