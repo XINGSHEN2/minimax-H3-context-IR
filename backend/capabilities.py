@@ -13,7 +13,7 @@ import tempfile
 from pathlib import Path
 from typing import Any, Mapping
 
-from backend.perception import PERCEPTION_PROVIDERS, PerceptionProviderConfig, normalize_media_analysis, sanitize_media_analysis_quality
+from backend.perception import MultimodalPerception, PerceptionProviderConfig, normalize_media_analysis, sanitize_media_analysis_quality
 from backend.video_generation import H3VideoClient, default_h3_client
 
 
@@ -21,22 +21,16 @@ CAPABILITY_SCHEMA_VERSION = "context_ir_capabilities.v1"
 H3_PROMPT_OUTPUT_VERSION = "h3_prompt_generate.v1"
 
 
-def _provider(config: PerceptionProviderConfig):
-    return PERCEPTION_PROVIDERS.create(config)
-
-
 def _single_asset_understand(
     asset: Mapping[str, Any],
     config: PerceptionProviderConfig,
     analysis_directive: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
-    asset_copy = copy.deepcopy(dict(asset))
-    plan = None
-    if analysis_directive is not None:
-        directive = copy.deepcopy(dict(analysis_directive))
-        directive["asset_id"] = str(asset_copy.get("asset_id", ""))
-        plan = {"assets": [directive]}
-    return _provider(config).analyze([asset_copy], plan)
+    import uuid
+    directory = Path(config.options.get("output_dir", Path(__file__).resolve().parent.parent / "outputs/perception")) / uuid.uuid4().hex
+    source = {"assets": [copy.deepcopy(dict(asset))],
+              "user_request": json.dumps(analysis_directive, ensure_ascii=False) if analysis_directive else "完整分析素材。"}
+    return MultimodalPerception(config.options).analyze(source, directory)
 
 
 def image_understand(asset: Mapping[str, Any], config: PerceptionProviderConfig, analysis_directive: Mapping[str, Any] | None = None) -> dict[str, Any]:
@@ -217,8 +211,8 @@ def h3_prompt_generate(
         analysis = payload.get("media_analysis")
         if not isinstance(analysis, Mapping):
             raise ValueError("input_type=media_analysis requires media_analysis object")
-        if str(analysis.get("schema_version", "")) != "media_analysis.v2":
-            raise ValueError("media_analysis must use schema_version media_analysis.v2")
+        if str(analysis.get("schema_version", "")) not in {"media_analysis.v2", "media_analysis.v3"}:
+            raise ValueError("media_analysis must use schema_version media_analysis.v2 or media_analysis.v3")
         expected_ids = {
             str(item.get("asset_id", ""))
             for item in source.get("assets", [])

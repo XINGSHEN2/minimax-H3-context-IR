@@ -47,6 +47,50 @@ def extract_shot_descriptions(prompt):
     return descriptions, errors
 
 
+def binding_references(evidence):
+    """Allow real inputs and verified embedded tracks, never arbitrary registry IDs."""
+    assets = {a['asset_id']: a for a in evidence.get('assets', [])}
+    ids, labels, errors = set(assets), set(), []
+    if evidence.get('analysis_schema') != 'media_analysis.v3':
+        return ids, labels, errors
+    seen_audio_ids = set()
+    for row in evidence.get('reference_registry', []):
+        if not isinstance(row, dict) or row.get('media_type') != 'audio':
+            continue
+        aid, label = row.get('asset_id'), row.get('official_label')
+        if not isinstance(aid, str) or not isinstance(label, str):
+            errors.append('Invalid audio registry entry')
+            continue
+        if aid in seen_audio_ids or label in labels:
+            errors.append('Duplicate audio ID or label: ' + aid)
+            continue
+        seen_audio_ids.add(aid)
+        if not re.fullmatch(r'<Audio [1-9][0-9]*>', label):
+            errors.append('Invalid audio label: ' + label)
+            continue
+        if row.get('source_type') == 'embedded_audio':
+            source_id = row.get('source_asset_id')
+            source = assets.get(source_id, {}) if isinstance(source_id, str) else {}
+            track = source.get('audio', {})
+            valid = (source.get('media_type') == 'video'
+                     and source.get('technical', {}).get('has_audio') is True
+                     and track.get('status') == 'analyzed'
+                     and track.get('source_type') == 'embedded_audio'
+                     and track.get('source_asset_id') == source_id
+                     and track.get('audio_id') == aid
+                     and aid == source_id + ':audio'
+                     and aid not in assets)
+            if not valid:
+                errors.append('Invalid embedded audio source: ' + aid)
+                continue
+            ids.add(aid)
+        elif assets.get(aid, {}).get('media_type') != 'audio':
+            errors.append('Audio registry references an unknown audio input: ' + aid)
+            continue
+        labels.add(label)
+    return ids, labels, errors
+
+
 def transport_issues(result,evidence):
     errors=[];warnings=[]
     if not isinstance(result,dict):return ['Response must be a JSON object'],[]
@@ -56,7 +100,8 @@ def transport_issues(result,evidence):
         warnings.append(f'h3_prompt has {len(prompt)} characters including whitespace; configured H3 text limit is {limit}. Preserve requirements; do not truncate automatically.')
     plan=result.get('content_plan')
     if not isinstance(plan,dict):return errors+['content_plan must be an object'],warnings
-    ids={a['asset_id'] for a in evidence.get('assets',[])}
+    ids, audio_labels, reference_errors = binding_references(evidence)
+    errors.extend(reference_errors)
     bindings=plan.get('bindings')
     if not isinstance(bindings,list):errors.append('bindings must be an array')
     else:
@@ -79,6 +124,16 @@ def transport_issues(result,evidence):
         for label,kind in [('Picture','image'),('Video','video')]:
             count=sum(a.get('media_type')==kind for a in evidence.get('assets',[]))
             if any(int(n)<1 or int(n)>count for n in re.findall(r'<'+label+r'\s+(\d+)>',prompt)):errors.append('Prompt references nonexistent '+label)
+        if evidence.get('analysis_schema') == 'media_analysis.v3':
+            for number in re.findall(r'<Audio\s+(\d+)>', prompt):
+                if f'<Audio {number}>' not in audio_labels:
+                    errors.append('Prompt references nonexistent Audio ' + number)
+        detail = re.search(r'(?mi)^\s*detailed_description\s*:', prompt)
+        sound = re.search(r'(?mi)^\s*overall_soundscape\s*:', prompt)
+        if detail and sound and detail.end() < sound.start():
+            outside = prompt[:detail.end()] + prompt[sound.start():]
+            if re.search(r'</?d>', outside, re.I):
+                errors.append('Dialogue tags <d> are only allowed in detailed_description for final audible speech or lyrics; quote edit explanations without dialogue tags.')
         section_matches = {
             name: list(re.finditer(r'(?mi)^\s*' + re.escape(name) + r'\s*:', prompt))
             for name in REQUIRED_H3_SECTIONS

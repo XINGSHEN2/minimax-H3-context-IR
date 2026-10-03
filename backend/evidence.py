@@ -8,6 +8,7 @@ covered by a concise summary are not repeated as attributes.
 from __future__ import annotations
 
 import re
+import copy
 from collections import Counter
 from typing import Any, Iterable
 
@@ -269,6 +270,30 @@ def _promote_shared_uncertainties(assets: list[dict[str, Any]]) -> list[dict[str
 
 def build_writer_evidence(source: dict[str, Any]) -> dict[str, Any]:
     """Build the task-focused evidence view sent to the single writer call."""
+    perception = source.get("perception") or {}
+    if perception.get("schema_version") == "media_analysis.v3":
+        registry = _reference_registry(source)
+        audio_number = sum(a.get("media_type") == "audio" for a in source.get("assets", []))
+        for item in perception.get("assets", []):
+            if item.get("media_type") == "video" and item.get("audio", {}).get("status") == "analyzed":
+                audio_number += 1
+                registry.append({"asset_id": item["audio"]["audio_id"],
+                    "source_asset_id": item["asset_id"], "media_type": "audio",
+                    "source_type": "embedded_audio", "official_label": f"<Audio {audio_number}>"})
+        by_id = {a["asset_id"]: a for a in perception.get("assets", [])}
+        return {
+            "user_request": source.get("user_request", ""),
+            "resolved_request": source.get("resolved_request", ""),
+            "task": copy.deepcopy(source.get("task", {})),
+            "directives": copy.deepcopy(source.get("directives", [])),
+            "completion_policy": copy.deepcopy(source.get("completion_policy", {})),
+            "reference_registry": registry,
+            "analysis_schema": "media_analysis.v3",
+            "assets": [{**copy.deepcopy(by_id[a["asset_id"]]),
+                        "media_type": a["media_type"], "label": a.get("label", ""), "user_role": a.get("user_role", "")}
+                       for a in source.get("assets", [])],
+            "cross_asset_relations": copy.deepcopy(perception.get("cross_asset_relations", [])),
+        }
     focus_text = "\n".join(str(source.get(key, "") or "") for key in ("user_request", "resolved_request"))
     analyses = {
         str(item.get("asset_id", "")): item

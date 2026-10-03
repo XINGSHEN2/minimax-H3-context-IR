@@ -1,285 +1,28 @@
-"""Replaceable multimodal perception provider contract.
-
-Perception runs before the reasoning Agent. Providers normalize their output to
-media_analysis.v2; Context-IR does not import any vendor SDK.  The v2 envelope
-keeps visual facts, inferences, evidence locations, and confidence separate so
-that the IR can make policy decisions without depending on a product category.
-"""
-
+"""Joint image analysis and audiovisual analysis, with checked source references."""
 from __future__ import annotations
 
-import base64
 import copy
-import hashlib
 import json
 import math
-import mimetypes
 import os
 import re
 import subprocess
-import tempfile
+from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
+
+from backend.perception_prompts import IMAGE_PROMPT, OMNI_PROMPT, RETRY_PROMPT
+
+from dataclasses import dataclass, field
+from typing import Any, Mapping, Sequence
 import threading
-import time
 import urllib.error
 import urllib.request
-from abc import ABC, abstractmethod
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from dataclasses import dataclass, field
-from pathlib import Path
-from typing import Any, Callable, Mapping, Sequence
-
 
 @dataclass(frozen=True)
 class PerceptionProviderConfig:
-    provider: str = "local-qwen3-vl-32b"
-    model: str = "Qwen3-VL-32B-Instruct"
+    provider: str = "qwen-multimodal"
+    model: str = "Qwen3.8-27B"
     options: dict[str, Any] = field(default_factory=dict)
-
-
-class PerceptionProvider(ABC):
-    def __init__(self, config: PerceptionProviderConfig) -> None:
-        self.config = config
-
-    @abstractmethod
-    def analyze(self, assets: Sequence[Mapping[str, Any]], perception_plan: Mapping[str, Any] | None = None) -> dict[str, Any]:
-        """Return a normalized media_analysis.v2 envelope."""
-
-
-class CallablePerceptionProvider(PerceptionProvider):
-    def __init__(
-        self,
-        config: PerceptionProviderConfig,
-        transport: Callable[[PerceptionProviderConfig, Sequence[Mapping[str, Any]]], Mapping[str, Any]],
-    ) -> None:
-        super().__init__(config)
-        self.transport = transport
-
-    def analyze(self, assets: Sequence[Mapping[str, Any]], perception_plan: Mapping[str, Any] | None = None) -> dict[str, Any]:
-        return normalize_media_analysis(self.transport(self.config, assets), assets, self.config)
-
-
-class Qwen3OmniProvider(CallablePerceptionProvider):
-    """Initial adapter name. The actual SDK/HTTP transport is injected."""
-
-
-IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".bmp"}
-JSON_FENCE_PATTERN = re.compile(r"^```(?:json)?\s*|\s*```$", re.IGNORECASE)
-PERCEPTION_CACHE_SCHEMA_VERSION = "local-qwen3-vl-cache.v6"
-
-
-def _canonical_entity_reference(value: Any, known_ids: set[str]) -> str:
-    """Recover harmless Qwen ID punctuation drift such as entity3/entity_3."""
-    candidate = str(value).strip()
-    if candidate in known_ids:
-        return candidate
-    compact = re.sub(r"[^a-z0-9]+", "", candidate.casefold())
-    matches = [item for item in known_ids if re.sub(r"[^a-z0-9]+", "", item.casefold()) == compact]
-    return matches[0] if len(matches) == 1 else candidate
-VISUAL_SYSTEM_PROMPT = (
-    "You are a provider-neutral visual evidence extractor for a video-generation pipeline. "
-    "Extract reusable evidence, not a generation prompt. Separate directly visible facts "
-    "from visual inferences. Never decide what the user wants to preserve or replace. "
-    "Never infer identity, brand claims, price, authorization, audio, dialogue, or intent. "
-    "Use open-ended subcategories and attributes; do not assume a product domain. "
-    "Every important attribute and relation needs field-level confidence and evidence IDs. "
-    "Return exactly one JSON object and no Markdown."
-)
-
-LOCALIZATION_PROMPT = """Analyze the whole-frame visual structure, then locate every distinct primary foreground object.
-Return only compact valid JSON: {"global_analysis":{"scene":"whole-frame visible scene","composition":"spatial arrangement and framing","framing_layers":[{"description":"mask, border, overlay, interface, split-screen, frame-within-frame, or other layer spanning the composition","coverage":"whole_frame|partial_frame","confidence":0.9}],"visible_text":[{"text":"exactly legible text only","legibility":"exact|partial|uncertain","region":"visible location","confidence":0.9}],"uncertainties":[]},"boxes":[["actual open-vocabulary category",x1,y1,x2,y2,confidence]]}
-Coordinates use 0-1000: top-left [0,0], bottom-right [1000,1000].
-Give one tight box per distinct object. Do not group separable objects. Do not represent a whole-frame mask, border, overlay, interface, vignette, or framing aperture as an ordinary foreground object; record it in framing_layers. Distinguish binocular double-circle masks, heart-shaped apertures, split screens, and ordinary vignettes by visible geometry. For text, never complete cropped, obscured, faint, or ambiguous characters: mark them partial or uncertain. The category must name what the object actually is; never output the literal phrase 'open vocabulary'. No Markdown."""
-
-ATTRIBUTE_CROP_PROMPT = """The image is a labeled crop sheet made from one source image.
-Each labeled cell contains exactly one primary object. Analyze cells independently and never merge content across cells.
-Return only compact valid JSON: {"items":[{"object_id":"object_1","category":"actual open-vocabulary category","summary":"visible facts","features":[["color","name","value",0.9,"visible"]],"uncertainties":[],"confidence":0.9}]}
-The first feature value must be exactly one of: geometry, color, material, surface, components, component_layout, orientation_cues, identity_markers, other. Never join group names with |. The fifth value must be exactly visible, inferred, or unresolved. The category must name the actual object type, never the literal phrase 'open vocabulary'. Each feature has exactly five values: group, name, value, confidence, source. Return only clearly supported distinguishing features per object, with no minimum count; prioritize the inspection focus and do not fill a checklist. Keep summaries under 18 words and avoid repeating the feature list. Describe item-level differences. Identity markers are distinctive visible motifs, component arrangements, damage, text, or patterns, not a person's identity. Do not infer brand, price, user intent, audio, ownership, or use. Do not omit a label. Close the JSON before adding optional detail. Emit compact JSON without Markdown."""
-
-COMPACT_VIDEO_TIMELINE_PROMPT = """Analyze this complete source video as provider-neutral visual evidence. Do not infer audio or user intent. Return only compact valid JSON:
-{"summary":"visible overview","events":[{"event_id":"event_1","start_seconds":0.0,"end_seconds":1.0,"entity_ids":["entity_1"],"action":"visible shot, action, outfit and scene","transition_type":"cut","confidence":0.9}],"technical":{"duration_seconds":0.0,"framing":"","camera":"","visible_text":[]},"uncertainties":[]}
-Use elapsed source-video seconds. Create a separate event for every shot, cut, outfit change, scene change, or distinct action; never merge several outfits, locations, or poses. Edited short videos normally need 4-12 chronological events covering the beginning through the ending. Entity IDs may be provisional but must use stable semantic IDs such as person_1, product_1, outfit_1, environment_1. Estimate confidence from 0.5-1.0. OCR only clearly legible text. Emit compact JSON without indentation or Markdown."""
-
-COMPACT_VIDEO_ENTITY_PROMPT = """Analyze this complete source video as provider-neutral visual evidence. Do not infer audio, dialogue, identity, brand, price, ownership, intent, or user instructions. Return only compact valid JSON:
-{"entities":[{"entity_id":"entity_1","category":"actual generic category","subcategory":"actual open vocabulary type","summary":"visible facts","quantity":[1,0.9],"features":[["color","name","value",0.9,"visible"]],"uncertainties":[]}],"relations":[["relation_1","type","entity_1","entity_2","visible anchor",0.9,"visible"]]}
-The first feature value is exactly one of: geometry, color, material, surface, components, component_layout, orientation_cues, identity_markers, other. Never join group names with |. Return normally 2-6 high-value reusable entities, exceeding 6 only for genuinely separate subjects or explicit user-requested content. Prioritize people, the showcased product, necessary outfit variations, key props, environments, and narratively required visible text. Group related outfit changes or environments as variations/features when that avoids low-value entity proliferation. Do not enumerate incidental background objects.
-Every relation endpoint must exactly match a declared entity_id. Return only 3-6 supported distinguishing features per ordinary entity, prioritizing user-requested details, identity anchors, core silhouette or structure, interaction-relevant components, and necessary material or dominant color. Explicitly requested details may exceed this default. Omit incidental decoration and repeated texture. Avoid repeating feature lists in summaries. A separate entity does not imply a separate shot or close-up. Estimate confidence from 0.5-1.0 for visible/inferred facts; use 0 only when unresolved. Emit compact JSON without indentation or Markdown."""
-
-COMPACT_VIDEO_SINGLE_PASS_PROMPT = """请完整分析输入视频，输出可复用的视觉证据和适合视频生成的语义分组。只返回一个紧凑、有效的 JSON 对象，不要使用 Markdown：
-{"summary":"画面概述","events":[{"event_id":"event_1","start_seconds":0.0,"end_seconds":1.0,"entity_ids":["person_1","environment_1"],"action":"这一时间段中可见的动作、主体状态与场景变化","transition_type":"cut","confidence":0.9}],"entities":[{"entity_id":"person_1","category":"person","subcategory":"adult woman","summary":"人物及其固定造型的可见概述","quantity":[1,0.9],"features":[["components","服装与随身造型","白色上衣和黑色长裤",0.9,"visible"]],"uncertainties":[]},{"entity_id":"environment_1","category":"environment","subcategory":"interior","summary":"场景及全局光照的可见概述","quantity":[1,0.9],"features":[["other","光照","冷色低调照明",0.9,"visible"]],"uncertainties":[]}],"relations":[["relation_1","positioned_relative_to","person_1","environment_1","人物位于场景中央",0.9,"visible"]],"technical":{"duration_seconds":1.0,"framing":"medium shot","camera":"locked camera","visible_text":[]},"uncertainties":[]}
-按源视频时间覆盖从开头到结尾。每次真实剪切、场景变化、服装变化或独立动作建立一个 event；不要把同一连续动作仅因景别或姿态微变拆成多个事件。events 和 relations 必须复用 entities 中已声明的 entity_id。
-
-entities 表示后续生成过程中需要保持身份一致或独立控制的“生成语义单元”，不是素材物件清单。先忠实记录可见证据，再结合检查计划中的用户原始需求判断生成相关性；用户文字只能决定观察和组织重点，不能作为素材中的可见事实。
-
-对每个候选内容执行“独立控制测试”。满足以下任一条件时，倾向单列实体：
-1. 用户明确要求单独保留、展示、改变、替换或操作它。
-2. 它会相对所属主体或环境独立运动，或被拿取、穿戴、驾驶、打开、拆装等。
-3. 它会发生独立的外观、状态、位置、数量或形态变化。
-4. 它需要跨镜头保持独立身份一致，或必须与相似对象区分。
-5. 分镜必须无歧义地单独引用它，或它承担关键空间、交互、因果关系。
-6. 合并后会丢失用户明确要求或影响目标视频可执行性。
-
-如果以上条件全部不成立，则优先将它合并为所属主体的 feature、environment 的组成部分、global_style 的处理或 visible_text。以下只是可覆盖的默认行为，不是固定分类：
-- 人物与固定发型、服装、鞋、佩戴饰品和随身造型通常合并；换装对象、核心商品或需要独立变化的服饰可以单列。
-- 同一空间的建筑、家具、背景物、天气、光照和氛围通常合并为 environment；会运动、变形、被操作或承担叙事功能的元素应单列。
-- 扫描线、颗粒、暗角、色调等全片处理通常合并为 global_style；具有明确时间范围、局部作用对象或独立演变过程的效果可以单列。
-- 可见文字通常记录在 visible_text；需要生成、变化、持续保持、被操作或参与叙事时可以单列。
-- 多视角、分镜板或连续时间中有充分证据表明是同一对象的内容沿用同一 entity_id；不同真实个体或明确不同版本不得错误合并。
-
-特征采用生成相关性预算，而不是可见细节清单。普通实体默认只保留 3–6 个足以识别和稳定生成它的高价值特征，按以下顺序选择：用户明确要求检查或保留的特征；跨镜身份锚点；核心轮廓、服装或产品结构；会影响交互的部件；必要的材质或主色。不要记录对生成目标无影响的背景小物、轻微色差、通用装饰、重复纹理或被 summary 已经概括的内容。用户明确点名的细节不受默认数量限制。summary 只用一句话说明主体是什么以及它在素材中的作用，不重复 features。
-
-实体数量采用软预算：简单素材通常使用 2–6 个高价值实体，复杂素材可以超过 8 个。不得为了满足数量而遗漏多面板内容、多个真实主体或用户明确要求；每个额外实体都应具有清楚的独立控制理由。独立实体只表示可独立引用或保持，不自动要求独立镜头、特写或展示动作。优先更少但完整的生成单元，保持边界明确且可执行。
-
-把示例值全部替换为当前视频中的观察结果，不得原样输出占位内容。features 格式固定为 [group,name,value,confidence,source]；group 只能是 geometry、color、material、surface、components、component_layout、orientation_cues、identity_markers、other，source 只能是 visible、inferred、unresolved。只记录有区分度且有视觉依据的特征，不补全被遮挡、裁切、模糊或无法辨认的文字。不要推断音频、对白、真实身份、品牌结论、价格、所有权或未展示的动作。"""
-
-RELATIONAL_IMAGE_PROMPT = """请一次性分析输入图片，输出可复用的视觉证据和适合视频生成的语义分组。图片分析不是分镜设计。只返回一个紧凑 JSON 对象，不要使用 Markdown：
-{"summary":"图片整体可见内容","global_analysis":{"scene":"整体场景","composition":"空间关系与构图","framing_layers":[],"visible_text":[],"uncertainties":[]},"entities":[{"entity_id":"person_1","category":"person","summary":"人物及其固定造型的可见概述","quantity":[1,0.9],"features":[["components","服装与随身造型","黑色外套和黑色靴子",0.9,"visible"]],"uncertainties":[]},{"entity_id":"environment_1","category":"environment","summary":"场景、背景和光照的可见概述","quantity":[1,0.9],"features":[["other","光照","冷色低调照明",0.9,"visible"]],"uncertainties":[]}],"relations":[["relation_1","positioned_relative_to","person_1","environment_1","人物位于场景中央",0.9,"visible"]],"uncertainties":[]}
-
-按以下顺序分析：
-1. 整体结构：先判断单一画面、多面板、嵌套画面、遮罩、界面、拼图或分镜板。多面板图片必须在 global_analysis.framing_layers 中逐格记录位置、构图、主要主体和可见状态；不能因为实体数量限制而漏掉面板。面板顺序不等于播放顺序。
-2. 重要内容：结合检查计划中的用户原始需求确定观察重点，但用户文字只是关注线索，不能当成图片中的可见事实。
-3. 生成语义归并：
-entities 表示后续生成过程中需要保持身份一致或独立控制的“生成语义单元”，不是素材物件清单。先忠实记录可见证据，再结合检查计划中的用户原始需求判断生成相关性；用户文字只能决定观察和组织重点，不能作为素材中的可见事实。
-
-   对每个候选内容执行“独立控制测试”。满足以下任一条件时，倾向单列实体：
-   1. 用户明确要求单独保留、展示、改变、替换或操作它。
-   2. 它会相对所属主体或环境独立运动，或被拿取、穿戴、驾驶、打开、拆装等。
-   3. 它会发生独立的外观、状态、位置、数量或形态变化。
-   4. 它需要跨镜头保持独立身份一致，或必须与相似对象区分。
-   5. 分镜必须无歧义地单独引用它，或它承担关键空间、交互、因果关系。
-   6. 合并后会丢失用户明确要求或影响目标视频可执行性。
-
-   如果以上条件全部不成立，则优先将它合并为所属主体的 feature、environment 的组成部分、global_style 的处理或 visible_text。以下只是可覆盖的默认行为，不是固定分类：
-   - 人物与固定发型、服装、鞋、佩戴饰品和随身造型通常合并；换装对象、核心商品或需要独立变化的服饰可以单列。
-   - 同一空间的建筑、家具、背景物、天气、光照和氛围通常合并为 environment；会运动、变形、被操作或承担叙事功能的元素应单列。
-   - 扫描线、颗粒、暗角、色调等全片处理通常合并为 global_style；具有明确时间范围、局部作用对象或独立演变过程的效果可以单列。
-   - 可见文字通常记录在 visible_text；需要生成、变化、持续保持、被操作或参与叙事时可以单列。
-   - 多视角、分镜板或连续时间中有充分证据表明是同一对象的内容沿用同一 entity_id；不同真实个体或明确不同版本不得错误合并。
-
-   特征采用生成相关性预算，而不是可见细节清单。普通实体默认只保留 3–6 个足以识别和稳定生成它的高价值特征，按以下顺序选择：用户明确要求检查或保留的特征；跨镜身份锚点；核心轮廓、服装或产品结构；会影响交互的部件；必要的材质或主色。不要记录对生成目标无影响的背景小物、轻微色差、通用装饰、重复纹理或被 summary 已经概括的内容。用户明确点名的细节不受默认数量限制。summary 只用一句话说明主体是什么以及它在素材中的作用，不重复 features。
-
-   实体数量采用软预算：简单素材通常使用 2–6 个高价值实体，复杂素材可以超过 8 个。不得为了满足数量而遗漏多面板内容、多个真实主体或用户明确要求；每个额外实体都应具有清楚的独立控制理由。独立实体只表示可独立引用或保持，不自动要求独立镜头、特写或展示动作。优先更少但完整的生成单元，保持边界明确且可执行。
-4. 不确定性：区分 visible、inferred 和 unresolved。静态图片只能证明可见状态，不能证明动作、持续时间、镜头运动、机构工作方式或面板播放顺序。
-
-只能使用既有字段。framing_layers 使用 description、coverage、confidence；visible_text 使用 text、legibility、region、confidence，禁止补全模糊、遮挡、裁切或无法确认的文字。features 使用 [group,name,value,confidence,source]，group 只能是 geometry、color、material、surface、components、component_layout、orientation_cues、identity_markers、other，source 只能是 visible、inferred、unresolved。每个 relation 的端点必须对应已声明的 entity_id。不要推断真实身份、品牌结论、价格、性能、隐藏连接、所有权、音频或用户意图。"""
-
-def _analysis_profile(asset: Mapping[str, Any], plan: Mapping[str, Any] | None) -> str:
-    """Select the cheapest evidence pipeline that still satisfies the plan."""
-    media_type = str(asset.get("media_type", ""))
-    role = str((plan or {}).get("role", asset.get("user_role", ""))).lower()
-    requested = " ".join(str(item) for item in (plan or {}).get("analyze", []) if str(item).strip()).lower()
-    blocked = " ".join(str(item) for item in (plan or {}).get("do_not_infer", []) if str(item).strip()).lower()
-    if media_type == "image":
-        return "single_pass"
-    if media_type == "video":
-        structural_role = any(token in role for token in ("motion", "camera", "rhythm", "structure"))
-        structural_request = any(token in requested for token in ("action", "camera", "shot", "pacing", "transition"))
-        appearance_requested = any(token in requested for token in ("identity", "outfit", "product appearance", "material", "logo", "scene detail"))
-        appearance_blocked = any(token in blocked for token in ("identity", "product appearance", "outfit", "scene"))
-        if structural_role and structural_request and not appearance_requested and appearance_blocked:
-            return "timeline_only"
-        return "timeline_and_entities"
-    return "unsupported"
-
-
-_EVIDENCE_STOPWORDS = {
-    "visible", "evidence", "detail", "details", "property", "properties", "the", "and",
-    "from", "with", "source", "reference", "image", "video", "asset", "generation", "relevant",
-}
-
-
-def _claim_terms(value: str) -> set[str]:
-    return {
-        token for token in re.findall(r"[a-z0-9_]+|[\u4e00-\u9fff]{2,}", value.casefold())
-        if len(token) >= 2 and token not in _EVIDENCE_STOPWORDS
-    }
-
-
-def _evidence_coverage(
-    analysis: Mapping[str, Any], plan: Mapping[str, Any] | None,
-) -> list[dict[str, Any]]:
-    """Cheap deterministic audit; it never calls a model or rejects an asset."""
-    requirements = (plan or {}).get("evidence_requirements", [])
-    if not isinstance(requirements, list):
-        return []
-    searchable = json.dumps({
-        key: analysis.get(key)
-        for key in (
-            "summary", "global_analysis", "evidence", "regions", "entities",
-            "relations", "events", "technical", "transcript",
-        )
-    }, ensure_ascii=False).casefold()
-    coverage: list[dict[str, Any]] = []
-    for index, value in enumerate(requirements, start=1):
-        if not isinstance(value, Mapping):
-            continue
-        claim = str(value.get("claim", "")).strip()
-        priority = str(value.get("priority", "useful")).lower()
-        if priority not in {"required", "useful", "optional"}:
-            priority = "useful"
-        terms = _claim_terms(claim)
-        matched = sorted(term for term in terms if term in searchable)
-        # A non-empty, structured analysis is enough for broad optional requests;
-        # required claims need at least one claim-specific lexical anchor.
-        status = "covered" if matched else "missing"
-        coverage.append({
-            "requirement_id": f"requirement_{index}",
-            "claim": claim,
-            "priority": priority,
-            "source_asset_id": str(value.get("source_asset_id", analysis.get("asset_id", ""))),
-            "region_or_time": str(value.get("region_or_time", "")),
-            "status": status,
-            "matched_terms": matched,
-            "retry_policy": "local_only" if priority == "required" else "none",
-            "max_retries": 1 if priority == "required" else 0,
-            "attempts": 0,
-        })
-    return coverage
-
-
-def _required_supplements(coverage: Sequence[Mapping[str, Any]]) -> list[Mapping[str, Any]]:
-    """Only missing hard evidence is eligible for a bounded model request."""
-    return [
-        item for item in coverage
-        if item.get("priority") == "required"
-        and item.get("status") == "missing"
-        and int(item.get("attempts", 0)) < min(1, int(item.get("max_retries", 1)))
-    ]
-
-
-def _close_truncated_json(text: str) -> dict[str, Any] | None:
-    """Recover only a syntactically complete JSON prefix truncated at its tail."""
-    stack: list[str] = []
-    in_string = False
-    escaped = False
-    for char in text:
-        if in_string:
-            if escaped:
-                escaped = False
-            elif char == "\\":
-                escaped = True
-            elif char == '"':
-                in_string = False
-            continue
-        if char == '"':
-            in_string = True
-        elif char in "{[":
-            stack.append(char)
-        elif char in "}]":
-            if not stack or (char == "}" and stack[-1] != "{") or (char == "]" and stack[-1] != "["):
-                return None
-            stack.pop()
-    candidate = text.rstrip()
-    if in_string or not candidate.endswith(("]", "}")):
-        return None
-    candidate += "".join("}" if char == "{" else "]" for char in reversed(stack))
-    try:
-        value = json.loads(candidate)
-    except json.JSONDecodeError:
-        return None
-    if isinstance(value, dict):
-        value["_parse_recovery"] = "closed_truncated_tail"
-        return value
-    return None
 
 
 def split_qwen_message(message: Mapping[str, Any]) -> tuple[str, str]:
@@ -300,270 +43,6 @@ def split_qwen_message(message: Mapping[str, Any]) -> tuple[str, str]:
     if content.lstrip().startswith("<think>"):
         return content.lstrip().removeprefix("<think>").strip(), ""
     return "", content.strip()
-
-
-def _json_object(text: str) -> dict[str, Any]:
-    stripped = JSON_FENCE_PATTERN.sub("", text.strip())
-    try:
-        value = json.loads(stripped)
-    except json.JSONDecodeError as original_error:
-        # Qwen occasionally emits an open-vocabulary quantity label as a bare
-        # JSON token, e.g. "quantity":[multiple,0.9]. Quoting only that value
-        # is lossless and schema-directed; no semantic fields are reconstructed.
-        quantity_repaired, quantity_repairs = re.subn(
-            r'("quantity"\s*:\s*\[\s*)(multiple|several|many)(\s*,)',
-            lambda match: match.group(1) + json.dumps(match.group(2)) + match.group(3),
-            stripped,
-            flags=re.IGNORECASE,
-        )
-        if quantity_repairs:
-            try:
-                value = json.loads(quantity_repaired)
-                value["_parse_recovery"] = "bare_quantity_labels"
-            except json.JSONDecodeError:
-                value = None
-        else:
-            value = None
-        if value is None and original_error.pos >= max(0, len(stripped) - 32):
-            value = _close_truncated_json(stripped)
-        if value is not None:
-            pass
-        else:
-            start = stripped.find("{")
-            if start < 0:
-                raise ValueError("VLM response did not contain a JSON object")
-            try:
-                value, _ = json.JSONDecoder().raw_decode(stripped[start:])
-            except json.JSONDecodeError:
-                # Localization responses occasionally flatten later box entries, for
-                # example: {"boxes":[["tire",0,0,500,500],"pump",...]}.
-                # Recover only the documented box tuple shape; never repair semantic
-                # analysis objects because a guessed repair could create false facts.
-                if re.search(r'"boxes"\s*:', stripped):
-                    matches = re.findall(
-                        r'"([^"\\]+)"\s*,\s*(-?\d+(?:\.\d+)?)\s*,\s*'
-                        r'(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*,\s*'
-                        r'(-?\d+(?:\.\d+)?)(?:\s*,\s*(0(?:\.\d+)?|1(?:\.0+)?))?',
-                        stripped,
-                    )
-                    boxes = []
-                    for label, x1, y1, x2, y2, confidence in matches:
-                        box = [label, float(x1), float(y1), float(x2), float(y2)]
-                        if confidence:
-                            box.append(float(confidence))
-                        boxes.append(box)
-                    if boxes:
-                        value = {"boxes": boxes, "_parse_recovery": "flattened_box_tuples"}
-                    else:
-                        raise original_error
-                else:
-                    raise original_error
-    if isinstance(value, dict) and isinstance(value.get("boxes"), list):
-        raw_boxes = value["boxes"]
-        if raw_boxes and any(not isinstance(item, list) for item in raw_boxes):
-            normalized_boxes = []
-            index = 0
-            while index < len(raw_boxes):
-                item = raw_boxes[index]
-                if isinstance(item, list):
-                    normalized_boxes.append(item)
-                    index += 1
-                    continue
-                if (
-                    isinstance(item, str)
-                    and index + 4 < len(raw_boxes)
-                    and all(isinstance(raw_boxes[index + offset], (int, float)) for offset in range(1, 5))
-                ):
-                    box = [item, *raw_boxes[index + 1:index + 5]]
-                    index += 5
-                    if index < len(raw_boxes) and isinstance(raw_boxes[index], float) and 0 <= raw_boxes[index] <= 1:
-                        box.append(raw_boxes[index])
-                        index += 1
-                    normalized_boxes.append(box)
-                    continue
-                index += 1
-            if normalized_boxes:
-                value["boxes"] = normalized_boxes
-                value["_parse_recovery"] = "flattened_box_tuples"
-    if not isinstance(value, dict):
-        raise ValueError("VLM response root must be an object")
-    return value
-
-
-def _next_json_retry_token_budget(current: int, options: Mapping[str, Any]) -> int:
-    """Increase only retry budgets so truncated JSON can reach its closing braces."""
-    multiplier = max(1.0, float(options.get("json_retry_token_multiplier", 1.5)))
-    ceiling = max(current, int(options.get("json_retry_max_tokens", 4096)))
-    expanded = max(current + 256, math.ceil(current * multiplier))
-    return min(ceiling, expanded)
-
-
-def _image_url(source: str) -> str:
-    if source.startswith(("http://", "https://", "data:")):
-        return source
-    path = Path(source).expanduser().resolve()
-    if not path.is_file():
-        raise FileNotFoundError(f"visual asset not found: {path}")
-    if path.suffix.lower() not in IMAGE_EXTENSIONS:
-        raise ValueError(f"unsupported image extension: {path.suffix}")
-    mime_type, _ = mimetypes.guess_type(str(path))
-    encoded = base64.b64encode(path.read_bytes()).decode("ascii")
-    return f"data:{mime_type or 'image/jpeg'};base64,{encoded}"
-
-
-def _extract_video_frames(path: Path, target_dir: Path, count: int) -> list[tuple[float, Path]]:
-    try:
-        from PIL import Image
-    except ImportError as exc:
-        raise RuntimeError("Pillow is required to analyze local videos") from exc
-    try:
-        import imageio_ffmpeg
-    except ImportError as exc:
-        raise RuntimeError("imageio-ffmpeg is required to analyze local videos") from exc
-
-    reader = imageio_ffmpeg.read_frames(str(path), pix_fmt="rgb24")
-    try:
-        metadata = next(reader)
-    except (StopIteration, OSError, RuntimeError) as exc:
-        raise RuntimeError(f"could not decode video: {path}") from exc
-    width, height = metadata.get("size") or (0, 0)
-    fps = float(metadata.get("fps") or 0.0)
-    duration = float(metadata.get("duration") or 0.0)
-    if width <= 0 or height <= 0 or fps <= 0 or duration <= 0:
-        reader.close()
-        raise RuntimeError(f"could not determine video metadata: {path}")
-
-    # Duration-aware base sampling.  Zero means automatic: approximately one
-    # observation per second, with enough coverage for short clips.  Providers
-    # may still supply denser timestamped perception_frames around known cuts.
-    count = round(duration) if count <= 0 else count
-    count = max(8, min(count, 24))
-
-    margin = min(0.25, duration * 0.03)
-    span = max(0.0, duration - 2 * margin)
-    timestamps = [margin + span * index / (count - 1) for index in range(count)]
-    target_indices = [max(0, round(timestamp * fps)) for timestamp in timestamps]
-    targets: dict[int, list[tuple[int, float]]] = {}
-    for slot, (frame_index, timestamp) in enumerate(zip(target_indices, timestamps, strict=True), start=1):
-        targets.setdefault(frame_index, []).append((slot, timestamp))
-
-    captured: dict[int, tuple[float, Path]] = {}
-    target_dir.mkdir(parents=True, exist_ok=True)
-    max_target = max(targets)
-    try:
-        for frame_index, frame_bytes in enumerate(reader):
-            if frame_index in targets:
-                source = Image.frombytes("RGB", (width, height), frame_bytes)
-                source.thumbnail((768, 768), Image.Resampling.LANCZOS)
-                for slot, timestamp in targets[frame_index]:
-                    frame = target_dir / f"frame_{slot:03d}.jpg"
-                    source.save(frame, "JPEG", quality=88, optimize=True)
-                    captured[slot] = (timestamp, frame)
-            if frame_index >= max_target:
-                break
-    finally:
-        reader.close()
-    result = [captured[slot] for slot in sorted(captured)]
-    if not result:
-        raise RuntimeError(f"no frames could be sampled from video: {path}")
-    return result
-
-
-def _build_video_contact_sheet(frames: Sequence[tuple[float, Path]], target: Path) -> Path:
-    try:
-        from PIL import Image, ImageDraw, ImageFont, ImageOps
-    except ImportError as exc:
-        raise RuntimeError("Pillow is required to build video contact sheets") from exc
-
-    frame_count = len(frames)
-    columns = 2 if frame_count <= 4 else 3 if frame_count <= 6 else 4
-    rows = math.ceil(frame_count / columns)
-    cell_width = 384
-    with Image.open(frames[0][1]) as first:
-        source_width, source_height = first.size
-    cell_height = max(216, min(512, round(cell_width * source_height / max(source_width, 1))))
-    label_height = 34
-    sheet = Image.new(
-        "RGB",
-        (columns * cell_width, rows * (cell_height + label_height)),
-        "#101216",
-    )
-    draw = ImageDraw.Draw(sheet)
-    font = ImageFont.load_default(size=18)
-    for index, (timestamp, frame_path) in enumerate(frames):
-        with Image.open(frame_path) as opened:
-            image = ImageOps.exif_transpose(opened).convert("RGB")
-            fitted = ImageOps.contain(image, (cell_width, cell_height), Image.Resampling.LANCZOS)
-        column = index % columns
-        row = index // columns
-        cell_top = row * (cell_height + label_height)
-        left = column * cell_width + (cell_width - fitted.width) // 2
-        top = cell_top + label_height + (cell_height - fitted.height) // 2
-        sheet.paste(fitted, (left, top))
-        draw.text(
-            (column * cell_width + 10, cell_top + 7),
-            f"#{index + 1}  {timestamp:.3f}s",
-            font=font,
-            fill=(220, 224, 232),
-        )
-    target.parent.mkdir(parents=True, exist_ok=True)
-    sheet.save(target, "JPEG", quality=90, optimize=True)
-    return target
-
-
-def _video_duration_seconds(path: Path) -> float | None:
-    try:
-        completed = subprocess.run(
-            [
-                "ffprobe", "-v", "error", "-show_entries", "format=duration",
-                "-of", "default=noprint_wrappers=1:nokey=1", str(path),
-            ],
-            check=True,
-            capture_output=True,
-            text=True,
-            timeout=30,
-        )
-        duration = float(completed.stdout.strip())
-        return duration if duration > 0 else None
-    except (FileNotFoundError, subprocess.SubprocessError, ValueError):
-        return None
-
-
-def _video_scene_cut_seconds(
-    path: Path,
-    threshold: float = 0.32,
-    max_cuts: int = 24,
-) -> list[float]:
-    """Return conservative pixel-change cut candidates without claiming semantics.
-
-    The values are hints for the VLM, not authoritative shot boundaries.  This
-    separates timestamp measurement from semantic interpretation and prevents a
-    failed video description from silently turning into uniformly sized shots.
-    """
-    try:
-        result = subprocess.run(
-            [
-                "ffmpeg", "-hide_banner", "-loglevel", "info", "-i", str(path),
-                "-vf", f"select=gt(scene\\,{float(threshold):.3f}),showinfo",
-                "-an", "-f", "null", "-",
-            ],
-            check=False,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.PIPE,
-            text=True,
-            timeout=180,
-        )
-    except (OSError, subprocess.SubprocessError):
-        return []
-    values: list[float] = []
-    for match in re.finditer(r"pts_time:([0-9]+(?:\.[0-9]+)?)", result.stderr or ""):
-        value = round(float(match.group(1)), 3)
-        if value <= 0.05 or (values and value - values[-1] < 0.12):
-            continue
-        values.append(value)
-        if len(values) >= max(0, int(max_cuts)):
-            break
-    return values
 
 
 _PLACEHOLDER_TEXT = {
@@ -702,1165 +181,6 @@ def sanitize_media_analysis_quality(payload: Mapping[str, Any]) -> dict[str, Any
     return cleaned
 
 
-def _analysis_prompt(
-    asset: Mapping[str, Any],
-    timestamps: Sequence[float],
-    video_duration_seconds: float | None = None,
-    plan: Mapping[str, Any] | None = None,
-) -> str:
-    media_type = str(asset.get("media_type", "image"))
-    temporal = ""
-    event_example = '{"event_id":"event_1","time_range":[0.0,0.0],"entity_ids":[],"action":"visible change or action","state_before":{},"state_after":{},"transition_type":"none","evidence_ids":[],"confidence":0.0}'
-    if timestamps:
-        temporal = (
-            " The images are chronological observations of one source video at seconds: "
-            + ", ".join(f"{value:.3f}" for value in timestamps)
-            + ". Describe the source video's visible progression and use those seconds for events; "
-              "do not mention how the images were obtained."
-        )
-    elif media_type == "video":
-        duration_rule = ""
-        if video_duration_seconds is not None:
-            duration_rule = (
-                f" The original video duration is {video_duration_seconds:.3f} seconds. "
-                f"All event times must be within 0.0-{video_duration_seconds:.3f}, and the "
-                "event list must cover visible content across the complete video through its "
-                "ending rather than stopping at the sampled-frame count."
-            )
-        temporal = (
-            " Describe the video in chronological order and assign each event its approximate "
-            "position on the original source-video timeline. The numeric start_seconds and "
-            "end_seconds values must be elapsed wall-clock seconds from the beginning of the "
-            "original video, not sampled-frame indices, event ordinals, decimal labels, or "
-            "normalized progress. For example, an event visible from three seconds to six and "
-            "a half seconds must be written as start_seconds 3.0 and end_seconds 6.5."
-            + duration_rule
-        )
-        event_example = '{"event_id":"event_1","time_range":[3.0,6.5],"entity_ids":[],"action":"visible change or action in that original-video time range","state_before":{},"state_after":{},"transition_type":"none","evidence_ids":[],"confidence":0.0}'
-    plan = plan or {}
-    targeted = f"""
-User-intent-derived analysis scope (this is not visual evidence):
-- asset role: {plan.get('role', 'reference')}
-- user-claimed category: {plan.get('user_claimed_category', '') or 'none'}
-- inspect especially: {json.dumps(plan.get('analyze', []), ensure_ascii=False)}
-- do not infer: {json.dumps(plan.get('do_not_infer', []), ensure_ascii=False)}
-Treat the claimed category only as a search hypothesis. Report visible attributes,
-supporting evidence, conflicts, alternatives, and confidence independently. Never
-confirm a category from screen digits or text alone.
-""".strip()
-    return f"""
-Analyze asset {asset.get('asset_id')} ({media_type}).{temporal}
-{targeted}
-This is a general evidence task. Analyze any important visible person, product,
-garment, accessory, prop, animal, vehicle, environment, or text without assuming
-a particular domain. Use stable entity IDs across the asset.
-
-For each entity, extract generation-relevant evidence into these open attribute
-groups when visible: geometry, color, material, surface, components,
-component_layout, orientation_cues, identity_markers, and other. Do not fill a
-group merely to satisfy the schema. Each attribute item uses name, value,
-evidence_ids, confidence, source (visible|inferred|unresolved), and alternatives.
-Mark identity markers critical only when they visibly distinguish the entity.
-
-Relations use generic types such as worn_by, attached_to, held_by, placed_on,
-inside, in_front_of, part_of, covers, interacts_with, or same_identity_as. A
-relation must name subject_id, object_id, visible anchor/spatial constraints,
-evidence_ids, confidence, and source. If a usage or attachment relation is only
-plausible rather than visible, mark it inferred. Never turn inference into fact.
-
-For multiple related items, record item-level variations instead of collapsing
-them into one summary. For video, describe shots, actions, entity state changes,
-reveals/replacements, and transition times. OCR only clearly legible text.
-
-Return this exact media_analysis.v2 asset JSON shape:
-{{
-  "asset_id": {json.dumps(str(asset.get('asset_id', '')))},
-  "summary": "concise directly supported summary",
-  "evidence": [{{"evidence_id":"evidence_1","kind":"full_frame|frame|region|crop","time_seconds":null,"bbox_normalized":[0.0,0.0,1.0,1.0],"description":"what is visible here"}}],
-  "regions": [{{"region_id":"region_1","evidence_id":"evidence_1","bbox_normalized":[0.0,0.0,1.0,1.0],"entity_ids":[],"analysis_priority":"low|medium|high","detail_request":"what closer inspection should resolve"}}],
-  "entities": [{{"entity_id":"entity_1","category":"person|product|garment|accessory|prop|animal|vehicle|environment|text|unknown_object","subcategory":"open vocabulary","summary":"visible attributes only","quantity":{{"value":1,"confidence":0.0}},"attributes":{{"geometry":[],"color":[],"material":[],"surface":[],"components":[],"component_layout":[],"orientation_cues":[],"identity_markers":[],"other":[]}},"variations":[],"uncertainties":[]}}],
-  "relations": [{{"relation_id":"relation_1","type":"open generic relation","subject_id":"entity_1","object_id":"entity_2","anchor":"visible attachment/contact/spatial anchor or empty","spatial_constraints":{{}},"evidence_ids":[],"confidence":0.0,"source":"visible|inferred|unresolved"}}],
-  "events": [{event_example}],
-  "technical": {{"media_type": {json.dumps(media_type)}, "duration_seconds": null, "framing": "", "camera": "", "visible_text": []}},
-  "transcript": "",
-  "uncertainties": []
-}}
-Audio and transcript must remain empty. Do not output user intent, bindings,
-inheritance, preservation, replacement, or generation constraints.
-""".strip()
-
-
-class GiteeQwen3VLProvider(PerceptionProvider):
-    """Gitee OpenAI-compatible Qwen3-VL adapter producing media_analysis.v2."""
-
-    def __init__(
-        self,
-        config: PerceptionProviderConfig,
-        completion_transport: Callable[[list[dict[str, Any]], PerceptionProviderConfig], str] | None = None,
-        work_dir: Path | None = None,
-    ) -> None:
-        super().__init__(config)
-        self.completion_transport = completion_transport or self._call_gitee
-        self.work_dir = work_dir
-
-    def _call_gitee(self, messages: list[dict[str, Any]], config: PerceptionProviderConfig) -> str:
-        api_key_env = str(config.options.get("api_key_env", "GITEE_AI_API_KEY"))
-        api_key = os.environ.get(api_key_env)
-        if not api_key:
-            raise RuntimeError(f"Missing API key environment variable: {api_key_env}")
-        try:
-            from openai import OpenAI
-        except ImportError:
-            return self._call_gitee_urllib(messages, config, api_key)
-        client = OpenAI(
-            base_url=str(config.options.get("base_url", "https://ai.gitee.com/v1")),
-            api_key=api_key,
-            default_headers={"X-Failover-Enabled": "true"},
-        )
-        kwargs = {
-            "model": config.model,
-            "messages": messages,
-            "stream": bool(config.options.get("stream", False)),
-            "max_tokens": int(config.options.get("max_tokens", 2048)),
-            "temperature": float(config.options.get("temperature", 0.1)),
-            "top_p": float(config.options.get("top_p", 1.0)),
-            "frequency_penalty": 0,
-            "extra_body": {"top_k": int(config.options.get("top_k", 1)), "enable_thinking": False},
-        }
-        response = client.chat.completions.create(**kwargs)
-        if kwargs["stream"]:
-            chunks = []
-            for chunk in response:
-                if chunk.choices and chunk.choices[0].delta.content:
-                    chunks.append(chunk.choices[0].delta.content)
-            final = "".join(chunks)
-        else:
-            final = response.choices[0].message.content or ""
-        if not final.strip():
-            raise RuntimeError("Gitee VLM returned no final content")
-        return final
-
-    def _call_gitee_urllib(
-        self,
-        messages: list[dict[str, Any]],
-        config: PerceptionProviderConfig,
-        api_key: str,
-    ) -> str:
-        """Dependency-free fallback matching yiwu_codex's Gitee transport."""
-        if bool(config.options.get("stream", False)):
-            raise RuntimeError("Streaming Gitee VLM calls require the openai package")
-        payload = {
-            "model": config.model,
-            "messages": messages,
-            "stream": False,
-            "max_tokens": int(config.options.get("max_tokens", 2048)),
-            "temperature": float(config.options.get("temperature", 0.1)),
-            "top_p": float(config.options.get("top_p", 1.0)),
-            "frequency_penalty": 0,
-            "top_k": int(config.options.get("top_k", 1)),
-            "enable_thinking": False,
-        }
-        endpoint = str(config.options.get("base_url", "https://ai.gitee.com/v1")).rstrip("/") + "/chat/completions"
-        request = urllib.request.Request(
-            endpoint,
-            data=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
-            headers={
-                "Authorization": f"Bearer {api_key}",
-                "Content-Type": "application/json",
-                "X-Failover-Enabled": "true",
-            },
-            method="POST",
-        )
-        try:
-            with urllib.request.urlopen(
-                request,
-                timeout=float(config.options.get("timeout_seconds", 300)),
-            ) as response:
-                result = json.loads(response.read().decode("utf-8"))
-        except urllib.error.HTTPError as exc:
-            body = exc.read().decode("utf-8", errors="replace")[:1500]
-            raise RuntimeError(f"Gitee VLM HTTP {exc.code}: {body}") from exc
-        except urllib.error.URLError as exc:
-            raise RuntimeError(f"Gitee VLM connection failed: {exc.reason}") from exc
-        final = result.get("choices", [{}])[0].get("message", {}).get("content") or ""
-        if not str(final).strip():
-            raise RuntimeError("Gitee VLM returned no final content")
-        return str(final)
-
-    def _visual_inputs(self, asset: Mapping[str, Any], temp_root: Path) -> tuple[list[str], list[float]]:
-        media_type = str(asset.get("media_type", ""))
-        uri = str(asset.get("uri", ""))
-        if media_type == "image":
-            return [_image_url(uri)], []
-        if media_type == "video":
-            supplied = asset.get("perception_frames") or asset.get("frame_uris")
-            if isinstance(supplied, list) and supplied:
-                urls, timestamps = [], []
-                for index, item in enumerate(supplied):
-                    if isinstance(item, Mapping):
-                        urls.append(_image_url(str(item.get("uri", ""))))
-                        timestamps.append(float(item.get("timestamp_seconds", index)))
-                    else:
-                        urls.append(_image_url(str(item)))
-                        timestamps.append(float(index))
-                return urls, timestamps
-            if uri.startswith(("http://", "https://")):
-                raise ValueError("remote video requires perception_frames with image URLs")
-            path = Path(uri).expanduser().resolve()
-            frames = _extract_video_frames(
-                path,
-                temp_root / str(asset.get("asset_id", "video")),
-                int(self.config.options.get("video_frame_count", 6)),
-            )
-            contact_sheet = _build_video_contact_sheet(
-                frames,
-                temp_root / str(asset.get("asset_id", "video")) / "motion_contact_sheet.jpg",
-            )
-            return [_image_url(str(contact_sheet))], [timestamp for timestamp, _ in frames]
-        return [], []
-
-    def analyze(self, assets: Sequence[Mapping[str, Any]], perception_plan: Mapping[str, Any] | None = None) -> dict[str, Any]:
-        analyses = []
-        plans = {str(item.get("asset_id", "")): item for item in (perception_plan or {}).get("assets", []) if isinstance(item, Mapping)}
-        context = tempfile.TemporaryDirectory(prefix="context-ir-vlm-") if self.work_dir is None else None
-        temp_root = self.work_dir or Path(context.name)
-        try:
-            for asset in assets:
-                if asset.get("media_type") == "audio":
-                    analyses.append({
-                        "asset_id": str(asset.get("asset_id", "")),
-                        "summary": "", "evidence": [], "regions": [], "entities": [],
-                        "relations": [], "events": [],
-                        "technical": {"media_type": "audio", "analysis_status": "unsupported_by_visual_provider"},
-                        "transcript": "",
-                        "uncertainties": ["Audio content was not analyzed by the visual perception provider"],
-                    })
-                    continue
-                image_urls, timestamps = self._visual_inputs(asset, temp_root)
-                content = [{"type": "image_url", "image_url": {"url": url}} for url in image_urls]
-                content.append({"type": "text", "text": _analysis_prompt(asset, timestamps, plan=plans.get(str(asset.get("asset_id", ""))))})
-                messages = [
-                    {"role": "system", "content": VISUAL_SYSTEM_PROMPT},
-                    {"role": "user", "content": content},
-                ]
-                analysis = _json_object(self.completion_transport(messages, self.config))
-                analysis["asset_id"] = str(asset.get("asset_id", ""))
-                analyses.append(analysis)
-        finally:
-            if context is not None:
-                context.cleanup()
-        return normalize_media_analysis({"assets": analyses}, assets, self.config)
-
-
-class LocalQwen3VL32BProvider(PerceptionProvider):
-    """OpenAI Chat Completions adapter for the local FIFO Qwen3-VL services."""
-
-    def __init__(self, config: PerceptionProviderConfig) -> None:
-        super().__init__(config)
-        self._uploaded_media: dict[tuple[str, int, int], str] = {}
-        self._upload_lock = threading.Lock()
-
-    def _media_url(self, media_path: Path) -> str:
-        upload_base = str(self.config.options.get("asset_upload_base_url", "")).rstrip("/")
-        source = media_path.expanduser().resolve()
-        if not upload_base:
-            return source.as_uri()
-        stat = source.stat()
-        key = (str(source), stat.st_size, stat.st_mtime_ns)
-        with self._upload_lock:
-            if key in self._uploaded_media:
-                return self._uploaded_media[key]
-            # curl streams the multipart body, including large source videos.
-            escaped = str(source).replace(chr(92), chr(92) * 2).replace(chr(34), chr(92) + chr(34))
-            timeout = float(self.config.options.get("asset_upload_timeout_seconds", 600))
-            response = subprocess.run(
-                ["curl", "--silent", "--show-error", "--fail-with-body",
-                 "--connect-timeout", "15", "--max-time", str(timeout),
-                 "--request", "POST", upload_base + "/v1/assets",
-                 "--form", 'file=@"' + escaped + '"'],
-                capture_output=True, text=True, timeout=timeout + 5, check=False,
-            )
-            if response.returncode:
-                raise RuntimeError(f"Asset upload failed ({response.returncode}): {response.stderr[:500]} {response.stdout[:500]}")
-            try:
-                value = json.loads(response.stdout)
-                url = value.get("url", "") if isinstance(value, dict) else ""
-            except (ValueError, TypeError) as exc:
-                raise RuntimeError("Asset upload returned invalid JSON") from exc
-            if not isinstance(url, str) or not url.startswith(("http://", "https://")):
-                raise RuntimeError("Asset upload did not return an HTTP(S) url")
-            self._uploaded_media[key] = url
-            return url
-
-    def _request_json(
-        self,
-        method: str,
-        path: str,
-        payload: Mapping[str, Any] | None = None,
-        timeout: float = 30.0,
-        base_url: str | None = None,
-    ) -> dict[str, Any]:
-        endpoint = (base_url or str(self.config.options.get("base_url", "http://127.0.0.1:9012"))).rstrip("/") + path
-        data = None if payload is None else json.dumps(payload, ensure_ascii=False).encode("utf-8")
-        request = urllib.request.Request(
-            endpoint,
-            data=data,
-            headers={"Content-Type": "application/json"} if data is not None else {},
-            method=method,
-        )
-        try:
-            with urllib.request.urlopen(request, timeout=timeout) as response:
-                value = json.loads(response.read().decode("utf-8"))
-        except urllib.error.HTTPError as exc:
-            body = exc.read().decode("utf-8", errors="replace")[:1500]
-            raise RuntimeError(f"Local Qwen3-VL HTTP {exc.code}: {body}") from exc
-        except urllib.error.URLError as exc:
-            raise RuntimeError(f"Local Qwen3-VL connection failed: {exc.reason}") from exc
-        if not isinstance(value, dict):
-            raise RuntimeError("Local Qwen3-VL returned a non-object response")
-        return value
-
-    def _service_base_url(self, media_type: str) -> str:
-        if media_type == "image":
-            return str(self.config.options.get(
-                "image_base_url",
-                os.getenv("QWEN_IMAGE_UNDERSTAND_BASE_URL", self.config.options.get("base_url", "http://127.0.0.1:9012")),
-            ))
-        if media_type == "video":
-            return str(self.config.options.get(
-                "video_base_url",
-                os.getenv("QWEN_VIDEO_UNDERSTAND_BASE_URL", "http://127.0.0.1:9012"),
-            ))
-        raise ValueError(f"Unsupported local Qwen media type: {media_type}")
-
-    @staticmethod
-    def _file_sha256(path: Path) -> str:
-        digest = hashlib.sha256()
-        with path.open("rb") as handle:
-            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-                digest.update(chunk)
-        return digest.hexdigest()
-
-    def _cache_key(self, asset: Mapping[str, Any], plan: Mapping[str, Any] | None) -> str:
-        source = Path(str(asset.get("uri", ""))).expanduser().resolve()
-        profile = _analysis_profile(asset, plan)
-        relevant_options = {
-            key: self.config.options.get(key)
-            for key in (
-                "staged_image_analysis", "compact_video_analysis",
-                "single_pass_image_analysis", "single_pass_video_analysis",
-                "image_attribute_batch_size", "relational_image_max_tokens",
-                "video_timeline_max_tokens", "video_entity_max_tokens",
-                "video_fps", "video_max_frames", "max_tokens",
-                "image_base_url", "video_base_url", "asset_upload_base_url",
-            )
-        }
-        material = {
-            "schema": PERCEPTION_CACHE_SCHEMA_VERSION,
-            "provider": self.config.provider,
-            "model": self.config.model,
-            "media_type": str(asset.get("media_type", "")),
-            "profile": profile,
-            "content_sha256": self._file_sha256(source),
-            "plan": plan or {},
-            "options": relevant_options,
-        }
-        encoded = json.dumps(material, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
-        return hashlib.sha256(encoded).hexdigest()
-
-    def _cache_path(self, cache_key: str) -> Path:
-        output_root = Path(str(self.config.options.get(
-            "output_dir", "/home/mx/shenxing/minimax-H3-context-IR/outputs/qwen3-vl-32b",
-        ))).expanduser().resolve()
-        cache_root = Path(str(self.config.options.get("cache_dir", output_root / "cache"))).expanduser().resolve()
-        return cache_root / cache_key[:2] / f"{cache_key}.json"
-
-    def _analyze_visual_cached(
-        self,
-        asset: Mapping[str, Any],
-        plan: Mapping[str, Any] | None,
-    ) -> tuple[dict[str, Any], bool, str]:
-        cache_enabled = bool(self.config.options.get("cache_enabled", True))
-        cache_key = self._cache_key(asset, plan)
-        cache_path = self._cache_path(cache_key)
-        if cache_enabled and cache_path.is_file():
-            try:
-                cached = json.loads(cache_path.read_text(encoding="utf-8"))
-                if isinstance(cached, dict):
-                    return cached, True, cache_key
-            except (OSError, ValueError, json.JSONDecodeError):
-                pass
-
-        analysis = self._analyze_visual(asset, plan)
-        if cache_enabled:
-            cache_path.parent.mkdir(parents=True, exist_ok=True)
-            temporary = cache_path.with_suffix(f".{os.getpid()}.{time.time_ns()}.tmp")
-            temporary.write_text(json.dumps(analysis, ensure_ascii=False, indent=2), encoding="utf-8")
-            os.replace(temporary, cache_path)
-        return analysis, False, cache_key
-
-    def _run_task(
-        self,
-        media_path: Path,
-        prompt: str,
-        output_dir: Path,
-        max_new_tokens: int,
-        _json_parse_attempt: int = 0,
-        **parameters: Any,
-    ) -> dict[str, Any]:
-        media_type = "video" if media_path.suffix.lower() in {".mp4", ".mov", ".mkv", ".avi", ".webm", ".m4v"} else "image"
-        service_base_url = self._service_base_url(media_type)
-        content_type = "video_url" if media_type == "video" else "image_url"
-        payload: dict[str, Any] = {
-            "model": self.config.model,
-            "messages": [{
-                "role": "user",
-                "content": [
-                    {"type": "text", "text": prompt},
-                    {"type": content_type, content_type: {"url": self._media_url(media_path)}},
-                ],
-            }],
-            "max_tokens": max_new_tokens,
-            "stream": False,
-            "temperature": float(self.config.options.get("temperature", 0.0)),
-            "top_p": float(self.config.options.get("top_p", 0.9)),
-            **parameters,
-        }
-        response = self._request_json(
-            "POST", "/v1/chat/completions", payload,
-            timeout=float(self.config.options.get("timeout_seconds", 1800)),
-            base_url=service_base_url,
-        )
-        output_dir.mkdir(parents=True, exist_ok=True)
-        (output_dir / "response.json").write_text(
-            json.dumps(response, ensure_ascii=False, indent=2), encoding="utf-8")
-        try:
-            message = response["choices"][0]["message"]
-            if not isinstance(message, Mapping):
-                raise TypeError("message must be an object")
-            thinking, parse_text = split_qwen_message(message)
-        except (IndexError, KeyError, TypeError, ValueError) as exc:
-            raise RuntimeError("Local Qwen3-VL returned an invalid Chat Completions response") from exc
-        (output_dir / "thinking.txt").write_text(thinking, encoding="utf-8")
-        (output_dir / "final.txt").write_text(parse_text, encoding="utf-8")
-        try:
-            if not parse_text:
-                raise ValueError("Qwen returned no final content")
-            result = _json_object(parse_text)
-        except (ValueError, json.JSONDecodeError) as exc:
-            retry_limit = max(0, int(self.config.options.get("json_parse_retries", 2)))
-            if _json_parse_attempt >= retry_limit:
-                raise RuntimeError(
-                    f"Local Qwen3-VL returned invalid JSON after {retry_limit + 1} attempts: {exc}"
-                ) from exc
-            retry_prompt = (
-                prompt
-                + "\nYour previous response was invalid or truncated JSON. Retry from scratch. "
-                + "Return only complete compact JSON in the exact requested schema. "
-                + "Use fewer words and fewer optional details so the closing braces fit."
-            )
-            return self._run_task(
-                media_path, retry_prompt,
-                output_dir.parent / f"{output_dir.name}_json_retry_{_json_parse_attempt + 1}",
-                _next_json_retry_token_budget(max_new_tokens, self.config.options),
-                _json_parse_attempt=_json_parse_attempt + 1, **parameters,
-            )
-        result["_task_id"] = str(response.get("x_task_id", ""))
-        result["_input_media"] = {"kind": media_type}
-        return result
-
-    def _supplement_required_evidence(
-        self,
-        asset: Mapping[str, Any],
-        requirement: Mapping[str, Any],
-    ) -> tuple[dict[str, Any], float]:
-        """Ask one bounded question about one missing hard-constraint fact."""
-        source = Path(str(asset.get("uri", ""))).expanduser().resolve()
-        claim = str(requirement.get("claim", "")).strip()
-        region_or_time = str(requirement.get("region_or_time", "")).strip()
-        media_type = str(asset.get("media_type", ""))
-        service_base_url = self._service_base_url(media_type)
-        prompt = (
-            "Inspect only the following missing fact required by an explicit user constraint. "
-            "Do not re-describe the whole asset and do not infer hidden content. "
-            f"Question: {claim}. "
-            + (f"Limit inspection to this region or source-time window: {region_or_time}. " if region_or_time else "")
-            + 'Return only compact JSON: {"status":"observed|uncertain","answer":"brief visible evidence","confidence":0.0}. '
-            "Use uncertain when the fact is not visibly supported."
-        )
-        output_root = Path(str(self.config.options.get(
-            "output_dir", "/home/mx/shenxing/minimax-H3-context-IR/outputs/qwen3-vl-32b",
-        ))).expanduser().resolve()
-        parameters: dict[str, Any] = {}
-        if media_type == "video":
-            parameters.update(
-                fps=float(self.config.options.get("supplemental_video_fps", self.config.options.get("video_fps", 2.0))),
-                max_frames=int(self.config.options.get("supplemental_video_max_frames", 48)),
-            )
-        started = time.perf_counter()
-        result = self._run_task(
-            source, prompt,
-            output_root / "supplemental" / str(asset.get("asset_id", "asset")) / str(requirement.get("requirement_id", "required")),
-            int(self.config.options.get("supplemental_max_tokens", 256)),
-            **parameters,
-        )
-        return result, time.perf_counter() - started
-
-    @staticmethod
-    def _localization_input(source: Path, target: Path) -> Path:
-        from PIL import Image, ImageOps
-
-        with Image.open(source) as opened:
-            image = ImageOps.exif_transpose(opened).convert("RGB")
-        max_pixels = 224 * 224
-        if image.width * image.height > max_pixels:
-            scale = math.sqrt(max_pixels / (image.width * image.height))
-            size = (max(1, round(image.width * scale)), max(1, round(image.height * scale)))
-            image = image.resize(size, Image.Resampling.LANCZOS)
-        target.parent.mkdir(parents=True, exist_ok=True)
-        image.save(target, "JPEG", quality=95)
-        return target
-
-    @staticmethod
-    def _attribute_sheet(
-        source: Path,
-        objects: Sequence[Mapping[str, Any]],
-        target: Path,
-    ) -> list[str]:
-        from PIL import Image, ImageDraw, ImageFont, ImageOps
-
-        with Image.open(source) as opened:
-            image = ImageOps.exif_transpose(opened).convert("RGB")
-        cell_w, cell_h, label_h = 320, 420, 32
-        columns = max(1, min(5, len(objects)))
-        rows = math.ceil(len(objects) / columns)
-        sheet = Image.new("RGB", (columns * cell_w, rows * (cell_h + label_h)), "#202020")
-        draw = ImageDraw.Draw(sheet)
-        font = ImageFont.load_default(size=20)
-        object_ids = []
-        for index, item in enumerate(objects):
-            object_id = str(item["object_id"])
-            object_ids.append(object_id)
-            x1, y1, x2, y2 = [float(value) for value in item["bbox_normalized"]]
-            inset = (x2 - x1) * 0.12
-            x1, x2 = x1 + inset, x2 - inset
-            box = (
-                max(0, round(x1 * image.width)), max(0, round(y1 * image.height)),
-                min(image.width, round(x2 * image.width)), min(image.height, round(y2 * image.height)),
-            )
-            crop = ImageOps.contain(image.crop(box), (cell_w, cell_h), Image.Resampling.LANCZOS)
-            column, row = index % columns, index // columns
-            left = column * cell_w + (cell_w - crop.width) // 2
-            top = row * (cell_h + label_h) + label_h + (cell_h - crop.height) // 2
-            sheet.paste(crop, (left, top))
-            draw.text((column * cell_w + 8, row * (cell_h + label_h) + 5), object_id, font=font, fill="white")
-        target.parent.mkdir(parents=True, exist_ok=True)
-        sheet.save(target, "JPEG", quality=94)
-        return object_ids
-
-    @staticmethod
-    def _expand_features(item: Mapping[str, Any]) -> dict[str, Any]:
-        groups = (
-            "geometry", "color", "material", "surface", "components",
-            "component_layout", "orientation_cues", "identity_markers", "other",
-        )
-        attributes: dict[str, list[dict[str, Any]]] = {group: [] for group in groups}
-        for feature in item.get("features", []):
-            if not isinstance(feature, list) or len(feature) not in {4, 5} or feature[0] not in attributes:
-                continue
-            group, name, value, confidence = feature[:4]
-            source = feature[4] if len(feature) == 5 else "visible"
-            try:
-                confidence_value = float(confidence)
-            except (TypeError, ValueError):
-                # Qwen occasionally omits the numeric confidence and shifts a
-                # provenance token such as "visible" into its position. Keep
-                # the rest of the entity evidence and discard only this
-                # malformed feature instead of failing the whole asset run.
-                continue
-            attributes[str(group)].append({
-                "name": str(name), "value": value, "evidence_ids": [],
-                "confidence": confidence_value, "source": str(source), "alternatives": [],
-            })
-        try:
-            entity_confidence = float(item.get("confidence", 0.0))
-        except (TypeError, ValueError):
-            entity_confidence = 0.0
-        return {
-            "category": str(item.get("category", "unknown_object")),
-            "subcategory": str(item.get("subcategory", item.get("category", "unknown_object"))),
-            "summary": str(item.get("summary", "")),
-            "quantity": {"value": 1, "confidence": entity_confidence},
-            "attributes": attributes,
-            "variations": [],
-            "uncertainties": list(item.get("uncertainties", [])),
-        }
-
-    def _analyze_image_staged(self, asset: Mapping[str, Any], source: Path, plan: Mapping[str, Any] | None = None) -> dict[str, Any]:
-        output_root = Path(str(self.config.options.get(
-            "output_dir", "/home/mx/shenxing/minimax-H3-context-IR/outputs/qwen3-vl-32b",
-        ))).expanduser().resolve()
-        run_dir = output_root / "staged" / f"{asset.get('asset_id', 'image')}-{time.time_ns()}"
-        localization_image = self._localization_input(source, run_dir / "localization_input.jpg")
-        plan_text = json.dumps(plan or {}, ensure_ascii=False)
-        guard = ("\n以下是根据用户要求形成的检查计划，它只规定观察重点，不属于视觉证据：" + plan_text
-                 + "\n计划中的类别和用途只能作为待验证假设。遵守 do_not_infer；如果素材与用户描述冲突，明确记录可见冲突。")
-        localized = self._run_task(localization_image, LOCALIZATION_PROMPT + guard, run_dir / "localization", 700)
-        global_analysis = localized.get("global_analysis")
-        if not isinstance(global_analysis, Mapping):
-            global_analysis = {
-                "scene": "", "composition": "", "framing_layers": [],
-                "visible_text": [], "uncertainties": ["whole-frame analysis missing"],
-            }
-        else:
-            global_analysis = {
-                "scene": str(global_analysis.get("scene", "")),
-                "composition": str(global_analysis.get("composition", "")),
-                "framing_layers": [dict(value) for value in global_analysis.get("framing_layers", []) if isinstance(value, Mapping)],
-                "visible_text": [dict(value) for value in global_analysis.get("visible_text", []) if isinstance(value, Mapping)],
-                "uncertainties": [str(value) for value in global_analysis.get("uncertainties", []) if str(value).strip()],
-            }
-        boxes = localized.get("boxes", [])
-        objects = []
-        for index, box in enumerate(boxes, start=1):
-            if not isinstance(box, list) or len(box) < 5:
-                continue
-            category, x1, y1, x2, y2 = box[:5]
-            confidence = box[5] if len(box) > 5 else 0.8
-            coords = [max(0.0, min(1000.0, float(value))) for value in (x1, y1, x2, y2)]
-            if coords[2] <= coords[0] or coords[3] <= coords[1]:
-                continue
-            objects.append({
-                "object_id": f"object_{index}", "category": str(category),
-                "confidence": float(confidence),
-                "bbox_normalized": [round(value / 1000.0, 4) for value in coords],
-            })
-        if not objects:
-            # Collections, textures, environments, and other diffuse references
-            # may be visually meaningful without having one boxable foreground
-            # object. Preserve the staged attribute pass by treating the full
-            # image as one low-confidence region instead of failing the asset.
-            objects.append({
-                "object_id": "object_1",
-                "category": "whole_image_subject",
-                "confidence": 0.5,
-                "bbox_normalized": [0.0, 0.0, 1.0, 1.0],
-            })
-
-        details: dict[str, dict[str, Any]] = {}
-        task_ids = [str(localized.get("_task_id", ""))]
-        batch_size = max(1, min(5, int(self.config.options.get("image_attribute_batch_size", 3))))
-        batches = [(offset, objects[offset:offset + batch_size]) for offset in range(0, len(objects), batch_size)]
-
-        def analyze_batch(offset: int, batch: Sequence[Mapping[str, Any]]) -> tuple[int, list[str], list[Mapping[str, Any]], str]:
-            batch = objects[offset:offset + batch_size]
-            batch_dir = run_dir / f"attributes_{offset // batch_size + 1:02d}"
-            sheet = batch_dir / "crops.jpg"
-            expected_ids = self._attribute_sheet(source, batch, sheet)
-            response = self._run_task(sheet, ATTRIBUTE_CROP_PROMPT + guard, batch_dir, 1800)
-            items = response.get("items", [])
-            actual_ids = [str(item.get("object_id", "")) for item in items if isinstance(item, Mapping)]
-            if actual_ids != expected_ids:
-                raise RuntimeError(f"Local Qwen3-VL attribute IDs mismatch: {actual_ids} != {expected_ids}")
-            return offset, expected_ids, items, str(response.get("_task_id", ""))
-
-        batch_workers = max(1, int(self.config.options.get("max_parallel_attribute_batches", 2)))
-        batch_workers = min(batch_workers, len(batches)) if batches else 1
-        if batch_workers == 1:
-            batch_results = [analyze_batch(offset, batch) for offset, batch in batches]
-        else:
-            with ThreadPoolExecutor(max_workers=batch_workers, thread_name_prefix="qwen-attributes") as executor:
-                batch_results = list(executor.map(lambda item: analyze_batch(*item), batches))
-        for _, _, items, task_id in sorted(batch_results, key=lambda item: item[0]):
-            task_ids.append(task_id)
-            details.update({str(item["object_id"]): dict(item) for item in items})
-
-        evidence, regions, entities = [], [], []
-        for item in objects:
-            object_id = str(item["object_id"])
-            evidence_id = f"evidence_{object_id.removeprefix('object_')}"
-            region_id = f"region_{object_id.removeprefix('object_')}"
-            bbox = list(item["bbox_normalized"])
-            evidence.append({
-                "evidence_id": evidence_id, "kind": "region", "time_seconds": None,
-                "bbox_normalized": bbox, "description": f"Localized {item['category']} {object_id}",
-            })
-            regions.append({
-                "region_id": region_id, "evidence_id": evidence_id,
-                "bbox_normalized": bbox, "entity_ids": [object_id],
-                "analysis_priority": "high", "detail_request": "isolated object attributes",
-            })
-            entity = {"entity_id": object_id, **self._expand_features(details[object_id])}
-            for values in entity["attributes"].values():
-                for value in values:
-                    value["evidence_ids"] = [evidence_id]
-            entities.append(entity)
-        global_summary = "; ".join(value for value in (
-            str(global_analysis.get("scene", "")).strip(),
-            str(global_analysis.get("composition", "")).strip(),
-        ) if value)
-        return {
-            "asset_id": str(asset.get("asset_id", "")),
-            "summary": global_summary or f"{len(entities)} distinct foreground objects localized and analyzed individually.",
-            "global_analysis": global_analysis,
-            "evidence": evidence, "regions": regions, "entities": entities,
-            "relations": [], "events": [],
-            "technical": {
-                "media_type": "image", "analysis_pipeline": "localize_then_isolated_attribute_batches",
-                "localization_coordinate_system": "normalized_0_1", "task_ids": task_ids,
-            },
-            "transcript": "", "uncertainties": [],
-        }
-
-    def _analyze_image_relational(self, asset: Mapping[str, Any], source: Path, plan: Mapping[str, Any] | None = None) -> dict[str, Any]:
-        output_root = Path(str(self.config.options.get(
-            "output_dir", "/home/mx/shenxing/minimax-H3-context-IR/outputs/qwen3-vl-32b",
-        ))).expanduser().resolve()
-        guard = (
-            "\n以下是根据用户要求形成的检查计划，它只规定观察重点，不属于视觉证据："
-            + json.dumps(plan or {}, ensure_ascii=False)
-            + "\n计划中的类别和用途只能作为待验证假设。遵守 do_not_infer；如果素材与用户描述冲突，明确记录可见冲突。"
-        )
-        raw = self._run_task(
-            source, RELATIONAL_IMAGE_PROMPT + guard,
-            output_root / "relational_image",
-            int(self.config.options.get("relational_image_max_tokens", 2600)),
-        )
-        evidence_id = "evidence_1"
-        entities = []
-        for index, item in enumerate(raw.get("entities", []), start=1):
-            if not isinstance(item, Mapping):
-                continue
-            entity_id = str(item.get("entity_id") or f"entity_{index}")
-            expanded = self._expand_features(item)
-            quantity = item.get("quantity")
-            if isinstance(quantity, list) and len(quantity) >= 2:
-                expanded["quantity"] = {"value": quantity[0], "confidence": float(quantity[1])}
-            for values in expanded["attributes"].values():
-                for feature in values:
-                    feature["evidence_ids"] = [evidence_id]
-            entities.append({"entity_id": entity_id, **expanded})
-        known_ids = {str(item["entity_id"]) for item in entities}
-        relations = []
-        for index, value in enumerate(raw.get("relations", []), start=1):
-            if not isinstance(value, list) or len(value) < 7:
-                continue
-            relation_id, relation_type, subject_id, object_id, anchor, confidence, source_type = value[:7]
-            subject_id = _canonical_entity_reference(subject_id, known_ids)
-            object_id = _canonical_entity_reference(object_id, known_ids)
-            if subject_id not in known_ids or object_id not in known_ids:
-                continue
-            relations.append({
-                "relation_id": str(relation_id or f"relation_{index}"), "type": str(relation_type),
-                "subject_id": subject_id, "object_id": object_id, "anchor": str(anchor),
-                "spatial_constraints": {}, "evidence_ids": [evidence_id],
-                "confidence": float(confidence), "source": str(source_type),
-            })
-        if not entities:
-            raise RuntimeError("Local Qwen3-VL relational image analysis returned no entities")
-        global_analysis = raw.get("global_analysis") if isinstance(raw.get("global_analysis"), Mapping) else {}
-        return {
-            "asset_id": str(asset.get("asset_id", "")), "summary": str(raw.get("summary", "")),
-            "global_analysis": dict(global_analysis),
-            "evidence": [{
-                "evidence_id": evidence_id, "kind": "frame", "time_seconds": None,
-                "bbox_normalized": [0.0, 0.0, 1.0, 1.0],
-                "description": str(raw.get("summary", "Visible relationship evidence")),
-            }],
-            "regions": [], "entities": entities, "relations": relations, "events": [],
-            "technical": {
-                "media_type": "image", "analysis_pipeline": "image_single_pass",
-                "task_ids": [str(raw.get("_task_id", ""))],
-            },
-            "transcript": "", "uncertainties": list(raw.get("uncertainties", [])),
-        }
-
-    def _analyze_video_compact(self, asset: Mapping[str, Any], source: Path, plan: Mapping[str, Any] | None = None) -> dict[str, Any]:
-        output_root = Path(str(self.config.options.get(
-            "output_dir", "/home/mx/shenxing/minimax-H3-context-IR/outputs/qwen3-vl-32b",
-        ))).expanduser().resolve()
-        duration = _video_duration_seconds(source)
-        cut_candidates = _video_scene_cut_seconds(
-            source,
-            threshold=float(self.config.options.get("video_scene_cut_threshold", 0.32)),
-            max_cuts=int(self.config.options.get("video_scene_cut_max_candidates", 24)),
-        )
-        duration_rule = ""
-        if duration is not None:
-            duration_rule = (
-                f" 源视频时长为 {duration:.3f} 秒。所有事件时间必须位于 "
-                f"0.0-{duration:.3f} 秒内，最后一个事件必须覆盖可见结尾。"
-            )
-        if cut_candidates:
-            duration_rule += (
-                " 独立的像素变化检测器发现以下候选画面切点："
-                + ", ".join(f"{value:.3f}s" for value in cut_candidates)
-                + "。这些时间只是测量线索：请根据画面核实真实切点，忽略闪光或快速运动造成的误报，"
-                  "不得用均匀时间间隔替代实际观察。"
-            )
-        guard = ("\n以下是根据用户要求形成的检查计划，它只规定观察重点，不属于视觉证据："
-                 + json.dumps(plan or {}, ensure_ascii=False)
-                 + "\n计划中的类别和用途只能作为待验证假设。遵守 do_not_infer；如果素材与用户描述冲突，明确记录可见冲突。")
-        timeline_raw = self._run_task(
-            source,
-            COMPACT_VIDEO_SINGLE_PASS_PROMPT + duration_rule + guard,
-            output_root / "compact_video_single_pass",
-            int(self.config.options.get("video_single_pass_max_tokens", 3200)),
-            fps=float(self.config.options.get("video_fps", 2.0)),
-            max_frames=int(self.config.options.get("video_max_frames", 256)),
-        )
-        if duration is None:
-            detected_duration = timeline_raw.get("_input_media", {}).get("duration_seconds")
-            if detected_duration is not None:
-                duration = float(detected_duration)
-        timeline_entity_ids = sorted({
-            str(entity_id)
-            for event in timeline_raw.get("events", [])
-            if isinstance(event, (list, Mapping))
-            for entity_id in (
-                event.get("entity_ids", []) if isinstance(event, Mapping)
-                else (event[3] if len(event) >= 4 and isinstance(event[3], list) else [])
-            )
-        })
-        profile = _analysis_profile(asset, plan)
-        entity_raw = timeline_raw
-        raw = {
-            "summary": timeline_raw.get("summary", ""),
-            "events": timeline_raw.get("events", []),
-            "technical": timeline_raw.get("technical", {}),
-            "uncertainties": timeline_raw.get("uncertainties", []),
-            "entities": entity_raw.get("entities", []),
-            "relations": entity_raw.get("relations", []),
-        }
-
-        events, evidence = [], []
-        event_entity_ids: dict[str, list[str]] = {}
-        for index, value in enumerate(raw.get("events", []), start=1):
-            if isinstance(value, Mapping):
-                event_id = value.get("event_id", f"event_{index}")
-                start, end = value.get("start_seconds", 0.0), value.get("end_seconds", 0.0)
-                entity_ids = value.get("entity_ids", [])
-                action = value.get("action", "")
-                transition = value.get("transition_type", "none")
-                confidence = value.get("confidence", 0.8)
-            elif isinstance(value, list) and len(value) >= 7:
-                event_id, start, end, entity_ids, action, transition, confidence = value[:7]
-            else:
-                continue
-            start_value, end_value = float(start), float(end)
-            if duration is not None:
-                start_value = max(0.0, min(duration, start_value))
-                end_value = max(start_value, min(duration, end_value))
-            ids = [str(item) for item in entity_ids] if isinstance(entity_ids, list) else []
-            evidence_id = f"evidence_event_{index}"
-            evidence.append({
-                "evidence_id": evidence_id, "kind": "frame",
-                "time_seconds": round((start_value + end_value) / 2, 3),
-                "bbox_normalized": [0.0, 0.0, 1.0, 1.0], "description": str(action),
-            })
-            normalized_id = str(event_id or f"event_{index}")
-            events.append({
-                "event_id": normalized_id, "time_range": [start_value, end_value],
-                "entity_ids": ids, "action": str(action), "state_before": {}, "state_after": {},
-                "transition_type": str(transition), "evidence_ids": [evidence_id],
-                "confidence": float(confidence),
-            })
-            for entity_id in ids:
-                event_entity_ids.setdefault(entity_id, []).append(evidence_id)
-
-        entities = []
-        for index, item in enumerate(raw.get("entities", []), start=1):
-            if not isinstance(item, Mapping):
-                continue
-            entity_id = str(item.get("entity_id") or f"entity_{index}")
-            expanded = self._expand_features(item)
-            quantity = item.get("quantity")
-            if isinstance(quantity, list) and len(quantity) >= 2:
-                expanded["quantity"] = {"value": quantity[0], "confidence": float(quantity[1])}
-            evidence_ids = event_entity_ids.get(entity_id, [])
-            for values in expanded["attributes"].values():
-                for feature in values:
-                    feature["evidence_ids"] = list(evidence_ids)
-            entities.append({"entity_id": entity_id, **expanded})
-
-        known_entity_ids = {str(item["entity_id"]) for item in entities}
-        if not known_entity_ids:
-            raise RuntimeError("Local Qwen3-VL compact video analysis returned no entities")
-        entity_by_id = {str(item["entity_id"]): item for item in entities}
-        aliases: dict[str, str] = {}
-        for event in events:
-            for timeline_id in event["entity_ids"]:
-                if timeline_id in known_entity_ids or timeline_id in aliases:
-                    continue
-                semantic_prefix = timeline_id.rsplit("_", 1)[0].lower()
-                candidates = []
-                for entity_id, entity in entity_by_id.items():
-                    searchable = " ".join((
-                        str(entity.get("category", "")), str(entity.get("subcategory", "")),
-                        str(entity.get("summary", "")),
-                    )).lower()
-                    if semantic_prefix and semantic_prefix in searchable:
-                        candidates.append(entity_id)
-                if len(candidates) == 1:
-                    aliases[timeline_id] = candidates[0]
-        unresolved_timeline_ids = sorted({
-            timeline_id
-            for event in events
-            for timeline_id in event["entity_ids"]
-            if timeline_id not in known_entity_ids and timeline_id not in aliases
-        })
-        for timeline_id in unresolved_timeline_ids:
-            semantic_category = timeline_id.rsplit("_", 1)[0] or "unknown"
-            evidence_ids = list(dict.fromkeys(event_entity_ids.get(timeline_id, [])))
-            placeholder = self._expand_features({
-                "category": semantic_category,
-                "subcategory": semantic_category,
-                "summary": "Visible timeline entity; detailed attributes were unresolved in the entity pass.",
-                "confidence": 0.5,
-                "features": [],
-                "uncertainties": ["Detailed entity attributes were not returned by the compact entity pass"],
-            })
-            placeholder["quantity"] = {"value": 1, "confidence": 0.5}
-            entities.append({"entity_id": timeline_id, **placeholder})
-            known_entity_ids.add(timeline_id)
-            entity_by_id[timeline_id] = entities[-1]
-        event_entity_ids = {}
-        for event in events:
-            event["entity_ids"] = list(dict.fromkeys(
-                aliases.get(entity_id, entity_id) for entity_id in event["entity_ids"]
-            ))
-            unknown = set(event["entity_ids"]) - known_entity_ids
-            if unknown:
-                raise RuntimeError(f"Local Qwen3-VL event references unknown entities: {sorted(unknown)}")
-            for entity_id in event["entity_ids"]:
-                event_entity_ids.setdefault(entity_id, []).extend(event["evidence_ids"])
-        for entity in entities:
-            aligned_evidence_ids = list(dict.fromkeys(event_entity_ids.get(str(entity["entity_id"]), [])))
-            for values in entity["attributes"].values():
-                for feature in values:
-                    feature["evidence_ids"] = aligned_evidence_ids
-        if duration is not None and events and duration - float(events[-1]["time_range"][1]) <= 1.0:
-            events[-1]["time_range"][1] = duration
-
-        relations = []
-        relation_warnings: list[str] = []
-        for index, value in enumerate(raw.get("relations", []), start=1):
-            if not isinstance(value, list) or len(value) < 7:
-                continue
-            relation_id, relation_type, subject_id, object_id, anchor, confidence, source_type = value[:7]
-            subject_id = _canonical_entity_reference(subject_id, known_entity_ids)
-            object_id = _canonical_entity_reference(object_id, known_entity_ids)
-            if subject_id not in known_entity_ids or object_id not in known_entity_ids:
-                relation_warnings.append(
-                    f"Dropped relation {relation_id or index} with unknown endpoints: "
-                    f"{subject_id}, {object_id}"
-                )
-                continue
-            related_evidence = sorted(set(
-                event_entity_ids.get(str(subject_id), []) + event_entity_ids.get(str(object_id), [])
-            ))
-            relations.append({
-                "relation_id": str(relation_id or f"relation_{index}"), "type": str(relation_type),
-                "subject_id": subject_id, "object_id": object_id, "anchor": str(anchor),
-                "spatial_constraints": {}, "evidence_ids": related_evidence,
-                "confidence": float(confidence), "source": str(source_type),
-            })
-        technical = dict(raw.get("technical", {}))
-        task_ids = list(dict.fromkeys(
-            item for item in [str(timeline_raw.get("_task_id", "")), str(entity_raw.get("_task_id", ""))] if item
-        ))
-        technical.update({
-            "media_type": "video",
-            "analysis_pipeline": "compact_video_single_pass",
-            "task_ids": task_ids,
-            "scene_cut_candidates_seconds": cut_candidates,
-        })
-        if duration is not None:
-            technical["duration_seconds"] = duration
-        output_uncertainties = list(raw.get("uncertainties", []))
-        if unresolved_timeline_ids:
-            output_uncertainties.append(
-                "Compact entity pass omitted details for timeline entities: "
-                + ", ".join(unresolved_timeline_ids)
-            )
-        output_uncertainties.extend(relation_warnings)
-        return {
-            "asset_id": str(asset.get("asset_id", "")), "summary": str(raw.get("summary", "")),
-            "evidence": evidence, "regions": [], "entities": entities,
-            "relations": relations, "events": events, "technical": technical,
-            "transcript": "", "uncertainties": output_uncertainties,
-        }
-
-    def _analyze_visual(self, asset: Mapping[str, Any], plan: Mapping[str, Any] | None = None) -> dict[str, Any]:
-        media_type = str(asset.get("media_type", ""))
-        service_base_url = self._service_base_url(media_type)
-        source = Path(str(asset.get("uri", ""))).expanduser().resolve()
-        if not source.is_file():
-            raise FileNotFoundError(f"local Qwen3-VL media path does not exist: {source}")
-        if media_type == "image" and bool(self.config.options.get("single_pass_image_analysis", True)):
-            return self._analyze_image_relational(asset, source, plan)
-        if media_type == "image" and bool(self.config.options.get("staged_image_analysis", True)):
-            return self._analyze_image_staged(asset, source, plan)
-        if media_type == "video" and bool(self.config.options.get("compact_video_analysis", True)):
-            return self._analyze_video_compact(asset, source, plan)
-        temporal_instruction = ""
-        if media_type == "video":
-            fps = float(self.config.options.get("video_fps", 2.0))
-            temporal_instruction = (
-                f"\n\nThis is the original source video decoded in chronological order at approximately {fps:g} fps. "
-                "Describe visible progression, actions, cuts, camera changes, and scene changes. "
-                "Use approximate source-video seconds for events. Do not analyze or infer audio."
-            )
-        duration = _video_duration_seconds(source) if media_type == "video" else None
-        prompt = (
-            VISUAL_SYSTEM_PROMPT
-            + temporal_instruction
-            + "\n\n"
-            + _analysis_prompt(asset, [], video_duration_seconds=duration, plan=plan)
-        )
-        output_dir = Path(
-            str(
-                self.config.options.get(
-                    "output_dir",
-                    "/home/mx/shenxing/minimax-H3-context-IR/outputs/qwen3-vl-32b",
-                )
-            )
-        ).expanduser().resolve()
-        request_parameters: dict[str, Any] = {}
-        if media_type == "video":
-            request_parameters.update(
-                fps=float(self.config.options.get("video_fps", 2.0)),
-                max_frames=int(self.config.options.get("video_max_frames", 256)),
-            )
-        return self._run_task(
-            source, prompt, output_dir,
-            int(self.config.options.get("max_tokens", 2048)),
-            **request_parameters,
-        )
-
-    def analyze(self, assets: Sequence[Mapping[str, Any]], perception_plan: Mapping[str, Any] | None = None) -> dict[str, Any]:
-        plans = {str(item.get("asset_id", "")): item for item in (perception_plan or {}).get("assets", []) if isinstance(item, Mapping)}
-        analyses: list[dict[str, Any] | None] = [None] * len(assets)
-
-        def analyze_one(index: int, asset: Mapping[str, Any]) -> tuple[int, dict[str, Any]]:
-            plan = plans.get(str(asset.get("asset_id", "")))
-            started = time.perf_counter()
-            analysis, cache_hit, cache_key = self._analyze_visual_cached(asset, plan)
-            analysis = _sanitize_analysis_quality(analysis)
-            analysis["asset_id"] = str(asset.get("asset_id", ""))
-            coverage = _evidence_coverage(analysis, plan)
-            supplemental_attempts: list[dict[str, Any]] = []
-            supplemental_elapsed = 0.0
-            for requirement in _required_supplements(coverage):
-                # Exactly one local attempt per missing required fact. Useful and
-                # optional omissions never enter this branch.
-                requirement["attempts"] = 1
-                attempt_started = time.perf_counter()
-                try:
-                    supplemental, elapsed = self._supplement_required_evidence(asset, requirement)
-                    supplemental_elapsed += elapsed
-                    observed = str(supplemental.get("status", "")).lower() == "observed"
-                    answer = str(supplemental.get("answer", "")).strip()
-                    confidence = float(supplemental.get("confidence", 0.0) or 0.0)
-                    requirement["status"] = "covered_after_supplement" if observed and answer else "unresolved"
-                    requirement["supplemental_answer"] = answer
-                    requirement["confidence"] = confidence
-                    supplemental_attempts.append({
-                        "requirement_id": requirement["requirement_id"], "reason": "required_evidence_missing",
-                        "scope": requirement["region_or_time"], "status": requirement["status"],
-                        "elapsed_seconds": round(elapsed, 3), "task_id": str(supplemental.get("_task_id", "")),
-                    })
-                except Exception as exc:
-                    requirement["status"] = "unresolved"
-                    supplemental_attempts.append({
-                        "requirement_id": requirement["requirement_id"], "reason": "required_evidence_missing",
-                        "scope": requirement["region_or_time"], "status": "failed",
-                        "elapsed_seconds": round(time.perf_counter() - attempt_started, 3),
-                        "error": str(exc)[:500],
-                    })
-                if requirement["status"] == "unresolved":
-                    analysis.setdefault("uncertainties", []).append(
-                        f"Required evidence remains uncertain after one local attempt: {requirement['claim']}"
-                    )
-            analysis["evidence_coverage"] = coverage
-            analysis["supplemental_attempts"] = supplemental_attempts
-            technical = analysis.setdefault("technical", {})
-            if isinstance(technical, dict):
-                technical["analysis_profile"] = _analysis_profile(asset, plan)
-                technical["elapsed_seconds"] = round(time.perf_counter() - started, 3)
-                technical["cache_hit"] = cache_hit
-                technical["cache_key"] = cache_key
-                base_request_count = len(technical.get("task_ids", [])) or (0 if cache_hit else 1)
-                technical["perception_metrics"] = {
-                    "request_count": base_request_count + len(supplemental_attempts),
-                    "retry_count": sum(1 for item in supplemental_attempts if item.get("status") == "failed"),
-                    "supplemental_request_count": len(supplemental_attempts),
-                    "supplemental_elapsed_seconds": round(supplemental_elapsed, 3),
-                    "elapsed_seconds": technical["elapsed_seconds"],
-                }
-            return index, analysis
-
-        visual_items: list[tuple[int, Mapping[str, Any]]] = []
-        for index, asset in enumerate(assets):
-            if asset.get("media_type") == "audio":
-                analyses[index] = {
-                    "asset_id": str(asset.get("asset_id", "")),
-                    "summary": "", "evidence": [], "regions": [], "entities": [],
-                    "relations": [], "events": [],
-                    "technical": {"media_type": "audio", "analysis_status": "unsupported_by_visual_provider"},
-                    "transcript": "",
-                    "uncertainties": ["Audio content was not analyzed by the visual perception provider"],
-                }
-                continue
-            visual_items.append((index, asset))
-
-        configured_workers = int(self.config.options.get("max_parallel_assets", 0))
-        max_workers = len(visual_items) if configured_workers <= 0 else min(configured_workers, len(visual_items))
-        max_workers = max(1, max_workers)
-        if max_workers == 1:
-            for index, asset in visual_items:
-                result_index, analysis = analyze_one(index, asset)
-                analyses[result_index] = analysis
-        else:
-            with ThreadPoolExecutor(max_workers=max_workers, thread_name_prefix="qwen-perception") as executor:
-                futures = [executor.submit(analyze_one, index, asset) for index, asset in visual_items]
-                for future in as_completed(futures):
-                    result_index, analysis = future.result()
-                    analyses[result_index] = analysis
-
-        completed = [item for item in analyses if item is not None]
-        normalized = normalize_media_analysis({"assets": completed}, assets, self.config)
-        metrics = [item.get("technical", {}).get("perception_metrics", {}) for item in completed]
-        normalized["perception_metrics"] = {
-            "request_count": sum(int(item.get("request_count", 0)) for item in metrics),
-            "retry_count": sum(int(item.get("retry_count", 0)) for item in metrics),
-            "supplemental_request_count": sum(int(item.get("supplemental_request_count", 0)) for item in metrics),
-            "elapsed_seconds": round(max((float(item.get("elapsed_seconds", 0)) for item in metrics), default=0.0), 3),
-        }
-        return normalized
-
-
-class PerceptionProviderRegistry:
-    def __init__(self) -> None:
-        self._factories: dict[str, Callable[..., PerceptionProvider]] = {}
-
-    def register(self, name: str, factory: Callable[..., PerceptionProvider]) -> None:
-        key = name.strip().lower()
-        if not key or key in self._factories:
-            raise ValueError(f"invalid or duplicate provider: {name}")
-        self._factories[key] = factory
-
-    def create(self, config: PerceptionProviderConfig, **kwargs: Any) -> PerceptionProvider:
-        try:
-            factory = self._factories[config.provider.strip().lower()]
-        except KeyError as exc:
-            raise KeyError(f"unknown perception provider: {config.provider}") from exc
-        return factory(config=config, **kwargs)
-
-    def names(self) -> list[str]:
-        return sorted(self._factories)
-
-
 def normalize_media_analysis(
     raw: Mapping[str, Any],
     assets: Sequence[Mapping[str, Any]],
@@ -1911,7 +231,375 @@ def normalize_media_analysis(
     }
 
 
-PERCEPTION_PROVIDERS = PerceptionProviderRegistry()
-PERCEPTION_PROVIDERS.register("qwen3-omni", Qwen3OmniProvider)
-PERCEPTION_PROVIDERS.register("gitee-qwen3-vl", GiteeQwen3VLProvider)
-PERCEPTION_PROVIDERS.register("local-qwen3-vl-32b", LocalQwen3VL32BProvider)
+class QwenTransport:
+    def __init__(self, config: PerceptionProviderConfig) -> None:
+        self.config = config
+        self._uploaded_media: dict[tuple[str, int, int], str] = {}
+        self._upload_lock = threading.Lock()
+
+
+    def _media_url(self, media_path: Path) -> str:
+        upload_base = str(self.config.options.get("asset_upload_base_url", "")).rstrip("/")
+        source = media_path.expanduser().resolve()
+        if not upload_base:
+            return source.as_uri()
+        stat = source.stat()
+        key = (str(source), stat.st_size, stat.st_mtime_ns)
+        with self._upload_lock:
+            if key in self._uploaded_media:
+                return self._uploaded_media[key]
+            # curl streams the multipart body, including large source videos.
+            escaped = str(source).replace(chr(92), chr(92) * 2).replace(chr(34), chr(92) + chr(34))
+            timeout = float(self.config.options.get("asset_upload_timeout_seconds", 600))
+            response = subprocess.run(
+                ["curl", "--silent", "--show-error", "--fail-with-body",
+                 "--connect-timeout", "15", "--max-time", str(timeout),
+                 "--request", "POST", upload_base + "/v1/assets",
+                 "--form", 'file=@"' + escaped + '"'],
+                capture_output=True, text=True, timeout=timeout + 5, check=False,
+            )
+            if response.returncode:
+                raise RuntimeError(f"Asset upload failed ({response.returncode}): {response.stderr[:500]} {response.stdout[:500]}")
+            try:
+                value = json.loads(response.stdout)
+                url = value.get("url", "") if isinstance(value, dict) else ""
+            except (ValueError, TypeError) as exc:
+                raise RuntimeError("Asset upload returned invalid JSON") from exc
+            if not isinstance(url, str) or not url.startswith(("http://", "https://")):
+                raise RuntimeError("Asset upload did not return an HTTP(S) url")
+            self._uploaded_media[key] = url
+            return url
+
+
+    def _request_json(
+        self,
+        method: str,
+        path: str,
+        payload: Mapping[str, Any] | None = None,
+        timeout: float = 30.0,
+        base_url: str | None = None,
+    ) -> dict[str, Any]:
+        endpoint = (base_url or str(self.config.options.get("base_url", "http://127.0.0.1:9012"))).rstrip("/") + path
+        data = None if payload is None else json.dumps(payload, ensure_ascii=False).encode("utf-8")
+        request = urllib.request.Request(
+            endpoint,
+            data=data,
+            headers={"Content-Type": "application/json"} if data is not None else {},
+            method=method,
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=timeout) as response:
+                value = json.loads(response.read().decode("utf-8"))
+        except urllib.error.HTTPError as exc:
+            body = exc.read().decode("utf-8", errors="replace")[:1500]
+            raise RuntimeError(f"Qwen HTTP {exc.code}: {body}") from exc
+        except urllib.error.URLError as exc:
+            raise RuntimeError(f"Qwen connection failed: {exc.reason}") from exc
+        if not isinstance(value, dict):
+            raise RuntimeError("Qwen returned a non-object response")
+        return value
+
+
+SCHEMA = "media_analysis.v3"
+PROMPT_VERSION = "multimodal.v2"
+
+
+def _array(value, label):
+    if not isinstance(value, list):
+        raise ValueError(f"{label} must be an array")
+    if any(not isinstance(item, dict) for item in value):
+        raise ValueError(f"{label} must contain objects")
+    return value
+
+
+def _text(value, label):
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"{label} must be nonempty text")
+    return value
+
+
+def _time(item, duration):
+    value = item.get("time_range")
+    if value is None:
+        item["time_range"] = None
+        item.setdefault("timing_status", "unknown")
+        return
+    if (not isinstance(value, list) or len(value) != 2
+            or any(type(v) not in (int, float) or not math.isfinite(v) for v in value)
+            or duration is None or not 0 <= value[0] < value[1] <= duration):
+        item["rejected_time_range"] = value
+        item["time_range"] = None
+        item["timing_status"] = "invalid_model_time"
+        item["timing_warning"] = f"模型时间超出素材范围或格式不正确；素材时长 {duration} 秒，未定位。"
+        return
+    item["timing_status"] = "model_estimate"
+
+
+def validate_analysis(raw, assets, metadata):
+    """Validate raw or saved v3 data. Never clamp timestamps or infer identity."""
+    if not isinstance(raw, dict):
+        raise ValueError("analysis must be an object")
+    result = copy.deepcopy(raw)
+    expected = {a["asset_id"]: a for a in assets}
+    items = _array(result.get("assets"), "assets")
+    ids = [a.get("asset_id") for a in items]
+    if len(ids) != len(expected) or any(not isinstance(i, str) for i in ids) or set(ids) != set(expected):
+        raise ValueError("analysis must include each input asset_id exactly once")
+    entities_by_asset = {}
+    for item in items:
+        aid = item["asset_id"]
+        kind = expected[aid]["media_type"]
+        meta = metadata.get(aid, {})
+        duration = meta.get("duration_seconds")
+        item.update(media_type=kind, status="complete", technical=copy.deepcopy(meta))
+        _text(item.get("summary"), "summary")
+        if not isinstance(item.get("uncertainties"), list) or any(not isinstance(x, str) for x in item["uncertainties"]):
+            raise ValueError("uncertainties must be an array of strings")
+        visual = item.get("visual")
+        if not isinstance(visual, dict):
+            raise ValueError("visual must be an object")
+        entities = _array(visual.get("entities"), "entities")
+        mapping = {}
+        for entity in entities:
+            eid = _text(entity.get("entity_id"), "entity_id")
+            if eid in mapping:
+                raise ValueError("duplicate entity_id")
+            mapping[eid] = eid if eid.startswith(aid + ":") else aid + ":" + eid
+            _text(entity.get("summary"), "entity summary")
+            for feature in _array(entity.get("features", []), "features"):
+                _text(feature.get("name"), "feature name")
+                _text(feature.get("value"), "feature value")
+                if feature.get("source") not in {"observed", "inferred", "uncertain"}:
+                    raise ValueError("invalid feature source")
+        entities_by_asset[aid] = mapping
+        for entity in entities:
+            entity["entity_id"] = mapping[entity["entity_id"]]
+        def entity_ref(value):
+            if not isinstance(value, str) or value not in mapping:
+                raise ValueError(f"unknown entity in {aid}: {value}")
+            return mapping[value]
+        for rel in _array(visual.get("relations"), "relations"):
+            rel["subject_id"] = entity_ref(rel.get("subject_id"))
+            rel["object_id"] = entity_ref(rel.get("object_id"))
+        event_map = {}
+        events = _array(visual.get("events"), "events")
+        for event in events:
+            eid = _text(event.get("event_id"), "event_id")
+            if eid in event_map:
+                raise ValueError("duplicate event_id")
+            event_map[eid] = eid if eid.startswith(aid + ":") else aid + ":" + eid
+            event["event_id"] = event_map[eid]
+            if not isinstance(event.get("entity_ids"), list):
+                raise ValueError("entity_ids must be an array")
+            event["entity_ids"] = [entity_ref(i) for i in event["entity_ids"]]
+            _text(event.get("action"), "action")
+            _time(event, duration)
+        _array(visual.get("visible_text"), "visible_text")
+        if kind == "image" and events:
+            raise ValueError("static images cannot have timed events")
+        if kind == "audio" and any(visual.get(k) for k in ("entities", "relations", "events", "visible_text")):
+            raise ValueError("audio-only input cannot contain visual observations")
+        audio = item.get("audio")
+        if not isinstance(audio, dict):
+            raise ValueError("audio must be an object")
+        expected_status = "not_applicable" if kind == "image" else ("analyzed" if meta.get("has_audio") else "no_track")
+        if audio.get("status") != expected_status:
+            raise ValueError(f"audio.status must be {expected_status}")
+        audio["audio_id"] = aid + ":audio" if expected_status == "analyzed" else None
+        audio["source_asset_id"] = aid
+        audio["source_type"] = "embedded_audio" if kind == "video" else kind
+        segment_map = {}
+        for key in ("speech_segments", "sound_events"):
+            for seg in _array(audio.get(key), key):
+                if expected_status != "analyzed":
+                    raise ValueError("sound reported for input without audio")
+                sid = _text(seg.get("segment_id"), "segment_id")
+                if sid in segment_map:
+                    raise ValueError("duplicate audio segment_id")
+                segment_map[sid] = sid if sid.startswith(aid + ":") else aid + ":" + sid
+                seg["segment_id"] = segment_map[sid]
+                _text(seg.get("text" if key == "speech_segments" else "description"), key)
+                _time(seg, duration)
+        for link in _array(item.get("audio_visual_links"), "audio_visual_links"):
+            if kind != "video" or link.get("segment_id") not in segment_map or link.get("event_id") not in event_map:
+                raise ValueError("audio_visual_links references an unknown segment or event")
+            link["segment_id"] = segment_map[link["segment_id"]]
+            link["event_id"] = event_map[link["event_id"]]
+    for relation in _array(result.get("cross_asset_relations"), "cross_asset_relations"):
+        refs = _array(relation.get("references"), "references")
+        if len(refs) < 2:
+            raise ValueError("cross-image relation needs at least two references")
+        for ref in refs:
+            aid, eid = ref.get("asset_id"), ref.get("entity_id")
+            if aid not in expected or expected[aid]["media_type"] != "image":
+                raise ValueError(f"unknown image reference: {aid}")
+            if eid is not None:
+                if eid not in entities_by_asset[aid]:
+                    raise ValueError(f"unknown entity {eid} in {aid}; use a declared entity ID, or null for the whole image")
+                ref["entity_id"] = entities_by_asset[aid][eid]
+            else:
+                ref["entity_id"] = None
+    result["schema_version"] = SCHEMA
+    result["assets"] = sorted(items, key=lambda x: list(expected).index(x["asset_id"]))
+    return result
+
+
+def probe(asset):
+    if asset["media_type"] == "image":
+        return {}
+    data = json.loads(subprocess.check_output([
+        "ffprobe", "-v", "error", "-show_entries", "format=duration:stream=codec_type",
+        "-of", "json", asset["uri"],
+    ], timeout=30))
+    duration = float(data["format"]["duration"])
+    types = {s["codec_type"] for s in data.get("streams", [])}
+    if not math.isfinite(duration) or not 0 < duration <= 30:
+        raise ValueError("Omni currently supports media up to 30 seconds")
+    if asset["media_type"] not in types:
+        raise ValueError("declared media type is absent from the input")
+    return {"duration_seconds": duration, "has_audio": "audio" in types}
+
+
+def response_shape(assets, metadata):
+    return {"assets": [{"asset_id": a["asset_id"], "summary": "实际内容",
+        "entities": [["person_1", "person", "外观和衣着"]],
+        "relations": [], "visible_text": [], "events": [], "speech": [], "sounds": [],
+        "links": [], "uncertainties": []} for a in assets], "cross_asset_relations": []}
+
+
+COMPACT_FORMAT = """用下面的数组格式减少字段开销，不减少实际观察内容。动作按阶段记录，对白逐句保留；不要增加字段或改变数组项数。
+entities 每项：[实体ID,类别,外观与特征]。
+relations 每项：[主体ID,客体ID,可见关系]。
+visible_text 每项：[原文,位置]。
+events 每项：[事件ID,开始秒,结束秒,[实体ID],可见动作、前后状态或镜头变化]。
+speech 每项：[片段ID,开始秒,结束秒,说话者ID,实际原话]。
+sounds 每项：[片段ID,开始秒,结束秒,music或effect或ambience,实际声音]。
+links 每项：[声音片段ID,视觉事件ID,对应依据]。
+开始秒和结束秒不确定时都写 null。图片的 events、speech、sounds、links 留空。
+独立音频的 entities、relations、visible_text、events、links 留空。
+cross_asset_relations 每项：{\"description\":\"图片之间的关系\",\"references\":[{\"asset_id\":\"图片ID\",\"entity_id\":\"该图实体ID\"}]}。比较整张图的风格或文字时 entity_id 写 null，不用字段名代替实体ID。不能确认同一主体时只写入 uncertainties。
+"""
+
+
+def expand_compact(raw, group, metadata):
+    if not isinstance(raw, dict):
+        raise ValueError("response must be an object")
+    result = copy.deepcopy(raw)
+    by_id = {a["asset_id"]: a for a in group}
+    for item in _array(result.get("assets"), "assets"):
+        aid = item.get("asset_id")
+        if aid not in by_id:
+            raise ValueError("unknown asset_id")
+        if "visual" in item:
+            continue
+        def rows(key, width):
+            value = item.get(key, [])
+            if not isinstance(value, list) or any(not isinstance(v, list) or len(v) != width for v in value):
+                raise ValueError(f"{key}: each row needs {width} values")
+            return value
+        def span(a, b):
+            return None if a is None and b is None else [a, b]
+        item["visual"] = {
+            "entities": [{"entity_id": i, "category": k, "summary": text, "features": []}
+                         for i, k, text in rows("entities", 3)],
+            "relations": [{"subject_id": a, "object_id": b, "description": text, "source": "observed"}
+                          for a, b, text in rows("relations", 3)],
+            "visible_text": [{"text": text, "region": region} for text, region in rows("visible_text", 2)],
+            "events": [{"event_id": i, "time_range": span(a, b), "entity_ids": ids, "action": text}
+                       for i, a, b, ids, text in rows("events", 5)]}
+        kind = by_id[aid]["media_type"]
+        status = "not_applicable" if kind == "image" else ("analyzed" if metadata[aid].get("has_audio") else "no_track")
+        item["audio"] = {"status": status,
+            "speech_segments": [{"segment_id": i, "time_range": span(a, b), "speaker_id": speaker, "text": text}
+                                for i, a, b, speaker, text in rows("speech", 5)],
+            "sound_events": [{"segment_id": i, "time_range": span(a, b), "kind": k, "description": text}
+                             for i, a, b, k, text in rows("sounds", 5)]}
+        item["audio_visual_links"] = [{"segment_id": a, "event_id": b, "description": text}
+                                     for a, b, text in rows("links", 3)]
+        for key in ("entities", "relations", "visible_text", "events", "speech", "sounds", "links"):
+            item.pop(key, None)
+    result.setdefault("cross_asset_relations", [])
+    return result
+
+
+class MultimodalPerception:
+    def __init__(self, options=None):
+        self.options = options or {}
+        self.transport = QwenTransport(PerceptionProviderConfig(options={
+            "asset_upload_base_url": self.options.get("asset_upload_base_url") or os.getenv("QWEN_ASSET_UPLOAD_BASE_URL", "http://10.42.1.1:30100")
+        }))
+
+    def analyze(self, source, output_dir):
+        assets = source.get("assets", [])
+        ids = [a.get("asset_id") for a in assets]
+        if any(not isinstance(i, str) or not i for i in ids) or len(set(ids)) != len(ids):
+            raise ValueError("asset IDs must be nonempty and unique")
+        if any(a.get("media_type") not in {"image", "video", "audio"} for a in assets):
+            raise ValueError("unsupported media type")
+        images = [a for a in assets if a["media_type"] == "image"]
+        if len(images) > 8:
+            raise ValueError("joint image analysis supports at most 8 images; reduce the input count")
+        metadata = {a["asset_id"]: probe(a) for a in assets}
+        groups = ([images] if images else []) + [[a] for a in assets if a["media_type"] != "image"]
+        output_dir = Path(output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        def analyze_group(pair):
+            index, group = pair
+            directory = output_dir / f"request_{index:02d}"
+            directory.mkdir(exist_ok=True)
+            image = group[0]["media_type"] == "image"
+            url = self.options.get("image_base_url") or os.getenv("QWEN_IMAGE_UNDERSTAND_BASE_URL", "http://10.42.1.1:9012")
+            model = self.options.get("image_model") or os.getenv("QWEN_IMAGE_MODEL", "Qwen3.8-27B")
+            if not image:
+                url = self.options.get("omni_base_url") or os.getenv("QWEN_OMNI_BASE_URL", "http://10.42.1.1:9013")
+                model = self.options.get("omni_model") or os.getenv("QWEN_OMNI_MODEL", "Qwen3-Omni-30B-A3B-Instruct")
+            manifest = [{k: a[k] for k in ("asset_id", "media_type", "label", "original_filename", "user_role") if k in a}
+                        | metadata[a["asset_id"]] for a in group]
+            shape = response_shape(group, metadata)
+            prompt = (IMAGE_PROMPT if image else OMNI_PROMPT) + "\n用户原始需求：\n" + source["user_request"]
+            prompt += "\n素材清单（duration_seconds 是实测总时长）：\n" + json.dumps(manifest, ensure_ascii=False)
+            prompt += "\n" + COMPACT_FORMAT + "\n返回格式：\n" + json.dumps(shape, ensure_ascii=False)
+            content = [{"type": "text", "text": prompt}]
+            for a in group:
+                uri = a["uri"]
+                media_url = uri if uri.startswith(("http://", "https://")) else self.transport._media_url(Path(uri))
+                key = {"image": "image_url", "video": "video_url", "audio": "audio_url"}[a["media_type"]]
+                content += [{"type": "text", "text": "asset_id=" + a["asset_id"]}, {"type": key, key: {"url": media_url}}]
+            for attempt in range(2):
+                payload = {"model": model, "messages": [{"role": "user", "content": content}],
+                           "max_tokens": 8192 if image else 2048, "temperature": 0, "stream": False}
+                if group[0]["media_type"] == "video":
+                    for option, field in (("omni_fps", "fps"), ("omni_video_max_pixels", "video_max_pixels")):
+                        if option in self.options:
+                            payload[field] = self.options[option]
+                if image:
+                    payload["chat_template_kwargs"] = {"enable_thinking": False}
+                (directory / f"request_{attempt}.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+                response = self.transport._request_json("POST", "/v1/chat/completions", payload,
+                    timeout=float(self.options.get("timeout_seconds", 1800)), base_url=url.rstrip("/").removesuffix("/v1"))
+                (directory / f"response_{attempt}.json").write_text(json.dumps(response, ensure_ascii=False, indent=2), encoding="utf-8")
+                try:
+                    _, final = split_qwen_message(response["choices"][0]["message"])
+                    text = re.sub(r"^```(?:json)?\s*|\s*```$", "", final.strip())
+                    # Repair only duplicated quotes before JSON field names. Never change values.
+                    repaired = re.sub(r'([,{]\s*)"\s+"([a-zA-Z_][a-zA-Z_0-9]*)"\s*:', r'\1"\2":', text)
+                    parsed = json.loads(repaired)
+                    if repaired != text:
+                        (directory / f"format_repair_{attempt}.txt").write_text("Removed duplicate quotes before field names; values unchanged.", encoding="utf-8")
+                    parsed.setdefault("cross_asset_relations", [])
+                    result = validate_analysis(expand_compact(parsed, group, metadata), group, metadata)
+                    result["provider"] = {"model": model, "task_id": response.get("x_task_id"), "attempts": attempt + 1}
+                    return result
+                except (ValueError, KeyError, IndexError, TypeError) as exc:
+                    (directory / f"validation_{attempt}.txt").write_text(str(exc), encoding="utf-8")
+                    if attempt:
+                        raise ValueError(f"Analysis failed for {[a['asset_id'] for a in group]}: {exc}") from exc
+                    content[0]["text"] = prompt + "\n" + RETRY_PROMPT + str(exc)[:500]
+        with ThreadPoolExecutor(max_workers=min(4, max(1, len(groups)))) as executor:
+            results = list(executor.map(analyze_group, enumerate(groups)))
+        merged = {"assets": [a for r in results for a in r["assets"]],
+                  "cross_asset_relations": [r for result in results for r in result["cross_asset_relations"]]}
+        merged = validate_analysis(merged, assets, metadata)
+        merged.update(prompt_version=PROMPT_VERSION, providers=[r["provider"] for r in results], missing_asset_ids=[])
+        (output_dir / "media_analysis.json").write_text(json.dumps(merged, ensure_ascii=False, indent=2), encoding="utf-8")
+        return merged

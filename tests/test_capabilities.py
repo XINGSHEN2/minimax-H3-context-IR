@@ -98,3 +98,25 @@ class CapabilityContractTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def test_single_asset_endpoints_use_current_multimodal_pipeline():
+    import tempfile
+    from unittest.mock import patch
+    from backend.capabilities import image_understand, video_understand, audio_understand
+    with tempfile.TemporaryDirectory() as directory:
+        config = PerceptionProviderConfig(options={"output_dir": directory, "omni_base_url": "http://omni"})
+        with patch("backend.capabilities.MultimodalPerception") as provider:
+            provider.return_value.analyze.return_value = {"schema_version": "media_analysis.v3"}
+            paths = []
+            for kind, call in [("image", image_understand), ("video", video_understand), ("audio", audio_understand)]:
+                asset = {"asset_id": kind + "_1", "media_type": kind, "uri": "http://asset"}
+                result = call(asset, config, {"focus": "保留动作和对白"})
+                assert result["schema_version"] == "media_analysis.v3"
+                source, output = provider.return_value.analyze.call_args.args
+                assert source["assets"] == [asset]
+                assert "保留动作和对白" in source["user_request"]
+                assert str(output).startswith(directory)
+                paths.append(output)
+            assert len(set(paths)) == 3
+            assert provider.call_args.args[0]["omni_base_url"] == "http://omni"

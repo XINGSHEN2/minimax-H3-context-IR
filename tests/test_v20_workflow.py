@@ -5,7 +5,7 @@ import pytest
 from backend.capabilities import h3_prompt_generate, video_generate
 from backend.contracts import build_h3_request
 
-@pytest.mark.parametrize("input_type", ["assets", "asset_descriptions", "media_analysis"])
+@pytest.mark.parametrize("input_type", ["assets", "asset_descriptions", "media_analysis", "media_analysis_v3"])
 def test_public_inputs_use_v20_and_preserve_evidence(tmp_path, monkeypatch, input_type):
     monkeypatch.setenv("CONTEXT_IR_LLM_PROVIDER", "deepseek_litellm")
     monkeypatch.setenv("LITELLM_API_KEY", "unit-test-key")
@@ -14,28 +14,34 @@ def test_public_inputs_use_v20_and_preserve_evidence(tmp_path, monkeypatch, inpu
               "assets": [{"asset_id": "image_1", "media_type": "image", "uri": "/tmp/bottle.png"}]}
     analysis = {"schema_version": "media_analysis.v2", "assets": [
         {"asset_id": "image_1", "summary": "A red bottle with a label", "entities": []}]}
-    payload = {"input_type": input_type, "source": source}
-    if input_type == "media_analysis": payload["media_analysis"] = analysis
+    if input_type in {"assets", "media_analysis_v3"}:
+        analysis = {"schema_version": "media_analysis.v3", "cross_asset_relations": [], "assets": [{
+            "asset_id": "image_1", "summary": "A red bottle with a label", "visual": {
+                "entities": [], "relations": [], "events": [], "visible_text": []},
+            "audio": {"status": "not_applicable", "speech_segments": [], "sound_events": []},
+            "audio_visual_links": [], "uncertainties": [], "technical": {}}]}
+    payload = {"input_type": "media_analysis" if input_type == "media_analysis_v3" else input_type, "source": source}
+    if input_type in {"media_analysis", "media_analysis_v3"}: payload["media_analysis"] = analysis
     if input_type == "asset_descriptions": payload["asset_descriptions"] = [
         {"asset_id": "image_1", "description": "A red bottle with a label"}]
     before = copy.deepcopy(payload)
     answer = {"content_plan": {"bindings": [{"asset_id": "image_1"}],
               "shots": [{"start_seconds": 0, "end_seconds": 5}]},
-              "h3_prompt": "<Picture 1> Reveal the label on the red bottle.", "uncertainties": []}
+              "h3_prompt": "subject_definitions: <Picture 1> A red bottle.\nsummary: Reveal the label.\nretention_analysis: Keep the bottle.\ndetailed_description:\n[Shot 1] Reveal the label on the red bottle.\noverall_soundscape: Quiet room.\nnon_diegetic_music: None.", "uncertainties": []}
     def resolve(source, invoke):
         resolved = copy.deepcopy(source)
         resolved["resolved_request"] = resolved["user_request"]
         return {"source": resolved, "perception_plan": {"assets": []}}
     with patch("backend.agent.preflight_reasoning_provider"), \
          patch("backend.agent.resolve_intent", side_effect=resolve) as intent, \
-         patch("backend.agent.PERCEPTION_PROVIDERS.create") as provider, \
+         patch("backend.perception.MultimodalPerception") as provider, \
          patch("backend.agent.invoke_reasoning_json", return_value=answer) as writer:
         provider.return_value.analyze.return_value = analysis
         result = h3_prompt_generate(payload, output_dir=tmp_path / "result")
-        intent.assert_called_once()
+        intent.assert_not_called()
         assert provider.return_value.analyze.call_count == (1 if input_type == "assets" else 0)
         writer.assert_called_once()
-        assert writer.call_args.args[3] == ["h3-prompt-writing", "h3-shot-planning"]
+        assert writer.call_args.args[3] == ["h3-outline-planning", "h3-shot-planning", "h3-sound-planning", "h3-prompt-writing"]
         assert "red bottle" in writer.call_args.args[0]
     assert payload == before
     assert result["context_ir"]["schema_version"] == "h3_compilation.light.v1"

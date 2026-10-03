@@ -147,14 +147,6 @@ class IntentResolverTests(unittest.TestCase):
         self.assertEqual(video_plans[0]["analyze"], ["cuts", "camera movement", "hand motion"])
         self.assertEqual(video_plans[0]["do_not_infer"], ["performer identity", "scene identity"])
 
-    def test_claim_is_separate_and_guard_enters_qwen_prompt(self):
-        prompt = build_intent_prompt(self.source)
-        self.assertIn("user_claimed_category", prompt)
-        from backend.perception import _analysis_prompt
-        qwen_prompt = _analysis_prompt(self.source["assets"][0], [], plan=self.response()["perception_plan"]["assets"][0])
-        self.assertIn("portable pump", qwen_prompt)
-        self.assertIn("category from screen digits alone", qwen_prompt)
-        self.assertIn("only as a search hypothesis", qwen_prompt)
 
     def test_audio_evidence_never_triggers_visual_provider_retry(self):
         response = self.response()

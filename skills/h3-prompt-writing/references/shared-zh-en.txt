@@ -89,3 +89,5 @@ overall_soundscape: Steady rain taps against the café windows while low room am
 ```text
 non_diegetic_music: Sparse piano notes at a slow tempo, joined by sustained low strings that gradually increase in volume before fading out.
 ```
+
+对白标签边界：<d> 只表示目标视频中实际发出的对白或歌词，仅写在 detailed_description 对应的发声位置。待替换、删除或仅用于解释的原句使用普通引号，不能放入 <d>。subject_definitions、summary、retention_analysis 中的新旧对白均用普通引号说明；对白、旁白或歌词被替换时，相关 Shot 只写最终实际发声内容并使用 <d>；不得在镜头正文中引用、复述或用否定句提及被替换的旧台词，即使用普通引号也不允许。新旧台词对应关系只留在前面的修改说明中。保留不变且实际发出的原对白仍可使用 <d>。招牌、字幕等可见文字继续用普通双引号写清原文和目标文字，不使用 <d>，也不因此省略替换关系。

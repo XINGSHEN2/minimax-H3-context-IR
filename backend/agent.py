@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""v20 orchestration: intent, perception, then one Prompt compilation call."""
+"""Qwen material analysis followed by one prompt compilation call."""
 from __future__ import annotations
 import argparse
 import copy
@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Any, Callable, Mapping
 from urllib.parse import urlparse
 from backend.contracts import normalize_source_request, validate_source_request
-from backend.perception import PERCEPTION_PROVIDERS, PerceptionProviderConfig, sanitize_media_analysis_quality
+from backend.perception import PerceptionProviderConfig, sanitize_media_analysis_quality
 from backend.intent_resolver import resolve_intent
 ROOT = Path(__file__).resolve().parent.parent
 SKILLS_DIR = ROOT / "skills"
@@ -92,41 +92,30 @@ def preflight_reasoning_provider(reasoning: dict[str, str], timeout: float = 3.0
 def perception_config(source: dict[str, Any]) -> PerceptionProviderConfig:
     supplied = source.get("perception_provider") or {}
     options = dict(supplied.get("options") or {})
-    options.setdefault("base_url", os.environ.get("YIWU_VLM_BASE_URL", "https://ai.gitee.com/v1"))
-    options.setdefault("image_base_url", os.environ.get("QWEN_IMAGE_UNDERSTAND_BASE_URL", "http://10.6.157.43:9012"))
-    options.setdefault("video_base_url", os.environ.get("QWEN_VIDEO_UNDERSTAND_BASE_URL", "http://10.6.157.43:9012"))
-    options.setdefault("asset_upload_base_url", os.environ.get("QWEN_ASSET_UPLOAD_BASE_URL", "http://10.0.96.114:30100"))
-    options.setdefault("video_fps", float(os.environ.get("CONTEXT_IR_VIDEO_FPS", "2")))
-    options.setdefault("video_max_frames", int(os.environ.get("CONTEXT_IR_VIDEO_MAX_FRAMES", "256")))
-    options.setdefault("output_dir", os.environ.get("CONTEXT_IR_VLM_OUTPUT_DIR", str(ROOT / "outputs/qwen3.8-27b")))
-    options.setdefault("api_key_env", os.environ.get("YIWU_VLM_API_KEY_ENV", "GITEE_AI_API_KEY"))
-    options.setdefault("video_frame_count", int(os.environ.get("CONTEXT_IR_VIDEO_FRAME_COUNT", "0")))
-    options.setdefault("max_tokens", int(os.environ.get("CONTEXT_IR_VLM_MAX_TOKENS", "3000")))
-    options.setdefault("cache_enabled", os.environ.get("CONTEXT_IR_VLM_CACHE_ENABLED", "1") not in {"0", "false", "False"})
-    options.setdefault("cache_dir", os.environ.get("CONTEXT_IR_VLM_CACHE_DIR", ""))
-    if not options["cache_dir"]:
-        options.pop("cache_dir")
-    options.setdefault("max_parallel_assets", int(os.environ.get("CONTEXT_IR_VLM_MAX_PARALLEL_ASSETS", "0")))
-    options.setdefault("max_parallel_attribute_batches", int(os.environ.get("CONTEXT_IR_VLM_MAX_PARALLEL_ATTRIBUTE_BATCHES", "2")))
-    options.setdefault("image_attribute_batch_size", int(os.environ.get("CONTEXT_IR_VLM_IMAGE_ATTRIBUTE_BATCH_SIZE", "3")))
-    options.setdefault("single_pass_image_analysis", os.environ.get("CONTEXT_IR_VLM_SINGLE_PASS_IMAGE", "1") not in {"0", "false", "False"})
-    options.setdefault("single_pass_video_analysis", os.environ.get("CONTEXT_IR_VLM_SINGLE_PASS_VIDEO", "1") not in {"0", "false", "False"})
-    return PerceptionProviderConfig(
-        provider=str(supplied.get("provider") or os.environ.get("CONTEXT_IR_VLM_PROVIDER", "local-qwen3-vl-32b")),
-        model=str(supplied.get("model") or os.environ.get("YIWU_VLM_MODEL", "Qwen3.8-27B")),
-        options=options,
-    )
+    options.setdefault("image_base_url", os.getenv("QWEN_IMAGE_UNDERSTAND_BASE_URL", "http://10.42.1.1:9012"))
+    options.setdefault("omni_base_url", os.getenv("QWEN_OMNI_BASE_URL", "http://10.42.1.1:9013"))
+    options.setdefault("asset_upload_base_url", os.getenv("QWEN_ASSET_UPLOAD_BASE_URL", "http://10.42.1.1:30100"))
+    options.setdefault("output_dir", str(ROOT / "outputs/perception"))
+    return PerceptionProviderConfig(options=options)
 
-def ensure_perception(source: dict[str, Any], perception_plan: dict[str, Any] | None = None) -> dict[str, Any]:
-    if source.get("perception") is not None:
-        enriched = dict(source)
-        enriched["perception"] = sanitize_media_analysis_quality(source["perception"])
-        return enriched
-    config = perception_config(source)
-    provider = PERCEPTION_PROVIDERS.create(config)
+
+def ensure_perception(source: dict[str, Any], perception_plan: dict[str, Any] | None = None, output_dir: Path | None = None) -> dict[str, Any]:
+    from backend.perception import MultimodalPerception, validate_analysis
     enriched = dict(source)
-    enriched["perception"] = provider.analyze(source.get("assets", []), perception_plan)
+    if source.get("perception") is not None:
+        data = source["perception"]
+        if data.get("schema_version") == "media_analysis.v3":
+            metadata = {a["asset_id"]: a.get("technical", {}) for a in data.get("assets", [])}
+            enriched["perception"] = validate_analysis(data, source.get("assets", []), metadata)
+        else:
+            enriched["perception"] = sanitize_media_analysis_quality(data)
+        return enriched
+    supplied = source.get("perception_provider") or {}
+    options = dict(supplied.get("options") or {})
+    directory = output_dir or ROOT / "outputs" / ("perception-v3-" + __import__("uuid").uuid4().hex)
+    enriched["perception"] = MultimodalPerception(options).analyze(source, directory)
     return enriched
+
 
 def invoke_reasoning_json(
     prompt: str,
@@ -196,45 +185,8 @@ def run_agent(
     preflight_reasoning_provider(reasoning)
     output_dir.mkdir(parents=True, exist_ok=False)
     (output_dir / "input.json").write_text(json.dumps(source, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    if progress_callback:
-        progress_callback("intent")
-    stage_started = time.perf_counter()
-    if intent_resolved:
-        if not str(source.get("resolved_request", "")).strip():
-            raise ValueError("intent_resolved=True requires source.resolved_request")
-        resolution = {
-            "source": source,
-            "asset_mentions": copy.deepcopy(source.get("asset_mentions", [])),
-            "perception_plan": {
-                "assets": [
-                    {
-                        "asset_id": str(asset.get("asset_id", "")),
-                        "role": str(asset.get("user_role", "reference")),
-                        "user_claimed_category": "",
-                        "analyze": [],
-                        "do_not_infer": [],
-                    }
-                    for asset in source.get("assets", []) if isinstance(asset, dict)
-                ]
-            },
-        }
-    else:
-        resolution = resolve_intent(
-            source,
-            lambda prompt: invoke_reasoning_json(prompt, reasoning, output_dir / "intent_resolver.log"),
-        )
-    finish_stage("intent_resolver", stage_started)
-    source = resolution["source"]
-    perception_plan = resolution["perception_plan"]
-    (output_dir / "intent_resolution.json").write_text(
-        json.dumps({
-            "resolved_request": source["resolved_request"],
-            "directives": source["directives"],
-            "completion_policy": source["completion_policy"],
-            "open_questions": source.get("open_questions", []),
-            "asset_mentions": resolution.get("asset_mentions", source.get("asset_mentions", [])),
-        }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    (output_dir / "perception_plan.json").write_text(json.dumps(perception_plan, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    # Keep explicit input directives. The writer reads the original request directly.
+    # No intent-resolution LLM is called before material analysis.
     (output_dir / "resolved_input.json").write_text(json.dumps(source, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     if progress_callback:
         progress_callback("perception")
@@ -243,11 +195,11 @@ def run_agent(
         perception = json.loads(perception_from.resolve().read_text(encoding="utf-8"))
         if not isinstance(perception, dict):
             raise ValueError("--perception-from must contain one media analysis JSON object")
-        perception = sanitize_media_analysis_quality(perception)
         source = dict(source)
         source["perception"] = perception
+        source = ensure_perception(source)
     else:
-        source = ensure_perception(source, perception_plan)
+        source = ensure_perception(source, output_dir=output_dir / "perception")
     finish_stage("perception", stage_started)
     (output_dir / "media_analysis.json").write_text(
         json.dumps(source.get("perception"), ensure_ascii=False, indent=2) + "\n",
